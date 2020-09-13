@@ -1,0 +1,317 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: api@mist.io
+    name: Mist API Team
+  title: Mist API
+  version: 2.0.0
+servers:
+- description: prod
+  url: https://mist.io/
+paths:
+  /api/v2/clouds:
+    get:
+      description: List clouds owned by the active org. READ permission required on
+        cloud.
+      operationId: list_clouds
+      parameters:
+      - description: Only return results matching filter
+        examples:
+          Composite filter:
+            value: provider:packet AND status:enabled
+          Filter by cloud provider:
+            value: provider:amazon
+          Filter by title:
+            value: LXD*
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCloudsResponse'
+          description: List clouds response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+      summary: List clouds
+      tags:
+      - clouds
+      x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+    post:
+      description: Adds a new cloud and returns the cloud's id. ADD permission required
+        on cloud.
+      operationId: add_cloud
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCloudRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Cloud added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - add:cloud
+      summary: Add cloud
+      tags:
+      - clouds
+      x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/clouds/{cloud}:
+    delete:
+      description: Delete target cloud
+      operationId: delete_cloud
+      parameters:
+      - explode: false
+        in: path
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Cloud deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cloud not found
+      security:
+      - ApiKeyAuth:
+        - delete:cloud
+      summary: Delete cloud
+      tags:
+      - clouds
+      x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+    get:
+      description: Get details about target cloud
+      operationId: get_cloud
+      parameters:
+      - explode: false
+        in: path
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Cloud returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cloud not found
+      summary: Get cloud
+      tags:
+      - clouds
+      x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+components:
+  callbacks: {}
+  examples: {}
+  headers: {}
+  links: {}
+  parameters: {}
+  requestBodies: {}
+  responses: {}
+  schemas:
+    AddCloudRequest:
+      example:
+        features:
+          compute: true
+          dns: false
+        provider: amazon
+        title: title
+      properties:
+        credentials:
+          $ref: '#/components/schemas/CloudCredentials'
+        features:
+          $ref: '#/components/schemas/AddCloudRequest_features'
+        provider:
+          description: The provider of the cloud
+          enum:
+          - amazon
+          - google
+          - openstack
+          type: string
+        title:
+          description: The name of the cloud to add
+          type: string
+      required:
+      - credentials
+      - provider
+      - title
+      type: object
+    AmazonCredentials:
+      properties:
+        apikey:
+          description: Your AWS API key
+          type: string
+        apisecret:
+          description: Your AWS API secret
+          type: string
+      required:
+      - apikey
+      - apisecret
+      type: object
+    Cloud:
+      example:
+        provider: amazon
+        id: id
+      properties:
+        id:
+          title: string
+          type: string
+        provider:
+          enum:
+          - amazon
+          - google
+          - digitalocean
+          - packet
+          - openstack
+          - vsphere
+          type: string
+      type: object
+    CloudCredentials:
+      discriminator:
+        mapping:
+          amazon: '#/components/schemas/AmazonCredentials'
+          google: '#/components/schemas/GoogleCredentials'
+          openstack: '#/components/schemas/OpenStackCredentials'
+        propertyName: provider
+      oneOf:
+      - $ref: '#/components/schemas/AmazonCredentials'
+      - $ref: '#/components/schemas/GoogleCredentials'
+      - $ref: '#/components/schemas/OpenStackCredentials'
+      type: object
+    GoogleCredentials:
+      properties:
+        privateKey:
+          description: Your GCP private key
+          type: string
+        projectId:
+          description: The Id of your Google Cloud project
+          type: string
+      required:
+      - privateKey
+      - projectId
+      type: object
+    ListCloudsResponse:
+      example:
+        data:
+        - provider: amazon
+          id: id
+        - provider: amazon
+          id: id
+        meta:
+          total_returned: 1
+          total_matching: 6
+          start: 0
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Cloud'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    OpenStackCredentials:
+      properties:
+        authUrl:
+          type: string
+        computeEndpoint:
+          type: string
+        domain:
+          type: string
+        password:
+          type: string
+        region:
+          type: string
+        tenant:
+          type: string
+        user:
+          type: string
+      required:
+      - authUrl
+      - password
+      - user
+      type: object
+    ResponseMetadata:
+      example:
+        total_returned: 1
+        total_matching: 6
+        start: 0
+        sort: sort
+      properties:
+        sort:
+          description: Sort order of results
+          type: string
+        start:
+          description: Index of first response item in total matching items
+          type: integer
+        total_matching:
+          description: Total items matching the query
+          type: integer
+        total_returned:
+          description: Number of items in response
+          type: integer
+      type: object
+    inline_response_200:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+    AddCloudRequest_features:
+      description: The cloud features that should be enabled
+      example:
+        compute: true
+        dns: false
+      properties:
+        compute:
+          default: true
+          description: Enable compute services
+          type: boolean
+        dns:
+          default: false
+          description: Enable DNS services
+          type: boolean
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: Authorization
+      type: apiKey
+      x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_ApiKeyAuth
