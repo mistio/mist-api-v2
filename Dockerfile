@@ -11,6 +11,6 @@ COPY . /usr/src/app
 
 EXPOSE 8080
 
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["uwsgi"]
 
-CMD ["-m", "mist_api_v2"]
+CMD ["--plugins", "python3", "--http", "0.0.0.0:8080", "--wsgi-file", "mist_api_v2/__main__.py", "--callable", "application", "--master", "--processes", "8", "--max-requests", "100", "--honour-stdin"]

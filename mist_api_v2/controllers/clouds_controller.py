@@ -1,10 +1,59 @@
+import os
+import time
+import logging
+
 import connexion
 import six
+
+import mongoengine as me
+
+from mist.api import config
 
 from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
 from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
 from mist_api_v2 import util
+
+
+logging.basicConfig(level=config.PY_LOG_LEVEL,
+                    format=config.PY_LOG_FORMAT,
+                    datefmt=config.PY_LOG_FORMAT_DATE)
+
+
+log = logging.getLogger(__name__)
+
+
+def mongo_connect(*args, **kwargs):
+    """Connect mongoengine to mongo db. This connection is reused everywhere"""
+    exc = None
+    for _ in range(30):
+        try:
+            log.info("Attempting to connect to %s at %s...", config.MONGO_DB,
+                     config.MONGO_URI)
+            me.connect(db=config.MONGO_DB, host=config.MONGO_URI)
+        except Exception as e:
+            log.warning("Error connecting to mongo, will retry in 1 sec: %r",
+                        e)
+            time.sleep(1)
+            exc = e
+        else:
+            log.info("Connected...")
+            break
+    else:
+        log.critical("Unable to connect to %s at %s: %r", config.MONGO_DB,
+                     config.MONGO_URI, exc)
+        raise exc
+
+
+try:
+    import uwsgi  # noqa
+except ImportError:
+    log.debug('Not in uwsgi context')
+    mongo_connect()
+else:
+    log.info('Uwsgi context')
+    from uwsgidecorators import postfork
+    mongo_connect = postfork(mongo_connect)
 
 
 def add_cloud(add_cloud_request=None):  # noqa: E501
@@ -60,4 +109,19 @@ def list_clouds(filter=None, sort=None):  # noqa: E501
 
     :rtype: ListCloudsResponse
     """
-    return 'do some magic!'
+    from mist.api.clouds.methods import filter_list_clouds
+    auth_context = connexion.context['token_info']['auth_context']
+    clouds = filter_list_clouds(auth_context, filter=filter, sort=sort, as_dict='v2')
+    # TODO: pagination, filtering, sorting
+    # TODO: import return schema
+    total = len(clouds)
+    meta = {
+        'total_matching': total,
+        'total_returned': total,
+        'sort': sort,
+        'start': 0
+    }
+    return {
+        'data': clouds,
+        'meta': meta
+    }
