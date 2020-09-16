@@ -15,36 +15,36 @@ class ResponseMetadata(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, sort=None, start=None, total_matching=None, total_returned=None):  # noqa: E501
+    def __init__(self, total_matching=None, total_returned=None, sort=None, start=None):  # noqa: E501
         """ResponseMetadata - a model defined in OpenAPI
 
-        :param sort: The sort of this ResponseMetadata.  # noqa: E501
-        :type sort: str
-        :param start: The start of this ResponseMetadata.  # noqa: E501
-        :type start: int
         :param total_matching: The total_matching of this ResponseMetadata.  # noqa: E501
         :type total_matching: int
         :param total_returned: The total_returned of this ResponseMetadata.  # noqa: E501
         :type total_returned: int
+        :param sort: The sort of this ResponseMetadata.  # noqa: E501
+        :type sort: str
+        :param start: The start of this ResponseMetadata.  # noqa: E501
+        :type start: int
         """
         self.openapi_types = {
-            'sort': str,
-            'start': int,
             'total_matching': int,
-            'total_returned': int
+            'total_returned': int,
+            'sort': str,
+            'start': int
         }
 
         self.attribute_map = {
-            'sort': 'sort',
-            'start': 'start',
             'total_matching': 'total_matching',
-            'total_returned': 'total_returned'
+            'total_returned': 'total_returned',
+            'sort': 'sort',
+            'start': 'start'
         }
 
-        self._sort = sort
-        self._start = start
         self._total_matching = total_matching
         self._total_returned = total_returned
+        self._sort = sort
+        self._start = start
 
     @classmethod
     def from_dict(cls, dikt) -> 'ResponseMetadata':
@@ -56,52 +56,6 @@ class ResponseMetadata(Model):
         :rtype: ResponseMetadata
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def sort(self):
-        """Gets the sort of this ResponseMetadata.
-
-        Sort order of results  # noqa: E501
-
-        :return: The sort of this ResponseMetadata.
-        :rtype: str
-        """
-        return self._sort
-
-    @sort.setter
-    def sort(self, sort):
-        """Sets the sort of this ResponseMetadata.
-
-        Sort order of results  # noqa: E501
-
-        :param sort: The sort of this ResponseMetadata.
-        :type sort: str
-        """
-
-        self._sort = sort
-
-    @property
-    def start(self):
-        """Gets the start of this ResponseMetadata.
-
-        Index of first response item in total matching items  # noqa: E501
-
-        :return: The start of this ResponseMetadata.
-        :rtype: int
-        """
-        return self._start
-
-    @start.setter
-    def start(self, start):
-        """Sets the start of this ResponseMetadata.
-
-        Index of first response item in total matching items  # noqa: E501
-
-        :param start: The start of this ResponseMetadata.
-        :type start: int
-        """
-
-        self._start = start
 
     @property
     def total_matching(self):
@@ -148,3 +102,49 @@ class ResponseMetadata(Model):
         """
 
         self._total_returned = total_returned
+
+    @property
+    def sort(self):
+        """Gets the sort of this ResponseMetadata.
+
+        Sort order of results  # noqa: E501
+
+        :return: The sort of this ResponseMetadata.
+        :rtype: str
+        """
+        return self._sort
+
+    @sort.setter
+    def sort(self, sort):
+        """Sets the sort of this ResponseMetadata.
+
+        Sort order of results  # noqa: E501
+
+        :param sort: The sort of this ResponseMetadata.
+        :type sort: str
+        """
+
+        self._sort = sort
+
+    @property
+    def start(self):
+        """Gets the start of this ResponseMetadata.
+
+        Index of first response item in total matching items  # noqa: E501
+
+        :return: The start of this ResponseMetadata.
+        :rtype: int
+        """
+        return self._start
+
+    @start.setter
+    def start(self, start):
+        """Sets the start of this ResponseMetadata.
+
+        Index of first response item in total matching items  # noqa: E501
+
+        :param start: The start of this ResponseMetadata.
+        :type start: int
+        """
+
+        self._start = start

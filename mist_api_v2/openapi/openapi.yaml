@@ -17,12 +17,12 @@ paths:
       parameters:
       - description: Only return results matching filter
         examples:
-          Composite filter:
-            value: provider:packet AND status:enabled
           Filter by cloud provider:
             value: provider:amazon
           Filter by title:
             value: LXD*
+          Composite filter:
+            value: provider:packet AND status:enabled
         explode: true
         in: query
         name: filter
@@ -155,10 +155,9 @@ components:
         provider: amazon
         title: title
       properties:
-        credentials:
-          $ref: '#/components/schemas/CloudCredentials'
-        features:
-          $ref: '#/components/schemas/AddCloudRequest_features'
+        title:
+          description: The name of the cloud to add
+          type: string
         provider:
           description: The provider of the cloud
           enum:
@@ -166,9 +165,10 @@ components:
           - google
           - openstack
           type: string
-        title:
-          description: The name of the cloud to add
-          type: string
+        credentials:
+          $ref: '#/components/schemas/CloudCredentials'
+        features:
+          $ref: '#/components/schemas/AddCloudRequest_features'
       required:
       - credentials
       - provider
@@ -189,10 +189,16 @@ components:
     Cloud:
       example:
         provider: amazon
+        owned_by: owned_by
         id: id
+        title: title
+        config: '{}'
+        created_by: created_by
+        tags: '{}'
       properties:
         id:
-          title: string
+          type: string
+        title:
           type: string
         provider:
           enum:
@@ -202,6 +208,14 @@ components:
           - packet
           - openstack
           - vsphere
+          type: string
+        config:
+          type: object
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
           type: string
       type: object
     CloudCredentials:
@@ -218,11 +232,11 @@ components:
       type: object
     GoogleCredentials:
       properties:
-        privateKey:
-          description: Your GCP private key
-          type: string
         projectId:
           description: The Id of your Google Cloud project
+          type: string
+        privateKey:
+          description: Your GCP private key
           type: string
       required:
       - privateKey
@@ -232,13 +246,23 @@ components:
       example:
         data:
         - provider: amazon
+          owned_by: owned_by
           id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
         - provider: amazon
+          owned_by: owned_by
           id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
         meta:
-          total_returned: 1
-          total_matching: 6
-          start: 0
+          total_returned: 6
+          total_matching: 0
+          start: 1
           sort: sort
       properties:
         data:
@@ -252,17 +276,17 @@ components:
       properties:
         authUrl:
           type: string
-        computeEndpoint:
-          type: string
-        domain:
+        user:
           type: string
         password:
           type: string
-        region:
-          type: string
         tenant:
           type: string
-        user:
+        domain:
+          type: string
+        region:
+          type: string
+        computeEndpoint:
           type: string
       required:
       - authUrl
@@ -271,22 +295,22 @@ components:
       type: object
     ResponseMetadata:
       example:
-        total_returned: 1
-        total_matching: 6
-        start: 0
+        total_returned: 6
+        total_matching: 0
+        start: 1
         sort: sort
       properties:
-        sort:
-          description: Sort order of results
-          type: string
-        start:
-          description: Index of first response item in total matching items
-          type: integer
         total_matching:
           description: Total items matching the query
           type: integer
         total_returned:
           description: Number of items in response
+          type: integer
+        sort:
+          description: Sort order of results
+          type: string
+        start:
+          description: Index of first response item in total matching items
           type: integer
       type: object
     inline_response_200:

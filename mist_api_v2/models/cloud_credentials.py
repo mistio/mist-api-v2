@@ -21,71 +21,71 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, private_key=None, project_id=None, auth_url=None, compute_endpoint=None, domain=None, password=None, region=None, tenant=None, user=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, project_id=None, private_key=None, auth_url=None, user=None, password=None, tenant=None, domain=None, region=None, compute_endpoint=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this CloudCredentials.  # noqa: E501
         :type apisecret: str
-        :param private_key: The private_key of this CloudCredentials.  # noqa: E501
-        :type private_key: str
         :param project_id: The project_id of this CloudCredentials.  # noqa: E501
         :type project_id: str
+        :param private_key: The private_key of this CloudCredentials.  # noqa: E501
+        :type private_key: str
         :param auth_url: The auth_url of this CloudCredentials.  # noqa: E501
         :type auth_url: str
-        :param compute_endpoint: The compute_endpoint of this CloudCredentials.  # noqa: E501
-        :type compute_endpoint: str
-        :param domain: The domain of this CloudCredentials.  # noqa: E501
-        :type domain: str
-        :param password: The password of this CloudCredentials.  # noqa: E501
-        :type password: str
-        :param region: The region of this CloudCredentials.  # noqa: E501
-        :type region: str
-        :param tenant: The tenant of this CloudCredentials.  # noqa: E501
-        :type tenant: str
         :param user: The user of this CloudCredentials.  # noqa: E501
         :type user: str
+        :param password: The password of this CloudCredentials.  # noqa: E501
+        :type password: str
+        :param tenant: The tenant of this CloudCredentials.  # noqa: E501
+        :type tenant: str
+        :param domain: The domain of this CloudCredentials.  # noqa: E501
+        :type domain: str
+        :param region: The region of this CloudCredentials.  # noqa: E501
+        :type region: str
+        :param compute_endpoint: The compute_endpoint of this CloudCredentials.  # noqa: E501
+        :type compute_endpoint: str
         """
         self.openapi_types = {
             'apikey': str,
             'apisecret': str,
-            'private_key': str,
             'project_id': str,
+            'private_key': str,
             'auth_url': str,
-            'compute_endpoint': str,
-            'domain': str,
+            'user': str,
             'password': str,
-            'region': str,
             'tenant': str,
-            'user': str
+            'domain': str,
+            'region': str,
+            'compute_endpoint': str
         }
 
         self.attribute_map = {
             'apikey': 'apikey',
             'apisecret': 'apisecret',
-            'private_key': 'privateKey',
             'project_id': 'projectId',
+            'private_key': 'privateKey',
             'auth_url': 'authUrl',
-            'compute_endpoint': 'computeEndpoint',
-            'domain': 'domain',
+            'user': 'user',
             'password': 'password',
-            'region': 'region',
             'tenant': 'tenant',
-            'user': 'user'
+            'domain': 'domain',
+            'region': 'region',
+            'compute_endpoint': 'computeEndpoint'
         }
 
         self._apikey = apikey
         self._apisecret = apisecret
-        self._private_key = private_key
         self._project_id = project_id
+        self._private_key = private_key
         self._auth_url = auth_url
-        self._compute_endpoint = compute_endpoint
-        self._domain = domain
-        self._password = password
-        self._region = region
-        self._tenant = tenant
         self._user = user
+        self._password = password
+        self._tenant = tenant
+        self._domain = domain
+        self._region = region
+        self._compute_endpoint = compute_endpoint
 
     @classmethod
     def from_dict(cls, dikt) -> 'CloudCredentials':
@@ -149,31 +149,6 @@ class CloudCredentials(Model):
         self._apisecret = apisecret
 
     @property
-    def private_key(self):
-        """Gets the private_key of this CloudCredentials.
-
-        Your GCP private key  # noqa: E501
-
-        :return: The private_key of this CloudCredentials.
-        :rtype: str
-        """
-        return self._private_key
-
-    @private_key.setter
-    def private_key(self, private_key):
-        """Sets the private_key of this CloudCredentials.
-
-        Your GCP private key  # noqa: E501
-
-        :param private_key: The private_key of this CloudCredentials.
-        :type private_key: str
-        """
-        if private_key is None:
-            raise ValueError("Invalid value for `private_key`, must not be `None`")  # noqa: E501
-
-        self._private_key = private_key
-
-    @property
     def project_id(self):
         """Gets the project_id of this CloudCredentials.
 
@@ -199,6 +174,31 @@ class CloudCredentials(Model):
         self._project_id = project_id
 
     @property
+    def private_key(self):
+        """Gets the private_key of this CloudCredentials.
+
+        Your GCP private key  # noqa: E501
+
+        :return: The private_key of this CloudCredentials.
+        :rtype: str
+        """
+        return self._private_key
+
+    @private_key.setter
+    def private_key(self, private_key):
+        """Sets the private_key of this CloudCredentials.
+
+        Your GCP private key  # noqa: E501
+
+        :param private_key: The private_key of this CloudCredentials.
+        :type private_key: str
+        """
+        if private_key is None:
+            raise ValueError("Invalid value for `private_key`, must not be `None`")  # noqa: E501
+
+        self._private_key = private_key
+
+    @property
     def auth_url(self):
         """Gets the auth_url of this CloudCredentials.
 
@@ -222,46 +222,27 @@ class CloudCredentials(Model):
         self._auth_url = auth_url
 
     @property
-    def compute_endpoint(self):
-        """Gets the compute_endpoint of this CloudCredentials.
+    def user(self):
+        """Gets the user of this CloudCredentials.
 
 
-        :return: The compute_endpoint of this CloudCredentials.
+        :return: The user of this CloudCredentials.
         :rtype: str
         """
-        return self._compute_endpoint
+        return self._user
 
-    @compute_endpoint.setter
-    def compute_endpoint(self, compute_endpoint):
-        """Sets the compute_endpoint of this CloudCredentials.
+    @user.setter
+    def user(self, user):
+        """Sets the user of this CloudCredentials.
 
 
-        :param compute_endpoint: The compute_endpoint of this CloudCredentials.
-        :type compute_endpoint: str
+        :param user: The user of this CloudCredentials.
+        :type user: str
         """
+        if user is None:
+            raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
 
-        self._compute_endpoint = compute_endpoint
-
-    @property
-    def domain(self):
-        """Gets the domain of this CloudCredentials.
-
-
-        :return: The domain of this CloudCredentials.
-        :rtype: str
-        """
-        return self._domain
-
-    @domain.setter
-    def domain(self, domain):
-        """Sets the domain of this CloudCredentials.
-
-
-        :param domain: The domain of this CloudCredentials.
-        :type domain: str
-        """
-
-        self._domain = domain
+        self._user = user
 
     @property
     def password(self):
@@ -287,27 +268,6 @@ class CloudCredentials(Model):
         self._password = password
 
     @property
-    def region(self):
-        """Gets the region of this CloudCredentials.
-
-
-        :return: The region of this CloudCredentials.
-        :rtype: str
-        """
-        return self._region
-
-    @region.setter
-    def region(self, region):
-        """Sets the region of this CloudCredentials.
-
-
-        :param region: The region of this CloudCredentials.
-        :type region: str
-        """
-
-        self._region = region
-
-    @property
     def tenant(self):
         """Gets the tenant of this CloudCredentials.
 
@@ -329,24 +289,64 @@ class CloudCredentials(Model):
         self._tenant = tenant
 
     @property
-    def user(self):
-        """Gets the user of this CloudCredentials.
+    def domain(self):
+        """Gets the domain of this CloudCredentials.
 
 
-        :return: The user of this CloudCredentials.
+        :return: The domain of this CloudCredentials.
         :rtype: str
         """
-        return self._user
+        return self._domain
 
-    @user.setter
-    def user(self, user):
-        """Sets the user of this CloudCredentials.
+    @domain.setter
+    def domain(self, domain):
+        """Sets the domain of this CloudCredentials.
 
 
-        :param user: The user of this CloudCredentials.
-        :type user: str
+        :param domain: The domain of this CloudCredentials.
+        :type domain: str
         """
-        if user is None:
-            raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
 
-        self._user = user
+        self._domain = domain
+
+    @property
+    def region(self):
+        """Gets the region of this CloudCredentials.
+
+
+        :return: The region of this CloudCredentials.
+        :rtype: str
+        """
+        return self._region
+
+    @region.setter
+    def region(self, region):
+        """Sets the region of this CloudCredentials.
+
+
+        :param region: The region of this CloudCredentials.
+        :type region: str
+        """
+
+        self._region = region
+
+    @property
+    def compute_endpoint(self):
+        """Gets the compute_endpoint of this CloudCredentials.
+
+
+        :return: The compute_endpoint of this CloudCredentials.
+        :rtype: str
+        """
+        return self._compute_endpoint
+
+    @compute_endpoint.setter
+    def compute_endpoint(self, compute_endpoint):
+        """Sets the compute_endpoint of this CloudCredentials.
+
+
+        :param compute_endpoint: The compute_endpoint of this CloudCredentials.
+        :type compute_endpoint: str
+        """
+
+        self._compute_endpoint = compute_endpoint
