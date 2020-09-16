@@ -81,7 +81,17 @@ def delete_cloud(cloud):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.clouds.methods import delete_cloud
+    from mist.api.clouds.models import Cloud
+    auth_context = connexion.context['token_info']['auth_context']
+    cloud_id = cloud
+    try:
+        Cloud.objects.get(owner=auth_context.owner, id=cloud_id, deleted=None)
+    except Cloud.DoesNotExist:
+        return 'Cloud does not exist', 404
+    auth_context.check_perm('cloud', 'remove', cloud_id)
+    delete_cloud(auth_context.owner, cloud_id)
+    return None
 
 
 def get_cloud(cloud):  # noqa: E501
