@@ -152,7 +152,7 @@ class CloudCredentials(Model):
     def project_id(self):
         """Gets the project_id of this CloudCredentials.
 
-        The Id of your Google Cloud project  # noqa: E501
+        The Id of your GCP project  # noqa: E501
 
         :return: The project_id of this CloudCredentials.
         :rtype: str
@@ -163,7 +163,7 @@ class CloudCredentials(Model):
     def project_id(self, project_id):
         """Sets the project_id of this CloudCredentials.
 
-        The Id of your Google Cloud project  # noqa: E501
+        The Id of your GCP project  # noqa: E501
 
         :param project_id: The project_id of this CloudCredentials.
         :type project_id: str

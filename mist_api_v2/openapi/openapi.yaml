@@ -134,6 +134,9 @@ paths:
           description: You are not authorized to perform this action
         "404":
           description: Cloud not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
       summary: Get cloud
       tags:
       - clouds
@@ -233,7 +236,7 @@ components:
     GoogleCredentials:
       properties:
         projectId:
-          description: The Id of your Google Cloud project
+          description: The Id of your GCP project
           type: string
         privateKey:
           description: Your GCP private key
@@ -319,6 +322,7 @@ components:
       properties:
         id:
           type: string
+      type: object
     AddCloudRequest_features:
       description: The cloud features that should be enabled
       example:
@@ -333,6 +337,7 @@ components:
           default: false
           description: Enable DNS services
           type: boolean
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header
