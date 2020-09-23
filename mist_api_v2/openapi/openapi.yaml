@@ -165,13 +165,16 @@ components:
           description: The provider of the cloud
           enum:
           - amazon
+          - digitalocean
           - google
           - openstack
+          - packet
+          - vsphere
           type: string
         credentials:
           $ref: '#/components/schemas/CloudCredentials'
         features:
-          $ref: '#/components/schemas/AddCloudRequest_features'
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -191,6 +194,9 @@ components:
       type: object
     Cloud:
       example:
+        features:
+          compute: true
+          dns: false
         provider: amazon
         owned_by: owned_by
         id: id
@@ -208,12 +214,14 @@ components:
           - amazon
           - google
           - digitalocean
-          - packet
           - openstack
+          - packet
           - vsphere
           type: string
         config:
           type: object
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
         tags:
           type: object
         created_by:
@@ -225,13 +233,42 @@ components:
       discriminator:
         mapping:
           amazon: '#/components/schemas/AmazonCredentials'
+          digitalocean: '#/components/schemas/DigitalOceanCredentials'
           google: '#/components/schemas/GoogleCredentials'
           openstack: '#/components/schemas/OpenStackCredentials'
+          packet: '#/components/schemas/PacketCredentials'
+          vsphere: '#/components/schemas/VSphereCredentials'
         propertyName: provider
       oneOf:
       - $ref: '#/components/schemas/AmazonCredentials'
+      - $ref: '#/components/schemas/DigitalOceanCredentials'
       - $ref: '#/components/schemas/GoogleCredentials'
       - $ref: '#/components/schemas/OpenStackCredentials'
+      - $ref: '#/components/schemas/PacketCredentials'
+      - $ref: '#/components/schemas/VSphereCredentials'
+      type: object
+    CloudFeatures:
+      description: The cloud features that should be enabled
+      example:
+        compute: true
+        dns: false
+      properties:
+        compute:
+          default: true
+          description: Enable compute services
+          type: boolean
+        dns:
+          default: false
+          description: Enable DNS services
+          type: boolean
+      type: object
+    DigitalOceanCredentials:
+      properties:
+        token:
+          description: You DigitalOcean API token
+          type: string
+      required:
+      - token
       type: object
     GoogleCredentials:
       properties:
@@ -248,14 +285,20 @@ components:
     ListCloudsResponse:
       example:
         data:
-        - provider: amazon
+        - features:
+            compute: true
+            dns: false
+          provider: amazon
           owned_by: owned_by
           id: id
           title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
-        - provider: amazon
+        - features:
+            compute: true
+            dns: false
+          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -296,6 +339,14 @@ components:
       - password
       - user
       type: object
+    PacketCredentials:
+      properties:
+        apikey:
+          description: You Packet API key
+          type: string
+      required:
+      - apikey
+      type: object
     ResponseMetadata:
       example:
         total_returned: 6
@@ -316,27 +367,31 @@ components:
           description: Index of first response item in total matching items
           type: integer
       type: object
+    VSphereCredentials:
+      properties:
+        host:
+          description: Your vSphere/vCenter host
+          type: string
+        username:
+          description: Your username
+          type: string
+        password:
+          description: Your password
+          type: string
+        ca_cert_file:
+          description: CA certificate
+          type: string
+      required:
+      - host
+      - password
+      - username
+      type: object
     inline_response_200:
       example:
         id: id
       properties:
         id:
           type: string
-      type: object
-    AddCloudRequest_features:
-      description: The cloud features that should be enabled
-      example:
-        compute: true
-        dns: false
-      properties:
-        compute:
-          default: true
-          description: Enable compute services
-          type: boolean
-        dns:
-          default: false
-          description: Enable DNS services
-          type: boolean
       type: object
   securitySchemes:
     ApiKeyAuth:
