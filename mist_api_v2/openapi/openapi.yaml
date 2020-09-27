@@ -141,88 +141,10 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
-  /api/v2/rule-triggered:
-    put:
-      description: Process a trigger sent by the alert service.
-      operationId: triggered
-      parameters:
-      - explode: true
-        in: query
-        name: value
-        required: true
-        schema:
-          type: integer
-        style: form
-      - explode: true
-        in: query
-        name: incident
-        required: true
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: resource
-        required: true
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: triggered
-        required: true
-        schema:
-          type: integer
-        style: form
-      - explode: true
-        in: query
-        name: triggered_now
-        required: true
-        schema:
-          type: integer
-        style: form
-      - explode: true
-        in: query
-        name: firing_since
-        required: true
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: pending_since
-        required: true
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: resolved_since
-        required: true
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          description: Rule processed successfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Rule not found
-      security:
-      - ApiKeyAuth:
-        - read:rule
-      summary: Process trigger
-      tags:
-      - rules
-      - internal
-      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
   /api/v2/rules:
     get:
-      description: Get a list of all rules
-      operationId: get_rules
+      description: Return a filtered list of rules
+      operationId: list_rules
       parameters:
       - description: Only return results matching filter
         examples:
@@ -255,7 +177,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetRulesResponse'
+                $ref: '#/components/schemas/ListRulesResponse'
           description: Get rules response
         "401":
           description: Authentication failed
@@ -269,8 +191,8 @@ paths:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
-      description: Add a new rule, READ permission required on Cloud, EDIT_RULES permission
-        required on Machine
+      description: Add a new rule, READ permission required on target resource, ADD
+        permission required on Rule
       operationId: add_rule
       parameters:
       - explode: true
@@ -328,8 +250,7 @@ paths:
           description: You are not authorized to perform this action
       security:
       - ApiKeyAuth:
-        - read:cloud
-        - write:rule
+        - add:rule
       summary: Add rule
       tags:
       - rules
@@ -397,8 +318,7 @@ paths:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
-      description: Update a rule given its UUID, READ permission required on cloud,
-        EDIT_RULES permission required on machine
+      description: Update a rule given its UUID, EDIT permission required on rule
       operationId: update_rule
       parameters:
       - explode: true
@@ -466,7 +386,7 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cloud
-        - write:rule
+        - edit:rule
       summary: Update rule
       tags:
       - rules
@@ -579,13 +499,16 @@ components:
           description: The provider of the cloud
           enum:
           - amazon
+          - digitalocean
           - google
           - openstack
+          - packet
+          - vsphere
           type: string
         credentials:
           $ref: '#/components/schemas/CloudCredentials'
         features:
-          $ref: '#/components/schemas/AddCloudRequest_features'
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -605,6 +528,9 @@ components:
       type: object
     Cloud:
       example:
+        features:
+          compute: true
+          dns: false
         provider: amazon
         owned_by: owned_by
         id: id
@@ -622,12 +548,14 @@ components:
           - amazon
           - google
           - digitalocean
-          - packet
           - openstack
+          - packet
           - vsphere
           type: string
         config:
           type: object
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
         tags:
           type: object
         created_by:
@@ -639,13 +567,42 @@ components:
       discriminator:
         mapping:
           amazon: '#/components/schemas/AmazonCredentials'
+          digitalocean: '#/components/schemas/DigitalOceanCredentials'
           google: '#/components/schemas/GoogleCredentials'
           openstack: '#/components/schemas/OpenStackCredentials'
+          packet: '#/components/schemas/PacketCredentials'
+          vsphere: '#/components/schemas/VSphereCredentials'
         propertyName: provider
       oneOf:
       - $ref: '#/components/schemas/AmazonCredentials'
+      - $ref: '#/components/schemas/DigitalOceanCredentials'
       - $ref: '#/components/schemas/GoogleCredentials'
       - $ref: '#/components/schemas/OpenStackCredentials'
+      - $ref: '#/components/schemas/PacketCredentials'
+      - $ref: '#/components/schemas/VSphereCredentials'
+      type: object
+    CloudFeatures:
+      description: The cloud features that should be enabled
+      example:
+        compute: true
+        dns: false
+      properties:
+        compute:
+          default: true
+          description: Enable compute services
+          type: boolean
+        dns:
+          default: false
+          description: Enable DNS services
+          type: boolean
+      type: object
+    DigitalOceanCredentials:
+      properties:
+        token:
+          description: You DigitalOcean API token
+          type: string
+      required:
+      - token
       type: object
     Frequency:
       properties:
@@ -660,7 +617,55 @@ components:
       - every
       - period
       type: object
-    GetRulesResponse:
+    GoogleCredentials:
+      properties:
+        projectId:
+          description: The Id of your GCP project
+          type: string
+        privateKey:
+          description: Your GCP private key
+          type: string
+      required:
+      - privateKey
+      - projectId
+      type: object
+    ListCloudsResponse:
+      example:
+        data:
+        - features:
+            compute: true
+            dns: false
+          provider: amazon
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        - features:
+            compute: true
+            dns: false
+          provider: amazon
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Cloud'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListRulesResponse:
       example:
         data:
         - triggered_after: '{}'
@@ -694,48 +699,6 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
-    GoogleCredentials:
-      properties:
-        projectId:
-          description: The Id of your GCP project
-          type: string
-        privateKey:
-          description: Your GCP private key
-          type: string
-      required:
-      - privateKey
-      - projectId
-      type: object
-    ListCloudsResponse:
-      example:
-        data:
-        - provider: amazon
-          owned_by: owned_by
-          id: id
-          title: title
-          config: '{}'
-          created_by: created_by
-          tags: '{}'
-        - provider: amazon
-          owned_by: owned_by
-          id: id
-          title: title
-          config: '{}'
-          created_by: created_by
-          tags: '{}'
-        meta:
-          total_returned: 6
-          total_matching: 0
-          start: 1
-          sort: sort
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Cloud'
-          type: array
-        meta:
-          $ref: '#/components/schemas/ResponseMetadata'
-      type: object
     OpenStackCredentials:
       properties:
         authUrl:
@@ -756,6 +719,14 @@ components:
       - authUrl
       - password
       - user
+      type: object
+    PacketCredentials:
+      properties:
+        apikey:
+          description: You Packet API key
+          type: string
+      required:
+      - apikey
       type: object
     Queries:
       items:
@@ -870,6 +841,25 @@ components:
       - offset
       - period
       type: object
+    VSphereCredentials:
+      properties:
+        host:
+          description: Your vSphere/vCenter host
+          type: string
+        username:
+          description: Your username
+          type: string
+        password:
+          description: Your password
+          type: string
+        ca_cert_file:
+          description: CA certificate
+          type: string
+      required:
+      - host
+      - password
+      - username
+      type: object
     Window:
       properties:
         start:
@@ -896,21 +886,6 @@ components:
       properties:
         id:
           type: string
-      type: object
-    AddCloudRequest_features:
-      description: The cloud features that should be enabled
-      example:
-        compute: true
-        dns: false
-      properties:
-        compute:
-          default: true
-          description: Enable compute services
-          type: boolean
-        dns:
-          default: false
-          description: Enable DNS services
-          type: boolean
       type: object
   securitySchemes:
     ApiKeyAuth:
