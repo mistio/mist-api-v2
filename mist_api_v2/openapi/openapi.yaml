@@ -807,6 +807,27 @@ components:
         data_type:
           type: string
       type: object
+    VSphereCredentials:
+      properties:
+        host:
+          description: Your vSphere/vCenter host
+          type: string
+        username:
+          description: Your username
+          type: string
+        password:
+          description: Your password
+          type: string
+        ca_cert_file:
+          description: CA certificate
+          type: string
+      required:
+      - host
+      - password
+      - username
+      type: object
+    inline_response_200:
+
     Selector:
       properties:
         type:

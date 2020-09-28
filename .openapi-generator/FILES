@@ -34,6 +34,8 @@ mist_api_v2/models/selector.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/v_sphere_credentials.py
 mist_api_v2/models/window.py
+mist_api_v2/models/response_metadata.py
+mist_api_v2/models/v_sphere_credentials.py
 mist_api_v2/openapi/openapi.yaml
 mist_api_v2/test/__init__.py
 mist_api_v2/test/test_rules_controller.py

@@ -24,3 +24,5 @@ from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.v_sphere_credentials import VSphereCredentials
 from mist_api_v2.models.window import Window
+from mist_api_v2.models.response_metadata import ResponseMetadata
+from mist_api_v2.models.v_sphere_credentials import VSphereCredentials
