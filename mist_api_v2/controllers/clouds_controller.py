@@ -104,10 +104,25 @@ def get_cloud(cloud):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [cloud], total = list_resources(auth_context, 'cloud',
+                                        query_filter=cloud, limit=1)
+    except me.DoesNotExist:
+        return 'Cloud does not exist', 404
+
+    meta = {
+        'total_matching': total,
+        'total_returned': 1,
+    }
+    return {
+        'data': cloud.as_dict_v2(),
+        'meta': meta
+    }
 
 
-def list_clouds(filter=None, sort=None):  # noqa: E501
+def list_clouds(search=None, sort=None, start=0, limit=100):  # noqa: E501
     """List clouds
 
     List clouds owned by the active org. READ permission required on cloud. # noqa: E501
@@ -119,19 +134,17 @@ def list_clouds(filter=None, sort=None):  # noqa: E501
 
     :rtype: ListCloudsResponse
     """
-    from mist.api.clouds.methods import filter_list_clouds
+    from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    clouds = filter_list_clouds(auth_context, filter=filter, sort=sort, as_dict='v2')
-    # TODO: pagination, filtering, sorting
-    # TODO: import return schema
-    total = len(clouds)
+    clouds, total = list_resources(auth_context, 'cloud',
+                                   search=search, sort=sort, limit=limit)
     meta = {
         'total_matching': total,
-        'total_returned': total,
+        'total_returned': clouds.count(),
         'sort': sort,
-        'start': 0
+        'start': start
     }
     return {
-        'data': clouds,
+        'data': [c.as_dict_v2() for c in clouds],
         'meta': meta
     }
