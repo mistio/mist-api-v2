@@ -6,8 +6,8 @@ info:
   title: Mist API
   version: 2.0.0
 servers:
-- description: prod
-  url: https://mist.io/
+- description: dogfood
+  url: https://dogfood.ops.mist.io/
 paths:
   /api/v2/clouds:
     get:
