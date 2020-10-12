@@ -6,8 +6,8 @@ info:
   title: Mist API
   version: 2.0.0
 servers:
-- description: prod
-  url: https://mist.io/
+- description: dogfood
+  url: https://dogfood.ops.mist.io/
 paths:
   /api/v2/clouds:
     get:
@@ -15,7 +15,7 @@ paths:
         cloud.
       operationId: list_clouds
       parameters:
-      - description: Only return results matching filter
+      - description: Only return results matching search filter
         examples:
           Filter by cloud provider:
             value: provider:amazon
@@ -25,7 +25,7 @@ paths:
             value: provider:packet AND status:enabled
         explode: true
         in: query
-        name: filter
+        name: search
         required: false
         schema:
           type: string
@@ -40,6 +40,27 @@ paths:
         required: false
         schema:
           type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
         style: form
       responses:
         "200":
