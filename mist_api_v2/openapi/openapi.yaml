@@ -167,7 +167,7 @@ paths:
       description: Return a filtered list of rules
       operationId: list_rules
       parameters:
-      - description: Only return results matching filter
+      - description: Only return results matching search filter
         examples:
           Filter by total_run_count:
             value: total_run_count:5
@@ -177,7 +177,7 @@ paths:
             value: provider:packet AND total_run_count:5
         explode: true
         in: query
-        name: filter
+        name: search
         required: false
         schema:
           type: string
