@@ -108,7 +108,7 @@ def get_cloud(cloud):  # noqa: E501
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [cloud], total = list_resources(auth_context, 'cloud',
-                                        query_filter=cloud, limit=1)
+                                        search=cloud, limit=1)
     except me.DoesNotExist:
         return 'Cloud does not exist', 404
 
