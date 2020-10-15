@@ -193,6 +193,27 @@ paths:
         schema:
           type: string
         style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -301,6 +322,33 @@ paths:
       - ApiKeyAuth:
         - delete:rule
       summary: Delete rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    get:
+      description: Get details about target rule
+      operationId: get_rule
+      parameters:
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Rule returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - read:rule
+      summary: Get rule
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
