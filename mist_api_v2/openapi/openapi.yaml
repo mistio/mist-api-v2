@@ -304,6 +304,33 @@ paths:
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    get:
+      description: Get details about target rule
+      operationId: get_rule
+      parameters:
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Rule returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - read:rule
+      summary: Get rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     patch:
       description: Rename a rule
       operationId: rename_rule
