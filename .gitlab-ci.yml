@@ -68,8 +68,8 @@ build_mist_image:
     - docker tag gcr.io/mist-ops/api-v2:$CI_COMMIT_REF_SLUG mist/mist:$CI_COMMIT_REF_SLUG
     - docker push gcr.io/mist-ops/api-v2:$CI_COMMIT_SHA
     - docker push gcr.io/mist-ops/api-v2:$CI_COMMIT_REF_SLUG
-    - docker push mist/api-v2:$CI_COMMIT_SHA
-    - docker push mist/api-v2:$CI_COMMIT_REF_SLUG
+    # - docker push mist/api-v2:$CI_COMMIT_SHA
+    # - docker push mist/api-v2:$CI_COMMIT_REF_SLUG
   tags:
     - builder
   dependencies: []

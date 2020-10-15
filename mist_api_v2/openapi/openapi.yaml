@@ -162,15 +162,397 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/rules:
+    get:
+      description: Return a filtered list of rules
+      operationId: list_rules
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by total_run_count:
+            value: total_run_count:5
+          Filter by title:
+            value: rule-disk*
+          Composite filter:
+            value: provider:packet AND total_run_count:5
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRulesResponse'
+          description: Get rules response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:rule
+      summary: Get rules
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    post:
+      description: Add a new rule, READ permission required on target resource, ADD
+        permission required on Rule
+      operationId: add_rule
+      parameters:
+      - explode: true
+        in: query
+        name: queries
+        required: true
+        schema:
+          $ref: '#/components/schemas/Queries'
+        style: form
+      - explode: true
+        in: query
+        name: window
+        required: true
+        schema:
+          $ref: '#/components/schemas/Window'
+        style: form
+      - explode: true
+        in: query
+        name: frequency
+        required: true
+        schema:
+          $ref: '#/components/schemas/Frequency'
+        style: form
+      - explode: true
+        in: query
+        name: trigger_after
+        required: true
+        schema:
+          $ref: '#/components/schemas/TriggerAfter'
+        style: form
+      - explode: true
+        in: query
+        name: actions
+        required: true
+        schema:
+          $ref: '#/components/schemas/Actions'
+        style: form
+      - explode: true
+        in: query
+        name: selectors
+        required: true
+        schema:
+          $ref: '#/components/schemas/Selector'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+          description: Rule added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - add:rule
+      summary: Add rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+  /api/v2/rules/{rule}:
+    delete:
+      description: Delete a rule given its UUID.
+      operationId: delete_rule
+      parameters:
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Rule deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - delete:rule
+      summary: Delete rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    get:
+      description: Get details about target rule
+      operationId: get_rule
+      parameters:
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Rule returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - read:rule
+      summary: Get rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    patch:
+      description: Rename a rule
+      operationId: rename_rule
+      parameters:
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: action
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Rule renamed successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - write:rule
+      summary: Rename rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    post:
+      description: Update a rule given its UUID, EDIT permission required on rule
+      operationId: update_rule
+      parameters:
+      - explode: true
+        in: query
+        name: queries
+        required: false
+        schema:
+          $ref: '#/components/schemas/Queries'
+        style: form
+      - explode: true
+        in: query
+        name: window
+        required: false
+        schema:
+          $ref: '#/components/schemas/Window'
+        style: form
+      - explode: true
+        in: query
+        name: frequency
+        required: false
+        schema:
+          $ref: '#/components/schemas/Frequency'
+        style: form
+      - explode: true
+        in: query
+        name: trigger_after
+        required: false
+        schema:
+          $ref: '#/components/schemas/TriggerAfter'
+        style: form
+      - explode: true
+        in: query
+        name: actions
+        required: false
+        schema:
+          $ref: '#/components/schemas/Actions'
+        style: form
+      - explode: true
+        in: query
+        name: selectors
+        required: false
+        schema:
+          $ref: '#/components/schemas/Selector'
+        style: form
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+          description: Rule updated succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+        - edit:rule
+      summary: Update rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+    put:
+      description: Enable or disable a rule
+      operationId: toggle_rule
+      parameters:
+      - explode: false
+        in: path
+        name: rule
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: action
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Rule toggled successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Rule not found
+      security:
+      - ApiKeyAuth:
+        - write:rule
+      summary: Toggle rule
+      tags:
+      - rules
+      x-openapi-router-controller: mist_api_v2.controllers.rules_controller
 components:
   callbacks: {}
   examples: {}
   headers: {}
   links: {}
-  parameters: {}
+  parameters:
+    ruleId:
+      explode: false
+      in: path
+      name: rule
+      required: true
+      schema:
+        type: string
+      style: simple
   requestBodies: {}
   responses: {}
   schemas:
+    Action:
+      properties:
+        type:
+          description: |
+            the action's type: notification, machine_action, command
+          type: string
+        users:
+          description: |
+            a list of user to be notified, denoted by their UUIDs. Can be
+            used by a notification action (optional)
+          items:
+            type: string
+          type: array
+        teams:
+          description: |
+            a list of teams, denoted by their UUIDs, whose users will be
+            notified. Can be used by a notification action (optional)
+          items:
+            type: string
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to. Can be used by a
+            notification action (optional)
+          items:
+            type: string
+          type: array
+        action:
+          description: |
+            the action to be performed. Required by machine_action type
+          type: string
+        command:
+          description: |
+            the command to be executed. Required by the command type
+          type: string
+      required:
+      - type
+      type: object
+    Actions:
+      items:
+        $ref: '#/components/schemas/Action'
+      type: array
     AddCloudRequest:
       example:
         features:
@@ -291,6 +673,19 @@ components:
       required:
       - token
       type: object
+    Frequency:
+      properties:
+        every:
+          description: |
+            a positive integer denoting how often the rule must be evaluated
+          type: integer
+        period:
+          description: units of time, e.g. "seconds"
+          type: string
+      required:
+      - every
+      - period
+      type: object
     GoogleCredentials:
       properties:
         projectId:
@@ -339,6 +734,40 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListRulesResponse:
+      example:
+        data:
+        - triggered_after: '{}'
+          data_type: data_type
+          disabled: disabled
+          id: id
+          window: '{}'
+          title: title
+          queries: '{}'
+          actions: '{}'
+          frequency: '{}'
+        - triggered_after: '{}'
+          data_type: data_type
+          disabled: disabled
+          id: id
+          window: '{}'
+          title: title
+          queries: '{}'
+          actions: '{}'
+          frequency: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Rule'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     OpenStackCredentials:
       properties:
         authUrl:
@@ -368,6 +797,34 @@ components:
       required:
       - apikey
       type: object
+    Queries:
+      items:
+        $ref: '#/components/schemas/Query'
+      type: array
+    Query:
+      properties:
+        target:
+          description: the metric's name, e.g. "load.shortterm"
+          type: string
+        operator:
+          description: |
+            the operator used to compare the computed value with the given
+            threshold
+          type: string
+        threshold:
+          description: the value over/under which an alert will be raised
+          type: string
+        aggregation:
+          description: |
+            the function to be applied on the computed series. Must be one
+            of: all, any, avg
+          type: string
+      required:
+      - aggregation
+      - operator
+      - target
+      - threshold
+      type: object
     ResponseMetadata:
       example:
         total_returned: 6
@@ -388,6 +845,71 @@ components:
           description: Index of first response item in total matching items
           type: integer
       type: object
+    Rule:
+      example:
+        triggered_after: '{}'
+        data_type: data_type
+        disabled: disabled
+        id: id
+        window: '{}'
+        title: title
+        queries: '{}'
+        actions: '{}'
+        frequency: '{}'
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        queries:
+          type: object
+        window:
+          type: object
+        frequency:
+          type: object
+        triggered_after:
+          type: object
+        actions:
+          type: object
+        disabled:
+          type: string
+        data_type:
+          type: string
+      type: object
+    Selector:
+      properties:
+        type:
+          description: one of "machines" or "tags"
+          type: string
+        ids:
+          description: a list of UUIDs in case type is "machines"
+          items:
+            type: string
+          type: array
+        include:
+          description: a list of tags in case type is "tags"
+          items:
+            type: string
+          type: array
+      required:
+      - type
+      type: object
+    Selectors:
+      items:
+        $ref: '#/components/schemas/Selector'
+      type: array
+    TriggerAfter:
+      properties:
+        offset:
+          description: a positive integer denoting the tolerance period
+          type: integer
+        period:
+          description: units of time, e.g. "seconds"
+          type: string
+      required:
+      - offset
+      - period
+      type: object
     VSphereCredentials:
       properties:
         host:
@@ -406,6 +928,26 @@ components:
       - host
       - password
       - username
+      type: object
+    Window:
+      properties:
+        start:
+          description: |
+            a positive integer denoting the start of the search window in
+            terms of "now() - start"
+          type: integer
+        stop:
+          default: 0
+          description: |
+            a positive integer, where stop < start, denoting the end of the
+            search window. Defaults to now
+          type: integer
+        period:
+          description: units of time, e.g. "seconds"
+          type: string
+      required:
+      - period
+      - start
       type: object
     inline_response_200:
       example:
