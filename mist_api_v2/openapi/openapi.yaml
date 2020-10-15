@@ -162,6 +162,155 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/keys:
+    get:
+      description: List keys owned by the active org. READ permission required on
+        key.
+      operationId: list_keys
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by key type:
+            value: type:ssh
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListKeysResponse'
+          description: List keys response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:key
+      summary: List keys
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+    post:
+      description: Adds a new key and returns the key's id. ADD permission required
+        on key.
+      operationId: add_key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddKeyRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Key added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - add:key
+      summary: Add key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+  /api/v2/keys/{key}:
+    delete:
+      description: Delete target key
+      operationId: delete_key
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: key deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Key not found
+      security:
+      - ApiKeyAuth:
+        - delete:key
+      summary: Delete key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+    get:
+      description: Get details about target key
+      operationId: get_key
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Key returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Key not found
+      security:
+      - ApiKeyAuth:
+        - read:key
+      summary: Get key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -583,6 +732,8 @@ components:
       - provider
       - title
       type: object
+    AddKeyRequest:
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -698,6 +849,37 @@ components:
       - privateKey
       - projectId
       type: object
+    Key:
+      example:
+        default: true
+        name: name
+        owned_by: owned_by
+        id: id
+        type: ssh
+        config: '{}'
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        config:
+          type: object
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        default:
+          type: boolean
+        type:
+          enum:
+          - ssh
+          - signed_ssh
+          type: string
+      type: object
     ListCloudsResponse:
       example:
         data:
@@ -730,6 +912,38 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Cloud'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListKeysResponse:
+      example:
+        data:
+        - default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          type: ssh
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        - default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          type: ssh
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Key'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'

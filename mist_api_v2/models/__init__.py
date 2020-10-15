@@ -13,7 +13,9 @@ from mist_api_v2.models.digital_ocean_credentials import DigitalOceanCredentials
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.inline_response200 import InlineResponse200
+from mist_api_v2.models.key import Key
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse
+from mist_api_v2.models.list_keys_response import ListKeysResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.open_stack_credentials import OpenStackCredentials
 from mist_api_v2.models.packet_credentials import PacketCredentials
