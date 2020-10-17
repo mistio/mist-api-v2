@@ -5,6 +5,7 @@ info:
     name: Mist API Team
   title: Mist API
   version: 2.0.0
+  x-cli-name: Mist CLI
 servers:
 - description: dogfood
   url: https://dogfood.ops.mist.io/
@@ -61,6 +62,19 @@ paths:
         required: false
         schema:
           type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
         style: form
       responses:
         "200":
@@ -210,6 +224,19 @@ paths:
         required: false
         schema:
           type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
         style: form
       responses:
         "200":
@@ -363,13 +390,26 @@ paths:
         schema:
           type: integer
         style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListRulesResponse'
-          description: Get rules response
+          description: List rules response
         "401":
           description: Authentication failed
         "403":
@@ -377,7 +417,7 @@ paths:
       security:
       - ApiKeyAuth:
         - read:rule
-      summary: Get rules
+      summary: List rules
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
@@ -419,7 +459,7 @@ paths:
         name: actions
         required: true
         schema:
-          $ref: '#/components/schemas/Actions'
+          $ref: '#/components/schemas/RuleActions'
         style: form
       - explode: true
         in: query
@@ -572,7 +612,7 @@ paths:
         name: actions
         required: false
         schema:
-          $ref: '#/components/schemas/Actions'
+          $ref: '#/components/schemas/RuleActions'
         style: form
       - explode: true
         in: query
@@ -660,48 +700,6 @@ components:
   requestBodies: {}
   responses: {}
   schemas:
-    Action:
-      properties:
-        type:
-          description: |
-            the action's type: notification, machine_action, command
-          type: string
-        users:
-          description: |
-            a list of user to be notified, denoted by their UUIDs. Can be
-            used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        teams:
-          description: |
-            a list of teams, denoted by their UUIDs, whose users will be
-            notified. Can be used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to. Can be used by a
-            notification action (optional)
-          items:
-            type: string
-          type: array
-        action:
-          description: |
-            the action to be performed. Required by machine_action type
-          type: string
-        command:
-          description: |
-            the command to be executed. Required by the command type
-          type: string
-      required:
-      - type
-      type: object
-    Actions:
-      items:
-        $ref: '#/components/schemas/Action'
-      type: array
     AddCloudRequest:
       example:
         features:
@@ -1090,6 +1088,48 @@ components:
         data_type:
           type: string
       type: object
+    RuleAction:
+      properties:
+        type:
+          description: |
+            the action's type: notification, machine_action, command
+          type: string
+        users:
+          description: |
+            a list of user to be notified, denoted by their UUIDs. Can be
+            used by a notification action (optional)
+          items:
+            type: string
+          type: array
+        teams:
+          description: |
+            a list of teams, denoted by their UUIDs, whose users will be
+            notified. Can be used by a notification action (optional)
+          items:
+            type: string
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to. Can be used by a
+            notification action (optional)
+          items:
+            type: string
+          type: array
+        action:
+          description: |
+            the action to be performed. Required by machine_action type
+          type: string
+        command:
+          description: |
+            the command to be executed. Required by the command type
+          type: string
+      required:
+      - type
+      type: object
+    RuleActions:
+      items:
+        $ref: '#/components/schemas/RuleAction'
+      type: array
     Selector:
       properties:
         type:

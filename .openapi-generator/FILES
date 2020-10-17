@@ -13,7 +13,6 @@ mist_api_v2/controllers/rules_controller.py
 mist_api_v2/controllers/security_controller_.py
 mist_api_v2/encoder.py
 mist_api_v2/models/__init__.py
-mist_api_v2/models/action.py
 mist_api_v2/models/add_cloud_request.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/base_model_.py
@@ -33,6 +32,7 @@ mist_api_v2/models/packet_credentials.py
 mist_api_v2/models/query.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
+mist_api_v2/models/rule_action.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/v_sphere_credentials.py

@@ -3,7 +3,6 @@
 # flake8: noqa
 from __future__ import absolute_import
 # import models into model package
-from mist_api_v2.models.action import Action
 from mist_api_v2.models.add_cloud_request import AddCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.cloud import Cloud
@@ -22,6 +21,7 @@ from mist_api_v2.models.packet_credentials import PacketCredentials
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
+from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.v_sphere_credentials import VSphereCredentials
