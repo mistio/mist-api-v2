@@ -21,7 +21,7 @@ paths:
           Filter by cloud provider:
             value: provider:amazon
           Filter by title:
-            value: LXD*
+            value: title:LXD1
           Composite filter:
             value: provider:packet AND status:enabled
         explode: true
@@ -1002,6 +1002,7 @@ components:
       - user
       type: object
     PacketCredentials:
+      additionalProperties: false
       properties:
         apikey:
           description: You Packet API key
