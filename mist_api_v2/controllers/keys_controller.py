@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 def add_key(body=None):  # noqa: E501
     """Add key
 
-    Adds a new key and returns the key&#39;s id. ADD permission required on key. # noqa: E501
+    Adds a new key and returns the key's id. ADD permission required on key. # noqa: E501
 
     :param body: 
     :type body: 

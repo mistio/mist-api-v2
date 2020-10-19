@@ -68,7 +68,55 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         add_cloud_request = AddCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    from mist.api.clouds.models import Cloud
+    from mist.api.clouds.methods import add_cloud_v_2
+    from mist.api.helpers import trigger_session_update
+    from mist.api.tasks import async_session_update
+
+    auth_context = connexion.context['token_info']['auth_context']
+    cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
+
+    result = add_cloud_v_2(
+        auth_context.owner,
+        add_cloud_request.title,
+        add_cloud_request.provider,
+        add_cloud_request.credentials.to_dict()
+    )
+
+    cloud_id = result['cloud_id']
+    monitoring = result.get('monitoring')
+    errors = result.get('errors')
+
+    cloud = Cloud.objects.get(owner=auth_context.owner, id=cloud_id)
+
+    if cloud_tags:
+        add_tags_to_resource(owner, cloud, list(cloud_tags.items()))
+
+    # Set ownership.
+    cloud.assign_to(auth_context.user)
+
+    trigger_session_update(auth_context.owner.id, ['clouds'])
+
+    # SEC
+    # Update the RBAC & User/Ownership mappings with the new Cloud and finally
+    # trigger a session update by registering it as a chained task.
+    if config.HAS_RBAC:
+        auth_context.owner.mapper.update(
+            cloud,
+            callback=async_session_update,
+            args=(auth_context.owner.id, ['clouds'], )
+        )
+
+    c_count = Cloud.objects(owner=auth_context.owner, deleted=None).count()
+    ret = cloud.as_dict_v2()
+    ret['index'] = c_count - 1
+    if errors:
+        ret['errors'] = errors
+    if monitoring:
+        ret['monitoring'] = monitoring
+
+    return ret
 
 
 def delete_cloud(cloud):  # noqa: E501
