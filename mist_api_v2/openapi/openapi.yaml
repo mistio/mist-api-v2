@@ -688,15 +688,7 @@ components:
   examples: {}
   headers: {}
   links: {}
-  parameters:
-    ruleId:
-      explode: false
-      in: path
-      name: rule
-      required: true
-      schema:
-        type: string
-      style: simple
+  parameters: {}
   requestBodies: {}
   responses: {}
   schemas:
