@@ -162,6 +162,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCloudResponse'
           description: Cloud returned successfully
         "401":
           description: Authentication failed
@@ -270,7 +274,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/AddKeyResponse'
           description: Key added succesfully
         "401":
           description: Authentication failed
@@ -324,6 +328,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKeyResponse'
           description: Key returned successfully
         "401":
           description: Authentication failed
@@ -527,6 +535,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRuleResponse'
           description: Rule returned successfully
         "401":
           description: Authentication failed
@@ -723,6 +735,35 @@ components:
       - title
       type: object
     AddKeyRequest:
+      anyOf:
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf'
+      - required:
+        - name
+        - private
+      example:
+        private: private
+        name: name
+        dry: true
+        generate: true
+      properties:
+        name:
+          type: string
+        private:
+          type: string
+        generate:
+          type: boolean
+        dry:
+          type: boolean
+      type: object
+    AddKeyResponse:
+      example:
+        private: private
+        id: id
+      properties:
+        id:
+          type: string
+        private:
+          type: string
       type: object
     AmazonCredentials:
       properties:
@@ -826,6 +867,75 @@ components:
       required:
       - every
       - period
+      type: object
+    GetCloudResponse:
+      example:
+        data:
+          features:
+            compute: true
+            dns: false
+          provider: amazon
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Cloud'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetKeyResponse:
+      example:
+        data:
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          type: ssh
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Key'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetRuleResponse:
+      example:
+        data:
+          triggered_after: '{}'
+          data_type: data_type
+          disabled: disabled
+          id: id
+          window: '{}'
+          title: title
+          queries: '{}'
+          actions: '{}'
+          frequency: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Rule'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
       type: object
     GoogleCredentials:
       properties:
@@ -1203,6 +1313,14 @@ components:
         id:
           type: string
       type: object
+    AddKeyRequest_anyOf:
+      properties:
+        generate:
+          enum:
+          - true
+          type: boolean
+      required:
+      - name
   securitySchemes:
     ApiKeyAuth:
       in: header
