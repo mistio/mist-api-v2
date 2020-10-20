@@ -745,26 +745,36 @@ components:
       example:
         private: private
         name: name
+        certificate: certificate
         dry: true
         generate: true
       properties:
         name:
-          type: string
-        private:
+          description: The key's name
           type: string
         generate:
+          description: Generate a keypair instead of providing one
           type: boolean
         dry:
           type: boolean
+        private:
+          description: The private key
+          type: string
+        certificate:
+          description: The signed public key, when using signed ssh keys
+          type: string
       type: object
     AddKeyResponse:
       example:
         private: private
+        public: public
         id: id
       properties:
         id:
           type: string
         private:
+          type: string
+        public:
           type: string
       type: object
     AmazonCredentials:

@@ -15,36 +15,41 @@ class AddKeyRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, private=None, generate=None, dry=None):  # noqa: E501
+    def __init__(self, name=None, generate=None, dry=None, private=None, certificate=None):  # noqa: E501
         """AddKeyRequest - a model defined in OpenAPI
 
         :param name: The name of this AddKeyRequest.  # noqa: E501
         :type name: str
-        :param private: The private of this AddKeyRequest.  # noqa: E501
-        :type private: str
         :param generate: The generate of this AddKeyRequest.  # noqa: E501
         :type generate: bool
         :param dry: The dry of this AddKeyRequest.  # noqa: E501
         :type dry: bool
+        :param private: The private of this AddKeyRequest.  # noqa: E501
+        :type private: str
+        :param certificate: The certificate of this AddKeyRequest.  # noqa: E501
+        :type certificate: str
         """
         self.openapi_types = {
             'name': str,
-            'private': str,
             'generate': bool,
-            'dry': bool
+            'dry': bool,
+            'private': str,
+            'certificate': str
         }
 
         self.attribute_map = {
             'name': 'name',
-            'private': 'private',
             'generate': 'generate',
-            'dry': 'dry'
+            'dry': 'dry',
+            'private': 'private',
+            'certificate': 'certificate'
         }
 
         self._name = name
-        self._private = private
         self._generate = generate
         self._dry = dry
+        self._private = private
+        self._certificate = certificate
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyRequest':
@@ -61,6 +66,7 @@ class AddKeyRequest(Model):
     def name(self):
         """Gets the name of this AddKeyRequest.
 
+        The key's name  # noqa: E501
 
         :return: The name of this AddKeyRequest.
         :rtype: str
@@ -71,6 +77,7 @@ class AddKeyRequest(Model):
     def name(self, name):
         """Sets the name of this AddKeyRequest.
 
+        The key's name  # noqa: E501
 
         :param name: The name of this AddKeyRequest.
         :type name: str
@@ -79,30 +86,10 @@ class AddKeyRequest(Model):
         self._name = name
 
     @property
-    def private(self):
-        """Gets the private of this AddKeyRequest.
-
-
-        :return: The private of this AddKeyRequest.
-        :rtype: str
-        """
-        return self._private
-
-    @private.setter
-    def private(self, private):
-        """Sets the private of this AddKeyRequest.
-
-
-        :param private: The private of this AddKeyRequest.
-        :type private: str
-        """
-
-        self._private = private
-
-    @property
     def generate(self):
         """Gets the generate of this AddKeyRequest.
 
+        Generate a keypair instead of providing one  # noqa: E501
 
         :return: The generate of this AddKeyRequest.
         :rtype: bool
@@ -113,6 +100,7 @@ class AddKeyRequest(Model):
     def generate(self, generate):
         """Sets the generate of this AddKeyRequest.
 
+        Generate a keypair instead of providing one  # noqa: E501
 
         :param generate: The generate of this AddKeyRequest.
         :type generate: bool
@@ -140,3 +128,49 @@ class AddKeyRequest(Model):
         """
 
         self._dry = dry
+
+    @property
+    def private(self):
+        """Gets the private of this AddKeyRequest.
+
+        The private key  # noqa: E501
+
+        :return: The private of this AddKeyRequest.
+        :rtype: str
+        """
+        return self._private
+
+    @private.setter
+    def private(self, private):
+        """Sets the private of this AddKeyRequest.
+
+        The private key  # noqa: E501
+
+        :param private: The private of this AddKeyRequest.
+        :type private: str
+        """
+
+        self._private = private
+
+    @property
+    def certificate(self):
+        """Gets the certificate of this AddKeyRequest.
+
+        The signed public key, when using signed ssh keys  # noqa: E501
+
+        :return: The certificate of this AddKeyRequest.
+        :rtype: str
+        """
+        return self._certificate
+
+    @certificate.setter
+    def certificate(self, certificate):
+        """Sets the certificate of this AddKeyRequest.
+
+        The signed public key, when using signed ssh keys  # noqa: E501
+
+        :param certificate: The certificate of this AddKeyRequest.
+        :type certificate: str
+        """
+
+        self._certificate = certificate

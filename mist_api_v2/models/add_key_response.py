@@ -15,26 +15,31 @@ class AddKeyResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, private=None):  # noqa: E501
+    def __init__(self, id=None, private=None, public=None):  # noqa: E501
         """AddKeyResponse - a model defined in OpenAPI
 
         :param id: The id of this AddKeyResponse.  # noqa: E501
         :type id: str
         :param private: The private of this AddKeyResponse.  # noqa: E501
         :type private: str
+        :param public: The public of this AddKeyResponse.  # noqa: E501
+        :type public: str
         """
         self.openapi_types = {
             'id': str,
-            'private': str
+            'private': str,
+            'public': str
         }
 
         self.attribute_map = {
             'id': 'id',
-            'private': 'private'
+            'private': 'private',
+            'public': 'public'
         }
 
         self._id = id
         self._private = private
+        self._public = public
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyResponse':
@@ -88,3 +93,24 @@ class AddKeyResponse(Model):
         """
 
         self._private = private
+
+    @property
+    def public(self):
+        """Gets the public of this AddKeyResponse.
+
+
+        :return: The public of this AddKeyResponse.
+        :rtype: str
+        """
+        return self._public
+
+    @public.setter
+    def public(self, public):
+        """Sets the public of this AddKeyResponse.
+
+
+        :param public: The public of this AddKeyResponse.
+        :type public: str
+        """
+
+        self._public = public
