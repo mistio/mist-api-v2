@@ -5,6 +5,7 @@ info:
     name: Mist API Team
   title: Mist API
   version: 2.0.0
+  x-cli-name: Mist CLI
 servers:
 - description: dogfood
   url: https://dogfood.ops.mist.io/
@@ -20,7 +21,7 @@ paths:
           Filter by cloud provider:
             value: provider:amazon
           Filter by title:
-            value: LXD*
+            value: title:LXD1
           Composite filter:
             value: provider:packet AND status:enabled
         explode: true
@@ -62,6 +63,19 @@ paths:
         schema:
           type: integer
         style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -79,6 +93,18 @@ paths:
       summary: List clouds
       tags:
       - clouds
+      x-cli-table-default:
+      - id
+      - title
+      - provider
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - provider
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
     post:
       description: Adds a new cloud and returns the cloud's id. ADD permission required
@@ -148,6 +174,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCloudResponse'
           description: Cloud returned successfully
         "401":
           description: Authentication failed
@@ -162,6 +192,223 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/keys:
+    get:
+      description: List keys owned by the active org. READ permission required on
+        key.
+      operationId: list_keys
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by key type:
+            value: type:ssh
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListKeysResponse'
+          description: List keys response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:key
+      summary: List keys
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+    post:
+      description: Adds a new key and returns the key's id. ADD permission required
+        on key.
+      operationId: add_key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddKeyRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddKeyResponse'
+          description: Key added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - add:key
+      summary: Add key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+  /api/v2/keys/{key}:
+    delete:
+      description: Delete target key
+      operationId: delete_key
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: key deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Key not found
+      security:
+      - ApiKeyAuth:
+        - delete:key
+      summary: Delete key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+    get:
+      description: Get details about target key
+      operationId: get_key
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Return the private key. Requires READ_PRIVATE permission on key.
+        explode: true
+        in: query
+        name: private
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKeyResponse'
+          description: Key returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Key not found
+      security:
+      - ApiKeyAuth:
+        - read:key
+      summary: Get key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+    put:
+      description: Edit target key
+      operationId: edit_key
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New key name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Set as default
+        explode: true
+        in: query
+        name: default
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          description: Key successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Key not found
+      security:
+      - ApiKeyAuth:
+        - edit:key
+      summary: Edit key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -214,13 +461,26 @@ paths:
         schema:
           type: integer
         style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListRulesResponse'
-          description: Get rules response
+          description: List rules response
         "401":
           description: Authentication failed
         "403":
@@ -228,7 +488,7 @@ paths:
       security:
       - ApiKeyAuth:
         - read:rule
-      summary: Get rules
+      summary: List rules
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
@@ -270,7 +530,7 @@ paths:
         name: actions
         required: true
         schema:
-          $ref: '#/components/schemas/Actions'
+          $ref: '#/components/schemas/RuleActions'
         style: form
       - explode: true
         in: query
@@ -338,6 +598,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRuleResponse'
           description: Rule returned successfully
         "401":
           description: Authentication failed
@@ -423,7 +687,7 @@ paths:
         name: actions
         required: false
         schema:
-          $ref: '#/components/schemas/Actions'
+          $ref: '#/components/schemas/RuleActions'
         style: form
       - explode: true
         in: query
@@ -499,60 +763,10 @@ components:
   examples: {}
   headers: {}
   links: {}
-  parameters:
-    ruleId:
-      explode: false
-      in: path
-      name: rule
-      required: true
-      schema:
-        type: string
-      style: simple
+  parameters: {}
   requestBodies: {}
   responses: {}
   schemas:
-    Action:
-      properties:
-        type:
-          description: |
-            the action's type: notification, machine_action, command
-          type: string
-        users:
-          description: |
-            a list of user to be notified, denoted by their UUIDs. Can be
-            used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        teams:
-          description: |
-            a list of teams, denoted by their UUIDs, whose users will be
-            notified. Can be used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to. Can be used by a
-            notification action (optional)
-          items:
-            type: string
-          type: array
-        action:
-          description: |
-            the action to be performed. Required by machine_action type
-          type: string
-        command:
-          description: |
-            the command to be executed. Required by the command type
-          type: string
-      required:
-      - type
-      type: object
-    Actions:
-      items:
-        $ref: '#/components/schemas/Action'
-      type: array
     AddCloudRequest:
       example:
         features:
@@ -582,6 +796,52 @@ components:
       - credentials
       - provider
       - title
+      type: object
+    AddKeyRequest:
+      anyOf:
+      - required:
+        - name
+        - private
+      - required:
+        - generate
+        - name
+      - required:
+        - dry
+        - generate
+      example:
+        private: private
+        name: name
+        certificate: certificate
+        dry: true
+        generate: true
+      properties:
+        name:
+          description: The key's name
+          type: string
+        generate:
+          description: Generate a keypair instead of providing one
+          type: boolean
+        dry:
+          type: boolean
+        private:
+          description: The private key
+          type: string
+        certificate:
+          description: The signed public key, when using signed ssh keys
+          type: string
+      type: object
+    AddKeyResponse:
+      example:
+        private: private
+        public: public
+        id: id
+      properties:
+        id:
+          type: string
+        private:
+          type: string
+        public:
+          type: string
       type: object
     AmazonCredentials:
       properties:
@@ -686,6 +946,75 @@ components:
       - every
       - period
       type: object
+    GetCloudResponse:
+      example:
+        data:
+          features:
+            compute: true
+            dns: false
+          provider: amazon
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Cloud'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetKeyResponse:
+      example:
+        data:
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          type: ssh
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Key'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetRuleResponse:
+      example:
+        data:
+          triggered_after: '{}'
+          data_type: data_type
+          disabled: disabled
+          id: id
+          window: '{}'
+          title: title
+          queries: '{}'
+          actions: '{}'
+          frequency: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Rule'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GoogleCredentials:
       properties:
         projectId:
@@ -697,6 +1026,37 @@ components:
       required:
       - privateKey
       - projectId
+      type: object
+    Key:
+      example:
+        default: true
+        name: name
+        owned_by: owned_by
+        id: id
+        type: ssh
+        config: '{}'
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        config:
+          type: object
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        default:
+          type: boolean
+        type:
+          enum:
+          - ssh
+          - signed_ssh
+          type: string
       type: object
     ListCloudsResponse:
       example:
@@ -730,6 +1090,38 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Cloud'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListKeysResponse:
+      example:
+        data:
+        - default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          type: ssh
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        - default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          type: ssh
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Key'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -790,6 +1182,7 @@ components:
       - user
       type: object
     PacketCredentials:
+      additionalProperties: false
       properties:
         apikey:
           description: You Packet API key
@@ -876,6 +1269,48 @@ components:
         data_type:
           type: string
       type: object
+    RuleAction:
+      properties:
+        type:
+          description: |
+            the action's type: notification, machine_action, command
+          type: string
+        users:
+          description: |
+            a list of user to be notified, denoted by their UUIDs. Can be
+            used by a notification action (optional)
+          items:
+            type: string
+          type: array
+        teams:
+          description: |
+            a list of teams, denoted by their UUIDs, whose users will be
+            notified. Can be used by a notification action (optional)
+          items:
+            type: string
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to. Can be used by a
+            notification action (optional)
+          items:
+            type: string
+          type: array
+        action:
+          description: |
+            the action to be performed. Required by machine_action type
+          type: string
+        command:
+          description: |
+            the command to be executed. Required by the command type
+          type: string
+      required:
+      - type
+      type: object
+    RuleActions:
+      items:
+        $ref: '#/components/schemas/RuleAction'
+      type: array
     Selector:
       properties:
         type:
