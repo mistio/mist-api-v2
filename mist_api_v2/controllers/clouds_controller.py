@@ -73,6 +73,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     from mist.api.clouds.methods import add_cloud_v_2
     from mist.api.helpers import trigger_session_update
     from mist.api.tasks import async_session_update
+    from mist.api.tag.methods import add_tags_to_resource
 
     auth_context = connexion.context['token_info']['auth_context']
     cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
@@ -157,7 +158,7 @@ def get_cloud(cloud):  # noqa: E501
     try:
         [cloud], total = list_resources(auth_context, 'cloud',
                                         search=cloud, limit=1)
-    except me.DoesNotExist:
+    except ValueError:
         return 'Cloud does not exist', 404
 
     meta = {

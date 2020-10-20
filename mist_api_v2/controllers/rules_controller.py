@@ -186,8 +186,8 @@ def get_rule(rule):  # noqa: E501
     try:
         [rule], total = list_resources(auth_context, 'rule',
                                         search=rule, limit=1)
-    except me.DoesNotExist:
-        return 'Cloud does not exist', 404
+    except ValueError:
+        return 'Rule does not exist', 404
 
     meta = {
         'total_matching': total,
