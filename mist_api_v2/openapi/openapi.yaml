@@ -736,10 +736,12 @@ components:
       type: object
     AddKeyRequest:
       anyOf:
-      - $ref: '#/components/schemas/AddKeyRequest_anyOf'
       - required:
         - name
         - private
+      - required:
+        - generate
+        - name
       example:
         private: private
         name: name
@@ -1313,14 +1315,6 @@ components:
         id:
           type: string
       type: object
-    AddKeyRequest_anyOf:
-      properties:
-        generate:
-          enum:
-          - true
-          type: boolean
-      required:
-      - name
   securitySchemes:
     ApiKeyAuth:
       in: header
