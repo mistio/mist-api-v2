@@ -326,6 +326,14 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Return the private key. Requires READ_PRIVATE permission on key.
+        explode: true
+        in: query
+        name: private
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -343,6 +351,49 @@ paths:
       - ApiKeyAuth:
         - read:key
       summary: Get key
+      tags:
+      - keys
+      x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+    put:
+      description: Edit target key
+      operationId: edit_key
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New key name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Set as default
+        explode: true
+        in: query
+        name: default
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          description: Key successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Key not found
+      security:
+      - ApiKeyAuth:
+        - edit:key
+      summary: Edit key
       tags:
       - keys
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
@@ -742,6 +793,9 @@ components:
       - required:
         - generate
         - name
+      - required:
+        - dry
+        - generate
       example:
         private: private
         name: name
