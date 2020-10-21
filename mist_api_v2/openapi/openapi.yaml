@@ -93,6 +93,17 @@ paths:
       summary: List clouds
       tags:
       - clouds
+      x-cli-table-default:
+      - title
+      - provider
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - provider
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
     post:
       description: Adds a new cloud and returns the cloud's id. ADD permission required
@@ -179,6 +190,17 @@ paths:
       summary: Get cloud
       tags:
       - clouds
+      x-cli-table-default:
+      - title
+      - provider
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - provider
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
   /api/v2/keys:
     get:
@@ -259,6 +281,16 @@ paths:
       summary: List keys
       tags:
       - keys
+      x-cli-table-default:
+      - name
+      - default
+      - tags
+      x-cli-table-extended:
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
     post:
       description: Adds a new key and returns the key's id. ADD permission required
@@ -353,6 +385,17 @@ paths:
       summary: Get key
       tags:
       - keys
+      x-cli-table-default:
+      - name
+      - default
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
     put:
       description: Edit target key
@@ -397,6 +440,762 @@ paths:
       tags:
       - keys
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+  /api/v2/machines:
+    get:
+      description: List machines owned by the active org. READ permission required
+        on machine & cloud.
+      operationId: list_machines
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by machine type:
+            value: state:running
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMachinesResponse'
+          description: List machines response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:machine
+      summary: List machines
+      tags:
+      - machines
+      x-cli-table-default:
+      - name
+      - cloud
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    post:
+      description: Creates one or more machines on the specified cloud. If async is
+        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
+        permission required on cloud. READ permission required on location. CREATE_RESOURCES
+        permission required on location. CREATE permission required on machine. RUN
+        permission required on script. READ permission required on key.
+      operationId: create_machine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMachineRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMachineResponse'
+          description: Machine provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:machine
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources.location
+        - read:script
+        - read:key
+      summary: Create machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}:
+    get:
+      description: Get details about target machine
+      operationId: get_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMachineResponse'
+          description: Machine returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+      security:
+      - ApiKeyAuth:
+        - read:machine
+      summary: Get machine
+      tags:
+      - machines
+      x-cli-table-default:
+      - name
+      - cloud
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    put:
+      description: Edit target machine
+      operationId: edit_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New machine name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Machine successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+      security:
+      - ApiKeyAuth:
+        - edit:machine
+      summary: Edit machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/clone:
+    post:
+      description: Clone target machine
+      operationId: clone_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine clone issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - clone:machine
+      summary: Clone machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/console:
+    post:
+      description: Open VNC console on target machine
+      operationId: console
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine console opened successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - console:machine
+      summary: Clone machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/destroy:
+    post:
+      description: Destroy target machine
+      operationId: destroy_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine destroy issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - destroy:machine
+      summary: Destroy machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/expose:
+    post:
+      description: Expose target machine
+      operationId: expose_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine expose issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - expose:machine
+      summary: Expose machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/reboot:
+    post:
+      description: Reboot target machine
+      operationId: reboot_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine reboot issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - reboot:machine
+      summary: Reboot machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/rename:
+    post:
+      description: Rename target machine
+      operationId: rename_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine renamed successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - rename:machine
+      summary: Rename machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/resize:
+    post:
+      description: Resize target machine
+      operationId: resize_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine resize issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - resize:machine
+      summary: Resize machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/resume:
+    post:
+      description: Resume target machine
+      operationId: resume_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine resume issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - resume:machine
+      summary: Resume machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/ssh:
+    post:
+      description: Open secure shell on target machine
+      operationId: ssh
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "101":
+          description: Machine shell opened successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - ssh:machine
+      summary: Clone machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/start:
+    post:
+      description: Start target machine
+      operationId: start_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine start issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - start:machine
+      summary: Start machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/stop:
+    post:
+      description: Stop target machine
+      operationId: stop_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine stop issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - stop:machine
+      summary: Stop machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/suspend:
+    post:
+      description: Suspend target machine
+      operationId: suspend_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine suspend issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - suspend:machine
+      summary: Suspend machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/undefine:
+    post:
+      description: Undefine target machine
+      operationId: undefine_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine undefine issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - undefine:machine
+      summary: Undefine machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/snapshots:
+    get:
+      description: List snapshots of target machine
+      operationId: list_snapshots
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSnapshotsResponse'
+          description: List machine snapshots response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+      summary: Suspend machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    post:
+      description: Create snapshots of target machine
+      operationId: create_snapshot
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSnapshotResponse'
+          description: Create machine snapshot response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      summary: Create snapshot
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/snapshots/{snapshot}:
+    delete:
+      description: Remove target machine snapshot
+      operationId: remove_snapshot
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Snapshot removed successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      summary: Remove snapshot
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    post:
+      description: Revert machine to snapshot
+      operationId: revert_to_snapshot
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Revert machine to snapshot issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - revert_to_snapshots:machine
+      summary: Revert to snapshot
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -479,6 +1278,21 @@ paths:
       summary: List rules
       tags:
       - rules
+      x-cli-table-default:
+      - title
+      - queries
+      - actions
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - resource_type
+      - selectors
+      - queries
+      - actions
+      - window
+      - frequency
+      - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
       description: Add a new rule, READ permission required on target resource, ADD
@@ -603,6 +1417,21 @@ paths:
       summary: Get rule
       tags:
       - rules
+      x-cli-table-default:
+      - title
+      - queries
+      - actions
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - resource_type
+      - selectors
+      - queries
+      - actions
+      - window
+      - frequency
+      - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     patch:
       description: Rename a rule
@@ -913,6 +1742,12 @@ components:
           description: Enable DNS services
           type: boolean
       type: object
+    CreateMachineRequest:
+      type: object
+    CreateMachineResponse:
+      type: object
+    CreateSnapshotResponse:
+      type: object
     DigitalOceanCredentials:
       properties:
         token:
@@ -977,6 +1812,28 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Key'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetMachineResponse:
+      example:
+        data:
+          cloud: cloud
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          state: running
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          $ref: '#/components/schemas/Machine'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -1114,6 +1971,38 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListMachinesResponse:
+      example:
+        data:
+        - cloud: cloud
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          state: running
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          state: running
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Machine'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListRulesResponse:
       example:
         data:
@@ -1147,6 +2036,65 @@ components:
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListSnapshotsResponse:
+      example:
+        data:
+        - null
+        - null
+        meta:
+          total_returned: 6
+          total_matching: 0
+          start: 1
+          sort: sort
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Snapshot'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    Machine:
+      example:
+        cloud: cloud
+        default: true
+        name: name
+        owned_by: owned_by
+        id: id
+        state: running
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        default:
+          type: boolean
+        state:
+          enum:
+          - running
+          - starting
+          - stopping
+          - stopped
+          - pending
+          - suspended
+          - terminated
+          - error
+          - rebooting
+          - paused
+          - reconfiguring
+          - unknown
+          type: string
       type: object
     OpenStackCredentials:
       properties:
@@ -1321,6 +2269,8 @@ components:
       items:
         $ref: '#/components/schemas/Selector'
       type: array
+    Snapshot:
+      type: object
     TriggerAfter:
       properties:
         offset:
