@@ -76,6 +76,21 @@ paths:
         schema:
           type: string
         style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -171,6 +186,45 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -260,6 +314,21 @@ paths:
         explode: true
         in: query
         name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
         required: false
         schema:
           type: string
@@ -365,6 +434,45 @@ paths:
         required: false
         schema:
           type: boolean
+        style: form
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
         style: form
       responses:
         "200":
@@ -516,6 +624,23 @@ paths:
         schema:
           type: string
         style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -536,11 +661,14 @@ paths:
       x-cli-table-default:
       - name
       - cloud
+      - state
       - tags
       x-cli-table-extended:
       - id
       - name
-      - default
+      - state
+      - cloud
+      - public_ips
       - tags
       - owned_by
       - created_by
@@ -715,7 +843,7 @@ paths:
       security:
       - ApiKeyAuth:
         - console:machine
-      summary: Clone machine
+      summary: Open console
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
@@ -925,7 +1053,7 @@ paths:
       security:
       - ApiKeyAuth:
         - ssh:machine
-      summary: Clone machine
+      summary: Open secure shell
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
@@ -1082,8 +1210,8 @@ paths:
         - list_snapshots:machine
       summary: Suspend machine
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
     post:
       description: Create snapshots of target machine
       operationId: create_snapshot
@@ -1117,8 +1245,8 @@ paths:
         - create_snapshots:machine
       summary: Create snapshot
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
   /api/v2/machines/{machine}/snapshots/{snapshot}:
     delete:
       description: Remove target machine snapshot
@@ -1156,8 +1284,8 @@ paths:
         - create_snapshots:machine
       summary: Remove snapshot
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
     post:
       description: Revert machine to snapshot
       operationId: revert_to_snapshot
@@ -1194,8 +1322,8 @@ paths:
         - revert_to_snapshots:machine
       summary: Revert to snapshot
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -1398,6 +1526,30 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -1783,10 +1935,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
@@ -1805,10 +1957,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Key'
@@ -1827,10 +1979,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Machine'
@@ -1850,10 +2002,10 @@ components:
           actions: '{}'
           frequency: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Rule'
@@ -1927,10 +2079,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -1959,10 +2111,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -1991,10 +2143,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -2025,10 +2177,10 @@ components:
           actions: '{}'
           frequency: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -2043,10 +2195,10 @@ components:
         - null
         - null
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -2156,15 +2308,15 @@ components:
       type: object
     ResponseMetadata:
       example:
-        total_returned: 6
-        total_matching: 0
+        total: 0
         start: 1
         sort: sort
+        returned: 6
       properties:
-        total_matching:
+        total:
           description: Total items matching the query
           type: integer
-        total_returned:
+        returned:
           description: Number of items in response
           type: integer
         sort:
