@@ -171,7 +171,7 @@ def get_cloud(cloud):  # noqa: E501
     }
 
 
-def list_clouds(search=None, sort=None, start=0, limit=100):  # noqa: E501
+def list_clouds(search=None, sort=None, start=0, limit=100, only=None):  # noqa: E501
     """List clouds
 
     List clouds owned by the active org. READ permission required on cloud. # noqa: E501
@@ -185,8 +185,8 @@ def list_clouds(search=None, sort=None, start=0, limit=100):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    clouds, total = list_resources(auth_context, 'cloud',
-                                   search=search, sort=sort, limit=limit)
+    clouds, total = list_resources(auth_context, 'cloud', search=search,
+                                   only=only, sort=sort, limit=limit)
     meta = {
         'total_matching': total,
         'total_returned': clouds.count(),

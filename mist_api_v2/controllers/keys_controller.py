@@ -199,7 +199,7 @@ def get_key(key, private=False):  # noqa: E501
     return response
 
 
-def list_keys(search=None, sort=None, start=0, limit=100):  # noqa: E501
+def list_keys(search=None, sort=None, start=0, limit=100, only=None):  # noqa: E501
     """List keys
 
     List keys owned by the active org. READ permission required on key. # noqa: E501
@@ -217,8 +217,8 @@ def list_keys(search=None, sort=None, start=0, limit=100):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    keys, total = list_resources(auth_context, 'key',
-                                   search=search, sort=sort, limit=limit)
+    keys, total = list_resources(auth_context, 'key', search=search,
+                                 only=only, sort=sort, limit=limit)
     meta = {
         'total_matching': total,
         'total_returned': keys.count(),
