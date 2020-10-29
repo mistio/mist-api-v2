@@ -1813,16 +1813,6 @@ components:
       - title
       type: object
     AddKeyRequest:
-      anyOf:
-      - required:
-        - name
-        - private
-      - required:
-        - generate
-        - name
-      - required:
-        - dry
-        - generate
       example:
         private: private
         name: name
@@ -1989,27 +1979,27 @@ components:
       type: object
     CreateMachineRequest:
       example:
-        template: ""
-        image: ""
+        template: '{}'
+        image: '{}'
         quantity: 0.8008281904610115
-        disks: ""
+        disks: '{}'
         fqdn: fqdn
         cloudinit: cloudinit
-        volumes: ""
+        volumes: '{}'
         save: true
         dry: true
         monitoring: true
         tags: '{}'
         cloud: cloud
-        size: ""
-        schedules: ""
+        size: '{}'
+        schedules: '{}'
         extra: '{}'
         name: name
         location: location
         expiration: '{}'
-        net: ""
-        scripts: ""
-        key: ""
+        net: '{}'
+        scripts: '{}'
+        key: '{}'
       oneOf:
       - required:
         - image
@@ -2032,34 +2022,22 @@ components:
           type: string
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         image:
           description: Operating System image to boot from
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         net:
           description: Specify network configuration parameters
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         key:
           description: Associate SSH key
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         disks:
           description: Configure local disks
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         volumes:
           description: Configure of attached storage volumes, e.g. cloud disks
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
             Qualified Domain Name. Zone needs to be managed by a configured Cloud
@@ -2070,18 +2048,10 @@ components:
           type: string
         scripts:
           description: Run post deploy scripts over SSH
-          oneOf:
-          - type: string
-          - items:
-              type: object
-            type: array
+          type: object
         schedules:
           description: Configure scheduled actions for the provisioned machine
-          oneOf:
-          - type: string
-          - items:
-              type: object
-            type: array
+          type: object
         tags:
           description: Assign tags to provisioned machine
           type: object
@@ -2098,9 +2068,7 @@ components:
           description: Provision multiple machines of this type
           type: number
         template:
-          oneOf:
-          - type: string
-          - type: object
+          type: object
         dry:
           description: Return provisioning plan and exit without executing it
           type: boolean

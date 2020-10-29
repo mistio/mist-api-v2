@@ -6,13 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.one_ofstringarray import OneOfstringarray
-from mist_api_v2.models.one_ofstringobject import OneOfstringobject
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
-from mist_api_v2.models.one_ofstringarray import OneOfstringarray  # noqa: E501
-from mist_api_v2.models.one_ofstringobject import OneOfstringobject  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
 class CreateMachineRequest(Model):
@@ -33,25 +29,25 @@ class CreateMachineRequest(Model):
         :param location: The location of this CreateMachineRequest.  # noqa: E501
         :type location: str
         :param size: The size of this CreateMachineRequest.  # noqa: E501
-        :type size: OneOfstringobject
+        :type size: object
         :param image: The image of this CreateMachineRequest.  # noqa: E501
-        :type image: OneOfstringobject
+        :type image: object
         :param net: The net of this CreateMachineRequest.  # noqa: E501
-        :type net: OneOfstringobject
+        :type net: object
         :param key: The key of this CreateMachineRequest.  # noqa: E501
-        :type key: OneOfstringobject
+        :type key: object
         :param disks: The disks of this CreateMachineRequest.  # noqa: E501
-        :type disks: OneOfstringobject
+        :type disks: object
         :param volumes: The volumes of this CreateMachineRequest.  # noqa: E501
-        :type volumes: OneOfstringobject
+        :type volumes: object
         :param fqdn: The fqdn of this CreateMachineRequest.  # noqa: E501
         :type fqdn: str
         :param cloudinit: The cloudinit of this CreateMachineRequest.  # noqa: E501
         :type cloudinit: str
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
-        :type scripts: OneOfstringarray
+        :type scripts: object
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
-        :type schedules: OneOfstringarray
+        :type schedules: object
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
@@ -63,7 +59,7 @@ class CreateMachineRequest(Model):
         :param quantity: The quantity of this CreateMachineRequest.  # noqa: E501
         :type quantity: float
         :param template: The template of this CreateMachineRequest.  # noqa: E501
-        :type template: OneOfstringobject
+        :type template: object
         :param dry: The dry of this CreateMachineRequest.  # noqa: E501
         :type dry: bool
         :param save: The save of this CreateMachineRequest.  # noqa: E501
@@ -74,22 +70,22 @@ class CreateMachineRequest(Model):
             'provider': SupportedProviders,
             'cloud': str,
             'location': str,
-            'size': OneOfstringobject,
-            'image': OneOfstringobject,
-            'net': OneOfstringobject,
-            'key': OneOfstringobject,
-            'disks': OneOfstringobject,
-            'volumes': OneOfstringobject,
+            'size': object,
+            'image': object,
+            'net': object,
+            'key': object,
+            'disks': object,
+            'volumes': object,
             'fqdn': str,
             'cloudinit': str,
-            'scripts': OneOfstringarray,
-            'schedules': OneOfstringarray,
+            'scripts': object,
+            'schedules': object,
             'tags': object,
             'expiration': object,
             'extra': object,
             'monitoring': bool,
             'quantity': float,
-            'template': OneOfstringobject,
+            'template': object,
             'dry': bool,
             'save': bool
         }
@@ -250,7 +246,7 @@ class CreateMachineRequest(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :return: The size of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._size
 
@@ -261,7 +257,7 @@ class CreateMachineRequest(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :param size: The size of this CreateMachineRequest.
-        :type size: OneOfstringobject
+        :type size: object
         """
 
         self._size = size
@@ -273,7 +269,7 @@ class CreateMachineRequest(Model):
         Operating System image to boot from  # noqa: E501
 
         :return: The image of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._image
 
@@ -284,7 +280,7 @@ class CreateMachineRequest(Model):
         Operating System image to boot from  # noqa: E501
 
         :param image: The image of this CreateMachineRequest.
-        :type image: OneOfstringobject
+        :type image: object
         """
 
         self._image = image
@@ -296,7 +292,7 @@ class CreateMachineRequest(Model):
         Specify network configuration parameters  # noqa: E501
 
         :return: The net of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._net
 
@@ -307,7 +303,7 @@ class CreateMachineRequest(Model):
         Specify network configuration parameters  # noqa: E501
 
         :param net: The net of this CreateMachineRequest.
-        :type net: OneOfstringobject
+        :type net: object
         """
 
         self._net = net
@@ -319,7 +315,7 @@ class CreateMachineRequest(Model):
         Associate SSH key  # noqa: E501
 
         :return: The key of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._key
 
@@ -330,7 +326,7 @@ class CreateMachineRequest(Model):
         Associate SSH key  # noqa: E501
 
         :param key: The key of this CreateMachineRequest.
-        :type key: OneOfstringobject
+        :type key: object
         """
 
         self._key = key
@@ -342,7 +338,7 @@ class CreateMachineRequest(Model):
         Configure local disks  # noqa: E501
 
         :return: The disks of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._disks
 
@@ -353,7 +349,7 @@ class CreateMachineRequest(Model):
         Configure local disks  # noqa: E501
 
         :param disks: The disks of this CreateMachineRequest.
-        :type disks: OneOfstringobject
+        :type disks: object
         """
 
         self._disks = disks
@@ -365,7 +361,7 @@ class CreateMachineRequest(Model):
         Configure of attached storage volumes, e.g. cloud disks  # noqa: E501
 
         :return: The volumes of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._volumes
 
@@ -376,7 +372,7 @@ class CreateMachineRequest(Model):
         Configure of attached storage volumes, e.g. cloud disks  # noqa: E501
 
         :param volumes: The volumes of this CreateMachineRequest.
-        :type volumes: OneOfstringobject
+        :type volumes: object
         """
 
         self._volumes = volumes
@@ -434,7 +430,7 @@ class CreateMachineRequest(Model):
         Run post deploy scripts over SSH  # noqa: E501
 
         :return: The scripts of this CreateMachineRequest.
-        :rtype: OneOfstringarray
+        :rtype: object
         """
         return self._scripts
 
@@ -445,7 +441,7 @@ class CreateMachineRequest(Model):
         Run post deploy scripts over SSH  # noqa: E501
 
         :param scripts: The scripts of this CreateMachineRequest.
-        :type scripts: OneOfstringarray
+        :type scripts: object
         """
 
         self._scripts = scripts
@@ -457,7 +453,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :return: The schedules of this CreateMachineRequest.
-        :rtype: OneOfstringarray
+        :rtype: object
         """
         return self._schedules
 
@@ -468,7 +464,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :param schedules: The schedules of this CreateMachineRequest.
-        :type schedules: OneOfstringarray
+        :type schedules: object
         """
 
         self._schedules = schedules
@@ -594,7 +590,7 @@ class CreateMachineRequest(Model):
 
 
         :return: The template of this CreateMachineRequest.
-        :rtype: OneOfstringobject
+        :rtype: object
         """
         return self._template
 
@@ -604,7 +600,7 @@ class CreateMachineRequest(Model):
 
 
         :param template: The template of this CreateMachineRequest.
-        :type template: OneOfstringobject
+        :type template: object
         """
 
         self._template = template
