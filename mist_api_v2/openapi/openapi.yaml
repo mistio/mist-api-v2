@@ -256,6 +256,47 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+    put:
+      description: Update target cloud title or credentials
+      operationId: edit_cloud
+      parameters:
+      - explode: false
+        in: path
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  description: Updated title
+                  type: string
+                credentials:
+                  $ref: '#/components/schemas/CloudCredentials'
+                features:
+                  $ref: '#/components/schemas/CloudFeatures'
+              type: object
+      responses:
+        "200":
+          description: Cloud updated successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cloud not found
+      security:
+      - ApiKeyAuth:
+        - edit:cloud
+      summary: Edit cloud
+      tags:
+      - clouds
+      x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
   /api/v2/keys:
     get:
       description: List keys owned by the active org. READ permission required on
@@ -1733,7 +1774,12 @@ components:
   headers: {}
   links: {}
   parameters: {}
-  requestBodies: {}
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
   responses: {}
   schemas:
     AddCloudRequest:
@@ -1791,6 +1837,7 @@ components:
           description: Generate a keypair instead of providing one
           type: boolean
         dry:
+          description: Return generated key without actually adding it
           type: boolean
         private:
           description: The private key
@@ -1812,6 +1859,15 @@ components:
         public:
           type: string
       type: object
+    AlibabaCredentials:
+      properties:
+        apikey:
+          description: Your Alibaba Cloud API key
+          type: string
+        apisecret:
+          description: Your Alibaba Cloud API secret
+          type: string
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -1824,12 +1880,26 @@ components:
       - apikey
       - apisecret
       type: object
+    AzureCredentials:
+      properties:
+        tenantId:
+          description: Your Azure tenant ID
+          type: string
+        subscriptionId:
+          description: Your Azure subscription ID
+          type: string
+        key:
+          description: Your Azure key
+          type: string
+        secret:
+          description: Your Azure secret
+          type: string
+      type: object
     Cloud:
       example:
         features:
           compute: true
           dns: false
-        provider: amazon
         owned_by: owned_by
         id: id
         title: title
@@ -1842,14 +1912,7 @@ components:
         title:
           type: string
         provider:
-          enum:
-          - amazon
-          - google
-          - digitalocean
-          - openstack
-          - packet
-          - vsphere
-          type: string
+          $ref: '#/components/schemas/SupportedProviders'
         config:
           type: object
         features:
@@ -1865,19 +1928,49 @@ components:
       discriminator:
         mapping:
           amazon: '#/components/schemas/AmazonCredentials'
-          digitalocean: '#/components/schemas/DigitalOceanCredentials'
+          azure: '#/components/schemas/AzureCredentials'
           google: '#/components/schemas/GoogleCredentials'
-          openstack: '#/components/schemas/OpenStackCredentials'
-          packet: '#/components/schemas/PacketCredentials'
-          vsphere: '#/components/schemas/VSphereCredentials'
+          alibaba: '#/components/schemas/AlibabaCredentials'
+          equinix: '#/components/schemas/EquinixCredentials'
+          ibm: '#/components/schemas/IbmCredentials'
+          digitalocean: '#/components/schemas/DigitaloceanCredentials'
+          linode: '#/components/schemas/LinodeCredentials'
+          rackspace: '#/components/schemas/RackspaceCredentials'
+          maxihost: '#/components/schemas/MaxihostCredentials'
+          vultr: '#/components/schemas/VultrCredentials'
+          g8: '#/components/schemas/G8Credentials'
+          openstack: '#/components/schemas/OpenstackCredentials'
+          onapp: '#/components/schemas/OnappCredentials'
+          vsphere: '#/components/schemas/VsphereCredentials'
+          vcloud: '#/components/schemas/VcloudCredentials'
+          kvm: '#/components/schemas/KvmCredentials'
+          lxd: '#/components/schemas/LxdCredentials'
+          docker: '#/components/schemas/DockerCredentials'
+          kubevirt: '#/components/schemas/KubevirtCredentials'
+          other: '#/components/schemas/OtherCredentials'
         propertyName: provider
       oneOf:
       - $ref: '#/components/schemas/AmazonCredentials'
-      - $ref: '#/components/schemas/DigitalOceanCredentials'
+      - $ref: '#/components/schemas/AzureCredentials'
       - $ref: '#/components/schemas/GoogleCredentials'
-      - $ref: '#/components/schemas/OpenStackCredentials'
-      - $ref: '#/components/schemas/PacketCredentials'
-      - $ref: '#/components/schemas/VSphereCredentials'
+      - $ref: '#/components/schemas/AlibabaCredentials'
+      - $ref: '#/components/schemas/EquinixCredentials'
+      - $ref: '#/components/schemas/IbmCredentials'
+      - $ref: '#/components/schemas/DigitaloceanCredentials'
+      - $ref: '#/components/schemas/LinodeCredentials'
+      - $ref: '#/components/schemas/RackspaceCredentials'
+      - $ref: '#/components/schemas/MaxihostCredentials'
+      - $ref: '#/components/schemas/VultrCredentials'
+      - $ref: '#/components/schemas/G8Credentials'
+      - $ref: '#/components/schemas/OpenstackCredentials'
+      - $ref: '#/components/schemas/OnappCredentials'
+      - $ref: '#/components/schemas/VsphereCredentials'
+      - $ref: '#/components/schemas/VcloudCredentials'
+      - $ref: '#/components/schemas/KvmCredentials'
+      - $ref: '#/components/schemas/LxdCredentials'
+      - $ref: '#/components/schemas/DockerCredentials'
+      - $ref: '#/components/schemas/KubevirtCredentials'
+      - $ref: '#/components/schemas/OtherCredentials'
       type: object
     CloudFeatures:
       description: The cloud features that should be enabled
@@ -1895,18 +1988,176 @@ components:
           type: boolean
       type: object
     CreateMachineRequest:
+      example:
+        template: ""
+        image: ""
+        quantity: 0.8008281904610115
+        disks: ""
+        fqdn: fqdn
+        cloudinit: cloudinit
+        volumes: ""
+        save: true
+        dry: true
+        monitoring: true
+        tags: '{}'
+        cloud: cloud
+        size: ""
+        schedules: ""
+        extra: '{}'
+        name: name
+        location: location
+        expiration: '{}'
+        net: ""
+        scripts: ""
+        key: ""
+      oneOf:
+      - required:
+        - image
+        - name
+        - size
+      - required:
+        - name
+        - template
+      properties:
+        name:
+          description: Specify machine name
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: string
+        size:
+          description: Machine sizing spec e.g. cpu/ram/flavor
+          oneOf:
+          - type: string
+          - type: object
+        image:
+          description: Operating System image to boot from
+          oneOf:
+          - type: string
+          - type: object
+        net:
+          description: Specify network configuration parameters
+          oneOf:
+          - type: string
+          - type: object
+        key:
+          description: Associate SSH key
+          oneOf:
+          - type: string
+          - type: object
+        disks:
+          description: Configure local disks
+          oneOf:
+          - type: string
+          - type: object
+        volumes:
+          description: Configure of attached storage volumes, e.g. cloud disks
+          oneOf:
+          - type: string
+          - type: object
+        fqdn:
+          description: Add DNS A Record that points machine's public IP to this Fully
+            Qualified Domain Name. Zone needs to be managed by a configured Cloud
+            DNS provider
+          type: string
+        cloudinit:
+          description: Run this Cloud Init script on first boot
+          type: string
+        scripts:
+          description: Run post deploy scripts over SSH
+          oneOf:
+          - type: string
+          - items:
+              type: object
+            type: array
+        schedules:
+          description: Configure scheduled actions for the provisioned machine
+          oneOf:
+          - type: string
+          - items:
+              type: object
+            type: array
+        tags:
+          description: Assign tags to provisioned machine
+          type: object
+        expiration:
+          description: Configure machine expiration
+          type: object
+        extra:
+          description: Configure additional parameters
+          type: object
+        monitoring:
+          description: Enable monitoring of this machine
+          type: boolean
+        quantity:
+          description: Provision multiple machines of this type
+          type: number
+        template:
+          oneOf:
+          - type: string
+          - type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
       type: object
     CreateMachineResponse:
+      oneOf:
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
     CreateSnapshotResponse:
       type: object
-    DigitalOceanCredentials:
+    DigitaloceanCredentials:
       properties:
         token:
           description: You DigitalOcean API token
           type: string
       required:
       - token
+      type: object
+    DockerCredentials:
+      properties:
+        host:
+          description: Your Docker host
+          type: string
+        port:
+          description: Your Docker port
+          type: string
+        username:
+          description: Your Docker username
+          type: string
+        password:
+          description: Your Docker password
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      type: object
+    EquinixCredentials:
+      additionalProperties: false
+      properties:
+        apikey:
+          description: Your Equinix Metal API key
+          type: string
+      required:
+      - apikey
       type: object
     Frequency:
       properties:
@@ -1921,13 +2172,25 @@ components:
       - every
       - period
       type: object
+    G8Credentials:
+      properties:
+        url:
+          type: string
+        userId:
+          type: string
+        apikey:
+          type: string
+      required:
+      - apikey
+      - url
+      - userId
+      type: object
     GetCloudResponse:
       example:
         data:
           features:
             compute: true
             dns: false
-          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -1975,7 +2238,6 @@ components:
           name: name
           owned_by: owned_by
           id: id
-          state: running
           created_by: created_by
           tags: '{}'
         meta:
@@ -2024,6 +2286,18 @@ components:
       - privateKey
       - projectId
       type: object
+    IbmCredentials:
+      additionalProperties: false
+      properties:
+        username:
+          description: Your IBM Cloud username
+          type: string
+        apikey:
+          description: Your IBM Cloud API key
+          type: string
+      required:
+      - apikey
+      type: object
     Key:
       example:
         default: true
@@ -2055,13 +2329,52 @@ components:
           - signed_ssh
           type: string
       type: object
+    KubevirtCredentials:
+      properties:
+        host:
+          description: Your Kubernetes API host
+          type: string
+        port:
+          description: Your Kubernetes API port
+          type: string
+        username:
+          description: Your Kubernetes API username
+          type: string
+        password:
+          description: Your Kubernetes API password
+          type: string
+        token:
+          description: Your Kubernetes API bearer token
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      type: object
+    KvmCredentials:
+      type: object
+    LinodeCredentials:
+      properties:
+        apikey:
+          description: You Linode API key
+          type: string
+      required:
+      - apikey
+      type: object
     ListCloudsResponse:
       example:
         data:
         - features:
             compute: true
             dns: false
-          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -2071,7 +2384,6 @@ components:
         - features:
             compute: true
             dns: false
-          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -2131,7 +2443,6 @@ components:
           name: name
           owned_by: owned_by
           id: id
-          state: running
           created_by: created_by
           tags: '{}'
         - cloud: cloud
@@ -2139,7 +2450,6 @@ components:
           name: name
           owned_by: owned_by
           id: id
-          state: running
           created_by: created_by
           tags: '{}'
         meta:
@@ -2207,6 +2517,33 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    LxdCredentials:
+      properties:
+        host:
+          description: Your LXD host
+          type: string
+        port:
+          description: Your LXD port
+          type: string
+        username:
+          description: Your LXD username
+          type: string
+        password:
+          description: Your LXD password
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      type: object
     Machine:
       example:
         cloud: cloud
@@ -2214,7 +2551,6 @@ components:
         name: name
         owned_by: owned_by
         id: id
-        state: running
         created_by: created_by
         tags: '{}'
       properties:
@@ -2233,22 +2569,49 @@ components:
         default:
           type: boolean
         state:
-          enum:
-          - running
-          - starting
-          - stopping
-          - stopped
-          - pending
-          - suspended
-          - terminated
-          - error
-          - rebooting
-          - paused
-          - reconfiguring
-          - unknown
-          type: string
+          $ref: '#/components/schemas/MachineState'
       type: object
-    OpenStackCredentials:
+    MachineState:
+      enum:
+      - running
+      - starting
+      - stopping
+      - stopped
+      - pending
+      - suspended
+      - terminated
+      - error
+      - rebooting
+      - paused
+      - reconfiguring
+      - unknown
+      type: string
+    MaxihostCredentials:
+      properties:
+        token:
+          description: You Maxihost API token
+          type: string
+      required:
+      - token
+      type: object
+    OnappCredentials:
+      properties:
+        authUrl:
+          type: string
+        username:
+          type: string
+        apikey:
+          type: string
+        host:
+          type: string
+        verify:
+          type: boolean
+      required:
+      - apikey
+      - host
+      - username
+      type: object
+    OpenstackCredentials:
       properties:
         authUrl:
           type: string
@@ -2269,14 +2632,7 @@ components:
       - password
       - user
       type: object
-    PacketCredentials:
-      additionalProperties: false
-      properties:
-        apikey:
-          description: You Packet API key
-          type: string
-      required:
-      - apikey
+    OtherCredentials:
       type: object
     Queries:
       items:
@@ -2305,6 +2661,18 @@ components:
       - operator
       - target
       - threshold
+      type: object
+    RackspaceCredentials:
+      properties:
+        username:
+          description: Your Rackspace Cloud username
+          type: string
+        apikey:
+          description: Your Rackspace Cloud API key
+          type: string
+        region:
+          description: Your Rackspace Cloud region
+          type: string
       type: object
     ResponseMetadata:
       example:
@@ -2423,6 +2791,30 @@ components:
       type: array
     Snapshot:
       type: object
+    SupportedProviders:
+      enum:
+      - amazon
+      - azure
+      - google
+      - alibaba
+      - equinix
+      - ibm
+      - digitalocean
+      - linode
+      - rackspace
+      - maxihost
+      - vultr
+      - g8
+      - openstack
+      - onapp
+      - vsphere
+      - vcloud
+      - kvm
+      - lxd
+      - docker
+      - kubevirt
+      - other
+      type: string
     TriggerAfter:
       properties:
         offset:
@@ -2435,7 +2827,27 @@ components:
       - offset
       - period
       type: object
-    VSphereCredentials:
+    VcloudCredentials:
+      properties:
+        host:
+          description: Your vCloud host
+          type: string
+        port:
+          description: Your vCloud port
+          type: string
+        username:
+          description: Your vCloud username
+          type: string
+        password:
+          description: Your vCloud password
+          type: string
+      required:
+      - host
+      - password
+      - port
+      - username
+      type: object
+    VsphereCredentials:
       properties:
         host:
           description: Your vSphere/vCenter host
@@ -2453,6 +2865,14 @@ components:
       - host
       - password
       - username
+      type: object
+    VultrCredentials:
+      properties:
+        apikey:
+          description: You Vultr API key
+          type: string
+      required:
+      - apikey
       type: object
     Window:
       properties:
@@ -2481,6 +2901,24 @@ components:
         id:
           type: string
       type: object
+    inline_object:
+      properties:
+        title:
+          description: Updated title
+          type: string
+        credentials:
+          $ref: '#/components/schemas/CloudCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      type: object
+    CreateMachineResponse_oneOf:
+      properties:
+        jobId:
+          type: string
+    CreateMachineResponse_oneOf_1:
+      properties:
+        plan:
+          type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

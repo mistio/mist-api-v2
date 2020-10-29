@@ -112,6 +112,7 @@ class AddKeyRequest(Model):
     def dry(self):
         """Gets the dry of this AddKeyRequest.
 
+        Return generated key without actually adding it  # noqa: E501
 
         :return: The dry of this AddKeyRequest.
         :rtype: bool
@@ -122,6 +123,7 @@ class AddKeyRequest(Model):
     def dry(self, dry):
         """Sets the dry of this AddKeyRequest.
 
+        Return generated key without actually adding it  # noqa: E501
 
         :param dry: The dry of this AddKeyRequest.
         :type dry: bool
