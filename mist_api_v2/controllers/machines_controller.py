@@ -1,6 +1,8 @@
 import connexion
 import six
 
+from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
+from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2 import util
@@ -22,7 +24,7 @@ def clone_machine(machine):  # noqa: E501
 
 
 def console(machine):  # noqa: E501
-    """Clone machine
+    """Open console
 
     Open VNC console on target machine # noqa: E501
 
@@ -34,16 +36,18 @@ def console(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def create_machine(body=None):  # noqa: E501
+def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
     Creates one or more machines on the specified cloud. If async is true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location. CREATE_RESOURCES permission required on location. CREATE permission required on machine. RUN permission required on script. READ permission required on key. # noqa: E501
 
-    :param body:
-    :type body:
+    :param create_machine_request:
+    :type create_machine_request: dict | bytes
 
-    :rtype: object
+    :rtype: CreateMachineResponse
     """
+    if connexion.request.is_json:
+        create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -101,7 +105,7 @@ def get_machine(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
+def list_machines(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
     """List machines
 
     List machines owned by the active org. READ permission required on machine &amp; cloud. # noqa: E501
@@ -118,8 +122,8 @@ def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     :type limit: int
     :param only: Only return these fields
     :type only: str
-    :param only: Dereference foreign keys
-    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: ListMachinesResponse
     """
@@ -183,7 +187,7 @@ def resume_machine(machine):  # noqa: E501
 
 
 def ssh(machine):  # noqa: E501
-    """Clone machine
+    """Open secure shell
 
     Open secure shell on target machine # noqa: E501
 
