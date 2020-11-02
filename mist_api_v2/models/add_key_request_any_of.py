@@ -15,21 +15,31 @@ class AddKeyRequestAnyOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, generate=None):  # noqa: E501
+    def __init__(self, name=None, private=None, certificate=None):  # noqa: E501
         """AddKeyRequestAnyOf - a model defined in OpenAPI
 
-        :param generate: The generate of this AddKeyRequestAnyOf.  # noqa: E501
-        :type generate: bool
+        :param name: The name of this AddKeyRequestAnyOf.  # noqa: E501
+        :type name: str
+        :param private: The private of this AddKeyRequestAnyOf.  # noqa: E501
+        :type private: str
+        :param certificate: The certificate of this AddKeyRequestAnyOf.  # noqa: E501
+        :type certificate: str
         """
         self.openapi_types = {
-            'generate': bool
+            'name': str,
+            'private': str,
+            'certificate': str
         }
 
         self.attribute_map = {
-            'generate': 'generate'
+            'name': 'name',
+            'private': 'private',
+            'certificate': 'certificate'
         }
 
-        self._generate = generate
+        self._name = name
+        self._private = private
+        self._certificate = certificate
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyRequestAnyOf':
@@ -43,28 +53,74 @@ class AddKeyRequestAnyOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def generate(self):
-        """Gets the generate of this AddKeyRequestAnyOf.
+    def name(self):
+        """Gets the name of this AddKeyRequestAnyOf.
 
+        The key's name  # noqa: E501
 
-        :return: The generate of this AddKeyRequestAnyOf.
-        :rtype: bool
+        :return: The name of this AddKeyRequestAnyOf.
+        :rtype: str
         """
-        return self._generate
+        return self._name
 
-    @generate.setter
-    def generate(self, generate):
-        """Sets the generate of this AddKeyRequestAnyOf.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this AddKeyRequestAnyOf.
 
+        The key's name  # noqa: E501
 
-        :param generate: The generate of this AddKeyRequestAnyOf.
-        :type generate: bool
+        :param name: The name of this AddKeyRequestAnyOf.
+        :type name: str
         """
-        allowed_values = [true]  # noqa: E501
-        if generate not in allowed_values:
-            raise ValueError(
-                "Invalid value for `generate` ({0}), must be one of {1}"
-                .format(generate, allowed_values)
-            )
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._generate = generate
+        self._name = name
+
+    @property
+    def private(self):
+        """Gets the private of this AddKeyRequestAnyOf.
+
+        The private key  # noqa: E501
+
+        :return: The private of this AddKeyRequestAnyOf.
+        :rtype: str
+        """
+        return self._private
+
+    @private.setter
+    def private(self, private):
+        """Sets the private of this AddKeyRequestAnyOf.
+
+        The private key  # noqa: E501
+
+        :param private: The private of this AddKeyRequestAnyOf.
+        :type private: str
+        """
+        if private is None:
+            raise ValueError("Invalid value for `private`, must not be `None`")  # noqa: E501
+
+        self._private = private
+
+    @property
+    def certificate(self):
+        """Gets the certificate of this AddKeyRequestAnyOf.
+
+        The signed public key, when using signed ssh keys  # noqa: E501
+
+        :return: The certificate of this AddKeyRequestAnyOf.
+        :rtype: str
+        """
+        return self._certificate
+
+    @certificate.setter
+    def certificate(self, certificate):
+        """Sets the certificate of this AddKeyRequestAnyOf.
+
+        The signed public key, when using signed ssh keys  # noqa: E501
+
+        :param certificate: The certificate of this AddKeyRequestAnyOf.
+        :type certificate: str
+        """
+
+        self._certificate = certificate

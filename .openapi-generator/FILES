@@ -17,6 +17,9 @@ mist_api_v2/encoder.py
 mist_api_v2/models/__init__.py
 mist_api_v2/models/add_cloud_request.py
 mist_api_v2/models/add_key_request.py
+mist_api_v2/models/add_key_request_any_of.py
+mist_api_v2/models/add_key_request_any_of1.py
+mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/amazon_credentials.py

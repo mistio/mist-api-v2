@@ -1813,28 +1813,10 @@ components:
       - title
       type: object
     AddKeyRequest:
-      example:
-        private: private
-        name: name
-        certificate: certificate
-        dry: true
-        generate: true
-      properties:
-        name:
-          description: The key's name
-          type: string
-        generate:
-          description: Generate a keypair instead of providing one
-          type: boolean
-        dry:
-          description: Return generated key without actually adding it
-          type: boolean
-        private:
-          description: The private key
-          type: string
-        certificate:
-          description: The signed public key, when using signed ssh keys
-          type: string
+      anyOf:
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf'
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf_1'
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf_2'
       type: object
     AddKeyResponse:
       example:
@@ -2000,14 +1982,6 @@ components:
         net: '{}'
         scripts: '{}'
         key: '{}'
-      oneOf:
-      - required:
-        - image
-        - name
-        - size
-      - required:
-        - name
-        - template
       properties:
         name:
           description: Specify machine name
@@ -2075,6 +2049,10 @@ components:
         save:
           description: Save provisioning plan as template
           type: boolean
+      required:
+      - image
+      - name
+      - size
       type: object
     CreateMachineResponse:
       oneOf:
@@ -2879,10 +2857,51 @@ components:
         features:
           $ref: '#/components/schemas/CloudFeatures'
       type: object
+    AddKeyRequest_anyOf:
+      properties:
+        name:
+          description: The key's name
+          type: string
+        private:
+          description: The private key
+          type: string
+        certificate:
+          description: The signed public key, when using signed ssh keys
+          type: string
+      required:
+      - name
+      - private
+    AddKeyRequest_anyOf_1:
+      properties:
+        name:
+          description: The key's name
+          type: string
+        generate:
+          description: Generate a keypair instead of providing one
+          type: boolean
+        dry:
+          description: Return generated key without actually adding it
+          type: boolean
+      required:
+      - generate
+      - name
+    AddKeyRequest_anyOf_2:
+      properties:
+        generate:
+          description: Generate a keypair instead of providing one
+          type: boolean
+        dry:
+          description: Return generated key without actually adding it
+          type: boolean
+      required:
+      - dry
+      - generate
     CreateMachineResponse_oneOf:
       properties:
         jobId:
           type: string
+        plan:
+          type: object
     CreateMachineResponse_oneOf_1:
       properties:
         plan:

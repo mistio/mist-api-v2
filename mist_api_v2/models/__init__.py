@@ -5,6 +5,9 @@ from __future__ import absolute_import
 # import models into model package
 from mist_api_v2.models.add_cloud_request import AddCloudRequest
 from mist_api_v2.models.add_key_request import AddKeyRequest
+from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
+from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
+from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials

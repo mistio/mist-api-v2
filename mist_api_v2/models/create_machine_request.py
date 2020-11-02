@@ -169,6 +169,8 @@ class CreateMachineRequest(Model):
         :param name: The name of this CreateMachineRequest.
         :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -259,6 +261,8 @@ class CreateMachineRequest(Model):
         :param size: The size of this CreateMachineRequest.
         :type size: object
         """
+        if size is None:
+            raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501
 
         self._size = size
 
@@ -282,6 +286,8 @@ class CreateMachineRequest(Model):
         :param image: The image of this CreateMachineRequest.
         :type image: object
         """
+        if image is None:
+            raise ValueError("Invalid value for `image`, must not be `None`")  # noqa: E501
 
         self._image = image
 

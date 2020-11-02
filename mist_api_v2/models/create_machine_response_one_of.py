@@ -15,21 +15,26 @@ class CreateMachineResponseOneOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, job_id=None):  # noqa: E501
+    def __init__(self, job_id=None, plan=None):  # noqa: E501
         """CreateMachineResponseOneOf - a model defined in OpenAPI
 
         :param job_id: The job_id of this CreateMachineResponseOneOf.  # noqa: E501
         :type job_id: str
+        :param plan: The plan of this CreateMachineResponseOneOf.  # noqa: E501
+        :type plan: object
         """
         self.openapi_types = {
-            'job_id': str
+            'job_id': str,
+            'plan': object
         }
 
         self.attribute_map = {
-            'job_id': 'jobId'
+            'job_id': 'jobId',
+            'plan': 'plan'
         }
 
         self._job_id = job_id
+        self._plan = plan
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateMachineResponseOneOf':
@@ -62,3 +67,24 @@ class CreateMachineResponseOneOf(Model):
         """
 
         self._job_id = job_id
+
+    @property
+    def plan(self):
+        """Gets the plan of this CreateMachineResponseOneOf.
+
+
+        :return: The plan of this CreateMachineResponseOneOf.
+        :rtype: object
+        """
+        return self._plan
+
+    @plan.setter
+    def plan(self, plan):
+        """Sets the plan of this CreateMachineResponseOneOf.
+
+
+        :param plan: The plan of this CreateMachineResponseOneOf.
+        :type plan: object
+        """
+
+        self._plan = plan
