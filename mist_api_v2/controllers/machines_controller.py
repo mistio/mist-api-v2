@@ -1,5 +1,6 @@
 import connexion
 import six
+import mongoengine as me
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -36,6 +37,105 @@ def console(machine):  # noqa: E501
     return 'do some magic!'
 
 
+def _select_create_machine_cloud(auth_context, cloud_id=None, provider=None):
+    """ Helper function to determine in which cloud machine should be created.
+    """
+    if cloud_id is not None:
+        from mist.api.clouds.models import Cloud
+        try:
+            cloud = Cloud.objects.get(owner=auth_context.owner, id=cloud_id,
+                                      deleted=None)
+        except me.DoesNotExist:
+            return None
+    else:
+        from mist.api.methods import list_resources
+        search = f"provider:{provider}" if provider is not None else ''
+        clouds, _ = list_resources(auth_context, 'cloud', search=search)
+        # TODO select cloud based on some metrics
+        # for the moment use the first cloud as placeholder
+        if clouds:
+            cloud = clouds[0]
+        else:
+            return None
+    return cloud
+
+
+def _select_create_machine_location(auth_context, location_id=None):
+    """ Helper function to determine in which location machine should be created.
+    """
+    if location_id is not None:
+        from mist.api.clouds.models import CloudLocation
+        try:
+            location = CloudLocation.objects.get(id=location_id)
+        except me.DoesNotExist:
+            return None
+    else:
+        from mist.api.methods import list_resources
+        locations, _ = list_resources(auth_context, 'location')
+        # TODO select location based on some metrics
+        # for the moment use the first location as placeholder
+        location = locations[0]
+    return location
+
+
+def _select_create_machine_size(cloud, size_dict=None):
+    """ Helper function to determine machine's size.
+
+        :keyword size_dict
+        :type dict
+
+        :rtype: CloudSize
+    """
+    # TODO check also for `name` or some other similar key
+    from mist.api.clouds.models import CloudSize
+
+    size_id = size_dict.get("id", None)
+    if size_id is not None:
+        try:
+            size = CloudSize.objects.get(id=size_id)
+        except me.DoesNotExist:
+            return None
+    else:
+        try:
+            sizes = CloudSize.objects(cloud=cloud)
+            # TODO select size based on some metrics
+            # for the moment use the first size as placeholder
+            size = sizes[0]
+        except me.DoesNotExist:
+            return None
+        # from mist.api.methods import list_resources
+        # sizes, _ = list_resources(auth_context, 'size')
+        # size = sizes[0]
+
+    return size
+
+
+def _select_create_machine_image(cloud, image_dict=None):
+    """ Helper function to determine which image to boot machine from.
+
+        :keyword image_dict
+        :type dict
+
+        :rtype: CloudSize
+    """
+    from mist.api.images.models import CloudImage
+    image_id = image_dict.get("id", None)
+    if image_id is not None:
+        try:
+            image = CloudImage.objects.get(id=image_id)
+        except me.DoesNotExist:
+            return None
+    else:
+        try:
+            images = CloudImage.objects(cloud=cloud)
+            # TODO select size based on some metrics
+            # for the moment use the first size as placeholder
+            image = images[0]
+        except me.DoesNotExist:
+            return None
+    return image
+
+
 def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
@@ -46,9 +146,57 @@ def create_machine(create_machine_request=None):  # noqa: E501
 
     :rtype: CreateMachineResponse
     """
+
     if connexion.request.is_json:
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    auth_context = connexion.context['token_info']['auth_context']
+
+    cloud_id = create_machine_request.cloud
+    provider = create_machine_request.provider
+    cloud = _select_create_machine_cloud(
+        auth_context, cloud_id=cloud_id, provider=provider)
+    if cloud is None:
+        return 'Cloud does not exist', 404
+    # READ permission required on cloud.
+    # CREATE_RESOURCES permission required on cloud.
+    auth_context.check_perm('cloud', 'read', cloud.id)
+    auth_context.check_perm('cloud', 'create_resources', cloud.id)
+
+    # TODO this could also be a `name` for datacenter, region etc.
+    location_id = create_machine_request.location
+    location = _select_create_machine_location(
+        auth_context, location_id=location_id)
+    if location is None:
+        return 'Location does not exist', 404
+    # READ permission required on location.
+    # CREATE_RESOURCES permission required on location.
+    auth_context.check_perm('location', 'read', location.id)
+    auth_context.check_perm('location', 'create_resources', location.id)
+    # CREATE permission required on machine.
+    auth_context.check_perm('machine', 'create', None)
+
+    size_dict = create_machine_request.size
+    size = _select_create_machine_size(cloud, size_dict=size_dict)
+    if size is None:
+        return 'Size does not exist', 404
+
+    image_dict = create_machine_request.image
+    image = _select_create_machine_image(cloud, image_dict=image_dict)
+    if image is None:
+        return 'Image does not exist', 404
+
+    # TODO
+    # RUN permission required on script.
+    # READ permission required on key.
+    plan = {
+        'name': create_machine_request.name,
+        'cloud': cloud.title,
+        'location': location.name,
+        'image': image.name,
+        'size': size.name
+    }
+    return CreateMachineResponse(plan=plan)
 
 
 def destroy_machine(machine):  # noqa: E501
