@@ -60,21 +60,24 @@ def _select_create_machine_cloud(auth_context, cloud_id=None, provider=None):
     return cloud
 
 
-def _select_create_machine_location(auth_context, location_id=None):
+def _select_create_machine_location(cloud, location_id=None):
     """ Helper function to determine in which location machine should be created.
     """
+    from mist.api.clouds.models import CloudLocation
     if location_id is not None:
-        from mist.api.clouds.models import CloudLocation
         try:
             location = CloudLocation.objects.get(id=location_id)
         except me.DoesNotExist:
             return None
     else:
-        from mist.api.methods import list_resources
-        locations, _ = list_resources(auth_context, 'location')
-        # TODO select location based on some metrics
-        # for the moment use the first location as placeholder
-        location = locations[0]
+        try:
+            # TODO select location based on some metrics
+            # for the moment use the first location as placeholder
+            locations = CloudLocation.objects(cloud=cloud)
+            location = locations[0]
+        except me.DoesNotExist:
+            return None
+
     return location
 
 
@@ -103,9 +106,6 @@ def _select_create_machine_size(cloud, size_dict=None):
             size = sizes[0]
         except me.DoesNotExist:
             return None
-        # from mist.api.methods import list_resources
-        # sizes, _ = list_resources(auth_context, 'size')
-        # size = sizes[0]
 
     return size
 
@@ -166,7 +166,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     # TODO this could also be a `name` for datacenter, region etc.
     location_id = create_machine_request.location
     location = _select_create_machine_location(
-        auth_context, location_id=location_id)
+        cloud, location_id=location_id)
     if location is None:
         return 'Location does not exist', 404
     # READ permission required on location.
