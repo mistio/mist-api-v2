@@ -173,6 +173,18 @@ def _select_create_machine_key(auth_context, cloud, key_id=None):
     return key, public_key, private_key
 
 
+def _apply_tags(auth_context, tags=None, request_tags=None):
+    from mist.api.exceptions import BadRequestError, ForbiddenError
+    security_tags = auth_context.get_security_tags()
+    for mt in request_tags:
+        if mt in security_tags:
+            raise ForbiddenError(
+                'You may not assign tags included in a Team access policy:'
+                ' `%s`' % mt)
+    tags.update(request_tags)
+    return tags
+
+
 def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
@@ -195,8 +207,6 @@ def create_machine(create_machine_request=None):  # noqa: E501
         auth_context, cloud_id=cloud_id, provider=provider)
     if cloud is None:
         return 'Cloud does not exist', 404
-
-    auth_context.check_perm('machine', 'create', None)
 
     from mist.api.machines.methods import machine_name_validator
     from mist.api.exceptions import MachineNameValidationError
@@ -228,6 +238,9 @@ def create_machine(create_machine_request=None):  # noqa: E501
     key, public_key, private_key = _select_create_machine_key(
         auth_context, cloud, key_id=key_id)
 
+    tags, constraints = auth_context.check_perm('machine', 'create', None)
+    request_tags = create_machine_request.tags or {}
+    tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
     # TODO
     # RUN permission required on script.
 
@@ -236,7 +249,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
         'cloud': cloud.title,
         'location': location.name,
         'image': image.name,
-        'size': size.name
+        'size': size.name,
+        'tags': tags
     }
     if key is not None:
         plan['key'] = key.name
