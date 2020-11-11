@@ -189,8 +189,6 @@ def create_machine(create_machine_request=None):  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
     # CREATE permission required on machine.
-    auth_context.check_perm('machine', 'create', None)
-
     cloud_id = create_machine_request.cloud
     provider = create_machine_request.provider
     cloud = _select_create_machine_cloud(
@@ -198,6 +196,15 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if cloud is None:
         return 'Cloud does not exist', 404
 
+    auth_context.check_perm('machine', 'create', None)
+
+    from mist.api.machines.methods import machine_name_validator
+    from mist.api.exceptions import MachineNameValidationError
+    machine_name = create_machine_request.name
+    try:
+        machine_name = machine_name_validator(cloud.ctl.provider, machine_name)
+    except MachineNameValidationError as err:
+        return err.args[0], 400
     # TODO this could also be a `name` for datacenter, region etc.
     location_id = create_machine_request.location
     location = _select_create_machine_location(
@@ -225,7 +232,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     # RUN permission required on script.
 
     plan = {
-        'name': create_machine_request.name,
+        'name': machine_name,
         'cloud': cloud.title,
         'location': location.name,
         'image': image.name,
