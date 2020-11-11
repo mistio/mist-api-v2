@@ -185,6 +185,27 @@ def _apply_tags(auth_context, tags=None, request_tags=None):
     return tags
 
 
+def _check_constraints(auth_context, expiration, constraints=None):
+    constraints = constraints or {}
+    # check expiration constraint
+    exp_constraint = constraints.get('expiration', {})
+    if exp_constraint:
+        try:
+            from mist.rbac.methods import check_expiration
+            check_expiration(expiration, exp_constraint)
+        except ImportError:
+            pass
+
+    # check cost constraint
+    cost_constraint = constraints.get('cost', {})
+    if cost_constraint:
+        try:
+            from mist.rbac.methods import check_cost
+            check_cost(auth_context.org, cost_constraint)
+        except ImportError:
+            pass
+
+
 def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
@@ -239,8 +260,12 @@ def create_machine(create_machine_request=None):  # noqa: E501
         auth_context, cloud, key_id=key_id)
 
     tags, constraints = auth_context.check_perm('machine', 'create', None)
+
     request_tags = create_machine_request.tags or {}
     tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
+
+    expiration = create_machine_request.expiration or {}
+    _check_constraints(auth_context, expiration, constraints=constraints)
     # TODO
     # RUN permission required on script.
 
