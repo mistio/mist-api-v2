@@ -2,6 +2,8 @@ import connexion
 import six
 import mongoengine as me
 
+from mist.api import config
+
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
@@ -57,10 +59,14 @@ def _select_create_machine_cloud(auth_context, cloud_id=None, provider=None):
             cloud = clouds[0]
         else:
             return None
+    # READ permission required on cloud.
+    # CREATE_RESOURCES permission required on cloud.
+    auth_context.check_perm('cloud', 'read', cloud.id)
+    auth_context.check_perm('cloud', 'create_resources', cloud.id)
     return cloud
 
 
-def _select_create_machine_location(cloud, location_id=None):
+def _select_create_machine_location(auth_context, cloud, location_id=None):
     """ Helper function to determine in which location machine should be created.
     """
     from mist.api.clouds.models import CloudLocation
@@ -77,7 +83,10 @@ def _select_create_machine_location(cloud, location_id=None):
             location = locations[0]
         except me.DoesNotExist:
             return None
-
+    # READ permission required on location.
+    # CREATE_RESOURCES permission required on location.
+    auth_context.check_perm('location', 'read', location.id)
+    auth_context.check_perm('location', 'create_resources', location.id)
     return location
 
 
@@ -136,6 +145,34 @@ def _select_create_machine_image(cloud, image_dict=None):
     return image
 
 
+def _select_create_machine_key(auth_context, cloud, key_id=None):
+    # TODO handle key name as well
+    from mist.api.keys.models import Key
+    key = None
+    private_key = None
+    public_key = None
+    if key_id:
+        # READ permission required on key.
+        auth_context.check_perm("key", "read", key_id)
+        key = Key.objects.get(owner=auth_context.owner,
+                              id=key_id, deleted=None)
+    if cloud.ctl.provider not in config.PROVIDERS_WITHOUT_DEFAULT_KEY:
+        if not key_id:
+            try:
+                key = Key.objects.get(owner=auth_context.owner,
+                                      default=True, deleted=None)
+            except me.DoesNotExist:
+                pass
+            key_id = key.name
+    if key:
+        private_key = key.private
+        public_key = key.public.replace('\n', '')
+    else:
+        public_key = None
+
+    return key, public_key, private_key
+
+
 def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
@@ -151,6 +188,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
+    # CREATE permission required on machine.
+    auth_context.check_perm('machine', 'create', None)
 
     cloud_id = create_machine_request.cloud
     provider = create_machine_request.provider
@@ -158,23 +197,13 @@ def create_machine(create_machine_request=None):  # noqa: E501
         auth_context, cloud_id=cloud_id, provider=provider)
     if cloud is None:
         return 'Cloud does not exist', 404
-    # READ permission required on cloud.
-    # CREATE_RESOURCES permission required on cloud.
-    auth_context.check_perm('cloud', 'read', cloud.id)
-    auth_context.check_perm('cloud', 'create_resources', cloud.id)
 
     # TODO this could also be a `name` for datacenter, region etc.
     location_id = create_machine_request.location
     location = _select_create_machine_location(
-        cloud, location_id=location_id)
+        auth_context, cloud, location_id=location_id)
     if location is None:
         return 'Location does not exist', 404
-    # READ permission required on location.
-    # CREATE_RESOURCES permission required on location.
-    auth_context.check_perm('location', 'read', location.id)
-    auth_context.check_perm('location', 'create_resources', location.id)
-    # CREATE permission required on machine.
-    auth_context.check_perm('machine', 'create', None)
 
     size_dict = create_machine_request.size
     size = _select_create_machine_size(cloud, size_dict=size_dict)
@@ -186,9 +215,15 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if image is None:
         return 'Image does not exist', 404
 
+    # scripts_dict = create_machine_request.scripts
+    key_dict = create_machine_request.key or {}
+    key_id = key_dict.get('id')
+    key, public_key, private_key = _select_create_machine_key(
+        auth_context, cloud, key_id=key_id)
+
     # TODO
     # RUN permission required on script.
-    # READ permission required on key.
+
     plan = {
         'name': create_machine_request.name,
         'cloud': cloud.title,
@@ -196,6 +231,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
         'image': image.name,
         'size': size.name
     }
+    if key is not None:
+        plan['key'] = key.name
     return CreateMachineResponse(plan=plan)
 
 
