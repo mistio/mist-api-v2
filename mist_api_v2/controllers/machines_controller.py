@@ -3,6 +3,7 @@ import six
 import mongoengine as me
 
 from mist.api import config
+from mist.api.exceptions import BadRequestError, ForbiddenError
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -39,142 +40,7 @@ def console(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def _select_create_machine_cloud(auth_context, cloud_id=None, provider=None):
-    """ Helper function to determine in which cloud machine should be created.
-    """
-    if cloud_id is not None:
-        from mist.api.clouds.models import Cloud
-        try:
-            cloud = Cloud.objects.get(owner=auth_context.owner, id=cloud_id,
-                                      deleted=None)
-        except me.DoesNotExist:
-            return None
-    else:
-        from mist.api.methods import list_resources
-        search = f"provider:{provider}" if provider is not None else ''
-        clouds, _ = list_resources(auth_context, 'cloud', search=search)
-        # TODO select cloud based on some metrics
-        # for the moment use the first cloud as placeholder
-        if clouds:
-            cloud = clouds[0]
-        else:
-            return None
-    # READ permission required on cloud.
-    # CREATE_RESOURCES permission required on cloud.
-    auth_context.check_perm('cloud', 'read', cloud.id)
-    auth_context.check_perm('cloud', 'create_resources', cloud.id)
-    return cloud
-
-
-def _select_create_machine_location(auth_context, cloud, location_id=None):
-    """ Helper function to determine in which location machine should be created.
-    """
-    from mist.api.clouds.models import CloudLocation
-    if location_id is not None:
-        try:
-            location = CloudLocation.objects.get(id=location_id)
-        except me.DoesNotExist:
-            return None
-    else:
-        try:
-            # TODO select location based on some metrics
-            # for the moment use the first location as placeholder
-            locations = CloudLocation.objects(cloud=cloud)
-            location = locations[0]
-        except me.DoesNotExist:
-            return None
-    # READ permission required on location.
-    # CREATE_RESOURCES permission required on location.
-    auth_context.check_perm('location', 'read', location.id)
-    auth_context.check_perm('location', 'create_resources', location.id)
-    return location
-
-
-def _select_create_machine_size(cloud, size_dict=None):
-    """ Helper function to determine machine's size.
-
-        :keyword size_dict
-        :type dict
-
-        :rtype: CloudSize
-    """
-    # TODO check also for `name` or some other similar key
-    from mist.api.clouds.models import CloudSize
-
-    size_id = size_dict.get("id", None)
-    if size_id is not None:
-        try:
-            size = CloudSize.objects.get(id=size_id)
-        except me.DoesNotExist:
-            return None
-    else:
-        try:
-            sizes = CloudSize.objects(cloud=cloud)
-            # TODO select size based on some metrics
-            # for the moment use the first size as placeholder
-            size = sizes[0]
-        except me.DoesNotExist:
-            return None
-
-    return size
-
-
-def _select_create_machine_image(cloud, image_dict=None):
-    """ Helper function to determine which image to boot machine from.
-
-        :keyword image_dict
-        :type dict
-
-        :rtype: CloudSize
-    """
-    from mist.api.images.models import CloudImage
-    image_id = image_dict.get("id", None)
-    if image_id is not None:
-        try:
-            image = CloudImage.objects.get(id=image_id)
-        except me.DoesNotExist:
-            return None
-    else:
-        try:
-            images = CloudImage.objects(cloud=cloud)
-            # TODO select size based on some metrics
-            # for the moment use the first size as placeholder
-            image = images[0]
-        except me.DoesNotExist:
-            return None
-    return image
-
-
-def _select_create_machine_key(auth_context, cloud, key_id=None):
-    # TODO handle key name as well
-    from mist.api.keys.models import Key
-    key = None
-    private_key = None
-    public_key = None
-    if key_id:
-        # READ permission required on key.
-        auth_context.check_perm("key", "read", key_id)
-        key = Key.objects.get(owner=auth_context.owner,
-                              id=key_id, deleted=None)
-    if cloud.ctl.provider not in config.PROVIDERS_WITHOUT_DEFAULT_KEY:
-        if not key_id:
-            try:
-                key = Key.objects.get(owner=auth_context.owner,
-                                      default=True, deleted=None)
-            except me.DoesNotExist:
-                pass
-            key_id = key.name
-    if key:
-        private_key = key.private
-        public_key = key.public.replace('\n', '')
-    else:
-        public_key = None
-
-    return key, public_key, private_key
-
-
 def _apply_tags(auth_context, tags=None, request_tags=None):
-    from mist.api.exceptions import BadRequestError, ForbiddenError
     security_tags = auth_context.get_security_tags()
     for mt in request_tags:
         if mt in security_tags:
@@ -221,62 +87,107 @@ def create_machine(create_machine_request=None):  # noqa: E501
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
-    # CREATE permission required on machine.
-    cloud_id = create_machine_request.cloud
-    provider = create_machine_request.provider
-    cloud = _select_create_machine_cloud(
-        auth_context, cloud_id=cloud_id, provider=provider)
-    if cloud is None:
-        return 'Cloud does not exist', 404
+    from mist.api.methods import list_resources
 
-    from mist.api.machines.methods import machine_name_validator
-    from mist.api.exceptions import MachineNameValidationError
-    machine_name = create_machine_request.name
+    if create_machine_request.cloud:
+        search = create_machine_request.cloud
+    elif create_machine_request.provider:
+        search = f'provider:{create_machine_request.provider}'
+    else:
+        search = None
+    # TODO handle multiple clouds
     try:
-        machine_name = machine_name_validator(cloud.ctl.provider, machine_name)
-    except MachineNameValidationError as err:
-        return err.args[0], 400
-    # TODO this could also be a `name` for datacenter, region etc.
-    location_id = create_machine_request.location
-    location = _select_create_machine_location(
-        auth_context, cloud, location_id=location_id)
-    if location is None:
-        return 'Location does not exist', 404
+        [cloud], _ = list_resources(
+            auth_context, 'cloud', search=search, limit=1)
+    except ValueError:
+        return 'Cloud does not exist', 404
+    auth_context.check_perm('cloud', 'create_resources', cloud.id)
 
-    size_dict = create_machine_request.size
-    size = _select_create_machine_size(cloud, size_dict=size_dict)
-    if size is None:
+    if cloud:
+        search_cloud = cloud.id
+    else:
+        search_cloud = ''
+
+    try:
+        [location], _ = list_resources(
+            auth_context, 'location', search=create_machine_request.location,
+            cloud=search_cloud, limit=1)
+    except ValueError:
+        return 'Location does not exist', 404
+    auth_context.check_perm('location', 'create_resources', location.id)
+
+    # TODO check for cpus/ram/disk if id or name are not provided
+    search = ''
+    for key in ['id', 'name']:
+        if key in create_machine_request.size:
+            search = create_machine_request.size[key]
+            break
+    try:
+        [size], _ = list_resources(
+            auth_context, 'size', search=search, cloud=search_cloud, limit=1
+        )
+    except ValueError:
         return 'Size does not exist', 404
 
-    image_dict = create_machine_request.image
-    image = _select_create_machine_image(cloud, image_dict=image_dict)
-    if image is None:
+    search = ''
+    for key in ['id', 'name']:
+        if key in create_machine_request.image:
+            search = create_machine_request.image[key]
+            break
+    try:
+        [image], _ = list_resources(
+            auth_context, 'image', search=search, cloud=search_cloud, limit=1
+        )
+    except ValueError:
         return 'Image does not exist', 404
 
-    # scripts_dict = create_machine_request.scripts
+    search = ''
     key_dict = create_machine_request.key or {}
-    key_id = key_dict.get('id')
-    key, public_key, private_key = _select_create_machine_key(
-        auth_context, cloud, key_id=key_id)
-
+    for value in ['id', 'name']:
+        if value in key_dict:
+            search = key_dict[value]
+            break
+    try:
+        [key], _ = list_resources(
+            auth_context, 'key', search=search, limit=1
+        )
+    except ValueError:
+        # TODO key is not required on all providers
+        return 'Key does not exist', 404
+    
     tags, constraints = auth_context.check_perm('machine', 'create', None)
 
     request_tags = create_machine_request.tags or {}
-    tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
+    try:
+        tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
+    except ForbiddenError as err:
+        return err.args[0], 403
 
     expiration = create_machine_request.expiration or {}
     _check_constraints(auth_context, expiration, constraints=constraints)
     # TODO
     # RUN permission required on script.
 
+    from mist.api.machines.methods import machine_name_validator
+    from mist.api.exceptions import MachineNameValidationError
+    machine_name = create_machine_request.name
+    try:
+        machine_name = machine_name_validator(cloud.ctl.provider, machine_name)
+    except MachineNameValidationError as exc:
+        return exc.args[0], 400
+
+    # scripts_dict = create_machine_request.scripts
+    
     plan = {
         'name': machine_name,
         'cloud': cloud.title,
         'location': location.name,
         'image': image.name,
         'size': size.name,
-        'tags': tags
+        'tags': tags,
+        'expiration': expiration,
     }
+
     if key is not None:
         plan['key'] = key.name
     return CreateMachineResponse(plan=plan)
