@@ -3,7 +3,7 @@ import six
 import mongoengine as me
 
 from mist.api import config
-from mist.api.exceptions import BadRequestError, ForbiddenError
+from mist.api.exceptions import BadRequestError, ForbiddenError, NotFoundError # noqa: E501
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -58,6 +58,7 @@ def _check_constraints(auth_context, expiration, constraints=None):
     if exp_constraint:
         try:
             from mist.rbac.methods import check_expiration
+
             check_expiration(expiration, exp_constraint)
         except ImportError:
             pass
@@ -67,6 +68,7 @@ def _check_constraints(auth_context, expiration, constraints=None):
     if cost_constraint:
         try:
             from mist.rbac.methods import check_cost
+
             check_cost(auth_context.org, cost_constraint)
         except ImportError:
             pass
@@ -98,63 +100,26 @@ def create_machine(create_machine_request=None):  # noqa: E501
     # TODO handle multiple clouds
     try:
         [cloud], _ = list_resources(
-            auth_context, 'cloud', search=search, limit=1)
+            auth_context, 'cloud', search=search, limit=1
+        )
     except ValueError:
         return 'Cloud does not exist', 404
     auth_context.check_perm('cloud', 'create_resources', cloud.id)
 
-    if cloud:
-        search_cloud = cloud.id
-    else:
-        search_cloud = ''
+
+    from mist.api.exceptions import MachineNameValidationError
 
     try:
-        [location], _ = list_resources(
-            auth_context, 'location', search=create_machine_request.location,
-            cloud=search_cloud, limit=1)
-    except ValueError:
-        return 'Location does not exist', 404
-    auth_context.check_perm('location', 'create_resources', location.id)
-
-    # TODO check for cpus/ram/disk if id or name are not provided
-    search = ''
-    for key in ['id', 'name']:
-        if key in create_machine_request.size:
-            search = create_machine_request.size[key]
-            break
-    try:
-        [size], _ = list_resources(
-            auth_context, 'size', search=search, cloud=search_cloud, limit=1
+        plan = cloud.ctl.compute.generate_create_machine_plan(
+            auth_context, create_machine_request
         )
-    except ValueError:
-        return 'Size does not exist', 404
+    except AttributeError:
+        return f'Not implemented for {cloud.ctl.provider}', 501
+    except MachineNameValidationError as exc:
+        return exc.args[0], 400
+    except NotFoundError as exc:
+        return exc.args[0], 404
 
-    search = ''
-    for key in ['id', 'name']:
-        if key in create_machine_request.image:
-            search = create_machine_request.image[key]
-            break
-    try:
-        [image], _ = list_resources(
-            auth_context, 'image', search=search, cloud=search_cloud, limit=1
-        )
-    except ValueError:
-        return 'Image does not exist', 404
-
-    search = ''
-    key_dict = create_machine_request.key or {}
-    for value in ['id', 'name']:
-        if value in key_dict:
-            search = key_dict[value]
-            break
-    try:
-        [key], _ = list_resources(
-            auth_context, 'key', search=search, limit=1
-        )
-    except ValueError:
-        # TODO key is not required on all providers
-        return 'Key does not exist', 404
-    
     tags, constraints = auth_context.check_perm('machine', 'create', None)
 
     request_tags = create_machine_request.tags or {}
@@ -162,34 +127,11 @@ def create_machine(create_machine_request=None):  # noqa: E501
         tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
     except ForbiddenError as err:
         return err.args[0], 403
-
     expiration = create_machine_request.expiration or {}
     _check_constraints(auth_context, expiration, constraints=constraints)
-    # TODO
+    plan['tags'] = tags
+    plan['expiration'] = expiration
     # RUN permission required on script.
-
-    from mist.api.machines.methods import machine_name_validator
-    from mist.api.exceptions import MachineNameValidationError
-    machine_name = create_machine_request.name
-    try:
-        machine_name = machine_name_validator(cloud.ctl.provider, machine_name)
-    except MachineNameValidationError as exc:
-        return exc.args[0], 400
-
-    # scripts_dict = create_machine_request.scripts
-    
-    plan = {
-        'name': machine_name,
-        'cloud': cloud.title,
-        'location': location.name,
-        'image': image.name,
-        'size': size.name,
-        'tags': tags,
-        'expiration': expiration,
-    }
-
-    if key is not None:
-        plan['key'] = key.name
     return CreateMachineResponse(plan=plan)
 
 
