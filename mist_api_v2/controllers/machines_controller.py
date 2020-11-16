@@ -4,7 +4,13 @@ import six
 import mongoengine as me
 
 from mist.api import config
-from mist.api.exceptions import BadRequestError, ForbiddenError, NotFoundError # noqa: E501
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import NotFoundError
+from mist.api.exceptions import ForbiddenError
+from mist.api.exceptions import MachineNameValidationError
+from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.methods import list_resources
+from mist.api.dramatiq_tasks import dramatiq_create_machine_async
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -41,7 +47,7 @@ def console(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def _apply_tags(auth_context, tags=None, request_tags=None):
+def _compute_tags(auth_context, tags=None, request_tags=None):
     security_tags = auth_context.get_security_tags()
     for mt in request_tags:
         if mt in security_tags:
@@ -90,34 +96,46 @@ def create_machine(create_machine_request=None):  # noqa: E501
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.methods import list_resources
 
     if create_machine_request.cloud:
-        search = create_machine_request.cloud
+        cloud_search = create_machine_request.cloud
     elif create_machine_request.provider:
-        search = f'provider:{create_machine_request.provider}'
+        cloud_search = f'provider:{create_machine_request.provider}'
     else:
-        search = None
+        cloud_search = ''
     # TODO handle multiple clouds
+    # TODO add permissions constraint to list_resources
     try:
         [cloud], _ = list_resources(
-            auth_context, 'cloud', search=search, limit=1
+            auth_context, 'cloud', search=cloud_search, limit=1
         )
     except ValueError:
         return 'Cloud does not exist', 404
-    auth_context.check_perm('cloud', 'create_resources', cloud.id)
-
-    tags, constraints = auth_context.check_perm('machine', 'create', None)
+    try:
+        auth_context.check_perm('cloud', 'create_resources', cloud.id)
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 403
+    try:
+        tags, constraints = auth_context.check_perm('machine', 'create', None)
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 403
 
     request_tags = create_machine_request.tags or {}
     try:
-        tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
+        # TODO compute_tags
+        tags = _compute_tags(
+            auth_context, tags=tags, request_tags=request_tags
+        )
     except ForbiddenError as err:
         return err.args[0], 403
-    expiration = create_machine_request.expiration or {}
-    _check_constraints(auth_context, expiration, constraints=constraints)
 
-    from mist.api.exceptions import MachineNameValidationError
+    expiration = create_machine_request.expiration or {}
+    try:
+        _check_constraints(auth_context, expiration, constraints=constraints)
+    except BadRequestError as exc:
+        return exc.args[0], 400
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 400
 
     try:
         plan = cloud.ctl.compute.generate_create_machine_plan(
@@ -136,14 +154,14 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if create_machine_request.dry:
         return CreateMachineResponse(plan=plan)
     else:
-        job_id = job_id = uuid.uuid4().hex
+        # TODO job,job_id could also be passed as parameter
+        job_id = uuid.uuid4().hex
         # job = 'create_machine'
-        from mist.api.dramatiq_tasks import dramatiq_create_machine_async
         # TODO add countdown=2
         dramatiq_create_machine_async.send(
             auth_context.serialize(), job_id, plan
         )
-        return CreateMachineResponse(job_id=job_id)
+        return CreateMachineResponse(plan=plan, job_id=job_id)
 
 
 def destroy_machine(machine):  # noqa: E501
