@@ -106,6 +106,15 @@ def create_machine(create_machine_request=None):  # noqa: E501
         return 'Cloud does not exist', 404
     auth_context.check_perm('cloud', 'create_resources', cloud.id)
 
+    tags, constraints = auth_context.check_perm('machine', 'create', None)
+
+    request_tags = create_machine_request.tags or {}
+    try:
+        tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
+    except ForbiddenError as err:
+        return err.args[0], 403
+    expiration = create_machine_request.expiration or {}
+    _check_constraints(auth_context, expiration, constraints=constraints)
 
     from mist.api.exceptions import MachineNameValidationError
 
@@ -120,19 +129,15 @@ def create_machine(create_machine_request=None):  # noqa: E501
     except NotFoundError as exc:
         return exc.args[0], 404
 
-    tags, constraints = auth_context.check_perm('machine', 'create', None)
-
-    request_tags = create_machine_request.tags or {}
-    try:
-        tags = _apply_tags(auth_context, tags=tags, request_tags=request_tags)
-    except ForbiddenError as err:
-        return err.args[0], 403
-    expiration = create_machine_request.expiration or {}
-    _check_constraints(auth_context, expiration, constraints=constraints)
     plan['tags'] = tags
     plan['expiration'] = expiration
     # RUN permission required on script.
-    return CreateMachineResponse(plan=plan)
+    if create_machine_request.dry:
+        return CreateMachineResponse(plan=plan)
+    else:
+        from mist.api.dramatiq_tasks import dramatiq_create_machine_async
+        dramatiq_create_machine_async.send(auth_context.serialize(), plan)
+        return 'OK', 200
 
 
 def destroy_machine(machine):  # noqa: E501
