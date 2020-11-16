@@ -1,3 +1,4 @@
+import uuid
 import connexion
 import six
 import mongoengine as me
@@ -135,9 +136,14 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if create_machine_request.dry:
         return CreateMachineResponse(plan=plan)
     else:
+        job_id = job_id = uuid.uuid4().hex
+        # job = 'create_machine'
         from mist.api.dramatiq_tasks import dramatiq_create_machine_async
-        dramatiq_create_machine_async.send(auth_context.serialize(), plan)
-        return 'OK', 200
+        # TODO add countdown=2
+        dramatiq_create_machine_async.send(
+            auth_context.serialize(), job_id, plan
+        )
+        return CreateMachineResponse(job_id=job_id)
 
 
 def destroy_machine(machine):  # noqa: E501
