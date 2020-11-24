@@ -9,6 +9,8 @@ from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
 from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
+
+from mist.api.machines.methods import machine_name_validator
 from mist.api.methods import list_resources
 from mist.api.dramatiq_tasks import dramatiq_create_machine_async
 
@@ -18,7 +20,7 @@ from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: 
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2 import util
 
-from .base import list_resources
+# from .base import list_resources
 
 
 def clone_machine(machine):  # noqa: E501
@@ -115,6 +117,76 @@ def create_machine(create_machine_request=None):  # noqa: E501
         auth_context.check_perm('cloud', 'create_resources', cloud.id)
     except PolicyUnauthorizedError as exc:
         return exc.args[0], 403
+
+    try:
+        machine_name = machine_name_validator(
+                        cloud.ctl.provider,
+                        create_machine_request.name)
+    except MachineNameValidationError as exc:
+        return exc.args[0], 400
+
+    # image is mandatory for all providers
+    image_search = ''
+    for value in ['id', 'name']:
+        if value in create_machine_request.image:
+            image_search = create_machine_request.image[value]
+            break
+    try:
+        [image], _ = list_resources(
+            auth_context, 'image', search=image_search,
+            cloud=cloud.id, limit=1
+        )
+    except ValueError:
+        return 'Image does not exist', 404
+
+    location = None
+    if cloud.ctl.has_create_machine_feature('location'):
+        try:
+            [location], _ = list_resources(
+                auth_context, 'location',
+                search=create_machine_request.location,
+                cloud=cloud.id, limit=1)
+        except ValueError:
+            return 'Location does not exist', 404
+        try:
+            auth_context.check_perm('location', 'create_resources',
+                                    location.id)
+        except PolicyUnauthorizedError as exc:
+            return exc.args[0], 403
+
+    size = None
+    if cloud.ctl.has_create_machine_feature('custom_size'):
+        pass
+    else:
+        size_search = ''
+        for value in ['id', 'name']:
+            if value in create_machine_request.size:
+                size_search = create_machine_request.size[value]
+                break
+        try:
+            [size], _ = list_resources(
+                auth_context, 'size', search=size_search,
+                cloud=cloud.id,
+                limit=1
+            )
+        except ValueError:
+            return 'Size does not exist', 404
+
+    key = None
+    if cloud.ctl.has_create_machine_feature('key'):
+        key_search = ''
+        key_dict = create_machine_request.key or {}
+        for value in ['id', 'name']:
+            if value in key_dict:
+                key_search = key_dict[value]
+                break
+        try:
+            [key], _ = list_resources(
+                auth_context, 'key', search=key_search, limit=1
+            )
+        except ValueError:
+            raise NotFoundError('Key does not exist')
+
     try:
         tags, constraints = auth_context.check_perm('machine', 'create', None)
     except PolicyUnauthorizedError as exc:
@@ -137,31 +209,79 @@ def create_machine(create_machine_request=None):  # noqa: E501
     except PolicyUnauthorizedError as exc:
         return exc.args[0], 400
 
-    try:
-        plan = cloud.ctl.compute.generate_create_machine_plan(
-            auth_context, create_machine_request
-        )
-    except AttributeError:
-        return f'Not implemented for {cloud.ctl.provider}', 501
-    except MachineNameValidationError as exc:
-        return exc.args[0], 400
-    except NotFoundError as exc:
-        return exc.args[0], 404
+    scripts = create_machine_request.scripts or {}
+    script_search = ''
+    for script in scripts.values():
+        # Check RUN permission on scripts
+        if script.get('id'):
+            auth_context.check_perm('script', 'run', script['id'])
+        elif script.get('name'):
+            script_search = script['name']
+            try:
+                [script], _ = list_resources(auth_context, 'script',
+                                             search=script_search,
+                                             limit=1)
+            except ValueError:
+                raise NotFoundError('Script does not exist')
+            auth_context.check_perm('script', 'run',
+                                    script.id)
+        # inline script
+        else:
+            continue
 
-    plan['tags'] = tags
-    plan['expiration'] = expiration
-    # RUN permission required on script.
+    plan = {
+        'machine_name': machine_name,
+        'cloud': cloud.id,
+        'image': image.id,
+    }
+
+    if key:
+        plan['key'] = key.id
+    if location:
+        plan['location'] = location.id
+    if size:
+        plan['size'] = size.id
+
+    if cloud.ctl.has_create_machine_feature('networks') and \
+       create_machine_request.net:
+        plan['net'] = create_machine_request.net
+    if cloud.ctl.has_create_machine_feature('volumes') and \
+       create_machine_request.volumes:
+        plan['volumes'] = create_machine_request.volumes
+    if create_machine_request.disks:
+        plan['disks'] = create_machine_request.disks
+    if cloud.ctl.has_create_machine_feature('cloudinit') and \
+       create_machine_request.cloudinit:
+        plan['cloudinit'] = create_machine_request.cloudinit
+    if create_machine_request.expiration:
+        plan['expiration'] = create_machine_request.expiration
+    if create_machine_request.fqdn:
+        plan['fqdn'] = create_machine_request.fqdn
+    if tags:
+        plan['tags'] = tags
+
+    plan['scripts'] = scripts
+    # plan['extra'] = create_machine_request.extra or {}
+
+    plan['monitoring'] = create_machine_request.monitoring or False
+    plan['quantity'] = create_machine_request.quantity or 1
+    plan['dry'] = create_machine_request.dry or True
+    plan['save'] = create_machine_request.save or False
+    # plan['template'] = create_machine_request.template or {}
+    return CreateMachineResponse(plan=plan)
+    '''
     if create_machine_request.dry:
         return CreateMachineResponse(plan=plan)
     else:
         # TODO job,job_id could also be passed as parameter
         job_id = uuid.uuid4().hex
-        # job = 'create_machine'
+        job = 'create_machine'
         # TODO add countdown=2
         dramatiq_create_machine_async.send(
-            auth_context.serialize(), job_id, plan
+            auth_context.serialize(), job_id, plan, job=job
         )
         return CreateMachineResponse(plan=plan, job_id=job_id)
+    '''
 
 
 def destroy_machine(machine):  # noqa: E501
