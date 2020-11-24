@@ -934,6 +934,33 @@ paths:
       tags:
       - secrets
       x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
+    put:
+      description: Edit/update target secret
+      operationId: edit_secret
+      parameters:
+      - explode: false
+        in: path
+        name: secret
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Secret edited successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Secret not found
+      security:
+      - ApiKeyAuth:
+        - edit:secret
+      summary: Edit secret
+      tags:
+      - secrets
+      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
 components:
   callbacks: {}
   examples: {}
