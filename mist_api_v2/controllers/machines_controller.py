@@ -98,6 +98,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
+    plan = {}
 
     if create_machine_request.cloud:
         cloud_search = create_machine_request.cloud
@@ -118,6 +119,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
     except PolicyUnauthorizedError as exc:
         return exc.args[0], 403
 
+    plan['cloud'] = cloud.id
+
     try:
         machine_name = machine_name_validator(
                         cloud.ctl.provider,
@@ -125,67 +128,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     except MachineNameValidationError as exc:
         return exc.args[0], 400
 
-    # image is mandatory for all providers
-    image_search = ''
-    for value in ['id', 'name']:
-        if value in create_machine_request.image:
-            image_search = create_machine_request.image[value]
-            break
-    try:
-        [image], _ = list_resources(
-            auth_context, 'image', search=image_search,
-            cloud=cloud.id, limit=1
-        )
-    except ValueError:
-        return 'Image does not exist', 404
-
-    location = None
-    if cloud.ctl.has_create_machine_feature('location'):
-        try:
-            [location], _ = list_resources(
-                auth_context, 'location',
-                search=create_machine_request.location,
-                cloud=cloud.id, limit=1)
-        except ValueError:
-            return 'Location does not exist', 404
-        try:
-            auth_context.check_perm('location', 'create_resources',
-                                    location.id)
-        except PolicyUnauthorizedError as exc:
-            return exc.args[0], 403
-
-    size = None
-    if cloud.ctl.has_create_machine_feature('custom_size'):
-        pass
-    else:
-        size_search = ''
-        for value in ['id', 'name']:
-            if value in create_machine_request.size:
-                size_search = create_machine_request.size[value]
-                break
-        try:
-            [size], _ = list_resources(
-                auth_context, 'size', search=size_search,
-                cloud=cloud.id,
-                limit=1
-            )
-        except ValueError:
-            return 'Size does not exist', 404
-
-    key = None
-    if cloud.ctl.has_create_machine_feature('key'):
-        key_search = ''
-        key_dict = create_machine_request.key or {}
-        for value in ['id', 'name']:
-            if value in key_dict:
-                key_search = key_dict[value]
-                break
-        try:
-            [key], _ = list_resources(
-                auth_context, 'key', search=key_search, limit=1
-            )
-        except ValueError:
-            raise NotFoundError('Key does not exist')
+    plan['machine_name'] = machine_name
 
     try:
         tags, constraints = auth_context.check_perm('machine', 'create', None)
@@ -194,12 +137,14 @@ def create_machine(create_machine_request=None):  # noqa: E501
 
     request_tags = create_machine_request.tags or {}
     try:
-        # TODO compute_tags
         tags = _compute_tags(
             auth_context, tags=tags, request_tags=request_tags
         )
     except ForbiddenError as err:
         return err.args[0], 403
+
+    if tags:
+        plan['tags'] = tags
 
     expiration = create_machine_request.expiration or {}
     try:
@@ -209,68 +154,27 @@ def create_machine(create_machine_request=None):  # noqa: E501
     except PolicyUnauthorizedError as exc:
         return exc.args[0], 400
 
-    scripts = create_machine_request.scripts or {}
-    script_search = ''
-    for script in scripts.values():
-        # Check RUN permission on scripts
-        if script.get('id'):
-            auth_context.check_perm('script', 'run', script['id'])
-        elif script.get('name'):
-            script_search = script['name']
-            try:
-                [script], _ = list_resources(auth_context, 'script',
-                                             search=script_search,
-                                             limit=1)
-            except ValueError:
-                raise NotFoundError('Script does not exist')
-            auth_context.check_perm('script', 'run',
-                                    script.id)
-        # inline script
-        else:
-            continue
+    if expiration:
+        plan['expiration'] = expiration
 
-    plan = {
-        'machine_name': machine_name,
-        'cloud': cloud.id,
-        'image': image.id,
-    }
+    try:
+        cloud.ctl.compute.generate_create_machine_plan(auth_context,
+                                                       create_machine_request,
+                                                       plan)
+    except NotFoundError as exc:
+        return exc.args[0], 404
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 400
 
-    if key:
-        plan['key'] = key.id
-    if location:
-        plan['location'] = location.id
-    if size:
-        plan['size'] = size.id
+    # TODO save
+    # TODO template
 
-    if cloud.ctl.has_create_machine_feature('networks') and \
-       create_machine_request.net:
-        plan['net'] = create_machine_request.net
-    if cloud.ctl.has_create_machine_feature('volumes') and \
-       create_machine_request.volumes:
-        plan['volumes'] = create_machine_request.volumes
-    if create_machine_request.disks:
-        plan['disks'] = create_machine_request.disks
-    if cloud.ctl.has_create_machine_feature('cloudinit') and \
-       create_machine_request.cloudinit:
-        plan['cloudinit'] = create_machine_request.cloudinit
-    if create_machine_request.expiration:
-        plan['expiration'] = create_machine_request.expiration
-    if create_machine_request.fqdn:
-        plan['fqdn'] = create_machine_request.fqdn
-    if tags:
-        plan['tags'] = tags
+    if create_machine_request.dry is not None:
+        dry = create_machine_request.dry
+    else:
+        dry = True
 
-    plan['scripts'] = scripts
-    # plan['extra'] = create_machine_request.extra or {}
-
-    plan['monitoring'] = create_machine_request.monitoring or False
-    plan['quantity'] = create_machine_request.quantity or 1
-    plan['dry'] = create_machine_request.dry or True
-    plan['save'] = create_machine_request.save or False
-    # plan['template'] = create_machine_request.template or {}
-    return CreateMachineResponse(plan=plan)
-    '''
-    if create_machine_request.dry:
+    if dry:
         return CreateMachineResponse(plan=plan)
     else:
         # TODO job,job_id could also be passed as parameter
@@ -281,7 +185,6 @@ def create_machine(create_machine_request=None):  # noqa: E501
             auth_context.serialize(), job_id, plan, job=job
         )
         return CreateMachineResponse(plan=plan, job_id=job_id)
-    '''
 
 
 def destroy_machine(machine):  # noqa: E501
