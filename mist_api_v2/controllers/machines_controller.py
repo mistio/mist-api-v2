@@ -157,10 +157,24 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if expiration:
         plan['expiration'] = expiration
 
+    kwargs = {
+        'image': create_machine_request.image,
+        'location': create_machine_request.location,
+        'size': create_machine_request.size,
+        'key': create_machine_request.key,
+        'networks': create_machine_request.net,
+        'volumes': create_machine_request.volumes,
+        'disks': create_machine_request.disks,
+        'extra': create_machine_request.extra,
+        'cloudinit': create_machine_request.cloudinit,
+        'fqdn': create_machine_request.fqdn,
+        'monitoring': create_machine_request.monitoring,
+        'quantity': create_machine_request.quantity
+    }
+
     try:
-        cloud.ctl.compute.generate_create_machine_plan(auth_context,
-                                                       create_machine_request,
-                                                       plan)
+        cloud.ctl.compute.generate_create_machine_plan(auth_context, plan,
+                                                       **kwargs)
     except NotFoundError as exc:
         return exc.args[0], 404
     except PolicyUnauthorizedError as exc:
