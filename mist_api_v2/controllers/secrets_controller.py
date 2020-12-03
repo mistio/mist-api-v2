@@ -33,7 +33,17 @@ def delete_secret(secret):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.secrets.models import VaultSecret
+    auth_context = connexion.context['token_info']['auth_context']
+    secret_id = secret
+    try:
+        secret = VaultSecret.objects.get(owner=auth_context.owner,
+                                         id=secret_id)
+    except VaultSecret.DoesNotExist:
+        return 'VaultSecret does not exist', 404
+    auth_context.check_perm('secret', 'delete', secret_id)
+    secret.ctl.delete_secret()
+    return None
 
 
 def edit_secret(secret):  # noqa: E501
@@ -77,11 +87,12 @@ def get_secret(secret):  # noqa: E501
     }
 
 
-def list_secrets(search=None, sort=None, start=0, limit=100, only=None):  # noqa: E501
+def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=True):  # noqa: E501
     """List secrets
 
     List secrets owned by the active org. READ permission required on secret. # noqa: E501
-
+    :param cached: Only return cached secrets if set to true
+    :type cached: bool
     :param search: Only return results matching search filter
     :type search: str
     :param sort: Order results by
@@ -95,11 +106,20 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None):  # noqa
 
     :rtype: ListSecretsResponse
     """
-    from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    secrets, total = list_resources(auth_context, 'secret', search=search,
-                                   only=only, sort=sort, start=start,
-                                   limit=limit)
+    if cached:
+        from mist.api.methods import list_resources
+        secrets, total = list_resources(auth_context, 'secret', search=search,
+                                    only=only, sort=sort, start=start,
+                                    limit=limit)
+    else:
+        from mist.api.secrets.methods import filter_list_secrets
+        # TODO: take path into account
+        secrets = filter_list_secrets(auth_context, cached=cached, path='.')
+        # TODO: Reimplement when logic of search, sort etc becomes independent
+        # and is not inside list_resources method
+        return secrets
+
     meta = {
         'total_matching': total,
         'total_returned': secrets.count(),
