@@ -87,12 +87,14 @@ def get_secret(secret):  # noqa: E501
     }
 
 
-def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=True):  # noqa: E501
+def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=True, path=None):  # noqa: E501
     """List secrets
 
     List secrets owned by the active org. READ permission required on secret. # noqa: E501
     :param cached: Only return cached secrets if set to true
     :type cached: bool
+    :param path: Only return secrets under this path
+    :type path: str
     :param search: Only return results matching search filter
     :type search: str
     :param sort: Order results by
@@ -107,6 +109,13 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=T
     :rtype: ListSecretsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
+    path = path or '.'
+    if path != '.':  # need to apply search based on the name
+        if not search:
+            search = "name:%s" % path
+        else:
+            search += " and name:%s" % path
+
     if cached:
         from mist.api.methods import list_resources
         secrets, total = list_resources(auth_context, 'secret', search=search,
@@ -114,10 +123,9 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=T
                                     limit=limit)
     else:
         from mist.api.secrets.methods import filter_list_secrets
-        # TODO: take path into account
-        secrets = filter_list_secrets(auth_context, cached=cached, path='.')
         # TODO: Reimplement when logic of search, sort etc becomes independent
         # and is not inside list_resources method
+        secrets = filter_list_secrets(auth_context, cached=cached, path=path)
         return secrets
 
     meta = {
