@@ -158,26 +158,27 @@ def create_machine(create_machine_request=None):  # noqa: E501
         plan['expiration'] = expiration
 
     kwargs = {
-        'image': create_machine_request.image,
-        'location': create_machine_request.location,
-        'size': create_machine_request.size,
-        'key': create_machine_request.key,
-        'networks': create_machine_request.net,
-        'volumes': create_machine_request.volumes,
-        'disks': create_machine_request.disks,
-        'extra': create_machine_request.extra,
-        'cloudinit': create_machine_request.cloudinit,
-        'fqdn': create_machine_request.fqdn,
+        'image': create_machine_request.image or {},
+        'location': create_machine_request.location or '',
+        'size': create_machine_request.size or {},
+        'key': create_machine_request.key or {},
+        'networks': create_machine_request.net or {},
+        'volumes': create_machine_request.volumes or {},
+        'disks': create_machine_request.disks or {},
+        'extra': create_machine_request.extra or {},
+        'cloudinit': create_machine_request.cloudinit or '',
+        'fqdn': create_machine_request.fqdn or '',
         'monitoring': create_machine_request.monitoring,
-        'quantity': create_machine_request.quantity
+        'quantity': create_machine_request.quantity or 1
     }
 
     try:
-        cloud.ctl.compute.generate_create_machine_plan(auth_context, plan,
-                                                       **kwargs)
+        cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
     except NotFoundError as exc:
         return exc.args[0], 404
     except PolicyUnauthorizedError as exc:
+        return exc.args[0], 400
+    except BadRequestError as exc:
         return exc.args[0], 400
 
     # TODO save
