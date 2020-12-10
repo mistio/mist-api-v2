@@ -1967,7 +1967,9 @@ components:
         disks: '{}'
         fqdn: fqdn
         cloudinit: cloudinit
-        volumes: '{}'
+        volumes:
+        - '{}'
+        - '{}'
         save: true
         dry: true
         monitoring: true
@@ -1980,7 +1982,9 @@ components:
         location: location
         expiration: '{}'
         net: '{}'
-        scripts: '{}'
+        scripts:
+        - '{}'
+        - '{}'
         key: '{}'
       properties:
         name:
@@ -2011,7 +2015,9 @@ components:
           type: object
         volumes:
           description: Configure of attached storage volumes, e.g. cloud disks
-          type: object
+          items:
+            type: object
+          type: array
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
             Qualified Domain Name. Zone needs to be managed by a configured Cloud
@@ -2022,7 +2028,9 @@ components:
           type: string
         scripts:
           description: Run post deploy scripts over SSH
-          type: object
+          items:
+            type: object
+          type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
           type: object

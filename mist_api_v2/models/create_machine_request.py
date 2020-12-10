@@ -39,13 +39,13 @@ class CreateMachineRequest(Model):
         :param disks: The disks of this CreateMachineRequest.  # noqa: E501
         :type disks: object
         :param volumes: The volumes of this CreateMachineRequest.  # noqa: E501
-        :type volumes: object
+        :type volumes: List[object]
         :param fqdn: The fqdn of this CreateMachineRequest.  # noqa: E501
         :type fqdn: str
         :param cloudinit: The cloudinit of this CreateMachineRequest.  # noqa: E501
         :type cloudinit: str
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
-        :type scripts: object
+        :type scripts: List[object]
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
         :type schedules: object
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
@@ -75,10 +75,10 @@ class CreateMachineRequest(Model):
             'net': object,
             'key': object,
             'disks': object,
-            'volumes': object,
+            'volumes': List[object],
             'fqdn': str,
             'cloudinit': str,
-            'scripts': object,
+            'scripts': List[object],
             'schedules': object,
             'tags': object,
             'expiration': object,
@@ -367,7 +367,7 @@ class CreateMachineRequest(Model):
         Configure of attached storage volumes, e.g. cloud disks  # noqa: E501
 
         :return: The volumes of this CreateMachineRequest.
-        :rtype: object
+        :rtype: List[object]
         """
         return self._volumes
 
@@ -378,7 +378,7 @@ class CreateMachineRequest(Model):
         Configure of attached storage volumes, e.g. cloud disks  # noqa: E501
 
         :param volumes: The volumes of this CreateMachineRequest.
-        :type volumes: object
+        :type volumes: List[object]
         """
 
         self._volumes = volumes
@@ -436,7 +436,7 @@ class CreateMachineRequest(Model):
         Run post deploy scripts over SSH  # noqa: E501
 
         :return: The scripts of this CreateMachineRequest.
-        :rtype: object
+        :rtype: List[object]
         """
         return self._scripts
 
@@ -447,7 +447,7 @@ class CreateMachineRequest(Model):
         Run post deploy scripts over SSH  # noqa: E501
 
         :param scripts: The scripts of this CreateMachineRequest.
-        :type scripts: object
+        :type scripts: List[object]
         """
 
         self._scripts = scripts
