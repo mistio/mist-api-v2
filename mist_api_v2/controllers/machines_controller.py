@@ -105,7 +105,7 @@ def get_machine(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def list_machines(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
     """List machines
 
     List machines owned by the active org. READ permission required on machine &amp; cloud. # noqa: E501
