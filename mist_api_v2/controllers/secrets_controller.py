@@ -75,7 +75,6 @@ def delete_secret(secret):  # noqa: E501
 
     :rtype: None
     """
-    from mist.api.secrets.models import VaultSecret
     auth_context = connexion.context['token_info']['auth_context']
     secret_id = secret
     try:
@@ -100,7 +99,21 @@ def edit_secret(secret):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    secret_id = secret
+    # FIXME: need to get edit_secret_request from generated code
+    secret = edit_secret_request.secret
+
+    try:
+        _secret = VaultSecret.objects.get(owner=auth_context.owner,
+                                          id=secret_id)
+    except VaultSecret.DoesNotExist:
+        return 'VaultSecret does not exist', 404
+
+    auth_context.check_perm("secret", "edit", secret_id)
+    _secret.ctl.create_or_update_secret(secret)
+
+    return 'Edited secret `%s`' % _secret.name, 200
 
 
 def get_secret(secret):  # noqa: E501
