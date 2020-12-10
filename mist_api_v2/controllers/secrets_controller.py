@@ -9,6 +9,10 @@ from mist_api_v2 import util
 
 from mist.api.secrets.models import VaultSecret
 
+from mist.api.exceptions import ConflictError
+
+from mist.api import config
+
 import mongoengine as me
 
 
@@ -24,7 +28,41 @@ def create_secret(create_secret_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         create_secret_request = CreateSecretRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+
+    name = create_secret_request.name
+    secret = create_secret_request.secret
+
+    auth_context.check_perm("secret", "create", None)
+    _secret = VaultSecret(name=name, owner=auth_context.owner)
+    try:
+        _secret.save()
+    except me.NotUniqueError:
+        # FIXME: throws 500
+        raise ConflictError("The path specified exists on Vault. \
+                    Try changing the name of the secret")
+
+    try:
+        _secret.ctl.create_or_update_secret(secret)
+    except Exception as exc:
+        _secret.delete()
+        # FIXME: (probably) throws 500 -- include exceptions in spec
+        raise exc
+
+    # Set ownership.
+    _secret.assign_to(auth_context.user)
+
+    from mist.api.helpers import trigger_session_update
+    trigger_session_update(auth_context.owner.id, ['secrets'])
+
+    if config.HAS_RBAC:
+        auth_context.owner.mapper.update(
+            _secret,
+            callback=async_session_update,
+            args=(auth_context.owner.id, ['secrets'], )
+        )
+
+    return _secret.as_dict()
 
 
 def delete_secret(secret):  # noqa: E501
@@ -48,7 +86,8 @@ def delete_secret(secret):  # noqa: E501
     auth_context.check_perm('secret', 'delete', secret_id)
     secret.ctl.delete_secret()
     secret.delete()
-    return None
+
+    return 'Deleted secret `%s`' % secret.name, 200
 
 
 def edit_secret(secret):  # noqa: E501
@@ -141,7 +180,5 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=T
         'sort': sort,
         'start': start
     }
-    return {
-        'data': [sec.as_dict() for sec in secrets],
-        'meta': meta
-    }
+
+    return ListSecretsResponse([sec.as_dict() for sec in secrets], meta)
