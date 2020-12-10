@@ -7,6 +7,10 @@ from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E50
 from mist_api_v2.models.list_secrets_response import ListSecretsResponse  # noqa: E501
 from mist_api_v2 import util
 
+from mist.api.secrets.models import VaultSecret
+
+import mongoengine as me
+
 
 def create_secret(create_secret_request=None):  # noqa: E501
     """Create secret
@@ -43,6 +47,7 @@ def delete_secret(secret):  # noqa: E501
         return 'VaultSecret does not exist', 404
     auth_context.check_perm('secret', 'delete', secret_id)
     secret.ctl.delete_secret()
+    secret.delete()
     return None
 
 
@@ -71,20 +76,22 @@ def get_secret(secret):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
+    secret_id = secret
     try:
-        [secret], total = list_resources(auth_context, 'secret',
-                                         search=secret, limit=1)
-    except ValueError:
-        return 'Secret does not exist', 404
+        secret = VaultSecret.objects.get(owner=auth_context.owner,
+                                         id=secret_id)
+    except me.DoesNotExist:
+        raise NotFoundError('Secret does not exist')
 
-    meta = {
-        'total_matching': total,
-        'total_returned': 1,
-    }
-    return {
-        'data': secret.as_dict(),
-        'meta': meta
-    }
+    auth_context.check_perm("secret", "read", secret_id)
+
+    secret_dict = secret.ctl.read_secret()
+
+    # if key and not secret_dict.get(key, ''):
+    #     raise BadRequestError('Secret %s does not have a %s key'
+    #                           % (secret.name, key))
+
+    return secret_dict # if not key else {key: secret_dict[key]}
 
 
 def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=True, path=None):  # noqa: E501
