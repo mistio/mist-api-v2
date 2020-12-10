@@ -143,21 +143,45 @@ def delete_cloud(cloud):  # noqa: E501
     return None
 
 
-def get_cloud(cloud):  # noqa: E501
+def edit_cloud(cloud, inline_object=None):  # noqa: E501
+    """Edit cloud
+
+    Update target cloud title or credentials # noqa: E501
+
+    :param cloud:
+    :type cloud: str
+    :param inline_object:
+    :type inline_object: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        inline_object = InlineObject.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
     """Get cloud
 
     Get details about target cloud # noqa: E501
 
     :param cloud: 
     :type cloud: str
+    :param sort: Order results by
+    :type sort: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
-    :rtype: None
+    :rtype: GetCloudResponse
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [cloud], total = list_resources(auth_context, 'cloud',
-                                        search=cloud, limit=1)
+                                        search=cloud, only=only, deref=deref,
+                                        limit=1)
     except ValueError:
         return 'Cloud does not exist', 404
 
@@ -171,22 +195,31 @@ def get_cloud(cloud):  # noqa: E501
     }
 
 
-def list_clouds(search=None, sort=None, start=0, limit=100):  # noqa: E501
+def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref=None):  # noqa: E501
     """List clouds
 
     List clouds owned by the active org. READ permission required on cloud. # noqa: E501
 
-    :param filter: Only return results matching filter
-    :type filter: str
+    :param search: Only return results matching search filter
+    :type search: str
     :param sort: Order results by
     :type sort: str
+    :param start: Start results from index or id
+    :type start: str
+    :param limit: Limit number of results, 1000 max
+    :type limit: int
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: ListCloudsResponse
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    clouds, total = list_resources(auth_context, 'cloud',
-                                   search=search, sort=sort, limit=limit)
+    clouds, total = list_resources(auth_context, 'cloud', search=search,
+                                   only=only, sort=sort, limit=limit,
+                                   deref=deref)
     meta = {
         'total_matching': total,
         'total_returned': clouds.count(),
