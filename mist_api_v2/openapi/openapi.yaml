@@ -7,8 +7,8 @@ info:
   version: 2.0.0
   x-cli-name: Mist CLI
 servers:
-- description: dogfood
-  url: https://dogfood.ops.mist.io/
+- description: Mist Hosted Service
+  url: https://mist.io/
 paths:
   /api/v2/clouds:
     get:
@@ -1910,7 +1910,6 @@ components:
           rackspace: '#/components/schemas/RackspaceCredentials'
           maxihost: '#/components/schemas/MaxihostCredentials'
           vultr: '#/components/schemas/VultrCredentials'
-          g8: '#/components/schemas/G8Credentials'
           openstack: '#/components/schemas/OpenstackCredentials'
           onapp: '#/components/schemas/OnappCredentials'
           vsphere: '#/components/schemas/VsphereCredentials'
@@ -1933,7 +1932,6 @@ components:
       - $ref: '#/components/schemas/RackspaceCredentials'
       - $ref: '#/components/schemas/MaxihostCredentials'
       - $ref: '#/components/schemas/VultrCredentials'
-      - $ref: '#/components/schemas/G8Credentials'
       - $ref: '#/components/schemas/OpenstackCredentials'
       - $ref: '#/components/schemas/OnappCredentials'
       - $ref: '#/components/schemas/VsphereCredentials'
@@ -2072,7 +2070,7 @@ components:
     DigitaloceanCredentials:
       properties:
         token:
-          description: You DigitalOcean API token
+          description: Your DigitalOcean API token
           type: string
       required:
       - token
@@ -2125,19 +2123,6 @@ components:
       required:
       - every
       - period
-      type: object
-    G8Credentials:
-      properties:
-        url:
-          type: string
-        userId:
-          type: string
-        apikey:
-          type: string
-      required:
-      - apikey
-      - url
-      - userId
       type: object
     GetCloudResponse:
       example:
@@ -2543,7 +2528,7 @@ components:
     MaxihostCredentials:
       properties:
         token:
-          description: You Maxihost API token
+          description: Your Maxihost API token
           type: string
       required:
       - token
@@ -2823,7 +2808,7 @@ components:
     VultrCredentials:
       properties:
         apikey:
-          description: You Vultr API key
+          description: Your Vultr API key
           type: string
       required:
       - apikey
@@ -2920,3 +2905,8 @@ components:
       name: Authorization
       type: apiKey
       x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_ApiKeyAuth
+    CookieAuth:
+      in: cookie
+      name: session.id
+      type: apiKey
+      x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_CookieAuth
