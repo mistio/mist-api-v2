@@ -765,7 +765,8 @@ paths:
         - read:cloud
         - create_resources:cloud
         - read:location
-        - create_resources.location
+        - create_resources:location
+        - read:image
         - read:script
         - read:key
       - CookieAuth:
@@ -773,7 +774,8 @@ paths:
         - read:cloud
         - create_resources:cloud
         - read:location
-        - create_resources.location
+        - create_resources:location
+        - read:image
         - read:script
         - read:key
       summary: Create machine
