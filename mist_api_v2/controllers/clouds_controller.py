@@ -14,6 +14,8 @@ from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E50
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
 from mist_api_v2 import util
 
+from .base import list_resources
+
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
                     format=config.PY_LOG_FORMAT,
@@ -176,23 +178,10 @@ def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
 
     :rtype: GetCloudResponse
     """
-    from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    try:
-        [cloud], total = list_resources(auth_context, 'cloud',
-                                        search=cloud, only=only, deref=deref,
-                                        limit=1)
-    except ValueError:
-        return 'Cloud does not exist', 404
-
-    meta = {
-        'total_matching': total,
-        'total_returned': 1,
-    }
-    return {
-        'data': cloud.as_dict_v2(),
-        'meta': meta
-    }
+    return list_resources(auth_context, 'cloud',
+                          search=cloud, only=only, deref=deref,
+                          limit=1)
 
 
 def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref=None):  # noqa: E501
@@ -215,18 +204,7 @@ def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref=Non
 
     :rtype: ListCloudsResponse
     """
-    from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    clouds, total = list_resources(auth_context, 'cloud', search=search,
-                                   only=only, sort=sort, limit=limit,
-                                   deref=deref)
-    meta = {
-        'total_matching': total,
-        'total_returned': clouds.count(),
-        'sort': sort,
-        'start': start
-    }
-    return {
-        'data': [c.as_dict_v2() for c in clouds],
-        'meta': meta
-    }
+    return list_resources(auth_context, 'cloud', search=search,
+                          only=only, sort=sort, limit=limit,
+                          deref=deref)
