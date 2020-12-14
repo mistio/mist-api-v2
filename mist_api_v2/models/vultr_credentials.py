@@ -46,7 +46,7 @@ class VultrCredentials(Model):
     def apikey(self):
         """Gets the apikey of this VultrCredentials.
 
-        You Vultr API key  # noqa: E501
+        Your Vultr API key  # noqa: E501
 
         :return: The apikey of this VultrCredentials.
         :rtype: str
@@ -57,7 +57,7 @@ class VultrCredentials(Model):
     def apikey(self, apikey):
         """Sets the apikey of this VultrCredentials.
 
-        You Vultr API key  # noqa: E501
+        Your Vultr API key  # noqa: E501
 
         :param apikey: The apikey of this VultrCredentials.
         :type apikey: str

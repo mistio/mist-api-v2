@@ -12,7 +12,6 @@ from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
-from mist_api_v2.models.g8_credentials import G8Credentials
 from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
@@ -33,7 +32,6 @@ from mist_api_v2.models.azure_credentials import AzureCredentials  # noqa: E501
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials  # noqa: E501
 from mist_api_v2.models.docker_credentials import DockerCredentials  # noqa: E501
 from mist_api_v2.models.equinix_credentials import EquinixCredentials  # noqa: E501
-from mist_api_v2.models.g8_credentials import G8Credentials  # noqa: E501
 from mist_api_v2.models.google_credentials import GoogleCredentials  # noqa: E501
 from mist_api_v2.models.ibm_credentials import IbmCredentials  # noqa: E501
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials  # noqa: E501
@@ -53,7 +51,7 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, token=None, region=None, url=None, user_id=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
@@ -78,10 +76,6 @@ class CloudCredentials(Model):
         :type token: str
         :param region: The region of this CloudCredentials.  # noqa: E501
         :type region: str
-        :param url: The url of this CloudCredentials.  # noqa: E501
-        :type url: str
-        :param user_id: The user_id of this CloudCredentials.  # noqa: E501
-        :type user_id: str
         :param auth_url: The auth_url of this CloudCredentials.  # noqa: E501
         :type auth_url: str
         :param user: The user of this CloudCredentials.  # noqa: E501
@@ -123,8 +117,6 @@ class CloudCredentials(Model):
             'username': str,
             'token': str,
             'region': str,
-            'url': str,
-            'user_id': str,
             'auth_url': str,
             'user': str,
             'password': str,
@@ -153,8 +145,6 @@ class CloudCredentials(Model):
             'username': 'username',
             'token': 'token',
             'region': 'region',
-            'url': 'url',
-            'user_id': 'userId',
             'auth_url': 'authUrl',
             'user': 'user',
             'password': 'password',
@@ -182,8 +172,6 @@ class CloudCredentials(Model):
         self._username = username
         self._token = token
         self._region = region
-        self._url = url
-        self._user_id = user_id
         self._auth_url = auth_url
         self._user = user
         self._password = password
@@ -470,52 +458,6 @@ class CloudCredentials(Model):
         """
 
         self._region = region
-
-    @property
-    def url(self):
-        """Gets the url of this CloudCredentials.
-
-
-        :return: The url of this CloudCredentials.
-        :rtype: str
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """Sets the url of this CloudCredentials.
-
-
-        :param url: The url of this CloudCredentials.
-        :type url: str
-        """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
-
-        self._url = url
-
-    @property
-    def user_id(self):
-        """Gets the user_id of this CloudCredentials.
-
-
-        :return: The user_id of this CloudCredentials.
-        :rtype: str
-        """
-        return self._user_id
-
-    @user_id.setter
-    def user_id(self, user_id):
-        """Sets the user_id of this CloudCredentials.
-
-
-        :param user_id: The user_id of this CloudCredentials.
-        :type user_id: str
-        """
-        if user_id is None:
-            raise ValueError("Invalid value for `user_id`, must not be `None`")  # noqa: E501
-
-        self._user_id = user_id
 
     @property
     def auth_url(self):

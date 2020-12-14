@@ -23,7 +23,6 @@ from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.frequency import Frequency
-from mist_api_v2.models.g8_credentials import G8Credentials
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_key_response import GetKeyResponse
 from mist_api_v2.models.get_machine_response import GetMachineResponse

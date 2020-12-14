@@ -46,7 +46,7 @@ class MaxihostCredentials(Model):
     def token(self):
         """Gets the token of this MaxihostCredentials.
 
-        You Maxihost API token  # noqa: E501
+        Your Maxihost API token  # noqa: E501
 
         :return: The token of this MaxihostCredentials.
         :rtype: str
@@ -57,7 +57,7 @@ class MaxihostCredentials(Model):
     def token(self, token):
         """Sets the token of this MaxihostCredentials.
 
-        You Maxihost API token  # noqa: E501
+        Your Maxihost API token  # noqa: E501
 
         :param token: The token of this MaxihostCredentials.
         :type token: str
