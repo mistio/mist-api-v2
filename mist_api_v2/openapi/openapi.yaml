@@ -7,8 +7,8 @@ info:
   version: 2.0.0
   x-cli-name: Mist CLI
 servers:
-- description: dogfood
-  url: https://dogfood.ops.mist.io/
+- description: Mist Hosted Service
+  url: https://mist.io/
 paths:
   /api/v2/clouds:
     get:
@@ -76,6 +76,21 @@ paths:
         schema:
           type: string
         style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -90,11 +105,12 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cloud
+      - CookieAuth:
+        - read:cloud
       summary: List clouds
       tags:
       - clouds
       x-cli-table-default:
-      - id
       - title
       - provider
       - tags
@@ -129,6 +145,8 @@ paths:
       security:
       - ApiKeyAuth:
         - add:cloud
+      - CookieAuth:
+        - add:cloud
       summary: Add cloud
       tags:
       - clouds
@@ -157,6 +175,8 @@ paths:
       security:
       - ApiKeyAuth:
         - delete:cloud
+      - CookieAuth:
+        - delete:cloud
       summary: Delete cloud
       tags:
       - clouds
@@ -172,6 +192,45 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -188,7 +247,63 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cloud
+      - CookieAuth:
+        - read:cloud
       summary: Get cloud
+      tags:
+      - clouds
+      x-cli-table-default:
+      - title
+      - provider
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - provider
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+    put:
+      description: Update target cloud title or credentials
+      operationId: edit_cloud
+      parameters:
+      - explode: false
+        in: path
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  description: Updated title
+                  type: string
+                credentials:
+                  $ref: '#/components/schemas/CloudCredentials'
+                features:
+                  $ref: '#/components/schemas/CloudFeatures'
+              type: object
+      responses:
+        "200":
+          description: Cloud updated successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cloud not found
+      security:
+      - ApiKeyAuth:
+        - edit:cloud
+      - CookieAuth:
+        - edit:cloud
+      summary: Edit cloud
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
@@ -254,6 +369,21 @@ paths:
         schema:
           type: string
         style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -268,9 +398,21 @@ paths:
       security:
       - ApiKeyAuth:
         - read:key
+      - CookieAuth:
+        - read:key
       summary: List keys
       tags:
       - keys
+      x-cli-table-default:
+      - name
+      - default
+      - tags
+      x-cli-table-extended:
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
     post:
       description: Adds a new key and returns the key's id. ADD permission required
@@ -294,6 +436,8 @@ paths:
           description: You are not authorized to perform this action
       security:
       - ApiKeyAuth:
+        - add:key
+      - CookieAuth:
         - add:key
       summary: Add key
       tags:
@@ -323,6 +467,8 @@ paths:
       security:
       - ApiKeyAuth:
         - delete:key
+      - CookieAuth:
+        - delete:key
       summary: Delete key
       tags:
       - keys
@@ -346,6 +492,45 @@ paths:
         schema:
           type: boolean
         style: form
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          Automatically replace all foreign key ids with referenced resource name or title:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -362,9 +547,22 @@ paths:
       security:
       - ApiKeyAuth:
         - read:key
+      - CookieAuth:
+        - read:key
       summary: Get key
       tags:
       - keys
+      x-cli-table-default:
+      - name
+      - default
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
     put:
       description: Edit target key
@@ -405,10 +603,847 @@ paths:
       security:
       - ApiKeyAuth:
         - edit:key
+      - CookieAuth:
+        - edit:key
       summary: Edit key
       tags:
       - keys
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+  /api/v2/machines:
+    get:
+      description: List machines owned by the active org. READ permission required
+        on machine & cloud.
+      operationId: list_machines
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by machine type:
+            value: state:running
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMachinesResponse'
+          description: List machines response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:machine
+      - CookieAuth:
+        - read:machine
+      summary: List machines
+      tags:
+      - machines
+      x-cli-table-default:
+      - name
+      - cloud
+      - state
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - state
+      - cloud
+      - public_ips
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    post:
+      description: Creates one or more machines on the specified cloud. If async is
+        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
+        permission required on cloud. READ permission required on location. CREATE_RESOURCES
+        permission required on location. CREATE permission required on machine. RUN
+        permission required on script. READ permission required on key.
+      operationId: create_machine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMachineRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMachineResponse'
+          description: Machine provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:machine
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+        - read:image
+        - create_resources:image
+        - read:script
+        - read:key
+      - CookieAuth:
+        - create:machine
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+        - read:image
+        - create_resources:image
+        - read:script
+        - read:key
+      summary: Create machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}:
+    get:
+      description: Get details about target machine
+      operationId: get_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMachineResponse'
+          description: Machine returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+      security:
+      - ApiKeyAuth:
+        - read:machine
+      - CookieAuth:
+        - read:machine
+      summary: Get machine
+      tags:
+      - machines
+      x-cli-table-default:
+      - name
+      - cloud
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - default
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    put:
+      description: Edit target machine
+      operationId: edit_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New machine name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Machine successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+      security:
+      - ApiKeyAuth:
+        - edit:machine
+      - CookieAuth:
+        - edit:machine
+      summary: Edit machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/clone:
+    post:
+      description: Clone target machine
+      operationId: clone_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine clone issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - clone:machine
+      - CookieAuth:
+        - clone:machine
+      summary: Clone machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/console:
+    post:
+      description: Open VNC console on target machine
+      operationId: console
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine console opened successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - console:machine
+      - CookieAuth:
+        - console:machine
+      summary: Open console
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/destroy:
+    post:
+      description: Destroy target machine
+      operationId: destroy_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine destroy issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - destroy:machine
+      - CookieAuth:
+        - destroy:machine
+      summary: Destroy machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/expose:
+    post:
+      description: Expose target machine
+      operationId: expose_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine expose issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - expose:machine
+      - CookieAuth:
+        - expose:machine
+      summary: Expose machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/reboot:
+    post:
+      description: Reboot target machine
+      operationId: reboot_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine reboot issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - reboot:machine
+      - CookieAuth:
+        - reboot:machine
+      summary: Reboot machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/rename:
+    post:
+      description: Rename target machine
+      operationId: rename_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine renamed successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - rename:machine
+      - CookieAuth:
+        - rename:machine
+      summary: Rename machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/resize:
+    post:
+      description: Resize target machine
+      operationId: resize_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine resize issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - resize:machine
+      - CookieAuth:
+        - resize:machine
+      summary: Resize machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/resume:
+    post:
+      description: Resume target machine
+      operationId: resume_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine resume issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - resume:machine
+      - CookieAuth:
+        - resume:machine
+      summary: Resume machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/ssh:
+    post:
+      description: Open secure shell on target machine
+      operationId: ssh
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "101":
+          description: Machine shell opened successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - ssh:machine
+      - CookieAuth:
+        - ssh:machine
+      summary: Open secure shell
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/start:
+    post:
+      description: Start target machine
+      operationId: start_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine start issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - start:machine
+      - CookieAuth:
+        - start:machine
+      summary: Start machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/stop:
+    post:
+      description: Stop target machine
+      operationId: stop_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine stop issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - stop:machine
+      - CookieAuth:
+        - stop:machine
+      summary: Stop machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/suspend:
+    post:
+      description: Suspend target machine
+      operationId: suspend_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine suspend issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - suspend:machine
+      - CookieAuth:
+        - suspend:machine
+      summary: Suspend machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/undefine:
+    post:
+      description: Undefine target machine
+      operationId: undefine_machine
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Machine undefine issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - undefine:machine
+      - CookieAuth:
+        - undefine:machine
+      summary: Undefine machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/snapshots:
+    get:
+      description: List snapshots of target machine
+      operationId: list_snapshots
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSnapshotsResponse'
+          description: List machine snapshots response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+      - CookieAuth:
+        - read:machine
+        - list_snapshots:machine
+      summary: Suspend machine
+      tags:
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
+    post:
+      description: Create snapshots of target machine
+      operationId: create_snapshot
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSnapshotResponse'
+          description: Create machine snapshot response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      - CookieAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      summary: Create snapshot
+      tags:
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
+  /api/v2/machines/{machine}/snapshots/{snapshot}:
+    delete:
+      description: Remove target machine snapshot
+      operationId: remove_snapshot
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Snapshot removed successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      - CookieAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      summary: Remove snapshot
+      tags:
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
+    post:
+      description: Revert machine to snapshot
+      operationId: revert_to_snapshot
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Revert machine to snapshot issued successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - revert_to_snapshots:machine
+      - CookieAuth:
+        - read:machine
+        - list_snapshots:machine
+        - revert_to_snapshots:machine
+      summary: Revert to snapshot
+      tags:
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -488,9 +1523,26 @@ paths:
       security:
       - ApiKeyAuth:
         - read:rule
+      - CookieAuth:
+        - read:rule
       summary: List rules
       tags:
       - rules
+      x-cli-table-default:
+      - title
+      - queries
+      - actions
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - resource_type
+      - selectors
+      - queries
+      - actions
+      - window
+      - frequency
+      - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
       description: Add a new rule, READ permission required on target resource, ADD
@@ -553,6 +1605,8 @@ paths:
       security:
       - ApiKeyAuth:
         - add:rule
+      - CookieAuth:
+        - add:rule
       summary: Add rule
       tags:
       - rules
@@ -581,6 +1635,8 @@ paths:
       security:
       - ApiKeyAuth:
         - delete:rule
+      - CookieAuth:
+        - delete:rule
       summary: Delete rule
       tags:
       - rules
@@ -596,6 +1652,30 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Order results by
+        examples:
+          Sort by title, descending:
+            value: -title
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, title & owned_by:
+            value: id,title,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -612,9 +1692,26 @@ paths:
       security:
       - ApiKeyAuth:
         - read:rule
+      - CookieAuth:
+        - read:rule
       summary: Get rule
       tags:
       - rules
+      x-cli-table-default:
+      - title
+      - queries
+      - actions
+      - tags
+      x-cli-table-extended:
+      - id
+      - title
+      - resource_type
+      - selectors
+      - queries
+      - actions
+      - window
+      - frequency
+      - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     patch:
       description: Rename a rule
@@ -645,6 +1742,8 @@ paths:
           description: Rule not found
       security:
       - ApiKeyAuth:
+        - write:rule
+      - CookieAuth:
         - write:rule
       summary: Rename rule
       tags:
@@ -720,6 +1819,9 @@ paths:
       - ApiKeyAuth:
         - read:cloud
         - edit:rule
+      - CookieAuth:
+        - read:cloud
+        - edit:rule
       summary: Update rule
       tags:
       - rules
@@ -753,6 +1855,8 @@ paths:
           description: Rule not found
       security:
       - ApiKeyAuth:
+        - write:rule
+      - CookieAuth:
         - write:rule
       summary: Toggle rule
       tags:
@@ -983,7 +2087,12 @@ components:
   headers: {}
   links: {}
   parameters: {}
-  requestBodies: {}
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
   responses: {}
   schemas:
     AddCloudRequest:
@@ -1018,36 +2127,9 @@ components:
       type: object
     AddKeyRequest:
       anyOf:
-      - required:
-        - name
-        - private
-      - required:
-        - generate
-        - name
-      - required:
-        - dry
-        - generate
-      example:
-        private: private
-        name: name
-        certificate: certificate
-        dry: true
-        generate: true
-      properties:
-        name:
-          description: The key's name
-          type: string
-        generate:
-          description: Generate a keypair instead of providing one
-          type: boolean
-        dry:
-          type: boolean
-        private:
-          description: The private key
-          type: string
-        certificate:
-          description: The signed public key, when using signed ssh keys
-          type: string
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf'
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf_1'
+      - $ref: '#/components/schemas/AddKeyRequest_anyOf_2'
       type: object
     AddKeyResponse:
       example:
@@ -1062,6 +2144,15 @@ components:
         public:
           type: string
       type: object
+    AlibabaCredentials:
+      properties:
+        apikey:
+          description: Your Alibaba Cloud API key
+          type: string
+        apisecret:
+          description: Your Alibaba Cloud API secret
+          type: string
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -1074,12 +2165,26 @@ components:
       - apikey
       - apisecret
       type: object
+    AzureCredentials:
+      properties:
+        tenantId:
+          description: Your Azure tenant ID
+          type: string
+        subscriptionId:
+          description: Your Azure subscription ID
+          type: string
+        key:
+          description: Your Azure key
+          type: string
+        secret:
+          description: Your Azure secret
+          type: string
+      type: object
     Cloud:
       example:
         features:
           compute: true
           dns: false
-        provider: amazon
         owned_by: owned_by
         id: id
         title: title
@@ -1092,14 +2197,7 @@ components:
         title:
           type: string
         provider:
-          enum:
-          - amazon
-          - google
-          - digitalocean
-          - openstack
-          - packet
-          - vsphere
-          type: string
+          $ref: '#/components/schemas/SupportedProviders'
         config:
           type: object
         features:
@@ -1115,19 +2213,47 @@ components:
       discriminator:
         mapping:
           amazon: '#/components/schemas/AmazonCredentials'
-          digitalocean: '#/components/schemas/DigitalOceanCredentials'
+          azure: '#/components/schemas/AzureCredentials'
           google: '#/components/schemas/GoogleCredentials'
-          openstack: '#/components/schemas/OpenStackCredentials'
-          packet: '#/components/schemas/PacketCredentials'
-          vsphere: '#/components/schemas/VSphereCredentials'
+          alibaba: '#/components/schemas/AlibabaCredentials'
+          equinix: '#/components/schemas/EquinixCredentials'
+          ibm: '#/components/schemas/IbmCredentials'
+          digitalocean: '#/components/schemas/DigitaloceanCredentials'
+          linode: '#/components/schemas/LinodeCredentials'
+          rackspace: '#/components/schemas/RackspaceCredentials'
+          maxihost: '#/components/schemas/MaxihostCredentials'
+          vultr: '#/components/schemas/VultrCredentials'
+          openstack: '#/components/schemas/OpenstackCredentials'
+          onapp: '#/components/schemas/OnappCredentials'
+          vsphere: '#/components/schemas/VsphereCredentials'
+          vcloud: '#/components/schemas/VcloudCredentials'
+          kvm: '#/components/schemas/KvmCredentials'
+          lxd: '#/components/schemas/LxdCredentials'
+          docker: '#/components/schemas/DockerCredentials'
+          kubevirt: '#/components/schemas/KubevirtCredentials'
+          other: '#/components/schemas/OtherCredentials'
         propertyName: provider
       oneOf:
       - $ref: '#/components/schemas/AmazonCredentials'
-      - $ref: '#/components/schemas/DigitalOceanCredentials'
+      - $ref: '#/components/schemas/AzureCredentials'
       - $ref: '#/components/schemas/GoogleCredentials'
-      - $ref: '#/components/schemas/OpenStackCredentials'
-      - $ref: '#/components/schemas/PacketCredentials'
-      - $ref: '#/components/schemas/VSphereCredentials'
+      - $ref: '#/components/schemas/AlibabaCredentials'
+      - $ref: '#/components/schemas/EquinixCredentials'
+      - $ref: '#/components/schemas/IbmCredentials'
+      - $ref: '#/components/schemas/DigitaloceanCredentials'
+      - $ref: '#/components/schemas/LinodeCredentials'
+      - $ref: '#/components/schemas/RackspaceCredentials'
+      - $ref: '#/components/schemas/MaxihostCredentials'
+      - $ref: '#/components/schemas/VultrCredentials'
+      - $ref: '#/components/schemas/OpenstackCredentials'
+      - $ref: '#/components/schemas/OnappCredentials'
+      - $ref: '#/components/schemas/VsphereCredentials'
+      - $ref: '#/components/schemas/VcloudCredentials'
+      - $ref: '#/components/schemas/KvmCredentials'
+      - $ref: '#/components/schemas/LxdCredentials'
+      - $ref: '#/components/schemas/DockerCredentials'
+      - $ref: '#/components/schemas/KubevirtCredentials'
+      - $ref: '#/components/schemas/OtherCredentials'
       type: object
     CloudFeatures:
       description: The cloud features that should be enabled
@@ -1144,6 +2270,114 @@ components:
           description: Enable DNS services
           type: boolean
       type: object
+    CreateMachineRequest:
+      example:
+        template: '{}'
+        image: '{}'
+        quantity: 0.8008281904610115
+        disks: '{}'
+        fqdn: fqdn
+        cloudinit: cloudinit
+        volumes:
+        - '{}'
+        - '{}'
+        save: true
+        dry: true
+        monitoring: true
+        tags: '{}'
+        cloud: cloud
+        size: '{}'
+        schedules: '{}'
+        extra: '{}'
+        name: name
+        location: location
+        expiration: '{}'
+        net: '{}'
+        scripts:
+        - '{}'
+        - '{}'
+        key: '{}'
+      properties:
+        name:
+          description: Specify machine name
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: string
+        size:
+          description: Machine sizing spec e.g. cpu/ram/flavor
+          type: object
+        image:
+          description: Operating System image to boot from
+          type: object
+        net:
+          description: Specify network configuration parameters
+          type: object
+        key:
+          description: Associate SSH key
+          type: object
+        disks:
+          description: Configure local disks
+          type: object
+        volumes:
+          description: Configure of attached storage volumes, e.g. cloud disks
+          items:
+            type: object
+          type: array
+        fqdn:
+          description: Add DNS A Record that points machine's public IP to this Fully
+            Qualified Domain Name. Zone needs to be managed by a configured Cloud
+            DNS provider
+          type: string
+        cloudinit:
+          description: Run this Cloud Init script on first boot
+          type: string
+        scripts:
+          description: Run post deploy scripts over SSH
+          items:
+            type: object
+          type: array
+        schedules:
+          description: Configure scheduled actions for the provisioned machine
+          type: object
+        tags:
+          description: Assign tags to provisioned machine
+          type: object
+        expiration:
+          description: Configure machine expiration
+          type: object
+        extra:
+          description: Configure additional parameters
+          type: object
+        monitoring:
+          description: Enable monitoring of this machine
+          type: boolean
+        quantity:
+          description: Provision multiple machines of this type
+          type: number
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+      required:
+      - image
+      - name
+      - size
+      type: object
+    CreateMachineResponse:
+      oneOf:
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      type: object
     CreateSecretRequest:
       example:
         name: name
@@ -1159,13 +2393,51 @@ components:
       - name
       - secret
       type: object
-    DigitalOceanCredentials:
+    CreateSnapshotResponse:
+      type: object
+    DigitaloceanCredentials:
       properties:
         token:
-          description: You DigitalOcean API token
+          description: Your DigitalOcean API token
           type: string
       required:
       - token
+      type: object
+    DockerCredentials:
+      properties:
+        host:
+          description: Your Docker host
+          type: string
+        port:
+          description: Your Docker port
+          type: string
+        username:
+          description: Your Docker username
+          type: string
+        password:
+          description: Your Docker password
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      type: object
+    EquinixCredentials:
+      additionalProperties: false
+      properties:
+        apikey:
+          description: Your Equinix Metal API key
+          type: string
+      required:
+      - apikey
       type: object
     Frequency:
       properties:
@@ -1186,7 +2458,6 @@ components:
           features:
             compute: true
             dns: false
-          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -1194,10 +2465,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
@@ -1216,13 +2487,34 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Key'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetMachineResponse:
+      example:
+        data:
+          cloud: cloud
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Machine'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -1239,10 +2531,10 @@ components:
           actions: '{}'
           frequency: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Rule'
@@ -1258,10 +2550,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Secret'
@@ -1279,6 +2571,18 @@ components:
       required:
       - privateKey
       - projectId
+      type: object
+    IbmCredentials:
+      additionalProperties: false
+      properties:
+        username:
+          description: Your IBM Cloud username
+          type: string
+        apikey:
+          description: Your IBM Cloud API key
+          type: string
+      required:
+      - apikey
       type: object
     Key:
       example:
@@ -1311,13 +2615,52 @@ components:
           - signed_ssh
           type: string
       type: object
+    KubevirtCredentials:
+      properties:
+        host:
+          description: Your Kubernetes API host
+          type: string
+        port:
+          description: Your Kubernetes API port
+          type: string
+        username:
+          description: Your Kubernetes API username
+          type: string
+        password:
+          description: Your Kubernetes API password
+          type: string
+        token:
+          description: Your Kubernetes API bearer token
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      type: object
+    KvmCredentials:
+      type: object
+    LinodeCredentials:
+      properties:
+        apikey:
+          description: You Linode API key
+          type: string
+      required:
+      - apikey
+      type: object
     ListCloudsResponse:
       example:
         data:
         - features:
             compute: true
             dns: false
-          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -1327,7 +2670,6 @@ components:
         - features:
             compute: true
             dns: false
-          provider: amazon
           owned_by: owned_by
           id: id
           title: title
@@ -1335,10 +2677,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -1367,14 +2709,44 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
             $ref: '#/components/schemas/Key'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListMachinesResponse:
+      example:
+        data:
+        - cloud: cloud
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          default: true
+          name: name
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Machine'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -1401,10 +2773,10 @@ components:
           actions: '{}'
           frequency: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -1427,10 +2799,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total_returned: 6
-          total_matching: 0
+          total: 0
           start: 1
           sort: sort
+          returned: 6
       properties:
         data:
           items:
@@ -1439,7 +2811,119 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
-    OpenStackCredentials:
+    ListSnapshotsResponse:
+      example:
+        data:
+        - null
+        - null
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Snapshot'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    LxdCredentials:
+      properties:
+        host:
+          description: Your LXD host
+          type: string
+        port:
+          description: Your LXD port
+          type: string
+        username:
+          description: Your LXD username
+          type: string
+        password:
+          description: Your LXD password
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      type: object
+    Machine:
+      example:
+        cloud: cloud
+        default: true
+        name: name
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        default:
+          type: boolean
+        state:
+          $ref: '#/components/schemas/MachineState'
+      type: object
+    MachineState:
+      enum:
+      - running
+      - starting
+      - stopping
+      - stopped
+      - pending
+      - suspended
+      - terminated
+      - error
+      - rebooting
+      - paused
+      - reconfiguring
+      - unknown
+      type: string
+    MaxihostCredentials:
+      properties:
+        token:
+          description: Your Maxihost API token
+          type: string
+      required:
+      - token
+      type: object
+    OnappCredentials:
+      properties:
+        authUrl:
+          type: string
+        username:
+          type: string
+        apikey:
+          type: string
+        host:
+          type: string
+        verify:
+          type: boolean
+      required:
+      - apikey
+      - host
+      - username
+      type: object
+    OpenstackCredentials:
       properties:
         authUrl:
           type: string
@@ -1460,14 +2944,7 @@ components:
       - password
       - user
       type: object
-    PacketCredentials:
-      additionalProperties: false
-      properties:
-        apikey:
-          description: You Packet API key
-          type: string
-      required:
-      - apikey
+    OtherCredentials:
       type: object
     Queries:
       items:
@@ -1497,17 +2974,29 @@ components:
       - target
       - threshold
       type: object
+    RackspaceCredentials:
+      properties:
+        username:
+          description: Your Rackspace Cloud username
+          type: string
+        apikey:
+          description: Your Rackspace Cloud API key
+          type: string
+        region:
+          description: Your Rackspace Cloud region
+          type: string
+      type: object
     ResponseMetadata:
       example:
-        total_returned: 6
-        total_matching: 0
+        total: 0
         start: 1
         sort: sort
+        returned: 6
       properties:
-        total_matching:
+        total:
           description: Total items matching the query
           type: integer
-        total_returned:
+        returned:
           description: Number of items in response
           type: integer
         sort:
@@ -1631,6 +3120,32 @@ components:
       items:
         $ref: '#/components/schemas/Selector'
       type: array
+    Snapshot:
+      type: object
+    SupportedProviders:
+      enum:
+      - amazon
+      - azure
+      - google
+      - alibaba
+      - equinix
+      - ibm
+      - digitalocean
+      - linode
+      - rackspace
+      - maxihost
+      - vultr
+      - g8
+      - openstack
+      - onapp
+      - vsphere
+      - vcloud
+      - kvm
+      - lxd
+      - docker
+      - kubevirt
+      - other
+      type: string
     TriggerAfter:
       properties:
         offset:
@@ -1643,7 +3158,27 @@ components:
       - offset
       - period
       type: object
-    VSphereCredentials:
+    VcloudCredentials:
+      properties:
+        host:
+          description: Your vCloud host
+          type: string
+        port:
+          description: Your vCloud port
+          type: string
+        username:
+          description: Your vCloud username
+          type: string
+        password:
+          description: Your vCloud password
+          type: string
+      required:
+      - host
+      - password
+      - port
+      - username
+      type: object
+    VsphereCredentials:
       properties:
         host:
           description: Your vSphere/vCenter host
@@ -1661,6 +3196,14 @@ components:
       - host
       - password
       - username
+      type: object
+    VultrCredentials:
+      properties:
+        apikey:
+          description: Your Vultr API key
+          type: string
+      required:
+      - apikey
       type: object
     Window:
       properties:
@@ -1689,9 +3232,73 @@ components:
         id:
           type: string
       type: object
+    inline_object:
+      properties:
+        title:
+          description: Updated title
+          type: string
+        credentials:
+          $ref: '#/components/schemas/CloudCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      type: object
+    AddKeyRequest_anyOf:
+      properties:
+        name:
+          description: The key's name
+          type: string
+        private:
+          description: The private key
+          type: string
+        certificate:
+          description: The signed public key, when using signed ssh keys
+          type: string
+      required:
+      - name
+      - private
+    AddKeyRequest_anyOf_1:
+      properties:
+        name:
+          description: The key's name
+          type: string
+        generate:
+          description: Generate a keypair instead of providing one
+          type: boolean
+        dry:
+          description: Return generated key without actually adding it
+          type: boolean
+      required:
+      - generate
+      - name
+    AddKeyRequest_anyOf_2:
+      properties:
+        generate:
+          description: Generate a keypair instead of providing one
+          type: boolean
+        dry:
+          description: Return generated key without actually adding it
+          type: boolean
+      required:
+      - dry
+      - generate
+    CreateMachineResponse_oneOf:
+      properties:
+        jobId:
+          type: string
+        plan:
+          type: object
+    CreateMachineResponse_oneOf_1:
+      properties:
+        plan:
+          type: object
   securitySchemes:
     ApiKeyAuth:
       in: header
       name: Authorization
       type: apiKey
       x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_ApiKeyAuth
+    CookieAuth:
+      in: cookie
+      name: session.id
+      type: apiKey
+      x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_CookieAuth

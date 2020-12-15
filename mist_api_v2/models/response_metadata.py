@@ -15,34 +15,34 @@ class ResponseMetadata(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, total_matching=None, total_returned=None, sort=None, start=None):  # noqa: E501
+    def __init__(self, total=None, returned=None, sort=None, start=None):  # noqa: E501
         """ResponseMetadata - a model defined in OpenAPI
 
-        :param total_matching: The total_matching of this ResponseMetadata.  # noqa: E501
-        :type total_matching: int
-        :param total_returned: The total_returned of this ResponseMetadata.  # noqa: E501
-        :type total_returned: int
+        :param total: The total of this ResponseMetadata.  # noqa: E501
+        :type total: int
+        :param returned: The returned of this ResponseMetadata.  # noqa: E501
+        :type returned: int
         :param sort: The sort of this ResponseMetadata.  # noqa: E501
         :type sort: str
         :param start: The start of this ResponseMetadata.  # noqa: E501
         :type start: int
         """
         self.openapi_types = {
-            'total_matching': int,
-            'total_returned': int,
+            'total': int,
+            'returned': int,
             'sort': str,
             'start': int
         }
 
         self.attribute_map = {
-            'total_matching': 'total_matching',
-            'total_returned': 'total_returned',
+            'total': 'total',
+            'returned': 'returned',
             'sort': 'sort',
             'start': 'start'
         }
 
-        self._total_matching = total_matching
-        self._total_returned = total_returned
+        self._total = total
+        self._returned = returned
         self._sort = sort
         self._start = start
 
@@ -58,50 +58,50 @@ class ResponseMetadata(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def total_matching(self):
-        """Gets the total_matching of this ResponseMetadata.
+    def total(self):
+        """Gets the total of this ResponseMetadata.
 
         Total items matching the query  # noqa: E501
 
-        :return: The total_matching of this ResponseMetadata.
+        :return: The total of this ResponseMetadata.
         :rtype: int
         """
-        return self._total_matching
+        return self._total
 
-    @total_matching.setter
-    def total_matching(self, total_matching):
-        """Sets the total_matching of this ResponseMetadata.
+    @total.setter
+    def total(self, total):
+        """Sets the total of this ResponseMetadata.
 
         Total items matching the query  # noqa: E501
 
-        :param total_matching: The total_matching of this ResponseMetadata.
-        :type total_matching: int
+        :param total: The total of this ResponseMetadata.
+        :type total: int
         """
 
-        self._total_matching = total_matching
+        self._total = total
 
     @property
-    def total_returned(self):
-        """Gets the total_returned of this ResponseMetadata.
+    def returned(self):
+        """Gets the returned of this ResponseMetadata.
 
         Number of items in response  # noqa: E501
 
-        :return: The total_returned of this ResponseMetadata.
+        :return: The returned of this ResponseMetadata.
         :rtype: int
         """
-        return self._total_returned
+        return self._returned
 
-    @total_returned.setter
-    def total_returned(self, total_returned):
-        """Sets the total_returned of this ResponseMetadata.
+    @returned.setter
+    def returned(self, returned):
+        """Sets the returned of this ResponseMetadata.
 
         Number of items in response  # noqa: E501
 
-        :param total_returned: The total_returned of this ResponseMetadata.
-        :type total_returned: int
+        :param returned: The returned of this ResponseMetadata.
+        :type returned: int
         """
 
-        self._total_returned = total_returned
+        self._returned = returned
 
     @property
     def sort(self):
