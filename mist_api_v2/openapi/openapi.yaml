@@ -1954,6 +1954,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:secret
+      - CookieAuth:
+        - read:secret
       summary: List secrets
       tags:
       - secrets
@@ -1991,6 +1993,8 @@ paths:
       security:
       - ApiKeyAuth:
         - create:secret
+      - CookieAuth:
+        - create:secret
       summary: Create secret
       tags:
       - secrets
@@ -2018,6 +2022,8 @@ paths:
           description: Secret not found
       security:
       - ApiKeyAuth:
+        - delete:secret
+      - CookieAuth:
         - delete:secret
       summary: Delete secret
       tags:
@@ -2050,6 +2056,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:secret
+      - CookieAuth:
+        - read:secret
       summary: Get secret
       tags:
       - secrets
@@ -2076,6 +2084,8 @@ paths:
           description: Secret not found
       security:
       - ApiKeyAuth:
+        - edit:secret
+      - CookieAuth:
         - edit:secret
       summary: Edit secret
       tags:
