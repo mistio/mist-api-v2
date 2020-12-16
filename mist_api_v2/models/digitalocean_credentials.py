@@ -46,7 +46,7 @@ class DigitaloceanCredentials(Model):
     def token(self):
         """Gets the token of this DigitaloceanCredentials.
 
-        You DigitalOcean API token  # noqa: E501
+        Your DigitalOcean API token  # noqa: E501
 
         :return: The token of this DigitaloceanCredentials.
         :rtype: str
@@ -57,7 +57,7 @@ class DigitaloceanCredentials(Model):
     def token(self, token):
         """Sets the token of this DigitaloceanCredentials.
 
-        You DigitalOcean API token  # noqa: E501
+        Your DigitalOcean API token  # noqa: E501
 
         :param token: The token of this DigitaloceanCredentials.
         :type token: str

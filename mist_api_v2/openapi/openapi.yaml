@@ -7,8 +7,8 @@ info:
   version: 2.0.0
   x-cli-name: Mist CLI
 servers:
-- description: dogfood
-  url: https://dogfood.ops.mist.io/
+- description: Mist Hosted Service
+  url: https://mist.io/
 paths:
   /api/v2/clouds:
     get:
@@ -105,6 +105,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cloud
+      - CookieAuth:
+        - read:cloud
       summary: List clouds
       tags:
       - clouds
@@ -143,6 +145,8 @@ paths:
       security:
       - ApiKeyAuth:
         - add:cloud
+      - CookieAuth:
+        - add:cloud
       summary: Add cloud
       tags:
       - clouds
@@ -170,6 +174,8 @@ paths:
           description: Cloud not found
       security:
       - ApiKeyAuth:
+        - delete:cloud
+      - CookieAuth:
         - delete:cloud
       summary: Delete cloud
       tags:
@@ -241,6 +247,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cloud
+      - CookieAuth:
+        - read:cloud
       summary: Get cloud
       tags:
       - clouds
@@ -292,6 +300,8 @@ paths:
           description: Cloud not found
       security:
       - ApiKeyAuth:
+        - edit:cloud
+      - CookieAuth:
         - edit:cloud
       summary: Edit cloud
       tags:
@@ -388,6 +398,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:key
+      - CookieAuth:
+        - read:key
       summary: List keys
       tags:
       - keys
@@ -425,6 +437,8 @@ paths:
       security:
       - ApiKeyAuth:
         - add:key
+      - CookieAuth:
+        - add:key
       summary: Add key
       tags:
       - keys
@@ -452,6 +466,8 @@ paths:
           description: Key not found
       security:
       - ApiKeyAuth:
+        - delete:key
+      - CookieAuth:
         - delete:key
       summary: Delete key
       tags:
@@ -531,6 +547,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:key
+      - CookieAuth:
+        - read:key
       summary: Get key
       tags:
       - keys
@@ -584,6 +602,8 @@ paths:
           description: Key not found
       security:
       - ApiKeyAuth:
+        - edit:key
+      - CookieAuth:
         - edit:key
       summary: Edit key
       tags:
@@ -696,6 +716,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:machine
+      - CookieAuth:
+        - read:machine
       summary: List machines
       tags:
       - machines
@@ -743,7 +765,19 @@ paths:
         - read:cloud
         - create_resources:cloud
         - read:location
-        - create_resources.location
+        - create_resources:location
+        - read:image
+        - create_resources:image
+        - read:script
+        - read:key
+      - CookieAuth:
+        - create:machine
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+        - read:image
+        - create_resources:image
         - read:script
         - read:key
       summary: Create machine
@@ -777,6 +811,8 @@ paths:
           description: Machine not found
       security:
       - ApiKeyAuth:
+        - read:machine
+      - CookieAuth:
         - read:machine
       summary: Get machine
       tags:
@@ -824,6 +860,8 @@ paths:
       security:
       - ApiKeyAuth:
         - edit:machine
+      - CookieAuth:
+        - edit:machine
       summary: Edit machine
       tags:
       - machines
@@ -853,6 +891,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - clone:machine
+      - CookieAuth:
         - clone:machine
       summary: Clone machine
       tags:
@@ -884,6 +924,8 @@ paths:
       security:
       - ApiKeyAuth:
         - console:machine
+      - CookieAuth:
+        - console:machine
       summary: Open console
       tags:
       - machines
@@ -913,6 +955,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - destroy:machine
+      - CookieAuth:
         - destroy:machine
       summary: Destroy machine
       tags:
@@ -944,6 +988,8 @@ paths:
       security:
       - ApiKeyAuth:
         - expose:machine
+      - CookieAuth:
+        - expose:machine
       summary: Expose machine
       tags:
       - machines
@@ -973,6 +1019,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - reboot:machine
+      - CookieAuth:
         - reboot:machine
       summary: Reboot machine
       tags:
@@ -1004,6 +1052,8 @@ paths:
       security:
       - ApiKeyAuth:
         - rename:machine
+      - CookieAuth:
+        - rename:machine
       summary: Rename machine
       tags:
       - machines
@@ -1033,6 +1083,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - resize:machine
+      - CookieAuth:
         - resize:machine
       summary: Resize machine
       tags:
@@ -1064,6 +1116,8 @@ paths:
       security:
       - ApiKeyAuth:
         - resume:machine
+      - CookieAuth:
+        - resume:machine
       summary: Resume machine
       tags:
       - machines
@@ -1093,6 +1147,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - ssh:machine
+      - CookieAuth:
         - ssh:machine
       summary: Open secure shell
       tags:
@@ -1124,6 +1180,8 @@ paths:
       security:
       - ApiKeyAuth:
         - start:machine
+      - CookieAuth:
+        - start:machine
       summary: Start machine
       tags:
       - machines
@@ -1153,6 +1211,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - stop:machine
+      - CookieAuth:
         - stop:machine
       summary: Stop machine
       tags:
@@ -1184,6 +1244,8 @@ paths:
       security:
       - ApiKeyAuth:
         - suspend:machine
+      - CookieAuth:
+        - suspend:machine
       summary: Suspend machine
       tags:
       - machines
@@ -1213,6 +1275,8 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - undefine:machine
+      - CookieAuth:
         - undefine:machine
       summary: Undefine machine
       tags:
@@ -1249,6 +1313,9 @@ paths:
       - ApiKeyAuth:
         - read:machine
         - list_snapshots:machine
+      - CookieAuth:
+        - read:machine
+        - list_snapshots:machine
       summary: Suspend machine
       tags:
       - snapshots
@@ -1281,6 +1348,10 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
+      - CookieAuth:
         - read:machine
         - list_snapshots:machine
         - create_snapshots:machine
@@ -1323,6 +1394,10 @@ paths:
         - read:machine
         - list_snapshots:machine
         - create_snapshots:machine
+      - CookieAuth:
+        - read:machine
+        - list_snapshots:machine
+        - create_snapshots:machine
       summary: Remove snapshot
       tags:
       - snapshots
@@ -1358,6 +1433,10 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - read:machine
+        - list_snapshots:machine
+        - revert_to_snapshots:machine
+      - CookieAuth:
         - read:machine
         - list_snapshots:machine
         - revert_to_snapshots:machine
@@ -1444,6 +1523,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:rule
+      - CookieAuth:
+        - read:rule
       summary: List rules
       tags:
       - rules
@@ -1524,6 +1605,8 @@ paths:
       security:
       - ApiKeyAuth:
         - add:rule
+      - CookieAuth:
+        - add:rule
       summary: Add rule
       tags:
       - rules
@@ -1551,6 +1634,8 @@ paths:
           description: Rule not found
       security:
       - ApiKeyAuth:
+        - delete:rule
+      - CookieAuth:
         - delete:rule
       summary: Delete rule
       tags:
@@ -1607,6 +1692,8 @@ paths:
       security:
       - ApiKeyAuth:
         - read:rule
+      - CookieAuth:
+        - read:rule
       summary: Get rule
       tags:
       - rules
@@ -1655,6 +1742,8 @@ paths:
           description: Rule not found
       security:
       - ApiKeyAuth:
+        - write:rule
+      - CookieAuth:
         - write:rule
       summary: Rename rule
       tags:
@@ -1730,6 +1819,9 @@ paths:
       - ApiKeyAuth:
         - read:cloud
         - edit:rule
+      - CookieAuth:
+        - read:cloud
+        - edit:rule
       summary: Update rule
       tags:
       - rules
@@ -1763,6 +1855,8 @@ paths:
           description: Rule not found
       security:
       - ApiKeyAuth:
+        - write:rule
+      - CookieAuth:
         - write:rule
       summary: Toggle rule
       tags:
@@ -1910,7 +2004,6 @@ components:
           rackspace: '#/components/schemas/RackspaceCredentials'
           maxihost: '#/components/schemas/MaxihostCredentials'
           vultr: '#/components/schemas/VultrCredentials'
-          g8: '#/components/schemas/G8Credentials'
           openstack: '#/components/schemas/OpenstackCredentials'
           onapp: '#/components/schemas/OnappCredentials'
           vsphere: '#/components/schemas/VsphereCredentials'
@@ -1933,7 +2026,6 @@ components:
       - $ref: '#/components/schemas/RackspaceCredentials'
       - $ref: '#/components/schemas/MaxihostCredentials'
       - $ref: '#/components/schemas/VultrCredentials'
-      - $ref: '#/components/schemas/G8Credentials'
       - $ref: '#/components/schemas/OpenstackCredentials'
       - $ref: '#/components/schemas/OnappCredentials'
       - $ref: '#/components/schemas/VsphereCredentials'
@@ -2072,7 +2164,7 @@ components:
     DigitaloceanCredentials:
       properties:
         token:
-          description: You DigitalOcean API token
+          description: Your DigitalOcean API token
           type: string
       required:
       - token
@@ -2125,19 +2217,6 @@ components:
       required:
       - every
       - period
-      type: object
-    G8Credentials:
-      properties:
-        url:
-          type: string
-        userId:
-          type: string
-        apikey:
-          type: string
-      required:
-      - apikey
-      - url
-      - userId
       type: object
     GetCloudResponse:
       example:
@@ -2543,7 +2622,7 @@ components:
     MaxihostCredentials:
       properties:
         token:
-          description: You Maxihost API token
+          description: Your Maxihost API token
           type: string
       required:
       - token
@@ -2823,7 +2902,7 @@ components:
     VultrCredentials:
       properties:
         apikey:
-          description: You Vultr API key
+          description: Your Vultr API key
           type: string
       required:
       - apikey
@@ -2920,3 +2999,8 @@ components:
       name: Authorization
       type: apiKey
       x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_ApiKeyAuth
+    CookieAuth:
+      in: cookie
+      name: session.id
+      type: apiKey
+      x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_CookieAuth

@@ -36,7 +36,6 @@ mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/frequency.py
-mist_api_v2/models/g8_credentials.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_key_response.py
 mist_api_v2/models/get_machine_response.py
