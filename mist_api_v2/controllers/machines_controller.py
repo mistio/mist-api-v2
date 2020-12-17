@@ -167,6 +167,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
         'disks': create_machine_request.disks or {},
         'extra': create_machine_request.extra or {},
         'scripts': create_machine_request.scripts or [],
+        'schedules': create_machine_request.schedules or {},
         'cloudinit': create_machine_request.cloudinit or '',
         'fqdn': create_machine_request.fqdn or '',
         'monitoring': create_machine_request.monitoring,
@@ -198,7 +199,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
         job = 'create_machine'
         # TODO add countdown=2
         dramatiq_create_machine_async.send(
-            auth_context.serialize(), job_id, plan, job=job
+            auth_context.serialize(), plan, job_id=job_id, job=job
         )
         return CreateMachineResponse(plan=plan, job_id=job_id)
 
