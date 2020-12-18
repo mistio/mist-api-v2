@@ -167,6 +167,10 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None, path=Non
     """
     auth_context = connexion.context['token_info']['auth_context']
     path = path or '.'
+    # TODO: test search once partial search is supported in list_resources
+    # currently, there is no way to get eg all secrets under `mist/clouds`
+    # TODO: check with ' ' inside `search`, currently breaks (invalid query)
+
     if path != '.':  # need to apply search based on the name
         if not search:
             search = "name:%s" % path
