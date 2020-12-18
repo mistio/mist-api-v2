@@ -146,12 +146,10 @@ def get_secret(secret):  # noqa: E501
     return secret_dict # if not key else {key: secret_dict[key]}
 
 
-def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=True, path=None):  # noqa: E501
+def list_secrets(search=None, sort=None, start=0, limit=100, only=None, path=None):  # noqa: E501
     """List secrets
 
     List secrets owned by the active org. READ permission required on secret. # noqa: E501
-    :param cached: Only return cached secrets if set to true
-    :type cached: bool
     :param path: Only return secrets under this path
     :type path: str
     :param search: Only return results matching search filter
@@ -175,17 +173,10 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None, cached=T
         else:
             search += " and name:%s" % path
 
-    if cached:
-        from mist.api.methods import list_resources
-        secrets, total = list_resources(auth_context, 'secret', search=search,
+    from mist.api.methods import list_resources
+    secrets, total = list_resources(auth_context, 'secret', search=search,
                                     only=only, sort=sort, start=start,
                                     limit=limit)
-    else:
-        from mist.api.secrets.methods import filter_list_secrets
-        # TODO: Reimplement when logic of search, sort etc becomes independent
-        # and is not inside list_resources method
-        secrets = filter_list_secrets(auth_context, cached=cached, path=path)
-        return secrets
 
     meta = {
         'total_matching': total,
