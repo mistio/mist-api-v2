@@ -1976,12 +1976,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/Secret'
           description: Secret added succesfully
         "401":
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
+        "409":
+          description: Path already exists. Change name of key
       security:
       - ApiKeyAuth:
         - create:secret
@@ -2067,6 +2069,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Secret'
           description: Secret edited successfully
         "401":
           description: Authentication failed
