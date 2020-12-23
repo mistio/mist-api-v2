@@ -2079,6 +2079,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Secret'
           description: Secret edited successfully
+        "400":
+          description: Missing `secret` required parameter
         "401":
           description: Authentication failed
         "403":
