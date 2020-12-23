@@ -2067,6 +2067,11 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditSecretRequest'
       responses:
         "200":
           content:
@@ -2437,6 +2442,15 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      type: object
+    EditSecretRequest:
+      example:
+        secret: '{}'
+      properties:
+        secret:
+          type: object
+      required:
+      - secret
       type: object
     EquinixCredentials:
       additionalProperties: false

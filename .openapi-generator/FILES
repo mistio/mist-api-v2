@@ -36,6 +36,7 @@ mist_api_v2/models/create_machine_response_one_of1.py
 mist_api_v2/models/create_secret_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
+mist_api_v2/models/edit_secret_request.py
 mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
