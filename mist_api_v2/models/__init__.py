@@ -22,6 +22,7 @@ from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResp
 from mist_api_v2.models.create_secret_request import CreateSecretRequest
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
+from mist_api_v2.models.edit_secret_request import EditSecretRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse

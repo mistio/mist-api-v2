@@ -1976,12 +1976,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/Secret'
           description: Secret added succesfully
         "401":
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
+        "409":
+          description: Path already exists. Change name of key
       security:
       - ApiKeyAuth:
         - create:secret
@@ -2065,8 +2067,17 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditSecretRequest'
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Secret'
           description: Secret edited successfully
         "401":
           description: Authentication failed
@@ -2431,6 +2442,15 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      type: object
+    EditSecretRequest:
+      example:
+        secret: '{}'
+      properties:
+        secret:
+          type: object
+      required:
+      - secret
       type: object
     EquinixCredentials:
       additionalProperties: false
