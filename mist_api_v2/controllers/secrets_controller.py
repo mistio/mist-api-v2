@@ -2,6 +2,7 @@ import connexion
 import six
 
 from mist_api_v2.models.create_secret_request import CreateSecretRequest  # noqa: E501
+from mist_api_v2.models.edit_secret_request import EditSecretRequest  # noqa: E501
 from mist_api_v2.models.get_secret_response import GetSecretResponse  # noqa: E501
 from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
 from mist_api_v2.models.list_secrets_response import ListSecretsResponse  # noqa: E501
@@ -89,7 +90,7 @@ def delete_secret(secret):  # noqa: E501
     return 'Deleted secret `%s`' % secret.name, 200
 
 
-def edit_secret(secret):  # noqa: E501
+def edit_secret(edit_secret_request=None):  # noqa: E501
     """Edit secret
 
     Edit/update target secret and return the secret object. UPDATE  permission required on secret.# noqa: E501
@@ -97,12 +98,14 @@ def edit_secret(secret):  # noqa: E501
     :param secret: 
     :type secret: str
 
-    :rtype: None
+    :rtype: InlineResponse200
     """
+    if connexion.request.is_json:
+        edit_secret_request = EditSecretRequest.from_dict(connexion.request.get_json())  # noqa: E501
     auth_context = connexion.context['token_info']['auth_context']
+
     secret_id = secret
-    # FIXME: need to get edit_secret_request from generated code
-    secret = edit_secret_request.secret
+    updated_secret = edit_secret_request.secret
 
     try:
         _secret = VaultSecret.objects.get(owner=auth_context.owner,
@@ -111,7 +114,7 @@ def edit_secret(secret):  # noqa: E501
         return 'VaultSecret does not exist', 404
 
     auth_context.check_perm("secret", "edit", secret_id)
-    _secret.ctl.create_or_update_secret(secret)
+    _secret.ctl.create_or_update_secret(updated_secret)
 
     return _secret.as_dict()
 
