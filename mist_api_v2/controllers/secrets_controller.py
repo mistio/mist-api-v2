@@ -19,7 +19,7 @@ import mongoengine as me
 def create_secret(create_secret_request=None):  # noqa: E501
     """Create secret
 
-    Creates a new secret and returns the secret&#39;s id. CREATE permission required on secret. # noqa: E501
+    Creates a new secret and returns the secret object. CREATE permission required on secret. # noqa: E501
 
     :param create_secret_request: 
     :type create_secret_request: dict | bytes
@@ -68,7 +68,7 @@ def create_secret(create_secret_request=None):  # noqa: E501
 def delete_secret(secret):  # noqa: E501
     """Delete secret
 
-    Delete target secret # noqa: E501
+    Delete target secret. DELETE permission required on secret. # noqa: E501
 
     :param secret: 
     :type secret: str
@@ -92,7 +92,7 @@ def delete_secret(secret):  # noqa: E501
 def edit_secret(secret):  # noqa: E501
     """Edit secret
 
-    Edit/update target secret # noqa: E501
+    Edit/update target secret and return the secret object. UPDATE  permission required on secret.# noqa: E501
 
     :param secret: 
     :type secret: str
@@ -113,13 +113,13 @@ def edit_secret(secret):  # noqa: E501
     auth_context.check_perm("secret", "edit", secret_id)
     _secret.ctl.create_or_update_secret(secret)
 
-    return 'Edited secret `%s`' % _secret.name, 200
+    return _secret.as_dict()
 
 
 def get_secret(secret):  # noqa: E501
     """Get secret
 
-    Read target secret # noqa: E501
+    Read target secret. READ permission required on secret. # noqa: E501
 
     :param secret: 
     :type secret: str
