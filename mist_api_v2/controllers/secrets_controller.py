@@ -136,7 +136,7 @@ def get_secret(secret):  # noqa: E501
         secret = VaultSecret.objects.get(owner=auth_context.owner,
                                          id=secret_id)
     except me.DoesNotExist:
-        raise NotFoundError('Secret does not exist')
+        return 'VaultSecret does not exist', 404
 
     auth_context.check_perm("secret", "read", secret_id)
 
