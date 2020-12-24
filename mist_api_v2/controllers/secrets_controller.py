@@ -39,9 +39,7 @@ def create_secret(create_secret_request=None):  # noqa: E501
     try:
         _secret.save()
     except me.NotUniqueError:
-        # FIXME: throws 500
-        raise ConflictError("The path specified exists on Vault. \
-                    Try changing the name of the secret")
+        return exc.args[0], 409
 
     try:
         _secret.ctl.create_or_update_secret(secret)
