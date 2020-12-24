@@ -134,6 +134,7 @@ def get_secret(secret, value=False):  # noqa: E501
     from mist.api.methods import list_resources
     from mist.api.logs.methods import log_event
     auth_context = connexion.context['token_info']['auth_context']
+    secret_dict = {}
 
     try:
         [secret], total = list_resources(auth_context, 'secret',
@@ -146,10 +147,7 @@ def get_secret(secret, value=False):  # noqa: E501
         'total_returned': 1,
     }
 
-    response = {
-        'data': secret.as_dict(),
-        'meta': meta
-    }
+    secret_dict.update(secret.as_dict())
 
     if value:
         auth_context.check_perm('secret', 'read_value', secret.id)
@@ -157,9 +155,9 @@ def get_secret(secret, value=False):  # noqa: E501
             auth_context.owner.id, 'request', 'read_value',
             secret_id=secret.id, user_id=auth_context.user.id,
         )
-        response['data']['value'] = secret.ctl.read_secret()
+        secret_dict.update({'value': secret.ctl.read_secret()})
 
-    return response
+    return GetSecretResponse(secret_dict, meta)
 
 
 def list_secrets(search=None, sort=None, start=0, limit=100, only=None, path=None):  # noqa: E501
