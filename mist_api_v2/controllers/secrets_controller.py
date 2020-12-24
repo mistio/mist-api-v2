@@ -119,34 +119,47 @@ def edit_secret(edit_secret_request=None):  # noqa: E501
     return _secret.as_dict()
 
 
-def get_secret(secret):  # noqa: E501
+def get_secret(secret, value=False):  # noqa: E501
     """Get secret
 
     Read target secret. READ permission required on secret. # noqa: E501
 
-    :param secret: 
+    :param secret:
     :type secret: str
+    :param value:
+    :type secret: bool
 
     :rtype: GetSecretResponse
     """
     from mist.api.methods import list_resources
+    from mist.api.logs.methods import log_event
     auth_context = connexion.context['token_info']['auth_context']
-    secret_id = secret
+
     try:
-        secret = VaultSecret.objects.get(owner=auth_context.owner,
-                                         id=secret_id)
-    except me.DoesNotExist:
-        return 'VaultSecret does not exist', 404
+        [secret], total = list_resources(auth_context, 'secret',
+                                         search=secret, limit=1)
+    except ValueError:
+        return 'Secret does not exist', 404
 
-    auth_context.check_perm("secret", "read", secret_id)
+    meta = {
+        'total_matching': total,
+        'total_returned': 1,
+    }
 
-    secret_dict = secret.ctl.read_secret()
+    response = {
+        'data': secret.as_dict(),
+        'meta': meta
+    }
 
-    # if key and not secret_dict.get(key, ''):
-    #     raise BadRequestError('Secret %s does not have a %s key'
-    #                           % (secret.name, key))
+    if value:
+        auth_context.check_perm('secret', 'read_value', secret.id)
+        log_event(
+            auth_context.owner.id, 'request', 'read_value',
+            secret_id=secret.id, user_id=auth_context.user.id,
+        )
+        response['data']['value'] = secret.ctl.read_secret()
 
-    return secret_dict # if not key else {key: secret_dict[key]}
+    return response
 
 
 def list_secrets(search=None, sort=None, start=0, limit=100, only=None, path=None):  # noqa: E501
