@@ -2034,6 +2034,15 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Return the secret's value. Requires READ_VALUE permission on
+          secret.
+        explode: true
+        in: query
+        name: value
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
