@@ -117,6 +117,8 @@ class CreateNetworkRequest(Model):
         :param cloud: The cloud of this CreateNetworkRequest.
         :type cloud: str
         """
+        if cloud is None:
+            raise ValueError("Invalid value for `cloud`, must not be `None`")  # noqa: E501
 
         self._cloud = cloud
 

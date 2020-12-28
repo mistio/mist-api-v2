@@ -2879,8 +2879,8 @@ components:
           description: Save provisioning plan as template
           type: boolean
       required:
+      - cloud
       - name
-      - size
       type: object
     CreateNetworkResponse:
       oneOf:
