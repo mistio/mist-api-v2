@@ -51,9 +51,11 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, provider=None, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
+        :param provider: The provider of this CloudCredentials.  # noqa: E501
+        :type provider: str
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this CloudCredentials.  # noqa: E501
@@ -106,6 +108,7 @@ class CloudCredentials(Model):
         :type show_all: bool
         """
         self.openapi_types = {
+            'provider': str,
             'apikey': str,
             'apisecret': str,
             'tenant_id': str,
@@ -134,6 +137,7 @@ class CloudCredentials(Model):
         }
 
         self.attribute_map = {
+            'provider': 'provider',
             'apikey': 'apikey',
             'apisecret': 'apisecret',
             'tenant_id': 'tenantId',
@@ -161,6 +165,7 @@ class CloudCredentials(Model):
             'show_all': 'showAll'
         }
 
+        self._provider = provider
         self._apikey = apikey
         self._apisecret = apisecret
         self._tenant_id = tenant_id
@@ -197,6 +202,27 @@ class CloudCredentials(Model):
         :rtype: CloudCredentials
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def provider(self):
+        """Gets the provider of this CloudCredentials.
+
+
+        :return: The provider of this CloudCredentials.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this CloudCredentials.
+
+
+        :param provider: The provider of this CloudCredentials.
+        :type provider: str
+        """
+
+        self._provider = provider
 
     @property
     def apikey(self):
