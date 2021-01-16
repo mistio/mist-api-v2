@@ -2402,12 +2402,14 @@ paths:
       - volumes
       x-cli-table-default:
       - name
+      - size
       - cloud
       - location
       - tags
       x-cli-table-extended:
       - id
       - name
+      - size
       - cloud
       - location
       - external_id
