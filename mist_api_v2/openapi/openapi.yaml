@@ -78,7 +78,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -89,6 +89,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -218,7 +219,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -229,6 +230,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -253,12 +255,12 @@ paths:
       tags:
       - clouds
       x-cli-table-default:
-      - title
+      - name
       - provider
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - provider
       - tags
       - owned_by
@@ -385,7 +387,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -398,6 +400,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -448,6 +451,37 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -550,7 +584,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -561,6 +595,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -587,6 +622,7 @@ paths:
       - default
       - tags
       x-cli-table-extended:
+      - id
       - name
       - default
       - tags
@@ -697,7 +733,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -708,6 +744,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -866,7 +903,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -879,6 +916,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -976,6 +1014,37 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -1000,11 +1069,15 @@ paths:
       x-cli-table-default:
       - name
       - cloud
+      - state
       - tags
       x-cli-table-extended:
       - id
       - name
-      - default
+      - state
+      - cloud
+      - external_id
+      - public_ips
       - tags
       - owned_by
       - created_by
@@ -1702,7 +1775,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -1715,6 +1788,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -1739,7 +1813,7 @@ paths:
       x-cli-table-default:
       - name
       - cloud
-      - machiines
+      - machines
       - tags
       x-cli-table-extended:
       - id
@@ -2366,7 +2440,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -2405,6 +2479,7 @@ paths:
       - size
       - cloud
       - location
+      - attached_to
       - tags
       x-cli-table-extended:
       - id
@@ -2413,6 +2488,7 @@ paths:
       - cloud
       - location
       - external_id
+      - attached_to
       - tags
       - owned_by
       - created_by
@@ -2468,6 +2544,37 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -2491,12 +2598,19 @@ paths:
       - volumes
       x-cli-table-default:
       - name
+      - size
       - cloud
+      - location
+      - attached_to
       - tags
       x-cli-table-extended:
       - id
       - name
-      - default
+      - size
+      - cloud
+      - location
+      - external_id
+      - attached_to
       - tags
       - owned_by
       - created_by
