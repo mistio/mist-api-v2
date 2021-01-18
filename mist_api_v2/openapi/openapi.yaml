@@ -584,7 +584,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name:
+          (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -705,6 +705,7 @@ paths:
         name: private
         required: false
         schema:
+          default: false
           type: boolean
         style: form
       - description: Order results by
@@ -733,7 +734,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name:
+          (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
