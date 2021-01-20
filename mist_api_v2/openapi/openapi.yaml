@@ -417,8 +417,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:image
+        - read:cloud
       - CookieAuth:
         - read:image
+        - read:cloud
       summary: List images
       tags:
       - images
@@ -498,8 +500,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:image
+        - read:cloud
       - CookieAuth:
         - read:image
+        - read:cloud
       summary: Get image
       tags:
       - images
@@ -934,8 +938,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:machine
+        - read:cloud
       - CookieAuth:
         - read:machine
+        - read:cloud
       summary: List machines
       tags:
       - machines
@@ -1062,8 +1068,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:machine
+        - read:cloud
       - CookieAuth:
         - read:machine
+        - read:cloud
       summary: Get machine
       tags:
       - machines
@@ -1806,8 +1814,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:network
+        - read:cloud
       - CookieAuth:
         - read:network
+        - read:cloud
       summary: List networks
       tags:
       - networks
@@ -1919,8 +1929,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:network
+        - read:cloud
       - CookieAuth:
         - read:network
+        - read:cloud
       summary: Get network
       tags:
       - networks
@@ -1933,7 +1945,9 @@ paths:
       - id
       - name
       - cloud
+      - location
       - external_id
+      - subnets
       - machines
       - tags
       - owned_by
@@ -2501,8 +2515,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:volume
+        - read:cloud
       - CookieAuth:
         - read:volume
+        - read:cloud
       summary: List volumes
       tags:
       - volumes
@@ -2623,8 +2639,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:volume
+        - read:cloud
       - CookieAuth:
         - read:volume
+        - read:cloud
       summary: Get volume
       tags:
       - volumes
@@ -2678,8 +2696,10 @@ paths:
       security:
       - ApiKeyAuth:
         - edit:volume
+        - read:cloud
       - CookieAuth:
         - edit:volume
+        - read:cloud
       summary: Edit volume
       tags:
       - volumes
