@@ -1397,8 +1397,8 @@ paths:
           type: string
         style: simple
       responses:
-        "101":
-          description: Machine shell opened successfully
+        "302":
+          description: Redirect to machine shell
         "401":
           description: Authentication failed
         "403":
@@ -1409,13 +1409,18 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - read:cloud
+        - read:machine
         - ssh:machine
       - CookieAuth:
+        - read:cloud
+        - read:machine
         - ssh:machine
       summary: Open secure shell
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    x-cli-ignore: true
   /api/v2/machines/{machine}/actions/start:
     post:
       description: Start target machine
