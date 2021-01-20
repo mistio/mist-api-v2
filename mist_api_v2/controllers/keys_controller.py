@@ -17,6 +17,8 @@ from mist_api_v2.models.list_keys_response import ListKeysResponse  # noqa: E501
 
 from mist_api_v2 import util
 
+from .base import list_resources, get_resource
+
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
                     format=config.PY_LOG_FORMAT,
@@ -158,17 +160,23 @@ def edit_key(key, name=None, default=None):  # noqa: E501
     return 'Updated key `%s`' % key.name, 200
 
 
-def get_key(key, private=False):  # noqa: E501
+def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
     """Get key
 
     Get details about target key # noqa: E501
 
     :param key: 
     :type key: str
-    :param read_private:
-    :type key: bool
+    :param private: Return the private key. Requires READ_PRIVATE permission on key.
+    :type private: bool
+    :param sort: Order results by
+    :type sort: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
-    :rtype: None
+    :rtype: GetKeyResponse
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
@@ -180,11 +188,11 @@ def get_key(key, private=False):  # noqa: E501
         return 'Key does not exist', 404
 
     meta = {
-        'total_matching': total,
-        'total_returned': 1,
+        'total': total,
+        'returned': 1,
     }
 
-    response = {
+    result = {
         'data': key.as_dict(),
         'meta': meta
     }
@@ -195,11 +203,11 @@ def get_key(key, private=False):  # noqa: E501
             auth_context.owner.id, 'request', 'read_private',
             key_id=key.id, user_id=auth_context.user.id,
         )
-        response['data']['private'] = key.private
-    return response
+        result['data']['private'] = key.private
+    return GetKeyResponse(data=result['data'], meta=result['meta'])
 
 
-def list_keys(search=None, sort=None, start=0, limit=100, only=None):  # noqa: E501
+def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=None):  # noqa: E501
     """List keys
 
     List keys owned by the active org. READ permission required on key. # noqa: E501
@@ -212,21 +220,15 @@ def list_keys(search=None, sort=None, start=0, limit=100, only=None):  # noqa: E
     :type start: str
     :param limit: Limit number of results, 1000 max
     :type limit: int
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: ListKeysResponse
     """
-    from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
-    keys, total = list_resources(auth_context, 'key', search=search,
-                                 only=only, sort=sort, limit=limit)
-    meta = {
-        'total_matching': total,
-        'total_returned': keys.count(),
-        'sort': sort,
-        'start': start
-    }
-
-    return {
-        'data': [c.as_dict() for c in keys],
-        'meta': meta
-    }
+    result = list_resources(
+        auth_context, 'key', search=search, only=only,
+        sort=sort, start=start, limit=limit, deref=deref)
+    return ListKeysResponse(data=result['data'], meta=result['meta'])
