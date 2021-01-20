@@ -1872,6 +1872,37 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
       responses:
         "200":
           content:
