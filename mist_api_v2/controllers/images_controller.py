@@ -5,18 +5,28 @@ from mist_api_v2.models.get_image_response import GetImageResponse  # noqa: E501
 from mist_api_v2.models.list_images_response import ListImagesResponse  # noqa: E501
 from mist_api_v2 import util
 
+from .base import list_resources, get_resource
 
-def get_image(image):  # noqa: E501
+
+def get_image(image, only=None, deref=None):  # noqa: E501
     """Get image
 
     Get details about target image # noqa: E501
 
     :param image: 
     :type image: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: GetImageResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(
+        auth_context, 'image', search=image, only=only, deref=deref
+    )
+    return GetImageResponse(data=result['data'], meta=result['meta'])
 
 
 def list_images(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
@@ -41,4 +51,9 @@ def list_images(cloud=None, search=None, sort=None, start=None, limit=None, only
 
     :rtype: ListImagesResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = list_resources(
+        auth_context, 'image', cloud=cloud, search=search, only=only,
+        sort=sort, start=start, limit=limit, deref=deref
+    )
+    return ListImagesResponse(data=result['data'], meta=result['meta'])

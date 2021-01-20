@@ -7,6 +7,8 @@ from mist_api_v2.models.get_network_response import GetNetworkResponse  # noqa: 
 from mist_api_v2.models.list_networks_response import ListNetworksResponse  # noqa: E501
 from mist_api_v2 import util
 
+from .base import list_resources, get_resource
+
 
 def create_network(create_network_request=None):  # noqa: E501
     """Create network
@@ -38,20 +40,27 @@ def edit_network(network, name=None):  # noqa: E501
     return 'do some magic!'
 
 
-def get_network(network):  # noqa: E501
+def get_network(network, only=None, deref='auto'):  # noqa: E501
     """Get network
 
     Get details about target network # noqa: E501
 
     :param network: 
     :type network: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: GetNetworkResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(
+        auth_context, 'network', search=network, only=only, deref=deref)
+    return GetNetworkResponse(data=result['data'], meta=result['meta'])
 
 
-def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref='auto'):  # noqa: E501
     """List networks
 
     List networks owned by the active org. READ permission required on network &amp; cloud. # noqa: E501
@@ -73,4 +82,8 @@ def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, on
 
     :rtype: ListNetworksResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = list_resources(
+        auth_context, 'network', cloud=cloud, search=search, only=only,
+        sort=sort, start=start, limit=limit, deref=deref)
+    return ListNetworksResponse(data=result['data'], meta=result['meta'])

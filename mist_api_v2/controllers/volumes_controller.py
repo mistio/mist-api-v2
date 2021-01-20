@@ -7,6 +7,8 @@ from mist_api_v2.models.get_volume_response import GetVolumeResponse  # noqa: E5
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse  # noqa: E501
 from mist_api_v2 import util
 
+from .base import list_resources, get_resource
+
 
 def create_volume(create_volume_request=None):  # noqa: E501
     """Create volume
@@ -38,20 +40,27 @@ def edit_volume(volume, name=None):  # noqa: E501
     return 'do some magic!'
 
 
-def get_volume(volume):  # noqa: E501
+def get_volume(volume, only=None, deref=None):  # noqa: E501
     """Get volume
 
     Get details about target volume # noqa: E501
 
     :param volume: 
     :type volume: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: GetVolumeResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(
+        auth_context, 'volume', search=volume, only=only, deref=deref)
+    return GetVolumeResponse(data=result['data'], meta=result['meta'])
 
 
-def list_volumes(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_volumes(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
     """List volumes
 
     List volumes owned by the active org. READ permission required on volume &amp; cloud. # noqa: E501
@@ -73,4 +82,8 @@ def list_volumes(cloud=None, search=None, sort=None, start=None, limit=None, onl
 
     :rtype: ListVolumesResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = list_resources(
+        auth_context, 'volume', cloud=cloud, search=search, only=only,
+        sort=sort, start=start, limit=limit, deref=deref)
+    return ListVolumesResponse(data=result['data'], meta=result['meta'])
