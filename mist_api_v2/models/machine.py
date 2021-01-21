@@ -17,11 +17,13 @@ class Machine(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None):  # noqa: E501
         """Machine - a model defined in OpenAPI
 
         :param id: The id of this Machine.  # noqa: E501
         :type id: str
+        :param external_id: The external_id of this Machine.  # noqa: E501
+        :type external_id: str
         :param name: The name of this Machine.  # noqa: E501
         :type name: str
         :param cloud: The cloud of this Machine.  # noqa: E501
@@ -39,6 +41,7 @@ class Machine(Model):
         """
         self.openapi_types = {
             'id': str,
+            'external_id': str,
             'name': str,
             'cloud': str,
             'tags': object,
@@ -50,6 +53,7 @@ class Machine(Model):
 
         self.attribute_map = {
             'id': 'id',
+            'external_id': 'external_id',
             'name': 'name',
             'cloud': 'cloud',
             'tags': 'tags',
@@ -60,6 +64,7 @@ class Machine(Model):
         }
 
         self._id = id
+        self._external_id = external_id
         self._name = name
         self._cloud = cloud
         self._tags = tags
@@ -99,6 +104,27 @@ class Machine(Model):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        """Gets the external_id of this Machine.
+
+
+        :return: The external_id of this Machine.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Machine.
+
+
+        :param external_id: The external_id of this Machine.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
 
     @property
     def name(self):

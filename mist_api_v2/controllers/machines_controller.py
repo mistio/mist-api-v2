@@ -20,7 +20,7 @@ from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: 
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2 import util
 
-# from .base import list_resources
+from .base import list_resources, get_resource
 
 
 def clone_machine(machine):  # noqa: E501
@@ -245,17 +245,25 @@ def expose_machine(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def get_machine(machine):  # noqa: E501
+def get_machine(machine, only=None, deref=None):  # noqa: E501
     """Get machine
 
     Get details about target machine # noqa: E501
 
-    :param machine:
+    :param machine: 
     :type machine: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
 
     :rtype: GetMachineResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(auth_context, 'machine', search=machine, only=only,
+        deref=deref)
+
+    return GetMachineResponse(data=result['data'], meta=result['meta'])
 
 
 def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
@@ -281,10 +289,11 @@ def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     :rtype: ListMachinesResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    return list_resources(
+    result = list_resources(
         auth_context, 'machine', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref
     )
+    return ListMachinesResponse(data=result['data'], meta=result['meta'])
 
 
 def reboot_machine(machine):  # noqa: E501
@@ -349,8 +358,20 @@ def ssh(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    from mist.api.machines.methods import prepare_ssh_uri
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
 
+    auth_context.check_perm("cloud", "read", machine.cloud.id)
+
+    ssh_uri = prepare_ssh_uri(machine)
+
+    return 'Found', 302, {'Location': ssh_uri}
 
 def start_machine(machine):  # noqa: E501
     """Start machine
