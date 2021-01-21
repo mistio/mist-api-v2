@@ -2413,6 +2413,261 @@ paths:
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+  /api/v2/scripts:
+    get:
+      description: List scripts owned by the active org. READ permission required
+        on script.
+      operationId: list_script
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by script name:
+            value: install-tensorflow
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 3rd result:
+            value: "3"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & created_by:
+            value: id,name,created_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name'
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListScriptsResponse'
+          description: List scripts response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:script
+      - CookieAuth:
+        - read:script
+      summary: List scripts
+      tags:
+      - scripts
+      x-cli-table-default:
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - description
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+  /api/v2/scripts/{script}:
+    delete:
+      description: Delete target script
+      operationId: delete_script
+      parameters:
+      - explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Script deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - delete:script
+      - CookieAuth:
+        - delete:script
+      summary: Delete script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+    get:
+      description: Get details about target script
+      operationId: get_script
+      parameters:
+      - explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name'
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetScriptResponse'
+          description: Script returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - read:script
+      - CookieAuth:
+        - read:script
+      summary: Get script
+      tags:
+      - scripts
+      x-cli-table-default:
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - description
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+    put:
+      description: Edit target script
+      operationId: edit_script
+      parameters:
+      - explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New script name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: New script description
+        explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Script successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - edit:script
+      - CookieAuth:
+        - edit:script
+      summary: Edit script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
   /api/v2/volumes:
     get:
       description: List volumes owned by the active org. READ permission required
@@ -3307,6 +3562,26 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetScriptResponse:
+      example:
+        data:
+          name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Script'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetVolumeResponse:
       example:
         data:
@@ -3658,6 +3933,34 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListScriptsResponse:
+      example:
+        data:
+        - name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Script'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListSnapshotsResponse:
       example:
         data:
@@ -3990,6 +4293,28 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
+    Script:
+      example:
+        name: name
+        description: description
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
     Selector:
       properties:
         type:
