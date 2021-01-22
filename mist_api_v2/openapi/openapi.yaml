@@ -2417,7 +2417,7 @@ paths:
     get:
       description: List scripts owned by the active org. READ permission required
         on script.
-      operationId: list_script
+      operationId: list_scripts
       parameters:
       - description: Only return results matching search filter
         examples:
@@ -4482,7 +4482,6 @@ components:
       properties:
         id:
           type: string
-      type: object
     inline_object:
       properties:
         title:
