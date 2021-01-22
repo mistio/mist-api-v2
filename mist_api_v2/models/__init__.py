@@ -33,6 +33,7 @@ from mist_api_v2.models.get_key_response import GetKeyResponse
 from mist_api_v2.models.get_machine_response import GetMachineResponse
 from mist_api_v2.models.get_network_response import GetNetworkResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
+from mist_api_v2.models.get_script_response import GetScriptResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.ibm_credentials import IbmCredentials
@@ -48,6 +49,7 @@ from mist_api_v2.models.list_keys_response import ListKeysResponse
 from mist_api_v2.models.list_machines_response import ListMachinesResponse
 from mist_api_v2.models.list_networks_response import ListNetworksResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
+from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse
 from mist_api_v2.models.lxd_credentials import LxdCredentials
@@ -62,6 +64,7 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
+from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.trigger_after import TriggerAfter
