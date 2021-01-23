@@ -67,6 +67,8 @@ class AlibabaCredentials(Model):
         :param apikey: The apikey of this AlibabaCredentials.
         :type apikey: str
         """
+        if apikey is None:
+            raise ValueError("Invalid value for `apikey`, must not be `None`")  # noqa: E501
 
         self._apikey = apikey
 
@@ -90,5 +92,7 @@ class AlibabaCredentials(Model):
         :param apisecret: The apisecret of this AlibabaCredentials.
         :type apisecret: str
         """
+        if apisecret is None:
+            raise ValueError("Invalid value for `apisecret`, must not be `None`")  # noqa: E501
 
         self._apisecret = apisecret
