@@ -67,6 +67,8 @@ class AddCloudRequestAllOf(Model):
         :param title: The title of this AddCloudRequestAllOf.
         :type title: str
         """
+        if title is None:
+            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
 
         self._title = title
 

@@ -3062,10 +3062,6 @@ components:
         - $ref: '#/components/schemas/AddDockerCloudRequest'
         - $ref: '#/components/schemas/AddKubevirtCloudRequest'
         - $ref: '#/components/schemas/AddOtherCloudRequest'
-      required:
-      - credentials
-      - provider
-      - title
     AddDigitaloceanCloudRequest:
       properties:
         provider:
@@ -4791,6 +4787,9 @@ components:
           - vsphere
           - vultr
           type: string
+      required:
+      - provider
+      - title
       type: object
     AddKeyRequest_anyOf:
       properties:
