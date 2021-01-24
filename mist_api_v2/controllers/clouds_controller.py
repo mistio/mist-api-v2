@@ -85,7 +85,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
         auth_context.owner,
         add_cloud_request.title,
         add_cloud_request.provider,
-        add_cloud_request.credentials.to_dict()
+        add_cloud_request.credentials
     )
 
     cloud_id = result['cloud_id']
