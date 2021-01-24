@@ -51,11 +51,9 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, provider=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
-        :param provider: The provider of this CloudCredentials.  # noqa: E501
-        :type provider: str
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this CloudCredentials.  # noqa: E501
@@ -72,6 +70,8 @@ class CloudCredentials(Model):
         :type project_id: str
         :param private_key: The private_key of this CloudCredentials.  # noqa: E501
         :type private_key: str
+        :param provider: The provider of this CloudCredentials.  # noqa: E501
+        :type provider: str
         :param username: The username of this CloudCredentials.  # noqa: E501
         :type username: str
         :param token: The token of this CloudCredentials.  # noqa: E501
@@ -108,7 +108,6 @@ class CloudCredentials(Model):
         :type show_all: bool
         """
         self.openapi_types = {
-            'provider': str,
             'apikey': str,
             'apisecret': str,
             'tenant_id': str,
@@ -117,6 +116,7 @@ class CloudCredentials(Model):
             'secret': str,
             'project_id': str,
             'private_key': str,
+            'provider': str,
             'username': str,
             'token': str,
             'region': str,
@@ -137,7 +137,6 @@ class CloudCredentials(Model):
         }
 
         self.attribute_map = {
-            'provider': 'provider',
             'apikey': 'apikey',
             'apisecret': 'apisecret',
             'tenant_id': 'tenantId',
@@ -146,6 +145,7 @@ class CloudCredentials(Model):
             'secret': 'secret',
             'project_id': 'projectId',
             'private_key': 'privateKey',
+            'provider': 'provider',
             'username': 'username',
             'token': 'token',
             'region': 'region',
@@ -165,7 +165,6 @@ class CloudCredentials(Model):
             'show_all': 'showAll'
         }
 
-        self._provider = provider
         self._apikey = apikey
         self._apisecret = apisecret
         self._tenant_id = tenant_id
@@ -174,6 +173,7 @@ class CloudCredentials(Model):
         self._secret = secret
         self._project_id = project_id
         self._private_key = private_key
+        self._provider = provider
         self._username = username
         self._token = token
         self._region = region
@@ -202,27 +202,6 @@ class CloudCredentials(Model):
         :rtype: CloudCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def provider(self):
-        """Gets the provider of this CloudCredentials.
-
-
-        :return: The provider of this CloudCredentials.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this CloudCredentials.
-
-
-        :param provider: The provider of this CloudCredentials.
-        :type provider: str
-        """
-
-        self._provider = provider
 
     @property
     def apikey(self):
@@ -292,6 +271,8 @@ class CloudCredentials(Model):
         :param tenant_id: The tenant_id of this CloudCredentials.
         :type tenant_id: str
         """
+        if tenant_id is None:
+            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
 
         self._tenant_id = tenant_id
 
@@ -315,6 +296,8 @@ class CloudCredentials(Model):
         :param subscription_id: The subscription_id of this CloudCredentials.
         :type subscription_id: str
         """
+        if subscription_id is None:
+            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
 
         self._subscription_id = subscription_id
 
@@ -338,6 +321,8 @@ class CloudCredentials(Model):
         :param key: The key of this CloudCredentials.
         :type key: str
         """
+        if key is None:
+            raise ValueError("Invalid value for `key`, must not be `None`")  # noqa: E501
 
         self._key = key
 
@@ -361,6 +346,8 @@ class CloudCredentials(Model):
         :param secret: The secret of this CloudCredentials.
         :type secret: str
         """
+        if secret is None:
+            raise ValueError("Invalid value for `secret`, must not be `None`")  # noqa: E501
 
         self._secret = secret
 
@@ -413,6 +400,33 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `private_key`, must not be `None`")  # noqa: E501
 
         self._private_key = private_key
+
+    @property
+    def provider(self):
+        """Gets the provider of this CloudCredentials.
+
+
+        :return: The provider of this CloudCredentials.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this CloudCredentials.
+
+
+        :param provider: The provider of this CloudCredentials.
+        :type provider: str
+        """
+        allowed_values = ["rackspace"]  # noqa: E501
+        if provider not in allowed_values:
+            raise ValueError(
+                "Invalid value for `provider` ({0}), must be one of {1}"
+                .format(provider, allowed_values)
+            )
+
+        self._provider = provider
 
     @property
     def username(self):
@@ -482,6 +496,8 @@ class CloudCredentials(Model):
         :param region: The region of this CloudCredentials.
         :type region: str
         """
+        if region is None:
+            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
 
         self._region = region
 

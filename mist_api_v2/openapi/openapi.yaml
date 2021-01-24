@@ -2978,48 +2978,157 @@ components:
             $ref: '#/components/schemas/inline_object'
   responses: {}
   schemas:
-    AddCloudRequest:
-      example:
-        features:
-          compute: true
-          dns: false
-        provider: alibaba
-        title: title
+    AddAlibabaCloudRequest:
       properties:
-        title:
-          description: The name of the cloud to add
-          type: string
         provider:
-          description: The provider of the cloud
           enum:
           - alibaba
-          - amazon
-          - azure
-          - digitalocean
-          - equinix
-          - google
-          - ibm
-          - kvm
-          - kubevirt
-          - linode
-          - lxd
-          - maxihost
-          - onapp
-          - openstack
-          - other
-          - rackspace
-          - vcloud
-          - vsphere
-          - vultr
           type: string
         credentials:
-          $ref: '#/components/schemas/CloudCredentials'
+          $ref: '#/components/schemas/AlibabaCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddAmazonCloudRequest:
+      properties:
+        provider:
+          enum:
+          - amazon
+          type: string
+        credentials:
+          $ref: '#/components/schemas/AmazonCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
-      - title
+      type: object
+    AddAzureCloudRequest:
+      properties:
+        provider:
+          enum:
+          - azure
+          type: string
+        credentials:
+          $ref: '#/components/schemas/AzureCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddCloudRequest:
+      allOf:
+      - $ref: '#/components/schemas/AddCloudRequest_allOf'
+      - discriminator:
+          mapping:
+            amazon: '#/components/schemas/AddAmazonCloudRequest'
+            azure: '#/components/schemas/AddAzureCloudRequest'
+            google: '#/components/schemas/AddGoogleCloudRequest'
+            alibaba: '#/components/schemas/AddAlibabaCloudRequest'
+            equinix: '#/components/schemas/AddEquinixCloudRequest'
+            ibm: '#/components/schemas/AddIbmCloudRequest'
+            linode: '#/components/schemas/AddLinodeCloudRequest'
+            rackspace: '#/components/schemas/AddRackspaceCloudRequest'
+            maxihost: '#/components/schemas/AddMaxihostCloudRequest'
+            vultr: '#/components/schemas/AddVultrCloudRequest'
+            openstack: '#/components/schemas/AddOpenstackCloudRequest'
+            onapp: '#/components/schemas/AddOnappCloudRequest'
+            vsphere: '#/components/schemas/AddVsphereCloudRequest'
+            vcloud: '#/components/schemas/AddVcloudCloudRequest'
+            kvm: '#/components/schemas/AddKvmCloudRequest'
+            lxd: '#/components/schemas/AddLxdCloudRequest'
+            docker: '#/components/schemas/AddDockerCloudRequest'
+            kubevirt: '#/components/schemas/AddKubevirtCloudRequest'
+            other: '#/components/schemas/AddOtherCloudRequest'
+          propertyName: provider
+        oneOf:
+        - $ref: '#/components/schemas/AddAmazonCloudRequest'
+        - $ref: '#/components/schemas/AddAzureCloudRequest'
+        - $ref: '#/components/schemas/AddGoogleCloudRequest'
+        - $ref: '#/components/schemas/AddAlibabaCloudRequest'
+        - $ref: '#/components/schemas/AddEquinixCloudRequest'
+        - $ref: '#/components/schemas/AddIbmCloudRequest'
+        - $ref: '#/components/schemas/AddDigitaloceanCloudRequest'
+        - $ref: '#/components/schemas/AddLinodeCloudRequest'
+        - $ref: '#/components/schemas/AddRackspaceCloudRequest'
+        - $ref: '#/components/schemas/AddMaxihostCloudRequest'
+        - $ref: '#/components/schemas/AddVultrCloudRequest'
+        - $ref: '#/components/schemas/AddOpenstackCloudRequest'
+        - $ref: '#/components/schemas/AddOnappCloudRequest'
+        - $ref: '#/components/schemas/AddVsphereCloudRequest'
+        - $ref: '#/components/schemas/AddVcloudCloudRequest'
+        - $ref: '#/components/schemas/AddKvmCloudRequest'
+        - $ref: '#/components/schemas/AddLxdCloudRequest'
+        - $ref: '#/components/schemas/AddDockerCloudRequest'
+        - $ref: '#/components/schemas/AddKubevirtCloudRequest'
+        - $ref: '#/components/schemas/AddOtherCloudRequest'
+    AddDigitaloceanCloudRequest:
+      properties:
+        provider:
+          enum:
+          - digitalocean
+          type: string
+        credentials:
+          $ref: '#/components/schemas/DigitaloceanCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddDockerCloudRequest:
+      properties:
+        provider:
+          enum:
+          - docker
+          type: string
+        credentials:
+          $ref: '#/components/schemas/DockerCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddEquinixCloudRequest:
+      properties:
+        provider:
+          enum:
+          - equinix
+          type: string
+        credentials:
+          $ref: '#/components/schemas/EquinixCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddGoogleCloudRequest:
+      properties:
+        provider:
+          enum:
+          - google
+          type: string
+        credentials:
+          $ref: '#/components/schemas/GoogleCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddIbmCloudRequest:
+      properties:
+        provider:
+          enum:
+          - ibm
+          type: string
+        credentials:
+          $ref: '#/components/schemas/IbmCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
       type: object
     AddKeyRequest:
       anyOf:
@@ -3040,6 +3149,160 @@ components:
         public:
           type: string
       type: object
+    AddKubevirtCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kubevirt
+          type: string
+        credentials:
+          $ref: '#/components/schemas/KubevirtCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddKvmCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kvm
+          type: string
+        credentials:
+          type: object
+      required:
+      - credentials
+      - provider
+      type: object
+    AddLinodeCloudRequest:
+      properties:
+        provider:
+          enum:
+          - linode
+          type: string
+        credentials:
+          $ref: '#/components/schemas/LinodeCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddLxdCloudRequest:
+      properties:
+        provider:
+          enum:
+          - lxd
+          type: string
+        credentials:
+          $ref: '#/components/schemas/LxdCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddMaxihostCloudRequest:
+      properties:
+        provider:
+          enum:
+          - maxihost
+          type: string
+        credentials:
+          $ref: '#/components/schemas/MaxihostCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddOnappCloudRequest:
+      properties:
+        provider:
+          enum:
+          - onapp
+          type: string
+        credentials:
+          $ref: '#/components/schemas/OnappCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddOpenstackCloudRequest:
+      properties:
+        provider:
+          enum:
+          - openstack
+          type: string
+        credentials:
+          $ref: '#/components/schemas/OpenstackCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddOtherCloudRequest:
+      properties:
+        provider:
+          enum:
+          - other
+          type: string
+        credentials:
+          type: object
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddRackspaceCloudRequest:
+      properties:
+        provider:
+          enum:
+          - rackspace
+          type: string
+        credentials:
+          $ref: '#/components/schemas/RackspaceCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddVcloudCloudRequest:
+      properties:
+        provider:
+          enum:
+          - vcloud
+          type: string
+        credentials:
+          $ref: '#/components/schemas/VcloudCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddVsphereCloudRequest:
+      properties:
+        provider:
+          enum:
+          - vsphere
+          type: string
+        credentials:
+          $ref: '#/components/schemas/VsphereCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddVultrCloudRequest:
+      properties:
+        provider:
+          enum:
+          - vultr
+          type: string
+        credentials:
+          $ref: '#/components/schemas/VultrCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
     AlibabaCredentials:
       properties:
         apikey:
@@ -3048,11 +3311,12 @@ components:
         apisecret:
           description: Your Alibaba Cloud API secret
           type: string
+      required:
+      - apikey
+      - apisecret
       type: object
     AmazonCredentials:
       properties:
-        provider:
-          type: string
         apikey:
           description: Your AWS API key
           type: string
@@ -3077,6 +3341,11 @@ components:
         secret:
           description: Your Azure secret
           type: string
+      required:
+      - key
+      - secret
+      - subscriptionId
+      - tenantId
       type: object
     Cloud:
       example:
@@ -3108,29 +3377,6 @@ components:
           type: string
       type: object
     CloudCredentials:
-      discriminator:
-        mapping:
-          amazon: '#/components/schemas/AmazonCredentials'
-          azure: '#/components/schemas/AzureCredentials'
-          google: '#/components/schemas/GoogleCredentials'
-          alibaba: '#/components/schemas/AlibabaCredentials'
-          equinix: '#/components/schemas/EquinixCredentials'
-          ibm: '#/components/schemas/IbmCredentials'
-          digitalocean: '#/components/schemas/DigitaloceanCredentials'
-          linode: '#/components/schemas/LinodeCredentials'
-          rackspace: '#/components/schemas/RackspaceCredentials'
-          maxihost: '#/components/schemas/MaxihostCredentials'
-          vultr: '#/components/schemas/VultrCredentials'
-          openstack: '#/components/schemas/OpenstackCredentials'
-          onapp: '#/components/schemas/OnappCredentials'
-          vsphere: '#/components/schemas/VsphereCredentials'
-          vcloud: '#/components/schemas/VcloudCredentials'
-          kvm: '#/components/schemas/KvmCredentials'
-          lxd: '#/components/schemas/LxdCredentials'
-          docker: '#/components/schemas/DockerCredentials'
-          kubevirt: '#/components/schemas/KubevirtCredentials'
-          other: '#/components/schemas/OtherCredentials'
-        propertyName: provider
       oneOf:
       - $ref: '#/components/schemas/AmazonCredentials'
       - $ref: '#/components/schemas/AzureCredentials'
@@ -3404,6 +3650,9 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      required:
+      - host
+      - port
       type: object
     EquinixCredentials:
       additionalProperties: false
@@ -3619,8 +3868,11 @@ components:
       - projectId
       type: object
     IbmCredentials:
-      additionalProperties: false
       properties:
+        provider:
+          enum:
+          - ibm
+          type: string
         username:
           description: Your IBM Cloud username
           type: string
@@ -3724,6 +3976,9 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      required:
+      - host
+      - port
       type: object
     KvmCredentials:
       type: object
@@ -4041,6 +4296,9 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      required:
+      - host
+      - port
       type: object
     Machine:
       example:
@@ -4190,6 +4448,10 @@ components:
       type: object
     RackspaceCredentials:
       properties:
+        provider:
+          enum:
+          - rackspace
+          type: string
         username:
           description: Your Rackspace Cloud username
           type: string
@@ -4199,6 +4461,10 @@ components:
         region:
           description: Your Rackspace Cloud region
           type: string
+      required:
+      - apikey
+      - region
+      - username
       type: object
     ResponseMetadata:
       example:
@@ -4482,6 +4748,7 @@ components:
       properties:
         id:
           type: string
+      type: object
     inline_object:
       properties:
         title:
@@ -4491,6 +4758,38 @@ components:
           $ref: '#/components/schemas/CloudCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+      type: object
+    AddCloudRequest_allOf:
+      properties:
+        title:
+          description: The name of the cloud to add
+          type: string
+        provider:
+          description: The provider of the cloud
+          enum:
+          - alibaba
+          - amazon
+          - azure
+          - digitalocean
+          - equinix
+          - google
+          - ibm
+          - kvm
+          - kubevirt
+          - linode
+          - lxd
+          - maxihost
+          - onapp
+          - openstack
+          - other
+          - rackspace
+          - vcloud
+          - vsphere
+          - vultr
+          type: string
+      required:
+      - provider
+      - title
       type: object
     AddKeyRequest_anyOf:
       properties:

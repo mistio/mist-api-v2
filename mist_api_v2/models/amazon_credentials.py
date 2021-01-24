@@ -15,29 +15,24 @@ class AmazonCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, apikey=None, apisecret=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None):  # noqa: E501
         """AmazonCredentials - a model defined in OpenAPI
 
-        :param provider: The provider of this AmazonCredentials.  # noqa: E501
-        :type provider: str
         :param apikey: The apikey of this AmazonCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this AmazonCredentials.  # noqa: E501
         :type apisecret: str
         """
         self.openapi_types = {
-            'provider': str,
             'apikey': str,
             'apisecret': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
             'apikey': 'apikey',
             'apisecret': 'apisecret'
         }
 
-        self._provider = provider
         self._apikey = apikey
         self._apisecret = apisecret
 
@@ -51,27 +46,6 @@ class AmazonCredentials(Model):
         :rtype: AmazonCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def provider(self):
-        """Gets the provider of this AmazonCredentials.
-
-
-        :return: The provider of this AmazonCredentials.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this AmazonCredentials.
-
-
-        :param provider: The provider of this AmazonCredentials.
-        :type provider: str
-        """
-
-        self._provider = provider
 
     @property
     def apikey(self):

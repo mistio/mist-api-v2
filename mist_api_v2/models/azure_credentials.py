@@ -77,6 +77,8 @@ class AzureCredentials(Model):
         :param tenant_id: The tenant_id of this AzureCredentials.
         :type tenant_id: str
         """
+        if tenant_id is None:
+            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
 
         self._tenant_id = tenant_id
 
@@ -100,6 +102,8 @@ class AzureCredentials(Model):
         :param subscription_id: The subscription_id of this AzureCredentials.
         :type subscription_id: str
         """
+        if subscription_id is None:
+            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
 
         self._subscription_id = subscription_id
 
@@ -123,6 +127,8 @@ class AzureCredentials(Model):
         :param key: The key of this AzureCredentials.
         :type key: str
         """
+        if key is None:
+            raise ValueError("Invalid value for `key`, must not be `None`")  # noqa: E501
 
         self._key = key
 
@@ -146,5 +152,7 @@ class AzureCredentials(Model):
         :param secret: The secret of this AzureCredentials.
         :type secret: str
         """
+        if secret is None:
+            raise ValueError("Invalid value for `secret`, must not be `None`")  # noqa: E501
 
         self._secret = secret

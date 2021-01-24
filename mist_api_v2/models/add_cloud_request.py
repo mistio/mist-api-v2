@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_credentials import CloudCredentials
+from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf
 from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_credentials import CloudCredentials  # noqa: E501
+from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf  # noqa: E501
 from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
 
 class AddCloudRequest(Model):
@@ -27,14 +27,14 @@ class AddCloudRequest(Model):
         :param provider: The provider of this AddCloudRequest.  # noqa: E501
         :type provider: str
         :param credentials: The credentials of this AddCloudRequest.  # noqa: E501
-        :type credentials: CloudCredentials
+        :type credentials: object
         :param features: The features of this AddCloudRequest.  # noqa: E501
         :type features: CloudFeatures
         """
         self.openapi_types = {
             'title': str,
             'provider': str,
-            'credentials': CloudCredentials,
+            'credentials': object,
             'features': CloudFeatures
         }
 
@@ -90,7 +90,6 @@ class AddCloudRequest(Model):
     def provider(self):
         """Gets the provider of this AddCloudRequest.
 
-        The provider of the cloud  # noqa: E501
 
         :return: The provider of this AddCloudRequest.
         :rtype: str
@@ -101,7 +100,6 @@ class AddCloudRequest(Model):
     def provider(self, provider):
         """Sets the provider of this AddCloudRequest.
 
-        The provider of the cloud  # noqa: E501
 
         :param provider: The provider of this AddCloudRequest.
         :type provider: str
@@ -121,7 +119,7 @@ class AddCloudRequest(Model):
 
 
         :return: The credentials of this AddCloudRequest.
-        :rtype: CloudCredentials
+        :rtype: object
         """
         return self._credentials
 
@@ -131,7 +129,7 @@ class AddCloudRequest(Model):
 
 
         :param credentials: The credentials of this AddCloudRequest.
-        :type credentials: CloudCredentials
+        :type credentials: object
         """
         if credentials is None:
             raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501

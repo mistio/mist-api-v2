@@ -102,6 +102,8 @@ class KubevirtCredentials(Model):
         :param host: The host of this KubevirtCredentials.
         :type host: str
         """
+        if host is None:
+            raise ValueError("Invalid value for `host`, must not be `None`")  # noqa: E501
 
         self._host = host
 
@@ -125,6 +127,8 @@ class KubevirtCredentials(Model):
         :param port: The port of this KubevirtCredentials.
         :type port: str
         """
+        if port is None:
+            raise ValueError("Invalid value for `port`, must not be `None`")  # noqa: E501
 
         self._port = port
 
