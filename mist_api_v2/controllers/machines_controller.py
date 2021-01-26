@@ -11,7 +11,7 @@ from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
 
 from mist.api.machines.methods import machine_name_validator
-from mist.api.methods import list_resources
+from mist.api.methods import list_resources as list_resources_v1
 from mist.api.dramatiq_tasks import dramatiq_create_machine_async
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
@@ -109,7 +109,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
     # TODO handle multiple clouds
     # TODO add permissions constraint to list_resources
     try:
-        [cloud], _ = list_resources(
+        # TODO use list_resources
+        [cloud], _ = list_resources_v1(
             auth_context, 'cloud', search=cloud_search, limit=1
         )
     except ValueError:
