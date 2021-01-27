@@ -31,7 +31,8 @@ log = logging.getLogger(__name__)
 # dict that maps provider name aliases to
 # names expected by add_cloud_v2
 PROVIDER_ALIASES = {
-    'equinix': 'equinixmetal'
+    'equinix': 'equinixmetal',
+    'alibaba': 'aliyun_ecs'
 }
 
 def mongo_connect(*args, **kwargs):
