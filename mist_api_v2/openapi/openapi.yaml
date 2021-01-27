@@ -3311,9 +3311,13 @@ components:
         apisecret:
           description: Your Alibaba Cloud API secret
           type: string
+        region:
+          description: Your Alibaba Cloud region
+          type: string
       required:
       - apikey
       - apisecret
+      - region
       type: object
     AmazonCredentials:
       properties:
@@ -3323,9 +3327,13 @@ components:
         apisecret:
           description: Your AWS API secret
           type: string
+        region:
+          description: Your AWS region
+          type: string
       required:
       - apikey
       - apisecret
+      - region
       type: object
     AzureCredentials:
       properties:
