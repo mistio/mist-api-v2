@@ -15,26 +15,31 @@ class AlibabaCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, region=None):  # noqa: E501
         """AlibabaCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this AlibabaCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this AlibabaCredentials.  # noqa: E501
         :type apisecret: str
+        :param region: The region of this AlibabaCredentials.  # noqa: E501
+        :type region: str
         """
         self.openapi_types = {
             'apikey': str,
-            'apisecret': str
+            'apisecret': str,
+            'region': str
         }
 
         self.attribute_map = {
             'apikey': 'apikey',
-            'apisecret': 'apisecret'
+            'apisecret': 'apisecret',
+            'region': 'region'
         }
 
         self._apikey = apikey
         self._apisecret = apisecret
+        self._region = region
 
     @classmethod
     def from_dict(cls, dikt) -> 'AlibabaCredentials':
@@ -96,3 +101,28 @@ class AlibabaCredentials(Model):
             raise ValueError("Invalid value for `apisecret`, must not be `None`")  # noqa: E501
 
         self._apisecret = apisecret
+
+    @property
+    def region(self):
+        """Gets the region of this AlibabaCredentials.
+
+        Your Alibaba Cloud region  # noqa: E501
+
+        :return: The region of this AlibabaCredentials.
+        :rtype: str
+        """
+        return self._region
+
+    @region.setter
+    def region(self, region):
+        """Sets the region of this AlibabaCredentials.
+
+        Your Alibaba Cloud region  # noqa: E501
+
+        :param region: The region of this AlibabaCredentials.
+        :type region: str
+        """
+        if region is None:
+            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
+
+        self._region = region

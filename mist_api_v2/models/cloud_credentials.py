@@ -51,13 +51,15 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, provider=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, region=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, provider=None, username=None, token=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this CloudCredentials.  # noqa: E501
         :type apisecret: str
+        :param region: The region of this CloudCredentials.  # noqa: E501
+        :type region: str
         :param tenant_id: The tenant_id of this CloudCredentials.  # noqa: E501
         :type tenant_id: str
         :param subscription_id: The subscription_id of this CloudCredentials.  # noqa: E501
@@ -76,8 +78,6 @@ class CloudCredentials(Model):
         :type username: str
         :param token: The token of this CloudCredentials.  # noqa: E501
         :type token: str
-        :param region: The region of this CloudCredentials.  # noqa: E501
-        :type region: str
         :param auth_url: The auth_url of this CloudCredentials.  # noqa: E501
         :type auth_url: str
         :param user: The user of this CloudCredentials.  # noqa: E501
@@ -110,6 +110,7 @@ class CloudCredentials(Model):
         self.openapi_types = {
             'apikey': str,
             'apisecret': str,
+            'region': str,
             'tenant_id': str,
             'subscription_id': str,
             'key': str,
@@ -119,7 +120,6 @@ class CloudCredentials(Model):
             'provider': str,
             'username': str,
             'token': str,
-            'region': str,
             'auth_url': str,
             'user': str,
             'password': str,
@@ -139,6 +139,7 @@ class CloudCredentials(Model):
         self.attribute_map = {
             'apikey': 'apikey',
             'apisecret': 'apisecret',
+            'region': 'region',
             'tenant_id': 'tenantId',
             'subscription_id': 'subscriptionId',
             'key': 'key',
@@ -148,7 +149,6 @@ class CloudCredentials(Model):
             'provider': 'provider',
             'username': 'username',
             'token': 'token',
-            'region': 'region',
             'auth_url': 'authUrl',
             'user': 'user',
             'password': 'password',
@@ -167,6 +167,7 @@ class CloudCredentials(Model):
 
         self._apikey = apikey
         self._apisecret = apisecret
+        self._region = region
         self._tenant_id = tenant_id
         self._subscription_id = subscription_id
         self._key = key
@@ -176,7 +177,6 @@ class CloudCredentials(Model):
         self._provider = provider
         self._username = username
         self._token = token
-        self._region = region
         self._auth_url = auth_url
         self._user = user
         self._password = password
@@ -250,6 +250,29 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `apisecret`, must not be `None`")  # noqa: E501
 
         self._apisecret = apisecret
+
+    @property
+    def region(self):
+        """Gets the region of this CloudCredentials.
+
+
+        :return: The region of this CloudCredentials.
+        :rtype: str
+        """
+        return self._region
+
+    @region.setter
+    def region(self, region):
+        """Sets the region of this CloudCredentials.
+
+
+        :param region: The region of this CloudCredentials.
+        :type region: str
+        """
+        if region is None:
+            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
+
+        self._region = region
 
     @property
     def tenant_id(self):
@@ -477,29 +500,6 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
 
         self._token = token
-
-    @property
-    def region(self):
-        """Gets the region of this CloudCredentials.
-
-
-        :return: The region of this CloudCredentials.
-        :rtype: str
-        """
-        return self._region
-
-    @region.setter
-    def region(self, region):
-        """Sets the region of this CloudCredentials.
-
-
-        :param region: The region of this CloudCredentials.
-        :type region: str
-        """
-        if region is None:
-            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
-
-        self._region = region
 
     @property
     def auth_url(self):
