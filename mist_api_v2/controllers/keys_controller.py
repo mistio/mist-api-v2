@@ -116,7 +116,7 @@ def delete_key(key):  # noqa: E501
     auth_context.check_perm('key', 'remove', key.id)
     m_delete_key(auth_context.owner, key_id)
     log_event(
-        auth_context.owner.id, 'request', 'generate_key',
+        auth_context.owner.id, 'request', 'delete_key',
         key_id=key.id, user_id=auth_context.user.id,
     )
 

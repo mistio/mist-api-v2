@@ -1,6 +1,10 @@
 import connexion
 import six
 
+import mongoengine as me
+
+from mist.api.logs.methods import log_event
+
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse  # noqa: E501
 from mist_api_v2 import util
@@ -18,7 +22,24 @@ def delete_script(script):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.scripts.models import Script
+
+    auth_context = connexion.context['token_info']['auth_context']
+    script_id = script
+    try:
+        script = Script.objects.get(owner=auth_context.owner, id=script_id,
+                                    deleted=None)
+    except me.DoesNotExist:
+        return 'Script does not exist', 404
+
+    auth_context.check_perm('script', 'remove', script.id)
+    script.ctl.delete()
+    log_event(
+        auth_context.owner.id, 'request', 'delete_script',
+        script_id=script.id, user_id=auth_context.user.id,
+    )
+
+    return 'Deleted script `%s`' % script.name, 200
 
 
 def edit_script(script, name=None, description=None):  # noqa: E501
@@ -35,7 +56,17 @@ def edit_script(script, name=None, description=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [script], total = list_resources(auth_context, 'script',
+                                         search=script, limit=1)
+    except ValueError:
+        return 'Script does not exist', 404
+
+    auth_context.check_perm('script', 'edit', script.id)
+    script.ctl.edit(name, description)
+    return 'Updated script `%s`' % script.name, 200
 
 
 def get_script(script, only=None, deref='auto'):  # noqa: E501
