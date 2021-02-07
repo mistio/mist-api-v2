@@ -216,7 +216,7 @@ def ssh(machine):  # noqa: E501
 
     auth_context.check_perm("cloud", "read", machine.cloud.id)
 
-    ssh_uri = prepare_ssh_uri(machine)
+    ssh_uri = prepare_ssh_uri(auth_context, machine)
 
     return 'Found', 302, {'Location': ssh_uri}
 
