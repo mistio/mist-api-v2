@@ -20,7 +20,22 @@ def clone_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+
+    auth_context.check_perm('machine', 'clone', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'clone_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    machine.ctl.clone()
+    return 'Cloned machine `%s`' % machine.name, 200
 
 
 def console(machine):  # noqa: E501
@@ -61,7 +76,22 @@ def destroy_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+
+    auth_context.check_perm('machine', 'destroy', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'destroy_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    machine.ctl.destroy()
+    return 'Destroyed machine `%s`' % machine.name, 200
 
 
 def edit_machine(machine, name=None):  # noqa: E501
@@ -153,7 +183,22 @@ def reboot_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+
+    auth_context.check_perm('machine', 'reboot', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'reboot_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    machine.ctl.reboot()
+    return 'Rebooted machine `%s`' % machine.name, 200
 
 
 def rename_machine(machine):  # noqa: E501
@@ -230,7 +275,22 @@ def start_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+
+    auth_context.check_perm('machine', 'start', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'start_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    machine.ctl.start()
+    return 'Started machine `%s`' % machine.name, 200
 
 
 def stop_machine(machine):  # noqa: E501
@@ -243,7 +303,22 @@ def stop_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+
+    auth_context.check_perm('machine', 'stop', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'stop_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    machine.ctl.stop()
+    return 'Stopped machine `%s`' % machine.name, 200
 
 
 def suspend_machine(machine):  # noqa: E501
