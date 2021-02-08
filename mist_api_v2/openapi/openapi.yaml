@@ -3024,6 +3024,7 @@ components:
             amazon: '#/components/schemas/AddAmazonCloudRequest'
             azure: '#/components/schemas/AddAzureCloudRequest'
             google: '#/components/schemas/AddGoogleCloudRequest'
+            cloudsigma: '#/components/schemas/AddCloudSigmaCloudRequest'
             alibaba: '#/components/schemas/AddAlibabaCloudRequest'
             equinix: '#/components/schemas/AddEquinixCloudRequest'
             ibm: '#/components/schemas/AddIbmCloudRequest'
@@ -3046,6 +3047,7 @@ components:
         - $ref: '#/components/schemas/AddAzureCloudRequest'
         - $ref: '#/components/schemas/AddGoogleCloudRequest'
         - $ref: '#/components/schemas/AddAlibabaCloudRequest'
+        - $ref: '#/components/schemas/AddCloudSigmaCloudRequest'
         - $ref: '#/components/schemas/AddEquinixCloudRequest'
         - $ref: '#/components/schemas/AddIbmCloudRequest'
         - $ref: '#/components/schemas/AddDigitaloceanCloudRequest'
@@ -3062,6 +3064,18 @@ components:
         - $ref: '#/components/schemas/AddDockerCloudRequest'
         - $ref: '#/components/schemas/AddKubevirtCloudRequest'
         - $ref: '#/components/schemas/AddOtherCloudRequest'
+    AddCloudSigmaCloudRequest:
+      properties:
+        provider:
+          enum:
+          - cloudsigma
+          type: string
+        credentials:
+          $ref: '#/components/schemas/CloudSigmaCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
     AddDigitaloceanCloudRequest:
       properties:
         provider:
@@ -3390,6 +3404,7 @@ components:
       - $ref: '#/components/schemas/AzureCredentials'
       - $ref: '#/components/schemas/GoogleCredentials'
       - $ref: '#/components/schemas/AlibabaCredentials'
+      - $ref: '#/components/schemas/CloudSigmaCredentials'
       - $ref: '#/components/schemas/EquinixCredentials'
       - $ref: '#/components/schemas/IbmCredentials'
       - $ref: '#/components/schemas/DigitaloceanCredentials'
@@ -3421,6 +3436,22 @@ components:
           default: false
           description: Enable DNS services
           type: boolean
+      type: object
+    CloudSigmaCredentials:
+      properties:
+        username:
+          description: Your CloudSigma username
+          type: string
+        password:
+          description: Your CloudSigma password
+          type: string
+        region:
+          description: Your CloudSigma region
+          type: string
+      required:
+      - password
+      - region
+      - username
       type: object
     CreateMachineRequest:
       example:
@@ -4619,6 +4650,7 @@ components:
       - azure
       - google
       - alibaba
+      - cloudsigma
       - equinix
       - ibm
       - digitalocean
@@ -4778,6 +4810,7 @@ components:
           - alibaba
           - amazon
           - azure
+          - cloudsigma
           - digitalocean
           - equinix
           - google
