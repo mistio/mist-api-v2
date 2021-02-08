@@ -24,6 +24,7 @@ mist_api_v2/models/add_amazon_cloud_request.py
 mist_api_v2/models/add_azure_cloud_request.py
 mist_api_v2/models/add_cloud_request.py
 mist_api_v2/models/add_cloud_request_all_of.py
+mist_api_v2/models/add_cloud_sigma_cloud_request.py
 mist_api_v2/models/add_digitalocean_cloud_request.py
 mist_api_v2/models/add_docker_cloud_request.py
 mist_api_v2/models/add_equinix_cloud_request.py
@@ -53,6 +54,7 @@ mist_api_v2/models/base_model_.py
 mist_api_v2/models/cloud.py
 mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py
+mist_api_v2/models/cloud_sigma_credentials.py
 mist_api_v2/models/create_machine_request.py
 mist_api_v2/models/create_machine_response.py
 mist_api_v2/models/create_machine_response_one_of.py

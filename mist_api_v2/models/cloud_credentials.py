@@ -9,6 +9,7 @@ from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.azure_credentials import AzureCredentials
+from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
@@ -29,6 +30,7 @@ from mist_api_v2 import util
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials  # noqa: E501
 from mist_api_v2.models.amazon_credentials import AmazonCredentials  # noqa: E501
 from mist_api_v2.models.azure_credentials import AzureCredentials  # noqa: E501
+from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials  # noqa: E501
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials  # noqa: E501
 from mist_api_v2.models.docker_credentials import DockerCredentials  # noqa: E501
 from mist_api_v2.models.equinix_credentials import EquinixCredentials  # noqa: E501
@@ -51,7 +53,7 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, region=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, provider=None, username=None, token=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, region=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, password=None, provider=None, token=None, auth_url=None, user=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
@@ -72,18 +74,18 @@ class CloudCredentials(Model):
         :type project_id: str
         :param private_key: The private_key of this CloudCredentials.  # noqa: E501
         :type private_key: str
-        :param provider: The provider of this CloudCredentials.  # noqa: E501
-        :type provider: str
         :param username: The username of this CloudCredentials.  # noqa: E501
         :type username: str
+        :param password: The password of this CloudCredentials.  # noqa: E501
+        :type password: str
+        :param provider: The provider of this CloudCredentials.  # noqa: E501
+        :type provider: str
         :param token: The token of this CloudCredentials.  # noqa: E501
         :type token: str
         :param auth_url: The auth_url of this CloudCredentials.  # noqa: E501
         :type auth_url: str
         :param user: The user of this CloudCredentials.  # noqa: E501
         :type user: str
-        :param password: The password of this CloudCredentials.  # noqa: E501
-        :type password: str
         :param tenant: The tenant of this CloudCredentials.  # noqa: E501
         :type tenant: str
         :param domain: The domain of this CloudCredentials.  # noqa: E501
@@ -117,12 +119,12 @@ class CloudCredentials(Model):
             'secret': str,
             'project_id': str,
             'private_key': str,
-            'provider': str,
             'username': str,
+            'password': str,
+            'provider': str,
             'token': str,
             'auth_url': str,
             'user': str,
-            'password': str,
             'tenant': str,
             'domain': str,
             'compute_endpoint': str,
@@ -146,12 +148,12 @@ class CloudCredentials(Model):
             'secret': 'secret',
             'project_id': 'projectId',
             'private_key': 'privateKey',
-            'provider': 'provider',
             'username': 'username',
+            'password': 'password',
+            'provider': 'provider',
             'token': 'token',
             'auth_url': 'authUrl',
             'user': 'user',
-            'password': 'password',
             'tenant': 'tenant',
             'domain': 'domain',
             'compute_endpoint': 'computeEndpoint',
@@ -174,12 +176,12 @@ class CloudCredentials(Model):
         self._secret = secret
         self._project_id = project_id
         self._private_key = private_key
-        self._provider = provider
         self._username = username
+        self._password = password
+        self._provider = provider
         self._token = token
         self._auth_url = auth_url
         self._user = user
-        self._password = password
         self._tenant = tenant
         self._domain = domain
         self._compute_endpoint = compute_endpoint
@@ -425,6 +427,56 @@ class CloudCredentials(Model):
         self._private_key = private_key
 
     @property
+    def username(self):
+        """Gets the username of this CloudCredentials.
+
+        Your Kubernetes API username  # noqa: E501
+
+        :return: The username of this CloudCredentials.
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this CloudCredentials.
+
+        Your Kubernetes API username  # noqa: E501
+
+        :param username: The username of this CloudCredentials.
+        :type username: str
+        """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+
+        self._username = username
+
+    @property
+    def password(self):
+        """Gets the password of this CloudCredentials.
+
+        Your Kubernetes API password  # noqa: E501
+
+        :return: The password of this CloudCredentials.
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this CloudCredentials.
+
+        Your Kubernetes API password  # noqa: E501
+
+        :param password: The password of this CloudCredentials.
+        :type password: str
+        """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
+
+        self._password = password
+
+    @property
     def provider(self):
         """Gets the provider of this CloudCredentials.
 
@@ -450,31 +502,6 @@ class CloudCredentials(Model):
             )
 
         self._provider = provider
-
-    @property
-    def username(self):
-        """Gets the username of this CloudCredentials.
-
-        Your Kubernetes API username  # noqa: E501
-
-        :return: The username of this CloudCredentials.
-        :rtype: str
-        """
-        return self._username
-
-    @username.setter
-    def username(self, username):
-        """Sets the username of this CloudCredentials.
-
-        Your Kubernetes API username  # noqa: E501
-
-        :param username: The username of this CloudCredentials.
-        :type username: str
-        """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
-
-        self._username = username
 
     @property
     def token(self):
@@ -546,31 +573,6 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
 
         self._user = user
-
-    @property
-    def password(self):
-        """Gets the password of this CloudCredentials.
-
-        Your Kubernetes API password  # noqa: E501
-
-        :return: The password of this CloudCredentials.
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        """Sets the password of this CloudCredentials.
-
-        Your Kubernetes API password  # noqa: E501
-
-        :param password: The password of this CloudCredentials.
-        :type password: str
-        """
-        if password is None:
-            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-
-        self._password = password
 
     @property
     def tenant(self):
