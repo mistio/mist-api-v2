@@ -3072,8 +3072,6 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/CloudSigmaCredentials'
-        features:
-          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider

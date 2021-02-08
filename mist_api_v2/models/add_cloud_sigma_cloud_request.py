@@ -6,11 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials  # noqa: E501
 
 class AddCloudSigmaCloudRequest(Model):
@@ -19,31 +17,26 @@ class AddCloudSigmaCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None):  # noqa: E501
         """AddCloudSigmaCloudRequest - a model defined in OpenAPI
 
         :param provider: The provider of this AddCloudSigmaCloudRequest.  # noqa: E501
         :type provider: str
         :param credentials: The credentials of this AddCloudSigmaCloudRequest.  # noqa: E501
         :type credentials: CloudSigmaCredentials
-        :param features: The features of this AddCloudSigmaCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
         """
         self.openapi_types = {
             'provider': str,
-            'credentials': CloudSigmaCredentials,
-            'features': CloudFeatures
+            'credentials': CloudSigmaCredentials
         }
 
         self.attribute_map = {
             'provider': 'provider',
-            'credentials': 'credentials',
-            'features': 'features'
+            'credentials': 'credentials'
         }
 
         self._provider = provider
         self._credentials = credentials
-        self._features = features
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddCloudSigmaCloudRequest':
@@ -105,24 +98,3 @@ class AddCloudSigmaCloudRequest(Model):
             raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
 
         self._credentials = credentials
-
-    @property
-    def features(self):
-        """Gets the features of this AddCloudSigmaCloudRequest.
-
-
-        :return: The features of this AddCloudSigmaCloudRequest.
-        :rtype: CloudFeatures
-        """
-        return self._features
-
-    @features.setter
-    def features(self, features):
-        """Sets the features of this AddCloudSigmaCloudRequest.
-
-
-        :param features: The features of this AddCloudSigmaCloudRequest.
-        :type features: CloudFeatures
-        """
-
-        self._features = features
