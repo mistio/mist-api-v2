@@ -344,4 +344,19 @@ def undefine_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+
+    auth_context.check_perm('machine', 'undefine', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'undefine_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    machine.ctl.undefine()
+    return 'Undefined machine `%s`' % machine.name, 200
