@@ -1,5 +1,18 @@
+import uuid
 import connexion
 import six
+import mongoengine as me
+
+from mist.api import config
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import NotFoundError
+from mist.api.exceptions import ForbiddenError
+from mist.api.exceptions import MachineNameValidationError
+from mist.api.exceptions import PolicyUnauthorizedError
+
+from mist.api.machines.methods import machine_name_validator
+from mist.api.methods import list_resources as list_resources_v1
+from mist.api.dramatiq_tasks import dramatiq_create_machine_async
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -51,6 +64,40 @@ def console(machine):  # noqa: E501
     return 'do some magic!'
 
 
+def _compute_tags(auth_context, tags=None, request_tags=None):
+    security_tags = auth_context.get_security_tags()
+    for mt in request_tags:
+        if mt in security_tags:
+            raise ForbiddenError(
+                'You may not assign tags included in a Team access policy:'
+                ' `%s`' % mt)
+    tags.update(request_tags)
+    return tags
+
+
+def _check_constraints(auth_context, expiration, constraints=None):
+    constraints = constraints or {}
+    # check expiration constraint
+    exp_constraint = constraints.get('expiration', {})
+    if exp_constraint:
+        try:
+            from mist.rbac.methods import check_expiration
+
+            check_expiration(expiration, exp_constraint)
+        except ImportError:
+            pass
+
+    # check cost constraint
+    cost_constraint = constraints.get('cost', {})
+    if cost_constraint:
+        try:
+            from mist.rbac.methods import check_cost
+
+            check_cost(auth_context.org, cost_constraint)
+        except ImportError:
+            pass
+
+
 def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
@@ -61,9 +108,116 @@ def create_machine(create_machine_request=None):  # noqa: E501
 
     :rtype: CreateMachineResponse
     """
+
     if connexion.request.is_json:
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    auth_context = connexion.context['token_info']['auth_context']
+    plan = {}
+
+    if create_machine_request.cloud:
+        cloud_search = create_machine_request.cloud
+    elif create_machine_request.provider:
+        cloud_search = f'provider:{create_machine_request.provider}'
+    else:
+        cloud_search = ''
+    # TODO handle multiple clouds
+    # TODO add permissions constraint to list_resources
+    try:
+        # TODO use list_resources
+        [cloud], _ = list_resources_v1(
+            auth_context, 'cloud', search=cloud_search, limit=1
+        )
+    except ValueError:
+        return 'Cloud does not exist', 404
+    try:
+        auth_context.check_perm('cloud', 'create_resources', cloud.id)
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 403
+
+    plan['cloud'] = cloud.id
+
+    try:
+        machine_name = machine_name_validator(
+                        cloud.ctl.provider,
+                        create_machine_request.name)
+    except MachineNameValidationError as exc:
+        return exc.args[0], 400
+
+    plan['machine_name'] = machine_name
+
+    try:
+        tags, constraints = auth_context.check_perm('machine', 'create', None)
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 403
+
+    request_tags = create_machine_request.tags or {}
+    try:
+        tags = _compute_tags(
+            auth_context, tags=tags, request_tags=request_tags
+        )
+    except ForbiddenError as err:
+        return err.args[0], 403
+
+    if tags:
+        plan['tags'] = tags
+
+    expiration = create_machine_request.expiration or {}
+    try:
+        _check_constraints(auth_context, expiration, constraints=constraints)
+    except BadRequestError as exc:
+        return exc.args[0], 400
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 400
+
+    if expiration:
+        plan['expiration'] = expiration
+
+    kwargs = {
+        'image': create_machine_request.image or {},
+        'location': create_machine_request.location or '',
+        'size': create_machine_request.size or {},
+        'key': create_machine_request.key or {},
+        'networks': create_machine_request.net or {},
+        'volumes': create_machine_request.volumes or [],
+        'disks': create_machine_request.disks or {},
+        'extra': create_machine_request.extra or {},
+        'scripts': create_machine_request.scripts or [],
+        'schedules': create_machine_request.schedules or {},
+        'cloudinit': create_machine_request.cloudinit or '',
+        'fqdn': create_machine_request.fqdn or '',
+        'monitoring': create_machine_request.monitoring,
+        'quantity': create_machine_request.quantity or 1
+    }
+
+    try:
+        cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
+    except NotFoundError as exc:
+        return exc.args[0], 404
+    except PolicyUnauthorizedError as exc:
+        return exc.args[0], 400
+    except BadRequestError as exc:
+        return exc.args[0], 400
+
+    # TODO save
+    # TODO template
+
+    if create_machine_request.dry is not None:
+        dry = create_machine_request.dry
+    else:
+        dry = True
+
+    if dry:
+        return CreateMachineResponse(plan=plan)
+    else:
+        # TODO job,job_id could also be passed as parameter
+        job_id = uuid.uuid4().hex
+        job = 'create_machine'
+        # TODO add countdown=2
+        dramatiq_create_machine_async.send(
+            auth_context.serialize(), plan, job_id=job_id, job=job
+        )
+        return CreateMachineResponse(plan=plan, job_id=job_id)
 
 
 def destroy_machine(machine):  # noqa: E501
