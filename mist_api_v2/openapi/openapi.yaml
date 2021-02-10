@@ -3527,6 +3527,10 @@ components:
           type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
+          oneOf:
+          - $ref: '#/components/schemas/OneOffSchedule'
+          - $ref: '#/components/schemas/CronSchedule'
+          - $ref: '#/components/schemas/IntervalSchedule'
           type: object
         tags:
           description: Assign tags to provisioned machine
@@ -3654,6 +3658,32 @@ components:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      type: object
+    CronSchedule:
+      properties:
+        schedule_type:
+          type: string
+        entry:
+          $ref: '#/components/schemas/CronSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          type: string
+        start_after:
+          type: string
+        expires:
+          type: string
+        max_run_count:
+          type: integer
+        description:
+          type: string
+      required:
+      - entry
       type: object
     DigitaloceanCredentials:
       properties:
@@ -3954,6 +3984,32 @@ components:
           type: string
         extra:
           type: object
+      type: object
+    IntervalSchedule:
+      properties:
+        schedule_type:
+          type: string
+        entry:
+          $ref: '#/components/schemas/IntervalSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          type: string
+        start_after:
+          type: string
+        expires:
+          type: string
+        max_run_count:
+          type: integer
+        description:
+          type: string
+      required:
+      - entry
       type: object
     Key:
       example:
@@ -4434,6 +4490,26 @@ components:
       - host
       - username
       type: object
+    OneOffSchedule:
+      properties:
+        schedule_type:
+          type: string
+        entry:
+          type: integer
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          type: string
+        description:
+          type: string
+      required:
+      - entry
+      type: object
     OpenstackCredentials:
       properties:
         authUrl:
@@ -4881,6 +4957,26 @@ components:
       properties:
         plan:
           type: object
+    CronSchedule_entry:
+      properties:
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
+      type: object
+    IntervalSchedule_entry:
+      properties:
+        every:
+          type: integer
+        period:
+          type: string
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

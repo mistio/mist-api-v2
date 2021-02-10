@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.one_of_one_off_schedule_cron_schedule_interval_schedule import OneOfOneOffScheduleCronScheduleIntervalSchedule
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
+from mist_api_v2.models.one_of_one_off_schedule_cron_schedule_interval_schedule import OneOfOneOffScheduleCronScheduleIntervalSchedule  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
 class CreateMachineRequest(Model):
@@ -47,7 +49,7 @@ class CreateMachineRequest(Model):
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
         :type scripts: List[object]
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
-        :type schedules: object
+        :type schedules: OneOfOneOffScheduleCronScheduleIntervalSchedule
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
@@ -79,7 +81,7 @@ class CreateMachineRequest(Model):
             'fqdn': str,
             'cloudinit': str,
             'scripts': List[object],
-            'schedules': object,
+            'schedules': OneOfOneOffScheduleCronScheduleIntervalSchedule,
             'tags': object,
             'expiration': object,
             'extra': object,
@@ -459,7 +461,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :return: The schedules of this CreateMachineRequest.
-        :rtype: object
+        :rtype: OneOfOneOffScheduleCronScheduleIntervalSchedule
         """
         return self._schedules
 
@@ -470,7 +472,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :param schedules: The schedules of this CreateMachineRequest.
-        :type schedules: object
+        :type schedules: OneOfOneOffScheduleCronScheduleIntervalSchedule
         """
 
         self._schedules = schedules
