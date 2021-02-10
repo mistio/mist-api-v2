@@ -3470,7 +3470,9 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
-        schedules: '{}'
+        schedules:
+        - '{}'
+        - '{}'
         extra: '{}'
         name: name
         location: location
@@ -3526,12 +3528,14 @@ components:
             type: object
           type: array
         schedules:
-          description: Configure scheduled actions for the provisioned machine
-          oneOf:
-          - $ref: '#/components/schemas/OneOffSchedule'
-          - $ref: '#/components/schemas/CronSchedule'
-          - $ref: '#/components/schemas/IntervalSchedule'
-          type: object
+          items:
+            description: Configure scheduled actions for the provisioned machine
+            oneOf:
+            - $ref: '#/components/schemas/OneOffSchedule'
+            - $ref: '#/components/schemas/CronSchedule'
+            - $ref: '#/components/schemas/IntervalSchedule'
+            type: object
+          type: array
         tags:
           description: Assign tags to provisioned machine
           type: object
@@ -3677,9 +3681,11 @@ components:
         script:
           type: string
         start_after:
+          description: Datetime when schedule should start running.
           format: date-time
           type: string
         expires:
+          description: Datetime when schedule should expire.
           format: date-time
           type: string
         max_run_count:
@@ -4008,9 +4014,11 @@ components:
         script:
           type: string
         start_after:
+          description: Datetime when schedule should start running.
           format: date-time
           type: string
         expires:
+          description: Datetime when schedule should expire.
           format: date-time
           type: string
         max_run_count:
@@ -4507,6 +4515,7 @@ components:
           - one_off
           type: string
         entry:
+          description: The amount of time in milliseconds
           type: integer
         action:
           enum:

@@ -93,6 +93,7 @@ class OneOffSchedule(Model):
     def entry(self):
         """Gets the entry of this OneOffSchedule.
 
+        The amount of time in milliseconds  # noqa: E501
 
         :return: The entry of this OneOffSchedule.
         :rtype: int
@@ -103,6 +104,7 @@ class OneOffSchedule(Model):
     def entry(self, entry):
         """Sets the entry of this OneOffSchedule.
 
+        The amount of time in milliseconds  # noqa: E501
 
         :param entry: The entry of this OneOffSchedule.
         :type entry: int

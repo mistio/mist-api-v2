@@ -181,6 +181,7 @@ class IntervalSchedule(Model):
     def start_after(self):
         """Gets the start_after of this IntervalSchedule.
 
+        Datetime when schedule should start running.  # noqa: E501
 
         :return: The start_after of this IntervalSchedule.
         :rtype: datetime
@@ -191,6 +192,7 @@ class IntervalSchedule(Model):
     def start_after(self, start_after):
         """Sets the start_after of this IntervalSchedule.
 
+        Datetime when schedule should start running.  # noqa: E501
 
         :param start_after: The start_after of this IntervalSchedule.
         :type start_after: datetime
@@ -202,6 +204,7 @@ class IntervalSchedule(Model):
     def expires(self):
         """Gets the expires of this IntervalSchedule.
 
+        Datetime when schedule should expire.  # noqa: E501
 
         :return: The expires of this IntervalSchedule.
         :rtype: datetime
@@ -212,6 +215,7 @@ class IntervalSchedule(Model):
     def expires(self, expires):
         """Sets the expires of this IntervalSchedule.
 
+        Datetime when schedule should expire.  # noqa: E501
 
         :param expires: The expires of this IntervalSchedule.
         :type expires: datetime

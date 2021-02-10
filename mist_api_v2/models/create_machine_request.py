@@ -49,7 +49,7 @@ class CreateMachineRequest(Model):
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
         :type scripts: List[object]
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
-        :type schedules: OneOfOneOffScheduleCronScheduleIntervalSchedule
+        :type schedules: List[OneOfOneOffScheduleCronScheduleIntervalSchedule]
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
@@ -81,7 +81,7 @@ class CreateMachineRequest(Model):
             'fqdn': str,
             'cloudinit': str,
             'scripts': List[object],
-            'schedules': OneOfOneOffScheduleCronScheduleIntervalSchedule,
+            'schedules': List[OneOfOneOffScheduleCronScheduleIntervalSchedule],
             'tags': object,
             'expiration': object,
             'extra': object,
@@ -458,10 +458,9 @@ class CreateMachineRequest(Model):
     def schedules(self):
         """Gets the schedules of this CreateMachineRequest.
 
-        Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :return: The schedules of this CreateMachineRequest.
-        :rtype: OneOfOneOffScheduleCronScheduleIntervalSchedule
+        :rtype: List[OneOfOneOffScheduleCronScheduleIntervalSchedule]
         """
         return self._schedules
 
@@ -469,10 +468,9 @@ class CreateMachineRequest(Model):
     def schedules(self, schedules):
         """Sets the schedules of this CreateMachineRequest.
 
-        Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :param schedules: The schedules of this CreateMachineRequest.
-        :type schedules: OneOfOneOffScheduleCronScheduleIntervalSchedule
+        :type schedules: List[OneOfOneOffScheduleCronScheduleIntervalSchedule]
         """
 
         self._schedules = schedules
