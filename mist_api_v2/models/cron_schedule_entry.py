@@ -80,6 +80,8 @@ class CronScheduleEntry(Model):
         :param minute: The minute of this CronScheduleEntry.
         :type minute: str
         """
+        if minute is None:
+            raise ValueError("Invalid value for `minute`, must not be `None`")  # noqa: E501
 
         self._minute = minute
 
@@ -101,6 +103,8 @@ class CronScheduleEntry(Model):
         :param hour: The hour of this CronScheduleEntry.
         :type hour: str
         """
+        if hour is None:
+            raise ValueError("Invalid value for `hour`, must not be `None`")  # noqa: E501
 
         self._hour = hour
 
@@ -122,6 +126,8 @@ class CronScheduleEntry(Model):
         :param day_of_month: The day_of_month of this CronScheduleEntry.
         :type day_of_month: str
         """
+        if day_of_month is None:
+            raise ValueError("Invalid value for `day_of_month`, must not be `None`")  # noqa: E501
 
         self._day_of_month = day_of_month
 
@@ -143,6 +149,8 @@ class CronScheduleEntry(Model):
         :param month_of_year: The month_of_year of this CronScheduleEntry.
         :type month_of_year: str
         """
+        if month_of_year is None:
+            raise ValueError("Invalid value for `month_of_year`, must not be `None`")  # noqa: E501
 
         self._month_of_year = month_of_year
 
@@ -164,5 +172,7 @@ class CronScheduleEntry(Model):
         :param day_of_week: The day_of_week of this CronScheduleEntry.
         :type day_of_week: str
         """
+        if day_of_week is None:
+            raise ValueError("Invalid value for `day_of_week`, must not be `None`")  # noqa: E501
 
         self._day_of_week = day_of_week

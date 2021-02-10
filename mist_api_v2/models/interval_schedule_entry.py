@@ -65,6 +65,8 @@ class IntervalScheduleEntry(Model):
         :param every: The every of this IntervalScheduleEntry.
         :type every: int
         """
+        if every is None:
+            raise ValueError("Invalid value for `every`, must not be `None`")  # noqa: E501
 
         self._every = every
 
@@ -86,5 +88,11 @@ class IntervalScheduleEntry(Model):
         :param period: The period of this IntervalScheduleEntry.
         :type period: str
         """
+        allowed_values = ["minutes", "hours", "days"]  # noqa: E501
+        if period not in allowed_values:
+            raise ValueError(
+                "Invalid value for `period` ({0}), must be one of {1}"
+                .format(period, allowed_values)
+            )
 
         self._period = period

@@ -80,6 +80,12 @@ class OneOffSchedule(Model):
         :param schedule_type: The schedule_type of this OneOffSchedule.
         :type schedule_type: str
         """
+        allowed_values = ["one_off"]  # noqa: E501
+        if schedule_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `schedule_type` ({0}), must be one of {1}"
+                .format(schedule_type, allowed_values)
+            )
 
         self._schedule_type = schedule_type
 

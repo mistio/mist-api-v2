@@ -3662,6 +3662,8 @@ components:
     CronSchedule:
       properties:
         schedule_type:
+          enum:
+          - crontab
           type: string
         entry:
           $ref: '#/components/schemas/CronSchedule_entry'
@@ -3988,6 +3990,8 @@ components:
     IntervalSchedule:
       properties:
         schedule_type:
+          enum:
+          - interval
           type: string
         entry:
           $ref: '#/components/schemas/IntervalSchedule_entry'
@@ -4493,6 +4497,8 @@ components:
     OneOffSchedule:
       properties:
         schedule_type:
+          enum:
+          - one_off
           type: string
         entry:
           type: integer
@@ -4969,13 +4975,26 @@ components:
           type: string
         day_of_week:
           type: string
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
       type: object
     IntervalSchedule_entry:
       properties:
         every:
           type: integer
         period:
+          enum:
+          - minutes
+          - hours
+          - days
           type: string
+      required:
+      - every
+      - period
       type: object
   securitySchemes:
     ApiKeyAuth:
