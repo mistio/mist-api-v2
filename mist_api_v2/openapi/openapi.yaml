@@ -3677,8 +3677,10 @@ components:
         script:
           type: string
         start_after:
+          format: date-time
           type: string
         expires:
+          format: date-time
           type: string
         max_run_count:
           type: integer
@@ -3686,6 +3688,7 @@ components:
           type: string
       required:
       - entry
+      - schedule_type
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4005,8 +4008,10 @@ components:
         script:
           type: string
         start_after:
+          format: date-time
           type: string
         expires:
+          format: date-time
           type: string
         max_run_count:
           type: integer
@@ -4014,6 +4019,7 @@ components:
           type: string
       required:
       - entry
+      - schedule_type
       type: object
     Key:
       example:
@@ -4515,6 +4521,7 @@ components:
           type: string
       required:
       - entry
+      - schedule_type
       type: object
     OpenstackCredentials:
       properties:

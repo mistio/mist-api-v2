@@ -29,9 +29,9 @@ class CronSchedule(Model):
         :param script: The script of this CronSchedule.  # noqa: E501
         :type script: str
         :param start_after: The start_after of this CronSchedule.  # noqa: E501
-        :type start_after: str
+        :type start_after: datetime
         :param expires: The expires of this CronSchedule.  # noqa: E501
-        :type expires: str
+        :type expires: datetime
         :param max_run_count: The max_run_count of this CronSchedule.  # noqa: E501
         :type max_run_count: int
         :param description: The description of this CronSchedule.  # noqa: E501
@@ -42,8 +42,8 @@ class CronSchedule(Model):
             'entry': CronScheduleEntry,
             'action': str,
             'script': str,
-            'start_after': str,
-            'expires': str,
+            'start_after': datetime,
+            'expires': datetime,
             'max_run_count': int,
             'description': str
         }
@@ -183,7 +183,7 @@ class CronSchedule(Model):
 
 
         :return: The start_after of this CronSchedule.
-        :rtype: str
+        :rtype: datetime
         """
         return self._start_after
 
@@ -193,7 +193,7 @@ class CronSchedule(Model):
 
 
         :param start_after: The start_after of this CronSchedule.
-        :type start_after: str
+        :type start_after: datetime
         """
 
         self._start_after = start_after
@@ -204,7 +204,7 @@ class CronSchedule(Model):
 
 
         :return: The expires of this CronSchedule.
-        :rtype: str
+        :rtype: datetime
         """
         return self._expires
 
@@ -214,7 +214,7 @@ class CronSchedule(Model):
 
 
         :param expires: The expires of this CronSchedule.
-        :type expires: str
+        :type expires: datetime
         """
 
         self._expires = expires
