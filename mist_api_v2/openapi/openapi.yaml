@@ -3471,16 +3471,16 @@ components:
         cloud: cloud
         size: '{}'
         schedules:
-        - '{}'
-        - '{}'
+        - ""
+        - ""
         extra: '{}'
         name: name
         location: location
         expiration: '{}'
         net: '{}'
         scripts:
-        - '{}'
-        - '{}'
+        - ""
+        - ""
         key: '{}'
       properties:
         name:
@@ -3525,16 +3525,17 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            type: object
+            oneOf:
+            - $ref: '#/components/schemas/InlineScript'
+            - $ref: '#/components/schemas/PostDeployScript'
           type: array
         schedules:
+          description: Configure scheduled actions for the provisioned machine
           items:
-            description: Configure scheduled actions for the provisioned machine
             oneOf:
             - $ref: '#/components/schemas/OneOffSchedule'
             - $ref: '#/components/schemas/CronSchedule'
             - $ref: '#/components/schemas/IntervalSchedule'
-            type: object
           type: array
         tags:
           description: Assign tags to provisioned machine
@@ -3679,7 +3680,7 @@ components:
           - destroy
           type: string
         script:
-          type: string
+          $ref: '#/components/schemas/PostDeployScript'
         start_after:
           description: Datetime when schedule should start running.
           format: date-time
@@ -3996,6 +3997,11 @@ components:
         extra:
           type: object
       type: object
+    InlineScript:
+      properties:
+        inline:
+          type: string
+      type: object
     IntervalSchedule:
       properties:
         schedule_type:
@@ -4012,7 +4018,7 @@ components:
           - destroy
           type: string
         script:
-          type: string
+          $ref: '#/components/schemas/PostDeployScript'
         start_after:
           description: Datetime when schedule should start running.
           format: date-time
@@ -4525,7 +4531,7 @@ components:
           - destroy
           type: string
         script:
-          type: string
+          $ref: '#/components/schemas/PostDeployScript'
         description:
           type: string
       required:
@@ -4554,6 +4560,14 @@ components:
       - user
       type: object
     OtherCredentials:
+      type: object
+    PostDeployScript:
+      properties:
+        script:
+          description: Name or ID of the script to run
+          type: string
+        params:
+          type: string
       type: object
     Queries:
       items:

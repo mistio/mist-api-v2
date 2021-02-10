@@ -65,6 +65,7 @@ from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_object import InlineObject
 from mist_api_v2.models.inline_response200 import InlineResponse200
+from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
 from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry
 from mist_api_v2.models.key import Key
@@ -87,6 +88,7 @@ from mist_api_v2.models.network import Network
 from mist_api_v2.models.onapp_credentials import OnappCredentials
 from mist_api_v2.models.one_off_schedule import OneOffSchedule
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
+from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
