@@ -46,6 +46,8 @@ from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
+from mist_api_v2.models.create_zone_request import CreateZoneRequest
+from mist_api_v2.models.create_zone_response import CreateZoneResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
 from mist_api_v2.models.cron_schedule_entry import CronScheduleEntry
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
@@ -57,11 +59,14 @@ from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_image_response import GetImageResponse
 from mist_api_v2.models.get_key_response import GetKeyResponse
+from mist_api_v2.models.get_location_response import GetLocationResponse
 from mist_api_v2.models.get_machine_response import GetMachineResponse
 from mist_api_v2.models.get_network_response import GetNetworkResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
 from mist_api_v2.models.get_script_response import GetScriptResponse
+from mist_api_v2.models.get_size_response import GetSizeResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
+from mist_api_v2.models.get_zone_response import GetZoneResponse
 from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
@@ -76,12 +81,16 @@ from mist_api_v2.models.linode_credentials import LinodeCredentials
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse
 from mist_api_v2.models.list_images_response import ListImagesResponse
 from mist_api_v2.models.list_keys_response import ListKeysResponse
+from mist_api_v2.models.list_locations_response import ListLocationsResponse
 from mist_api_v2.models.list_machines_response import ListMachinesResponse
 from mist_api_v2.models.list_networks_response import ListNetworksResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
+from mist_api_v2.models.list_sizes_response import ListSizesResponse
 from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse
+from mist_api_v2.models.list_zones_response import ListZonesResponse
+from mist_api_v2.models.location import Location
 from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2.models.machine import Machine
 from mist_api_v2.models.machine_state import MachineState
@@ -98,6 +107,7 @@ from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
+from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.vcloud_credentials import VcloudCredentials
@@ -105,3 +115,4 @@ from mist_api_v2.models.volume import Volume
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
 from mist_api_v2.models.vultr_credentials import VultrCredentials
 from mist_api_v2.models.window import Window
+from mist_api_v2.models.zone import Zone
