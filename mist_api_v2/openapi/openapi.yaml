@@ -3369,21 +3369,6 @@ components:
       - subscriptionId
       - tenantId
       type: object
-    BaseSchedule:
-      properties:
-        action:
-          description: Mutually exclusive with script
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
-        description:
-          type: string
-      type: object
     Cloud:
       example:
         features:
@@ -3680,34 +3665,23 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
     CronSchedule:
-      allOf:
-      - $ref: '#/components/schemas/BaseSchedule'
-      - type: object
-      description: Crontab schedule
+      description: Cron schedule
       properties:
-        entry:
-          properties:
-            minute:
-              type: string
-            hour:
-              type: string
-            day_of_month:
-              type: string
-            month_of_year:
-              type: string
-            day_of_week:
-              type: string
-          required:
-          - day_of_month
-          - day_of_week
-          - hour
-          - minute
-          - month_of_year
-          type: object
         schedule_type:
           enum:
           - crontab
           type: string
+        entry:
+          $ref: '#/components/schemas/CronSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
         start_after:
           description: Datetime when schedule should start running.
           format: date-time
@@ -3717,10 +3691,14 @@ components:
           format: date-time
           type: string
         max_run_count:
+          minimum: 1
           type: integer
+        description:
+          type: string
       required:
       - entry
       - schedule_type
+      type: object
     DigitaloceanCredentials:
       properties:
         token:
@@ -4025,34 +4003,25 @@ components:
       properties:
         inline:
           type: string
-      required:
-      - inline
       type: object
     IntervalSchedule:
-      allOf:
-      - $ref: '#/components/schemas/BaseSchedule'
-      - type: object
       description: Interval schedule
       properties:
-        entry:
-          properties:
-            every:
-              minimum: 1
-              type: integer
-            period:
-              enum:
-              - minutes
-              - hours
-              - days
-              type: string
-          required:
-          - every
-          - period
-          type: object
         schedule_type:
           enum:
           - interval
           type: string
+        entry:
+          $ref: '#/components/schemas/IntervalSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
         start_after:
           description: Datetime when schedule should start running.
           format: date-time
@@ -4062,10 +4031,14 @@ components:
           format: date-time
           type: string
         max_run_count:
+          minimum: 1
           type: integer
+        description:
+          type: string
       required:
       - entry
       - schedule_type
+      type: object
     Key:
       example:
         default: true
@@ -4546,22 +4519,31 @@ components:
       - username
       type: object
     OneOffSchedule:
-      allOf:
-      - $ref: '#/components/schemas/BaseSchedule'
-      - type: object
       description: One-off schedule
       properties:
-        entry:
-          description: The amount of time in milliseconds
-          minimum: 1
-          type: integer
         schedule_type:
           enum:
           - one_off
           type: string
+        entry:
+          description: When schedule should run
+          format: date-time
+          type: string
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        description:
+          type: string
       required:
       - entry
       - schedule_type
+      type: object
     OpenstackCredentials:
       properties:
         authUrl:
@@ -4592,8 +4574,6 @@ components:
           type: string
         params:
           type: string
-      required:
-      - script
       type: object
     Queries:
       items:
@@ -5019,6 +4999,39 @@ components:
       properties:
         plan:
           type: object
+    CronSchedule_entry:
+      properties:
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
+      type: object
+    IntervalSchedule_entry:
+      properties:
+        every:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      required:
+      - every
+      - period
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -34,7 +34,6 @@ from mist_api_v2.models.add_vultr_cloud_request import AddVultrCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.azure_credentials import AzureCredentials
-from mist_api_v2.models.base_schedule import BaseSchedule
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_credentials import CloudCredentials
 from mist_api_v2.models.cloud_features import CloudFeatures
@@ -48,6 +47,7 @@ from mist_api_v2.models.create_network_response import CreateNetworkResponse
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
+from mist_api_v2.models.cron_schedule_entry import CronScheduleEntry
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
@@ -67,6 +67,7 @@ from mist_api_v2.models.inline_object import InlineObject
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
+from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials

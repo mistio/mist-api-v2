@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.base_schedule import BaseSchedule
+from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2 import util
 
-from mist_api_v2.models.base_schedule import BaseSchedule  # noqa: E501
+from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry  # noqa: E501
 from mist_api_v2.models.post_deploy_script import PostDeployScript  # noqa: E501
 
 class IntervalSchedule(Model):
@@ -19,55 +19,55 @@ class IntervalSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, entry=None, schedule_type=None, start_after=None, expires=None, max_run_count=None, action=None, script=None, description=None):  # noqa: E501
+    def __init__(self, schedule_type=None, entry=None, action=None, script=None, start_after=None, expires=None, max_run_count=None, description=None):  # noqa: E501
         """IntervalSchedule - a model defined in OpenAPI
 
-        :param entry: The entry of this IntervalSchedule.  # noqa: E501
-        :type entry: object
         :param schedule_type: The schedule_type of this IntervalSchedule.  # noqa: E501
         :type schedule_type: str
+        :param entry: The entry of this IntervalSchedule.  # noqa: E501
+        :type entry: IntervalScheduleEntry
+        :param action: The action of this IntervalSchedule.  # noqa: E501
+        :type action: str
+        :param script: The script of this IntervalSchedule.  # noqa: E501
+        :type script: PostDeployScript
         :param start_after: The start_after of this IntervalSchedule.  # noqa: E501
         :type start_after: datetime
         :param expires: The expires of this IntervalSchedule.  # noqa: E501
         :type expires: datetime
         :param max_run_count: The max_run_count of this IntervalSchedule.  # noqa: E501
         :type max_run_count: int
-        :param action: The action of this IntervalSchedule.  # noqa: E501
-        :type action: str
-        :param script: The script of this IntervalSchedule.  # noqa: E501
-        :type script: PostDeployScript
         :param description: The description of this IntervalSchedule.  # noqa: E501
         :type description: str
         """
         self.openapi_types = {
-            'entry': object,
             'schedule_type': str,
+            'entry': IntervalScheduleEntry,
+            'action': str,
+            'script': PostDeployScript,
             'start_after': datetime,
             'expires': datetime,
             'max_run_count': int,
-            'action': str,
-            'script': PostDeployScript,
             'description': str
         }
 
         self.attribute_map = {
-            'entry': 'entry',
             'schedule_type': 'schedule_type',
+            'entry': 'entry',
+            'action': 'action',
+            'script': 'script',
             'start_after': 'start_after',
             'expires': 'expires',
             'max_run_count': 'max_run_count',
-            'action': 'action',
-            'script': 'script',
             'description': 'description'
         }
 
-        self._entry = entry
         self._schedule_type = schedule_type
+        self._entry = entry
+        self._action = action
+        self._script = script
         self._start_after = start_after
         self._expires = expires
         self._max_run_count = max_run_count
-        self._action = action
-        self._script = script
         self._description = description
 
     @classmethod
@@ -80,29 +80,6 @@ class IntervalSchedule(Model):
         :rtype: IntervalSchedule
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def entry(self):
-        """Gets the entry of this IntervalSchedule.
-
-
-        :return: The entry of this IntervalSchedule.
-        :rtype: object
-        """
-        return self._entry
-
-    @entry.setter
-    def entry(self, entry):
-        """Sets the entry of this IntervalSchedule.
-
-
-        :param entry: The entry of this IntervalSchedule.
-        :type entry: object
-        """
-        if entry is None:
-            raise ValueError("Invalid value for `entry`, must not be `None`")  # noqa: E501
-
-        self._entry = entry
 
     @property
     def schedule_type(self):
@@ -130,6 +107,77 @@ class IntervalSchedule(Model):
             )
 
         self._schedule_type = schedule_type
+
+    @property
+    def entry(self):
+        """Gets the entry of this IntervalSchedule.
+
+
+        :return: The entry of this IntervalSchedule.
+        :rtype: IntervalScheduleEntry
+        """
+        return self._entry
+
+    @entry.setter
+    def entry(self, entry):
+        """Sets the entry of this IntervalSchedule.
+
+
+        :param entry: The entry of this IntervalSchedule.
+        :type entry: IntervalScheduleEntry
+        """
+        if entry is None:
+            raise ValueError("Invalid value for `entry`, must not be `None`")  # noqa: E501
+
+        self._entry = entry
+
+    @property
+    def action(self):
+        """Gets the action of this IntervalSchedule.
+
+
+        :return: The action of this IntervalSchedule.
+        :rtype: str
+        """
+        return self._action
+
+    @action.setter
+    def action(self, action):
+        """Sets the action of this IntervalSchedule.
+
+
+        :param action: The action of this IntervalSchedule.
+        :type action: str
+        """
+        allowed_values = ["start", "stop", "reboot", "destroy"]  # noqa: E501
+        if action not in allowed_values:
+            raise ValueError(
+                "Invalid value for `action` ({0}), must be one of {1}"
+                .format(action, allowed_values)
+            )
+
+        self._action = action
+
+    @property
+    def script(self):
+        """Gets the script of this IntervalSchedule.
+
+
+        :return: The script of this IntervalSchedule.
+        :rtype: PostDeployScript
+        """
+        return self._script
+
+    @script.setter
+    def script(self, script):
+        """Sets the script of this IntervalSchedule.
+
+
+        :param script: The script of this IntervalSchedule.
+        :type script: PostDeployScript
+        """
+
+        self._script = script
 
     @property
     def start_after(self):
@@ -195,58 +243,10 @@ class IntervalSchedule(Model):
         :param max_run_count: The max_run_count of this IntervalSchedule.
         :type max_run_count: int
         """
+        if max_run_count is not None and max_run_count < 1:  # noqa: E501
+            raise ValueError("Invalid value for `max_run_count`, must be a value greater than or equal to `1`")  # noqa: E501
 
         self._max_run_count = max_run_count
-
-    @property
-    def action(self):
-        """Gets the action of this IntervalSchedule.
-
-        Mutually exclusive with script  # noqa: E501
-
-        :return: The action of this IntervalSchedule.
-        :rtype: str
-        """
-        return self._action
-
-    @action.setter
-    def action(self, action):
-        """Sets the action of this IntervalSchedule.
-
-        Mutually exclusive with script  # noqa: E501
-
-        :param action: The action of this IntervalSchedule.
-        :type action: str
-        """
-        allowed_values = ["start", "stop", "reboot", "destroy"]  # noqa: E501
-        if action not in allowed_values:
-            raise ValueError(
-                "Invalid value for `action` ({0}), must be one of {1}"
-                .format(action, allowed_values)
-            )
-
-        self._action = action
-
-    @property
-    def script(self):
-        """Gets the script of this IntervalSchedule.
-
-
-        :return: The script of this IntervalSchedule.
-        :rtype: PostDeployScript
-        """
-        return self._script
-
-    @script.setter
-    def script(self, script):
-        """Sets the script of this IntervalSchedule.
-
-
-        :param script: The script of this IntervalSchedule.
-        :type script: PostDeployScript
-        """
-
-        self._script = script
 
     @property
     def description(self):
