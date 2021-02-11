@@ -60,5 +60,7 @@ class InlineScript(Model):
         :param inline: The inline of this InlineScript.
         :type inline: str
         """
+        if inline is None:
+            raise ValueError("Invalid value for `inline`, must not be `None`")  # noqa: E501
 
         self._inline = inline
