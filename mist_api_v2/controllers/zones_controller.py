@@ -7,6 +7,8 @@ from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
 from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E501
 from mist_api_v2 import util
 
+from .base import list_resources, get_resource
+
 
 def create_zone(create_zone_request=None):  # noqa: E501
     """Create zone
