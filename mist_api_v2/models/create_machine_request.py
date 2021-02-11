@@ -6,11 +6,13 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.one_of_inline_script_post_deploy_script import OneOfInlineScriptPostDeployScript
 from mist_api_v2.models.one_of_one_off_schedule_cron_schedule_interval_schedule import OneOfOneOffScheduleCronScheduleIntervalSchedule
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
+from mist_api_v2.models.expiration import Expiration  # noqa: E501
 from mist_api_v2.models.one_of_inline_script_post_deploy_script import OneOfInlineScriptPostDeployScript  # noqa: E501
 from mist_api_v2.models.one_of_one_off_schedule_cron_schedule_interval_schedule import OneOfOneOffScheduleCronScheduleIntervalSchedule  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
@@ -55,7 +57,7 @@ class CreateMachineRequest(Model):
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
-        :type expiration: object
+        :type expiration: Expiration
         :param extra: The extra of this CreateMachineRequest.  # noqa: E501
         :type extra: object
         :param monitoring: The monitoring of this CreateMachineRequest.  # noqa: E501
@@ -85,7 +87,7 @@ class CreateMachineRequest(Model):
             'scripts': List[OneOfInlineScriptPostDeployScript],
             'schedules': List[OneOfOneOffScheduleCronScheduleIntervalSchedule],
             'tags': object,
-            'expiration': object,
+            'expiration': Expiration,
             'extra': object,
             'monitoring': bool,
             'quantity': float,
@@ -506,10 +508,9 @@ class CreateMachineRequest(Model):
     def expiration(self):
         """Gets the expiration of this CreateMachineRequest.
 
-        Configure machine expiration  # noqa: E501
 
         :return: The expiration of this CreateMachineRequest.
-        :rtype: object
+        :rtype: Expiration
         """
         return self._expiration
 
@@ -517,10 +518,9 @@ class CreateMachineRequest(Model):
     def expiration(self, expiration):
         """Sets the expiration of this CreateMachineRequest.
 
-        Configure machine expiration  # noqa: E501
 
         :param expiration: The expiration of this CreateMachineRequest.
-        :type expiration: object
+        :type expiration: Expiration
         """
 
         self._expiration = expiration

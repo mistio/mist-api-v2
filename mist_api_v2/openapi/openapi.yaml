@@ -3457,7 +3457,7 @@ components:
       example:
         template: '{}'
         image: '{}'
-        quantity: 0.8008281904610115
+        quantity: 6.027456183070403
         disks: '{}'
         fqdn: fqdn
         cloudinit: cloudinit
@@ -3476,7 +3476,13 @@ components:
         extra: '{}'
         name: name
         location: location
-        expiration: '{}'
+        expiration:
+          date: 2000-01-23T04:56:07.000+00:00
+          action: stop
+          notify:
+            period: minutes
+            value: 0
+          notify_msg: notify_msg
         net: '{}'
         scripts:
         - ""
@@ -3541,8 +3547,7 @@ components:
           description: Assign tags to provisioned machine
           type: object
         expiration:
-          description: Configure machine expiration
-          type: object
+          $ref: '#/components/schemas/Expiration'
         extra:
           description: Configure additional parameters
           type: object
@@ -3745,6 +3750,31 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    Expiration:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        action: stop
+        notify:
+          period: minutes
+          value: 0
+        notify_msg: notify_msg
+      properties:
+        action:
+          enum:
+          - stop
+          - destroy
+          type: string
+        date:
+          format: date-time
+          type: string
+        notify:
+          $ref: '#/components/schemas/Expiration_notify'
+        notify_msg:
+          type: string
+      required:
+      - action
+      - date
       type: object
     Frequency:
       properties:
@@ -5017,6 +5047,21 @@ components:
       - hour
       - minute
       - month_of_year
+      type: object
+    Expiration_notify:
+      description: Notify user before machine expiration
+      example:
+        period: minutes
+        value: 0
+      properties:
+        value:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
       type: object
     IntervalSchedule_entry:
       properties:

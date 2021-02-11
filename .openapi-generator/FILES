@@ -68,6 +68,8 @@ mist_api_v2/models/cron_schedule_entry.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/equinix_credentials.py
+mist_api_v2/models/expiration.py
+mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_image_response.py

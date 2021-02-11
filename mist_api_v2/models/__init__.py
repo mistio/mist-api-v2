@@ -51,6 +51,8 @@ from mist_api_v2.models.cron_schedule_entry import CronScheduleEntry
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
+from mist_api_v2.models.expiration import Expiration
+from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_image_response import GetImageResponse
