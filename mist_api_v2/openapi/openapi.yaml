@@ -3457,7 +3457,7 @@ components:
       example:
         template: '{}'
         image: '{}'
-        quantity: 0.8008281904610115
+        quantity: 6.027456183070403
         disks: '{}'
         fqdn: fqdn
         cloudinit: cloudinit
@@ -3470,15 +3470,23 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
-        schedules: '{}'
+        schedules:
+        - ""
+        - ""
         extra: '{}'
         name: name
         location: location
-        expiration: '{}'
+        expiration:
+          date: 2000-01-23T04:56:07.000+00:00
+          action: stop
+          notify:
+            period: minutes
+            value: 0
+          notify_msg: notify_msg
         net: '{}'
         scripts:
-        - '{}'
-        - '{}'
+        - ""
+        - ""
         key: '{}'
       properties:
         name:
@@ -3523,17 +3531,23 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            type: object
+            oneOf:
+            - $ref: '#/components/schemas/InlineScript'
+            - $ref: '#/components/schemas/PostDeployScript'
           type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
-          type: object
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/OneOffSchedule'
+            - $ref: '#/components/schemas/CronSchedule'
+            - $ref: '#/components/schemas/IntervalSchedule'
+          type: array
         tags:
           description: Assign tags to provisioned machine
           type: object
         expiration:
-          description: Configure machine expiration
-          type: object
+          $ref: '#/components/schemas/Expiration'
         extra:
           description: Configure additional parameters
           type: object
@@ -3655,6 +3669,41 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
+    CronSchedule:
+      description: Cron schedule
+      properties:
+        schedule_type:
+          enum:
+          - crontab
+          type: string
+        entry:
+          $ref: '#/components/schemas/CronSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        start_after:
+          description: Datetime when schedule should start running.
+          format: date-time
+          type: string
+        expires:
+          description: Datetime when schedule should expire.
+          format: date-time
+          type: string
+        max_run_count:
+          minimum: 1
+          type: integer
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
+      type: object
     DigitaloceanCredentials:
       properties:
         token:
@@ -3701,6 +3750,31 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    Expiration:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        action: stop
+        notify:
+          period: minutes
+          value: 0
+        notify_msg: notify_msg
+      properties:
+        action:
+          enum:
+          - stop
+          - destroy
+          type: string
+        date:
+          format: date-time
+          type: string
+        notify:
+          $ref: '#/components/schemas/Expiration_notify'
+        notify_msg:
+          type: string
+      required:
+      - action
+      - date
       type: object
     Frequency:
       properties:
@@ -3954,6 +4028,46 @@ components:
           type: string
         extra:
           type: object
+      type: object
+    InlineScript:
+      properties:
+        inline:
+          type: string
+      type: object
+    IntervalSchedule:
+      description: Interval schedule
+      properties:
+        schedule_type:
+          enum:
+          - interval
+          type: string
+        entry:
+          $ref: '#/components/schemas/IntervalSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        start_after:
+          description: Datetime when schedule should start running.
+          format: date-time
+          type: string
+        expires:
+          description: Datetime when schedule should expire.
+          format: date-time
+          type: string
+        max_run_count:
+          minimum: 1
+          type: integer
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
       type: object
     Key:
       example:
@@ -4434,6 +4548,32 @@ components:
       - host
       - username
       type: object
+    OneOffSchedule:
+      description: One-off schedule
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          type: string
+        entry:
+          description: When schedule should run
+          format: date-time
+          type: string
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
+      type: object
     OpenstackCredentials:
       properties:
         authUrl:
@@ -4456,6 +4596,14 @@ components:
       - user
       type: object
     OtherCredentials:
+      type: object
+    PostDeployScript:
+      properties:
+        script:
+          description: Name or ID of the script to run
+          type: string
+        params:
+          type: string
       type: object
     Queries:
       items:
@@ -4881,6 +5029,54 @@ components:
       properties:
         plan:
           type: object
+    CronSchedule_entry:
+      properties:
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
+      type: object
+    Expiration_notify:
+      description: Notify user before machine expiration
+      example:
+        period: minutes
+        value: 0
+      properties:
+        value:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      type: object
+    IntervalSchedule_entry:
+      properties:
+        every:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      required:
+      - every
+      - period
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

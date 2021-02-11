@@ -46,9 +46,13 @@ from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
+from mist_api_v2.models.cron_schedule import CronSchedule
+from mist_api_v2.models.cron_schedule_entry import CronScheduleEntry
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
+from mist_api_v2.models.expiration import Expiration
+from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_image_response import GetImageResponse
@@ -63,6 +67,9 @@ from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_object import InlineObject
 from mist_api_v2.models.inline_response200 import InlineResponse200
+from mist_api_v2.models.inline_script import InlineScript
+from mist_api_v2.models.interval_schedule import IntervalSchedule
+from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials
@@ -81,7 +88,9 @@ from mist_api_v2.models.machine_state import MachineState
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
 from mist_api_v2.models.network import Network
 from mist_api_v2.models.onapp_credentials import OnappCredentials
+from mist_api_v2.models.one_off_schedule import OneOffSchedule
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
+from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
