@@ -7,14 +7,10 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.expiration import Expiration
-from mist_api_v2.models.one_of_inline_script_post_deploy_script import OneOfInlineScriptPostDeployScript
-from mist_api_v2.models.one_of_one_off_schedule_cron_schedule_interval_schedule import OneOfOneOffScheduleCronScheduleIntervalSchedule
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
 from mist_api_v2.models.expiration import Expiration  # noqa: E501
-from mist_api_v2.models.one_of_inline_script_post_deploy_script import OneOfInlineScriptPostDeployScript  # noqa: E501
-from mist_api_v2.models.one_of_one_off_schedule_cron_schedule_interval_schedule import OneOfOneOffScheduleCronScheduleIntervalSchedule  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
 class CreateMachineRequest(Model):
@@ -51,9 +47,9 @@ class CreateMachineRequest(Model):
         :param cloudinit: The cloudinit of this CreateMachineRequest.  # noqa: E501
         :type cloudinit: str
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
-        :type scripts: List[OneOfInlineScriptPostDeployScript]
+        :type scripts: List[object]
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
-        :type schedules: List[OneOfOneOffScheduleCronScheduleIntervalSchedule]
+        :type schedules: List[object]
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
@@ -84,8 +80,8 @@ class CreateMachineRequest(Model):
             'volumes': List[object],
             'fqdn': str,
             'cloudinit': str,
-            'scripts': List[OneOfInlineScriptPostDeployScript],
-            'schedules': List[OneOfOneOffScheduleCronScheduleIntervalSchedule],
+            'scripts': List[object],
+            'schedules': List[object],
             'tags': object,
             'expiration': Expiration,
             'extra': object,
@@ -442,7 +438,7 @@ class CreateMachineRequest(Model):
         Run post deploy scripts over SSH  # noqa: E501
 
         :return: The scripts of this CreateMachineRequest.
-        :rtype: List[OneOfInlineScriptPostDeployScript]
+        :rtype: List[object]
         """
         return self._scripts
 
@@ -453,7 +449,7 @@ class CreateMachineRequest(Model):
         Run post deploy scripts over SSH  # noqa: E501
 
         :param scripts: The scripts of this CreateMachineRequest.
-        :type scripts: List[OneOfInlineScriptPostDeployScript]
+        :type scripts: List[object]
         """
 
         self._scripts = scripts
@@ -465,7 +461,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :return: The schedules of this CreateMachineRequest.
-        :rtype: List[OneOfOneOffScheduleCronScheduleIntervalSchedule]
+        :rtype: List[object]
         """
         return self._schedules
 
@@ -476,7 +472,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :param schedules: The schedules of this CreateMachineRequest.
-        :type schedules: List[OneOfOneOffScheduleCronScheduleIntervalSchedule]
+        :type schedules: List[object]
         """
 
         self._schedules = schedules
