@@ -4139,8 +4139,8 @@ components:
         cloud: cloud
         size: '{}'
         schedules:
-        - ""
-        - ""
+        - '{}'
+        - '{}'
         extra: '{}'
         name: name
         location: location
@@ -4153,8 +4153,8 @@ components:
           notify_msg: notify_msg
         net: '{}'
         scripts:
-        - ""
-        - ""
+        - '{}'
+        - '{}'
         key: '{}'
       properties:
         name:
@@ -4199,17 +4199,12 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            oneOf:
-            - $ref: '#/components/schemas/InlineScript'
-            - $ref: '#/components/schemas/PostDeployScript'
+            type: object
           type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
           items:
-            oneOf:
-            - $ref: '#/components/schemas/OneOffSchedule'
-            - $ref: '#/components/schemas/CronSchedule'
-            - $ref: '#/components/schemas/IntervalSchedule'
+            type: object
           type: array
         tags:
           description: Assign tags to provisioned machine
