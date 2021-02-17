@@ -4,7 +4,7 @@
     "spec_versions": {
         "v2": {
             "apigentools_version": "1.2.1.dev12+dirty",
-            "regenerated": "2021-02-15 23:10:44.908667",
+            "regenerated": "2021-02-16 20:29:33.772137",
             "spec_repo_commit": "3ee4fb3"
         }
     }
