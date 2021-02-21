@@ -88,7 +88,7 @@ def delete_secret(secret):  # noqa: E501
     return 'Deleted secret `%s`' % secret.name, 200
 
 
-def edit_secret(edit_secret_request=None):  # noqa: E501
+def edit_secret(secret, edit_secret_request=None):  # noqa: E501
     """Edit secret
 
     Edit/update target secret and return the secret object. UPDATE  permission required on secret.# noqa: E501
@@ -188,7 +188,6 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None, path=Non
             search = "name:%s" % path
         else:
             search += " and name:%s" % path
-
     from mist.api.methods import list_resources
     secrets, total = list_resources(auth_context, 'secret', search=search,
                                     only=only, sort=sort, start=start,
