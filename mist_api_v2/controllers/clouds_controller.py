@@ -11,10 +11,14 @@ from mist.api import config
 
 from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
 from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
+from mist_api_v2.models.get_cloud_response import GetCloudResponse  # noqa: E501
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
 from mist_api_v2 import util
 
-from .base import list_resources
+from mist.api.exceptions import CloudExistsError
+from mist.api.exceptions import CloudUnauthorizedError
+
+from .base import list_resources, get_resource
 
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
@@ -24,6 +28,12 @@ logging.basicConfig(level=config.PY_LOG_LEVEL,
 
 log = logging.getLogger(__name__)
 
+# dict that maps provider name aliases to
+# names expected by add_cloud_v2
+PROVIDER_ALIASES = {
+    'equinix': 'equinixmetal',
+    'alibaba': 'aliyun_ecs'
+}
 
 def mongo_connect(*args, **kwargs):
     """Connect mongoengine to mongo db. This connection is reused everywhere"""
@@ -79,13 +89,19 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
     cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
-
-    result = add_cloud_v_2(
-        auth_context.owner,
-        add_cloud_request.title,
-        add_cloud_request.provider,
-        add_cloud_request.credentials.to_dict()
-    )
+    provider = add_cloud_request.provider
+    provider = provider if provider not in PROVIDER_ALIASES else PROVIDER_ALIASES.get(provider)
+    try:
+        result = add_cloud_v_2(
+            auth_context.owner,
+            add_cloud_request.title,
+            provider,
+            add_cloud_request.credentials
+        )
+    except CloudExistsError as exc:
+        return exc.args[0], 409
+    except CloudUnauthorizedError as exc:
+        return exc.args[0], 403
 
     cloud_id = result['cloud_id']
     monitoring = result.get('monitoring')
@@ -179,12 +195,13 @@ def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
     :rtype: GetCloudResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    return list_resources(auth_context, 'cloud',
-                          search=cloud, only=only, deref=deref,
-                          limit=1)
+    result = get_resource(auth_context, 'cloud',
+                          search=cloud, only=only, deref=deref)
+    return GetCloudResponse(data=result['data'], meta=result['meta'])
 
 
-def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref=None):  # noqa: E501
+
+def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
     """List clouds
 
     List clouds owned by the active org. READ permission required on cloud. # noqa: E501
@@ -205,6 +222,7 @@ def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref=Non
     :rtype: ListCloudsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    return list_resources(auth_context, 'cloud', search=search,
-                          only=only, sort=sort, limit=limit,
-                          deref=deref)
+    result = list_resources(auth_context, 'cloud', search=search,
+                            only=only, sort=sort, limit=limit,
+                            deref=deref)
+    return ListCloudsResponse(data=result['data'], meta=result['meta'])
