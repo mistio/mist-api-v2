@@ -9,6 +9,7 @@ from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.azure_credentials import AzureCredentials
+from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
@@ -29,6 +30,7 @@ from mist_api_v2 import util
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials  # noqa: E501
 from mist_api_v2.models.amazon_credentials import AmazonCredentials  # noqa: E501
 from mist_api_v2.models.azure_credentials import AzureCredentials  # noqa: E501
+from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials  # noqa: E501
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials  # noqa: E501
 from mist_api_v2.models.docker_credentials import DockerCredentials  # noqa: E501
 from mist_api_v2.models.equinix_credentials import EquinixCredentials  # noqa: E501
@@ -51,13 +53,15 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, token=None, region=None, auth_url=None, user=None, password=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, region=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, password=None, provider=None, token=None, auth_url=None, user=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this CloudCredentials.  # noqa: E501
         :type apisecret: str
+        :param region: The region of this CloudCredentials.  # noqa: E501
+        :type region: str
         :param tenant_id: The tenant_id of this CloudCredentials.  # noqa: E501
         :type tenant_id: str
         :param subscription_id: The subscription_id of this CloudCredentials.  # noqa: E501
@@ -72,16 +76,16 @@ class CloudCredentials(Model):
         :type private_key: str
         :param username: The username of this CloudCredentials.  # noqa: E501
         :type username: str
+        :param password: The password of this CloudCredentials.  # noqa: E501
+        :type password: str
+        :param provider: The provider of this CloudCredentials.  # noqa: E501
+        :type provider: str
         :param token: The token of this CloudCredentials.  # noqa: E501
         :type token: str
-        :param region: The region of this CloudCredentials.  # noqa: E501
-        :type region: str
         :param auth_url: The auth_url of this CloudCredentials.  # noqa: E501
         :type auth_url: str
         :param user: The user of this CloudCredentials.  # noqa: E501
         :type user: str
-        :param password: The password of this CloudCredentials.  # noqa: E501
-        :type password: str
         :param tenant: The tenant of this CloudCredentials.  # noqa: E501
         :type tenant: str
         :param domain: The domain of this CloudCredentials.  # noqa: E501
@@ -108,6 +112,7 @@ class CloudCredentials(Model):
         self.openapi_types = {
             'apikey': str,
             'apisecret': str,
+            'region': str,
             'tenant_id': str,
             'subscription_id': str,
             'key': str,
@@ -115,11 +120,11 @@ class CloudCredentials(Model):
             'project_id': str,
             'private_key': str,
             'username': str,
+            'password': str,
+            'provider': str,
             'token': str,
-            'region': str,
             'auth_url': str,
             'user': str,
-            'password': str,
             'tenant': str,
             'domain': str,
             'compute_endpoint': str,
@@ -136,6 +141,7 @@ class CloudCredentials(Model):
         self.attribute_map = {
             'apikey': 'apikey',
             'apisecret': 'apisecret',
+            'region': 'region',
             'tenant_id': 'tenantId',
             'subscription_id': 'subscriptionId',
             'key': 'key',
@@ -143,11 +149,11 @@ class CloudCredentials(Model):
             'project_id': 'projectId',
             'private_key': 'privateKey',
             'username': 'username',
+            'password': 'password',
+            'provider': 'provider',
             'token': 'token',
-            'region': 'region',
             'auth_url': 'authUrl',
             'user': 'user',
-            'password': 'password',
             'tenant': 'tenant',
             'domain': 'domain',
             'compute_endpoint': 'computeEndpoint',
@@ -163,6 +169,7 @@ class CloudCredentials(Model):
 
         self._apikey = apikey
         self._apisecret = apisecret
+        self._region = region
         self._tenant_id = tenant_id
         self._subscription_id = subscription_id
         self._key = key
@@ -170,11 +177,11 @@ class CloudCredentials(Model):
         self._project_id = project_id
         self._private_key = private_key
         self._username = username
+        self._password = password
+        self._provider = provider
         self._token = token
-        self._region = region
         self._auth_url = auth_url
         self._user = user
-        self._password = password
         self._tenant = tenant
         self._domain = domain
         self._compute_endpoint = compute_endpoint
@@ -247,6 +254,29 @@ class CloudCredentials(Model):
         self._apisecret = apisecret
 
     @property
+    def region(self):
+        """Gets the region of this CloudCredentials.
+
+
+        :return: The region of this CloudCredentials.
+        :rtype: str
+        """
+        return self._region
+
+    @region.setter
+    def region(self, region):
+        """Sets the region of this CloudCredentials.
+
+
+        :param region: The region of this CloudCredentials.
+        :type region: str
+        """
+        if region is None:
+            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
+
+        self._region = region
+
+    @property
     def tenant_id(self):
         """Gets the tenant_id of this CloudCredentials.
 
@@ -266,6 +296,8 @@ class CloudCredentials(Model):
         :param tenant_id: The tenant_id of this CloudCredentials.
         :type tenant_id: str
         """
+        if tenant_id is None:
+            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
 
         self._tenant_id = tenant_id
 
@@ -289,6 +321,8 @@ class CloudCredentials(Model):
         :param subscription_id: The subscription_id of this CloudCredentials.
         :type subscription_id: str
         """
+        if subscription_id is None:
+            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
 
         self._subscription_id = subscription_id
 
@@ -312,6 +346,8 @@ class CloudCredentials(Model):
         :param key: The key of this CloudCredentials.
         :type key: str
         """
+        if key is None:
+            raise ValueError("Invalid value for `key`, must not be `None`")  # noqa: E501
 
         self._key = key
 
@@ -335,6 +371,8 @@ class CloudCredentials(Model):
         :param secret: The secret of this CloudCredentials.
         :type secret: str
         """
+        if secret is None:
+            raise ValueError("Invalid value for `secret`, must not be `None`")  # noqa: E501
 
         self._secret = secret
 
@@ -414,6 +452,58 @@ class CloudCredentials(Model):
         self._username = username
 
     @property
+    def password(self):
+        """Gets the password of this CloudCredentials.
+
+        Your Kubernetes API password  # noqa: E501
+
+        :return: The password of this CloudCredentials.
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this CloudCredentials.
+
+        Your Kubernetes API password  # noqa: E501
+
+        :param password: The password of this CloudCredentials.
+        :type password: str
+        """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
+
+        self._password = password
+
+    @property
+    def provider(self):
+        """Gets the provider of this CloudCredentials.
+
+
+        :return: The provider of this CloudCredentials.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this CloudCredentials.
+
+
+        :param provider: The provider of this CloudCredentials.
+        :type provider: str
+        """
+        allowed_values = ["rackspace"]  # noqa: E501
+        if provider not in allowed_values:
+            raise ValueError(
+                "Invalid value for `provider` ({0}), must be one of {1}"
+                .format(provider, allowed_values)
+            )
+
+        self._provider = provider
+
+    @property
     def token(self):
         """Gets the token of this CloudCredentials.
 
@@ -437,27 +527,6 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
 
         self._token = token
-
-    @property
-    def region(self):
-        """Gets the region of this CloudCredentials.
-
-
-        :return: The region of this CloudCredentials.
-        :rtype: str
-        """
-        return self._region
-
-    @region.setter
-    def region(self, region):
-        """Sets the region of this CloudCredentials.
-
-
-        :param region: The region of this CloudCredentials.
-        :type region: str
-        """
-
-        self._region = region
 
     @property
     def auth_url(self):
@@ -504,31 +573,6 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
 
         self._user = user
-
-    @property
-    def password(self):
-        """Gets the password of this CloudCredentials.
-
-        Your Kubernetes API password  # noqa: E501
-
-        :return: The password of this CloudCredentials.
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        """Sets the password of this CloudCredentials.
-
-        Your Kubernetes API password  # noqa: E501
-
-        :param password: The password of this CloudCredentials.
-        :type password: str
-        """
-        if password is None:
-            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-
-        self._password = password
 
     @property
     def tenant(self):

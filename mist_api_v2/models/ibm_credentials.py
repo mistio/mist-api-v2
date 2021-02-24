@@ -15,24 +15,29 @@ class IbmCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, username=None, apikey=None):  # noqa: E501
+    def __init__(self, provider=None, username=None, apikey=None):  # noqa: E501
         """IbmCredentials - a model defined in OpenAPI
 
+        :param provider: The provider of this IbmCredentials.  # noqa: E501
+        :type provider: str
         :param username: The username of this IbmCredentials.  # noqa: E501
         :type username: str
         :param apikey: The apikey of this IbmCredentials.  # noqa: E501
         :type apikey: str
         """
         self.openapi_types = {
+            'provider': str,
             'username': str,
             'apikey': str
         }
 
         self.attribute_map = {
+            'provider': 'provider',
             'username': 'username',
             'apikey': 'apikey'
         }
 
+        self._provider = provider
         self._username = username
         self._apikey = apikey
 
@@ -46,6 +51,33 @@ class IbmCredentials(Model):
         :rtype: IbmCredentials
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def provider(self):
+        """Gets the provider of this IbmCredentials.
+
+
+        :return: The provider of this IbmCredentials.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this IbmCredentials.
+
+
+        :param provider: The provider of this IbmCredentials.
+        :type provider: str
+        """
+        allowed_values = ["ibm"]  # noqa: E501
+        if provider not in allowed_values:
+            raise ValueError(
+                "Invalid value for `provider` ({0}), must be one of {1}"
+                .format(provider, allowed_values)
+            )
+
+        self._provider = provider
 
     @property
     def username(self):

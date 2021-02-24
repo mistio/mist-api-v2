@@ -97,6 +97,8 @@ class LxdCredentials(Model):
         :param host: The host of this LxdCredentials.
         :type host: str
         """
+        if host is None:
+            raise ValueError("Invalid value for `host`, must not be `None`")  # noqa: E501
 
         self._host = host
 
@@ -120,6 +122,8 @@ class LxdCredentials(Model):
         :param port: The port of this LxdCredentials.
         :type port: str
         """
+        if port is None:
+            raise ValueError("Invalid value for `port`, must not be `None`")  # noqa: E501
 
         self._port = port
 

@@ -78,7 +78,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -89,6 +89,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -111,12 +112,12 @@ paths:
       tags:
       - clouds
       x-cli-table-default:
-      - title
+      - name
       - provider
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - provider
       - tags
       - owned_by
@@ -218,7 +219,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -229,6 +230,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -253,12 +255,12 @@ paths:
       tags:
       - clouds
       x-cli-table-default:
-      - title
+      - name
       - provider
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - provider
       - tags
       - owned_by
@@ -307,6 +309,221 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/images:
+    get:
+      description: List images owned by the active org. READ permission required on
+        image & cloud.
+      operationId: list_images
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by OS type:
+            value: os_type:windows
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListImagesResponse'
+          description: List images response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:image
+        - read:cloud
+      - CookieAuth:
+        - read:image
+        - read:cloud
+      summary: List images
+      tags:
+      - images
+      x-cli-table-default:
+      - starred
+      - name
+      - cloud
+      - os_type
+      - tags
+      x-cli-table-extended:
+      - starred
+      - id
+      - external_id
+      - name
+      - cloud
+      - os_type
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.images_controller
+  /api/v2/images/{image}:
+    get:
+      description: Get details about target image
+      operationId: get_image
+      parameters:
+      - explode: false
+        in: path
+        name: image
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetImageResponse'
+          description: Image returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Image not found
+      security:
+      - ApiKeyAuth:
+        - read:image
+        - read:cloud
+      - CookieAuth:
+        - read:image
+        - read:cloud
+      summary: Get image
+      tags:
+      - images
+      x-cli-table-default:
+      - starred
+      - name
+      - cloud
+      - os_type
+      - tags
+      x-cli-table-extended:
+      - starred
+      - id
+      - external_id
+      - name
+      - cloud
+      - os_type
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.images_controller
   /api/v2/keys:
     get:
       description: List keys owned by the active org. READ permission required on
@@ -371,7 +588,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -382,6 +599,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -408,6 +626,7 @@ paths:
       - default
       - tags
       x-cli-table-extended:
+      - id
       - name
       - default
       - tags
@@ -490,6 +709,7 @@ paths:
         name: private
         required: false
         schema:
+          default: false
           type: boolean
         style: form
       - description: Order results by
@@ -518,7 +738,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          Automatically replace all foreign key ids with referenced resource name or title:
+          (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -529,6 +749,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -609,6 +830,198 @@ paths:
       tags:
       - keys
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
+  /api/v2/locations:
+    get:
+      description: List locations owned by the active org. READ permission required
+        on location & cloud.
+      operationId: list_locations
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by location name:
+            value: cinet3
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListLocationsResponse'
+          description: List locations response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+      - CookieAuth:
+        - read:cloud
+      summary: List locations
+      tags:
+      - locations
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.locations_controller
+  /api/v2/locations/{location}:
+    get:
+      description: Get details about target location
+      operationId: get_location
+      parameters:
+      - explode: false
+        in: path
+        name: location
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLocationResponse'
+          description: Location returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Location not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+      - CookieAuth:
+        - read:cloud
+      summary: Get location
+      tags:
+      - locations
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - locations
+      - external_id
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.locations_controller
   /api/v2/machines:
     get:
       description: List machines owned by the active org. READ permission required
@@ -687,7 +1100,7 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name or title ':
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
           Do not dereference anything, just return ids:
             value: none
@@ -700,6 +1113,7 @@ paths:
         name: deref
         required: false
         schema:
+          default: auto
           type: string
         style: form
       responses:
@@ -716,8 +1130,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:machine
+        - read:cloud
       - CookieAuth:
         - read:machine
+        - read:cloud
       summary: List machines
       tags:
       - machines
@@ -731,6 +1147,7 @@ paths:
       - name
       - state
       - cloud
+      - external_id
       - public_ips
       - tags
       - owned_by
@@ -796,6 +1213,37 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -812,19 +1260,25 @@ paths:
       security:
       - ApiKeyAuth:
         - read:machine
+        - read:cloud
       - CookieAuth:
         - read:machine
+        - read:cloud
       summary: Get machine
       tags:
       - machines
       x-cli-table-default:
       - name
       - cloud
+      - state
       - tags
       x-cli-table-extended:
       - id
       - name
-      - default
+      - state
+      - cloud
+      - external_id
+      - public_ips
       - tags
       - owned_by
       - created_by
@@ -1135,8 +1589,8 @@ paths:
           type: string
         style: simple
       responses:
-        "101":
-          description: Machine shell opened successfully
+        "302":
+          description: Redirect to machine shell
         "401":
           description: Authentication failed
         "403":
@@ -1147,13 +1601,18 @@ paths:
           description: Action not supported on target machine
       security:
       - ApiKeyAuth:
+        - read:cloud
+        - read:machine
         - ssh:machine
       - CookieAuth:
+        - read:cloud
+        - read:machine
         - ssh:machine
       summary: Open secure shell
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    x-cli-ignore: true
   /api/v2/machines/{machine}/actions/start:
     post:
       description: Start target machine
@@ -1444,6 +1903,290 @@ paths:
       tags:
       - snapshots
       x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
+  /api/v2/networks:
+    get:
+      description: List networks owned by the active org. READ permission required
+        on network & cloud.
+      operationId: list_networks
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by network name:
+            value: cinet3
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListNetworksResponse'
+          description: List networks response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:network
+        - read:cloud
+      - CookieAuth:
+        - read:network
+        - read:cloud
+      summary: List networks
+      tags:
+      - networks
+      x-cli-table-default:
+      - name
+      - cloud
+      - machines
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - machines
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+    post:
+      description: Creates one or more networks on the specified cloud. If async is
+        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
+        permission required on cloud. CREATE permission required on network.
+      operationId: create_network
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNetworkRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNetworkResponse'
+          description: Network provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:network
+        - read:cloud
+        - create_resources:cloud
+      - CookieAuth:
+        - create:network
+        - read:cloud
+        - create_resources:cloud
+      summary: Create network
+      tags:
+      - networks
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+  /api/v2/networks/{network}:
+    get:
+      description: Get details about target network
+      operationId: get_network
+      parameters:
+      - explode: false
+        in: path
+        name: network
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNetworkResponse'
+          description: Network returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Network not found
+      security:
+      - ApiKeyAuth:
+        - read:network
+        - read:cloud
+      - CookieAuth:
+        - read:network
+        - read:cloud
+      summary: Get network
+      tags:
+      - networks
+      x-cli-table-default:
+      - name
+      - cloud
+      - machines
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - location
+      - external_id
+      - subnets
+      - machines
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+    put:
+      description: Edit target network
+      operationId: edit_network
+      parameters:
+      - explode: false
+        in: path
+        name: network
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New network name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Network successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Network not found
+      security:
+      - ApiKeyAuth:
+        - edit:network
+      - CookieAuth:
+        - edit:network
+      summary: Edit network
+      tags:
+      - networks
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -1862,6 +2605,261 @@ paths:
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+  /api/v2/scripts:
+    get:
+      description: List scripts owned by the active org. READ permission required
+        on script.
+      operationId: list_scripts
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by script name:
+            value: install-tensorflow
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 3rd result:
+            value: "3"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & created_by:
+            value: id,name,created_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name'
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListScriptsResponse'
+          description: List scripts response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:script
+      - CookieAuth:
+        - read:script
+      summary: List scripts
+      tags:
+      - scripts
+      x-cli-table-default:
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - description
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+  /api/v2/scripts/{script}:
+    delete:
+      description: Delete target script
+      operationId: delete_script
+      parameters:
+      - explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Script deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - delete:script
+      - CookieAuth:
+        - delete:script
+      summary: Delete script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+    get:
+      description: Get details about target script
+      operationId: get_script
+      parameters:
+      - explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name'
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetScriptResponse'
+          description: Script returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - read:script
+      - CookieAuth:
+        - read:script
+      summary: Get script
+      tags:
+      - scripts
+      x-cli-table-default:
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - description
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+    put:
+      description: Edit target script
+      operationId: edit_script
+      parameters:
+      - explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New script name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: New script description
+        explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Script successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - edit:script
+      - CookieAuth:
+        - edit:script
+      summary: Edit script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
   /api/v2/secrets:
     get:
       description: List secrets owned by the active org. READ permission required
@@ -2105,6 +3103,778 @@ paths:
       tags:
       - secrets
       x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
+  /api/v2/sizes:
+    get:
+      description: List sizes owned by the active org. READ permission required on
+        size & cloud.
+      operationId: list_sizes
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by size name:
+            value: cinet3
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSizesResponse'
+          description: List sizes response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+      - CookieAuth:
+        - read:cloud
+      summary: List sizes
+      tags:
+      - sizes
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/sizes/{size}:
+    get:
+      description: Get details about target size
+      operationId: get_size
+      parameters:
+      - explode: false
+        in: path
+        name: size
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSizeResponse'
+          description: Size returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Size not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+      - CookieAuth:
+        - read:cloud
+      summary: Get size
+      tags:
+      - sizes
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - locations
+      - external_id
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/volumes:
+    get:
+      description: List volumes owned by the active org. READ permission required
+        on volume & cloud.
+      operationId: list_volumes
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by volume location:
+            value: location:Amsterdam
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListVolumesResponse'
+          description: List volumes response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:volume
+        - read:cloud
+      - CookieAuth:
+        - read:volume
+        - read:cloud
+      summary: List volumes
+      tags:
+      - volumes
+      x-cli-table-default:
+      - name
+      - size
+      - cloud
+      - location
+      - attached_to
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - size
+      - cloud
+      - location
+      - external_id
+      - attached_to
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
+    post:
+      description: Creates one or more volumes on the specified cloud. If async is
+        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
+        permission required on cloud. READ permission required on location. CREATE_RESOURCES
+        permission required on location. CREATE permission required on volume.
+      operationId: create_volume
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVolumeRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateVolumeResponse'
+          description: Volume provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:volume
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+      - CookieAuth:
+        - create:volume
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+      summary: Create volume
+      tags:
+      - volumes
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
+  /api/v2/volumes/{volume}:
+    get:
+      description: Get details about target volume
+      operationId: get_volume
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVolumeResponse'
+          description: Volume returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Volume not found
+      security:
+      - ApiKeyAuth:
+        - read:volume
+        - read:cloud
+      - CookieAuth:
+        - read:volume
+        - read:cloud
+      summary: Get volume
+      tags:
+      - volumes
+      x-cli-table-default:
+      - name
+      - size
+      - cloud
+      - location
+      - attached_to
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - size
+      - cloud
+      - location
+      - external_id
+      - attached_to
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
+    put:
+      description: Edit target volume
+      operationId: edit_volume
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New volume name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Volume successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Volume not found
+      security:
+      - ApiKeyAuth:
+        - edit:volume
+        - read:cloud
+      - CookieAuth:
+        - edit:volume
+        - read:cloud
+      summary: Edit volume
+      tags:
+      - volumes
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
+  /api/v2/zones:
+    get:
+      description: List zones owned by the active org. READ permission required on
+        zone & cloud.
+      operationId: list_zones
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by zone name:
+            value: cinet3
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListZonesResponse'
+          description: List zones response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:cloud
+      - CookieAuth:
+        - read:zone
+        - read:cloud
+      summary: List zones
+      tags:
+      - zones
+      x-cli-table-default:
+      - name
+      - cloud
+      - machines
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - machines
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+    post:
+      description: Creates one or more zones on the specified cloud. If async is true,
+        a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
+        permission required on cloud. CREATE permission required on zone.
+      operationId: create_zone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateZoneRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateZoneResponse'
+          description: Zone provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:zone
+        - read:cloud
+        - create_resources:cloud
+      - CookieAuth:
+        - create:zone
+        - read:cloud
+        - create_resources:cloud
+      summary: Create zone
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+  /api/v2/zones/{zone}:
+    get:
+      description: Get details about target zone
+      operationId: get_zone
+      parameters:
+      - explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetZoneResponse'
+          description: Zone returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Zone not found
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:cloud
+      - CookieAuth:
+        - read:zone
+        - read:cloud
+      summary: Get zone
+      tags:
+      - zones
+      x-cli-table-default:
+      - name
+      - cloud
+      - machines
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - location
+      - external_id
+      - subnets
+      - machines
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+    put:
+      description: Edit target zone
+      operationId: edit_zone
+      parameters:
+      - explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New zone name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Zone successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Zone not found
+      security:
+      - ApiKeyAuth:
+        - edit:zone
+      - CookieAuth:
+        - edit:zone
+      summary: Edit zone
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
 components:
   callbacks: {}
   examples: {}
@@ -2119,35 +3889,171 @@ components:
             $ref: '#/components/schemas/inline_object'
   responses: {}
   schemas:
-    AddCloudRequest:
-      example:
-        features:
-          compute: true
-          dns: false
-        provider: amazon
-        title: title
+    AddAlibabaCloudRequest:
       properties:
-        title:
-          description: The name of the cloud to add
-          type: string
         provider:
-          description: The provider of the cloud
           enum:
-          - amazon
-          - digitalocean
-          - google
-          - openstack
-          - packet
-          - vsphere
+          - alibaba
           type: string
         credentials:
-          $ref: '#/components/schemas/CloudCredentials'
+          $ref: '#/components/schemas/AlibabaCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddAmazonCloudRequest:
+      properties:
+        provider:
+          enum:
+          - amazon
+          type: string
+        credentials:
+          $ref: '#/components/schemas/AmazonCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
-      - title
+      type: object
+    AddAzureCloudRequest:
+      properties:
+        provider:
+          enum:
+          - azure
+          type: string
+        credentials:
+          $ref: '#/components/schemas/AzureCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddCloudRequest:
+      allOf:
+      - $ref: '#/components/schemas/AddCloudRequest_allOf'
+      - discriminator:
+          mapping:
+            amazon: '#/components/schemas/AddAmazonCloudRequest'
+            azure: '#/components/schemas/AddAzureCloudRequest'
+            google: '#/components/schemas/AddGoogleCloudRequest'
+            cloudsigma: '#/components/schemas/AddCloudSigmaCloudRequest'
+            alibaba: '#/components/schemas/AddAlibabaCloudRequest'
+            equinix: '#/components/schemas/AddEquinixCloudRequest'
+            ibm: '#/components/schemas/AddIbmCloudRequest'
+            linode: '#/components/schemas/AddLinodeCloudRequest'
+            rackspace: '#/components/schemas/AddRackspaceCloudRequest'
+            maxihost: '#/components/schemas/AddMaxihostCloudRequest'
+            vultr: '#/components/schemas/AddVultrCloudRequest'
+            openstack: '#/components/schemas/AddOpenstackCloudRequest'
+            onapp: '#/components/schemas/AddOnappCloudRequest'
+            vsphere: '#/components/schemas/AddVsphereCloudRequest'
+            vcloud: '#/components/schemas/AddVcloudCloudRequest'
+            kvm: '#/components/schemas/AddKvmCloudRequest'
+            lxd: '#/components/schemas/AddLxdCloudRequest'
+            docker: '#/components/schemas/AddDockerCloudRequest'
+            kubevirt: '#/components/schemas/AddKubevirtCloudRequest'
+            other: '#/components/schemas/AddOtherCloudRequest'
+          propertyName: provider
+        oneOf:
+        - $ref: '#/components/schemas/AddAmazonCloudRequest'
+        - $ref: '#/components/schemas/AddAzureCloudRequest'
+        - $ref: '#/components/schemas/AddGoogleCloudRequest'
+        - $ref: '#/components/schemas/AddAlibabaCloudRequest'
+        - $ref: '#/components/schemas/AddCloudSigmaCloudRequest'
+        - $ref: '#/components/schemas/AddEquinixCloudRequest'
+        - $ref: '#/components/schemas/AddIbmCloudRequest'
+        - $ref: '#/components/schemas/AddDigitaloceanCloudRequest'
+        - $ref: '#/components/schemas/AddLinodeCloudRequest'
+        - $ref: '#/components/schemas/AddRackspaceCloudRequest'
+        - $ref: '#/components/schemas/AddMaxihostCloudRequest'
+        - $ref: '#/components/schemas/AddVultrCloudRequest'
+        - $ref: '#/components/schemas/AddOpenstackCloudRequest'
+        - $ref: '#/components/schemas/AddOnappCloudRequest'
+        - $ref: '#/components/schemas/AddVsphereCloudRequest'
+        - $ref: '#/components/schemas/AddVcloudCloudRequest'
+        - $ref: '#/components/schemas/AddKvmCloudRequest'
+        - $ref: '#/components/schemas/AddLxdCloudRequest'
+        - $ref: '#/components/schemas/AddDockerCloudRequest'
+        - $ref: '#/components/schemas/AddKubevirtCloudRequest'
+        - $ref: '#/components/schemas/AddOtherCloudRequest'
+    AddCloudSigmaCloudRequest:
+      properties:
+        provider:
+          enum:
+          - cloudsigma
+          type: string
+        credentials:
+          $ref: '#/components/schemas/CloudSigmaCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddDigitaloceanCloudRequest:
+      properties:
+        provider:
+          enum:
+          - digitalocean
+          type: string
+        credentials:
+          $ref: '#/components/schemas/DigitaloceanCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddDockerCloudRequest:
+      properties:
+        provider:
+          enum:
+          - docker
+          type: string
+        credentials:
+          $ref: '#/components/schemas/DockerCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddEquinixCloudRequest:
+      properties:
+        provider:
+          enum:
+          - equinix
+          type: string
+        credentials:
+          $ref: '#/components/schemas/EquinixCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddGoogleCloudRequest:
+      properties:
+        provider:
+          enum:
+          - google
+          type: string
+        credentials:
+          $ref: '#/components/schemas/GoogleCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddIbmCloudRequest:
+      properties:
+        provider:
+          enum:
+          - ibm
+          type: string
+        credentials:
+          $ref: '#/components/schemas/IbmCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
       type: object
     AddKeyRequest:
       anyOf:
@@ -2168,6 +4074,160 @@ components:
         public:
           type: string
       type: object
+    AddKubevirtCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kubevirt
+          type: string
+        credentials:
+          $ref: '#/components/schemas/KubevirtCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddKvmCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kvm
+          type: string
+        credentials:
+          type: object
+      required:
+      - credentials
+      - provider
+      type: object
+    AddLinodeCloudRequest:
+      properties:
+        provider:
+          enum:
+          - linode
+          type: string
+        credentials:
+          $ref: '#/components/schemas/LinodeCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddLxdCloudRequest:
+      properties:
+        provider:
+          enum:
+          - lxd
+          type: string
+        credentials:
+          $ref: '#/components/schemas/LxdCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddMaxihostCloudRequest:
+      properties:
+        provider:
+          enum:
+          - maxihost
+          type: string
+        credentials:
+          $ref: '#/components/schemas/MaxihostCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddOnappCloudRequest:
+      properties:
+        provider:
+          enum:
+          - onapp
+          type: string
+        credentials:
+          $ref: '#/components/schemas/OnappCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddOpenstackCloudRequest:
+      properties:
+        provider:
+          enum:
+          - openstack
+          type: string
+        credentials:
+          $ref: '#/components/schemas/OpenstackCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddOtherCloudRequest:
+      properties:
+        provider:
+          enum:
+          - other
+          type: string
+        credentials:
+          type: object
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddRackspaceCloudRequest:
+      properties:
+        provider:
+          enum:
+          - rackspace
+          type: string
+        credentials:
+          $ref: '#/components/schemas/RackspaceCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddVcloudCloudRequest:
+      properties:
+        provider:
+          enum:
+          - vcloud
+          type: string
+        credentials:
+          $ref: '#/components/schemas/VcloudCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddVsphereCloudRequest:
+      properties:
+        provider:
+          enum:
+          - vsphere
+          type: string
+        credentials:
+          $ref: '#/components/schemas/VsphereCredentials'
+      required:
+      - credentials
+      - provider
+      type: object
+    AddVultrCloudRequest:
+      properties:
+        provider:
+          enum:
+          - vultr
+          type: string
+        credentials:
+          $ref: '#/components/schemas/VultrCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
     AlibabaCredentials:
       properties:
         apikey:
@@ -2176,6 +4236,13 @@ components:
         apisecret:
           description: Your Alibaba Cloud API secret
           type: string
+        region:
+          description: Your Alibaba Cloud region
+          type: string
+      required:
+      - apikey
+      - apisecret
+      - region
       type: object
     AmazonCredentials:
       properties:
@@ -2185,9 +4252,13 @@ components:
         apisecret:
           description: Your AWS API secret
           type: string
+        region:
+          description: Your AWS region
+          type: string
       required:
       - apikey
       - apisecret
+      - region
       type: object
     AzureCredentials:
       properties:
@@ -2203,6 +4274,11 @@ components:
         secret:
           description: Your Azure secret
           type: string
+      required:
+      - key
+      - secret
+      - subscriptionId
+      - tenantId
       type: object
     Cloud:
       example:
@@ -2234,34 +4310,12 @@ components:
           type: string
       type: object
     CloudCredentials:
-      discriminator:
-        mapping:
-          amazon: '#/components/schemas/AmazonCredentials'
-          azure: '#/components/schemas/AzureCredentials'
-          google: '#/components/schemas/GoogleCredentials'
-          alibaba: '#/components/schemas/AlibabaCredentials'
-          equinix: '#/components/schemas/EquinixCredentials'
-          ibm: '#/components/schemas/IbmCredentials'
-          digitalocean: '#/components/schemas/DigitaloceanCredentials'
-          linode: '#/components/schemas/LinodeCredentials'
-          rackspace: '#/components/schemas/RackspaceCredentials'
-          maxihost: '#/components/schemas/MaxihostCredentials'
-          vultr: '#/components/schemas/VultrCredentials'
-          openstack: '#/components/schemas/OpenstackCredentials'
-          onapp: '#/components/schemas/OnappCredentials'
-          vsphere: '#/components/schemas/VsphereCredentials'
-          vcloud: '#/components/schemas/VcloudCredentials'
-          kvm: '#/components/schemas/KvmCredentials'
-          lxd: '#/components/schemas/LxdCredentials'
-          docker: '#/components/schemas/DockerCredentials'
-          kubevirt: '#/components/schemas/KubevirtCredentials'
-          other: '#/components/schemas/OtherCredentials'
-        propertyName: provider
       oneOf:
       - $ref: '#/components/schemas/AmazonCredentials'
       - $ref: '#/components/schemas/AzureCredentials'
       - $ref: '#/components/schemas/GoogleCredentials'
       - $ref: '#/components/schemas/AlibabaCredentials'
+      - $ref: '#/components/schemas/CloudSigmaCredentials'
       - $ref: '#/components/schemas/EquinixCredentials'
       - $ref: '#/components/schemas/IbmCredentials'
       - $ref: '#/components/schemas/DigitaloceanCredentials'
@@ -2294,11 +4348,27 @@ components:
           description: Enable DNS services
           type: boolean
       type: object
+    CloudSigmaCredentials:
+      properties:
+        username:
+          description: Your CloudSigma username
+          type: string
+        password:
+          description: Your CloudSigma password
+          type: string
+        region:
+          description: Your CloudSigma region
+          type: string
+      required:
+      - password
+      - region
+      - username
+      type: object
     CreateMachineRequest:
       example:
         template: '{}'
         image: '{}'
-        quantity: 0.8008281904610115
+        quantity: 6.027456183070403
         disks: '{}'
         fqdn: fqdn
         cloudinit: cloudinit
@@ -2311,11 +4381,19 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
-        schedules: '{}'
+        schedules:
+        - '{}'
+        - '{}'
         extra: '{}'
         name: name
         location: location
-        expiration: '{}'
+        expiration:
+          date: 2000-01-23T04:56:07.000+00:00
+          action: stop
+          notify:
+            period: minutes
+            value: 0
+          notify_msg: notify_msg
         net: '{}'
         scripts:
         - '{}'
@@ -2368,13 +4446,14 @@ components:
           type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
-          type: object
+          items:
+            type: object
+          type: array
         tags:
           description: Assign tags to provisioned machine
           type: object
         expiration:
-          description: Configure machine expiration
-          type: object
+          $ref: '#/components/schemas/Expiration'
         extra:
           description: Configure additional parameters
           type: object
@@ -2402,6 +4481,45 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
+    CreateNetworkRequest:
+      example:
+        cloud: cloud
+        template: '{}'
+        extra: '{}'
+        name: name
+        save: true
+        dry: true
+        tags: '{}'
+      properties:
+        name:
+          description: Specify network name
+          type: string
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        tags:
+          description: Assign tags to provisioned network
+          type: object
+        extra:
+          description: Configure additional parameters
+          type: object
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+      required:
+      - cloud
+      - name
+      type: object
+    CreateNetworkResponse:
+      oneOf:
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      type: object
     CreateSecretRequest:
       example:
         name: name
@@ -2418,6 +4536,133 @@ components:
       - secret
       type: object
     CreateSnapshotResponse:
+      type: object
+    CreateVolumeRequest:
+      example:
+        cloud: cloud
+        template: '{}'
+        quantity: 0.8008281904610115
+        size: '{}'
+        extra: '{}'
+        name: name
+        save: true
+        location: location
+        dry: true
+        tags: '{}'
+      properties:
+        name:
+          description: Specify volume name
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: string
+        size:
+          description: Volume sizing spec
+          type: object
+        tags:
+          description: Assign tags to provisioned volume
+          type: object
+        extra:
+          description: Configure additional parameters
+          type: object
+        quantity:
+          description: Provision multiple volumes of this type
+          type: number
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+      required:
+      - name
+      - size
+      type: object
+    CreateVolumeResponse:
+      oneOf:
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      type: object
+    CreateZoneRequest:
+      example:
+        cloud: cloud
+        template: '{}'
+        extra: '{}'
+        name: name
+        save: true
+        dry: true
+        tags: '{}'
+      properties:
+        name:
+          description: Specify zone name
+          type: string
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        tags:
+          description: Assign tags to provisioned zone
+          type: object
+        extra:
+          description: Configure additional parameters
+          type: object
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+      required:
+      - cloud
+      - name
+      type: object
+    CreateZoneResponse:
+      oneOf:
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      type: object
+    CronSchedule:
+      description: Cron schedule
+      properties:
+        schedule_type:
+          enum:
+          - crontab
+          type: string
+        entry:
+          $ref: '#/components/schemas/CronSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        start_after:
+          description: Datetime when schedule should start running.
+          format: date-time
+          type: string
+        expires:
+          description: Datetime when schedule should expire.
+          format: date-time
+          type: string
+        max_run_count:
+          minimum: 1
+          type: integer
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
       type: object
     DigitaloceanCredentials:
       properties:
@@ -2453,6 +4698,9 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      required:
+      - host
+      - port
       type: object
     EditSecretRequest:
       example:
@@ -2471,6 +4719,31 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    Expiration:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        action: stop
+        notify:
+          period: minutes
+          value: 0
+        notify_msg: notify_msg
+      properties:
+        action:
+          enum:
+          - stop
+          - destroy
+          type: string
+        date:
+          format: date-time
+          type: string
+        notify:
+          $ref: '#/components/schemas/Expiration_notify'
+        notify_msg:
+          type: string
+      required:
+      - action
+      - date
       type: object
     Frequency:
       properties:
@@ -2508,6 +4781,30 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetImageResponse:
+      example:
+        data:
+          cloud: cloud
+          starred: true
+          os_type: os_type
+          extra: '{}'
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Image'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetKeyResponse:
       example:
         data:
@@ -2530,12 +4827,32 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetLocationResponse:
+      example:
+        data:
+          cloud: cloud
+          extra: '{}'
+          name: name
+          external_id: external_id
+          id: id
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Location'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetMachineResponse:
       example:
         data:
           cloud: cloud
           default: true
           name: name
+          external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
@@ -2548,6 +4865,27 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Machine'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetNetworkResponse:
+      example:
+        data:
+          cloud: cloud
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Network'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -2574,6 +4912,26 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetScriptResponse:
+      example:
+        data:
+          name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Script'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetSecretResponse:
       example:
         data:
@@ -2593,6 +4951,70 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetSizeResponse:
+      example:
+        data:
+          cloud: cloud
+          extra: '{}'
+          name: name
+          external_id: external_id
+          id: id
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Size'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetVolumeResponse:
+      example:
+        data:
+          cloud: cloud
+          default: true
+          size: size
+          name: name
+          external_id: external_id
+          location: location
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Volume'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetZoneResponse:
+      example:
+        data:
+          cloud: cloud
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Zone'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GoogleCredentials:
       properties:
         projectId:
@@ -2606,8 +5028,11 @@ components:
       - projectId
       type: object
     IbmCredentials:
-      additionalProperties: false
       properties:
+        provider:
+          enum:
+          - ibm
+          type: string
         username:
           description: Your IBM Cloud username
           type: string
@@ -2616,6 +5041,80 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    Image:
+      example:
+        cloud: cloud
+        starred: true
+        os_type: os_type
+        extra: '{}'
+        name: name
+        external_id: external_id
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        starred:
+          type: boolean
+        os_type:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        extra:
+          type: object
+      type: object
+    InlineScript:
+      properties:
+        inline:
+          type: string
+      type: object
+    IntervalSchedule:
+      description: Interval schedule
+      properties:
+        schedule_type:
+          enum:
+          - interval
+          type: string
+        entry:
+          $ref: '#/components/schemas/IntervalSchedule_entry'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        start_after:
+          description: Datetime when schedule should start running.
+          format: date-time
+          type: string
+        expires:
+          description: Datetime when schedule should expire.
+          format: date-time
+          type: string
+        max_run_count:
+          minimum: 1
+          type: integer
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
       type: object
     Key:
       example:
@@ -2677,6 +5176,9 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      required:
+      - host
+      - port
       type: object
     KvmCredentials:
       type: object
@@ -2722,6 +5224,42 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListImagesResponse:
+      example:
+        data:
+        - cloud: cloud
+          starred: true
+          os_type: os_type
+          extra: '{}'
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          starred: true
+          os_type: os_type
+          extra: '{}'
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Image'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListKeysResponse:
       example:
         data:
@@ -2754,12 +5292,39 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListLocationsResponse:
+      example:
+        data:
+        - cloud: cloud
+          extra: '{}'
+          name: name
+          external_id: external_id
+          id: id
+        - cloud: cloud
+          extra: '{}'
+          name: name
+          external_id: external_id
+          id: id
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Location'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListMachinesResponse:
       example:
         data:
         - cloud: cloud
           default: true
           name: name
+          external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
@@ -2767,6 +5332,7 @@ components:
         - cloud: cloud
           default: true
           name: name
+          external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
@@ -2780,6 +5346,36 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Machine'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListNetworksResponse:
+      example:
+        data:
+        - cloud: cloud
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Network'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -2818,6 +5414,34 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListScriptsResponse:
+      example:
+        data:
+        - name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Script'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListSecretsResponse:
       example:
         data:
@@ -2844,6 +5468,32 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListSizesResponse:
+      example:
+        data:
+        - cloud: cloud
+          extra: '{}'
+          name: name
+          external_id: external_id
+          id: id
+        - cloud: cloud
+          extra: '{}'
+          name: name
+          external_id: external_id
+          id: id
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Size'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListSnapshotsResponse:
       example:
         data:
@@ -2861,6 +5511,91 @@ components:
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListVolumesResponse:
+      example:
+        data:
+        - cloud: cloud
+          default: true
+          size: size
+          name: name
+          external_id: external_id
+          location: location
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          default: true
+          size: size
+          name: name
+          external_id: external_id
+          location: location
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Volume'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListZonesResponse:
+      example:
+        data:
+        - cloud: cloud
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Zone'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    Location:
+      example:
+        cloud: cloud
+        extra: '{}'
+        name: name
+        external_id: external_id
+        id: id
+      properties:
+        id:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        extra:
+          type: object
       type: object
     LxdCredentials:
       properties:
@@ -2888,18 +5623,24 @@ components:
         showAll:
           description: Show all containers, including stopped
           type: boolean
+      required:
+      - host
+      - port
       type: object
     Machine:
       example:
         cloud: cloud
         default: true
         name: name
+        external_id: external_id
         owned_by: owned_by
         id: id
         created_by: created_by
         tags: '{}'
       properties:
         id:
+          type: string
+        external_id:
           type: string
         name:
           type: string
@@ -2939,6 +5680,31 @@ components:
       required:
       - token
       type: object
+    Network:
+      example:
+        cloud: cloud
+        name: name
+        external_id: external_id
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
     OnappCredentials:
       properties:
         authUrl:
@@ -2955,6 +5721,32 @@ components:
       - apikey
       - host
       - username
+      type: object
+    OneOffSchedule:
+      description: One-off schedule
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          type: string
+        entry:
+          description: When schedule should run
+          format: date-time
+          type: string
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
       type: object
     OpenstackCredentials:
       properties:
@@ -2978,6 +5770,14 @@ components:
       - user
       type: object
     OtherCredentials:
+      type: object
+    PostDeployScript:
+      properties:
+        script:
+          description: Name or ID of the script to run
+          type: string
+        params:
+          type: string
       type: object
     Queries:
       items:
@@ -3009,6 +5809,10 @@ components:
       type: object
     RackspaceCredentials:
       properties:
+        provider:
+          enum:
+          - rackspace
+          type: string
         username:
           description: Your Rackspace Cloud username
           type: string
@@ -3018,6 +5822,10 @@ components:
         region:
           description: Your Rackspace Cloud region
           type: string
+      required:
+      - apikey
+      - region
+      - username
       type: object
     ResponseMetadata:
       example:
@@ -3112,6 +5920,28 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
+    Script:
+      example:
+        name: name
+        description: description
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
     Secret:
       example:
         name: name
@@ -3153,6 +5983,25 @@ components:
       items:
         $ref: '#/components/schemas/Selector'
       type: array
+    Size:
+      example:
+        cloud: cloud
+        extra: '{}'
+        name: name
+        external_id: external_id
+        id: id
+      properties:
+        id:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        extra:
+          type: object
+      type: object
     Snapshot:
       type: object
     SupportedProviders:
@@ -3161,6 +6010,7 @@ components:
       - azure
       - google
       - alibaba
+      - cloudsigma
       - equinix
       - ibm
       - digitalocean
@@ -3211,6 +6061,40 @@ components:
       - port
       - username
       type: object
+    Volume:
+      example:
+        cloud: cloud
+        default: true
+        size: size
+        name: name
+        external_id: external_id
+        location: location
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        location:
+          type: string
+        size:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        default:
+          type: boolean
+      type: object
     VsphereCredentials:
       properties:
         host:
@@ -3258,6 +6142,31 @@ components:
       - period
       - start
       type: object
+    Zone:
+      example:
+        cloud: cloud
+        name: name
+        external_id: external_id
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
     inline_response_200:
       example:
         id: id
@@ -3274,6 +6183,39 @@ components:
           $ref: '#/components/schemas/CloudCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+      type: object
+    AddCloudRequest_allOf:
+      properties:
+        title:
+          description: The name of the cloud to add
+          type: string
+        provider:
+          description: The provider of the cloud
+          enum:
+          - alibaba
+          - amazon
+          - azure
+          - cloudsigma
+          - digitalocean
+          - equinix
+          - google
+          - ibm
+          - kvm
+          - kubevirt
+          - linode
+          - lxd
+          - maxihost
+          - onapp
+          - openstack
+          - other
+          - rackspace
+          - vcloud
+          - vsphere
+          - vultr
+          type: string
+      required:
+      - provider
+      - title
       type: object
     AddKeyRequest_anyOf:
       properties:
@@ -3324,6 +6266,54 @@ components:
       properties:
         plan:
           type: object
+    CronSchedule_entry:
+      properties:
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
+      type: object
+    Expiration_notify:
+      description: Notify user before machine expiration
+      example:
+        period: minutes
+        value: 0
+      properties:
+        value:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      type: object
+    IntervalSchedule_entry:
+      properties:
+        every:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      required:
+      - every
+      - period
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header
