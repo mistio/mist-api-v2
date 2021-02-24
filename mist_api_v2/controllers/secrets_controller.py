@@ -55,9 +55,9 @@ def create_secret(create_secret_request=None):  # noqa: E501
     trigger_session_update(auth_context.owner.id, ['secrets'])
 
     if config.HAS_RBAC:
-        auth_context.owner.mapper.update(
+        auth_context.org.mapper.update(
             _secret,
-            callback=async_session_update,
+            #callback=async_session_update,
             args=(auth_context.owner.id, ['secrets'], )
         )
 
