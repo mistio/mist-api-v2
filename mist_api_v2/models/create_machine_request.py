@@ -35,7 +35,7 @@ class CreateMachineRequest(Model):
         :param image: The image of this CreateMachineRequest.  # noqa: E501
         :type image: object
         :param net: The net of this CreateMachineRequest.  # noqa: E501
-        :type net: object
+        :type net: List[object]
         :param key: The key of this CreateMachineRequest.  # noqa: E501
         :type key: object
         :param disks: The disks of this CreateMachineRequest.  # noqa: E501
@@ -74,7 +74,7 @@ class CreateMachineRequest(Model):
             'location': str,
             'size': object,
             'image': object,
-            'net': object,
+            'net': List[object],
             'key': object,
             'disks': object,
             'volumes': List[object],
@@ -300,7 +300,7 @@ class CreateMachineRequest(Model):
         Specify network configuration parameters  # noqa: E501
 
         :return: The net of this CreateMachineRequest.
-        :rtype: object
+        :rtype: List[object]
         """
         return self._net
 
@@ -311,7 +311,7 @@ class CreateMachineRequest(Model):
         Specify network configuration parameters  # noqa: E501
 
         :param net: The net of this CreateMachineRequest.
-        :type net: object
+        :type net: List[object]
         """
 
         self._net = net

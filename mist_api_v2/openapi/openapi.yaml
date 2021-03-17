@@ -4151,7 +4151,9 @@ components:
             period: minutes
             value: 0
           notify_msg: notify_msg
-        net: '{}'
+        net:
+        - '{}'
+        - '{}'
         scripts:
         - '{}'
         - '{}'
@@ -4176,7 +4178,9 @@ components:
           type: object
         net:
           description: Specify network configuration parameters
-          type: object
+          items:
+            type: object
+          type: array
         key:
           description: Associate SSH key
           type: object
