@@ -6,11 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2 import util
 
-from mist_api_v2.models.interval_schedule_entry import IntervalScheduleEntry  # noqa: E501
 from mist_api_v2.models.post_deploy_script import PostDeployScript  # noqa: E501
 
 class IntervalSchedule(Model):
@@ -19,13 +17,11 @@ class IntervalSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, entry=None, action=None, script=None, start_after=None, expires=None, max_run_count=None, description=None):  # noqa: E501
+    def __init__(self, schedule_type=None, action=None, script=None, start_after=None, expires=None, max_run_count=None, description=None):  # noqa: E501
         """IntervalSchedule - a model defined in OpenAPI
 
         :param schedule_type: The schedule_type of this IntervalSchedule.  # noqa: E501
         :type schedule_type: str
-        :param entry: The entry of this IntervalSchedule.  # noqa: E501
-        :type entry: IntervalScheduleEntry
         :param action: The action of this IntervalSchedule.  # noqa: E501
         :type action: str
         :param script: The script of this IntervalSchedule.  # noqa: E501
@@ -41,7 +37,6 @@ class IntervalSchedule(Model):
         """
         self.openapi_types = {
             'schedule_type': str,
-            'entry': IntervalScheduleEntry,
             'action': str,
             'script': PostDeployScript,
             'start_after': datetime,
@@ -52,7 +47,6 @@ class IntervalSchedule(Model):
 
         self.attribute_map = {
             'schedule_type': 'schedule_type',
-            'entry': 'entry',
             'action': 'action',
             'script': 'script',
             'start_after': 'start_after',
@@ -62,7 +56,6 @@ class IntervalSchedule(Model):
         }
 
         self._schedule_type = schedule_type
-        self._entry = entry
         self._action = action
         self._script = script
         self._start_after = start_after
@@ -107,29 +100,6 @@ class IntervalSchedule(Model):
             )
 
         self._schedule_type = schedule_type
-
-    @property
-    def entry(self):
-        """Gets the entry of this IntervalSchedule.
-
-
-        :return: The entry of this IntervalSchedule.
-        :rtype: IntervalScheduleEntry
-        """
-        return self._entry
-
-    @entry.setter
-    def entry(self, entry):
-        """Sets the entry of this IntervalSchedule.
-
-
-        :param entry: The entry of this IntervalSchedule.
-        :type entry: IntervalScheduleEntry
-        """
-        if entry is None:
-            raise ValueError("Invalid value for `entry`, must not be `None`")  # noqa: E501
-
-        self._entry = entry
 
     @property
     def action(self):

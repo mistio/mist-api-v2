@@ -4037,6 +4037,19 @@ components:
       - subscriptionId
       - tenantId
       type: object
+    BaseSchedule:
+      allOf:
+      - $ref: '#/components/schemas/BaseSchedule_allOf'
+      - discriminator:
+          mapping:
+            one_off: '#/components/schemas/OneOffSchedule'
+            crontab: '#/components/schemas/CronSchedule'
+            interval: '#/components/schemas/IntervalSchedule'
+          propertyName: schedule_type
+        oneOf:
+        - $ref: '#/components/schemas/OneOffSchedule'
+        - $ref: '#/components/schemas/CronSchedule'
+        - $ref: '#/components/schemas/IntervalSchedule'
     Cloud:
       example:
         features:
@@ -4138,9 +4151,6 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
-        schedules:
-        - '{}'
-        - '{}'
         extra: '{}'
         name: name
         location: location
@@ -4151,7 +4161,9 @@ components:
             period: minutes
             value: 0
           notify_msg: notify_msg
-        net: '{}'
+        net:
+        - '{}'
+        - '{}'
         scripts:
         - '{}'
         - '{}'
@@ -4176,7 +4188,9 @@ components:
           type: object
         net:
           description: Specify network configuration parameters
-          type: object
+          items:
+            type: object
+          type: array
         key:
           description: Associate SSH key
           type: object
@@ -4202,10 +4216,7 @@ components:
             type: object
           type: array
         schedules:
-          description: Configure scheduled actions for the provisioned machine
-          items:
-            type: object
-          type: array
+          $ref: '#/components/schemas/BaseSchedule'
         tags:
           description: Assign tags to provisioned machine
           type: object
@@ -4378,8 +4389,6 @@ components:
           enum:
           - crontab
           type: string
-        entry:
-          $ref: '#/components/schemas/CronSchedule_entry'
         action:
           enum:
           - start
@@ -4405,6 +4414,26 @@ components:
       required:
       - entry
       - schedule_type
+      type: object
+    CronScheduleEntry:
+      description: Schedule entry for cron schedules
+      properties:
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4802,8 +4831,6 @@ components:
           enum:
           - interval
           type: string
-        entry:
-          $ref: '#/components/schemas/IntervalSchedule_entry'
         action:
           enum:
           - start
@@ -4829,6 +4856,21 @@ components:
       required:
       - entry
       - schedule_type
+      type: object
+    IntervalScheduleEntry:
+      description: Schedule entry for interval schedules
+      properties:
+        every:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      required:
+      - every
+      - period
       type: object
     Key:
       example:
@@ -5417,10 +5459,6 @@ components:
           enum:
           - one_off
           type: string
-        entry:
-          description: When schedule should run
-          format: date-time
-          type: string
         action:
           enum:
           - start
@@ -5435,6 +5473,16 @@ components:
       required:
       - entry
       - schedule_type
+      type: object
+    OneOffScheduleEntry:
+      description: Schedule entry for one-off schedules
+      properties:
+        datetime:
+          description: When schedule should run
+          format: date-time
+          type: string
+      required:
+      - datetime
       type: object
     OpenstackCredentials:
       properties:
@@ -5608,6 +5656,12 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
+    ScheduleEntry:
+      oneOf:
+      - $ref: '#/components/schemas/OneOffScheduleEntry'
+      - $ref: '#/components/schemas/CronScheduleEntry'
+      - $ref: '#/components/schemas/IntervalScheduleEntry'
+      type: object
     Script:
       example:
         name: name
@@ -5925,6 +5979,19 @@ components:
       required:
       - dry
       - generate
+    BaseSchedule_allOf:
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          - crontab
+          - interval
+          type: string
+        entry:
+          $ref: '#/components/schemas/ScheduleEntry'
+      required:
+      - schedule_type
+      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
@@ -5935,25 +6002,6 @@ components:
       properties:
         plan:
           type: object
-    CronSchedule_entry:
-      properties:
-        minute:
-          type: string
-        hour:
-          type: string
-        day_of_month:
-          type: string
-        month_of_year:
-          type: string
-        day_of_week:
-          type: string
-      required:
-      - day_of_month
-      - day_of_week
-      - hour
-      - minute
-      - month_of_year
-      type: object
     Expiration_notify:
       description: Notify user before machine expiration
       example:
@@ -5968,20 +6016,6 @@ components:
           - hours
           - days
           type: string
-      type: object
-    IntervalSchedule_entry:
-      properties:
-        every:
-          type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          type: string
-      required:
-      - every
-      - period
       type: object
   securitySchemes:
     ApiKeyAuth:

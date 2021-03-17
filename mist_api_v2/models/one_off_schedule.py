@@ -17,13 +17,11 @@ class OneOffSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, entry=None, action=None, script=None, description=None):  # noqa: E501
+    def __init__(self, schedule_type=None, action=None, script=None, description=None):  # noqa: E501
         """OneOffSchedule - a model defined in OpenAPI
 
         :param schedule_type: The schedule_type of this OneOffSchedule.  # noqa: E501
         :type schedule_type: str
-        :param entry: The entry of this OneOffSchedule.  # noqa: E501
-        :type entry: datetime
         :param action: The action of this OneOffSchedule.  # noqa: E501
         :type action: str
         :param script: The script of this OneOffSchedule.  # noqa: E501
@@ -33,7 +31,6 @@ class OneOffSchedule(Model):
         """
         self.openapi_types = {
             'schedule_type': str,
-            'entry': datetime,
             'action': str,
             'script': PostDeployScript,
             'description': str
@@ -41,14 +38,12 @@ class OneOffSchedule(Model):
 
         self.attribute_map = {
             'schedule_type': 'schedule_type',
-            'entry': 'entry',
             'action': 'action',
             'script': 'script',
             'description': 'description'
         }
 
         self._schedule_type = schedule_type
-        self._entry = entry
         self._action = action
         self._script = script
         self._description = description
@@ -90,31 +85,6 @@ class OneOffSchedule(Model):
             )
 
         self._schedule_type = schedule_type
-
-    @property
-    def entry(self):
-        """Gets the entry of this OneOffSchedule.
-
-        When schedule should run  # noqa: E501
-
-        :return: The entry of this OneOffSchedule.
-        :rtype: datetime
-        """
-        return self._entry
-
-    @entry.setter
-    def entry(self, entry):
-        """Sets the entry of this OneOffSchedule.
-
-        When schedule should run  # noqa: E501
-
-        :param entry: The entry of this OneOffSchedule.
-        :type entry: datetime
-        """
-        if entry is None:
-            raise ValueError("Invalid value for `entry`, must not be `None`")  # noqa: E501
-
-        self._entry = entry
 
     @property
     def action(self):

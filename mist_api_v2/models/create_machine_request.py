@@ -6,10 +6,12 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.base_schedule import BaseSchedule
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
+from mist_api_v2.models.base_schedule import BaseSchedule  # noqa: E501
 from mist_api_v2.models.expiration import Expiration  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
@@ -35,7 +37,7 @@ class CreateMachineRequest(Model):
         :param image: The image of this CreateMachineRequest.  # noqa: E501
         :type image: object
         :param net: The net of this CreateMachineRequest.  # noqa: E501
-        :type net: object
+        :type net: List[object]
         :param key: The key of this CreateMachineRequest.  # noqa: E501
         :type key: object
         :param disks: The disks of this CreateMachineRequest.  # noqa: E501
@@ -49,7 +51,7 @@ class CreateMachineRequest(Model):
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
         :type scripts: List[object]
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
-        :type schedules: List[object]
+        :type schedules: BaseSchedule
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
@@ -74,14 +76,14 @@ class CreateMachineRequest(Model):
             'location': str,
             'size': object,
             'image': object,
-            'net': object,
+            'net': List[object],
             'key': object,
             'disks': object,
             'volumes': List[object],
             'fqdn': str,
             'cloudinit': str,
             'scripts': List[object],
-            'schedules': List[object],
+            'schedules': BaseSchedule,
             'tags': object,
             'expiration': Expiration,
             'extra': object,
@@ -300,7 +302,7 @@ class CreateMachineRequest(Model):
         Specify network configuration parameters  # noqa: E501
 
         :return: The net of this CreateMachineRequest.
-        :rtype: object
+        :rtype: List[object]
         """
         return self._net
 
@@ -311,7 +313,7 @@ class CreateMachineRequest(Model):
         Specify network configuration parameters  # noqa: E501
 
         :param net: The net of this CreateMachineRequest.
-        :type net: object
+        :type net: List[object]
         """
 
         self._net = net
@@ -458,10 +460,9 @@ class CreateMachineRequest(Model):
     def schedules(self):
         """Gets the schedules of this CreateMachineRequest.
 
-        Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :return: The schedules of this CreateMachineRequest.
-        :rtype: List[object]
+        :rtype: BaseSchedule
         """
         return self._schedules
 
@@ -469,10 +470,9 @@ class CreateMachineRequest(Model):
     def schedules(self, schedules):
         """Sets the schedules of this CreateMachineRequest.
 
-        Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :param schedules: The schedules of this CreateMachineRequest.
-        :type schedules: List[object]
+        :type schedules: BaseSchedule
         """
 
         self._schedules = schedules

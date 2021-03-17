@@ -42,7 +42,7 @@ class IntervalScheduleEntry(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The IntervalSchedule_entry of this IntervalScheduleEntry.  # noqa: E501
+        :return: The IntervalScheduleEntry of this IntervalScheduleEntry.  # noqa: E501
         :rtype: IntervalScheduleEntry
         """
         return util.deserialize_model(dikt, cls)

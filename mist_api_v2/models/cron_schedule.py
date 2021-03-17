@@ -6,11 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cron_schedule_entry import CronScheduleEntry
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2 import util
 
-from mist_api_v2.models.cron_schedule_entry import CronScheduleEntry  # noqa: E501
 from mist_api_v2.models.post_deploy_script import PostDeployScript  # noqa: E501
 
 class CronSchedule(Model):
@@ -19,13 +17,11 @@ class CronSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, entry=None, action=None, script=None, start_after=None, expires=None, max_run_count=None, description=None):  # noqa: E501
+    def __init__(self, schedule_type=None, action=None, script=None, start_after=None, expires=None, max_run_count=None, description=None):  # noqa: E501
         """CronSchedule - a model defined in OpenAPI
 
         :param schedule_type: The schedule_type of this CronSchedule.  # noqa: E501
         :type schedule_type: str
-        :param entry: The entry of this CronSchedule.  # noqa: E501
-        :type entry: CronScheduleEntry
         :param action: The action of this CronSchedule.  # noqa: E501
         :type action: str
         :param script: The script of this CronSchedule.  # noqa: E501
@@ -41,7 +37,6 @@ class CronSchedule(Model):
         """
         self.openapi_types = {
             'schedule_type': str,
-            'entry': CronScheduleEntry,
             'action': str,
             'script': PostDeployScript,
             'start_after': datetime,
@@ -52,7 +47,6 @@ class CronSchedule(Model):
 
         self.attribute_map = {
             'schedule_type': 'schedule_type',
-            'entry': 'entry',
             'action': 'action',
             'script': 'script',
             'start_after': 'start_after',
@@ -62,7 +56,6 @@ class CronSchedule(Model):
         }
 
         self._schedule_type = schedule_type
-        self._entry = entry
         self._action = action
         self._script = script
         self._start_after = start_after
@@ -107,29 +100,6 @@ class CronSchedule(Model):
             )
 
         self._schedule_type = schedule_type
-
-    @property
-    def entry(self):
-        """Gets the entry of this CronSchedule.
-
-
-        :return: The entry of this CronSchedule.
-        :rtype: CronScheduleEntry
-        """
-        return self._entry
-
-    @entry.setter
-    def entry(self, entry):
-        """Sets the entry of this CronSchedule.
-
-
-        :param entry: The entry of this CronSchedule.
-        :type entry: CronScheduleEntry
-        """
-        if entry is None:
-            raise ValueError("Invalid value for `entry`, must not be `None`")  # noqa: E501
-
-        self._entry = entry
 
     @property
     def action(self):
