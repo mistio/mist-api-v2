@@ -4385,6 +4385,20 @@ components:
     CronSchedule:
       description: Cron schedule
       properties:
+        schedule_type:
+          enum:
+          - crontab
+          type: string
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
         start_after:
           description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
@@ -4396,6 +4410,13 @@ components:
         max_run_count:
           minimum: 1
           type: integer
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
+      - schedule_type
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4790,6 +4811,18 @@ components:
     IntervalSchedule:
       description: Interval schedule
       properties:
+        schedule_type:
+          enum:
+          - interval
+          type: string
+        every:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
         start_after:
           description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
@@ -4801,6 +4834,10 @@ components:
         max_run_count:
           minimum: 1
           type: integer
+      required:
+      - every
+      - period
+      - schedule_type
       type: object
     Key:
       example:
@@ -5384,6 +5421,18 @@ components:
       type: object
     OneOffSchedule:
       description: One-off schedule
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          type: string
+        datetime:
+          description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
+          format: date-time
+          type: string
+      required:
+      - datetime
+      - schedule_type
       type: object
     OpenstackCredentials:
       properties:
@@ -5557,31 +5606,6 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
-    ScheduleEntry:
-      properties:
-        datetime:
-          description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
-          format: date-time
-          type: string
-        minute:
-          type: string
-        hour:
-          type: string
-        day_of_month:
-          type: string
-        month_of_year:
-          type: string
-        day_of_week:
-          type: string
-        every:
-          type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          type: string
-      type: object
     Script:
       example:
         name: name
@@ -5907,8 +5931,6 @@ components:
           - crontab
           - interval
           type: string
-        entry:
-          $ref: '#/components/schemas/ScheduleEntry'
         script:
           $ref: '#/components/schemas/PostDeployScript'
         action:
@@ -5921,7 +5943,6 @@ components:
         description:
           type: string
       required:
-      - entry
       - schedule_type
       type: object
     CreateMachineResponse_oneOf:

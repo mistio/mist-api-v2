@@ -117,6 +117,7 @@ mist_api_v2/models/machine_state.py
 mist_api_v2/models/maxihost_credentials.py
 mist_api_v2/models/network.py
 mist_api_v2/models/onapp_credentials.py
+mist_api_v2/models/one_off_schedule.py
 mist_api_v2/models/openstack_credentials.py
 mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
@@ -124,7 +125,6 @@ mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
-mist_api_v2/models/schedule_entry.py
 mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
