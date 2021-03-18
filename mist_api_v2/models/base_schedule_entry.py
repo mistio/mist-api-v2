@@ -87,7 +87,7 @@ class BaseScheduleEntry(Model):
     def datetime(self):
         """Gets the datetime of this BaseScheduleEntry.
 
-        When schedule should run  # noqa: E501
+        When schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The datetime of this BaseScheduleEntry.
         :rtype: datetime
@@ -98,7 +98,7 @@ class BaseScheduleEntry(Model):
     def datetime(self, datetime):
         """Sets the datetime of this BaseScheduleEntry.
 
-        When schedule should run  # noqa: E501
+        When schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param datetime: The datetime of this BaseScheduleEntry.
         :type datetime: datetime

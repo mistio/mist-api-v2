@@ -4038,41 +4038,18 @@ components:
       - tenantId
       type: object
     BaseSchedule:
-      example:
-        schedule_type: one_off
-        action: start
-        description: description
-        script:
-          params: params
-          script: script
-      oneOf:
-      - $ref: '#/components/schemas/IntervalSchedule'
-      - $ref: '#/components/schemas/OneOffSchedule'
-      - $ref: '#/components/schemas/CronSchedule'
-      properties:
-        schedule_type:
-          enum:
-          - one_off
-          - crontab
-          - interval
-          type: string
-        entry:
-          $ref: '#/components/schemas/BaseScheduleEntry'
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        description:
-          type: string
-      required:
-      - entry
-      - schedule_type
-      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseSchedule_allOf'
+      - discriminator:
+          mapping:
+            one_off: '#/components/schemas/OneOffSchedule'
+            crontab: '#/components/schemas/OneOffSchedule'
+            interval: '#/components/schemas/IntervalSchedule'
+          propertyName: schedule_type
+        oneOf:
+        - $ref: '#/components/schemas/IntervalSchedule'
+        - $ref: '#/components/schemas/OneOffSchedule'
+        - $ref: '#/components/schemas/CronSchedule'
     BaseScheduleEntry:
       oneOf:
       - $ref: '#/components/schemas/OneOffScheduleEntry'
@@ -4180,13 +4157,6 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
-        schedules:
-          schedule_type: one_off
-          action: start
-          description: description
-          script:
-            params: params
-            script: script
         extra: '{}'
         name: name
         location: location
@@ -4426,11 +4396,11 @@ components:
           - crontab
           type: string
         start_after:
-          description: Datetime when schedule should start running.
+          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         expires:
-          description: Datetime when schedule should expire.
+          description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         max_run_count:
@@ -4521,6 +4491,7 @@ components:
           - destroy
           type: string
         date:
+          description: When machine should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         notify:
@@ -4856,11 +4827,11 @@ components:
           - interval
           type: string
         start_after:
-          description: Datetime when schedule should start running.
+          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         expires:
-          description: Datetime when schedule should expire.
+          description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         max_run_count:
@@ -5478,7 +5449,7 @@ components:
       description: Schedule entry for one-off schedules
       properties:
         datetime:
-          description: When schedule should run
+          description: When schedule should run, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
       required:
@@ -5508,9 +5479,6 @@ components:
     OtherCredentials:
       type: object
     PostDeployScript:
-      example:
-        params: params
-        script: script
       properties:
         script:
           description: Name or ID of the script to run
@@ -5976,6 +5944,31 @@ components:
       required:
       - dry
       - generate
+    BaseSchedule_allOf:
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          - crontab
+          - interval
+          type: string
+        entry:
+          $ref: '#/components/schemas/BaseScheduleEntry'
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
+      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:

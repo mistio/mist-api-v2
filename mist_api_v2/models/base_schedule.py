@@ -6,17 +6,13 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.base_schedule_all_of import BaseScheduleAllOf
 from mist_api_v2.models.base_schedule_entry import BaseScheduleEntry
-from mist_api_v2.models.cron_schedule import CronSchedule
-from mist_api_v2.models.interval_schedule import IntervalSchedule
-from mist_api_v2.models.one_off_schedule import OneOffSchedule
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2 import util
 
+from mist_api_v2.models.base_schedule_all_of import BaseScheduleAllOf  # noqa: E501
 from mist_api_v2.models.base_schedule_entry import BaseScheduleEntry  # noqa: E501
-from mist_api_v2.models.cron_schedule import CronSchedule  # noqa: E501
-from mist_api_v2.models.interval_schedule import IntervalSchedule  # noqa: E501
-from mist_api_v2.models.one_off_schedule import OneOffSchedule  # noqa: E501
 from mist_api_v2.models.post_deploy_script import PostDeployScript  # noqa: E501
 
 class BaseSchedule(Model):
@@ -105,7 +101,7 @@ class BaseSchedule(Model):
         :param schedule_type: The schedule_type of this BaseSchedule.
         :type schedule_type: str
         """
-        allowed_values = ["one_off", "crontab", "interval"]  # noqa: E501
+        allowed_values = ["crontab"]  # noqa: E501
         if schedule_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `schedule_type` ({0}), must be one of {1}"
@@ -210,7 +206,7 @@ class BaseSchedule(Model):
     def start_after(self):
         """Gets the start_after of this BaseSchedule.
 
-        Datetime when schedule should start running.  # noqa: E501
+        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The start_after of this BaseSchedule.
         :rtype: datetime
@@ -221,7 +217,7 @@ class BaseSchedule(Model):
     def start_after(self, start_after):
         """Sets the start_after of this BaseSchedule.
 
-        Datetime when schedule should start running.  # noqa: E501
+        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param start_after: The start_after of this BaseSchedule.
         :type start_after: datetime
@@ -233,7 +229,7 @@ class BaseSchedule(Model):
     def expires(self):
         """Gets the expires of this BaseSchedule.
 
-        Datetime when schedule should expire.  # noqa: E501
+        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The expires of this BaseSchedule.
         :rtype: datetime
@@ -244,7 +240,7 @@ class BaseSchedule(Model):
     def expires(self, expires):
         """Sets the expires of this BaseSchedule.
 
-        Datetime when schedule should expire.  # noqa: E501
+        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param expires: The expires of this BaseSchedule.
         :type expires: datetime

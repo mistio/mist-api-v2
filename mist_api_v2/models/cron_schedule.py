@@ -88,7 +88,7 @@ class CronSchedule(Model):
     def start_after(self):
         """Gets the start_after of this CronSchedule.
 
-        Datetime when schedule should start running.  # noqa: E501
+        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The start_after of this CronSchedule.
         :rtype: datetime
@@ -99,7 +99,7 @@ class CronSchedule(Model):
     def start_after(self, start_after):
         """Sets the start_after of this CronSchedule.
 
-        Datetime when schedule should start running.  # noqa: E501
+        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param start_after: The start_after of this CronSchedule.
         :type start_after: datetime
@@ -111,7 +111,7 @@ class CronSchedule(Model):
     def expires(self):
         """Gets the expires of this CronSchedule.
 
-        Datetime when schedule should expire.  # noqa: E501
+        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The expires of this CronSchedule.
         :rtype: datetime
@@ -122,7 +122,7 @@ class CronSchedule(Model):
     def expires(self, expires):
         """Sets the expires of this CronSchedule.
 
-        Datetime when schedule should expire.  # noqa: E501
+        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param expires: The expires of this CronSchedule.
         :type expires: datetime
