@@ -4050,12 +4050,6 @@ components:
         - $ref: '#/components/schemas/IntervalSchedule'
         - $ref: '#/components/schemas/OneOffSchedule'
         - $ref: '#/components/schemas/CronSchedule'
-    BaseScheduleEntry:
-      oneOf:
-      - $ref: '#/components/schemas/OneOffScheduleEntry'
-      - $ref: '#/components/schemas/CronScheduleEntry'
-      - $ref: '#/components/schemas/IntervalScheduleEntry'
-      type: object
     Cloud:
       example:
         features:
@@ -4408,26 +4402,6 @@ components:
           type: integer
       required:
       - schedule_type
-      type: object
-    CronScheduleEntry:
-      description: Schedule entry for cron schedules
-      properties:
-        minute:
-          type: string
-        hour:
-          type: string
-        day_of_month:
-          type: string
-        month_of_year:
-          type: string
-        day_of_week:
-          type: string
-      required:
-      - day_of_month
-      - day_of_week
-      - hour
-      - minute
-      - month_of_year
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4839,21 +4813,6 @@ components:
           type: integer
       required:
       - schedule_type
-      type: object
-    IntervalScheduleEntry:
-      description: Schedule entry for interval schedules
-      properties:
-        every:
-          type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          type: string
-      required:
-      - every
-      - period
       type: object
     Key:
       example:
@@ -5445,16 +5404,6 @@ components:
       required:
       - schedule_type
       type: object
-    OneOffScheduleEntry:
-      description: Schedule entry for one-off schedules
-      properties:
-        datetime:
-          description: When schedule should run, e.g 2021-09-22T18:19:28Z
-          format: date-time
-          type: string
-      required:
-      - datetime
-      type: object
     OpenstackCredentials:
       properties:
         authUrl:
@@ -5627,6 +5576,31 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
+    ScheduleEntry:
+      properties:
+        datetime:
+          description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
+          format: date-time
+          type: string
+        minute:
+          type: string
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
+        every:
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+      type: object
     Script:
       example:
         name: name
@@ -5953,7 +5927,7 @@ components:
           - interval
           type: string
         entry:
-          $ref: '#/components/schemas/BaseScheduleEntry'
+          $ref: '#/components/schemas/ScheduleEntry'
         script:
           $ref: '#/components/schemas/PostDeployScript'
         action:

@@ -56,7 +56,6 @@ mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/base_model_.py
 mist_api_v2/models/base_schedule.py
 mist_api_v2/models/base_schedule_all_of.py
-mist_api_v2/models/base_schedule_entry.py
 mist_api_v2/models/cloud.py
 mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py
@@ -72,7 +71,6 @@ mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
 mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
-mist_api_v2/models/cron_schedule_entry.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/equinix_credentials.py
@@ -97,7 +95,6 @@ mist_api_v2/models/inline_object.py
 mist_api_v2/models/inline_response200.py
 mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
-mist_api_v2/models/interval_schedule_entry.py
 mist_api_v2/models/key.py
 mist_api_v2/models/kubevirt_credentials.py
 mist_api_v2/models/linode_credentials.py
@@ -121,7 +118,6 @@ mist_api_v2/models/maxihost_credentials.py
 mist_api_v2/models/network.py
 mist_api_v2/models/onapp_credentials.py
 mist_api_v2/models/one_off_schedule.py
-mist_api_v2/models/one_off_schedule_entry.py
 mist_api_v2/models/openstack_credentials.py
 mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
@@ -129,6 +125,7 @@ mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
+mist_api_v2/models/schedule_entry.py
 mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
