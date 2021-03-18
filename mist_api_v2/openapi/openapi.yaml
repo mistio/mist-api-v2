@@ -4038,15 +4038,47 @@ components:
       - tenantId
       type: object
     BaseSchedule:
+      example:
+        schedule_type: one_off
+        action: start
+        description: description
+        script:
+          params: params
+          script: script
       oneOf:
       - $ref: '#/components/schemas/IntervalSchedule'
       - $ref: '#/components/schemas/OneOffSchedule'
       - $ref: '#/components/schemas/CronSchedule'
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          - crontab
+          - interval
+          type: string
+        entry:
+          $ref: '#/components/schemas/BaseScheduleEntry'
+        script:
+          $ref: '#/components/schemas/PostDeployScript'
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          type: string
+        description:
+          type: string
+      required:
+      - entry
+      - schedule_type
+      type: object
     BaseScheduleEntry:
       oneOf:
       - $ref: '#/components/schemas/OneOffScheduleEntry'
       - $ref: '#/components/schemas/CronScheduleEntry'
       - $ref: '#/components/schemas/IntervalScheduleEntry'
+      type: object
     Cloud:
       example:
         features:
@@ -4148,6 +4180,13 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
+        schedules:
+          schedule_type: one_off
+          action: start
+          description: description
+          script:
+            params: params
+            script: script
         extra: '{}'
         name: name
         location: location
@@ -4386,17 +4425,6 @@ components:
           enum:
           - crontab
           type: string
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        entry:
-          $ref: '#/components/schemas/BaseScheduleEntry'
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
         start_after:
           description: Datetime when schedule should start running.
           format: date-time
@@ -4408,10 +4436,7 @@ components:
         max_run_count:
           minimum: 1
           type: integer
-        description:
-          type: string
       required:
-      - entry
       - schedule_type
       type: object
     CronScheduleEntry:
@@ -4830,17 +4855,6 @@ components:
           enum:
           - interval
           type: string
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        entry:
-          $ref: '#/components/schemas/BaseScheduleEntry'
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
         start_after:
           description: Datetime when schedule should start running.
           format: date-time
@@ -4852,10 +4866,7 @@ components:
         max_run_count:
           minimum: 1
           type: integer
-        description:
-          type: string
       required:
-      - entry
       - schedule_type
       type: object
     IntervalScheduleEntry:
@@ -5460,21 +5471,7 @@ components:
           enum:
           - one_off
           type: string
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        entry:
-          $ref: '#/components/schemas/BaseScheduleEntry'
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
-        description:
-          type: string
       required:
-      - entry
       - schedule_type
       type: object
     OneOffScheduleEntry:
@@ -5511,6 +5508,9 @@ components:
     OtherCredentials:
       type: object
     PostDeployScript:
+      example:
+        params: params
+        script: script
       properties:
         script:
           description: Name or ID of the script to run

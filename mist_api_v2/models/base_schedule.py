@@ -25,56 +25,56 @@ class BaseSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, action=None, entry=None, script=None, start_after=None, expires=None, max_run_count=None, description=None):  # noqa: E501
+    def __init__(self, schedule_type=None, entry=None, script=None, action=None, description=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
         """BaseSchedule - a model defined in OpenAPI
 
         :param schedule_type: The schedule_type of this BaseSchedule.  # noqa: E501
         :type schedule_type: str
-        :param action: The action of this BaseSchedule.  # noqa: E501
-        :type action: str
         :param entry: The entry of this BaseSchedule.  # noqa: E501
         :type entry: BaseScheduleEntry
         :param script: The script of this BaseSchedule.  # noqa: E501
         :type script: PostDeployScript
+        :param action: The action of this BaseSchedule.  # noqa: E501
+        :type action: str
+        :param description: The description of this BaseSchedule.  # noqa: E501
+        :type description: str
         :param start_after: The start_after of this BaseSchedule.  # noqa: E501
         :type start_after: datetime
         :param expires: The expires of this BaseSchedule.  # noqa: E501
         :type expires: datetime
         :param max_run_count: The max_run_count of this BaseSchedule.  # noqa: E501
         :type max_run_count: int
-        :param description: The description of this BaseSchedule.  # noqa: E501
-        :type description: str
         """
         self.openapi_types = {
             'schedule_type': str,
-            'action': str,
             'entry': BaseScheduleEntry,
             'script': PostDeployScript,
+            'action': str,
+            'description': str,
             'start_after': datetime,
             'expires': datetime,
-            'max_run_count': int,
-            'description': str
+            'max_run_count': int
         }
 
         self.attribute_map = {
             'schedule_type': 'schedule_type',
-            'action': 'action',
             'entry': 'entry',
             'script': 'script',
+            'action': 'action',
+            'description': 'description',
             'start_after': 'start_after',
             'expires': 'expires',
-            'max_run_count': 'max_run_count',
-            'description': 'description'
+            'max_run_count': 'max_run_count'
         }
 
         self._schedule_type = schedule_type
-        self._action = action
         self._entry = entry
         self._script = script
+        self._action = action
+        self._description = description
         self._start_after = start_after
         self._expires = expires
         self._max_run_count = max_run_count
-        self._description = description
 
     @classmethod
     def from_dict(cls, dikt) -> 'BaseSchedule':
@@ -105,7 +105,7 @@ class BaseSchedule(Model):
         :param schedule_type: The schedule_type of this BaseSchedule.
         :type schedule_type: str
         """
-        allowed_values = ["crontab"]  # noqa: E501
+        allowed_values = ["one_off", "crontab", "interval"]  # noqa: E501
         if schedule_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `schedule_type` ({0}), must be one of {1}"
@@ -113,33 +113,6 @@ class BaseSchedule(Model):
             )
 
         self._schedule_type = schedule_type
-
-    @property
-    def action(self):
-        """Gets the action of this BaseSchedule.
-
-
-        :return: The action of this BaseSchedule.
-        :rtype: str
-        """
-        return self._action
-
-    @action.setter
-    def action(self, action):
-        """Sets the action of this BaseSchedule.
-
-
-        :param action: The action of this BaseSchedule.
-        :type action: str
-        """
-        allowed_values = ["start", "stop", "reboot", "destroy"]  # noqa: E501
-        if action not in allowed_values:
-            raise ValueError(
-                "Invalid value for `action` ({0}), must be one of {1}"
-                .format(action, allowed_values)
-            )
-
-        self._action = action
 
     @property
     def entry(self):
@@ -184,6 +157,54 @@ class BaseSchedule(Model):
         """
 
         self._script = script
+
+    @property
+    def action(self):
+        """Gets the action of this BaseSchedule.
+
+
+        :return: The action of this BaseSchedule.
+        :rtype: str
+        """
+        return self._action
+
+    @action.setter
+    def action(self, action):
+        """Sets the action of this BaseSchedule.
+
+
+        :param action: The action of this BaseSchedule.
+        :type action: str
+        """
+        allowed_values = ["start", "stop", "reboot", "destroy"]  # noqa: E501
+        if action not in allowed_values:
+            raise ValueError(
+                "Invalid value for `action` ({0}), must be one of {1}"
+                .format(action, allowed_values)
+            )
+
+        self._action = action
+
+    @property
+    def description(self):
+        """Gets the description of this BaseSchedule.
+
+
+        :return: The description of this BaseSchedule.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        """Sets the description of this BaseSchedule.
+
+
+        :param description: The description of this BaseSchedule.
+        :type description: str
+        """
+
+        self._description = description
 
     @property
     def start_after(self):
@@ -253,24 +274,3 @@ class BaseSchedule(Model):
             raise ValueError("Invalid value for `max_run_count`, must be a value greater than or equal to `1`")  # noqa: E501
 
         self._max_run_count = max_run_count
-
-    @property
-    def description(self):
-        """Gets the description of this BaseSchedule.
-
-
-        :return: The description of this BaseSchedule.
-        :rtype: str
-        """
-        return self._description
-
-    @description.setter
-    def description(self, description):
-        """Sets the description of this BaseSchedule.
-
-
-        :param description: The description of this BaseSchedule.
-        :type description: str
-        """
-
-        self._description = description
