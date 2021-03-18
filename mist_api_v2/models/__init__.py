@@ -35,7 +35,7 @@ from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.base_schedule import BaseSchedule
-from mist_api_v2.models.base_schedule_all_of import BaseScheduleAllOf
+from mist_api_v2.models.base_schedule_entry import BaseScheduleEntry
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_credentials import CloudCredentials
 from mist_api_v2.models.cloud_features import CloudFeatures
@@ -108,7 +108,6 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
-from mist_api_v2.models.schedule_entry import ScheduleEntry
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size

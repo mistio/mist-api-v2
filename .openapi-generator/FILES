@@ -55,7 +55,7 @@ mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/base_model_.py
 mist_api_v2/models/base_schedule.py
-mist_api_v2/models/base_schedule_all_of.py
+mist_api_v2/models/base_schedule_entry.py
 mist_api_v2/models/cloud.py
 mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py
@@ -128,7 +128,6 @@ mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
-mist_api_v2/models/schedule_entry.py
 mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py

@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.base_schedule_entry import BaseScheduleEntry
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2 import util
 
+from mist_api_v2.models.base_schedule_entry import BaseScheduleEntry  # noqa: E501
 from mist_api_v2.models.post_deploy_script import PostDeployScript  # noqa: E501
 
 class OneOffSchedule(Model):
@@ -17,13 +19,15 @@ class OneOffSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, action=None, script=None, description=None):  # noqa: E501
+    def __init__(self, schedule_type=None, action=None, entry=None, script=None, description=None):  # noqa: E501
         """OneOffSchedule - a model defined in OpenAPI
 
         :param schedule_type: The schedule_type of this OneOffSchedule.  # noqa: E501
         :type schedule_type: str
         :param action: The action of this OneOffSchedule.  # noqa: E501
         :type action: str
+        :param entry: The entry of this OneOffSchedule.  # noqa: E501
+        :type entry: BaseScheduleEntry
         :param script: The script of this OneOffSchedule.  # noqa: E501
         :type script: PostDeployScript
         :param description: The description of this OneOffSchedule.  # noqa: E501
@@ -32,6 +36,7 @@ class OneOffSchedule(Model):
         self.openapi_types = {
             'schedule_type': str,
             'action': str,
+            'entry': BaseScheduleEntry,
             'script': PostDeployScript,
             'description': str
         }
@@ -39,12 +44,14 @@ class OneOffSchedule(Model):
         self.attribute_map = {
             'schedule_type': 'schedule_type',
             'action': 'action',
+            'entry': 'entry',
             'script': 'script',
             'description': 'description'
         }
 
         self._schedule_type = schedule_type
         self._action = action
+        self._entry = entry
         self._script = script
         self._description = description
 
@@ -112,6 +119,29 @@ class OneOffSchedule(Model):
             )
 
         self._action = action
+
+    @property
+    def entry(self):
+        """Gets the entry of this OneOffSchedule.
+
+
+        :return: The entry of this OneOffSchedule.
+        :rtype: BaseScheduleEntry
+        """
+        return self._entry
+
+    @entry.setter
+    def entry(self, entry):
+        """Sets the entry of this OneOffSchedule.
+
+
+        :param entry: The entry of this OneOffSchedule.
+        :type entry: BaseScheduleEntry
+        """
+        if entry is None:
+            raise ValueError("Invalid value for `entry`, must not be `None`")  # noqa: E501
+
+        self._entry = entry
 
     @property
     def script(self):

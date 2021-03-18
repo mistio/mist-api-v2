@@ -4038,18 +4038,15 @@ components:
       - tenantId
       type: object
     BaseSchedule:
-      allOf:
-      - $ref: '#/components/schemas/BaseSchedule_allOf'
-      - discriminator:
-          mapping:
-            one_off: '#/components/schemas/OneOffSchedule'
-            crontab: '#/components/schemas/CronSchedule'
-            interval: '#/components/schemas/IntervalSchedule'
-          propertyName: schedule_type
-        oneOf:
-        - $ref: '#/components/schemas/OneOffSchedule'
-        - $ref: '#/components/schemas/CronSchedule'
-        - $ref: '#/components/schemas/IntervalSchedule'
+      oneOf:
+      - $ref: '#/components/schemas/IntervalSchedule'
+      - $ref: '#/components/schemas/OneOffSchedule'
+      - $ref: '#/components/schemas/CronSchedule'
+    BaseScheduleEntry:
+      oneOf:
+      - $ref: '#/components/schemas/OneOffScheduleEntry'
+      - $ref: '#/components/schemas/CronScheduleEntry'
+      - $ref: '#/components/schemas/IntervalScheduleEntry'
     Cloud:
       example:
         features:
@@ -4396,6 +4393,8 @@ components:
           - reboot
           - destroy
           type: string
+        entry:
+          $ref: '#/components/schemas/BaseScheduleEntry'
         script:
           $ref: '#/components/schemas/PostDeployScript'
         start_after:
@@ -4838,6 +4837,8 @@ components:
           - reboot
           - destroy
           type: string
+        entry:
+          $ref: '#/components/schemas/BaseScheduleEntry'
         script:
           $ref: '#/components/schemas/PostDeployScript'
         start_after:
@@ -5466,6 +5467,8 @@ components:
           - reboot
           - destroy
           type: string
+        entry:
+          $ref: '#/components/schemas/BaseScheduleEntry'
         script:
           $ref: '#/components/schemas/PostDeployScript'
         description:
@@ -5656,12 +5659,6 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
-    ScheduleEntry:
-      oneOf:
-      - $ref: '#/components/schemas/OneOffScheduleEntry'
-      - $ref: '#/components/schemas/CronScheduleEntry'
-      - $ref: '#/components/schemas/IntervalScheduleEntry'
-      type: object
     Script:
       example:
         name: name
@@ -5979,19 +5976,6 @@ components:
       required:
       - dry
       - generate
-    BaseSchedule_allOf:
-      properties:
-        schedule_type:
-          enum:
-          - one_off
-          - crontab
-          - interval
-          type: string
-        entry:
-          $ref: '#/components/schemas/ScheduleEntry'
-      required:
-      - schedule_type
-      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
