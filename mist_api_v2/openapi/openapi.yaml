@@ -4385,10 +4385,6 @@ components:
     CronSchedule:
       description: Cron schedule
       properties:
-        schedule_type:
-          enum:
-          - crontab
-          type: string
         minute:
           type: string
         hour:
@@ -4811,10 +4807,6 @@ components:
     IntervalSchedule:
       description: Interval schedule
       properties:
-        schedule_type:
-          enum:
-          - interval
-          type: string
         every:
           type: integer
         period:
@@ -5422,10 +5414,6 @@ components:
     OneOffSchedule:
       description: One-off schedule
       properties:
-        schedule_type:
-          enum:
-          - one_off
-          type: string
         datetime:
           description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
           format: date-time
