@@ -4385,10 +4385,6 @@ components:
     CronSchedule:
       description: Cron schedule
       properties:
-        schedule_type:
-          enum:
-          - crontab
-          type: string
         start_after:
           description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
@@ -4400,8 +4396,6 @@ components:
         max_run_count:
           minimum: 1
           type: integer
-      required:
-      - schedule_type
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4796,10 +4790,6 @@ components:
     IntervalSchedule:
       description: Interval schedule
       properties:
-        schedule_type:
-          enum:
-          - interval
-          type: string
         start_after:
           description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
@@ -4811,8 +4801,6 @@ components:
         max_run_count:
           minimum: 1
           type: integer
-      required:
-      - schedule_type
       type: object
     Key:
       example:
@@ -5396,13 +5384,6 @@ components:
       type: object
     OneOffSchedule:
       description: One-off schedule
-      properties:
-        schedule_type:
-          enum:
-          - one_off
-          type: string
-      required:
-      - schedule_type
       type: object
     OpenstackCredentials:
       properties:

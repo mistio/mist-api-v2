@@ -15,11 +15,9 @@ class CronSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
+    def __init__(self, start_after=None, expires=None, max_run_count=None):  # noqa: E501
         """CronSchedule - a model defined in OpenAPI
 
-        :param schedule_type: The schedule_type of this CronSchedule.  # noqa: E501
-        :type schedule_type: str
         :param start_after: The start_after of this CronSchedule.  # noqa: E501
         :type start_after: datetime
         :param expires: The expires of this CronSchedule.  # noqa: E501
@@ -28,20 +26,17 @@ class CronSchedule(Model):
         :type max_run_count: int
         """
         self.openapi_types = {
-            'schedule_type': str,
             'start_after': datetime,
             'expires': datetime,
             'max_run_count': int
         }
 
         self.attribute_map = {
-            'schedule_type': 'schedule_type',
             'start_after': 'start_after',
             'expires': 'expires',
             'max_run_count': 'max_run_count'
         }
 
-        self._schedule_type = schedule_type
         self._start_after = start_after
         self._expires = expires
         self._max_run_count = max_run_count
@@ -56,33 +51,6 @@ class CronSchedule(Model):
         :rtype: CronSchedule
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def schedule_type(self):
-        """Gets the schedule_type of this CronSchedule.
-
-
-        :return: The schedule_type of this CronSchedule.
-        :rtype: str
-        """
-        return self._schedule_type
-
-    @schedule_type.setter
-    def schedule_type(self, schedule_type):
-        """Sets the schedule_type of this CronSchedule.
-
-
-        :param schedule_type: The schedule_type of this CronSchedule.
-        :type schedule_type: str
-        """
-        allowed_values = ["crontab"]  # noqa: E501
-        if schedule_type not in allowed_values:
-            raise ValueError(
-                "Invalid value for `schedule_type` ({0}), must be one of {1}"
-                .format(schedule_type, allowed_values)
-            )
-
-        self._schedule_type = schedule_type
 
     @property
     def start_after(self):

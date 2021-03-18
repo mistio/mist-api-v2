@@ -97,7 +97,6 @@ from mist_api_v2.models.machine_state import MachineState
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
 from mist_api_v2.models.network import Network
 from mist_api_v2.models.onapp_credentials import OnappCredentials
-from mist_api_v2.models.one_off_schedule import OneOffSchedule
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
