@@ -4412,7 +4412,6 @@ components:
       - hour
       - minute
       - month_of_year
-      - schedule_type
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4829,7 +4828,6 @@ components:
       required:
       - every
       - period
-      - schedule_type
       type: object
     Key:
       example:
@@ -5420,7 +5418,6 @@ components:
           type: string
       required:
       - datetime
-      - schedule_type
       type: object
     OpenstackCredentials:
       properties:
