@@ -4827,6 +4827,8 @@ components:
       properties:
         inline:
           type: string
+      required:
+      - inline
       type: object
     IntervalSchedule:
       description: interval schedule
@@ -5484,6 +5486,8 @@ components:
           type: string
         params:
           type: string
+      required:
+      - script
       type: object
     Queries:
       items:
