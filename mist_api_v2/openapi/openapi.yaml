@@ -4138,7 +4138,9 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
-        schedules: ""
+        schedules:
+        - ""
+        - ""
         extra: '{}'
         name: name
         location: location
@@ -4204,39 +4206,41 @@ components:
               - $ref: '#/components/schemas/PostDeployScript'
           type: array
         schedules:
-          allOf:
-          - properties:
-              schedule_type:
-                enum:
-                - one_off
-                - crontab
-                - interval
-                type: string
-              script:
-                $ref: '#/components/schemas/PostDeployScript'
-              action:
-                enum:
-                - start
-                - stop
-                - reboot
-                - destroy
-                type: string
-              description:
-                type: string
-            required:
-            - schedule_type
-            type: object
-          - discriminator:
-              mapping:
-                one_off: '#/components/schemas/OneOffSchedule'
-                crontab: '#/components/schemas/CronSchedule'
-                interval: '#/components/schemas/IntervalSchedule'
-              propertyName: schedule_type
-            oneOf:
-            - $ref: '#/components/schemas/OneOffSchedule'
-            - $ref: '#/components/schemas/CronSchedule'
-            - $ref: '#/components/schemas/IntervalSchedule'
           description: Configure scheduled actions for the provisioned machine
+          items:
+            allOf:
+            - properties:
+                schedule_type:
+                  enum:
+                  - one_off
+                  - crontab
+                  - interval
+                  type: string
+                script:
+                  $ref: '#/components/schemas/PostDeployScript'
+                action:
+                  enum:
+                  - start
+                  - stop
+                  - reboot
+                  - destroy
+                  type: string
+                description:
+                  type: string
+              required:
+              - schedule_type
+              type: object
+            - discriminator:
+                mapping:
+                  one_off: '#/components/schemas/OneOffSchedule'
+                  crontab: '#/components/schemas/CronSchedule'
+                  interval: '#/components/schemas/IntervalSchedule'
+                propertyName: schedule_type
+              oneOf:
+              - $ref: '#/components/schemas/OneOffSchedule'
+              - $ref: '#/components/schemas/CronSchedule'
+              - $ref: '#/components/schemas/IntervalSchedule'
+          type: array
         tags:
           description: Assign tags to provisioned machine
           type: object

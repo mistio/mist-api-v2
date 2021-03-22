@@ -49,7 +49,7 @@ class CreateMachineRequest(Model):
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
         :type scripts: List[object]
         :param schedules: The schedules of this CreateMachineRequest.  # noqa: E501
-        :type schedules: object
+        :type schedules: List[object]
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param expiration: The expiration of this CreateMachineRequest.  # noqa: E501
@@ -81,7 +81,7 @@ class CreateMachineRequest(Model):
             'fqdn': str,
             'cloudinit': str,
             'scripts': List[object],
-            'schedules': object,
+            'schedules': List[object],
             'tags': object,
             'expiration': Expiration,
             'extra': object,
@@ -461,7 +461,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :return: The schedules of this CreateMachineRequest.
-        :rtype: object
+        :rtype: List[object]
         """
         return self._schedules
 
@@ -472,7 +472,7 @@ class CreateMachineRequest(Model):
         Configure scheduled actions for the provisioned machine  # noqa: E501
 
         :param schedules: The schedules of this CreateMachineRequest.
-        :type schedules: object
+        :type schedules: List[object]
         """
 
         self._schedules = schedules
