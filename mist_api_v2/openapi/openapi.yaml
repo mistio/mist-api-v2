@@ -4151,8 +4151,8 @@ components:
           notify_msg: notify_msg
         net: '{}'
         scripts:
-        - '{}'
-        - '{}'
+        - ""
+        - ""
         key: '{}'
       properties:
         name:
@@ -4197,7 +4197,11 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            type: object
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/InlineScript'
+              - $ref: '#/components/schemas/PostDeployScript'
           type: array
         schedules:
           allOf:
