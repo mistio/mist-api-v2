@@ -4037,19 +4037,6 @@ components:
       - subscriptionId
       - tenantId
       type: object
-    BaseSchedule:
-      allOf:
-      - $ref: '#/components/schemas/BaseSchedule_allOf'
-      - discriminator:
-          mapping:
-            one_off: '#/components/schemas/OneOffSchedule'
-            crontab: '#/components/schemas/OneOffSchedule'
-            interval: '#/components/schemas/IntervalSchedule'
-          propertyName: schedule_type
-        oneOf:
-        - $ref: '#/components/schemas/IntervalSchedule'
-        - $ref: '#/components/schemas/OneOffSchedule'
-        - $ref: '#/components/schemas/CronSchedule'
     Cloud:
       example:
         features:
@@ -4151,6 +4138,7 @@ components:
         tags: '{}'
         cloud: cloud
         size: '{}'
+        schedules: ""
         extra: '{}'
         name: name
         location: location
@@ -4161,9 +4149,7 @@ components:
             period: minutes
             value: 0
           notify_msg: notify_msg
-        net:
-        - '{}'
-        - '{}'
+        net: '{}'
         scripts:
         - '{}'
         - '{}'
@@ -4188,9 +4174,7 @@ components:
           type: object
         net:
           description: Specify network configuration parameters
-          items:
-            type: object
-          type: array
+          type: object
         key:
           description: Associate SSH key
           type: object
@@ -4216,7 +4200,39 @@ components:
             type: object
           type: array
         schedules:
-          $ref: '#/components/schemas/BaseSchedule'
+          allOf:
+          - properties:
+              schedule_type:
+                enum:
+                - one_off
+                - crontab
+                - interval
+                type: string
+              script:
+                $ref: '#/components/schemas/PostDeployScript'
+              action:
+                enum:
+                - start
+                - stop
+                - reboot
+                - destroy
+                type: string
+              description:
+                type: string
+            required:
+            - schedule_type
+            type: object
+          - discriminator:
+              mapping:
+                one_off: '#/components/schemas/OneOffSchedule'
+                crontab: '#/components/schemas/CronSchedule'
+                interval: '#/components/schemas/IntervalSchedule'
+              propertyName: schedule_type
+            oneOf:
+            - $ref: '#/components/schemas/OneOffSchedule'
+            - $ref: '#/components/schemas/CronSchedule'
+            - $ref: '#/components/schemas/IntervalSchedule'
+          description: Configure scheduled actions for the provisioned machine
         tags:
           description: Assign tags to provisioned machine
           type: object
@@ -4383,8 +4399,12 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
     CronSchedule:
-      description: Cron schedule
+      description: crontab schedule
       properties:
+        schedule_type:
+          enum:
+          - crontab
+          type: string
         minute:
           type: string
         hour:
@@ -4412,6 +4432,7 @@ components:
       - hour
       - minute
       - month_of_year
+      - schedule_type
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4804,8 +4825,12 @@ components:
           type: string
       type: object
     IntervalSchedule:
-      description: Interval schedule
+      description: interval schedule
       properties:
+        schedule_type:
+          enum:
+          - interval
+          type: string
         every:
           type: integer
         period:
@@ -4828,6 +4853,7 @@ components:
       required:
       - every
       - period
+      - schedule_type
       type: object
     Key:
       example:
@@ -5410,14 +5436,19 @@ components:
       - username
       type: object
     OneOffSchedule:
-      description: One-off schedule
+      description: one_off schedule
       properties:
+        schedule_type:
+          enum:
+          - one_off
+          type: string
         datetime:
           description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
       required:
       - datetime
+      - schedule_type
       type: object
     OpenstackCredentials:
       properties:
@@ -5908,28 +5939,6 @@ components:
       required:
       - dry
       - generate
-    BaseSchedule_allOf:
-      properties:
-        schedule_type:
-          enum:
-          - one_off
-          - crontab
-          - interval
-          type: string
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        description:
-          type: string
-      required:
-      - schedule_type
-      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:

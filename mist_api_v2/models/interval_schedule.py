@@ -15,9 +15,11 @@ class IntervalSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, every=None, period=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
+    def __init__(self, schedule_type=None, every=None, period=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
         """IntervalSchedule - a model defined in OpenAPI
 
+        :param schedule_type: The schedule_type of this IntervalSchedule.  # noqa: E501
+        :type schedule_type: str
         :param every: The every of this IntervalSchedule.  # noqa: E501
         :type every: int
         :param period: The period of this IntervalSchedule.  # noqa: E501
@@ -30,6 +32,7 @@ class IntervalSchedule(Model):
         :type max_run_count: int
         """
         self.openapi_types = {
+            'schedule_type': str,
             'every': int,
             'period': str,
             'start_after': datetime,
@@ -38,6 +41,7 @@ class IntervalSchedule(Model):
         }
 
         self.attribute_map = {
+            'schedule_type': 'schedule_type',
             'every': 'every',
             'period': 'period',
             'start_after': 'start_after',
@@ -45,6 +49,7 @@ class IntervalSchedule(Model):
             'max_run_count': 'max_run_count'
         }
 
+        self._schedule_type = schedule_type
         self._every = every
         self._period = period
         self._start_after = start_after
@@ -61,6 +66,33 @@ class IntervalSchedule(Model):
         :rtype: IntervalSchedule
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def schedule_type(self):
+        """Gets the schedule_type of this IntervalSchedule.
+
+
+        :return: The schedule_type of this IntervalSchedule.
+        :rtype: str
+        """
+        return self._schedule_type
+
+    @schedule_type.setter
+    def schedule_type(self, schedule_type):
+        """Sets the schedule_type of this IntervalSchedule.
+
+
+        :param schedule_type: The schedule_type of this IntervalSchedule.
+        :type schedule_type: str
+        """
+        allowed_values = ["interval"]  # noqa: E501
+        if schedule_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `schedule_type` ({0}), must be one of {1}"
+                .format(schedule_type, allowed_values)
+            )
+
+        self._schedule_type = schedule_type
 
     @property
     def every(self):

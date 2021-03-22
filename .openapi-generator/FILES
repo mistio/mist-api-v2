@@ -54,8 +54,6 @@ mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/base_model_.py
-mist_api_v2/models/base_schedule.py
-mist_api_v2/models/base_schedule_all_of.py
 mist_api_v2/models/cloud.py
 mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py

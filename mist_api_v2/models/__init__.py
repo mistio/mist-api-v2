@@ -34,8 +34,6 @@ from mist_api_v2.models.add_vultr_cloud_request import AddVultrCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.azure_credentials import AzureCredentials
-from mist_api_v2.models.base_schedule import BaseSchedule
-from mist_api_v2.models.base_schedule_all_of import BaseScheduleAllOf
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_credentials import CloudCredentials
 from mist_api_v2.models.cloud_features import CloudFeatures
