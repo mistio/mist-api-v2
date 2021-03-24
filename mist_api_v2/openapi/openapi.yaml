@@ -4002,7 +4002,7 @@ components:
       - region
       type: object
     AmazonCreateMachineRequest:
-      description: Amazon specific fields
+      description: <b>Amazon</b> specific fields
       properties:
         net:
           $ref: '#/components/schemas/AmazonCreateMachineRequest_net'
@@ -4831,7 +4831,7 @@ components:
       - port
       type: object
     KvmCreateMachineRequest:
-      description: KVM specific fields
+      description: <b>KVM</b> specific fields
       properties:
         disks:
           $ref: '#/components/schemas/KvmCreateMachineRequest_disks'
