@@ -4001,6 +4001,43 @@ components:
       - apisecret
       - region
       type: object
+    AmazonCreateMachineRequest:
+      description: Amazon specific fields
+      properties:
+        net:
+          $ref: '#/components/schemas/AmazonCreateMachineRequest_net'
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: id or name of the volume
+                  type: string
+                device:
+                  description: the device name (for example, /dev/sdh or xvdh)
+                  type: string
+              required:
+              - device
+              - volume
+            - properties:
+                name:
+                  description: name of the volume to be created
+                  type: string
+                size:
+                  description: size of the volume in GBs
+                  type: integer
+                volume_type:
+                  type: string
+                iops:
+                  type: integer
+                delete_on_termination:
+                  type: boolean
+              required:
+              - name
+              - size
+            type: object
+          type: array
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -4122,152 +4159,12 @@ components:
       - username
       type: object
     CreateMachineRequest:
-      example:
-        template: '{}'
-        image: '{}'
-        quantity: 6.027456183070403
-        disks: '{}'
-        fqdn: fqdn
-        cloudinit: cloudinit
-        volumes:
-        - '{}'
-        - '{}'
-        save: true
-        dry: true
-        monitoring: true
-        tags: '{}'
-        cloud: cloud
-        size: '{}'
-        schedules:
-        - ""
-        - ""
-        extra: '{}'
-        name: name
-        location: location
-        expiration:
-          date: 2000-01-23T04:56:07.000+00:00
-          action: stop
-          notify:
-            period: minutes
-            value: 0
-          notify_msg: notify_msg
-        net: '{}'
-        scripts:
-        - ""
-        - ""
-        key: '{}'
-      properties:
-        name:
-          description: Specify machine name
-          type: string
-        provider:
-          $ref: '#/components/schemas/SupportedProviders'
-        cloud:
-          description: Specify cloud to provision on
-          type: string
-        location:
-          description: Where to provision e.g. region, datacenter, rack
-          type: string
-        size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
-          type: object
-        image:
-          description: Operating System image to boot from
-          type: object
-        net:
-          description: Specify network configuration parameters
-          type: object
-        key:
-          description: Associate SSH key
-          type: object
-        disks:
-          description: Configure local disks
-          type: object
-        volumes:
-          description: Configure of attached storage volumes, e.g. cloud disks
-          items:
-            type: object
-          type: array
-        fqdn:
-          description: Add DNS A Record that points machine's public IP to this Fully
-            Qualified Domain Name. Zone needs to be managed by a configured Cloud
-            DNS provider
-          type: string
-        cloudinit:
-          description: Run this Cloud Init script on first boot
-          type: string
-        scripts:
-          description: Run post deploy scripts over SSH
-          items:
-            allOf:
-            - type: object
-            - oneOf:
-              - $ref: '#/components/schemas/InlineScript'
-              - $ref: '#/components/schemas/PostDeployScript'
-          type: array
-        schedules:
-          description: Configure scheduled actions for the provisioned machine
-          items:
-            allOf:
-            - properties:
-                schedule_type:
-                  enum:
-                  - one_off
-                  - crontab
-                  - interval
-                  type: string
-                script:
-                  $ref: '#/components/schemas/PostDeployScript'
-                action:
-                  enum:
-                  - start
-                  - stop
-                  - reboot
-                  - destroy
-                  type: string
-                description:
-                  type: string
-              required:
-              - schedule_type
-              type: object
-            - discriminator:
-                mapping:
-                  one_off: '#/components/schemas/OneOffSchedule'
-                  crontab: '#/components/schemas/CronSchedule'
-                  interval: '#/components/schemas/IntervalSchedule'
-                propertyName: schedule_type
-              oneOf:
-              - $ref: '#/components/schemas/OneOffSchedule'
-              - $ref: '#/components/schemas/CronSchedule'
-              - $ref: '#/components/schemas/IntervalSchedule'
-          type: array
-        tags:
-          description: Assign tags to provisioned machine
-          type: object
-        expiration:
-          $ref: '#/components/schemas/Expiration'
-        extra:
-          description: Configure additional parameters
-          type: object
-        monitoring:
-          description: Enable monitoring of this machine
-          type: boolean
-        quantity:
-          description: Provision multiple machines of this type
-          type: number
-        template:
-          type: object
-        dry:
-          description: Return provisioning plan and exit without executing it
-          type: boolean
-        save:
-          description: Save provisioning plan as template
-          type: boolean
-      required:
-      - image
-      - name
-      - size
-      type: object
+      allOf:
+      - $ref: '#/components/schemas/CreateMachineRequest_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/KvmCreateMachineRequest'
+        - $ref: '#/components/schemas/AmazonCreateMachineRequest'
+        - $ref: '#/components/schemas/GenericCreateMachineRequest'
     CreateMachineResponse:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
@@ -4490,13 +4387,6 @@ components:
       - apikey
       type: object
     Expiration:
-      example:
-        date: 2000-01-23T04:56:07.000+00:00
-        action: stop
-        notify:
-          period: minutes
-          value: 0
-        notify_msg: notify_msg
       properties:
         action:
           enum:
@@ -4527,6 +4417,17 @@ components:
       required:
       - every
       - period
+      type: object
+    GenericCreateMachineRequest:
+      properties:
+        net:
+          type: object
+        disks:
+          type: object
+        volumes:
+          items:
+            type: object
+          type: array
       type: object
     GetCloudResponse:
       example:
@@ -4928,6 +4829,14 @@ components:
       required:
       - host
       - port
+      type: object
+    KvmCreateMachineRequest:
+      description: KVM specific fields
+      properties:
+        disks:
+          $ref: '#/components/schemas/KvmCreateMachineRequest_disks'
+        net:
+          $ref: '#/components/schemas/KvmCreateMachineRequest_net'
       type: object
     KvmCredentials:
       type: object
@@ -5951,6 +5860,128 @@ components:
       required:
       - dry
       - generate
+    AmazonCreateMachineRequest_net:
+      properties:
+        security_group:
+          description: security group to assign to the machine
+          type: string
+        subnet:
+          description: id or name of the subnet to launch the machine into
+          type: string
+      type: object
+    CreateMachineRequest_allOf:
+      properties:
+        name:
+          description: Specify machine name
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: string
+        size:
+          description: Machine sizing spec e.g. cpu/ram/flavor
+          type: object
+        image:
+          description: Operating System image to boot from
+          type: object
+        net:
+          description: Specify network configuration parameters
+          type: object
+        key:
+          description: Associate SSH key
+          type: object
+        disks:
+          description: Configure local disks
+          type: object
+        volumes:
+          description: Configure of attached storage volumes, e.g. cloud disks
+          items:
+            type: object
+          type: array
+        fqdn:
+          description: Add DNS A Record that points machine's public IP to this Fully
+            Qualified Domain Name. Zone needs to be managed by a configured Cloud
+            DNS provider
+          type: string
+        cloudinit:
+          description: Run this Cloud Init script on first boot
+          type: string
+        scripts:
+          description: Run post deploy scripts over SSH
+          items:
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/InlineScript'
+              - $ref: '#/components/schemas/PostDeployScript'
+          type: array
+        schedules:
+          description: Configure scheduled actions for the provisioned machine
+          items:
+            allOf:
+            - properties:
+                schedule_type:
+                  enum:
+                  - one_off
+                  - crontab
+                  - interval
+                  type: string
+                script:
+                  $ref: '#/components/schemas/PostDeployScript'
+                action:
+                  enum:
+                  - start
+                  - stop
+                  - reboot
+                  - destroy
+                  type: string
+                description:
+                  type: string
+              required:
+              - schedule_type
+              type: object
+            - discriminator:
+                mapping:
+                  one_off: '#/components/schemas/OneOffSchedule'
+                  crontab: '#/components/schemas/CronSchedule'
+                  interval: '#/components/schemas/IntervalSchedule'
+                propertyName: schedule_type
+              oneOf:
+              - $ref: '#/components/schemas/OneOffSchedule'
+              - $ref: '#/components/schemas/CronSchedule'
+              - $ref: '#/components/schemas/IntervalSchedule'
+          type: array
+        tags:
+          description: Assign tags to provisioned machine
+          type: object
+        expiration:
+          $ref: '#/components/schemas/Expiration'
+        extra:
+          description: Configure additional parameters
+          type: object
+        monitoring:
+          description: Enable monitoring of this machine
+          type: boolean
+        quantity:
+          description: Provision multiple machines of this type
+          type: number
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+      required:
+      - image
+      - name
+      - size
+      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
@@ -5963,9 +5994,6 @@ components:
           type: object
     Expiration_notify:
       description: Notify user before machine expiration
-      example:
-        period: minutes
-        value: 0
       properties:
         value:
           type: integer
@@ -5975,6 +6003,46 @@ components:
           - hours
           - days
           type: string
+      type: object
+    KvmCreateMachineRequest_disks:
+      properties:
+        disk_size:
+          description: The VM's size will be the size of the image plus the number
+            in GBs provided here
+          type: integer
+        disk_path:
+          description: Where the VM disk file will be created
+          type: string
+      type: object
+    KvmCreateMachineRequest_net_networks:
+      properties:
+        network:
+          description: id or name of the network, if only this field is provided a
+            dynamic IP address will be assigned
+          type: string
+        ip:
+          description: the IPv4 address to statically assign to the interface
+          type: string
+        gateway:
+          description: the IPv4 address for the default Gateway
+          type: string
+        primary:
+          description: the primary interface, which will be assigned a routing rule
+            for the default GW
+          type: string
+      required:
+      - network
+      type: object
+    KvmCreateMachineRequest_net:
+      properties:
+        networks:
+          items:
+            $ref: '#/components/schemas/KvmCreateMachineRequest_net_networks'
+          type: array
+        vnfs:
+          items:
+            type: string
+          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:
