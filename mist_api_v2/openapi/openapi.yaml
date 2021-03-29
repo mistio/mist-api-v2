@@ -4002,7 +4002,7 @@ components:
       - region
       type: object
     AmazonCreateMachineRequest:
-      description: <b>Amazon</b> specific fields
+      description: Amazon specific fields
       properties:
         net:
           $ref: '#/components/schemas/AmazonCreateMachineRequest_net'
@@ -4164,6 +4164,7 @@ components:
       - anyOf:
         - $ref: '#/components/schemas/KvmCreateMachineRequest'
         - $ref: '#/components/schemas/AmazonCreateMachineRequest'
+        - $ref: '#/components/schemas/DigitalOceanCreateMachineRequest'
         - $ref: '#/components/schemas/GenericCreateMachineRequest'
     CreateMachineResponse:
       oneOf:
@@ -4338,6 +4339,37 @@ components:
       - minute
       - month_of_year
       - schedule_type
+      type: object
+    DigitalOceanCreateMachineRequest:
+      description: DigitalOcean specific fields
+      properties:
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: id or name of the volume
+                  type: string
+              required:
+              - volume
+            - properties:
+                name:
+                  description: name of the volume to be created
+                  type: string
+                size:
+                  description: size of the volume in GBs
+                  type: integer
+                filesystem_type:
+                  description: The name of the filesystem type to be used on the volume
+                  enum:
+                  - ext4
+                  - xfs
+                  type: string
+              required:
+              - name
+              - size
+            type: object
+          type: array
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4831,7 +4863,7 @@ components:
       - port
       type: object
     KvmCreateMachineRequest:
-      description: <b>KVM</b> specific fields
+      description: KVM specific fields
       properties:
         disks:
           $ref: '#/components/schemas/KvmCreateMachineRequest_disks'

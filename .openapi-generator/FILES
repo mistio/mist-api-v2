@@ -72,6 +72,7 @@ mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
 mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
+mist_api_v2/models/digital_ocean_create_machine_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/equinix_credentials.py
