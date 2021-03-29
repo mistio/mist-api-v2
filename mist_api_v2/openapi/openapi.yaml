@@ -4161,7 +4161,7 @@ components:
     CreateMachineRequest:
       allOf:
       - $ref: '#/components/schemas/CreateMachineRequest_allOf'
-      - oneOf:
+      - anyOf:
         - $ref: '#/components/schemas/KvmCreateMachineRequest'
         - $ref: '#/components/schemas/AmazonCreateMachineRequest'
         - $ref: '#/components/schemas/GenericCreateMachineRequest'
