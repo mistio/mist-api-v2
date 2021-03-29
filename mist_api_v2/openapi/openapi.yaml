@@ -4027,10 +4027,18 @@ components:
                   description: size of the volume in GBs
                   type: integer
                 volume_type:
+                  enum:
+                  - gp2
+                  - io1
+                  - st1
+                  - sc1
+                  - standard
                   type: string
                 iops:
+                  description: number of I/O operations per second
                   type: integer
                 delete_on_termination:
+                  description: delete volume when machine is deleted
                   type: boolean
               required:
               - name
