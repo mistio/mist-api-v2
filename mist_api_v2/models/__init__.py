@@ -32,8 +32,6 @@ from mist_api_v2.models.add_vcloud_cloud_request import AddVcloudCloudRequest
 from mist_api_v2.models.add_vsphere_cloud_request import AddVsphereCloudRequest
 from mist_api_v2.models.add_vultr_cloud_request import AddVultrCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
-from mist_api_v2.models.amazon_create_machine_request import AmazonCreateMachineRequest
-from mist_api_v2.models.amazon_create_machine_request_net import AmazonCreateMachineRequestNet
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.cloud import Cloud
@@ -41,7 +39,6 @@ from mist_api_v2.models.cloud_credentials import CloudCredentials
 from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials
 from mist_api_v2.models.create_machine_request import CreateMachineRequest
-from mist_api_v2.models.create_machine_request_all_of import CreateMachineRequestAllOf
 from mist_api_v2.models.create_machine_response import CreateMachineResponse
 from mist_api_v2.models.create_machine_response_one_of import CreateMachineResponseOneOf
 from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResponseOneOf1
@@ -58,7 +55,6 @@ from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
-from mist_api_v2.models.generic_create_machine_request import GenericCreateMachineRequest
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_image_response import GetImageResponse
 from mist_api_v2.models.get_key_response import GetKeyResponse
@@ -79,10 +75,6 @@ from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
-from mist_api_v2.models.kvm_create_machine_request import KvmCreateMachineRequest
-from mist_api_v2.models.kvm_create_machine_request_disks import KvmCreateMachineRequestDisks
-from mist_api_v2.models.kvm_create_machine_request_net import KvmCreateMachineRequestNet
-from mist_api_v2.models.kvm_create_machine_request_net_networks import KvmCreateMachineRequestNetNetworks
 from mist_api_v2.models.linode_credentials import LinodeCredentials
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse
 from mist_api_v2.models.list_images_response import ListImagesResponse
