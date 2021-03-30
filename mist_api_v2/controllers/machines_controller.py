@@ -64,44 +64,18 @@ def console(machine):  # noqa: E501
     return 'do some magic!'
 
 
-def _compute_tags(auth_context, tags=None, request_tags=None):
-    security_tags = auth_context.get_security_tags()
-    for mt in request_tags:
-        if mt in security_tags:
-            raise ForbiddenError(
-                'You may not assign tags included in a Team access policy:'
-                ' `%s`' % mt)
-    tags.update(request_tags)
-    return tags
-
-
-def _check_constraints(auth_context, expiration, constraints=None):
-    constraints = constraints or {}
-    # check expiration constraint
-    exp_constraint = constraints.get('expiration', {})
-    if exp_constraint:
-        try:
-            from mist.rbac.methods import check_expiration
-
-            check_expiration(expiration, exp_constraint)
-        except ImportError:
-            pass
-
-    # check cost constraint
-    cost_constraint = constraints.get('cost', {})
-    if cost_constraint:
-        try:
-            from mist.rbac.methods import check_cost
-
-            check_cost(auth_context.org, cost_constraint)
-        except ImportError:
-            pass
-
-
 def create_machine(create_machine_request=None):  # noqa: E501
     """Create machine
 
-    Creates one or more machines on the specified cloud. If async is true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location. CREATE_RESOURCES permission required on location. CREATE permission required on machine. RUN permission required on script. READ permission required on key. # noqa: E501
+    Creates one or more machines on the specified cloud.
+    If async is true, a jobId will be returned.
+    READ permission required on cloud.
+    CREATE_RESOURCES permission required on cloud.
+    READ permission required on location.
+    CREATE_RESOURCES permission required on location.
+    CREATE permission required on machine.
+    RUN permission required on script.
+    READ permission required on key.
 
     :param create_machine_request:
     :type create_machine_request: dict | bytes
@@ -137,43 +111,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
 
     plan['cloud'] = cloud.id
 
-    try:
-        machine_name = machine_name_validator(
-                        cloud.ctl.provider,
-                        create_machine_request.name)
-    except MachineNameValidationError as exc:
-        return exc.args[0], 400
-
-    plan['machine_name'] = machine_name
-
-    try:
-        tags, constraints = auth_context.check_perm('machine', 'create', None)
-    except PolicyUnauthorizedError as exc:
-        return exc.args[0], 403
-
-    request_tags = create_machine_request.tags or {}
-    try:
-        tags = _compute_tags(
-            auth_context, tags=tags, request_tags=request_tags
-        )
-    except ForbiddenError as err:
-        return err.args[0], 403
-
-    if tags:
-        plan['tags'] = tags
-
-    expiration = create_machine_request.expiration or {}
-    try:
-        _check_constraints(auth_context, expiration, constraints=constraints)
-    except BadRequestError as exc:
-        return exc.args[0], 400
-    except PolicyUnauthorizedError as exc:
-        return exc.args[0], 400
-
-    if expiration:
-        plan['expiration'] = expiration
-
     kwargs = {
+        'name': create_machine_request.name,
         'image': create_machine_request.image or {},
         'location': create_machine_request.location or '',
         'size': create_machine_request.size or {},
@@ -183,10 +122,12 @@ def create_machine(create_machine_request=None):  # noqa: E501
         'disks': create_machine_request.disks or {},
         'extra': create_machine_request.extra or {},
         'scripts': create_machine_request.scripts or [],
-        'schedules': create_machine_request.schedules or {},
+        'schedules': create_machine_request.schedules or [],
         'cloudinit': create_machine_request.cloudinit or '',
         'fqdn': create_machine_request.fqdn or '',
         'monitoring': create_machine_request.monitoring,
+        'request_tags': create_machine_request.tags or {},
+        'expiration': create_machine_request.expiration,
         'quantity': create_machine_request.quantity or 1
     }
 
@@ -194,11 +135,12 @@ def create_machine(create_machine_request=None):  # noqa: E501
         cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
     except NotFoundError as exc:
         return exc.args[0], 404
-    except PolicyUnauthorizedError as exc:
+    except (BadRequestError,
+            PolicyUnauthorizedError,
+            MachineNameValidationError) as exc:
         return exc.args[0], 400
-    except BadRequestError as exc:
-        return exc.args[0], 400
-
+    except ForbiddenError as err:
+        return err.args[0], 403
     # TODO save
     # TODO template
 
