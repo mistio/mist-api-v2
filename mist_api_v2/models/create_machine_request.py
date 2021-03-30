@@ -7,10 +7,12 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.expiration import Expiration
+from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
 from mist_api_v2.models.expiration import Expiration  # noqa: E501
+from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
 class CreateMachineRequest(Model):
@@ -37,9 +39,9 @@ class CreateMachineRequest(Model):
         :param fqdn: The fqdn of this CreateMachineRequest.  # noqa: E501
         :type fqdn: str
         :param image: The image of this CreateMachineRequest.  # noqa: E501
-        :type image: object
+        :type image: OneOfobjectstring
         :param key: The key of this CreateMachineRequest.  # noqa: E501
-        :type key: object
+        :type key: OneOfobjectstring
         :param location: The location of this CreateMachineRequest.  # noqa: E501
         :type location: str
         :param monitoring: The monitoring of this CreateMachineRequest.  # noqa: E501
@@ -59,7 +61,7 @@ class CreateMachineRequest(Model):
         :param scripts: The scripts of this CreateMachineRequest.  # noqa: E501
         :type scripts: List[object]
         :param size: The size of this CreateMachineRequest.  # noqa: E501
-        :type size: object
+        :type size: OneOfobjectstring
         :param tags: The tags of this CreateMachineRequest.  # noqa: E501
         :type tags: object
         :param template: The template of this CreateMachineRequest.  # noqa: E501
@@ -75,8 +77,8 @@ class CreateMachineRequest(Model):
             'expiration': Expiration,
             'extra': object,
             'fqdn': str,
-            'image': object,
-            'key': object,
+            'image': OneOfobjectstring,
+            'key': OneOfobjectstring,
             'location': str,
             'monitoring': bool,
             'name': str,
@@ -86,7 +88,7 @@ class CreateMachineRequest(Model):
             'save': bool,
             'schedules': List[object],
             'scripts': List[object],
-            'size': object,
+            'size': OneOfobjectstring,
             'tags': object,
             'template': object,
             'volumes': List[object]
@@ -317,7 +319,7 @@ class CreateMachineRequest(Model):
         Operating System image to boot from  # noqa: E501
 
         :return: The image of this CreateMachineRequest.
-        :rtype: object
+        :rtype: OneOfobjectstring
         """
         return self._image
 
@@ -328,7 +330,7 @@ class CreateMachineRequest(Model):
         Operating System image to boot from  # noqa: E501
 
         :param image: The image of this CreateMachineRequest.
-        :type image: object
+        :type image: OneOfobjectstring
         """
         if image is None:
             raise ValueError("Invalid value for `image`, must not be `None`")  # noqa: E501
@@ -342,7 +344,7 @@ class CreateMachineRequest(Model):
         Associate SSH key  # noqa: E501
 
         :return: The key of this CreateMachineRequest.
-        :rtype: object
+        :rtype: OneOfobjectstring
         """
         return self._key
 
@@ -353,7 +355,7 @@ class CreateMachineRequest(Model):
         Associate SSH key  # noqa: E501
 
         :param key: The key of this CreateMachineRequest.
-        :type key: object
+        :type key: OneOfobjectstring
         """
 
         self._key = key
@@ -572,7 +574,7 @@ class CreateMachineRequest(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :return: The size of this CreateMachineRequest.
-        :rtype: object
+        :rtype: OneOfobjectstring
         """
         return self._size
 
@@ -583,7 +585,7 @@ class CreateMachineRequest(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :param size: The size of this CreateMachineRequest.
-        :type size: object
+        :type size: OneOfobjectstring
         """
         if size is None:
             raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501

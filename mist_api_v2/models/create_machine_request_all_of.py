@@ -7,10 +7,12 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.expiration import Expiration
+from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
 from mist_api_v2.models.expiration import Expiration  # noqa: E501
+from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
 class CreateMachineRequestAllOf(Model):
@@ -31,13 +33,13 @@ class CreateMachineRequestAllOf(Model):
         :param location: The location of this CreateMachineRequestAllOf.  # noqa: E501
         :type location: str
         :param size: The size of this CreateMachineRequestAllOf.  # noqa: E501
-        :type size: object
+        :type size: OneOfobjectstring
         :param image: The image of this CreateMachineRequestAllOf.  # noqa: E501
-        :type image: object
+        :type image: OneOfobjectstring
         :param net: The net of this CreateMachineRequestAllOf.  # noqa: E501
         :type net: object
         :param key: The key of this CreateMachineRequestAllOf.  # noqa: E501
-        :type key: object
+        :type key: OneOfobjectstring
         :param disks: The disks of this CreateMachineRequestAllOf.  # noqa: E501
         :type disks: object
         :param volumes: The volumes of this CreateMachineRequestAllOf.  # noqa: E501
@@ -72,10 +74,10 @@ class CreateMachineRequestAllOf(Model):
             'provider': SupportedProviders,
             'cloud': str,
             'location': str,
-            'size': object,
-            'image': object,
+            'size': OneOfobjectstring,
+            'image': OneOfobjectstring,
             'net': object,
-            'key': object,
+            'key': OneOfobjectstring,
             'disks': object,
             'volumes': List[object],
             'fqdn': str,
@@ -250,7 +252,7 @@ class CreateMachineRequestAllOf(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :return: The size of this CreateMachineRequestAllOf.
-        :rtype: object
+        :rtype: OneOfobjectstring
         """
         return self._size
 
@@ -261,7 +263,7 @@ class CreateMachineRequestAllOf(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :param size: The size of this CreateMachineRequestAllOf.
-        :type size: object
+        :type size: OneOfobjectstring
         """
         if size is None:
             raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501
@@ -275,7 +277,7 @@ class CreateMachineRequestAllOf(Model):
         Operating System image to boot from  # noqa: E501
 
         :return: The image of this CreateMachineRequestAllOf.
-        :rtype: object
+        :rtype: OneOfobjectstring
         """
         return self._image
 
@@ -286,7 +288,7 @@ class CreateMachineRequestAllOf(Model):
         Operating System image to boot from  # noqa: E501
 
         :param image: The image of this CreateMachineRequestAllOf.
-        :type image: object
+        :type image: OneOfobjectstring
         """
         if image is None:
             raise ValueError("Invalid value for `image`, must not be `None`")  # noqa: E501
@@ -323,7 +325,7 @@ class CreateMachineRequestAllOf(Model):
         Associate SSH key  # noqa: E501
 
         :return: The key of this CreateMachineRequestAllOf.
-        :rtype: object
+        :rtype: OneOfobjectstring
         """
         return self._key
 
@@ -334,7 +336,7 @@ class CreateMachineRequestAllOf(Model):
         Associate SSH key  # noqa: E501
 
         :param key: The key of this CreateMachineRequestAllOf.
-        :type key: object
+        :type key: OneOfobjectstring
         """
 
         self._key = key

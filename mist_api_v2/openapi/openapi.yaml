@@ -5924,16 +5924,22 @@ components:
           type: string
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
-          type: object
+          oneOf:
+          - type: object
+          - type: string
         image:
           description: Operating System image to boot from
-          type: object
+          oneOf:
+          - type: object
+          - type: string
         net:
           description: Specify network configuration parameters
           type: object
         key:
           description: Associate SSH key
-          type: object
+          oneOf:
+          - type: object
+          - type: string
         disks:
           description: Configure local disks
           type: object
