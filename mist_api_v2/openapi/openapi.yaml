@@ -5925,13 +5925,27 @@ components:
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
           oneOf:
-          - type: object
-          - type: string
+          - properties:
+              cpus:
+                description: Number of cpu cores
+                minimum: 1
+                type: integer
+              ram:
+                description: Ram size in MBs
+                minimum: 256
+                type: integer
+            required:
+            - cpus
+            - ram
+            type: object
+          - description: Name or ID of the size to select for this machine
+            type: string
         image:
           description: Operating System image to boot from
           oneOf:
           - type: object
-          - type: string
+          - description: Name or ID of the image to boot from
+            type: string
         net:
           description: Specify network configuration parameters
           type: object
@@ -5939,7 +5953,8 @@ components:
           description: Associate SSH key
           oneOf:
           - type: object
-          - type: string
+          - description: Name or ID of the SSH key to deploy
+            type: string
         disks:
           description: Configure local disks
           type: object

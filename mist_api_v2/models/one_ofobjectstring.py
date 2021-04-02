@@ -14,12 +14,12 @@ class OneOfobjectstring(Model):
          self.attribute_map = {}
 
     @classmethod
-    def from_dict(cls, dikt) -> 'CreateMachineRequest':
+    def from_dict(cls, dikt) -> 'OneOfobjectstring':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
-        :return: The CreateMachineRequest of this CreateMachineRequest.  # noqa: E501
-        :rtype: CreateMachineRequest
+
+        :rtype: OneOfobjectstring
         """
         return util.deserialize_model(dikt, cls)
