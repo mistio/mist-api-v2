@@ -109,7 +109,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     except PolicyUnauthorizedError as exc:
         return exc.args[0], 403
 
-    plan['cloud'] = cloud.id
+    plan['cloud'] = {'id': cloud.id, 'name': cloud.name}
 
     kwargs = {
         'name': create_machine_request.name,
