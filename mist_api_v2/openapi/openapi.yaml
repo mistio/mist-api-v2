@@ -4382,8 +4382,8 @@ components:
         cloud: cloud
         size: '{}'
         schedules:
-        - '{}'
-        - '{}'
+        - ""
+        - ""
         extra: '{}'
         name: name
         location: location
@@ -4396,8 +4396,8 @@ components:
           notify_msg: notify_msg
         net: '{}'
         scripts:
-        - '{}'
-        - '{}'
+        - ""
+        - ""
         key: '{}'
       properties:
         name:
@@ -4442,12 +4442,47 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            type: object
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/InlineScript'
+              - $ref: '#/components/schemas/PostDeployScript'
           type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
           items:
-            type: object
+            allOf:
+            - properties:
+                schedule_type:
+                  enum:
+                  - one_off
+                  - crontab
+                  - interval
+                  type: string
+                script:
+                  $ref: '#/components/schemas/PostDeployScript'
+                action:
+                  enum:
+                  - start
+                  - stop
+                  - reboot
+                  - destroy
+                  type: string
+                description:
+                  type: string
+              required:
+              - schedule_type
+              type: object
+            - discriminator:
+                mapping:
+                  one_off: '#/components/schemas/OneOffSchedule'
+                  crontab: '#/components/schemas/CronSchedule'
+                  interval: '#/components/schemas/IntervalSchedule'
+                propertyName: schedule_type
+              oneOf:
+              - $ref: '#/components/schemas/OneOffSchedule'
+              - $ref: '#/components/schemas/CronSchedule'
+              - $ref: '#/components/schemas/IntervalSchedule'
           type: array
         tags:
           description: Assign tags to provisioned machine
@@ -4630,38 +4665,39 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
     CronSchedule:
-      description: Cron schedule
+      description: crontab schedule
       properties:
         schedule_type:
           enum:
           - crontab
           type: string
-        entry:
-          $ref: '#/components/schemas/CronSchedule_entry'
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
+        minute:
           type: string
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
+        hour:
+          type: string
+        day_of_month:
+          type: string
+        month_of_year:
+          type: string
+        day_of_week:
+          type: string
         start_after:
-          description: Datetime when schedule should start running.
+          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         expires:
-          description: Datetime when schedule should expire.
+          description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         max_run_count:
           minimum: 1
           type: integer
-        description:
-          type: string
       required:
-      - entry
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
       - schedule_type
       type: object
     DigitaloceanCredentials:
@@ -4735,6 +4771,7 @@ components:
           - destroy
           type: string
         date:
+          description: When machine should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         notify:
@@ -5080,40 +5117,38 @@ components:
       properties:
         inline:
           type: string
+      required:
+      - inline
       type: object
     IntervalSchedule:
-      description: Interval schedule
+      description: interval schedule
       properties:
         schedule_type:
           enum:
           - interval
           type: string
-        entry:
-          $ref: '#/components/schemas/IntervalSchedule_entry'
-        action:
+        every:
+          type: integer
+        period:
           enum:
-          - start
-          - stop
-          - reboot
-          - destroy
+          - minutes
+          - hours
+          - days
           type: string
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
         start_after:
-          description: Datetime when schedule should start running.
+          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         expires:
-          description: Datetime when schedule should expire.
+          description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
         max_run_count:
           minimum: 1
           type: integer
-        description:
-          type: string
       required:
-      - entry
+      - every
+      - period
       - schedule_type
       type: object
     Key:
@@ -5723,29 +5758,18 @@ components:
       - username
       type: object
     OneOffSchedule:
-      description: One-off schedule
+      description: one_off schedule
       properties:
         schedule_type:
           enum:
           - one_off
           type: string
-        entry:
-          description: When schedule should run
+        datetime:
+          description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
-        action:
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          type: string
-        script:
-          $ref: '#/components/schemas/PostDeployScript'
-        description:
-          type: string
       required:
-      - entry
+      - datetime
       - schedule_type
       type: object
     OpenstackCredentials:
@@ -5778,6 +5802,8 @@ components:
           type: string
         params:
           type: string
+      required:
+      - script
       type: object
     Queries:
       items:
@@ -6266,25 +6292,6 @@ components:
       properties:
         plan:
           type: object
-    CronSchedule_entry:
-      properties:
-        minute:
-          type: string
-        hour:
-          type: string
-        day_of_month:
-          type: string
-        month_of_year:
-          type: string
-        day_of_week:
-          type: string
-      required:
-      - day_of_month
-      - day_of_week
-      - hour
-      - minute
-      - month_of_year
-      type: object
     Expiration_notify:
       description: Notify user before machine expiration
       example:
@@ -6299,20 +6306,6 @@ components:
           - hours
           - days
           type: string
-      type: object
-    IntervalSchedule_entry:
-      properties:
-        every:
-          type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          type: string
-      required:
-      - every
-      - period
       type: object
   securitySchemes:
     ApiKeyAuth:
