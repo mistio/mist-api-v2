@@ -74,7 +74,7 @@ class AmazonCreateMachineRequestNet(Model):
     def subnet(self):
         """Gets the subnet of this AmazonCreateMachineRequestNet.
 
-        id or name of the subnet to launch the machine into  # noqa: E501
+        Name or id of the subnet to launch the machine into  # noqa: E501
 
         :return: The subnet of this AmazonCreateMachineRequestNet.
         :rtype: str
@@ -85,7 +85,7 @@ class AmazonCreateMachineRequestNet(Model):
     def subnet(self, subnet):
         """Sets the subnet of this AmazonCreateMachineRequestNet.
 
-        id or name of the subnet to launch the machine into  # noqa: E501
+        Name or id of the subnet to launch the machine into  # noqa: E501
 
         :param subnet: The subnet of this AmazonCreateMachineRequestNet.
         :type subnet: str

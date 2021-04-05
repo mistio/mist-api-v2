@@ -4011,7 +4011,7 @@ components:
             oneOf:
             - properties:
                 volume:
-                  description: id or name of the volume
+                  description: Name or id of the volume
                   type: string
                 device:
                   description: the device name (for example, /dev/sdh or xvdh)
@@ -4021,7 +4021,7 @@ components:
               - volume
             - properties:
                 name:
-                  description: name of the volume to be created
+                  description: the device name (for example, /dev/sdh or xvdh)
                   type: string
                 size:
                   description: size of the volume in GBs
@@ -4356,16 +4356,16 @@ components:
             oneOf:
             - properties:
                 volume:
-                  description: id or name of the volume
+                  description: Name or id of the volume to attach
                   type: string
               required:
               - volume
             - properties:
                 name:
-                  description: name of the volume to be created
+                  description: Name of the volume to be created
                   type: string
                 size:
-                  description: size of the volume in GBs
+                  description: Size of the volume in GBs
                   type: integer
                 filesystem_type:
                   description: The name of the filesystem type to be used on the volume
@@ -5906,7 +5906,7 @@ components:
           description: security group to assign to the machine
           type: string
         subnet:
-          description: id or name of the subnet to launch the machine into
+          description: Name or id of the subnet to launch the machine into
           type: string
       type: object
     CreateMachineRequest_allOf:
