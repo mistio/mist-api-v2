@@ -67,8 +67,6 @@ class PostDeployScript(Model):
         :param script: The script of this PostDeployScript.
         :type script: str
         """
-        if script is None:
-            raise ValueError("Invalid value for `script`, must not be `None`")  # noqa: E501
 
         self._script = script
 

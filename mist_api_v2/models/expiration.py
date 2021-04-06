@@ -90,7 +90,6 @@ class Expiration(Model):
     def date(self):
         """Gets the date of this Expiration.
 
-        When machine should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The date of this Expiration.
         :rtype: datetime
@@ -101,7 +100,6 @@ class Expiration(Model):
     def date(self, date):
         """Sets the date of this Expiration.
 
-        When machine should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param date: The date of this Expiration.
         :type date: datetime

@@ -30,7 +30,6 @@ class SupportedProviders(Model):
     RACKSPACE = "rackspace"
     MAXIHOST = "maxihost"
     VULTR = "vultr"
-    G8 = "g8"
     OPENSTACK = "openstack"
     ONAPP = "onapp"
     VSPHERE = "vsphere"
