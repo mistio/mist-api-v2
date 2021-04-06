@@ -52,6 +52,8 @@ mist_api_v2/models/add_vcloud_cloud_request.py
 mist_api_v2/models/add_vsphere_cloud_request.py
 mist_api_v2/models/add_vultr_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
+mist_api_v2/models/amazon_create_machine_request.py
+mist_api_v2/models/amazon_create_machine_request_net.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/base_model_.py
@@ -60,6 +62,7 @@ mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py
 mist_api_v2/models/cloud_sigma_credentials.py
 mist_api_v2/models/create_machine_request.py
+mist_api_v2/models/create_machine_request_all_of.py
 mist_api_v2/models/create_machine_response.py
 mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
@@ -71,6 +74,7 @@ mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
 mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
+mist_api_v2/models/digital_ocean_create_machine_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/edit_secret_request.py
@@ -78,6 +82,7 @@ mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/frequency.py
+mist_api_v2/models/generic_create_machine_request.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_image_response.py
 mist_api_v2/models/get_key_response.py
@@ -99,6 +104,10 @@ mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/key.py
 mist_api_v2/models/kubevirt_credentials.py
+mist_api_v2/models/kvm_create_machine_request.py
+mist_api_v2/models/kvm_create_machine_request_disks.py
+mist_api_v2/models/kvm_create_machine_request_net.py
+mist_api_v2/models/kvm_create_machine_request_net_networks.py
 mist_api_v2/models/linode_credentials.py
 mist_api_v2/models/list_clouds_response.py
 mist_api_v2/models/list_images_response.py
