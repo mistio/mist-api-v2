@@ -5662,7 +5662,6 @@ components:
       - rackspace
       - maxihost
       - vultr
-      - g8
       - openstack
       - onapp
       - vsphere
