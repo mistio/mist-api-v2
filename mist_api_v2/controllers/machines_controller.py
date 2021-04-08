@@ -349,9 +349,10 @@ def ssh(machine):  # noqa: E501
     from mist.api.methods import list_resources
     from mist.api.machines.methods import prepare_ssh_uri
     auth_context = connexion.context['token_info']['auth_context']
+    search = f'{machine} state=running'
     try:
         [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
+                                          search=search, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
 
@@ -360,6 +361,7 @@ def ssh(machine):  # noqa: E501
     ssh_uri = prepare_ssh_uri(auth_context, machine)
 
     return 'Found', 302, {'Location': ssh_uri}
+
 
 def start_machine(machine):  # noqa: E501
     """Start machine
