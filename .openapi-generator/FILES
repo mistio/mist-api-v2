@@ -76,6 +76,9 @@ mist_api_v2/models/digital_ocean_create_machine_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/equinix_credentials.py
+mist_api_v2/models/equinix_metal_create_machine_request.py
+mist_api_v2/models/equinix_metal_create_machine_request_net.py
+mist_api_v2/models/equinix_metal_create_machine_request_net_ip_addresses.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/frequency.py
