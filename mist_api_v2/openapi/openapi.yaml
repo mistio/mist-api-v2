@@ -4452,6 +4452,8 @@ components:
           type: array
         net:
           $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net'
+        extra:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_extra'
       title: EqunixMetal
       type: object
     Expiration:
@@ -4496,6 +4498,8 @@ components:
           items:
             type: object
           type: array
+        extra:
+          type: object
       type: object
     GetCloudResponse:
       example:
@@ -6106,6 +6110,12 @@ components:
           items:
             $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net_ip_addresses'
           type: array
+      type: object
+    EquinixMetalCreateMachineRequest_extra:
+      properties:
+        project_id:
+          description: Project UUID, if not given the first one available will be
+            selected
       type: object
     Expiration_notify:
       description: Notify user before machine expiration

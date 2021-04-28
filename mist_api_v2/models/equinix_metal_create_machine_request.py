@@ -6,10 +6,12 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.equinix_metal_create_machine_request_extra import EquinixMetalCreateMachineRequestExtra
 from mist_api_v2.models.equinix_metal_create_machine_request_net import EquinixMetalCreateMachineRequestNet
 from mist_api_v2.models.one_ofobjectobject import OneOfobjectobject
 from mist_api_v2 import util
 
+from mist_api_v2.models.equinix_metal_create_machine_request_extra import EquinixMetalCreateMachineRequestExtra  # noqa: E501
 from mist_api_v2.models.equinix_metal_create_machine_request_net import EquinixMetalCreateMachineRequestNet  # noqa: E501
 from mist_api_v2.models.one_ofobjectobject import OneOfobjectobject  # noqa: E501
 
@@ -19,26 +21,31 @@ class EquinixMetalCreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, volumes=None, net=None):  # noqa: E501
+    def __init__(self, volumes=None, net=None, extra=None):  # noqa: E501
         """EquinixMetalCreateMachineRequest - a model defined in OpenAPI
 
         :param volumes: The volumes of this EquinixMetalCreateMachineRequest.  # noqa: E501
         :type volumes: List[OneOfobjectobject]
         :param net: The net of this EquinixMetalCreateMachineRequest.  # noqa: E501
         :type net: EquinixMetalCreateMachineRequestNet
+        :param extra: The extra of this EquinixMetalCreateMachineRequest.  # noqa: E501
+        :type extra: EquinixMetalCreateMachineRequestExtra
         """
         self.openapi_types = {
             'volumes': List[OneOfobjectobject],
-            'net': EquinixMetalCreateMachineRequestNet
+            'net': EquinixMetalCreateMachineRequestNet,
+            'extra': EquinixMetalCreateMachineRequestExtra
         }
 
         self.attribute_map = {
             'volumes': 'volumes',
-            'net': 'net'
+            'net': 'net',
+            'extra': 'extra'
         }
 
         self._volumes = volumes
         self._net = net
+        self._extra = extra
 
     @classmethod
     def from_dict(cls, dikt) -> 'EquinixMetalCreateMachineRequest':
@@ -92,3 +99,24 @@ class EquinixMetalCreateMachineRequest(Model):
         """
 
         self._net = net
+
+    @property
+    def extra(self):
+        """Gets the extra of this EquinixMetalCreateMachineRequest.
+
+
+        :return: The extra of this EquinixMetalCreateMachineRequest.
+        :rtype: EquinixMetalCreateMachineRequestExtra
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this EquinixMetalCreateMachineRequest.
+
+
+        :param extra: The extra of this EquinixMetalCreateMachineRequest.
+        :type extra: EquinixMetalCreateMachineRequestExtra
+        """
+
+        self._extra = extra
