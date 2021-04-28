@@ -15,7 +15,7 @@ class GenericCreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, net=None, disks=None, volumes=None):  # noqa: E501
+    def __init__(self, net=None, disks=None, volumes=None, extra=None):  # noqa: E501
         """GenericCreateMachineRequest - a model defined in OpenAPI
 
         :param net: The net of this GenericCreateMachineRequest.  # noqa: E501
@@ -24,22 +24,27 @@ class GenericCreateMachineRequest(Model):
         :type disks: object
         :param volumes: The volumes of this GenericCreateMachineRequest.  # noqa: E501
         :type volumes: List[object]
+        :param extra: The extra of this GenericCreateMachineRequest.  # noqa: E501
+        :type extra: object
         """
         self.openapi_types = {
             'net': object,
             'disks': object,
-            'volumes': List[object]
+            'volumes': List[object],
+            'extra': object
         }
 
         self.attribute_map = {
             'net': 'net',
             'disks': 'disks',
-            'volumes': 'volumes'
+            'volumes': 'volumes',
+            'extra': 'extra'
         }
 
         self._net = net
         self._disks = disks
         self._volumes = volumes
+        self._extra = extra
 
     @classmethod
     def from_dict(cls, dikt) -> 'GenericCreateMachineRequest':
@@ -114,3 +119,24 @@ class GenericCreateMachineRequest(Model):
         """
 
         self._volumes = volumes
+
+    @property
+    def extra(self):
+        """Gets the extra of this GenericCreateMachineRequest.
+
+
+        :return: The extra of this GenericCreateMachineRequest.
+        :rtype: object
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this GenericCreateMachineRequest.
+
+
+        :param extra: The extra of this GenericCreateMachineRequest.
+        :type extra: object
+        """
+
+        self._extra = extra
