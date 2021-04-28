@@ -6116,6 +6116,7 @@ components:
         project_id:
           description: Project UUID, if not given the first one available will be
             selected
+          type: string
       type: object
     Expiration_notify:
       description: Notify user before machine expiration
