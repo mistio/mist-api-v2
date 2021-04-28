@@ -4446,6 +4446,12 @@ components:
                   description: Size of the volume to be created
                   minimum: 100
                   type: integer
+                plan:
+                  description: Type of volume to create, defaults to standard
+                  enum:
+                  - standard
+                  - performance
+                  type: string
               required:
               - size
             type: object
