@@ -4045,6 +4045,7 @@ components:
               - size
             type: object
           type: array
+      title: Amazon
       type: object
     AmazonCredentials:
       properties:
@@ -4173,6 +4174,7 @@ components:
         - $ref: '#/components/schemas/KvmCreateMachineRequest'
         - $ref: '#/components/schemas/AmazonCreateMachineRequest'
         - $ref: '#/components/schemas/DigitalOceanCreateMachineRequest'
+        - $ref: '#/components/schemas/EquinixMetalCreateMachineRequest'
         - $ref: '#/components/schemas/GenericCreateMachineRequest'
     CreateMachineResponse:
       oneOf:
@@ -4347,6 +4349,7 @@ components:
       - minute
       - month_of_year
       - schedule_type
+      title: Cron
       type: object
     DigitalOceanCreateMachineRequest:
       description: DigitalOcean specific fields
@@ -4378,6 +4381,7 @@ components:
               - size
             type: object
           type: array
+      title: DigitalOcean
       type: object
     DigitaloceanCredentials:
       properties:
@@ -4426,6 +4430,39 @@ components:
       required:
       - apikey
       type: object
+    EquinixMetalCreateMachineRequest:
+      description: Equinix Metal specific fields
+      properties:
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or id of the volume to attach
+                  type: string
+              required:
+              - volume
+            - properties:
+                size:
+                  description: Size of the volume to be created
+                  minimum: 100
+                  type: integer
+                plan:
+                  description: Type of volume to create, defaults to standard
+                  enum:
+                  - standard
+                  - performance
+                  type: string
+              required:
+              - size
+            type: object
+          type: array
+        net:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net'
+        extra:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_extra'
+      title: EqunixMetal
+      type: object
     Expiration:
       properties:
         action:
@@ -4468,6 +4505,8 @@ components:
           items:
             type: object
           type: array
+        extra:
+          type: object
       type: object
     GetCloudResponse:
       example:
@@ -4805,6 +4844,7 @@ components:
       - every
       - period
       - schedule_type
+      title: Interval
       type: object
     Key:
       example:
@@ -4877,6 +4917,7 @@ components:
           $ref: '#/components/schemas/KvmCreateMachineRequest_disks'
         net:
           $ref: '#/components/schemas/KvmCreateMachineRequest_net'
+      title: KVM
       type: object
     KvmCredentials:
       type: object
@@ -5408,6 +5449,7 @@ components:
       required:
       - datetime
       - schedule_type
+      title: OneOff
       type: object
     OpenstackCredentials:
       properties:
@@ -6052,6 +6094,43 @@ components:
       properties:
         plan:
           type: object
+    EquinixMetalCreateMachineRequest_net_ip_addresses:
+      properties:
+        address_family:
+          description: Address Family for IP Address(IPv4, IPv6)
+          enum:
+          - 4
+          - 6
+          type: integer
+        public:
+          description: Address Type for IP Address
+          type: boolean
+        cidr:
+          description: Cidr Size for the IP Block created. Valid values depend on
+            the operating system being provisioned. (28..32 for IPv4 addresses, 124..127
+            for IPv6 addresses)
+          type: integer
+      required:
+      - address_family
+      - cidr
+      - public
+      type: object
+    EquinixMetalCreateMachineRequest_net:
+      properties:
+        ip_addresses:
+          description: Specify addresses to be created with your machine.By default
+            Equinix configures public IPv4, public IPv6, and private IPv4
+          items:
+            $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net_ip_addresses'
+          type: array
+      type: object
+    EquinixMetalCreateMachineRequest_extra:
+      properties:
+        project_id:
+          description: Project UUID, if not given the first one available will be
+            selected
+          type: string
+      type: object
     Expiration_notify:
       description: Notify user before machine expiration
       properties:
