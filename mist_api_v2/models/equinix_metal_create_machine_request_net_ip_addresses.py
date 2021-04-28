@@ -101,6 +101,8 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
         :param public: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.
         :type public: bool
         """
+        if public is None:
+            raise ValueError("Invalid value for `public`, must not be `None`")  # noqa: E501
 
         self._public = public
 
@@ -124,5 +126,7 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
         :param cidr: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
         :type cidr: int
         """
+        if cidr is None:
+            raise ValueError("Invalid value for `cidr`, must not be `None`")  # noqa: E501
 
         self._cidr = cidr

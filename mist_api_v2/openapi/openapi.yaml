@@ -4349,6 +4349,7 @@ components:
       - minute
       - month_of_year
       - schedule_type
+      title: Cron
       type: object
     DigitalOceanCreateMachineRequest:
       description: DigitalOcean specific fields
@@ -4843,6 +4844,7 @@ components:
       - every
       - period
       - schedule_type
+      title: Interval
       type: object
     Key:
       example:
@@ -5447,6 +5449,7 @@ components:
       required:
       - datetime
       - schedule_type
+      title: OneOff
       type: object
     OpenstackCredentials:
       properties:
@@ -6107,6 +6110,10 @@ components:
             the operating system being provisioned. (28..32 for IPv4 addresses, 124..127
             for IPv6 addresses)
           type: integer
+      required:
+      - address_family
+      - cidr
+      - public
       type: object
     EquinixMetalCreateMachineRequest_net:
       properties:
