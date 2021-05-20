@@ -7,11 +7,13 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.expiration import Expiration
+from mist_api_v2.models.one_ofmapstring import OneOfmapstring
 from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2 import util
 
 from mist_api_v2.models.expiration import Expiration  # noqa: E501
+from mist_api_v2.models.one_ofmapstring import OneOfmapstring  # noqa: E501
 from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring  # noqa: E501
 from mist_api_v2.models.supported_providers import SupportedProviders  # noqa: E501
 
@@ -33,7 +35,7 @@ class CreateMachineRequestAllOf(Model):
         :param location: The location of this CreateMachineRequestAllOf.  # noqa: E501
         :type location: str
         :param size: The size of this CreateMachineRequestAllOf.  # noqa: E501
-        :type size: OneOfobjectstring
+        :type size: OneOfmapstring
         :param image: The image of this CreateMachineRequestAllOf.  # noqa: E501
         :type image: OneOfobjectstring
         :param net: The net of this CreateMachineRequestAllOf.  # noqa: E501
@@ -74,7 +76,7 @@ class CreateMachineRequestAllOf(Model):
             'provider': SupportedProviders,
             'cloud': str,
             'location': str,
-            'size': OneOfobjectstring,
+            'size': OneOfmapstring,
             'image': OneOfobjectstring,
             'net': object,
             'key': OneOfobjectstring,
@@ -252,7 +254,7 @@ class CreateMachineRequestAllOf(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :return: The size of this CreateMachineRequestAllOf.
-        :rtype: OneOfobjectstring
+        :rtype: OneOfmapstring
         """
         return self._size
 
@@ -263,7 +265,7 @@ class CreateMachineRequestAllOf(Model):
         Machine sizing spec e.g. cpu/ram/flavor  # noqa: E501
 
         :param size: The size of this CreateMachineRequestAllOf.
-        :type size: OneOfobjectstring
+        :type size: OneOfmapstring
         """
         if size is None:
             raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501

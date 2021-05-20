@@ -6045,7 +6045,8 @@ components:
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
           oneOf:
-          - properties:
+          - additionalProperties: true
+            properties:
               cpus:
                 description: Number of cpu cores
                 minimum: 1
