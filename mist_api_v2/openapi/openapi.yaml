@@ -1775,7 +1775,7 @@ paths:
       - CookieAuth:
         - read:machine
         - list_snapshots:machine
-      summary: List machine snapshots
+      summary: Suspend machine
       tags:
       - snapshots
       x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
@@ -4175,6 +4175,7 @@ components:
         - $ref: '#/components/schemas/AmazonCreateMachineRequest'
         - $ref: '#/components/schemas/DigitalOceanCreateMachineRequest'
         - $ref: '#/components/schemas/EquinixMetalCreateMachineRequest'
+        - $ref: '#/components/schemas/GoogleCreateMachineRequest'
         - $ref: '#/components/schemas/GenericCreateMachineRequest'
     CreateMachineResponse:
       oneOf:
@@ -4745,6 +4746,84 @@ components:
           $ref: '#/components/schemas/Zone'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GoogleCreateMachineRequest:
+      description: Google specific fields
+      properties:
+        key:
+          oneOf:
+          - properties:
+              key:
+                description: Name or ID of the SSH key to deploy
+                type: string
+              user:
+                description: SSH user, defaults to 'user'
+                type: string
+            type: object
+          - description: Name or ID of the SSH key to deploy
+            type: string
+        size:
+          oneOf:
+          - properties:
+              cpus:
+                description: Number of cpu cores. Mutually exclusive with 'size'
+                minimum: 1
+                type: integer
+              ram:
+                description: Ram size in MBs. Mutually exclusive with 'size'
+                minimum: 256
+                type: integer
+              size:
+                description: Name or ID of the size to select for this machine. Mutually
+                  exclusive with 'cpus' and 'ram'
+                type: string
+              accelerators:
+                properties:
+                  accelerator_type:
+                    description: Accelerator type to attach to this machine. e.g.
+                      'nvidia-tesla-p100'
+                    type: string
+                  accelerator_count:
+                    description: The number of the accelerator cards exposed to this
+                      instance
+                    type: integer
+                type: object
+            type: object
+          - description: Name or ID of the size to select for this machine
+            type: string
+        disks:
+          $ref: '#/components/schemas/GoogleCreateMachineRequest_disks'
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or ID of the volume to attach
+                  type: string
+              required:
+              - volume
+            - properties:
+                name:
+                  description: Name of the volume to be created
+                  type: string
+                size:
+                  description: Size of the volume to be created
+                  minimum: 1
+                  type: integer
+                type:
+                  description: Type of the volume to create, defaults to 'pd-standard'
+                  enum:
+                  - pd-standard
+                  - pd-ssd
+                  type: string
+              required:
+              - name
+              - size
+            type: object
+          type: array
+        net:
+          $ref: '#/components/schemas/GoogleCreateMachineRequest_net'
+      title: Google
       type: object
     GoogleCredentials:
       properties:
@@ -6146,6 +6225,27 @@ components:
       required:
       - period
       - value
+      type: object
+    GoogleCreateMachineRequest_disks:
+      description: Placeholder
+      properties:
+        boot_disk:
+          description: Name or ID of an existing volume to use as the boot drive.
+            Mutually exclusive with 'boot_disk_size'
+          type: string
+        boot_disk_size:
+          description: The size of the boot drive in GBs. Mutually exclusive with
+            'boot_disk'
+          type: integer
+      type: object
+    GoogleCreateMachineRequest_net:
+      properties:
+        network:
+          description: The network to associate with the machine
+          type: string
+        subnetwork:
+          description: The subnetwork resource for this machine
+          type: string
       type: object
     KvmCreateMachineRequest_disks:
       properties:

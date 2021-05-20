@@ -95,6 +95,9 @@ mist_api_v2/models/get_script_response.py
 mist_api_v2/models/get_size_response.py
 mist_api_v2/models/get_volume_response.py
 mist_api_v2/models/get_zone_response.py
+mist_api_v2/models/google_create_machine_request.py
+mist_api_v2/models/google_create_machine_request_disks.py
+mist_api_v2/models/google_create_machine_request_net.py
 mist_api_v2/models/google_credentials.py
 mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
