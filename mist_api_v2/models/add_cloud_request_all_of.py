@@ -15,26 +15,26 @@ class AddCloudRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, title=None):  # noqa: E501
+    def __init__(self, title=None, provider=None):  # noqa: E501
         """AddCloudRequestAllOf - a model defined in OpenAPI
 
-        :param provider: The provider of this AddCloudRequestAllOf.  # noqa: E501
-        :type provider: str
         :param title: The title of this AddCloudRequestAllOf.  # noqa: E501
         :type title: str
+        :param provider: The provider of this AddCloudRequestAllOf.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
-            'title': str
+            'title': str,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'title': 'title'
+            'title': 'title',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._title = title
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddCloudRequestAllOf':
@@ -46,6 +46,31 @@ class AddCloudRequestAllOf(Model):
         :rtype: AddCloudRequestAllOf
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def title(self):
+        """Gets the title of this AddCloudRequestAllOf.
+
+        The name of the cloud to add  # noqa: E501
+
+        :return: The title of this AddCloudRequestAllOf.
+        :rtype: str
+        """
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        """Sets the title of this AddCloudRequestAllOf.
+
+        The name of the cloud to add  # noqa: E501
+
+        :param title: The title of this AddCloudRequestAllOf.
+        :type title: str
+        """
+        if title is None:
+            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+
+        self._title = title
 
     @property
     def provider(self):
@@ -75,28 +100,3 @@ class AddCloudRequestAllOf(Model):
             )
 
         self._provider = provider
-
-    @property
-    def title(self):
-        """Gets the title of this AddCloudRequestAllOf.
-
-        The name of the cloud to add  # noqa: E501
-
-        :return: The title of this AddCloudRequestAllOf.
-        :rtype: str
-        """
-        return self._title
-
-    @title.setter
-    def title(self, title):
-        """Sets the title of this AddCloudRequestAllOf.
-
-        The name of the cloud to add  # noqa: E501
-
-        :param title: The title of this AddCloudRequestAllOf.
-        :type title: str
-        """
-        if title is None:
-            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
-
-        self._title = title

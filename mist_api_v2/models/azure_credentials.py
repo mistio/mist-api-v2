@@ -15,36 +15,36 @@ class AzureCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, key=None, secret=None, subscription_id=None, tenant_id=None):  # noqa: E501
+    def __init__(self, tenant_id=None, subscription_id=None, key=None, secret=None):  # noqa: E501
         """AzureCredentials - a model defined in OpenAPI
 
+        :param tenant_id: The tenant_id of this AzureCredentials.  # noqa: E501
+        :type tenant_id: str
+        :param subscription_id: The subscription_id of this AzureCredentials.  # noqa: E501
+        :type subscription_id: str
         :param key: The key of this AzureCredentials.  # noqa: E501
         :type key: str
         :param secret: The secret of this AzureCredentials.  # noqa: E501
         :type secret: str
-        :param subscription_id: The subscription_id of this AzureCredentials.  # noqa: E501
-        :type subscription_id: str
-        :param tenant_id: The tenant_id of this AzureCredentials.  # noqa: E501
-        :type tenant_id: str
         """
         self.openapi_types = {
-            'key': str,
-            'secret': str,
+            'tenant_id': str,
             'subscription_id': str,
-            'tenant_id': str
+            'key': str,
+            'secret': str
         }
 
         self.attribute_map = {
-            'key': 'key',
-            'secret': 'secret',
+            'tenant_id': 'tenantId',
             'subscription_id': 'subscriptionId',
-            'tenant_id': 'tenantId'
+            'key': 'key',
+            'secret': 'secret'
         }
 
+        self._tenant_id = tenant_id
+        self._subscription_id = subscription_id
         self._key = key
         self._secret = secret
-        self._subscription_id = subscription_id
-        self._tenant_id = tenant_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'AzureCredentials':
@@ -56,6 +56,56 @@ class AzureCredentials(Model):
         :rtype: AzureCredentials
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def tenant_id(self):
+        """Gets the tenant_id of this AzureCredentials.
+
+        Your Azure tenant ID  # noqa: E501
+
+        :return: The tenant_id of this AzureCredentials.
+        :rtype: str
+        """
+        return self._tenant_id
+
+    @tenant_id.setter
+    def tenant_id(self, tenant_id):
+        """Sets the tenant_id of this AzureCredentials.
+
+        Your Azure tenant ID  # noqa: E501
+
+        :param tenant_id: The tenant_id of this AzureCredentials.
+        :type tenant_id: str
+        """
+        if tenant_id is None:
+            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
+
+        self._tenant_id = tenant_id
+
+    @property
+    def subscription_id(self):
+        """Gets the subscription_id of this AzureCredentials.
+
+        Your Azure subscription ID  # noqa: E501
+
+        :return: The subscription_id of this AzureCredentials.
+        :rtype: str
+        """
+        return self._subscription_id
+
+    @subscription_id.setter
+    def subscription_id(self, subscription_id):
+        """Sets the subscription_id of this AzureCredentials.
+
+        Your Azure subscription ID  # noqa: E501
+
+        :param subscription_id: The subscription_id of this AzureCredentials.
+        :type subscription_id: str
+        """
+        if subscription_id is None:
+            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
+
+        self._subscription_id = subscription_id
 
     @property
     def key(self):
@@ -106,53 +156,3 @@ class AzureCredentials(Model):
             raise ValueError("Invalid value for `secret`, must not be `None`")  # noqa: E501
 
         self._secret = secret
-
-    @property
-    def subscription_id(self):
-        """Gets the subscription_id of this AzureCredentials.
-
-        Your Azure subscription ID  # noqa: E501
-
-        :return: The subscription_id of this AzureCredentials.
-        :rtype: str
-        """
-        return self._subscription_id
-
-    @subscription_id.setter
-    def subscription_id(self, subscription_id):
-        """Sets the subscription_id of this AzureCredentials.
-
-        Your Azure subscription ID  # noqa: E501
-
-        :param subscription_id: The subscription_id of this AzureCredentials.
-        :type subscription_id: str
-        """
-        if subscription_id is None:
-            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
-
-        self._subscription_id = subscription_id
-
-    @property
-    def tenant_id(self):
-        """Gets the tenant_id of this AzureCredentials.
-
-        Your Azure tenant ID  # noqa: E501
-
-        :return: The tenant_id of this AzureCredentials.
-        :rtype: str
-        """
-        return self._tenant_id
-
-    @tenant_id.setter
-    def tenant_id(self, tenant_id):
-        """Sets the tenant_id of this AzureCredentials.
-
-        Your Azure tenant ID  # noqa: E501
-
-        :param tenant_id: The tenant_id of this AzureCredentials.
-        :type tenant_id: str
-        """
-        if tenant_id is None:
-            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
-
-        self._tenant_id = tenant_id

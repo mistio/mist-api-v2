@@ -17,26 +17,26 @@ class AddVsphereCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, credentials=None, provider=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None):  # noqa: E501
         """AddVsphereCloudRequest - a model defined in OpenAPI
 
-        :param credentials: The credentials of this AddVsphereCloudRequest.  # noqa: E501
-        :type credentials: VsphereCredentials
         :param provider: The provider of this AddVsphereCloudRequest.  # noqa: E501
         :type provider: str
+        :param credentials: The credentials of this AddVsphereCloudRequest.  # noqa: E501
+        :type credentials: VsphereCredentials
         """
         self.openapi_types = {
-            'credentials': VsphereCredentials,
-            'provider': str
+            'provider': str,
+            'credentials': VsphereCredentials
         }
 
         self.attribute_map = {
-            'credentials': 'credentials',
-            'provider': 'provider'
+            'provider': 'provider',
+            'credentials': 'credentials'
         }
 
-        self._credentials = credentials
         self._provider = provider
+        self._credentials = credentials
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddVsphereCloudRequest':
@@ -48,29 +48,6 @@ class AddVsphereCloudRequest(Model):
         :rtype: AddVsphereCloudRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddVsphereCloudRequest.
-
-
-        :return: The credentials of this AddVsphereCloudRequest.
-        :rtype: VsphereCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddVsphereCloudRequest.
-
-
-        :param credentials: The credentials of this AddVsphereCloudRequest.
-        :type credentials: VsphereCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials
 
     @property
     def provider(self):
@@ -98,3 +75,26 @@ class AddVsphereCloudRequest(Model):
             )
 
         self._provider = provider
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddVsphereCloudRequest.
+
+
+        :return: The credentials of this AddVsphereCloudRequest.
+        :rtype: VsphereCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddVsphereCloudRequest.
+
+
+        :param credentials: The credentials of this AddVsphereCloudRequest.
+        :type credentials: VsphereCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials

@@ -15,31 +15,31 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, address_family=None, cidr=None, public=None):  # noqa: E501
+    def __init__(self, address_family=None, public=None, cidr=None):  # noqa: E501
         """EquinixMetalCreateMachineRequestNetIpAddresses - a model defined in OpenAPI
 
         :param address_family: The address_family of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
         :type address_family: int
-        :param cidr: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
-        :type cidr: int
         :param public: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
         :type public: bool
+        :param cidr: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
+        :type cidr: int
         """
         self.openapi_types = {
             'address_family': int,
-            'cidr': int,
-            'public': bool
+            'public': bool,
+            'cidr': int
         }
 
         self.attribute_map = {
             'address_family': 'address_family',
-            'cidr': 'cidr',
-            'public': 'public'
+            'public': 'public',
+            'cidr': 'cidr'
         }
 
         self._address_family = address_family
-        self._cidr = cidr
         self._public = public
+        self._cidr = cidr
 
     @classmethod
     def from_dict(cls, dikt) -> 'EquinixMetalCreateMachineRequestNetIpAddresses':
@@ -82,31 +82,6 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
         self._address_family = address_family
 
     @property
-    def cidr(self):
-        """Gets the cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
-
-        Cidr Size for the IP Block created. Valid values depend on the operating system being provisioned. (28..32 for IPv4 addresses, 124..127 for IPv6 addresses)  # noqa: E501
-
-        :return: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
-        :rtype: int
-        """
-        return self._cidr
-
-    @cidr.setter
-    def cidr(self, cidr):
-        """Sets the cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
-
-        Cidr Size for the IP Block created. Valid values depend on the operating system being provisioned. (28..32 for IPv4 addresses, 124..127 for IPv6 addresses)  # noqa: E501
-
-        :param cidr: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
-        :type cidr: int
-        """
-        if cidr is None:
-            raise ValueError("Invalid value for `cidr`, must not be `None`")  # noqa: E501
-
-        self._cidr = cidr
-
-    @property
     def public(self):
         """Gets the public of this EquinixMetalCreateMachineRequestNetIpAddresses.
 
@@ -130,3 +105,28 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
             raise ValueError("Invalid value for `public`, must not be `None`")  # noqa: E501
 
         self._public = public
+
+    @property
+    def cidr(self):
+        """Gets the cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
+
+        Cidr Size for the IP Block created. Valid values depend on the operating system being provisioned. (28..32 for IPv4 addresses, 124..127 for IPv6 addresses)  # noqa: E501
+
+        :return: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
+        :rtype: int
+        """
+        return self._cidr
+
+    @cidr.setter
+    def cidr(self, cidr):
+        """Sets the cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
+
+        Cidr Size for the IP Block created. Valid values depend on the operating system being provisioned. (28..32 for IPv4 addresses, 124..127 for IPv6 addresses)  # noqa: E501
+
+        :param cidr: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
+        :type cidr: int
+        """
+        if cidr is None:
+            raise ValueError("Invalid value for `cidr`, must not be `None`")  # noqa: E501
+
+        self._cidr = cidr

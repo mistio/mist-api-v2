@@ -15,36 +15,36 @@ class VsphereCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, ca_cert_file=None, host=None, password=None, username=None):  # noqa: E501
+    def __init__(self, host=None, username=None, password=None, ca_cert_file=None):  # noqa: E501
         """VsphereCredentials - a model defined in OpenAPI
 
-        :param ca_cert_file: The ca_cert_file of this VsphereCredentials.  # noqa: E501
-        :type ca_cert_file: str
         :param host: The host of this VsphereCredentials.  # noqa: E501
         :type host: str
-        :param password: The password of this VsphereCredentials.  # noqa: E501
-        :type password: str
         :param username: The username of this VsphereCredentials.  # noqa: E501
         :type username: str
+        :param password: The password of this VsphereCredentials.  # noqa: E501
+        :type password: str
+        :param ca_cert_file: The ca_cert_file of this VsphereCredentials.  # noqa: E501
+        :type ca_cert_file: str
         """
         self.openapi_types = {
-            'ca_cert_file': str,
             'host': str,
+            'username': str,
             'password': str,
-            'username': str
+            'ca_cert_file': str
         }
 
         self.attribute_map = {
-            'ca_cert_file': 'ca_cert_file',
             'host': 'host',
+            'username': 'username',
             'password': 'password',
-            'username': 'username'
+            'ca_cert_file': 'ca_cert_file'
         }
 
-        self._ca_cert_file = ca_cert_file
         self._host = host
-        self._password = password
         self._username = username
+        self._password = password
+        self._ca_cert_file = ca_cert_file
 
     @classmethod
     def from_dict(cls, dikt) -> 'VsphereCredentials':
@@ -56,29 +56,6 @@ class VsphereCredentials(Model):
         :rtype: VsphereCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def ca_cert_file(self):
-        """Gets the ca_cert_file of this VsphereCredentials.
-
-        CA certificate  # noqa: E501
-
-        :return: The ca_cert_file of this VsphereCredentials.
-        :rtype: str
-        """
-        return self._ca_cert_file
-
-    @ca_cert_file.setter
-    def ca_cert_file(self, ca_cert_file):
-        """Sets the ca_cert_file of this VsphereCredentials.
-
-        CA certificate  # noqa: E501
-
-        :param ca_cert_file: The ca_cert_file of this VsphereCredentials.
-        :type ca_cert_file: str
-        """
-
-        self._ca_cert_file = ca_cert_file
 
     @property
     def host(self):
@@ -106,6 +83,31 @@ class VsphereCredentials(Model):
         self._host = host
 
     @property
+    def username(self):
+        """Gets the username of this VsphereCredentials.
+
+        Your username  # noqa: E501
+
+        :return: The username of this VsphereCredentials.
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this VsphereCredentials.
+
+        Your username  # noqa: E501
+
+        :param username: The username of this VsphereCredentials.
+        :type username: str
+        """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+
+        self._username = username
+
+    @property
     def password(self):
         """Gets the password of this VsphereCredentials.
 
@@ -131,26 +133,24 @@ class VsphereCredentials(Model):
         self._password = password
 
     @property
-    def username(self):
-        """Gets the username of this VsphereCredentials.
+    def ca_cert_file(self):
+        """Gets the ca_cert_file of this VsphereCredentials.
 
-        Your username  # noqa: E501
+        CA certificate  # noqa: E501
 
-        :return: The username of this VsphereCredentials.
+        :return: The ca_cert_file of this VsphereCredentials.
         :rtype: str
         """
-        return self._username
+        return self._ca_cert_file
 
-    @username.setter
-    def username(self, username):
-        """Sets the username of this VsphereCredentials.
+    @ca_cert_file.setter
+    def ca_cert_file(self, ca_cert_file):
+        """Sets the ca_cert_file of this VsphereCredentials.
 
-        Your username  # noqa: E501
+        CA certificate  # noqa: E501
 
-        :param username: The username of this VsphereCredentials.
-        :type username: str
+        :param ca_cert_file: The ca_cert_file of this VsphereCredentials.
+        :type ca_cert_file: str
         """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
 
-        self._username = username
+        self._ca_cert_file = ca_cert_file

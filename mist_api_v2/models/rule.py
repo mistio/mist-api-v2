@@ -15,61 +15,61 @@ class Rule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, actions=None, data_type=None, disabled=None, frequency=None, id=None, queries=None, title=None, triggered_after=None, window=None):  # noqa: E501
+    def __init__(self, id=None, title=None, queries=None, window=None, frequency=None, triggered_after=None, actions=None, disabled=None, data_type=None):  # noqa: E501
         """Rule - a model defined in OpenAPI
 
-        :param actions: The actions of this Rule.  # noqa: E501
-        :type actions: object
-        :param data_type: The data_type of this Rule.  # noqa: E501
-        :type data_type: str
-        :param disabled: The disabled of this Rule.  # noqa: E501
-        :type disabled: str
-        :param frequency: The frequency of this Rule.  # noqa: E501
-        :type frequency: object
         :param id: The id of this Rule.  # noqa: E501
         :type id: str
-        :param queries: The queries of this Rule.  # noqa: E501
-        :type queries: object
         :param title: The title of this Rule.  # noqa: E501
         :type title: str
-        :param triggered_after: The triggered_after of this Rule.  # noqa: E501
-        :type triggered_after: object
+        :param queries: The queries of this Rule.  # noqa: E501
+        :type queries: object
         :param window: The window of this Rule.  # noqa: E501
         :type window: object
+        :param frequency: The frequency of this Rule.  # noqa: E501
+        :type frequency: object
+        :param triggered_after: The triggered_after of this Rule.  # noqa: E501
+        :type triggered_after: object
+        :param actions: The actions of this Rule.  # noqa: E501
+        :type actions: object
+        :param disabled: The disabled of this Rule.  # noqa: E501
+        :type disabled: str
+        :param data_type: The data_type of this Rule.  # noqa: E501
+        :type data_type: str
         """
         self.openapi_types = {
-            'actions': object,
-            'data_type': str,
-            'disabled': str,
-            'frequency': object,
             'id': str,
-            'queries': object,
             'title': str,
+            'queries': object,
+            'window': object,
+            'frequency': object,
             'triggered_after': object,
-            'window': object
+            'actions': object,
+            'disabled': str,
+            'data_type': str
         }
 
         self.attribute_map = {
-            'actions': 'actions',
-            'data_type': 'data_type',
-            'disabled': 'disabled',
-            'frequency': 'frequency',
             'id': 'id',
-            'queries': 'queries',
             'title': 'title',
+            'queries': 'queries',
+            'window': 'window',
+            'frequency': 'frequency',
             'triggered_after': 'triggered_after',
-            'window': 'window'
+            'actions': 'actions',
+            'disabled': 'disabled',
+            'data_type': 'data_type'
         }
 
-        self._actions = actions
-        self._data_type = data_type
-        self._disabled = disabled
-        self._frequency = frequency
         self._id = id
-        self._queries = queries
         self._title = title
-        self._triggered_after = triggered_after
+        self._queries = queries
         self._window = window
+        self._frequency = frequency
+        self._triggered_after = triggered_after
+        self._actions = actions
+        self._disabled = disabled
+        self._data_type = data_type
 
     @classmethod
     def from_dict(cls, dikt) -> 'Rule':
@@ -81,90 +81,6 @@ class Rule(Model):
         :rtype: Rule
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def actions(self):
-        """Gets the actions of this Rule.
-
-
-        :return: The actions of this Rule.
-        :rtype: object
-        """
-        return self._actions
-
-    @actions.setter
-    def actions(self, actions):
-        """Sets the actions of this Rule.
-
-
-        :param actions: The actions of this Rule.
-        :type actions: object
-        """
-
-        self._actions = actions
-
-    @property
-    def data_type(self):
-        """Gets the data_type of this Rule.
-
-
-        :return: The data_type of this Rule.
-        :rtype: str
-        """
-        return self._data_type
-
-    @data_type.setter
-    def data_type(self, data_type):
-        """Sets the data_type of this Rule.
-
-
-        :param data_type: The data_type of this Rule.
-        :type data_type: str
-        """
-
-        self._data_type = data_type
-
-    @property
-    def disabled(self):
-        """Gets the disabled of this Rule.
-
-
-        :return: The disabled of this Rule.
-        :rtype: str
-        """
-        return self._disabled
-
-    @disabled.setter
-    def disabled(self, disabled):
-        """Sets the disabled of this Rule.
-
-
-        :param disabled: The disabled of this Rule.
-        :type disabled: str
-        """
-
-        self._disabled = disabled
-
-    @property
-    def frequency(self):
-        """Gets the frequency of this Rule.
-
-
-        :return: The frequency of this Rule.
-        :rtype: object
-        """
-        return self._frequency
-
-    @frequency.setter
-    def frequency(self, frequency):
-        """Sets the frequency of this Rule.
-
-
-        :param frequency: The frequency of this Rule.
-        :type frequency: object
-        """
-
-        self._frequency = frequency
 
     @property
     def id(self):
@@ -188,6 +104,27 @@ class Rule(Model):
         self._id = id
 
     @property
+    def title(self):
+        """Gets the title of this Rule.
+
+
+        :return: The title of this Rule.
+        :rtype: str
+        """
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        """Sets the title of this Rule.
+
+
+        :param title: The title of this Rule.
+        :type title: str
+        """
+
+        self._title = title
+
+    @property
     def queries(self):
         """Gets the queries of this Rule.
 
@@ -209,25 +146,46 @@ class Rule(Model):
         self._queries = queries
 
     @property
-    def title(self):
-        """Gets the title of this Rule.
+    def window(self):
+        """Gets the window of this Rule.
 
 
-        :return: The title of this Rule.
-        :rtype: str
+        :return: The window of this Rule.
+        :rtype: object
         """
-        return self._title
+        return self._window
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this Rule.
+    @window.setter
+    def window(self, window):
+        """Sets the window of this Rule.
 
 
-        :param title: The title of this Rule.
-        :type title: str
+        :param window: The window of this Rule.
+        :type window: object
         """
 
-        self._title = title
+        self._window = window
+
+    @property
+    def frequency(self):
+        """Gets the frequency of this Rule.
+
+
+        :return: The frequency of this Rule.
+        :rtype: object
+        """
+        return self._frequency
+
+    @frequency.setter
+    def frequency(self, frequency):
+        """Sets the frequency of this Rule.
+
+
+        :param frequency: The frequency of this Rule.
+        :type frequency: object
+        """
+
+        self._frequency = frequency
 
     @property
     def triggered_after(self):
@@ -251,22 +209,64 @@ class Rule(Model):
         self._triggered_after = triggered_after
 
     @property
-    def window(self):
-        """Gets the window of this Rule.
+    def actions(self):
+        """Gets the actions of this Rule.
 
 
-        :return: The window of this Rule.
+        :return: The actions of this Rule.
         :rtype: object
         """
-        return self._window
+        return self._actions
 
-    @window.setter
-    def window(self, window):
-        """Sets the window of this Rule.
+    @actions.setter
+    def actions(self, actions):
+        """Sets the actions of this Rule.
 
 
-        :param window: The window of this Rule.
-        :type window: object
+        :param actions: The actions of this Rule.
+        :type actions: object
         """
 
-        self._window = window
+        self._actions = actions
+
+    @property
+    def disabled(self):
+        """Gets the disabled of this Rule.
+
+
+        :return: The disabled of this Rule.
+        :rtype: str
+        """
+        return self._disabled
+
+    @disabled.setter
+    def disabled(self, disabled):
+        """Sets the disabled of this Rule.
+
+
+        :param disabled: The disabled of this Rule.
+        :type disabled: str
+        """
+
+        self._disabled = disabled
+
+    @property
+    def data_type(self):
+        """Gets the data_type of this Rule.
+
+
+        :return: The data_type of this Rule.
+        :rtype: str
+        """
+        return self._data_type
+
+    @data_type.setter
+    def data_type(self, data_type):
+        """Sets the data_type of this Rule.
+
+
+        :param data_type: The data_type of this Rule.
+        :type data_type: str
+        """
+
+        self._data_type = data_type

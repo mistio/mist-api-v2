@@ -15,31 +15,31 @@ class CloudSigmaCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, password=None, region=None, username=None):  # noqa: E501
+    def __init__(self, username=None, password=None, region=None):  # noqa: E501
         """CloudSigmaCredentials - a model defined in OpenAPI
 
+        :param username: The username of this CloudSigmaCredentials.  # noqa: E501
+        :type username: str
         :param password: The password of this CloudSigmaCredentials.  # noqa: E501
         :type password: str
         :param region: The region of this CloudSigmaCredentials.  # noqa: E501
         :type region: str
-        :param username: The username of this CloudSigmaCredentials.  # noqa: E501
-        :type username: str
         """
         self.openapi_types = {
+            'username': str,
             'password': str,
-            'region': str,
-            'username': str
+            'region': str
         }
 
         self.attribute_map = {
+            'username': 'username',
             'password': 'password',
-            'region': 'region',
-            'username': 'username'
+            'region': 'region'
         }
 
+        self._username = username
         self._password = password
         self._region = region
-        self._username = username
 
     @classmethod
     def from_dict(cls, dikt) -> 'CloudSigmaCredentials':
@@ -51,6 +51,31 @@ class CloudSigmaCredentials(Model):
         :rtype: CloudSigmaCredentials
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def username(self):
+        """Gets the username of this CloudSigmaCredentials.
+
+        Your CloudSigma username  # noqa: E501
+
+        :return: The username of this CloudSigmaCredentials.
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this CloudSigmaCredentials.
+
+        Your CloudSigma username  # noqa: E501
+
+        :param username: The username of this CloudSigmaCredentials.
+        :type username: str
+        """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+
+        self._username = username
 
     @property
     def password(self):
@@ -101,28 +126,3 @@ class CloudSigmaCredentials(Model):
             raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
 
         self._region = region
-
-    @property
-    def username(self):
-        """Gets the username of this CloudSigmaCredentials.
-
-        Your CloudSigma username  # noqa: E501
-
-        :return: The username of this CloudSigmaCredentials.
-        :rtype: str
-        """
-        return self._username
-
-    @username.setter
-    def username(self, username):
-        """Sets the username of this CloudSigmaCredentials.
-
-        Your CloudSigma username  # noqa: E501
-
-        :param username: The username of this CloudSigmaCredentials.
-        :type username: str
-        """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
-
-        self._username = username

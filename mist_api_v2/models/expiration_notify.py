@@ -15,26 +15,26 @@ class ExpirationNotify(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, period=None, value=None):  # noqa: E501
+    def __init__(self, value=None, period=None):  # noqa: E501
         """ExpirationNotify - a model defined in OpenAPI
 
-        :param period: The period of this ExpirationNotify.  # noqa: E501
-        :type period: str
         :param value: The value of this ExpirationNotify.  # noqa: E501
         :type value: int
+        :param period: The period of this ExpirationNotify.  # noqa: E501
+        :type period: str
         """
         self.openapi_types = {
-            'period': str,
-            'value': int
+            'value': int,
+            'period': str
         }
 
         self.attribute_map = {
-            'period': 'period',
-            'value': 'value'
+            'value': 'value',
+            'period': 'period'
         }
 
-        self._period = period
         self._value = value
+        self._period = period
 
     @classmethod
     def from_dict(cls, dikt) -> 'ExpirationNotify':
@@ -46,6 +46,31 @@ class ExpirationNotify(Model):
         :rtype: ExpirationNotify
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def value(self):
+        """Gets the value of this ExpirationNotify.
+
+
+        :return: The value of this ExpirationNotify.
+        :rtype: int
+        """
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        """Sets the value of this ExpirationNotify.
+
+
+        :param value: The value of this ExpirationNotify.
+        :type value: int
+        """
+        if value is None:
+            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
+        if value is not None and value < 1:  # noqa: E501
+            raise ValueError("Invalid value for `value`, must be a value greater than or equal to `1`")  # noqa: E501
+
+        self._value = value
 
     @property
     def period(self):
@@ -73,28 +98,3 @@ class ExpirationNotify(Model):
             )
 
         self._period = period
-
-    @property
-    def value(self):
-        """Gets the value of this ExpirationNotify.
-
-
-        :return: The value of this ExpirationNotify.
-        :rtype: int
-        """
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        """Sets the value of this ExpirationNotify.
-
-
-        :param value: The value of this ExpirationNotify.
-        :type value: int
-        """
-        if value is None:
-            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
-        if value is not None and value < 1:  # noqa: E501
-            raise ValueError("Invalid value for `value`, must be a value greater than or equal to `1`")  # noqa: E501
-
-        self._value = value

@@ -15,31 +15,31 @@ class Window(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, period=None, start=None, stop=0):  # noqa: E501
+    def __init__(self, start=None, stop=0, period=None):  # noqa: E501
         """Window - a model defined in OpenAPI
 
-        :param period: The period of this Window.  # noqa: E501
-        :type period: str
         :param start: The start of this Window.  # noqa: E501
         :type start: int
         :param stop: The stop of this Window.  # noqa: E501
         :type stop: int
+        :param period: The period of this Window.  # noqa: E501
+        :type period: str
         """
         self.openapi_types = {
-            'period': str,
             'start': int,
-            'stop': int
+            'stop': int,
+            'period': str
         }
 
         self.attribute_map = {
-            'period': 'period',
             'start': 'start',
-            'stop': 'stop'
+            'stop': 'stop',
+            'period': 'period'
         }
 
-        self._period = period
         self._start = start
         self._stop = stop
+        self._period = period
 
     @classmethod
     def from_dict(cls, dikt) -> 'Window':
@@ -51,31 +51,6 @@ class Window(Model):
         :rtype: Window
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def period(self):
-        """Gets the period of this Window.
-
-        units of time, e.g. \"seconds\"  # noqa: E501
-
-        :return: The period of this Window.
-        :rtype: str
-        """
-        return self._period
-
-    @period.setter
-    def period(self, period):
-        """Sets the period of this Window.
-
-        units of time, e.g. \"seconds\"  # noqa: E501
-
-        :param period: The period of this Window.
-        :type period: str
-        """
-        if period is None:
-            raise ValueError("Invalid value for `period`, must not be `None`")  # noqa: E501
-
-        self._period = period
 
     @property
     def start(self):
@@ -124,3 +99,28 @@ class Window(Model):
         """
 
         self._stop = stop
+
+    @property
+    def period(self):
+        """Gets the period of this Window.
+
+        units of time, e.g. \"seconds\"  # noqa: E501
+
+        :return: The period of this Window.
+        :rtype: str
+        """
+        return self._period
+
+    @period.setter
+    def period(self, period):
+        """Sets the period of this Window.
+
+        units of time, e.g. \"seconds\"  # noqa: E501
+
+        :param period: The period of this Window.
+        :type period: str
+        """
+        if period is None:
+            raise ValueError("Invalid value for `period`, must not be `None`")  # noqa: E501
+
+        self._period = period

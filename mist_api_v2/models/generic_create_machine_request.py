@@ -15,36 +15,36 @@ class GenericCreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, disks=None, extra=None, net=None, volumes=None):  # noqa: E501
+    def __init__(self, net=None, disks=None, volumes=None, extra=None):  # noqa: E501
         """GenericCreateMachineRequest - a model defined in OpenAPI
 
-        :param disks: The disks of this GenericCreateMachineRequest.  # noqa: E501
-        :type disks: object
-        :param extra: The extra of this GenericCreateMachineRequest.  # noqa: E501
-        :type extra: object
         :param net: The net of this GenericCreateMachineRequest.  # noqa: E501
         :type net: object
+        :param disks: The disks of this GenericCreateMachineRequest.  # noqa: E501
+        :type disks: object
         :param volumes: The volumes of this GenericCreateMachineRequest.  # noqa: E501
         :type volumes: List[object]
+        :param extra: The extra of this GenericCreateMachineRequest.  # noqa: E501
+        :type extra: object
         """
         self.openapi_types = {
-            'disks': object,
-            'extra': object,
             'net': object,
-            'volumes': List[object]
+            'disks': object,
+            'volumes': List[object],
+            'extra': object
         }
 
         self.attribute_map = {
-            'disks': 'disks',
-            'extra': 'extra',
             'net': 'net',
-            'volumes': 'volumes'
+            'disks': 'disks',
+            'volumes': 'volumes',
+            'extra': 'extra'
         }
 
-        self._disks = disks
-        self._extra = extra
         self._net = net
+        self._disks = disks
         self._volumes = volumes
+        self._extra = extra
 
     @classmethod
     def from_dict(cls, dikt) -> 'GenericCreateMachineRequest':
@@ -56,48 +56,6 @@ class GenericCreateMachineRequest(Model):
         :rtype: GenericCreateMachineRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def disks(self):
-        """Gets the disks of this GenericCreateMachineRequest.
-
-
-        :return: The disks of this GenericCreateMachineRequest.
-        :rtype: object
-        """
-        return self._disks
-
-    @disks.setter
-    def disks(self, disks):
-        """Sets the disks of this GenericCreateMachineRequest.
-
-
-        :param disks: The disks of this GenericCreateMachineRequest.
-        :type disks: object
-        """
-
-        self._disks = disks
-
-    @property
-    def extra(self):
-        """Gets the extra of this GenericCreateMachineRequest.
-
-
-        :return: The extra of this GenericCreateMachineRequest.
-        :rtype: object
-        """
-        return self._extra
-
-    @extra.setter
-    def extra(self, extra):
-        """Sets the extra of this GenericCreateMachineRequest.
-
-
-        :param extra: The extra of this GenericCreateMachineRequest.
-        :type extra: object
-        """
-
-        self._extra = extra
 
     @property
     def net(self):
@@ -121,6 +79,27 @@ class GenericCreateMachineRequest(Model):
         self._net = net
 
     @property
+    def disks(self):
+        """Gets the disks of this GenericCreateMachineRequest.
+
+
+        :return: The disks of this GenericCreateMachineRequest.
+        :rtype: object
+        """
+        return self._disks
+
+    @disks.setter
+    def disks(self, disks):
+        """Sets the disks of this GenericCreateMachineRequest.
+
+
+        :param disks: The disks of this GenericCreateMachineRequest.
+        :type disks: object
+        """
+
+        self._disks = disks
+
+    @property
     def volumes(self):
         """Gets the volumes of this GenericCreateMachineRequest.
 
@@ -140,3 +119,24 @@ class GenericCreateMachineRequest(Model):
         """
 
         self._volumes = volumes
+
+    @property
+    def extra(self):
+        """Gets the extra of this GenericCreateMachineRequest.
+
+
+        :return: The extra of this GenericCreateMachineRequest.
+        :rtype: object
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this GenericCreateMachineRequest.
+
+
+        :param extra: The extra of this GenericCreateMachineRequest.
+        :type extra: object
+        """
+
+        self._extra = extra

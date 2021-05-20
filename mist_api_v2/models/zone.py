@@ -15,51 +15,51 @@ class Zone(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cloud=None, created_by=None, external_id=None, id=None, name=None, owned_by=None, tags=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None):  # noqa: E501
         """Zone - a model defined in OpenAPI
 
-        :param cloud: The cloud of this Zone.  # noqa: E501
-        :type cloud: str
-        :param created_by: The created_by of this Zone.  # noqa: E501
-        :type created_by: str
-        :param external_id: The external_id of this Zone.  # noqa: E501
-        :type external_id: str
         :param id: The id of this Zone.  # noqa: E501
         :type id: str
+        :param external_id: The external_id of this Zone.  # noqa: E501
+        :type external_id: str
         :param name: The name of this Zone.  # noqa: E501
         :type name: str
-        :param owned_by: The owned_by of this Zone.  # noqa: E501
-        :type owned_by: str
+        :param cloud: The cloud of this Zone.  # noqa: E501
+        :type cloud: str
         :param tags: The tags of this Zone.  # noqa: E501
         :type tags: object
+        :param created_by: The created_by of this Zone.  # noqa: E501
+        :type created_by: str
+        :param owned_by: The owned_by of this Zone.  # noqa: E501
+        :type owned_by: str
         """
         self.openapi_types = {
-            'cloud': str,
-            'created_by': str,
-            'external_id': str,
             'id': str,
+            'external_id': str,
             'name': str,
-            'owned_by': str,
-            'tags': object
+            'cloud': str,
+            'tags': object,
+            'created_by': str,
+            'owned_by': str
         }
 
         self.attribute_map = {
-            'cloud': 'cloud',
-            'created_by': 'created_by',
-            'external_id': 'external_id',
             'id': 'id',
+            'external_id': 'external_id',
             'name': 'name',
-            'owned_by': 'owned_by',
-            'tags': 'tags'
+            'cloud': 'cloud',
+            'tags': 'tags',
+            'created_by': 'created_by',
+            'owned_by': 'owned_by'
         }
 
-        self._cloud = cloud
-        self._created_by = created_by
-        self._external_id = external_id
         self._id = id
+        self._external_id = external_id
         self._name = name
-        self._owned_by = owned_by
+        self._cloud = cloud
         self._tags = tags
+        self._created_by = created_by
+        self._owned_by = owned_by
 
     @classmethod
     def from_dict(cls, dikt) -> 'Zone':
@@ -71,69 +71,6 @@ class Zone(Model):
         :rtype: Zone
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def cloud(self):
-        """Gets the cloud of this Zone.
-
-
-        :return: The cloud of this Zone.
-        :rtype: str
-        """
-        return self._cloud
-
-    @cloud.setter
-    def cloud(self, cloud):
-        """Sets the cloud of this Zone.
-
-
-        :param cloud: The cloud of this Zone.
-        :type cloud: str
-        """
-
-        self._cloud = cloud
-
-    @property
-    def created_by(self):
-        """Gets the created_by of this Zone.
-
-
-        :return: The created_by of this Zone.
-        :rtype: str
-        """
-        return self._created_by
-
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Zone.
-
-
-        :param created_by: The created_by of this Zone.
-        :type created_by: str
-        """
-
-        self._created_by = created_by
-
-    @property
-    def external_id(self):
-        """Gets the external_id of this Zone.
-
-
-        :return: The external_id of this Zone.
-        :rtype: str
-        """
-        return self._external_id
-
-    @external_id.setter
-    def external_id(self, external_id):
-        """Sets the external_id of this Zone.
-
-
-        :param external_id: The external_id of this Zone.
-        :type external_id: str
-        """
-
-        self._external_id = external_id
 
     @property
     def id(self):
@@ -157,6 +94,27 @@ class Zone(Model):
         self._id = id
 
     @property
+    def external_id(self):
+        """Gets the external_id of this Zone.
+
+
+        :return: The external_id of this Zone.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Zone.
+
+
+        :param external_id: The external_id of this Zone.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
+
+    @property
     def name(self):
         """Gets the name of this Zone.
 
@@ -178,25 +136,25 @@ class Zone(Model):
         self._name = name
 
     @property
-    def owned_by(self):
-        """Gets the owned_by of this Zone.
+    def cloud(self):
+        """Gets the cloud of this Zone.
 
 
-        :return: The owned_by of this Zone.
+        :return: The cloud of this Zone.
         :rtype: str
         """
-        return self._owned_by
+        return self._cloud
 
-    @owned_by.setter
-    def owned_by(self, owned_by):
-        """Sets the owned_by of this Zone.
+    @cloud.setter
+    def cloud(self, cloud):
+        """Sets the cloud of this Zone.
 
 
-        :param owned_by: The owned_by of this Zone.
-        :type owned_by: str
+        :param cloud: The cloud of this Zone.
+        :type cloud: str
         """
 
-        self._owned_by = owned_by
+        self._cloud = cloud
 
     @property
     def tags(self):
@@ -218,3 +176,45 @@ class Zone(Model):
         """
 
         self._tags = tags
+
+    @property
+    def created_by(self):
+        """Gets the created_by of this Zone.
+
+
+        :return: The created_by of this Zone.
+        :rtype: str
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """Sets the created_by of this Zone.
+
+
+        :param created_by: The created_by of this Zone.
+        :type created_by: str
+        """
+
+        self._created_by = created_by
+
+    @property
+    def owned_by(self):
+        """Gets the owned_by of this Zone.
+
+
+        :return: The owned_by of this Zone.
+        :rtype: str
+        """
+        return self._owned_by
+
+    @owned_by.setter
+    def owned_by(self, owned_by):
+        """Sets the owned_by of this Zone.
+
+
+        :param owned_by: The owned_by of this Zone.
+        :type owned_by: str
+        """
+
+        self._owned_by = owned_by

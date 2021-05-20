@@ -15,26 +15,26 @@ class PostDeployScript(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, params=None, script=None):  # noqa: E501
+    def __init__(self, script=None, params=None):  # noqa: E501
         """PostDeployScript - a model defined in OpenAPI
 
-        :param params: The params of this PostDeployScript.  # noqa: E501
-        :type params: str
         :param script: The script of this PostDeployScript.  # noqa: E501
         :type script: str
+        :param params: The params of this PostDeployScript.  # noqa: E501
+        :type params: str
         """
         self.openapi_types = {
-            'params': str,
-            'script': str
+            'script': str,
+            'params': str
         }
 
         self.attribute_map = {
-            'params': 'params',
-            'script': 'script'
+            'script': 'script',
+            'params': 'params'
         }
 
-        self._params = params
         self._script = script
+        self._params = params
 
     @classmethod
     def from_dict(cls, dikt) -> 'PostDeployScript':
@@ -46,27 +46,6 @@ class PostDeployScript(Model):
         :rtype: PostDeployScript
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def params(self):
-        """Gets the params of this PostDeployScript.
-
-
-        :return: The params of this PostDeployScript.
-        :rtype: str
-        """
-        return self._params
-
-    @params.setter
-    def params(self, params):
-        """Sets the params of this PostDeployScript.
-
-
-        :param params: The params of this PostDeployScript.
-        :type params: str
-        """
-
-        self._params = params
 
     @property
     def script(self):
@@ -92,3 +71,24 @@ class PostDeployScript(Model):
             raise ValueError("Invalid value for `script`, must not be `None`")  # noqa: E501
 
         self._script = script
+
+    @property
+    def params(self):
+        """Gets the params of this PostDeployScript.
+
+
+        :return: The params of this PostDeployScript.
+        :rtype: str
+        """
+        return self._params
+
+    @params.setter
+    def params(self, params):
+        """Sets the params of this PostDeployScript.
+
+
+        :param params: The params of this PostDeployScript.
+        :type params: str
+        """
+
+        self._params = params

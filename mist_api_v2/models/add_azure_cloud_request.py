@@ -17,26 +17,26 @@ class AddAzureCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, credentials=None, provider=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None):  # noqa: E501
         """AddAzureCloudRequest - a model defined in OpenAPI
 
-        :param credentials: The credentials of this AddAzureCloudRequest.  # noqa: E501
-        :type credentials: AzureCredentials
         :param provider: The provider of this AddAzureCloudRequest.  # noqa: E501
         :type provider: str
+        :param credentials: The credentials of this AddAzureCloudRequest.  # noqa: E501
+        :type credentials: AzureCredentials
         """
         self.openapi_types = {
-            'credentials': AzureCredentials,
-            'provider': str
+            'provider': str,
+            'credentials': AzureCredentials
         }
 
         self.attribute_map = {
-            'credentials': 'credentials',
-            'provider': 'provider'
+            'provider': 'provider',
+            'credentials': 'credentials'
         }
 
-        self._credentials = credentials
         self._provider = provider
+        self._credentials = credentials
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddAzureCloudRequest':
@@ -48,29 +48,6 @@ class AddAzureCloudRequest(Model):
         :rtype: AddAzureCloudRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddAzureCloudRequest.
-
-
-        :return: The credentials of this AddAzureCloudRequest.
-        :rtype: AzureCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddAzureCloudRequest.
-
-
-        :param credentials: The credentials of this AddAzureCloudRequest.
-        :type credentials: AzureCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials
 
     @property
     def provider(self):
@@ -98,3 +75,26 @@ class AddAzureCloudRequest(Model):
             )
 
         self._provider = provider
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddAzureCloudRequest.
+
+
+        :return: The credentials of this AddAzureCloudRequest.
+        :rtype: AzureCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddAzureCloudRequest.
+
+
+        :param credentials: The credentials of this AddAzureCloudRequest.
+        :type credentials: AzureCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials

@@ -15,31 +15,31 @@ class IbmCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, provider=None, username=None):  # noqa: E501
+    def __init__(self, provider=None, username=None, apikey=None):  # noqa: E501
         """IbmCredentials - a model defined in OpenAPI
 
-        :param apikey: The apikey of this IbmCredentials.  # noqa: E501
-        :type apikey: str
         :param provider: The provider of this IbmCredentials.  # noqa: E501
         :type provider: str
         :param username: The username of this IbmCredentials.  # noqa: E501
         :type username: str
+        :param apikey: The apikey of this IbmCredentials.  # noqa: E501
+        :type apikey: str
         """
         self.openapi_types = {
-            'apikey': str,
             'provider': str,
-            'username': str
+            'username': str,
+            'apikey': str
         }
 
         self.attribute_map = {
-            'apikey': 'apikey',
             'provider': 'provider',
-            'username': 'username'
+            'username': 'username',
+            'apikey': 'apikey'
         }
 
-        self._apikey = apikey
         self._provider = provider
         self._username = username
+        self._apikey = apikey
 
     @classmethod
     def from_dict(cls, dikt) -> 'IbmCredentials':
@@ -51,31 +51,6 @@ class IbmCredentials(Model):
         :rtype: IbmCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def apikey(self):
-        """Gets the apikey of this IbmCredentials.
-
-        Your IBM Cloud API key  # noqa: E501
-
-        :return: The apikey of this IbmCredentials.
-        :rtype: str
-        """
-        return self._apikey
-
-    @apikey.setter
-    def apikey(self, apikey):
-        """Sets the apikey of this IbmCredentials.
-
-        Your IBM Cloud API key  # noqa: E501
-
-        :param apikey: The apikey of this IbmCredentials.
-        :type apikey: str
-        """
-        if apikey is None:
-            raise ValueError("Invalid value for `apikey`, must not be `None`")  # noqa: E501
-
-        self._apikey = apikey
 
     @property
     def provider(self):
@@ -126,3 +101,28 @@ class IbmCredentials(Model):
         """
 
         self._username = username
+
+    @property
+    def apikey(self):
+        """Gets the apikey of this IbmCredentials.
+
+        Your IBM Cloud API key  # noqa: E501
+
+        :return: The apikey of this IbmCredentials.
+        :rtype: str
+        """
+        return self._apikey
+
+    @apikey.setter
+    def apikey(self, apikey):
+        """Sets the apikey of this IbmCredentials.
+
+        Your IBM Cloud API key  # noqa: E501
+
+        :param apikey: The apikey of this IbmCredentials.
+        :type apikey: str
+        """
+        if apikey is None:
+            raise ValueError("Invalid value for `apikey`, must not be `None`")  # noqa: E501
+
+        self._apikey = apikey

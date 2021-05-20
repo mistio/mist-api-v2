@@ -21,41 +21,41 @@ class AddKeyRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, certificate=None, name=None, private=None, dry=None, generate=None):  # noqa: E501
+    def __init__(self, name=None, private=None, certificate=None, generate=None, dry=None):  # noqa: E501
         """AddKeyRequest - a model defined in OpenAPI
 
-        :param certificate: The certificate of this AddKeyRequest.  # noqa: E501
-        :type certificate: str
         :param name: The name of this AddKeyRequest.  # noqa: E501
         :type name: str
         :param private: The private of this AddKeyRequest.  # noqa: E501
         :type private: str
-        :param dry: The dry of this AddKeyRequest.  # noqa: E501
-        :type dry: bool
+        :param certificate: The certificate of this AddKeyRequest.  # noqa: E501
+        :type certificate: str
         :param generate: The generate of this AddKeyRequest.  # noqa: E501
         :type generate: bool
+        :param dry: The dry of this AddKeyRequest.  # noqa: E501
+        :type dry: bool
         """
         self.openapi_types = {
-            'certificate': str,
             'name': str,
             'private': str,
-            'dry': bool,
-            'generate': bool
+            'certificate': str,
+            'generate': bool,
+            'dry': bool
         }
 
         self.attribute_map = {
-            'certificate': 'certificate',
             'name': 'name',
             'private': 'private',
-            'dry': 'dry',
-            'generate': 'generate'
+            'certificate': 'certificate',
+            'generate': 'generate',
+            'dry': 'dry'
         }
 
-        self._certificate = certificate
         self._name = name
         self._private = private
-        self._dry = dry
+        self._certificate = certificate
         self._generate = generate
+        self._dry = dry
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyRequest':
@@ -67,29 +67,6 @@ class AddKeyRequest(Model):
         :rtype: AddKeyRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def certificate(self):
-        """Gets the certificate of this AddKeyRequest.
-
-        The signed public key, when using signed ssh keys  # noqa: E501
-
-        :return: The certificate of this AddKeyRequest.
-        :rtype: str
-        """
-        return self._certificate
-
-    @certificate.setter
-    def certificate(self, certificate):
-        """Sets the certificate of this AddKeyRequest.
-
-        The signed public key, when using signed ssh keys  # noqa: E501
-
-        :param certificate: The certificate of this AddKeyRequest.
-        :type certificate: str
-        """
-
-        self._certificate = certificate
 
     @property
     def name(self):
@@ -142,29 +119,27 @@ class AddKeyRequest(Model):
         self._private = private
 
     @property
-    def dry(self):
-        """Gets the dry of this AddKeyRequest.
+    def certificate(self):
+        """Gets the certificate of this AddKeyRequest.
 
-        Return generated key without actually adding it  # noqa: E501
+        The signed public key, when using signed ssh keys  # noqa: E501
 
-        :return: The dry of this AddKeyRequest.
-        :rtype: bool
+        :return: The certificate of this AddKeyRequest.
+        :rtype: str
         """
-        return self._dry
+        return self._certificate
 
-    @dry.setter
-    def dry(self, dry):
-        """Sets the dry of this AddKeyRequest.
+    @certificate.setter
+    def certificate(self, certificate):
+        """Sets the certificate of this AddKeyRequest.
 
-        Return generated key without actually adding it  # noqa: E501
+        The signed public key, when using signed ssh keys  # noqa: E501
 
-        :param dry: The dry of this AddKeyRequest.
-        :type dry: bool
+        :param certificate: The certificate of this AddKeyRequest.
+        :type certificate: str
         """
-        if dry is None:
-            raise ValueError("Invalid value for `dry`, must not be `None`")  # noqa: E501
 
-        self._dry = dry
+        self._certificate = certificate
 
     @property
     def generate(self):
@@ -190,3 +165,28 @@ class AddKeyRequest(Model):
             raise ValueError("Invalid value for `generate`, must not be `None`")  # noqa: E501
 
         self._generate = generate
+
+    @property
+    def dry(self):
+        """Gets the dry of this AddKeyRequest.
+
+        Return generated key without actually adding it  # noqa: E501
+
+        :return: The dry of this AddKeyRequest.
+        :rtype: bool
+        """
+        return self._dry
+
+    @dry.setter
+    def dry(self, dry):
+        """Sets the dry of this AddKeyRequest.
+
+        Return generated key without actually adding it  # noqa: E501
+
+        :param dry: The dry of this AddKeyRequest.
+        :type dry: bool
+        """
+        if dry is None:
+            raise ValueError("Invalid value for `dry`, must not be `None`")  # noqa: E501
+
+        self._dry = dry

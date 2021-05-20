@@ -15,26 +15,26 @@ class GoogleCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, private_key=None, project_id=None):  # noqa: E501
+    def __init__(self, project_id=None, private_key=None):  # noqa: E501
         """GoogleCredentials - a model defined in OpenAPI
 
-        :param private_key: The private_key of this GoogleCredentials.  # noqa: E501
-        :type private_key: str
         :param project_id: The project_id of this GoogleCredentials.  # noqa: E501
         :type project_id: str
+        :param private_key: The private_key of this GoogleCredentials.  # noqa: E501
+        :type private_key: str
         """
         self.openapi_types = {
-            'private_key': str,
-            'project_id': str
+            'project_id': str,
+            'private_key': str
         }
 
         self.attribute_map = {
-            'private_key': 'privateKey',
-            'project_id': 'projectId'
+            'project_id': 'projectId',
+            'private_key': 'privateKey'
         }
 
-        self._private_key = private_key
         self._project_id = project_id
+        self._private_key = private_key
 
     @classmethod
     def from_dict(cls, dikt) -> 'GoogleCredentials':
@@ -46,31 +46,6 @@ class GoogleCredentials(Model):
         :rtype: GoogleCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def private_key(self):
-        """Gets the private_key of this GoogleCredentials.
-
-        Your GCP private key  # noqa: E501
-
-        :return: The private_key of this GoogleCredentials.
-        :rtype: str
-        """
-        return self._private_key
-
-    @private_key.setter
-    def private_key(self, private_key):
-        """Sets the private_key of this GoogleCredentials.
-
-        Your GCP private key  # noqa: E501
-
-        :param private_key: The private_key of this GoogleCredentials.
-        :type private_key: str
-        """
-        if private_key is None:
-            raise ValueError("Invalid value for `private_key`, must not be `None`")  # noqa: E501
-
-        self._private_key = private_key
 
     @property
     def project_id(self):
@@ -96,3 +71,28 @@ class GoogleCredentials(Model):
             raise ValueError("Invalid value for `project_id`, must not be `None`")  # noqa: E501
 
         self._project_id = project_id
+
+    @property
+    def private_key(self):
+        """Gets the private_key of this GoogleCredentials.
+
+        Your GCP private key  # noqa: E501
+
+        :return: The private_key of this GoogleCredentials.
+        :rtype: str
+        """
+        return self._private_key
+
+    @private_key.setter
+    def private_key(self, private_key):
+        """Sets the private_key of this GoogleCredentials.
+
+        Your GCP private key  # noqa: E501
+
+        :param private_key: The private_key of this GoogleCredentials.
+        :type private_key: str
+        """
+        if private_key is None:
+            raise ValueError("Invalid value for `private_key`, must not be `None`")  # noqa: E501
+
+        self._private_key = private_key

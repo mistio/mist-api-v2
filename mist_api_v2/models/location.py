@@ -15,41 +15,41 @@ class Location(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cloud=None, external_id=None, extra=None, id=None, name=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, extra=None):  # noqa: E501
         """Location - a model defined in OpenAPI
 
-        :param cloud: The cloud of this Location.  # noqa: E501
-        :type cloud: str
-        :param external_id: The external_id of this Location.  # noqa: E501
-        :type external_id: str
-        :param extra: The extra of this Location.  # noqa: E501
-        :type extra: object
         :param id: The id of this Location.  # noqa: E501
         :type id: str
+        :param external_id: The external_id of this Location.  # noqa: E501
+        :type external_id: str
         :param name: The name of this Location.  # noqa: E501
         :type name: str
+        :param cloud: The cloud of this Location.  # noqa: E501
+        :type cloud: str
+        :param extra: The extra of this Location.  # noqa: E501
+        :type extra: object
         """
         self.openapi_types = {
-            'cloud': str,
-            'external_id': str,
-            'extra': object,
             'id': str,
-            'name': str
+            'external_id': str,
+            'name': str,
+            'cloud': str,
+            'extra': object
         }
 
         self.attribute_map = {
-            'cloud': 'cloud',
-            'external_id': 'external_id',
-            'extra': 'extra',
             'id': 'id',
-            'name': 'name'
+            'external_id': 'external_id',
+            'name': 'name',
+            'cloud': 'cloud',
+            'extra': 'extra'
         }
 
-        self._cloud = cloud
-        self._external_id = external_id
-        self._extra = extra
         self._id = id
+        self._external_id = external_id
         self._name = name
+        self._cloud = cloud
+        self._extra = extra
 
     @classmethod
     def from_dict(cls, dikt) -> 'Location':
@@ -61,69 +61,6 @@ class Location(Model):
         :rtype: Location
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def cloud(self):
-        """Gets the cloud of this Location.
-
-
-        :return: The cloud of this Location.
-        :rtype: str
-        """
-        return self._cloud
-
-    @cloud.setter
-    def cloud(self, cloud):
-        """Sets the cloud of this Location.
-
-
-        :param cloud: The cloud of this Location.
-        :type cloud: str
-        """
-
-        self._cloud = cloud
-
-    @property
-    def external_id(self):
-        """Gets the external_id of this Location.
-
-
-        :return: The external_id of this Location.
-        :rtype: str
-        """
-        return self._external_id
-
-    @external_id.setter
-    def external_id(self, external_id):
-        """Sets the external_id of this Location.
-
-
-        :param external_id: The external_id of this Location.
-        :type external_id: str
-        """
-
-        self._external_id = external_id
-
-    @property
-    def extra(self):
-        """Gets the extra of this Location.
-
-
-        :return: The extra of this Location.
-        :rtype: object
-        """
-        return self._extra
-
-    @extra.setter
-    def extra(self, extra):
-        """Sets the extra of this Location.
-
-
-        :param extra: The extra of this Location.
-        :type extra: object
-        """
-
-        self._extra = extra
 
     @property
     def id(self):
@@ -147,6 +84,27 @@ class Location(Model):
         self._id = id
 
     @property
+    def external_id(self):
+        """Gets the external_id of this Location.
+
+
+        :return: The external_id of this Location.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Location.
+
+
+        :param external_id: The external_id of this Location.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
+
+    @property
     def name(self):
         """Gets the name of this Location.
 
@@ -166,3 +124,45 @@ class Location(Model):
         """
 
         self._name = name
+
+    @property
+    def cloud(self):
+        """Gets the cloud of this Location.
+
+
+        :return: The cloud of this Location.
+        :rtype: str
+        """
+        return self._cloud
+
+    @cloud.setter
+    def cloud(self, cloud):
+        """Sets the cloud of this Location.
+
+
+        :param cloud: The cloud of this Location.
+        :type cloud: str
+        """
+
+        self._cloud = cloud
+
+    @property
+    def extra(self):
+        """Gets the extra of this Location.
+
+
+        :return: The extra of this Location.
+        :rtype: object
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this Location.
+
+
+        :param extra: The extra of this Location.
+        :type extra: object
+        """
+
+        self._extra = extra

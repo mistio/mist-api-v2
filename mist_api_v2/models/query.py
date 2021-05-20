@@ -15,36 +15,36 @@ class Query(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, aggregation=None, operator=None, target=None, threshold=None):  # noqa: E501
+    def __init__(self, target=None, operator=None, threshold=None, aggregation=None):  # noqa: E501
         """Query - a model defined in OpenAPI
 
-        :param aggregation: The aggregation of this Query.  # noqa: E501
-        :type aggregation: str
-        :param operator: The operator of this Query.  # noqa: E501
-        :type operator: str
         :param target: The target of this Query.  # noqa: E501
         :type target: str
+        :param operator: The operator of this Query.  # noqa: E501
+        :type operator: str
         :param threshold: The threshold of this Query.  # noqa: E501
         :type threshold: str
+        :param aggregation: The aggregation of this Query.  # noqa: E501
+        :type aggregation: str
         """
         self.openapi_types = {
-            'aggregation': str,
-            'operator': str,
             'target': str,
-            'threshold': str
+            'operator': str,
+            'threshold': str,
+            'aggregation': str
         }
 
         self.attribute_map = {
-            'aggregation': 'aggregation',
-            'operator': 'operator',
             'target': 'target',
-            'threshold': 'threshold'
+            'operator': 'operator',
+            'threshold': 'threshold',
+            'aggregation': 'aggregation'
         }
 
-        self._aggregation = aggregation
-        self._operator = operator
         self._target = target
+        self._operator = operator
         self._threshold = threshold
+        self._aggregation = aggregation
 
     @classmethod
     def from_dict(cls, dikt) -> 'Query':
@@ -56,56 +56,6 @@ class Query(Model):
         :rtype: Query
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def aggregation(self):
-        """Gets the aggregation of this Query.
-
-        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
-
-        :return: The aggregation of this Query.
-        :rtype: str
-        """
-        return self._aggregation
-
-    @aggregation.setter
-    def aggregation(self, aggregation):
-        """Sets the aggregation of this Query.
-
-        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
-
-        :param aggregation: The aggregation of this Query.
-        :type aggregation: str
-        """
-        if aggregation is None:
-            raise ValueError("Invalid value for `aggregation`, must not be `None`")  # noqa: E501
-
-        self._aggregation = aggregation
-
-    @property
-    def operator(self):
-        """Gets the operator of this Query.
-
-        the operator used to compare the computed value with the given threshold   # noqa: E501
-
-        :return: The operator of this Query.
-        :rtype: str
-        """
-        return self._operator
-
-    @operator.setter
-    def operator(self, operator):
-        """Sets the operator of this Query.
-
-        the operator used to compare the computed value with the given threshold   # noqa: E501
-
-        :param operator: The operator of this Query.
-        :type operator: str
-        """
-        if operator is None:
-            raise ValueError("Invalid value for `operator`, must not be `None`")  # noqa: E501
-
-        self._operator = operator
 
     @property
     def target(self):
@@ -133,6 +83,31 @@ class Query(Model):
         self._target = target
 
     @property
+    def operator(self):
+        """Gets the operator of this Query.
+
+        the operator used to compare the computed value with the given threshold   # noqa: E501
+
+        :return: The operator of this Query.
+        :rtype: str
+        """
+        return self._operator
+
+    @operator.setter
+    def operator(self, operator):
+        """Sets the operator of this Query.
+
+        the operator used to compare the computed value with the given threshold   # noqa: E501
+
+        :param operator: The operator of this Query.
+        :type operator: str
+        """
+        if operator is None:
+            raise ValueError("Invalid value for `operator`, must not be `None`")  # noqa: E501
+
+        self._operator = operator
+
+    @property
     def threshold(self):
         """Gets the threshold of this Query.
 
@@ -156,3 +131,28 @@ class Query(Model):
             raise ValueError("Invalid value for `threshold`, must not be `None`")  # noqa: E501
 
         self._threshold = threshold
+
+    @property
+    def aggregation(self):
+        """Gets the aggregation of this Query.
+
+        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
+
+        :return: The aggregation of this Query.
+        :rtype: str
+        """
+        return self._aggregation
+
+    @aggregation.setter
+    def aggregation(self, aggregation):
+        """Sets the aggregation of this Query.
+
+        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
+
+        :param aggregation: The aggregation of this Query.
+        :type aggregation: str
+        """
+        if aggregation is None:
+            raise ValueError("Invalid value for `aggregation`, must not be `None`")  # noqa: E501
+
+        self._aggregation = aggregation

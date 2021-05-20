@@ -15,56 +15,56 @@ class LxdCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, host=None, password=None, port=None, show_all=None, tls_ca_cert=None, tls_cert=None, tls_key=None, username=None):  # noqa: E501
+    def __init__(self, host=None, port=None, username=None, password=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
         """LxdCredentials - a model defined in OpenAPI
 
         :param host: The host of this LxdCredentials.  # noqa: E501
         :type host: str
-        :param password: The password of this LxdCredentials.  # noqa: E501
-        :type password: str
         :param port: The port of this LxdCredentials.  # noqa: E501
         :type port: str
-        :param show_all: The show_all of this LxdCredentials.  # noqa: E501
-        :type show_all: bool
-        :param tls_ca_cert: The tls_ca_cert of this LxdCredentials.  # noqa: E501
-        :type tls_ca_cert: str
-        :param tls_cert: The tls_cert of this LxdCredentials.  # noqa: E501
-        :type tls_cert: str
-        :param tls_key: The tls_key of this LxdCredentials.  # noqa: E501
-        :type tls_key: str
         :param username: The username of this LxdCredentials.  # noqa: E501
         :type username: str
+        :param password: The password of this LxdCredentials.  # noqa: E501
+        :type password: str
+        :param tls_key: The tls_key of this LxdCredentials.  # noqa: E501
+        :type tls_key: str
+        :param tls_cert: The tls_cert of this LxdCredentials.  # noqa: E501
+        :type tls_cert: str
+        :param tls_ca_cert: The tls_ca_cert of this LxdCredentials.  # noqa: E501
+        :type tls_ca_cert: str
+        :param show_all: The show_all of this LxdCredentials.  # noqa: E501
+        :type show_all: bool
         """
         self.openapi_types = {
             'host': str,
-            'password': str,
             'port': str,
-            'show_all': bool,
-            'tls_ca_cert': str,
-            'tls_cert': str,
+            'username': str,
+            'password': str,
             'tls_key': str,
-            'username': str
+            'tls_cert': str,
+            'tls_ca_cert': str,
+            'show_all': bool
         }
 
         self.attribute_map = {
             'host': 'host',
-            'password': 'password',
             'port': 'port',
-            'show_all': 'showAll',
-            'tls_ca_cert': 'tlsCaCert',
-            'tls_cert': 'tlsCert',
+            'username': 'username',
+            'password': 'password',
             'tls_key': 'tlsKey',
-            'username': 'username'
+            'tls_cert': 'tlsCert',
+            'tls_ca_cert': 'tlsCaCert',
+            'show_all': 'showAll'
         }
 
         self._host = host
-        self._password = password
         self._port = port
-        self._show_all = show_all
-        self._tls_ca_cert = tls_ca_cert
-        self._tls_cert = tls_cert
-        self._tls_key = tls_key
         self._username = username
+        self._password = password
+        self._tls_key = tls_key
+        self._tls_cert = tls_cert
+        self._tls_ca_cert = tls_ca_cert
+        self._show_all = show_all
 
     @classmethod
     def from_dict(cls, dikt) -> 'LxdCredentials':
@@ -103,29 +103,6 @@ class LxdCredentials(Model):
         self._host = host
 
     @property
-    def password(self):
-        """Gets the password of this LxdCredentials.
-
-        Your LXD password  # noqa: E501
-
-        :return: The password of this LxdCredentials.
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        """Sets the password of this LxdCredentials.
-
-        Your LXD password  # noqa: E501
-
-        :param password: The password of this LxdCredentials.
-        :type password: str
-        """
-
-        self._password = password
-
-    @property
     def port(self):
         """Gets the port of this LxdCredentials.
 
@@ -151,73 +128,50 @@ class LxdCredentials(Model):
         self._port = port
 
     @property
-    def show_all(self):
-        """Gets the show_all of this LxdCredentials.
+    def username(self):
+        """Gets the username of this LxdCredentials.
 
-        Show all containers, including stopped  # noqa: E501
+        Your LXD username  # noqa: E501
 
-        :return: The show_all of this LxdCredentials.
-        :rtype: bool
-        """
-        return self._show_all
-
-    @show_all.setter
-    def show_all(self, show_all):
-        """Sets the show_all of this LxdCredentials.
-
-        Show all containers, including stopped  # noqa: E501
-
-        :param show_all: The show_all of this LxdCredentials.
-        :type show_all: bool
-        """
-
-        self._show_all = show_all
-
-    @property
-    def tls_ca_cert(self):
-        """Gets the tls_ca_cert of this LxdCredentials.
-
-        Your TLS CA certifcate  # noqa: E501
-
-        :return: The tls_ca_cert of this LxdCredentials.
+        :return: The username of this LxdCredentials.
         :rtype: str
         """
-        return self._tls_ca_cert
+        return self._username
 
-    @tls_ca_cert.setter
-    def tls_ca_cert(self, tls_ca_cert):
-        """Sets the tls_ca_cert of this LxdCredentials.
+    @username.setter
+    def username(self, username):
+        """Sets the username of this LxdCredentials.
 
-        Your TLS CA certifcate  # noqa: E501
+        Your LXD username  # noqa: E501
 
-        :param tls_ca_cert: The tls_ca_cert of this LxdCredentials.
-        :type tls_ca_cert: str
+        :param username: The username of this LxdCredentials.
+        :type username: str
         """
 
-        self._tls_ca_cert = tls_ca_cert
+        self._username = username
 
     @property
-    def tls_cert(self):
-        """Gets the tls_cert of this LxdCredentials.
+    def password(self):
+        """Gets the password of this LxdCredentials.
 
-        Your TLS auth certificate  # noqa: E501
+        Your LXD password  # noqa: E501
 
-        :return: The tls_cert of this LxdCredentials.
+        :return: The password of this LxdCredentials.
         :rtype: str
         """
-        return self._tls_cert
+        return self._password
 
-    @tls_cert.setter
-    def tls_cert(self, tls_cert):
-        """Sets the tls_cert of this LxdCredentials.
+    @password.setter
+    def password(self, password):
+        """Sets the password of this LxdCredentials.
 
-        Your TLS auth certificate  # noqa: E501
+        Your LXD password  # noqa: E501
 
-        :param tls_cert: The tls_cert of this LxdCredentials.
-        :type tls_cert: str
+        :param password: The password of this LxdCredentials.
+        :type password: str
         """
 
-        self._tls_cert = tls_cert
+        self._password = password
 
     @property
     def tls_key(self):
@@ -243,24 +197,70 @@ class LxdCredentials(Model):
         self._tls_key = tls_key
 
     @property
-    def username(self):
-        """Gets the username of this LxdCredentials.
+    def tls_cert(self):
+        """Gets the tls_cert of this LxdCredentials.
 
-        Your LXD username  # noqa: E501
+        Your TLS auth certificate  # noqa: E501
 
-        :return: The username of this LxdCredentials.
+        :return: The tls_cert of this LxdCredentials.
         :rtype: str
         """
-        return self._username
+        return self._tls_cert
 
-    @username.setter
-    def username(self, username):
-        """Sets the username of this LxdCredentials.
+    @tls_cert.setter
+    def tls_cert(self, tls_cert):
+        """Sets the tls_cert of this LxdCredentials.
 
-        Your LXD username  # noqa: E501
+        Your TLS auth certificate  # noqa: E501
 
-        :param username: The username of this LxdCredentials.
-        :type username: str
+        :param tls_cert: The tls_cert of this LxdCredentials.
+        :type tls_cert: str
         """
 
-        self._username = username
+        self._tls_cert = tls_cert
+
+    @property
+    def tls_ca_cert(self):
+        """Gets the tls_ca_cert of this LxdCredentials.
+
+        Your TLS CA certifcate  # noqa: E501
+
+        :return: The tls_ca_cert of this LxdCredentials.
+        :rtype: str
+        """
+        return self._tls_ca_cert
+
+    @tls_ca_cert.setter
+    def tls_ca_cert(self, tls_ca_cert):
+        """Sets the tls_ca_cert of this LxdCredentials.
+
+        Your TLS CA certifcate  # noqa: E501
+
+        :param tls_ca_cert: The tls_ca_cert of this LxdCredentials.
+        :type tls_ca_cert: str
+        """
+
+        self._tls_ca_cert = tls_ca_cert
+
+    @property
+    def show_all(self):
+        """Gets the show_all of this LxdCredentials.
+
+        Show all containers, including stopped  # noqa: E501
+
+        :return: The show_all of this LxdCredentials.
+        :rtype: bool
+        """
+        return self._show_all
+
+    @show_all.setter
+    def show_all(self, show_all):
+        """Sets the show_all of this LxdCredentials.
+
+        Show all containers, including stopped  # noqa: E501
+
+        :param show_all: The show_all of this LxdCredentials.
+        :type show_all: bool
+        """
+
+        self._show_all = show_all

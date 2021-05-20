@@ -17,61 +17,61 @@ class Machine(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cloud=None, created_by=None, default=None, external_id=None, id=None, name=None, owned_by=None, state=None, tags=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None):  # noqa: E501
         """Machine - a model defined in OpenAPI
 
-        :param cloud: The cloud of this Machine.  # noqa: E501
-        :type cloud: str
-        :param created_by: The created_by of this Machine.  # noqa: E501
-        :type created_by: str
-        :param default: The default of this Machine.  # noqa: E501
-        :type default: bool
-        :param external_id: The external_id of this Machine.  # noqa: E501
-        :type external_id: str
         :param id: The id of this Machine.  # noqa: E501
         :type id: str
+        :param external_id: The external_id of this Machine.  # noqa: E501
+        :type external_id: str
         :param name: The name of this Machine.  # noqa: E501
         :type name: str
-        :param owned_by: The owned_by of this Machine.  # noqa: E501
-        :type owned_by: str
-        :param state: The state of this Machine.  # noqa: E501
-        :type state: MachineState
+        :param cloud: The cloud of this Machine.  # noqa: E501
+        :type cloud: str
         :param tags: The tags of this Machine.  # noqa: E501
         :type tags: object
+        :param created_by: The created_by of this Machine.  # noqa: E501
+        :type created_by: str
+        :param owned_by: The owned_by of this Machine.  # noqa: E501
+        :type owned_by: str
+        :param default: The default of this Machine.  # noqa: E501
+        :type default: bool
+        :param state: The state of this Machine.  # noqa: E501
+        :type state: MachineState
         """
         self.openapi_types = {
-            'cloud': str,
-            'created_by': str,
-            'default': bool,
-            'external_id': str,
             'id': str,
+            'external_id': str,
             'name': str,
+            'cloud': str,
+            'tags': object,
+            'created_by': str,
             'owned_by': str,
-            'state': MachineState,
-            'tags': object
+            'default': bool,
+            'state': MachineState
         }
 
         self.attribute_map = {
-            'cloud': 'cloud',
-            'created_by': 'created_by',
-            'default': 'default',
-            'external_id': 'external_id',
             'id': 'id',
+            'external_id': 'external_id',
             'name': 'name',
+            'cloud': 'cloud',
+            'tags': 'tags',
+            'created_by': 'created_by',
             'owned_by': 'owned_by',
-            'state': 'state',
-            'tags': 'tags'
+            'default': 'default',
+            'state': 'state'
         }
 
-        self._cloud = cloud
-        self._created_by = created_by
-        self._default = default
-        self._external_id = external_id
         self._id = id
+        self._external_id = external_id
         self._name = name
-        self._owned_by = owned_by
-        self._state = state
+        self._cloud = cloud
         self._tags = tags
+        self._created_by = created_by
+        self._owned_by = owned_by
+        self._default = default
+        self._state = state
 
     @classmethod
     def from_dict(cls, dikt) -> 'Machine':
@@ -83,90 +83,6 @@ class Machine(Model):
         :rtype: Machine
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def cloud(self):
-        """Gets the cloud of this Machine.
-
-
-        :return: The cloud of this Machine.
-        :rtype: str
-        """
-        return self._cloud
-
-    @cloud.setter
-    def cloud(self, cloud):
-        """Sets the cloud of this Machine.
-
-
-        :param cloud: The cloud of this Machine.
-        :type cloud: str
-        """
-
-        self._cloud = cloud
-
-    @property
-    def created_by(self):
-        """Gets the created_by of this Machine.
-
-
-        :return: The created_by of this Machine.
-        :rtype: str
-        """
-        return self._created_by
-
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Machine.
-
-
-        :param created_by: The created_by of this Machine.
-        :type created_by: str
-        """
-
-        self._created_by = created_by
-
-    @property
-    def default(self):
-        """Gets the default of this Machine.
-
-
-        :return: The default of this Machine.
-        :rtype: bool
-        """
-        return self._default
-
-    @default.setter
-    def default(self, default):
-        """Sets the default of this Machine.
-
-
-        :param default: The default of this Machine.
-        :type default: bool
-        """
-
-        self._default = default
-
-    @property
-    def external_id(self):
-        """Gets the external_id of this Machine.
-
-
-        :return: The external_id of this Machine.
-        :rtype: str
-        """
-        return self._external_id
-
-    @external_id.setter
-    def external_id(self, external_id):
-        """Sets the external_id of this Machine.
-
-
-        :param external_id: The external_id of this Machine.
-        :type external_id: str
-        """
-
-        self._external_id = external_id
 
     @property
     def id(self):
@@ -190,6 +106,27 @@ class Machine(Model):
         self._id = id
 
     @property
+    def external_id(self):
+        """Gets the external_id of this Machine.
+
+
+        :return: The external_id of this Machine.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Machine.
+
+
+        :param external_id: The external_id of this Machine.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
+
+    @property
     def name(self):
         """Gets the name of this Machine.
 
@@ -209,6 +146,69 @@ class Machine(Model):
         """
 
         self._name = name
+
+    @property
+    def cloud(self):
+        """Gets the cloud of this Machine.
+
+
+        :return: The cloud of this Machine.
+        :rtype: str
+        """
+        return self._cloud
+
+    @cloud.setter
+    def cloud(self, cloud):
+        """Sets the cloud of this Machine.
+
+
+        :param cloud: The cloud of this Machine.
+        :type cloud: str
+        """
+
+        self._cloud = cloud
+
+    @property
+    def tags(self):
+        """Gets the tags of this Machine.
+
+
+        :return: The tags of this Machine.
+        :rtype: object
+        """
+        return self._tags
+
+    @tags.setter
+    def tags(self, tags):
+        """Sets the tags of this Machine.
+
+
+        :param tags: The tags of this Machine.
+        :type tags: object
+        """
+
+        self._tags = tags
+
+    @property
+    def created_by(self):
+        """Gets the created_by of this Machine.
+
+
+        :return: The created_by of this Machine.
+        :rtype: str
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """Sets the created_by of this Machine.
+
+
+        :param created_by: The created_by of this Machine.
+        :type created_by: str
+        """
+
+        self._created_by = created_by
 
     @property
     def owned_by(self):
@@ -232,6 +232,27 @@ class Machine(Model):
         self._owned_by = owned_by
 
     @property
+    def default(self):
+        """Gets the default of this Machine.
+
+
+        :return: The default of this Machine.
+        :rtype: bool
+        """
+        return self._default
+
+    @default.setter
+    def default(self, default):
+        """Sets the default of this Machine.
+
+
+        :param default: The default of this Machine.
+        :type default: bool
+        """
+
+        self._default = default
+
+    @property
     def state(self):
         """Gets the state of this Machine.
 
@@ -251,24 +272,3 @@ class Machine(Model):
         """
 
         self._state = state
-
-    @property
-    def tags(self):
-        """Gets the tags of this Machine.
-
-
-        :return: The tags of this Machine.
-        :rtype: object
-        """
-        return self._tags
-
-    @tags.setter
-    def tags(self, tags):
-        """Sets the tags of this Machine.
-
-
-        :param tags: The tags of this Machine.
-        :type tags: object
-        """
-
-        self._tags = tags

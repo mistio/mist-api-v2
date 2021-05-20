@@ -21,31 +21,31 @@ class EquinixMetalCreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, extra=None, net=None, volumes=None):  # noqa: E501
+    def __init__(self, volumes=None, net=None, extra=None):  # noqa: E501
         """EquinixMetalCreateMachineRequest - a model defined in OpenAPI
 
-        :param extra: The extra of this EquinixMetalCreateMachineRequest.  # noqa: E501
-        :type extra: EquinixMetalCreateMachineRequestExtra
-        :param net: The net of this EquinixMetalCreateMachineRequest.  # noqa: E501
-        :type net: EquinixMetalCreateMachineRequestNet
         :param volumes: The volumes of this EquinixMetalCreateMachineRequest.  # noqa: E501
         :type volumes: List[OneOfobjectobject]
+        :param net: The net of this EquinixMetalCreateMachineRequest.  # noqa: E501
+        :type net: EquinixMetalCreateMachineRequestNet
+        :param extra: The extra of this EquinixMetalCreateMachineRequest.  # noqa: E501
+        :type extra: EquinixMetalCreateMachineRequestExtra
         """
         self.openapi_types = {
-            'extra': EquinixMetalCreateMachineRequestExtra,
+            'volumes': List[OneOfobjectobject],
             'net': EquinixMetalCreateMachineRequestNet,
-            'volumes': List[OneOfobjectobject]
+            'extra': EquinixMetalCreateMachineRequestExtra
         }
 
         self.attribute_map = {
-            'extra': 'extra',
+            'volumes': 'volumes',
             'net': 'net',
-            'volumes': 'volumes'
+            'extra': 'extra'
         }
 
-        self._extra = extra
-        self._net = net
         self._volumes = volumes
+        self._net = net
+        self._extra = extra
 
     @classmethod
     def from_dict(cls, dikt) -> 'EquinixMetalCreateMachineRequest':
@@ -59,25 +59,25 @@ class EquinixMetalCreateMachineRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def extra(self):
-        """Gets the extra of this EquinixMetalCreateMachineRequest.
+    def volumes(self):
+        """Gets the volumes of this EquinixMetalCreateMachineRequest.
 
 
-        :return: The extra of this EquinixMetalCreateMachineRequest.
-        :rtype: EquinixMetalCreateMachineRequestExtra
+        :return: The volumes of this EquinixMetalCreateMachineRequest.
+        :rtype: List[OneOfobjectobject]
         """
-        return self._extra
+        return self._volumes
 
-    @extra.setter
-    def extra(self, extra):
-        """Sets the extra of this EquinixMetalCreateMachineRequest.
+    @volumes.setter
+    def volumes(self, volumes):
+        """Sets the volumes of this EquinixMetalCreateMachineRequest.
 
 
-        :param extra: The extra of this EquinixMetalCreateMachineRequest.
-        :type extra: EquinixMetalCreateMachineRequestExtra
+        :param volumes: The volumes of this EquinixMetalCreateMachineRequest.
+        :type volumes: List[OneOfobjectobject]
         """
 
-        self._extra = extra
+        self._volumes = volumes
 
     @property
     def net(self):
@@ -101,22 +101,22 @@ class EquinixMetalCreateMachineRequest(Model):
         self._net = net
 
     @property
-    def volumes(self):
-        """Gets the volumes of this EquinixMetalCreateMachineRequest.
+    def extra(self):
+        """Gets the extra of this EquinixMetalCreateMachineRequest.
 
 
-        :return: The volumes of this EquinixMetalCreateMachineRequest.
-        :rtype: List[OneOfobjectobject]
+        :return: The extra of this EquinixMetalCreateMachineRequest.
+        :rtype: EquinixMetalCreateMachineRequestExtra
         """
-        return self._volumes
+        return self._extra
 
-    @volumes.setter
-    def volumes(self, volumes):
-        """Sets the volumes of this EquinixMetalCreateMachineRequest.
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this EquinixMetalCreateMachineRequest.
 
 
-        :param volumes: The volumes of this EquinixMetalCreateMachineRequest.
-        :type volumes: List[OneOfobjectobject]
+        :param extra: The extra of this EquinixMetalCreateMachineRequest.
+        :type extra: EquinixMetalCreateMachineRequestExtra
         """
 
-        self._volumes = volumes
+        self._extra = extra

@@ -19,31 +19,31 @@ class AddVultrCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, credentials=None, features=None, provider=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
         """AddVultrCloudRequest - a model defined in OpenAPI
 
+        :param provider: The provider of this AddVultrCloudRequest.  # noqa: E501
+        :type provider: str
         :param credentials: The credentials of this AddVultrCloudRequest.  # noqa: E501
         :type credentials: VultrCredentials
         :param features: The features of this AddVultrCloudRequest.  # noqa: E501
         :type features: CloudFeatures
-        :param provider: The provider of this AddVultrCloudRequest.  # noqa: E501
-        :type provider: str
         """
         self.openapi_types = {
+            'provider': str,
             'credentials': VultrCredentials,
-            'features': CloudFeatures,
-            'provider': str
+            'features': CloudFeatures
         }
 
         self.attribute_map = {
+            'provider': 'provider',
             'credentials': 'credentials',
-            'features': 'features',
-            'provider': 'provider'
+            'features': 'features'
         }
 
+        self._provider = provider
         self._credentials = credentials
         self._features = features
-        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddVultrCloudRequest':
@@ -55,6 +55,33 @@ class AddVultrCloudRequest(Model):
         :rtype: AddVultrCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def provider(self):
+        """Gets the provider of this AddVultrCloudRequest.
+
+
+        :return: The provider of this AddVultrCloudRequest.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this AddVultrCloudRequest.
+
+
+        :param provider: The provider of this AddVultrCloudRequest.
+        :type provider: str
+        """
+        allowed_values = ["vultr"]  # noqa: E501
+        if provider not in allowed_values:
+            raise ValueError(
+                "Invalid value for `provider` ({0}), must be one of {1}"
+                .format(provider, allowed_values)
+            )
+
+        self._provider = provider
 
     @property
     def credentials(self):
@@ -99,30 +126,3 @@ class AddVultrCloudRequest(Model):
         """
 
         self._features = features
-
-    @property
-    def provider(self):
-        """Gets the provider of this AddVultrCloudRequest.
-
-
-        :return: The provider of this AddVultrCloudRequest.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this AddVultrCloudRequest.
-
-
-        :param provider: The provider of this AddVultrCloudRequest.
-        :type provider: str
-        """
-        allowed_values = ["vultr"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider

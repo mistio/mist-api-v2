@@ -19,31 +19,31 @@ class AddLinodeCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, credentials=None, features=None, provider=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
         """AddLinodeCloudRequest - a model defined in OpenAPI
 
+        :param provider: The provider of this AddLinodeCloudRequest.  # noqa: E501
+        :type provider: str
         :param credentials: The credentials of this AddLinodeCloudRequest.  # noqa: E501
         :type credentials: LinodeCredentials
         :param features: The features of this AddLinodeCloudRequest.  # noqa: E501
         :type features: CloudFeatures
-        :param provider: The provider of this AddLinodeCloudRequest.  # noqa: E501
-        :type provider: str
         """
         self.openapi_types = {
+            'provider': str,
             'credentials': LinodeCredentials,
-            'features': CloudFeatures,
-            'provider': str
+            'features': CloudFeatures
         }
 
         self.attribute_map = {
+            'provider': 'provider',
             'credentials': 'credentials',
-            'features': 'features',
-            'provider': 'provider'
+            'features': 'features'
         }
 
+        self._provider = provider
         self._credentials = credentials
         self._features = features
-        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddLinodeCloudRequest':
@@ -55,6 +55,33 @@ class AddLinodeCloudRequest(Model):
         :rtype: AddLinodeCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def provider(self):
+        """Gets the provider of this AddLinodeCloudRequest.
+
+
+        :return: The provider of this AddLinodeCloudRequest.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this AddLinodeCloudRequest.
+
+
+        :param provider: The provider of this AddLinodeCloudRequest.
+        :type provider: str
+        """
+        allowed_values = ["linode"]  # noqa: E501
+        if provider not in allowed_values:
+            raise ValueError(
+                "Invalid value for `provider` ({0}), must be one of {1}"
+                .format(provider, allowed_values)
+            )
+
+        self._provider = provider
 
     @property
     def credentials(self):
@@ -99,30 +126,3 @@ class AddLinodeCloudRequest(Model):
         """
 
         self._features = features
-
-    @property
-    def provider(self):
-        """Gets the provider of this AddLinodeCloudRequest.
-
-
-        :return: The provider of this AddLinodeCloudRequest.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this AddLinodeCloudRequest.
-
-
-        :param provider: The provider of this AddLinodeCloudRequest.
-        :type provider: str
-        """
-        allowed_values = ["linode"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider

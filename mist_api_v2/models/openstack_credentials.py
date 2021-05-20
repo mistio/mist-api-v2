@@ -15,51 +15,51 @@ class OpenstackCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, auth_url=None, compute_endpoint=None, domain=None, password=None, region=None, tenant=None, user=None):  # noqa: E501
+    def __init__(self, auth_url=None, user=None, password=None, tenant=None, domain=None, region=None, compute_endpoint=None):  # noqa: E501
         """OpenstackCredentials - a model defined in OpenAPI
 
         :param auth_url: The auth_url of this OpenstackCredentials.  # noqa: E501
         :type auth_url: str
-        :param compute_endpoint: The compute_endpoint of this OpenstackCredentials.  # noqa: E501
-        :type compute_endpoint: str
-        :param domain: The domain of this OpenstackCredentials.  # noqa: E501
-        :type domain: str
-        :param password: The password of this OpenstackCredentials.  # noqa: E501
-        :type password: str
-        :param region: The region of this OpenstackCredentials.  # noqa: E501
-        :type region: str
-        :param tenant: The tenant of this OpenstackCredentials.  # noqa: E501
-        :type tenant: str
         :param user: The user of this OpenstackCredentials.  # noqa: E501
         :type user: str
+        :param password: The password of this OpenstackCredentials.  # noqa: E501
+        :type password: str
+        :param tenant: The tenant of this OpenstackCredentials.  # noqa: E501
+        :type tenant: str
+        :param domain: The domain of this OpenstackCredentials.  # noqa: E501
+        :type domain: str
+        :param region: The region of this OpenstackCredentials.  # noqa: E501
+        :type region: str
+        :param compute_endpoint: The compute_endpoint of this OpenstackCredentials.  # noqa: E501
+        :type compute_endpoint: str
         """
         self.openapi_types = {
             'auth_url': str,
-            'compute_endpoint': str,
-            'domain': str,
+            'user': str,
             'password': str,
-            'region': str,
             'tenant': str,
-            'user': str
+            'domain': str,
+            'region': str,
+            'compute_endpoint': str
         }
 
         self.attribute_map = {
             'auth_url': 'authUrl',
-            'compute_endpoint': 'computeEndpoint',
-            'domain': 'domain',
+            'user': 'user',
             'password': 'password',
-            'region': 'region',
             'tenant': 'tenant',
-            'user': 'user'
+            'domain': 'domain',
+            'region': 'region',
+            'compute_endpoint': 'computeEndpoint'
         }
 
         self._auth_url = auth_url
-        self._compute_endpoint = compute_endpoint
-        self._domain = domain
-        self._password = password
-        self._region = region
-        self._tenant = tenant
         self._user = user
+        self._password = password
+        self._tenant = tenant
+        self._domain = domain
+        self._region = region
+        self._compute_endpoint = compute_endpoint
 
     @classmethod
     def from_dict(cls, dikt) -> 'OpenstackCredentials':
@@ -96,46 +96,27 @@ class OpenstackCredentials(Model):
         self._auth_url = auth_url
 
     @property
-    def compute_endpoint(self):
-        """Gets the compute_endpoint of this OpenstackCredentials.
+    def user(self):
+        """Gets the user of this OpenstackCredentials.
 
 
-        :return: The compute_endpoint of this OpenstackCredentials.
+        :return: The user of this OpenstackCredentials.
         :rtype: str
         """
-        return self._compute_endpoint
+        return self._user
 
-    @compute_endpoint.setter
-    def compute_endpoint(self, compute_endpoint):
-        """Sets the compute_endpoint of this OpenstackCredentials.
+    @user.setter
+    def user(self, user):
+        """Sets the user of this OpenstackCredentials.
 
 
-        :param compute_endpoint: The compute_endpoint of this OpenstackCredentials.
-        :type compute_endpoint: str
+        :param user: The user of this OpenstackCredentials.
+        :type user: str
         """
+        if user is None:
+            raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
 
-        self._compute_endpoint = compute_endpoint
-
-    @property
-    def domain(self):
-        """Gets the domain of this OpenstackCredentials.
-
-
-        :return: The domain of this OpenstackCredentials.
-        :rtype: str
-        """
-        return self._domain
-
-    @domain.setter
-    def domain(self, domain):
-        """Sets the domain of this OpenstackCredentials.
-
-
-        :param domain: The domain of this OpenstackCredentials.
-        :type domain: str
-        """
-
-        self._domain = domain
+        self._user = user
 
     @property
     def password(self):
@@ -161,27 +142,6 @@ class OpenstackCredentials(Model):
         self._password = password
 
     @property
-    def region(self):
-        """Gets the region of this OpenstackCredentials.
-
-
-        :return: The region of this OpenstackCredentials.
-        :rtype: str
-        """
-        return self._region
-
-    @region.setter
-    def region(self, region):
-        """Sets the region of this OpenstackCredentials.
-
-
-        :param region: The region of this OpenstackCredentials.
-        :type region: str
-        """
-
-        self._region = region
-
-    @property
     def tenant(self):
         """Gets the tenant of this OpenstackCredentials.
 
@@ -203,24 +163,64 @@ class OpenstackCredentials(Model):
         self._tenant = tenant
 
     @property
-    def user(self):
-        """Gets the user of this OpenstackCredentials.
+    def domain(self):
+        """Gets the domain of this OpenstackCredentials.
 
 
-        :return: The user of this OpenstackCredentials.
+        :return: The domain of this OpenstackCredentials.
         :rtype: str
         """
-        return self._user
+        return self._domain
 
-    @user.setter
-    def user(self, user):
-        """Sets the user of this OpenstackCredentials.
+    @domain.setter
+    def domain(self, domain):
+        """Sets the domain of this OpenstackCredentials.
 
 
-        :param user: The user of this OpenstackCredentials.
-        :type user: str
+        :param domain: The domain of this OpenstackCredentials.
+        :type domain: str
         """
-        if user is None:
-            raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
 
-        self._user = user
+        self._domain = domain
+
+    @property
+    def region(self):
+        """Gets the region of this OpenstackCredentials.
+
+
+        :return: The region of this OpenstackCredentials.
+        :rtype: str
+        """
+        return self._region
+
+    @region.setter
+    def region(self, region):
+        """Sets the region of this OpenstackCredentials.
+
+
+        :param region: The region of this OpenstackCredentials.
+        :type region: str
+        """
+
+        self._region = region
+
+    @property
+    def compute_endpoint(self):
+        """Gets the compute_endpoint of this OpenstackCredentials.
+
+
+        :return: The compute_endpoint of this OpenstackCredentials.
+        :rtype: str
+        """
+        return self._compute_endpoint
+
+    @compute_endpoint.setter
+    def compute_endpoint(self, compute_endpoint):
+        """Sets the compute_endpoint of this OpenstackCredentials.
+
+
+        :param compute_endpoint: The compute_endpoint of this OpenstackCredentials.
+        :type compute_endpoint: str
+        """
+
+        self._compute_endpoint = compute_endpoint
