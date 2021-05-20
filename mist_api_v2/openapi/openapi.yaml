@@ -6055,9 +6055,6 @@ components:
                 description: Ram size in MBs
                 minimum: 256
                 type: integer
-            required:
-            - cpus
-            - ram
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
