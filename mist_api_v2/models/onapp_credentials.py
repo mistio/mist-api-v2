@@ -15,40 +15,40 @@ class OnappCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, auth_url=None, username=None, apikey=None, host=None, verify=None):  # noqa: E501
+    def __init__(self, apikey=None, auth_url=None, host=None, username=None, verify=None):  # noqa: E501
         """OnappCredentials - a model defined in OpenAPI
 
-        :param auth_url: The auth_url of this OnappCredentials.  # noqa: E501
-        :type auth_url: str
-        :param username: The username of this OnappCredentials.  # noqa: E501
-        :type username: str
         :param apikey: The apikey of this OnappCredentials.  # noqa: E501
         :type apikey: str
+        :param auth_url: The auth_url of this OnappCredentials.  # noqa: E501
+        :type auth_url: str
         :param host: The host of this OnappCredentials.  # noqa: E501
         :type host: str
+        :param username: The username of this OnappCredentials.  # noqa: E501
+        :type username: str
         :param verify: The verify of this OnappCredentials.  # noqa: E501
         :type verify: bool
         """
         self.openapi_types = {
-            'auth_url': str,
-            'username': str,
             'apikey': str,
+            'auth_url': str,
             'host': str,
+            'username': str,
             'verify': bool
         }
 
         self.attribute_map = {
-            'auth_url': 'authUrl',
-            'username': 'username',
             'apikey': 'apikey',
+            'auth_url': 'authUrl',
             'host': 'host',
+            'username': 'username',
             'verify': 'verify'
         }
 
-        self._auth_url = auth_url
-        self._username = username
         self._apikey = apikey
+        self._auth_url = auth_url
         self._host = host
+        self._username = username
         self._verify = verify
 
     @classmethod
@@ -61,50 +61,6 @@ class OnappCredentials(Model):
         :rtype: OnappCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def auth_url(self):
-        """Gets the auth_url of this OnappCredentials.
-
-
-        :return: The auth_url of this OnappCredentials.
-        :rtype: str
-        """
-        return self._auth_url
-
-    @auth_url.setter
-    def auth_url(self, auth_url):
-        """Sets the auth_url of this OnappCredentials.
-
-
-        :param auth_url: The auth_url of this OnappCredentials.
-        :type auth_url: str
-        """
-
-        self._auth_url = auth_url
-
-    @property
-    def username(self):
-        """Gets the username of this OnappCredentials.
-
-
-        :return: The username of this OnappCredentials.
-        :rtype: str
-        """
-        return self._username
-
-    @username.setter
-    def username(self, username):
-        """Sets the username of this OnappCredentials.
-
-
-        :param username: The username of this OnappCredentials.
-        :type username: str
-        """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
-
-        self._username = username
 
     @property
     def apikey(self):
@@ -130,6 +86,27 @@ class OnappCredentials(Model):
         self._apikey = apikey
 
     @property
+    def auth_url(self):
+        """Gets the auth_url of this OnappCredentials.
+
+
+        :return: The auth_url of this OnappCredentials.
+        :rtype: str
+        """
+        return self._auth_url
+
+    @auth_url.setter
+    def auth_url(self, auth_url):
+        """Sets the auth_url of this OnappCredentials.
+
+
+        :param auth_url: The auth_url of this OnappCredentials.
+        :type auth_url: str
+        """
+
+        self._auth_url = auth_url
+
+    @property
     def host(self):
         """Gets the host of this OnappCredentials.
 
@@ -151,6 +128,29 @@ class OnappCredentials(Model):
             raise ValueError("Invalid value for `host`, must not be `None`")  # noqa: E501
 
         self._host = host
+
+    @property
+    def username(self):
+        """Gets the username of this OnappCredentials.
+
+
+        :return: The username of this OnappCredentials.
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this OnappCredentials.
+
+
+        :param username: The username of this OnappCredentials.
+        :type username: str
+        """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+
+        self._username = username
 
     @property
     def verify(self):

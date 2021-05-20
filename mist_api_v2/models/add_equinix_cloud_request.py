@@ -17,26 +17,26 @@ class AddEquinixCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, credentials=None, provider=None):  # noqa: E501
         """AddEquinixCloudRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AddEquinixCloudRequest.  # noqa: E501
-        :type provider: str
         :param credentials: The credentials of this AddEquinixCloudRequest.  # noqa: E501
         :type credentials: EquinixCredentials
+        :param provider: The provider of this AddEquinixCloudRequest.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
-            'credentials': EquinixCredentials
+            'credentials': EquinixCredentials,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._credentials = credentials
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddEquinixCloudRequest':
@@ -48,6 +48,29 @@ class AddEquinixCloudRequest(Model):
         :rtype: AddEquinixCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddEquinixCloudRequest.
+
+
+        :return: The credentials of this AddEquinixCloudRequest.
+        :rtype: EquinixCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddEquinixCloudRequest.
+
+
+        :param credentials: The credentials of this AddEquinixCloudRequest.
+        :type credentials: EquinixCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials
 
     @property
     def provider(self):
@@ -75,26 +98,3 @@ class AddEquinixCloudRequest(Model):
             )
 
         self._provider = provider
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddEquinixCloudRequest.
-
-
-        :return: The credentials of this AddEquinixCloudRequest.
-        :rtype: EquinixCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddEquinixCloudRequest.
-
-
-        :param credentials: The credentials of this AddEquinixCloudRequest.
-        :type credentials: EquinixCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials

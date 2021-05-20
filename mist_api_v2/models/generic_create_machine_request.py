@@ -15,36 +15,36 @@ class GenericCreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, net=None, disks=None, volumes=None, extra=None):  # noqa: E501
+    def __init__(self, disks=None, extra=None, net=None, volumes=None):  # noqa: E501
         """GenericCreateMachineRequest - a model defined in OpenAPI
 
-        :param net: The net of this GenericCreateMachineRequest.  # noqa: E501
-        :type net: object
         :param disks: The disks of this GenericCreateMachineRequest.  # noqa: E501
         :type disks: object
-        :param volumes: The volumes of this GenericCreateMachineRequest.  # noqa: E501
-        :type volumes: List[object]
         :param extra: The extra of this GenericCreateMachineRequest.  # noqa: E501
         :type extra: object
+        :param net: The net of this GenericCreateMachineRequest.  # noqa: E501
+        :type net: object
+        :param volumes: The volumes of this GenericCreateMachineRequest.  # noqa: E501
+        :type volumes: List[object]
         """
         self.openapi_types = {
-            'net': object,
             'disks': object,
-            'volumes': List[object],
-            'extra': object
+            'extra': object,
+            'net': object,
+            'volumes': List[object]
         }
 
         self.attribute_map = {
-            'net': 'net',
             'disks': 'disks',
-            'volumes': 'volumes',
-            'extra': 'extra'
+            'extra': 'extra',
+            'net': 'net',
+            'volumes': 'volumes'
         }
 
-        self._net = net
         self._disks = disks
-        self._volumes = volumes
         self._extra = extra
+        self._net = net
+        self._volumes = volumes
 
     @classmethod
     def from_dict(cls, dikt) -> 'GenericCreateMachineRequest':
@@ -56,27 +56,6 @@ class GenericCreateMachineRequest(Model):
         :rtype: GenericCreateMachineRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def net(self):
-        """Gets the net of this GenericCreateMachineRequest.
-
-
-        :return: The net of this GenericCreateMachineRequest.
-        :rtype: object
-        """
-        return self._net
-
-    @net.setter
-    def net(self, net):
-        """Sets the net of this GenericCreateMachineRequest.
-
-
-        :param net: The net of this GenericCreateMachineRequest.
-        :type net: object
-        """
-
-        self._net = net
 
     @property
     def disks(self):
@@ -100,27 +79,6 @@ class GenericCreateMachineRequest(Model):
         self._disks = disks
 
     @property
-    def volumes(self):
-        """Gets the volumes of this GenericCreateMachineRequest.
-
-
-        :return: The volumes of this GenericCreateMachineRequest.
-        :rtype: List[object]
-        """
-        return self._volumes
-
-    @volumes.setter
-    def volumes(self, volumes):
-        """Sets the volumes of this GenericCreateMachineRequest.
-
-
-        :param volumes: The volumes of this GenericCreateMachineRequest.
-        :type volumes: List[object]
-        """
-
-        self._volumes = volumes
-
-    @property
     def extra(self):
         """Gets the extra of this GenericCreateMachineRequest.
 
@@ -140,3 +98,45 @@ class GenericCreateMachineRequest(Model):
         """
 
         self._extra = extra
+
+    @property
+    def net(self):
+        """Gets the net of this GenericCreateMachineRequest.
+
+
+        :return: The net of this GenericCreateMachineRequest.
+        :rtype: object
+        """
+        return self._net
+
+    @net.setter
+    def net(self, net):
+        """Sets the net of this GenericCreateMachineRequest.
+
+
+        :param net: The net of this GenericCreateMachineRequest.
+        :type net: object
+        """
+
+        self._net = net
+
+    @property
+    def volumes(self):
+        """Gets the volumes of this GenericCreateMachineRequest.
+
+
+        :return: The volumes of this GenericCreateMachineRequest.
+        :rtype: List[object]
+        """
+        return self._volumes
+
+    @volumes.setter
+    def volumes(self, volumes):
+        """Sets the volumes of this GenericCreateMachineRequest.
+
+
+        :param volumes: The volumes of this GenericCreateMachineRequest.
+        :type volumes: List[object]
+        """
+
+        self._volumes = volumes

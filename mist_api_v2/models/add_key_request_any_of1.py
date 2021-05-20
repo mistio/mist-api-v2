@@ -15,31 +15,31 @@ class AddKeyRequestAnyOf1(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, generate=None, dry=None):  # noqa: E501
+    def __init__(self, dry=None, generate=None, name=None):  # noqa: E501
         """AddKeyRequestAnyOf1 - a model defined in OpenAPI
 
-        :param name: The name of this AddKeyRequestAnyOf1.  # noqa: E501
-        :type name: str
-        :param generate: The generate of this AddKeyRequestAnyOf1.  # noqa: E501
-        :type generate: bool
         :param dry: The dry of this AddKeyRequestAnyOf1.  # noqa: E501
         :type dry: bool
+        :param generate: The generate of this AddKeyRequestAnyOf1.  # noqa: E501
+        :type generate: bool
+        :param name: The name of this AddKeyRequestAnyOf1.  # noqa: E501
+        :type name: str
         """
         self.openapi_types = {
-            'name': str,
+            'dry': bool,
             'generate': bool,
-            'dry': bool
+            'name': str
         }
 
         self.attribute_map = {
-            'name': 'name',
+            'dry': 'dry',
             'generate': 'generate',
-            'dry': 'dry'
+            'name': 'name'
         }
 
-        self._name = name
-        self._generate = generate
         self._dry = dry
+        self._generate = generate
+        self._name = name
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyRequestAnyOf1':
@@ -53,29 +53,27 @@ class AddKeyRequestAnyOf1(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def name(self):
-        """Gets the name of this AddKeyRequestAnyOf1.
+    def dry(self):
+        """Gets the dry of this AddKeyRequestAnyOf1.
 
-        The key's name  # noqa: E501
+        Return generated key without actually adding it  # noqa: E501
 
-        :return: The name of this AddKeyRequestAnyOf1.
-        :rtype: str
+        :return: The dry of this AddKeyRequestAnyOf1.
+        :rtype: bool
         """
-        return self._name
+        return self._dry
 
-    @name.setter
-    def name(self, name):
-        """Sets the name of this AddKeyRequestAnyOf1.
+    @dry.setter
+    def dry(self, dry):
+        """Sets the dry of this AddKeyRequestAnyOf1.
 
-        The key's name  # noqa: E501
+        Return generated key without actually adding it  # noqa: E501
 
-        :param name: The name of this AddKeyRequestAnyOf1.
-        :type name: str
+        :param dry: The dry of this AddKeyRequestAnyOf1.
+        :type dry: bool
         """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._dry = dry
 
     @property
     def generate(self):
@@ -103,24 +101,26 @@ class AddKeyRequestAnyOf1(Model):
         self._generate = generate
 
     @property
-    def dry(self):
-        """Gets the dry of this AddKeyRequestAnyOf1.
+    def name(self):
+        """Gets the name of this AddKeyRequestAnyOf1.
 
-        Return generated key without actually adding it  # noqa: E501
+        The key's name  # noqa: E501
 
-        :return: The dry of this AddKeyRequestAnyOf1.
-        :rtype: bool
+        :return: The name of this AddKeyRequestAnyOf1.
+        :rtype: str
         """
-        return self._dry
+        return self._name
 
-    @dry.setter
-    def dry(self, dry):
-        """Sets the dry of this AddKeyRequestAnyOf1.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this AddKeyRequestAnyOf1.
 
-        Return generated key without actually adding it  # noqa: E501
+        The key's name  # noqa: E501
 
-        :param dry: The dry of this AddKeyRequestAnyOf1.
-        :type dry: bool
+        :param name: The name of this AddKeyRequestAnyOf1.
+        :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._dry = dry
+        self._name = name

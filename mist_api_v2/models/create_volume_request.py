@@ -17,71 +17,71 @@ class CreateVolumeRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, provider=None, cloud=None, location=None, size=None, tags=None, extra=None, quantity=None, template=None, dry=None, save=None):  # noqa: E501
+    def __init__(self, cloud=None, dry=None, extra=None, location=None, name=None, provider=None, quantity=None, save=None, size=None, tags=None, template=None):  # noqa: E501
         """CreateVolumeRequest - a model defined in OpenAPI
 
+        :param cloud: The cloud of this CreateVolumeRequest.  # noqa: E501
+        :type cloud: str
+        :param dry: The dry of this CreateVolumeRequest.  # noqa: E501
+        :type dry: bool
+        :param extra: The extra of this CreateVolumeRequest.  # noqa: E501
+        :type extra: object
+        :param location: The location of this CreateVolumeRequest.  # noqa: E501
+        :type location: str
         :param name: The name of this CreateVolumeRequest.  # noqa: E501
         :type name: str
         :param provider: The provider of this CreateVolumeRequest.  # noqa: E501
         :type provider: SupportedProviders
-        :param cloud: The cloud of this CreateVolumeRequest.  # noqa: E501
-        :type cloud: str
-        :param location: The location of this CreateVolumeRequest.  # noqa: E501
-        :type location: str
+        :param quantity: The quantity of this CreateVolumeRequest.  # noqa: E501
+        :type quantity: float
+        :param save: The save of this CreateVolumeRequest.  # noqa: E501
+        :type save: bool
         :param size: The size of this CreateVolumeRequest.  # noqa: E501
         :type size: object
         :param tags: The tags of this CreateVolumeRequest.  # noqa: E501
         :type tags: object
-        :param extra: The extra of this CreateVolumeRequest.  # noqa: E501
-        :type extra: object
-        :param quantity: The quantity of this CreateVolumeRequest.  # noqa: E501
-        :type quantity: float
         :param template: The template of this CreateVolumeRequest.  # noqa: E501
         :type template: object
-        :param dry: The dry of this CreateVolumeRequest.  # noqa: E501
-        :type dry: bool
-        :param save: The save of this CreateVolumeRequest.  # noqa: E501
-        :type save: bool
         """
         self.openapi_types = {
+            'cloud': str,
+            'dry': bool,
+            'extra': object,
+            'location': str,
             'name': str,
             'provider': SupportedProviders,
-            'cloud': str,
-            'location': str,
+            'quantity': float,
+            'save': bool,
             'size': object,
             'tags': object,
-            'extra': object,
-            'quantity': float,
-            'template': object,
-            'dry': bool,
-            'save': bool
+            'template': object
         }
 
         self.attribute_map = {
+            'cloud': 'cloud',
+            'dry': 'dry',
+            'extra': 'extra',
+            'location': 'location',
             'name': 'name',
             'provider': 'provider',
-            'cloud': 'cloud',
-            'location': 'location',
+            'quantity': 'quantity',
+            'save': 'save',
             'size': 'size',
             'tags': 'tags',
-            'extra': 'extra',
-            'quantity': 'quantity',
-            'template': 'template',
-            'dry': 'dry',
-            'save': 'save'
+            'template': 'template'
         }
 
+        self._cloud = cloud
+        self._dry = dry
+        self._extra = extra
+        self._location = location
         self._name = name
         self._provider = provider
-        self._cloud = cloud
-        self._location = location
+        self._quantity = quantity
+        self._save = save
         self._size = size
         self._tags = tags
-        self._extra = extra
-        self._quantity = quantity
         self._template = template
-        self._dry = dry
-        self._save = save
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateVolumeRequest':
@@ -93,6 +93,98 @@ class CreateVolumeRequest(Model):
         :rtype: CreateVolumeRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def cloud(self):
+        """Gets the cloud of this CreateVolumeRequest.
+
+        Specify cloud to provision on  # noqa: E501
+
+        :return: The cloud of this CreateVolumeRequest.
+        :rtype: str
+        """
+        return self._cloud
+
+    @cloud.setter
+    def cloud(self, cloud):
+        """Sets the cloud of this CreateVolumeRequest.
+
+        Specify cloud to provision on  # noqa: E501
+
+        :param cloud: The cloud of this CreateVolumeRequest.
+        :type cloud: str
+        """
+
+        self._cloud = cloud
+
+    @property
+    def dry(self):
+        """Gets the dry of this CreateVolumeRequest.
+
+        Return provisioning plan and exit without executing it  # noqa: E501
+
+        :return: The dry of this CreateVolumeRequest.
+        :rtype: bool
+        """
+        return self._dry
+
+    @dry.setter
+    def dry(self, dry):
+        """Sets the dry of this CreateVolumeRequest.
+
+        Return provisioning plan and exit without executing it  # noqa: E501
+
+        :param dry: The dry of this CreateVolumeRequest.
+        :type dry: bool
+        """
+
+        self._dry = dry
+
+    @property
+    def extra(self):
+        """Gets the extra of this CreateVolumeRequest.
+
+        Configure additional parameters  # noqa: E501
+
+        :return: The extra of this CreateVolumeRequest.
+        :rtype: object
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this CreateVolumeRequest.
+
+        Configure additional parameters  # noqa: E501
+
+        :param extra: The extra of this CreateVolumeRequest.
+        :type extra: object
+        """
+
+        self._extra = extra
+
+    @property
+    def location(self):
+        """Gets the location of this CreateVolumeRequest.
+
+        Where to provision e.g. region, datacenter, rack  # noqa: E501
+
+        :return: The location of this CreateVolumeRequest.
+        :rtype: str
+        """
+        return self._location
+
+    @location.setter
+    def location(self, location):
+        """Sets the location of this CreateVolumeRequest.
+
+        Where to provision e.g. region, datacenter, rack  # noqa: E501
+
+        :param location: The location of this CreateVolumeRequest.
+        :type location: str
+        """
+
+        self._location = location
 
     @property
     def name(self):
@@ -141,50 +233,50 @@ class CreateVolumeRequest(Model):
         self._provider = provider
 
     @property
-    def cloud(self):
-        """Gets the cloud of this CreateVolumeRequest.
+    def quantity(self):
+        """Gets the quantity of this CreateVolumeRequest.
 
-        Specify cloud to provision on  # noqa: E501
+        Provision multiple volumes of this type  # noqa: E501
 
-        :return: The cloud of this CreateVolumeRequest.
-        :rtype: str
+        :return: The quantity of this CreateVolumeRequest.
+        :rtype: float
         """
-        return self._cloud
+        return self._quantity
 
-    @cloud.setter
-    def cloud(self, cloud):
-        """Sets the cloud of this CreateVolumeRequest.
+    @quantity.setter
+    def quantity(self, quantity):
+        """Sets the quantity of this CreateVolumeRequest.
 
-        Specify cloud to provision on  # noqa: E501
+        Provision multiple volumes of this type  # noqa: E501
 
-        :param cloud: The cloud of this CreateVolumeRequest.
-        :type cloud: str
+        :param quantity: The quantity of this CreateVolumeRequest.
+        :type quantity: float
         """
 
-        self._cloud = cloud
+        self._quantity = quantity
 
     @property
-    def location(self):
-        """Gets the location of this CreateVolumeRequest.
+    def save(self):
+        """Gets the save of this CreateVolumeRequest.
 
-        Where to provision e.g. region, datacenter, rack  # noqa: E501
+        Save provisioning plan as template  # noqa: E501
 
-        :return: The location of this CreateVolumeRequest.
-        :rtype: str
+        :return: The save of this CreateVolumeRequest.
+        :rtype: bool
         """
-        return self._location
+        return self._save
 
-    @location.setter
-    def location(self, location):
-        """Sets the location of this CreateVolumeRequest.
+    @save.setter
+    def save(self, save):
+        """Sets the save of this CreateVolumeRequest.
 
-        Where to provision e.g. region, datacenter, rack  # noqa: E501
+        Save provisioning plan as template  # noqa: E501
 
-        :param location: The location of this CreateVolumeRequest.
-        :type location: str
+        :param save: The save of this CreateVolumeRequest.
+        :type save: bool
         """
 
-        self._location = location
+        self._save = save
 
     @property
     def size(self):
@@ -235,52 +327,6 @@ class CreateVolumeRequest(Model):
         self._tags = tags
 
     @property
-    def extra(self):
-        """Gets the extra of this CreateVolumeRequest.
-
-        Configure additional parameters  # noqa: E501
-
-        :return: The extra of this CreateVolumeRequest.
-        :rtype: object
-        """
-        return self._extra
-
-    @extra.setter
-    def extra(self, extra):
-        """Sets the extra of this CreateVolumeRequest.
-
-        Configure additional parameters  # noqa: E501
-
-        :param extra: The extra of this CreateVolumeRequest.
-        :type extra: object
-        """
-
-        self._extra = extra
-
-    @property
-    def quantity(self):
-        """Gets the quantity of this CreateVolumeRequest.
-
-        Provision multiple volumes of this type  # noqa: E501
-
-        :return: The quantity of this CreateVolumeRequest.
-        :rtype: float
-        """
-        return self._quantity
-
-    @quantity.setter
-    def quantity(self, quantity):
-        """Sets the quantity of this CreateVolumeRequest.
-
-        Provision multiple volumes of this type  # noqa: E501
-
-        :param quantity: The quantity of this CreateVolumeRequest.
-        :type quantity: float
-        """
-
-        self._quantity = quantity
-
-    @property
     def template(self):
         """Gets the template of this CreateVolumeRequest.
 
@@ -300,49 +346,3 @@ class CreateVolumeRequest(Model):
         """
 
         self._template = template
-
-    @property
-    def dry(self):
-        """Gets the dry of this CreateVolumeRequest.
-
-        Return provisioning plan and exit without executing it  # noqa: E501
-
-        :return: The dry of this CreateVolumeRequest.
-        :rtype: bool
-        """
-        return self._dry
-
-    @dry.setter
-    def dry(self, dry):
-        """Sets the dry of this CreateVolumeRequest.
-
-        Return provisioning plan and exit without executing it  # noqa: E501
-
-        :param dry: The dry of this CreateVolumeRequest.
-        :type dry: bool
-        """
-
-        self._dry = dry
-
-    @property
-    def save(self):
-        """Gets the save of this CreateVolumeRequest.
-
-        Save provisioning plan as template  # noqa: E501
-
-        :return: The save of this CreateVolumeRequest.
-        :rtype: bool
-        """
-        return self._save
-
-    @save.setter
-    def save(self, save):
-        """Sets the save of this CreateVolumeRequest.
-
-        Save provisioning plan as template  # noqa: E501
-
-        :param save: The save of this CreateVolumeRequest.
-        :type save: bool
-        """
-
-        self._save = save

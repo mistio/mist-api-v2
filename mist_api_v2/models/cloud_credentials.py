@@ -53,7 +53,7 @@ class CloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, region=None, tenant_id=None, subscription_id=None, key=None, secret=None, project_id=None, private_key=None, username=None, password=None, provider=None, token=None, auth_url=None, user=None, tenant=None, domain=None, compute_endpoint=None, host=None, verify=None, ca_cert_file=None, port=None, tls_key=None, tls_cert=None, tls_ca_cert=None, show_all=None):  # noqa: E501
+    def __init__(self, apikey=None, apisecret=None, region=None, key=None, secret=None, subscription_id=None, tenant_id=None, private_key=None, project_id=None, password=None, username=None, provider=None, token=None, auth_url=None, compute_endpoint=None, domain=None, tenant=None, user=None, host=None, verify=None, ca_cert_file=None, port=None, show_all=None, tls_ca_cert=None, tls_cert=None, tls_key=None):  # noqa: E501
         """CloudCredentials - a model defined in OpenAPI
 
         :param apikey: The apikey of this CloudCredentials.  # noqa: E501
@@ -62,36 +62,36 @@ class CloudCredentials(Model):
         :type apisecret: str
         :param region: The region of this CloudCredentials.  # noqa: E501
         :type region: str
-        :param tenant_id: The tenant_id of this CloudCredentials.  # noqa: E501
-        :type tenant_id: str
-        :param subscription_id: The subscription_id of this CloudCredentials.  # noqa: E501
-        :type subscription_id: str
         :param key: The key of this CloudCredentials.  # noqa: E501
         :type key: str
         :param secret: The secret of this CloudCredentials.  # noqa: E501
         :type secret: str
-        :param project_id: The project_id of this CloudCredentials.  # noqa: E501
-        :type project_id: str
+        :param subscription_id: The subscription_id of this CloudCredentials.  # noqa: E501
+        :type subscription_id: str
+        :param tenant_id: The tenant_id of this CloudCredentials.  # noqa: E501
+        :type tenant_id: str
         :param private_key: The private_key of this CloudCredentials.  # noqa: E501
         :type private_key: str
-        :param username: The username of this CloudCredentials.  # noqa: E501
-        :type username: str
+        :param project_id: The project_id of this CloudCredentials.  # noqa: E501
+        :type project_id: str
         :param password: The password of this CloudCredentials.  # noqa: E501
         :type password: str
+        :param username: The username of this CloudCredentials.  # noqa: E501
+        :type username: str
         :param provider: The provider of this CloudCredentials.  # noqa: E501
         :type provider: str
         :param token: The token of this CloudCredentials.  # noqa: E501
         :type token: str
         :param auth_url: The auth_url of this CloudCredentials.  # noqa: E501
         :type auth_url: str
-        :param user: The user of this CloudCredentials.  # noqa: E501
-        :type user: str
-        :param tenant: The tenant of this CloudCredentials.  # noqa: E501
-        :type tenant: str
-        :param domain: The domain of this CloudCredentials.  # noqa: E501
-        :type domain: str
         :param compute_endpoint: The compute_endpoint of this CloudCredentials.  # noqa: E501
         :type compute_endpoint: str
+        :param domain: The domain of this CloudCredentials.  # noqa: E501
+        :type domain: str
+        :param tenant: The tenant of this CloudCredentials.  # noqa: E501
+        :type tenant: str
+        :param user: The user of this CloudCredentials.  # noqa: E501
+        :type user: str
         :param host: The host of this CloudCredentials.  # noqa: E501
         :type host: str
         :param verify: The verify of this CloudCredentials.  # noqa: E501
@@ -100,99 +100,99 @@ class CloudCredentials(Model):
         :type ca_cert_file: str
         :param port: The port of this CloudCredentials.  # noqa: E501
         :type port: str
-        :param tls_key: The tls_key of this CloudCredentials.  # noqa: E501
-        :type tls_key: str
-        :param tls_cert: The tls_cert of this CloudCredentials.  # noqa: E501
-        :type tls_cert: str
-        :param tls_ca_cert: The tls_ca_cert of this CloudCredentials.  # noqa: E501
-        :type tls_ca_cert: str
         :param show_all: The show_all of this CloudCredentials.  # noqa: E501
         :type show_all: bool
+        :param tls_ca_cert: The tls_ca_cert of this CloudCredentials.  # noqa: E501
+        :type tls_ca_cert: str
+        :param tls_cert: The tls_cert of this CloudCredentials.  # noqa: E501
+        :type tls_cert: str
+        :param tls_key: The tls_key of this CloudCredentials.  # noqa: E501
+        :type tls_key: str
         """
         self.openapi_types = {
             'apikey': str,
             'apisecret': str,
             'region': str,
-            'tenant_id': str,
-            'subscription_id': str,
             'key': str,
             'secret': str,
-            'project_id': str,
+            'subscription_id': str,
+            'tenant_id': str,
             'private_key': str,
-            'username': str,
+            'project_id': str,
             'password': str,
+            'username': str,
             'provider': str,
             'token': str,
             'auth_url': str,
-            'user': str,
-            'tenant': str,
-            'domain': str,
             'compute_endpoint': str,
+            'domain': str,
+            'tenant': str,
+            'user': str,
             'host': str,
             'verify': bool,
             'ca_cert_file': str,
             'port': str,
-            'tls_key': str,
-            'tls_cert': str,
+            'show_all': bool,
             'tls_ca_cert': str,
-            'show_all': bool
+            'tls_cert': str,
+            'tls_key': str
         }
 
         self.attribute_map = {
             'apikey': 'apikey',
             'apisecret': 'apisecret',
             'region': 'region',
-            'tenant_id': 'tenantId',
-            'subscription_id': 'subscriptionId',
             'key': 'key',
             'secret': 'secret',
-            'project_id': 'projectId',
+            'subscription_id': 'subscriptionId',
+            'tenant_id': 'tenantId',
             'private_key': 'privateKey',
-            'username': 'username',
+            'project_id': 'projectId',
             'password': 'password',
+            'username': 'username',
             'provider': 'provider',
             'token': 'token',
             'auth_url': 'authUrl',
-            'user': 'user',
-            'tenant': 'tenant',
-            'domain': 'domain',
             'compute_endpoint': 'computeEndpoint',
+            'domain': 'domain',
+            'tenant': 'tenant',
+            'user': 'user',
             'host': 'host',
             'verify': 'verify',
             'ca_cert_file': 'ca_cert_file',
             'port': 'port',
-            'tls_key': 'tlsKey',
-            'tls_cert': 'tlsCert',
+            'show_all': 'showAll',
             'tls_ca_cert': 'tlsCaCert',
-            'show_all': 'showAll'
+            'tls_cert': 'tlsCert',
+            'tls_key': 'tlsKey'
         }
 
         self._apikey = apikey
         self._apisecret = apisecret
         self._region = region
-        self._tenant_id = tenant_id
-        self._subscription_id = subscription_id
         self._key = key
         self._secret = secret
-        self._project_id = project_id
+        self._subscription_id = subscription_id
+        self._tenant_id = tenant_id
         self._private_key = private_key
-        self._username = username
+        self._project_id = project_id
         self._password = password
+        self._username = username
         self._provider = provider
         self._token = token
         self._auth_url = auth_url
-        self._user = user
-        self._tenant = tenant
-        self._domain = domain
         self._compute_endpoint = compute_endpoint
+        self._domain = domain
+        self._tenant = tenant
+        self._user = user
         self._host = host
         self._verify = verify
         self._ca_cert_file = ca_cert_file
         self._port = port
-        self._tls_key = tls_key
-        self._tls_cert = tls_cert
-        self._tls_ca_cert = tls_ca_cert
         self._show_all = show_all
+        self._tls_ca_cert = tls_ca_cert
+        self._tls_cert = tls_cert
+        self._tls_key = tls_key
 
     @classmethod
     def from_dict(cls, dikt) -> 'CloudCredentials':
@@ -277,56 +277,6 @@ class CloudCredentials(Model):
         self._region = region
 
     @property
-    def tenant_id(self):
-        """Gets the tenant_id of this CloudCredentials.
-
-        Your Azure tenant ID  # noqa: E501
-
-        :return: The tenant_id of this CloudCredentials.
-        :rtype: str
-        """
-        return self._tenant_id
-
-    @tenant_id.setter
-    def tenant_id(self, tenant_id):
-        """Sets the tenant_id of this CloudCredentials.
-
-        Your Azure tenant ID  # noqa: E501
-
-        :param tenant_id: The tenant_id of this CloudCredentials.
-        :type tenant_id: str
-        """
-        if tenant_id is None:
-            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
-
-        self._tenant_id = tenant_id
-
-    @property
-    def subscription_id(self):
-        """Gets the subscription_id of this CloudCredentials.
-
-        Your Azure subscription ID  # noqa: E501
-
-        :return: The subscription_id of this CloudCredentials.
-        :rtype: str
-        """
-        return self._subscription_id
-
-    @subscription_id.setter
-    def subscription_id(self, subscription_id):
-        """Sets the subscription_id of this CloudCredentials.
-
-        Your Azure subscription ID  # noqa: E501
-
-        :param subscription_id: The subscription_id of this CloudCredentials.
-        :type subscription_id: str
-        """
-        if subscription_id is None:
-            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
-
-        self._subscription_id = subscription_id
-
-    @property
     def key(self):
         """Gets the key of this CloudCredentials.
 
@@ -377,29 +327,54 @@ class CloudCredentials(Model):
         self._secret = secret
 
     @property
-    def project_id(self):
-        """Gets the project_id of this CloudCredentials.
+    def subscription_id(self):
+        """Gets the subscription_id of this CloudCredentials.
 
-        The Id of your GCP project  # noqa: E501
+        Your Azure subscription ID  # noqa: E501
 
-        :return: The project_id of this CloudCredentials.
+        :return: The subscription_id of this CloudCredentials.
         :rtype: str
         """
-        return self._project_id
+        return self._subscription_id
 
-    @project_id.setter
-    def project_id(self, project_id):
-        """Sets the project_id of this CloudCredentials.
+    @subscription_id.setter
+    def subscription_id(self, subscription_id):
+        """Sets the subscription_id of this CloudCredentials.
 
-        The Id of your GCP project  # noqa: E501
+        Your Azure subscription ID  # noqa: E501
 
-        :param project_id: The project_id of this CloudCredentials.
-        :type project_id: str
+        :param subscription_id: The subscription_id of this CloudCredentials.
+        :type subscription_id: str
         """
-        if project_id is None:
-            raise ValueError("Invalid value for `project_id`, must not be `None`")  # noqa: E501
+        if subscription_id is None:
+            raise ValueError("Invalid value for `subscription_id`, must not be `None`")  # noqa: E501
 
-        self._project_id = project_id
+        self._subscription_id = subscription_id
+
+    @property
+    def tenant_id(self):
+        """Gets the tenant_id of this CloudCredentials.
+
+        Your Azure tenant ID  # noqa: E501
+
+        :return: The tenant_id of this CloudCredentials.
+        :rtype: str
+        """
+        return self._tenant_id
+
+    @tenant_id.setter
+    def tenant_id(self, tenant_id):
+        """Sets the tenant_id of this CloudCredentials.
+
+        Your Azure tenant ID  # noqa: E501
+
+        :param tenant_id: The tenant_id of this CloudCredentials.
+        :type tenant_id: str
+        """
+        if tenant_id is None:
+            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
+
+        self._tenant_id = tenant_id
 
     @property
     def private_key(self):
@@ -427,29 +402,29 @@ class CloudCredentials(Model):
         self._private_key = private_key
 
     @property
-    def username(self):
-        """Gets the username of this CloudCredentials.
+    def project_id(self):
+        """Gets the project_id of this CloudCredentials.
 
-        Your Kubernetes API username  # noqa: E501
+        The Id of your GCP project  # noqa: E501
 
-        :return: The username of this CloudCredentials.
+        :return: The project_id of this CloudCredentials.
         :rtype: str
         """
-        return self._username
+        return self._project_id
 
-    @username.setter
-    def username(self, username):
-        """Sets the username of this CloudCredentials.
+    @project_id.setter
+    def project_id(self, project_id):
+        """Sets the project_id of this CloudCredentials.
 
-        Your Kubernetes API username  # noqa: E501
+        The Id of your GCP project  # noqa: E501
 
-        :param username: The username of this CloudCredentials.
-        :type username: str
+        :param project_id: The project_id of this CloudCredentials.
+        :type project_id: str
         """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+        if project_id is None:
+            raise ValueError("Invalid value for `project_id`, must not be `None`")  # noqa: E501
 
-        self._username = username
+        self._project_id = project_id
 
     @property
     def password(self):
@@ -475,6 +450,31 @@ class CloudCredentials(Model):
             raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
 
         self._password = password
+
+    @property
+    def username(self):
+        """Gets the username of this CloudCredentials.
+
+        Your Kubernetes API username  # noqa: E501
+
+        :return: The username of this CloudCredentials.
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this CloudCredentials.
+
+        Your Kubernetes API username  # noqa: E501
+
+        :param username: The username of this CloudCredentials.
+        :type username: str
+        """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+
+        self._username = username
 
     @property
     def provider(self):
@@ -552,48 +552,25 @@ class CloudCredentials(Model):
         self._auth_url = auth_url
 
     @property
-    def user(self):
-        """Gets the user of this CloudCredentials.
+    def compute_endpoint(self):
+        """Gets the compute_endpoint of this CloudCredentials.
 
 
-        :return: The user of this CloudCredentials.
+        :return: The compute_endpoint of this CloudCredentials.
         :rtype: str
         """
-        return self._user
+        return self._compute_endpoint
 
-    @user.setter
-    def user(self, user):
-        """Sets the user of this CloudCredentials.
-
-
-        :param user: The user of this CloudCredentials.
-        :type user: str
-        """
-        if user is None:
-            raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
-
-        self._user = user
-
-    @property
-    def tenant(self):
-        """Gets the tenant of this CloudCredentials.
+    @compute_endpoint.setter
+    def compute_endpoint(self, compute_endpoint):
+        """Sets the compute_endpoint of this CloudCredentials.
 
 
-        :return: The tenant of this CloudCredentials.
-        :rtype: str
-        """
-        return self._tenant
-
-    @tenant.setter
-    def tenant(self, tenant):
-        """Sets the tenant of this CloudCredentials.
-
-
-        :param tenant: The tenant of this CloudCredentials.
-        :type tenant: str
+        :param compute_endpoint: The compute_endpoint of this CloudCredentials.
+        :type compute_endpoint: str
         """
 
-        self._tenant = tenant
+        self._compute_endpoint = compute_endpoint
 
     @property
     def domain(self):
@@ -617,25 +594,48 @@ class CloudCredentials(Model):
         self._domain = domain
 
     @property
-    def compute_endpoint(self):
-        """Gets the compute_endpoint of this CloudCredentials.
+    def tenant(self):
+        """Gets the tenant of this CloudCredentials.
 
 
-        :return: The compute_endpoint of this CloudCredentials.
+        :return: The tenant of this CloudCredentials.
         :rtype: str
         """
-        return self._compute_endpoint
+        return self._tenant
 
-    @compute_endpoint.setter
-    def compute_endpoint(self, compute_endpoint):
-        """Sets the compute_endpoint of this CloudCredentials.
+    @tenant.setter
+    def tenant(self, tenant):
+        """Sets the tenant of this CloudCredentials.
 
 
-        :param compute_endpoint: The compute_endpoint of this CloudCredentials.
-        :type compute_endpoint: str
+        :param tenant: The tenant of this CloudCredentials.
+        :type tenant: str
         """
 
-        self._compute_endpoint = compute_endpoint
+        self._tenant = tenant
+
+    @property
+    def user(self):
+        """Gets the user of this CloudCredentials.
+
+
+        :return: The user of this CloudCredentials.
+        :rtype: str
+        """
+        return self._user
+
+    @user.setter
+    def user(self, user):
+        """Sets the user of this CloudCredentials.
+
+
+        :param user: The user of this CloudCredentials.
+        :type user: str
+        """
+        if user is None:
+            raise ValueError("Invalid value for `user`, must not be `None`")  # noqa: E501
+
+        self._user = user
 
     @property
     def host(self):
@@ -732,50 +732,27 @@ class CloudCredentials(Model):
         self._port = port
 
     @property
-    def tls_key(self):
-        """Gets the tls_key of this CloudCredentials.
+    def show_all(self):
+        """Gets the show_all of this CloudCredentials.
 
-        Your TLS auth key  # noqa: E501
+        Show all containers, including stopped  # noqa: E501
 
-        :return: The tls_key of this CloudCredentials.
-        :rtype: str
+        :return: The show_all of this CloudCredentials.
+        :rtype: bool
         """
-        return self._tls_key
+        return self._show_all
 
-    @tls_key.setter
-    def tls_key(self, tls_key):
-        """Sets the tls_key of this CloudCredentials.
+    @show_all.setter
+    def show_all(self, show_all):
+        """Sets the show_all of this CloudCredentials.
 
-        Your TLS auth key  # noqa: E501
+        Show all containers, including stopped  # noqa: E501
 
-        :param tls_key: The tls_key of this CloudCredentials.
-        :type tls_key: str
-        """
-
-        self._tls_key = tls_key
-
-    @property
-    def tls_cert(self):
-        """Gets the tls_cert of this CloudCredentials.
-
-        Your TLS auth certificate  # noqa: E501
-
-        :return: The tls_cert of this CloudCredentials.
-        :rtype: str
-        """
-        return self._tls_cert
-
-    @tls_cert.setter
-    def tls_cert(self, tls_cert):
-        """Sets the tls_cert of this CloudCredentials.
-
-        Your TLS auth certificate  # noqa: E501
-
-        :param tls_cert: The tls_cert of this CloudCredentials.
-        :type tls_cert: str
+        :param show_all: The show_all of this CloudCredentials.
+        :type show_all: bool
         """
 
-        self._tls_cert = tls_cert
+        self._show_all = show_all
 
     @property
     def tls_ca_cert(self):
@@ -801,24 +778,47 @@ class CloudCredentials(Model):
         self._tls_ca_cert = tls_ca_cert
 
     @property
-    def show_all(self):
-        """Gets the show_all of this CloudCredentials.
+    def tls_cert(self):
+        """Gets the tls_cert of this CloudCredentials.
 
-        Show all containers, including stopped  # noqa: E501
+        Your TLS auth certificate  # noqa: E501
 
-        :return: The show_all of this CloudCredentials.
-        :rtype: bool
+        :return: The tls_cert of this CloudCredentials.
+        :rtype: str
         """
-        return self._show_all
+        return self._tls_cert
 
-    @show_all.setter
-    def show_all(self, show_all):
-        """Sets the show_all of this CloudCredentials.
+    @tls_cert.setter
+    def tls_cert(self, tls_cert):
+        """Sets the tls_cert of this CloudCredentials.
 
-        Show all containers, including stopped  # noqa: E501
+        Your TLS auth certificate  # noqa: E501
 
-        :param show_all: The show_all of this CloudCredentials.
-        :type show_all: bool
+        :param tls_cert: The tls_cert of this CloudCredentials.
+        :type tls_cert: str
         """
 
-        self._show_all = show_all
+        self._tls_cert = tls_cert
+
+    @property
+    def tls_key(self):
+        """Gets the tls_key of this CloudCredentials.
+
+        Your TLS auth key  # noqa: E501
+
+        :return: The tls_key of this CloudCredentials.
+        :rtype: str
+        """
+        return self._tls_key
+
+    @tls_key.setter
+    def tls_key(self, tls_key):
+        """Sets the tls_key of this CloudCredentials.
+
+        Your TLS auth key  # noqa: E501
+
+        :param tls_key: The tls_key of this CloudCredentials.
+        :type tls_key: str
+        """
+
+        self._tls_key = tls_key

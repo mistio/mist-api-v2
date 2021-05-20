@@ -17,26 +17,26 @@ class AddOnappCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, credentials=None, provider=None):  # noqa: E501
         """AddOnappCloudRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AddOnappCloudRequest.  # noqa: E501
-        :type provider: str
         :param credentials: The credentials of this AddOnappCloudRequest.  # noqa: E501
         :type credentials: OnappCredentials
+        :param provider: The provider of this AddOnappCloudRequest.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
-            'credentials': OnappCredentials
+            'credentials': OnappCredentials,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._credentials = credentials
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddOnappCloudRequest':
@@ -48,6 +48,29 @@ class AddOnappCloudRequest(Model):
         :rtype: AddOnappCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddOnappCloudRequest.
+
+
+        :return: The credentials of this AddOnappCloudRequest.
+        :rtype: OnappCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddOnappCloudRequest.
+
+
+        :param credentials: The credentials of this AddOnappCloudRequest.
+        :type credentials: OnappCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials
 
     @property
     def provider(self):
@@ -75,26 +98,3 @@ class AddOnappCloudRequest(Model):
             )
 
         self._provider = provider
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddOnappCloudRequest.
-
-
-        :return: The credentials of this AddOnappCloudRequest.
-        :rtype: OnappCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddOnappCloudRequest.
-
-
-        :param credentials: The credentials of this AddOnappCloudRequest.
-        :type credentials: OnappCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials

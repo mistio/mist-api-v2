@@ -15,31 +15,31 @@ class AddKeyRequestAnyOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, private=None, certificate=None):  # noqa: E501
+    def __init__(self, certificate=None, name=None, private=None):  # noqa: E501
         """AddKeyRequestAnyOf - a model defined in OpenAPI
 
+        :param certificate: The certificate of this AddKeyRequestAnyOf.  # noqa: E501
+        :type certificate: str
         :param name: The name of this AddKeyRequestAnyOf.  # noqa: E501
         :type name: str
         :param private: The private of this AddKeyRequestAnyOf.  # noqa: E501
         :type private: str
-        :param certificate: The certificate of this AddKeyRequestAnyOf.  # noqa: E501
-        :type certificate: str
         """
         self.openapi_types = {
+            'certificate': str,
             'name': str,
-            'private': str,
-            'certificate': str
+            'private': str
         }
 
         self.attribute_map = {
+            'certificate': 'certificate',
             'name': 'name',
-            'private': 'private',
-            'certificate': 'certificate'
+            'private': 'private'
         }
 
+        self._certificate = certificate
         self._name = name
         self._private = private
-        self._certificate = certificate
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyRequestAnyOf':
@@ -51,6 +51,29 @@ class AddKeyRequestAnyOf(Model):
         :rtype: AddKeyRequestAnyOf
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def certificate(self):
+        """Gets the certificate of this AddKeyRequestAnyOf.
+
+        The signed public key, when using signed ssh keys  # noqa: E501
+
+        :return: The certificate of this AddKeyRequestAnyOf.
+        :rtype: str
+        """
+        return self._certificate
+
+    @certificate.setter
+    def certificate(self, certificate):
+        """Sets the certificate of this AddKeyRequestAnyOf.
+
+        The signed public key, when using signed ssh keys  # noqa: E501
+
+        :param certificate: The certificate of this AddKeyRequestAnyOf.
+        :type certificate: str
+        """
+
+        self._certificate = certificate
 
     @property
     def name(self):
@@ -101,26 +124,3 @@ class AddKeyRequestAnyOf(Model):
             raise ValueError("Invalid value for `private`, must not be `None`")  # noqa: E501
 
         self._private = private
-
-    @property
-    def certificate(self):
-        """Gets the certificate of this AddKeyRequestAnyOf.
-
-        The signed public key, when using signed ssh keys  # noqa: E501
-
-        :return: The certificate of this AddKeyRequestAnyOf.
-        :rtype: str
-        """
-        return self._certificate
-
-    @certificate.setter
-    def certificate(self, certificate):
-        """Sets the certificate of this AddKeyRequestAnyOf.
-
-        The signed public key, when using signed ssh keys  # noqa: E501
-
-        :param certificate: The certificate of this AddKeyRequestAnyOf.
-        :type certificate: str
-        """
-
-        self._certificate = certificate

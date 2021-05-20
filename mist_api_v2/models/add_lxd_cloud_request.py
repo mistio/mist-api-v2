@@ -17,26 +17,26 @@ class AddLxdCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, credentials=None, provider=None):  # noqa: E501
         """AddLxdCloudRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AddLxdCloudRequest.  # noqa: E501
-        :type provider: str
         :param credentials: The credentials of this AddLxdCloudRequest.  # noqa: E501
         :type credentials: LxdCredentials
+        :param provider: The provider of this AddLxdCloudRequest.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
-            'credentials': LxdCredentials
+            'credentials': LxdCredentials,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._credentials = credentials
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddLxdCloudRequest':
@@ -48,6 +48,29 @@ class AddLxdCloudRequest(Model):
         :rtype: AddLxdCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddLxdCloudRequest.
+
+
+        :return: The credentials of this AddLxdCloudRequest.
+        :rtype: LxdCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddLxdCloudRequest.
+
+
+        :param credentials: The credentials of this AddLxdCloudRequest.
+        :type credentials: LxdCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials
 
     @property
     def provider(self):
@@ -75,26 +98,3 @@ class AddLxdCloudRequest(Model):
             )
 
         self._provider = provider
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddLxdCloudRequest.
-
-
-        :return: The credentials of this AddLxdCloudRequest.
-        :rtype: LxdCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddLxdCloudRequest.
-
-
-        :param credentials: The credentials of this AddLxdCloudRequest.
-        :type credentials: LxdCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials

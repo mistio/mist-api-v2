@@ -15,36 +15,36 @@ class RackspaceCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, username=None, apikey=None, region=None):  # noqa: E501
+    def __init__(self, apikey=None, provider=None, region=None, username=None):  # noqa: E501
         """RackspaceCredentials - a model defined in OpenAPI
 
-        :param provider: The provider of this RackspaceCredentials.  # noqa: E501
-        :type provider: str
-        :param username: The username of this RackspaceCredentials.  # noqa: E501
-        :type username: str
         :param apikey: The apikey of this RackspaceCredentials.  # noqa: E501
         :type apikey: str
+        :param provider: The provider of this RackspaceCredentials.  # noqa: E501
+        :type provider: str
         :param region: The region of this RackspaceCredentials.  # noqa: E501
         :type region: str
+        :param username: The username of this RackspaceCredentials.  # noqa: E501
+        :type username: str
         """
         self.openapi_types = {
-            'provider': str,
-            'username': str,
             'apikey': str,
-            'region': str
+            'provider': str,
+            'region': str,
+            'username': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'username': 'username',
             'apikey': 'apikey',
-            'region': 'region'
+            'provider': 'provider',
+            'region': 'region',
+            'username': 'username'
         }
 
-        self._provider = provider
-        self._username = username
         self._apikey = apikey
+        self._provider = provider
         self._region = region
+        self._username = username
 
     @classmethod
     def from_dict(cls, dikt) -> 'RackspaceCredentials':
@@ -56,6 +56,31 @@ class RackspaceCredentials(Model):
         :rtype: RackspaceCredentials
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def apikey(self):
+        """Gets the apikey of this RackspaceCredentials.
+
+        Your Rackspace Cloud API key  # noqa: E501
+
+        :return: The apikey of this RackspaceCredentials.
+        :rtype: str
+        """
+        return self._apikey
+
+    @apikey.setter
+    def apikey(self, apikey):
+        """Sets the apikey of this RackspaceCredentials.
+
+        Your Rackspace Cloud API key  # noqa: E501
+
+        :param apikey: The apikey of this RackspaceCredentials.
+        :type apikey: str
+        """
+        if apikey is None:
+            raise ValueError("Invalid value for `apikey`, must not be `None`")  # noqa: E501
+
+        self._apikey = apikey
 
     @property
     def provider(self):
@@ -85,56 +110,6 @@ class RackspaceCredentials(Model):
         self._provider = provider
 
     @property
-    def username(self):
-        """Gets the username of this RackspaceCredentials.
-
-        Your Rackspace Cloud username  # noqa: E501
-
-        :return: The username of this RackspaceCredentials.
-        :rtype: str
-        """
-        return self._username
-
-    @username.setter
-    def username(self, username):
-        """Sets the username of this RackspaceCredentials.
-
-        Your Rackspace Cloud username  # noqa: E501
-
-        :param username: The username of this RackspaceCredentials.
-        :type username: str
-        """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
-
-        self._username = username
-
-    @property
-    def apikey(self):
-        """Gets the apikey of this RackspaceCredentials.
-
-        Your Rackspace Cloud API key  # noqa: E501
-
-        :return: The apikey of this RackspaceCredentials.
-        :rtype: str
-        """
-        return self._apikey
-
-    @apikey.setter
-    def apikey(self, apikey):
-        """Sets the apikey of this RackspaceCredentials.
-
-        Your Rackspace Cloud API key  # noqa: E501
-
-        :param apikey: The apikey of this RackspaceCredentials.
-        :type apikey: str
-        """
-        if apikey is None:
-            raise ValueError("Invalid value for `apikey`, must not be `None`")  # noqa: E501
-
-        self._apikey = apikey
-
-    @property
     def region(self):
         """Gets the region of this RackspaceCredentials.
 
@@ -158,3 +133,28 @@ class RackspaceCredentials(Model):
             raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
 
         self._region = region
+
+    @property
+    def username(self):
+        """Gets the username of this RackspaceCredentials.
+
+        Your Rackspace Cloud username  # noqa: E501
+
+        :return: The username of this RackspaceCredentials.
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this RackspaceCredentials.
+
+        Your Rackspace Cloud username  # noqa: E501
+
+        :param username: The username of this RackspaceCredentials.
+        :type username: str
+        """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
+
+        self._username = username

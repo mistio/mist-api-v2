@@ -15,36 +15,36 @@ class ResponseMetadata(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, total=None, returned=None, sort=None, start=None):  # noqa: E501
+    def __init__(self, returned=None, sort=None, start=None, total=None):  # noqa: E501
         """ResponseMetadata - a model defined in OpenAPI
 
-        :param total: The total of this ResponseMetadata.  # noqa: E501
-        :type total: int
         :param returned: The returned of this ResponseMetadata.  # noqa: E501
         :type returned: int
         :param sort: The sort of this ResponseMetadata.  # noqa: E501
         :type sort: str
         :param start: The start of this ResponseMetadata.  # noqa: E501
         :type start: int
+        :param total: The total of this ResponseMetadata.  # noqa: E501
+        :type total: int
         """
         self.openapi_types = {
-            'total': int,
             'returned': int,
             'sort': str,
-            'start': int
+            'start': int,
+            'total': int
         }
 
         self.attribute_map = {
-            'total': 'total',
             'returned': 'returned',
             'sort': 'sort',
-            'start': 'start'
+            'start': 'start',
+            'total': 'total'
         }
 
-        self._total = total
         self._returned = returned
         self._sort = sort
         self._start = start
+        self._total = total
 
     @classmethod
     def from_dict(cls, dikt) -> 'ResponseMetadata':
@@ -56,29 +56,6 @@ class ResponseMetadata(Model):
         :rtype: ResponseMetadata
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def total(self):
-        """Gets the total of this ResponseMetadata.
-
-        Total items matching the query  # noqa: E501
-
-        :return: The total of this ResponseMetadata.
-        :rtype: int
-        """
-        return self._total
-
-    @total.setter
-    def total(self, total):
-        """Sets the total of this ResponseMetadata.
-
-        Total items matching the query  # noqa: E501
-
-        :param total: The total of this ResponseMetadata.
-        :type total: int
-        """
-
-        self._total = total
 
     @property
     def returned(self):
@@ -148,3 +125,26 @@ class ResponseMetadata(Model):
         """
 
         self._start = start
+
+    @property
+    def total(self):
+        """Gets the total of this ResponseMetadata.
+
+        Total items matching the query  # noqa: E501
+
+        :return: The total of this ResponseMetadata.
+        :rtype: int
+        """
+        return self._total
+
+    @total.setter
+    def total(self, total):
+        """Sets the total of this ResponseMetadata.
+
+        Total items matching the query  # noqa: E501
+
+        :param total: The total of this ResponseMetadata.
+        :type total: int
+        """
+
+        self._total = total

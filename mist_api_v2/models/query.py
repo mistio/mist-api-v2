@@ -15,36 +15,36 @@ class Query(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, target=None, operator=None, threshold=None, aggregation=None):  # noqa: E501
+    def __init__(self, aggregation=None, operator=None, target=None, threshold=None):  # noqa: E501
         """Query - a model defined in OpenAPI
 
-        :param target: The target of this Query.  # noqa: E501
-        :type target: str
-        :param operator: The operator of this Query.  # noqa: E501
-        :type operator: str
-        :param threshold: The threshold of this Query.  # noqa: E501
-        :type threshold: str
         :param aggregation: The aggregation of this Query.  # noqa: E501
         :type aggregation: str
+        :param operator: The operator of this Query.  # noqa: E501
+        :type operator: str
+        :param target: The target of this Query.  # noqa: E501
+        :type target: str
+        :param threshold: The threshold of this Query.  # noqa: E501
+        :type threshold: str
         """
         self.openapi_types = {
-            'target': str,
+            'aggregation': str,
             'operator': str,
-            'threshold': str,
-            'aggregation': str
+            'target': str,
+            'threshold': str
         }
 
         self.attribute_map = {
-            'target': 'target',
+            'aggregation': 'aggregation',
             'operator': 'operator',
-            'threshold': 'threshold',
-            'aggregation': 'aggregation'
+            'target': 'target',
+            'threshold': 'threshold'
         }
 
-        self._target = target
-        self._operator = operator
-        self._threshold = threshold
         self._aggregation = aggregation
+        self._operator = operator
+        self._target = target
+        self._threshold = threshold
 
     @classmethod
     def from_dict(cls, dikt) -> 'Query':
@@ -58,29 +58,29 @@ class Query(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def target(self):
-        """Gets the target of this Query.
+    def aggregation(self):
+        """Gets the aggregation of this Query.
 
-        the metric's name, e.g. \"load.shortterm\"  # noqa: E501
+        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
 
-        :return: The target of this Query.
+        :return: The aggregation of this Query.
         :rtype: str
         """
-        return self._target
+        return self._aggregation
 
-    @target.setter
-    def target(self, target):
-        """Sets the target of this Query.
+    @aggregation.setter
+    def aggregation(self, aggregation):
+        """Sets the aggregation of this Query.
 
-        the metric's name, e.g. \"load.shortterm\"  # noqa: E501
+        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
 
-        :param target: The target of this Query.
-        :type target: str
+        :param aggregation: The aggregation of this Query.
+        :type aggregation: str
         """
-        if target is None:
-            raise ValueError("Invalid value for `target`, must not be `None`")  # noqa: E501
+        if aggregation is None:
+            raise ValueError("Invalid value for `aggregation`, must not be `None`")  # noqa: E501
 
-        self._target = target
+        self._aggregation = aggregation
 
     @property
     def operator(self):
@@ -108,6 +108,31 @@ class Query(Model):
         self._operator = operator
 
     @property
+    def target(self):
+        """Gets the target of this Query.
+
+        the metric's name, e.g. \"load.shortterm\"  # noqa: E501
+
+        :return: The target of this Query.
+        :rtype: str
+        """
+        return self._target
+
+    @target.setter
+    def target(self, target):
+        """Sets the target of this Query.
+
+        the metric's name, e.g. \"load.shortterm\"  # noqa: E501
+
+        :param target: The target of this Query.
+        :type target: str
+        """
+        if target is None:
+            raise ValueError("Invalid value for `target`, must not be `None`")  # noqa: E501
+
+        self._target = target
+
+    @property
     def threshold(self):
         """Gets the threshold of this Query.
 
@@ -131,28 +156,3 @@ class Query(Model):
             raise ValueError("Invalid value for `threshold`, must not be `None`")  # noqa: E501
 
         self._threshold = threshold
-
-    @property
-    def aggregation(self):
-        """Gets the aggregation of this Query.
-
-        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
-
-        :return: The aggregation of this Query.
-        :rtype: str
-        """
-        return self._aggregation
-
-    @aggregation.setter
-    def aggregation(self, aggregation):
-        """Sets the aggregation of this Query.
-
-        the function to be applied on the computed series. Must be one of: all, any, avg   # noqa: E501
-
-        :param aggregation: The aggregation of this Query.
-        :type aggregation: str
-        """
-        if aggregation is None:
-            raise ValueError("Invalid value for `aggregation`, must not be `None`")  # noqa: E501
-
-        self._aggregation = aggregation

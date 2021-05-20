@@ -17,26 +17,26 @@ class AddCloudSigmaCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, credentials=None, provider=None):  # noqa: E501
         """AddCloudSigmaCloudRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AddCloudSigmaCloudRequest.  # noqa: E501
-        :type provider: str
         :param credentials: The credentials of this AddCloudSigmaCloudRequest.  # noqa: E501
         :type credentials: CloudSigmaCredentials
+        :param provider: The provider of this AddCloudSigmaCloudRequest.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
-            'credentials': CloudSigmaCredentials
+            'credentials': CloudSigmaCredentials,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._credentials = credentials
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddCloudSigmaCloudRequest':
@@ -48,6 +48,29 @@ class AddCloudSigmaCloudRequest(Model):
         :rtype: AddCloudSigmaCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddCloudSigmaCloudRequest.
+
+
+        :return: The credentials of this AddCloudSigmaCloudRequest.
+        :rtype: CloudSigmaCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddCloudSigmaCloudRequest.
+
+
+        :param credentials: The credentials of this AddCloudSigmaCloudRequest.
+        :type credentials: CloudSigmaCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials
 
     @property
     def provider(self):
@@ -75,26 +98,3 @@ class AddCloudSigmaCloudRequest(Model):
             )
 
         self._provider = provider
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddCloudSigmaCloudRequest.
-
-
-        :return: The credentials of this AddCloudSigmaCloudRequest.
-        :rtype: CloudSigmaCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddCloudSigmaCloudRequest.
-
-
-        :param credentials: The credentials of this AddCloudSigmaCloudRequest.
-        :type credentials: CloudSigmaCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials

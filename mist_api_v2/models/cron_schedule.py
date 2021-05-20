@@ -15,61 +15,61 @@ class CronSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, minute=None, hour=None, day_of_month=None, month_of_year=None, day_of_week=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
+    def __init__(self, day_of_month=None, day_of_week=None, expires=None, hour=None, max_run_count=None, minute=None, month_of_year=None, schedule_type=None, start_after=None):  # noqa: E501
         """CronSchedule - a model defined in OpenAPI
 
-        :param schedule_type: The schedule_type of this CronSchedule.  # noqa: E501
-        :type schedule_type: str
-        :param minute: The minute of this CronSchedule.  # noqa: E501
-        :type minute: str
-        :param hour: The hour of this CronSchedule.  # noqa: E501
-        :type hour: str
         :param day_of_month: The day_of_month of this CronSchedule.  # noqa: E501
         :type day_of_month: str
-        :param month_of_year: The month_of_year of this CronSchedule.  # noqa: E501
-        :type month_of_year: str
         :param day_of_week: The day_of_week of this CronSchedule.  # noqa: E501
         :type day_of_week: str
-        :param start_after: The start_after of this CronSchedule.  # noqa: E501
-        :type start_after: datetime
         :param expires: The expires of this CronSchedule.  # noqa: E501
         :type expires: datetime
+        :param hour: The hour of this CronSchedule.  # noqa: E501
+        :type hour: str
         :param max_run_count: The max_run_count of this CronSchedule.  # noqa: E501
         :type max_run_count: int
+        :param minute: The minute of this CronSchedule.  # noqa: E501
+        :type minute: str
+        :param month_of_year: The month_of_year of this CronSchedule.  # noqa: E501
+        :type month_of_year: str
+        :param schedule_type: The schedule_type of this CronSchedule.  # noqa: E501
+        :type schedule_type: str
+        :param start_after: The start_after of this CronSchedule.  # noqa: E501
+        :type start_after: datetime
         """
         self.openapi_types = {
-            'schedule_type': str,
-            'minute': str,
-            'hour': str,
             'day_of_month': str,
-            'month_of_year': str,
             'day_of_week': str,
-            'start_after': datetime,
             'expires': datetime,
-            'max_run_count': int
+            'hour': str,
+            'max_run_count': int,
+            'minute': str,
+            'month_of_year': str,
+            'schedule_type': str,
+            'start_after': datetime
         }
 
         self.attribute_map = {
-            'schedule_type': 'schedule_type',
-            'minute': 'minute',
-            'hour': 'hour',
             'day_of_month': 'day_of_month',
-            'month_of_year': 'month_of_year',
             'day_of_week': 'day_of_week',
-            'start_after': 'start_after',
             'expires': 'expires',
-            'max_run_count': 'max_run_count'
+            'hour': 'hour',
+            'max_run_count': 'max_run_count',
+            'minute': 'minute',
+            'month_of_year': 'month_of_year',
+            'schedule_type': 'schedule_type',
+            'start_after': 'start_after'
         }
 
-        self._schedule_type = schedule_type
-        self._minute = minute
-        self._hour = hour
         self._day_of_month = day_of_month
-        self._month_of_year = month_of_year
         self._day_of_week = day_of_week
-        self._start_after = start_after
         self._expires = expires
+        self._hour = hour
         self._max_run_count = max_run_count
+        self._minute = minute
+        self._month_of_year = month_of_year
+        self._schedule_type = schedule_type
+        self._start_after = start_after
 
     @classmethod
     def from_dict(cls, dikt) -> 'CronSchedule':
@@ -81,6 +81,167 @@ class CronSchedule(Model):
         :rtype: CronSchedule
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def day_of_month(self):
+        """Gets the day_of_month of this CronSchedule.
+
+
+        :return: The day_of_month of this CronSchedule.
+        :rtype: str
+        """
+        return self._day_of_month
+
+    @day_of_month.setter
+    def day_of_month(self, day_of_month):
+        """Sets the day_of_month of this CronSchedule.
+
+
+        :param day_of_month: The day_of_month of this CronSchedule.
+        :type day_of_month: str
+        """
+        if day_of_month is None:
+            raise ValueError("Invalid value for `day_of_month`, must not be `None`")  # noqa: E501
+
+        self._day_of_month = day_of_month
+
+    @property
+    def day_of_week(self):
+        """Gets the day_of_week of this CronSchedule.
+
+
+        :return: The day_of_week of this CronSchedule.
+        :rtype: str
+        """
+        return self._day_of_week
+
+    @day_of_week.setter
+    def day_of_week(self, day_of_week):
+        """Sets the day_of_week of this CronSchedule.
+
+
+        :param day_of_week: The day_of_week of this CronSchedule.
+        :type day_of_week: str
+        """
+        if day_of_week is None:
+            raise ValueError("Invalid value for `day_of_week`, must not be `None`")  # noqa: E501
+
+        self._day_of_week = day_of_week
+
+    @property
+    def expires(self):
+        """Gets the expires of this CronSchedule.
+
+        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
+
+        :return: The expires of this CronSchedule.
+        :rtype: datetime
+        """
+        return self._expires
+
+    @expires.setter
+    def expires(self, expires):
+        """Sets the expires of this CronSchedule.
+
+        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
+
+        :param expires: The expires of this CronSchedule.
+        :type expires: datetime
+        """
+
+        self._expires = expires
+
+    @property
+    def hour(self):
+        """Gets the hour of this CronSchedule.
+
+
+        :return: The hour of this CronSchedule.
+        :rtype: str
+        """
+        return self._hour
+
+    @hour.setter
+    def hour(self, hour):
+        """Sets the hour of this CronSchedule.
+
+
+        :param hour: The hour of this CronSchedule.
+        :type hour: str
+        """
+        if hour is None:
+            raise ValueError("Invalid value for `hour`, must not be `None`")  # noqa: E501
+
+        self._hour = hour
+
+    @property
+    def max_run_count(self):
+        """Gets the max_run_count of this CronSchedule.
+
+
+        :return: The max_run_count of this CronSchedule.
+        :rtype: int
+        """
+        return self._max_run_count
+
+    @max_run_count.setter
+    def max_run_count(self, max_run_count):
+        """Sets the max_run_count of this CronSchedule.
+
+
+        :param max_run_count: The max_run_count of this CronSchedule.
+        :type max_run_count: int
+        """
+        if max_run_count is not None and max_run_count < 1:  # noqa: E501
+            raise ValueError("Invalid value for `max_run_count`, must be a value greater than or equal to `1`")  # noqa: E501
+
+        self._max_run_count = max_run_count
+
+    @property
+    def minute(self):
+        """Gets the minute of this CronSchedule.
+
+
+        :return: The minute of this CronSchedule.
+        :rtype: str
+        """
+        return self._minute
+
+    @minute.setter
+    def minute(self, minute):
+        """Sets the minute of this CronSchedule.
+
+
+        :param minute: The minute of this CronSchedule.
+        :type minute: str
+        """
+        if minute is None:
+            raise ValueError("Invalid value for `minute`, must not be `None`")  # noqa: E501
+
+        self._minute = minute
+
+    @property
+    def month_of_year(self):
+        """Gets the month_of_year of this CronSchedule.
+
+
+        :return: The month_of_year of this CronSchedule.
+        :rtype: str
+        """
+        return self._month_of_year
+
+    @month_of_year.setter
+    def month_of_year(self, month_of_year):
+        """Sets the month_of_year of this CronSchedule.
+
+
+        :param month_of_year: The month_of_year of this CronSchedule.
+        :type month_of_year: str
+        """
+        if month_of_year is None:
+            raise ValueError("Invalid value for `month_of_year`, must not be `None`")  # noqa: E501
+
+        self._month_of_year = month_of_year
 
     @property
     def schedule_type(self):
@@ -110,121 +271,6 @@ class CronSchedule(Model):
         self._schedule_type = schedule_type
 
     @property
-    def minute(self):
-        """Gets the minute of this CronSchedule.
-
-
-        :return: The minute of this CronSchedule.
-        :rtype: str
-        """
-        return self._minute
-
-    @minute.setter
-    def minute(self, minute):
-        """Sets the minute of this CronSchedule.
-
-
-        :param minute: The minute of this CronSchedule.
-        :type minute: str
-        """
-        if minute is None:
-            raise ValueError("Invalid value for `minute`, must not be `None`")  # noqa: E501
-
-        self._minute = minute
-
-    @property
-    def hour(self):
-        """Gets the hour of this CronSchedule.
-
-
-        :return: The hour of this CronSchedule.
-        :rtype: str
-        """
-        return self._hour
-
-    @hour.setter
-    def hour(self, hour):
-        """Sets the hour of this CronSchedule.
-
-
-        :param hour: The hour of this CronSchedule.
-        :type hour: str
-        """
-        if hour is None:
-            raise ValueError("Invalid value for `hour`, must not be `None`")  # noqa: E501
-
-        self._hour = hour
-
-    @property
-    def day_of_month(self):
-        """Gets the day_of_month of this CronSchedule.
-
-
-        :return: The day_of_month of this CronSchedule.
-        :rtype: str
-        """
-        return self._day_of_month
-
-    @day_of_month.setter
-    def day_of_month(self, day_of_month):
-        """Sets the day_of_month of this CronSchedule.
-
-
-        :param day_of_month: The day_of_month of this CronSchedule.
-        :type day_of_month: str
-        """
-        if day_of_month is None:
-            raise ValueError("Invalid value for `day_of_month`, must not be `None`")  # noqa: E501
-
-        self._day_of_month = day_of_month
-
-    @property
-    def month_of_year(self):
-        """Gets the month_of_year of this CronSchedule.
-
-
-        :return: The month_of_year of this CronSchedule.
-        :rtype: str
-        """
-        return self._month_of_year
-
-    @month_of_year.setter
-    def month_of_year(self, month_of_year):
-        """Sets the month_of_year of this CronSchedule.
-
-
-        :param month_of_year: The month_of_year of this CronSchedule.
-        :type month_of_year: str
-        """
-        if month_of_year is None:
-            raise ValueError("Invalid value for `month_of_year`, must not be `None`")  # noqa: E501
-
-        self._month_of_year = month_of_year
-
-    @property
-    def day_of_week(self):
-        """Gets the day_of_week of this CronSchedule.
-
-
-        :return: The day_of_week of this CronSchedule.
-        :rtype: str
-        """
-        return self._day_of_week
-
-    @day_of_week.setter
-    def day_of_week(self, day_of_week):
-        """Sets the day_of_week of this CronSchedule.
-
-
-        :param day_of_week: The day_of_week of this CronSchedule.
-        :type day_of_week: str
-        """
-        if day_of_week is None:
-            raise ValueError("Invalid value for `day_of_week`, must not be `None`")  # noqa: E501
-
-        self._day_of_week = day_of_week
-
-    @property
     def start_after(self):
         """Gets the start_after of this CronSchedule.
 
@@ -246,49 +292,3 @@ class CronSchedule(Model):
         """
 
         self._start_after = start_after
-
-    @property
-    def expires(self):
-        """Gets the expires of this CronSchedule.
-
-        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :return: The expires of this CronSchedule.
-        :rtype: datetime
-        """
-        return self._expires
-
-    @expires.setter
-    def expires(self, expires):
-        """Sets the expires of this CronSchedule.
-
-        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :param expires: The expires of this CronSchedule.
-        :type expires: datetime
-        """
-
-        self._expires = expires
-
-    @property
-    def max_run_count(self):
-        """Gets the max_run_count of this CronSchedule.
-
-
-        :return: The max_run_count of this CronSchedule.
-        :rtype: int
-        """
-        return self._max_run_count
-
-    @max_run_count.setter
-    def max_run_count(self, max_run_count):
-        """Sets the max_run_count of this CronSchedule.
-
-
-        :param max_run_count: The max_run_count of this CronSchedule.
-        :type max_run_count: int
-        """
-        if max_run_count is not None and max_run_count < 1:  # noqa: E501
-            raise ValueError("Invalid value for `max_run_count`, must be a value greater than or equal to `1`")  # noqa: E501
-
-        self._max_run_count = max_run_count

@@ -15,46 +15,46 @@ class Script(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, tags=None, created_by=None, owned_by=None):  # noqa: E501
+    def __init__(self, created_by=None, description=None, id=None, name=None, owned_by=None, tags=None):  # noqa: E501
         """Script - a model defined in OpenAPI
 
+        :param created_by: The created_by of this Script.  # noqa: E501
+        :type created_by: str
+        :param description: The description of this Script.  # noqa: E501
+        :type description: str
         :param id: The id of this Script.  # noqa: E501
         :type id: str
         :param name: The name of this Script.  # noqa: E501
         :type name: str
-        :param description: The description of this Script.  # noqa: E501
-        :type description: str
-        :param tags: The tags of this Script.  # noqa: E501
-        :type tags: object
-        :param created_by: The created_by of this Script.  # noqa: E501
-        :type created_by: str
         :param owned_by: The owned_by of this Script.  # noqa: E501
         :type owned_by: str
+        :param tags: The tags of this Script.  # noqa: E501
+        :type tags: object
         """
         self.openapi_types = {
+            'created_by': str,
+            'description': str,
             'id': str,
             'name': str,
-            'description': str,
-            'tags': object,
-            'created_by': str,
-            'owned_by': str
+            'owned_by': str,
+            'tags': object
         }
 
         self.attribute_map = {
+            'created_by': 'created_by',
+            'description': 'description',
             'id': 'id',
             'name': 'name',
-            'description': 'description',
-            'tags': 'tags',
-            'created_by': 'created_by',
-            'owned_by': 'owned_by'
+            'owned_by': 'owned_by',
+            'tags': 'tags'
         }
 
+        self._created_by = created_by
+        self._description = description
         self._id = id
         self._name = name
-        self._description = description
-        self._tags = tags
-        self._created_by = created_by
         self._owned_by = owned_by
+        self._tags = tags
 
     @classmethod
     def from_dict(cls, dikt) -> 'Script':
@@ -66,6 +66,48 @@ class Script(Model):
         :rtype: Script
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def created_by(self):
+        """Gets the created_by of this Script.
+
+
+        :return: The created_by of this Script.
+        :rtype: str
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """Sets the created_by of this Script.
+
+
+        :param created_by: The created_by of this Script.
+        :type created_by: str
+        """
+
+        self._created_by = created_by
+
+    @property
+    def description(self):
+        """Gets the description of this Script.
+
+
+        :return: The description of this Script.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        """Sets the description of this Script.
+
+
+        :param description: The description of this Script.
+        :type description: str
+        """
+
+        self._description = description
 
     @property
     def id(self):
@@ -110,25 +152,25 @@ class Script(Model):
         self._name = name
 
     @property
-    def description(self):
-        """Gets the description of this Script.
+    def owned_by(self):
+        """Gets the owned_by of this Script.
 
 
-        :return: The description of this Script.
+        :return: The owned_by of this Script.
         :rtype: str
         """
-        return self._description
+        return self._owned_by
 
-    @description.setter
-    def description(self, description):
-        """Sets the description of this Script.
+    @owned_by.setter
+    def owned_by(self, owned_by):
+        """Sets the owned_by of this Script.
 
 
-        :param description: The description of this Script.
-        :type description: str
+        :param owned_by: The owned_by of this Script.
+        :type owned_by: str
         """
 
-        self._description = description
+        self._owned_by = owned_by
 
     @property
     def tags(self):
@@ -150,45 +192,3 @@ class Script(Model):
         """
 
         self._tags = tags
-
-    @property
-    def created_by(self):
-        """Gets the created_by of this Script.
-
-
-        :return: The created_by of this Script.
-        :rtype: str
-        """
-        return self._created_by
-
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Script.
-
-
-        :param created_by: The created_by of this Script.
-        :type created_by: str
-        """
-
-        self._created_by = created_by
-
-    @property
-    def owned_by(self):
-        """Gets the owned_by of this Script.
-
-
-        :return: The owned_by of this Script.
-        :rtype: str
-        """
-        return self._owned_by
-
-    @owned_by.setter
-    def owned_by(self, owned_by):
-        """Sets the owned_by of this Script.
-
-
-        :param owned_by: The owned_by of this Script.
-        :type owned_by: str
-        """
-
-        self._owned_by = owned_by

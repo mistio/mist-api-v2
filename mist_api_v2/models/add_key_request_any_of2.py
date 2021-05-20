@@ -15,26 +15,26 @@ class AddKeyRequestAnyOf2(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, generate=None, dry=None):  # noqa: E501
+    def __init__(self, dry=None, generate=None):  # noqa: E501
         """AddKeyRequestAnyOf2 - a model defined in OpenAPI
 
-        :param generate: The generate of this AddKeyRequestAnyOf2.  # noqa: E501
-        :type generate: bool
         :param dry: The dry of this AddKeyRequestAnyOf2.  # noqa: E501
         :type dry: bool
+        :param generate: The generate of this AddKeyRequestAnyOf2.  # noqa: E501
+        :type generate: bool
         """
         self.openapi_types = {
-            'generate': bool,
-            'dry': bool
+            'dry': bool,
+            'generate': bool
         }
 
         self.attribute_map = {
-            'generate': 'generate',
-            'dry': 'dry'
+            'dry': 'dry',
+            'generate': 'generate'
         }
 
-        self._generate = generate
         self._dry = dry
+        self._generate = generate
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKeyRequestAnyOf2':
@@ -46,31 +46,6 @@ class AddKeyRequestAnyOf2(Model):
         :rtype: AddKeyRequestAnyOf2
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def generate(self):
-        """Gets the generate of this AddKeyRequestAnyOf2.
-
-        Generate a keypair instead of providing one  # noqa: E501
-
-        :return: The generate of this AddKeyRequestAnyOf2.
-        :rtype: bool
-        """
-        return self._generate
-
-    @generate.setter
-    def generate(self, generate):
-        """Sets the generate of this AddKeyRequestAnyOf2.
-
-        Generate a keypair instead of providing one  # noqa: E501
-
-        :param generate: The generate of this AddKeyRequestAnyOf2.
-        :type generate: bool
-        """
-        if generate is None:
-            raise ValueError("Invalid value for `generate`, must not be `None`")  # noqa: E501
-
-        self._generate = generate
 
     @property
     def dry(self):
@@ -96,3 +71,28 @@ class AddKeyRequestAnyOf2(Model):
             raise ValueError("Invalid value for `dry`, must not be `None`")  # noqa: E501
 
         self._dry = dry
+
+    @property
+    def generate(self):
+        """Gets the generate of this AddKeyRequestAnyOf2.
+
+        Generate a keypair instead of providing one  # noqa: E501
+
+        :return: The generate of this AddKeyRequestAnyOf2.
+        :rtype: bool
+        """
+        return self._generate
+
+    @generate.setter
+    def generate(self, generate):
+        """Sets the generate of this AddKeyRequestAnyOf2.
+
+        Generate a keypair instead of providing one  # noqa: E501
+
+        :param generate: The generate of this AddKeyRequestAnyOf2.
+        :type generate: bool
+        """
+        if generate is None:
+            raise ValueError("Invalid value for `generate`, must not be `None`")  # noqa: E501
+
+        self._generate = generate

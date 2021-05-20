@@ -15,31 +15,31 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, address_family=None, public=None, cidr=None):  # noqa: E501
+    def __init__(self, address_family=None, cidr=None, public=None):  # noqa: E501
         """EquinixMetalCreateMachineRequestNetIpAddresses - a model defined in OpenAPI
 
         :param address_family: The address_family of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
         :type address_family: int
-        :param public: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
-        :type public: bool
         :param cidr: The cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
         :type cidr: int
+        :param public: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.  # noqa: E501
+        :type public: bool
         """
         self.openapi_types = {
             'address_family': int,
-            'public': bool,
-            'cidr': int
+            'cidr': int,
+            'public': bool
         }
 
         self.attribute_map = {
             'address_family': 'address_family',
-            'public': 'public',
-            'cidr': 'cidr'
+            'cidr': 'cidr',
+            'public': 'public'
         }
 
         self._address_family = address_family
-        self._public = public
         self._cidr = cidr
+        self._public = public
 
     @classmethod
     def from_dict(cls, dikt) -> 'EquinixMetalCreateMachineRequestNetIpAddresses':
@@ -82,31 +82,6 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
         self._address_family = address_family
 
     @property
-    def public(self):
-        """Gets the public of this EquinixMetalCreateMachineRequestNetIpAddresses.
-
-        Address Type for IP Address  # noqa: E501
-
-        :return: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.
-        :rtype: bool
-        """
-        return self._public
-
-    @public.setter
-    def public(self, public):
-        """Sets the public of this EquinixMetalCreateMachineRequestNetIpAddresses.
-
-        Address Type for IP Address  # noqa: E501
-
-        :param public: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.
-        :type public: bool
-        """
-        if public is None:
-            raise ValueError("Invalid value for `public`, must not be `None`")  # noqa: E501
-
-        self._public = public
-
-    @property
     def cidr(self):
         """Gets the cidr of this EquinixMetalCreateMachineRequestNetIpAddresses.
 
@@ -130,3 +105,28 @@ class EquinixMetalCreateMachineRequestNetIpAddresses(Model):
             raise ValueError("Invalid value for `cidr`, must not be `None`")  # noqa: E501
 
         self._cidr = cidr
+
+    @property
+    def public(self):
+        """Gets the public of this EquinixMetalCreateMachineRequestNetIpAddresses.
+
+        Address Type for IP Address  # noqa: E501
+
+        :return: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.
+        :rtype: bool
+        """
+        return self._public
+
+    @public.setter
+    def public(self, public):
+        """Sets the public of this EquinixMetalCreateMachineRequestNetIpAddresses.
+
+        Address Type for IP Address  # noqa: E501
+
+        :param public: The public of this EquinixMetalCreateMachineRequestNetIpAddresses.
+        :type public: bool
+        """
+        if public is None:
+            raise ValueError("Invalid value for `public`, must not be `None`")  # noqa: E501
+
+        self._public = public

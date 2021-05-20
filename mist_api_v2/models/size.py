@@ -15,41 +15,41 @@ class Size(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, external_id=None, name=None, cloud=None, extra=None):  # noqa: E501
+    def __init__(self, cloud=None, external_id=None, extra=None, id=None, name=None):  # noqa: E501
         """Size - a model defined in OpenAPI
 
-        :param id: The id of this Size.  # noqa: E501
-        :type id: str
-        :param external_id: The external_id of this Size.  # noqa: E501
-        :type external_id: str
-        :param name: The name of this Size.  # noqa: E501
-        :type name: str
         :param cloud: The cloud of this Size.  # noqa: E501
         :type cloud: str
+        :param external_id: The external_id of this Size.  # noqa: E501
+        :type external_id: str
         :param extra: The extra of this Size.  # noqa: E501
         :type extra: object
+        :param id: The id of this Size.  # noqa: E501
+        :type id: str
+        :param name: The name of this Size.  # noqa: E501
+        :type name: str
         """
         self.openapi_types = {
-            'id': str,
-            'external_id': str,
-            'name': str,
             'cloud': str,
-            'extra': object
+            'external_id': str,
+            'extra': object,
+            'id': str,
+            'name': str
         }
 
         self.attribute_map = {
-            'id': 'id',
-            'external_id': 'external_id',
-            'name': 'name',
             'cloud': 'cloud',
-            'extra': 'extra'
+            'external_id': 'external_id',
+            'extra': 'extra',
+            'id': 'id',
+            'name': 'name'
         }
 
-        self._id = id
-        self._external_id = external_id
-        self._name = name
         self._cloud = cloud
+        self._external_id = external_id
         self._extra = extra
+        self._id = id
+        self._name = name
 
     @classmethod
     def from_dict(cls, dikt) -> 'Size':
@@ -61,69 +61,6 @@ class Size(Model):
         :rtype: Size
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def id(self):
-        """Gets the id of this Size.
-
-
-        :return: The id of this Size.
-        :rtype: str
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):
-        """Sets the id of this Size.
-
-
-        :param id: The id of this Size.
-        :type id: str
-        """
-
-        self._id = id
-
-    @property
-    def external_id(self):
-        """Gets the external_id of this Size.
-
-
-        :return: The external_id of this Size.
-        :rtype: str
-        """
-        return self._external_id
-
-    @external_id.setter
-    def external_id(self, external_id):
-        """Sets the external_id of this Size.
-
-
-        :param external_id: The external_id of this Size.
-        :type external_id: str
-        """
-
-        self._external_id = external_id
-
-    @property
-    def name(self):
-        """Gets the name of this Size.
-
-
-        :return: The name of this Size.
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this Size.
-
-
-        :param name: The name of this Size.
-        :type name: str
-        """
-
-        self._name = name
 
     @property
     def cloud(self):
@@ -147,6 +84,27 @@ class Size(Model):
         self._cloud = cloud
 
     @property
+    def external_id(self):
+        """Gets the external_id of this Size.
+
+
+        :return: The external_id of this Size.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Size.
+
+
+        :param external_id: The external_id of this Size.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
+
+    @property
     def extra(self):
         """Gets the extra of this Size.
 
@@ -166,3 +124,45 @@ class Size(Model):
         """
 
         self._extra = extra
+
+    @property
+    def id(self):
+        """Gets the id of this Size.
+
+
+        :return: The id of this Size.
+        :rtype: str
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        """Sets the id of this Size.
+
+
+        :param id: The id of this Size.
+        :type id: str
+        """
+
+        self._id = id
+
+    @property
+    def name(self):
+        """Gets the name of this Size.
+
+
+        :return: The name of this Size.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Size.
+
+
+        :param name: The name of this Size.
+        :type name: str
+        """
+
+        self._name = name

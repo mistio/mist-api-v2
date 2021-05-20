@@ -19,56 +19,56 @@ class Cloud(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, title=None, provider=None, config=None, features=None, tags=None, created_by=None, owned_by=None):  # noqa: E501
+    def __init__(self, config=None, created_by=None, features=None, id=None, owned_by=None, provider=None, tags=None, title=None):  # noqa: E501
         """Cloud - a model defined in OpenAPI
 
-        :param id: The id of this Cloud.  # noqa: E501
-        :type id: str
-        :param title: The title of this Cloud.  # noqa: E501
-        :type title: str
-        :param provider: The provider of this Cloud.  # noqa: E501
-        :type provider: SupportedProviders
         :param config: The config of this Cloud.  # noqa: E501
         :type config: object
-        :param features: The features of this Cloud.  # noqa: E501
-        :type features: CloudFeatures
-        :param tags: The tags of this Cloud.  # noqa: E501
-        :type tags: object
         :param created_by: The created_by of this Cloud.  # noqa: E501
         :type created_by: str
+        :param features: The features of this Cloud.  # noqa: E501
+        :type features: CloudFeatures
+        :param id: The id of this Cloud.  # noqa: E501
+        :type id: str
         :param owned_by: The owned_by of this Cloud.  # noqa: E501
         :type owned_by: str
+        :param provider: The provider of this Cloud.  # noqa: E501
+        :type provider: SupportedProviders
+        :param tags: The tags of this Cloud.  # noqa: E501
+        :type tags: object
+        :param title: The title of this Cloud.  # noqa: E501
+        :type title: str
         """
         self.openapi_types = {
-            'id': str,
-            'title': str,
-            'provider': SupportedProviders,
             'config': object,
-            'features': CloudFeatures,
-            'tags': object,
             'created_by': str,
-            'owned_by': str
+            'features': CloudFeatures,
+            'id': str,
+            'owned_by': str,
+            'provider': SupportedProviders,
+            'tags': object,
+            'title': str
         }
 
         self.attribute_map = {
-            'id': 'id',
-            'title': 'title',
-            'provider': 'provider',
             'config': 'config',
-            'features': 'features',
-            'tags': 'tags',
             'created_by': 'created_by',
-            'owned_by': 'owned_by'
+            'features': 'features',
+            'id': 'id',
+            'owned_by': 'owned_by',
+            'provider': 'provider',
+            'tags': 'tags',
+            'title': 'title'
         }
 
-        self._id = id
-        self._title = title
-        self._provider = provider
         self._config = config
-        self._features = features
-        self._tags = tags
         self._created_by = created_by
+        self._features = features
+        self._id = id
         self._owned_by = owned_by
+        self._provider = provider
+        self._tags = tags
+        self._title = title
 
     @classmethod
     def from_dict(cls, dikt) -> 'Cloud':
@@ -80,69 +80,6 @@ class Cloud(Model):
         :rtype: Cloud
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def id(self):
-        """Gets the id of this Cloud.
-
-
-        :return: The id of this Cloud.
-        :rtype: str
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):
-        """Sets the id of this Cloud.
-
-
-        :param id: The id of this Cloud.
-        :type id: str
-        """
-
-        self._id = id
-
-    @property
-    def title(self):
-        """Gets the title of this Cloud.
-
-
-        :return: The title of this Cloud.
-        :rtype: str
-        """
-        return self._title
-
-    @title.setter
-    def title(self, title):
-        """Sets the title of this Cloud.
-
-
-        :param title: The title of this Cloud.
-        :type title: str
-        """
-
-        self._title = title
-
-    @property
-    def provider(self):
-        """Gets the provider of this Cloud.
-
-
-        :return: The provider of this Cloud.
-        :rtype: SupportedProviders
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this Cloud.
-
-
-        :param provider: The provider of this Cloud.
-        :type provider: SupportedProviders
-        """
-
-        self._provider = provider
 
     @property
     def config(self):
@@ -166,6 +103,27 @@ class Cloud(Model):
         self._config = config
 
     @property
+    def created_by(self):
+        """Gets the created_by of this Cloud.
+
+
+        :return: The created_by of this Cloud.
+        :rtype: str
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """Sets the created_by of this Cloud.
+
+
+        :param created_by: The created_by of this Cloud.
+        :type created_by: str
+        """
+
+        self._created_by = created_by
+
+    @property
     def features(self):
         """Gets the features of this Cloud.
 
@@ -185,6 +143,69 @@ class Cloud(Model):
         """
 
         self._features = features
+
+    @property
+    def id(self):
+        """Gets the id of this Cloud.
+
+
+        :return: The id of this Cloud.
+        :rtype: str
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        """Sets the id of this Cloud.
+
+
+        :param id: The id of this Cloud.
+        :type id: str
+        """
+
+        self._id = id
+
+    @property
+    def owned_by(self):
+        """Gets the owned_by of this Cloud.
+
+
+        :return: The owned_by of this Cloud.
+        :rtype: str
+        """
+        return self._owned_by
+
+    @owned_by.setter
+    def owned_by(self, owned_by):
+        """Sets the owned_by of this Cloud.
+
+
+        :param owned_by: The owned_by of this Cloud.
+        :type owned_by: str
+        """
+
+        self._owned_by = owned_by
+
+    @property
+    def provider(self):
+        """Gets the provider of this Cloud.
+
+
+        :return: The provider of this Cloud.
+        :rtype: SupportedProviders
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this Cloud.
+
+
+        :param provider: The provider of this Cloud.
+        :type provider: SupportedProviders
+        """
+
+        self._provider = provider
 
     @property
     def tags(self):
@@ -208,43 +229,22 @@ class Cloud(Model):
         self._tags = tags
 
     @property
-    def created_by(self):
-        """Gets the created_by of this Cloud.
+    def title(self):
+        """Gets the title of this Cloud.
 
 
-        :return: The created_by of this Cloud.
+        :return: The title of this Cloud.
         :rtype: str
         """
-        return self._created_by
+        return self._title
 
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Cloud.
+    @title.setter
+    def title(self, title):
+        """Sets the title of this Cloud.
 
 
-        :param created_by: The created_by of this Cloud.
-        :type created_by: str
+        :param title: The title of this Cloud.
+        :type title: str
         """
 
-        self._created_by = created_by
-
-    @property
-    def owned_by(self):
-        """Gets the owned_by of this Cloud.
-
-
-        :return: The owned_by of this Cloud.
-        :rtype: str
-        """
-        return self._owned_by
-
-    @owned_by.setter
-    def owned_by(self, owned_by):
-        """Sets the owned_by of this Cloud.
-
-
-        :param owned_by: The owned_by of this Cloud.
-        :type owned_by: str
-        """
-
-        self._owned_by = owned_by
+        self._title = title

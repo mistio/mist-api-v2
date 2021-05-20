@@ -15,55 +15,55 @@ class Key(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, config=None, tags=None, created_by=None, owned_by=None, default=None, type=None):  # noqa: E501
+    def __init__(self, config=None, created_by=None, default=None, id=None, name=None, owned_by=None, tags=None, type=None):  # noqa: E501
         """Key - a model defined in OpenAPI
 
+        :param config: The config of this Key.  # noqa: E501
+        :type config: object
+        :param created_by: The created_by of this Key.  # noqa: E501
+        :type created_by: str
+        :param default: The default of this Key.  # noqa: E501
+        :type default: bool
         :param id: The id of this Key.  # noqa: E501
         :type id: str
         :param name: The name of this Key.  # noqa: E501
         :type name: str
-        :param config: The config of this Key.  # noqa: E501
-        :type config: object
-        :param tags: The tags of this Key.  # noqa: E501
-        :type tags: object
-        :param created_by: The created_by of this Key.  # noqa: E501
-        :type created_by: str
         :param owned_by: The owned_by of this Key.  # noqa: E501
         :type owned_by: str
-        :param default: The default of this Key.  # noqa: E501
-        :type default: bool
+        :param tags: The tags of this Key.  # noqa: E501
+        :type tags: object
         :param type: The type of this Key.  # noqa: E501
         :type type: str
         """
         self.openapi_types = {
+            'config': object,
+            'created_by': str,
+            'default': bool,
             'id': str,
             'name': str,
-            'config': object,
-            'tags': object,
-            'created_by': str,
             'owned_by': str,
-            'default': bool,
+            'tags': object,
             'type': str
         }
 
         self.attribute_map = {
+            'config': 'config',
+            'created_by': 'created_by',
+            'default': 'default',
             'id': 'id',
             'name': 'name',
-            'config': 'config',
-            'tags': 'tags',
-            'created_by': 'created_by',
             'owned_by': 'owned_by',
-            'default': 'default',
+            'tags': 'tags',
             'type': 'type'
         }
 
+        self._config = config
+        self._created_by = created_by
+        self._default = default
         self._id = id
         self._name = name
-        self._config = config
-        self._tags = tags
-        self._created_by = created_by
         self._owned_by = owned_by
-        self._default = default
+        self._tags = tags
         self._type = type
 
     @classmethod
@@ -76,6 +76,69 @@ class Key(Model):
         :rtype: Key
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def config(self):
+        """Gets the config of this Key.
+
+
+        :return: The config of this Key.
+        :rtype: object
+        """
+        return self._config
+
+    @config.setter
+    def config(self, config):
+        """Sets the config of this Key.
+
+
+        :param config: The config of this Key.
+        :type config: object
+        """
+
+        self._config = config
+
+    @property
+    def created_by(self):
+        """Gets the created_by of this Key.
+
+
+        :return: The created_by of this Key.
+        :rtype: str
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """Sets the created_by of this Key.
+
+
+        :param created_by: The created_by of this Key.
+        :type created_by: str
+        """
+
+        self._created_by = created_by
+
+    @property
+    def default(self):
+        """Gets the default of this Key.
+
+
+        :return: The default of this Key.
+        :rtype: bool
+        """
+        return self._default
+
+    @default.setter
+    def default(self, default):
+        """Sets the default of this Key.
+
+
+        :param default: The default of this Key.
+        :type default: bool
+        """
+
+        self._default = default
 
     @property
     def id(self):
@@ -120,69 +183,6 @@ class Key(Model):
         self._name = name
 
     @property
-    def config(self):
-        """Gets the config of this Key.
-
-
-        :return: The config of this Key.
-        :rtype: object
-        """
-        return self._config
-
-    @config.setter
-    def config(self, config):
-        """Sets the config of this Key.
-
-
-        :param config: The config of this Key.
-        :type config: object
-        """
-
-        self._config = config
-
-    @property
-    def tags(self):
-        """Gets the tags of this Key.
-
-
-        :return: The tags of this Key.
-        :rtype: object
-        """
-        return self._tags
-
-    @tags.setter
-    def tags(self, tags):
-        """Sets the tags of this Key.
-
-
-        :param tags: The tags of this Key.
-        :type tags: object
-        """
-
-        self._tags = tags
-
-    @property
-    def created_by(self):
-        """Gets the created_by of this Key.
-
-
-        :return: The created_by of this Key.
-        :rtype: str
-        """
-        return self._created_by
-
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Key.
-
-
-        :param created_by: The created_by of this Key.
-        :type created_by: str
-        """
-
-        self._created_by = created_by
-
-    @property
     def owned_by(self):
         """Gets the owned_by of this Key.
 
@@ -204,25 +204,25 @@ class Key(Model):
         self._owned_by = owned_by
 
     @property
-    def default(self):
-        """Gets the default of this Key.
+    def tags(self):
+        """Gets the tags of this Key.
 
 
-        :return: The default of this Key.
-        :rtype: bool
+        :return: The tags of this Key.
+        :rtype: object
         """
-        return self._default
+        return self._tags
 
-    @default.setter
-    def default(self, default):
-        """Sets the default of this Key.
+    @tags.setter
+    def tags(self, tags):
+        """Sets the tags of this Key.
 
 
-        :param default: The default of this Key.
-        :type default: bool
+        :param tags: The tags of this Key.
+        :type tags: object
         """
 
-        self._default = default
+        self._tags = tags
 
     @property
     def type(self):

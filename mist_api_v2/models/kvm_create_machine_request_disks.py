@@ -15,26 +15,26 @@ class KvmCreateMachineRequestDisks(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, disk_size=None, disk_path=None):  # noqa: E501
+    def __init__(self, disk_path=None, disk_size=None):  # noqa: E501
         """KvmCreateMachineRequestDisks - a model defined in OpenAPI
 
-        :param disk_size: The disk_size of this KvmCreateMachineRequestDisks.  # noqa: E501
-        :type disk_size: int
         :param disk_path: The disk_path of this KvmCreateMachineRequestDisks.  # noqa: E501
         :type disk_path: str
+        :param disk_size: The disk_size of this KvmCreateMachineRequestDisks.  # noqa: E501
+        :type disk_size: int
         """
         self.openapi_types = {
-            'disk_size': int,
-            'disk_path': str
+            'disk_path': str,
+            'disk_size': int
         }
 
         self.attribute_map = {
-            'disk_size': 'disk_size',
-            'disk_path': 'disk_path'
+            'disk_path': 'disk_path',
+            'disk_size': 'disk_size'
         }
 
-        self._disk_size = disk_size
         self._disk_path = disk_path
+        self._disk_size = disk_size
 
     @classmethod
     def from_dict(cls, dikt) -> 'KvmCreateMachineRequestDisks':
@@ -46,29 +46,6 @@ class KvmCreateMachineRequestDisks(Model):
         :rtype: KvmCreateMachineRequestDisks
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def disk_size(self):
-        """Gets the disk_size of this KvmCreateMachineRequestDisks.
-
-        The VM's size will be the size of the image plus the number in GBs provided here  # noqa: E501
-
-        :return: The disk_size of this KvmCreateMachineRequestDisks.
-        :rtype: int
-        """
-        return self._disk_size
-
-    @disk_size.setter
-    def disk_size(self, disk_size):
-        """Sets the disk_size of this KvmCreateMachineRequestDisks.
-
-        The VM's size will be the size of the image plus the number in GBs provided here  # noqa: E501
-
-        :param disk_size: The disk_size of this KvmCreateMachineRequestDisks.
-        :type disk_size: int
-        """
-
-        self._disk_size = disk_size
 
     @property
     def disk_path(self):
@@ -92,3 +69,26 @@ class KvmCreateMachineRequestDisks(Model):
         """
 
         self._disk_path = disk_path
+
+    @property
+    def disk_size(self):
+        """Gets the disk_size of this KvmCreateMachineRequestDisks.
+
+        The VM's size will be the size of the image plus the number in GBs provided here  # noqa: E501
+
+        :return: The disk_size of this KvmCreateMachineRequestDisks.
+        :rtype: int
+        """
+        return self._disk_size
+
+    @disk_size.setter
+    def disk_size(self, disk_size):
+        """Sets the disk_size of this KvmCreateMachineRequestDisks.
+
+        The VM's size will be the size of the image plus the number in GBs provided here  # noqa: E501
+
+        :param disk_size: The disk_size of this KvmCreateMachineRequestDisks.
+        :type disk_size: int
+        """
+
+        self._disk_size = disk_size

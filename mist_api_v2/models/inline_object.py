@@ -19,31 +19,31 @@ class InlineObject(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, credentials=None, features=None, title=None):  # noqa: E501
         """InlineObject - a model defined in OpenAPI
 
-        :param title: The title of this InlineObject.  # noqa: E501
-        :type title: str
         :param credentials: The credentials of this InlineObject.  # noqa: E501
         :type credentials: CloudCredentials
         :param features: The features of this InlineObject.  # noqa: E501
         :type features: CloudFeatures
+        :param title: The title of this InlineObject.  # noqa: E501
+        :type title: str
         """
         self.openapi_types = {
-            'title': str,
             'credentials': CloudCredentials,
-            'features': CloudFeatures
+            'features': CloudFeatures,
+            'title': str
         }
 
         self.attribute_map = {
-            'title': 'title',
             'credentials': 'credentials',
-            'features': 'features'
+            'features': 'features',
+            'title': 'title'
         }
 
-        self._title = title
         self._credentials = credentials
         self._features = features
+        self._title = title
 
     @classmethod
     def from_dict(cls, dikt) -> 'InlineObject':
@@ -55,29 +55,6 @@ class InlineObject(Model):
         :rtype: InlineObject
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def title(self):
-        """Gets the title of this InlineObject.
-
-        Updated title  # noqa: E501
-
-        :return: The title of this InlineObject.
-        :rtype: str
-        """
-        return self._title
-
-    @title.setter
-    def title(self, title):
-        """Sets the title of this InlineObject.
-
-        Updated title  # noqa: E501
-
-        :param title: The title of this InlineObject.
-        :type title: str
-        """
-
-        self._title = title
 
     @property
     def credentials(self):
@@ -120,3 +97,26 @@ class InlineObject(Model):
         """
 
         self._features = features
+
+    @property
+    def title(self):
+        """Gets the title of this InlineObject.
+
+        Updated title  # noqa: E501
+
+        :return: The title of this InlineObject.
+        :rtype: str
+        """
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        """Sets the title of this InlineObject.
+
+        Updated title  # noqa: E501
+
+        :param title: The title of this InlineObject.
+        :type title: str
+        """
+
+        self._title = title

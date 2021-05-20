@@ -15,51 +15,51 @@ class CreateZoneRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, tags=None, extra=None, template=None, dry=None, save=None):  # noqa: E501
+    def __init__(self, cloud=None, dry=None, extra=None, name=None, save=None, tags=None, template=None):  # noqa: E501
         """CreateZoneRequest - a model defined in OpenAPI
 
-        :param name: The name of this CreateZoneRequest.  # noqa: E501
-        :type name: str
         :param cloud: The cloud of this CreateZoneRequest.  # noqa: E501
         :type cloud: str
-        :param tags: The tags of this CreateZoneRequest.  # noqa: E501
-        :type tags: object
-        :param extra: The extra of this CreateZoneRequest.  # noqa: E501
-        :type extra: object
-        :param template: The template of this CreateZoneRequest.  # noqa: E501
-        :type template: object
         :param dry: The dry of this CreateZoneRequest.  # noqa: E501
         :type dry: bool
+        :param extra: The extra of this CreateZoneRequest.  # noqa: E501
+        :type extra: object
+        :param name: The name of this CreateZoneRequest.  # noqa: E501
+        :type name: str
         :param save: The save of this CreateZoneRequest.  # noqa: E501
         :type save: bool
+        :param tags: The tags of this CreateZoneRequest.  # noqa: E501
+        :type tags: object
+        :param template: The template of this CreateZoneRequest.  # noqa: E501
+        :type template: object
         """
         self.openapi_types = {
-            'name': str,
             'cloud': str,
-            'tags': object,
-            'extra': object,
-            'template': object,
             'dry': bool,
-            'save': bool
+            'extra': object,
+            'name': str,
+            'save': bool,
+            'tags': object,
+            'template': object
         }
 
         self.attribute_map = {
-            'name': 'name',
             'cloud': 'cloud',
-            'tags': 'tags',
-            'extra': 'extra',
-            'template': 'template',
             'dry': 'dry',
-            'save': 'save'
+            'extra': 'extra',
+            'name': 'name',
+            'save': 'save',
+            'tags': 'tags',
+            'template': 'template'
         }
 
-        self._name = name
         self._cloud = cloud
-        self._tags = tags
-        self._extra = extra
-        self._template = template
         self._dry = dry
+        self._extra = extra
+        self._name = name
         self._save = save
+        self._tags = tags
+        self._template = template
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateZoneRequest':
@@ -71,31 +71,6 @@ class CreateZoneRequest(Model):
         :rtype: CreateZoneRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def name(self):
-        """Gets the name of this CreateZoneRequest.
-
-        Specify zone name  # noqa: E501
-
-        :return: The name of this CreateZoneRequest.
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this CreateZoneRequest.
-
-        Specify zone name  # noqa: E501
-
-        :param name: The name of this CreateZoneRequest.
-        :type name: str
-        """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
-
-        self._name = name
 
     @property
     def cloud(self):
@@ -123,27 +98,27 @@ class CreateZoneRequest(Model):
         self._cloud = cloud
 
     @property
-    def tags(self):
-        """Gets the tags of this CreateZoneRequest.
+    def dry(self):
+        """Gets the dry of this CreateZoneRequest.
 
-        Assign tags to provisioned zone  # noqa: E501
+        Return provisioning plan and exit without executing it  # noqa: E501
 
-        :return: The tags of this CreateZoneRequest.
-        :rtype: object
+        :return: The dry of this CreateZoneRequest.
+        :rtype: bool
         """
-        return self._tags
+        return self._dry
 
-    @tags.setter
-    def tags(self, tags):
-        """Sets the tags of this CreateZoneRequest.
+    @dry.setter
+    def dry(self, dry):
+        """Sets the dry of this CreateZoneRequest.
 
-        Assign tags to provisioned zone  # noqa: E501
+        Return provisioning plan and exit without executing it  # noqa: E501
 
-        :param tags: The tags of this CreateZoneRequest.
-        :type tags: object
+        :param dry: The dry of this CreateZoneRequest.
+        :type dry: bool
         """
 
-        self._tags = tags
+        self._dry = dry
 
     @property
     def extra(self):
@@ -169,48 +144,29 @@ class CreateZoneRequest(Model):
         self._extra = extra
 
     @property
-    def template(self):
-        """Gets the template of this CreateZoneRequest.
+    def name(self):
+        """Gets the name of this CreateZoneRequest.
 
+        Specify zone name  # noqa: E501
 
-        :return: The template of this CreateZoneRequest.
-        :rtype: object
+        :return: The name of this CreateZoneRequest.
+        :rtype: str
         """
-        return self._template
+        return self._name
 
-    @template.setter
-    def template(self, template):
-        """Sets the template of this CreateZoneRequest.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this CreateZoneRequest.
 
+        Specify zone name  # noqa: E501
 
-        :param template: The template of this CreateZoneRequest.
-        :type template: object
+        :param name: The name of this CreateZoneRequest.
+        :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._template = template
-
-    @property
-    def dry(self):
-        """Gets the dry of this CreateZoneRequest.
-
-        Return provisioning plan and exit without executing it  # noqa: E501
-
-        :return: The dry of this CreateZoneRequest.
-        :rtype: bool
-        """
-        return self._dry
-
-    @dry.setter
-    def dry(self, dry):
-        """Sets the dry of this CreateZoneRequest.
-
-        Return provisioning plan and exit without executing it  # noqa: E501
-
-        :param dry: The dry of this CreateZoneRequest.
-        :type dry: bool
-        """
-
-        self._dry = dry
+        self._name = name
 
     @property
     def save(self):
@@ -234,3 +190,47 @@ class CreateZoneRequest(Model):
         """
 
         self._save = save
+
+    @property
+    def tags(self):
+        """Gets the tags of this CreateZoneRequest.
+
+        Assign tags to provisioned zone  # noqa: E501
+
+        :return: The tags of this CreateZoneRequest.
+        :rtype: object
+        """
+        return self._tags
+
+    @tags.setter
+    def tags(self, tags):
+        """Sets the tags of this CreateZoneRequest.
+
+        Assign tags to provisioned zone  # noqa: E501
+
+        :param tags: The tags of this CreateZoneRequest.
+        :type tags: object
+        """
+
+        self._tags = tags
+
+    @property
+    def template(self):
+        """Gets the template of this CreateZoneRequest.
+
+
+        :return: The template of this CreateZoneRequest.
+        :rtype: object
+        """
+        return self._template
+
+    @template.setter
+    def template(self, template):
+        """Sets the template of this CreateZoneRequest.
+
+
+        :param template: The template of this CreateZoneRequest.
+        :type template: object
+        """
+
+        self._template = template

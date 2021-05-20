@@ -15,35 +15,35 @@ class KvmCreateMachineRequestNetNetworks(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, network=None, ip=None, gateway=None, primary=None):  # noqa: E501
+    def __init__(self, gateway=None, ip=None, network=None, primary=None):  # noqa: E501
         """KvmCreateMachineRequestNetNetworks - a model defined in OpenAPI
 
-        :param network: The network of this KvmCreateMachineRequestNetNetworks.  # noqa: E501
-        :type network: str
-        :param ip: The ip of this KvmCreateMachineRequestNetNetworks.  # noqa: E501
-        :type ip: str
         :param gateway: The gateway of this KvmCreateMachineRequestNetNetworks.  # noqa: E501
         :type gateway: str
+        :param ip: The ip of this KvmCreateMachineRequestNetNetworks.  # noqa: E501
+        :type ip: str
+        :param network: The network of this KvmCreateMachineRequestNetNetworks.  # noqa: E501
+        :type network: str
         :param primary: The primary of this KvmCreateMachineRequestNetNetworks.  # noqa: E501
         :type primary: str
         """
         self.openapi_types = {
-            'network': str,
-            'ip': str,
             'gateway': str,
+            'ip': str,
+            'network': str,
             'primary': str
         }
 
         self.attribute_map = {
-            'network': 'network',
-            'ip': 'ip',
             'gateway': 'gateway',
+            'ip': 'ip',
+            'network': 'network',
             'primary': 'primary'
         }
 
-        self._network = network
-        self._ip = ip
         self._gateway = gateway
+        self._ip = ip
+        self._network = network
         self._primary = primary
 
     @classmethod
@@ -58,29 +58,27 @@ class KvmCreateMachineRequestNetNetworks(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def network(self):
-        """Gets the network of this KvmCreateMachineRequestNetNetworks.
+    def gateway(self):
+        """Gets the gateway of this KvmCreateMachineRequestNetNetworks.
 
-        id or name of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
+        the IPv4 address for the default Gateway  # noqa: E501
 
-        :return: The network of this KvmCreateMachineRequestNetNetworks.
+        :return: The gateway of this KvmCreateMachineRequestNetNetworks.
         :rtype: str
         """
-        return self._network
+        return self._gateway
 
-    @network.setter
-    def network(self, network):
-        """Sets the network of this KvmCreateMachineRequestNetNetworks.
+    @gateway.setter
+    def gateway(self, gateway):
+        """Sets the gateway of this KvmCreateMachineRequestNetNetworks.
 
-        id or name of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
+        the IPv4 address for the default Gateway  # noqa: E501
 
-        :param network: The network of this KvmCreateMachineRequestNetNetworks.
-        :type network: str
+        :param gateway: The gateway of this KvmCreateMachineRequestNetNetworks.
+        :type gateway: str
         """
-        if network is None:
-            raise ValueError("Invalid value for `network`, must not be `None`")  # noqa: E501
 
-        self._network = network
+        self._gateway = gateway
 
     @property
     def ip(self):
@@ -106,27 +104,29 @@ class KvmCreateMachineRequestNetNetworks(Model):
         self._ip = ip
 
     @property
-    def gateway(self):
-        """Gets the gateway of this KvmCreateMachineRequestNetNetworks.
+    def network(self):
+        """Gets the network of this KvmCreateMachineRequestNetNetworks.
 
-        the IPv4 address for the default Gateway  # noqa: E501
+        id or name of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
 
-        :return: The gateway of this KvmCreateMachineRequestNetNetworks.
+        :return: The network of this KvmCreateMachineRequestNetNetworks.
         :rtype: str
         """
-        return self._gateway
+        return self._network
 
-    @gateway.setter
-    def gateway(self, gateway):
-        """Sets the gateway of this KvmCreateMachineRequestNetNetworks.
+    @network.setter
+    def network(self, network):
+        """Sets the network of this KvmCreateMachineRequestNetNetworks.
 
-        the IPv4 address for the default Gateway  # noqa: E501
+        id or name of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
 
-        :param gateway: The gateway of this KvmCreateMachineRequestNetNetworks.
-        :type gateway: str
+        :param network: The network of this KvmCreateMachineRequestNetNetworks.
+        :type network: str
         """
+        if network is None:
+            raise ValueError("Invalid value for `network`, must not be `None`")  # noqa: E501
 
-        self._gateway = gateway
+        self._network = network
 
     @property
     def primary(self):

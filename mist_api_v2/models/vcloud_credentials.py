@@ -15,36 +15,36 @@ class VcloudCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, host=None, port=None, username=None, password=None):  # noqa: E501
+    def __init__(self, host=None, password=None, port=None, username=None):  # noqa: E501
         """VcloudCredentials - a model defined in OpenAPI
 
         :param host: The host of this VcloudCredentials.  # noqa: E501
         :type host: str
+        :param password: The password of this VcloudCredentials.  # noqa: E501
+        :type password: str
         :param port: The port of this VcloudCredentials.  # noqa: E501
         :type port: str
         :param username: The username of this VcloudCredentials.  # noqa: E501
         :type username: str
-        :param password: The password of this VcloudCredentials.  # noqa: E501
-        :type password: str
         """
         self.openapi_types = {
             'host': str,
+            'password': str,
             'port': str,
-            'username': str,
-            'password': str
+            'username': str
         }
 
         self.attribute_map = {
             'host': 'host',
+            'password': 'password',
             'port': 'port',
-            'username': 'username',
-            'password': 'password'
+            'username': 'username'
         }
 
         self._host = host
+        self._password = password
         self._port = port
         self._username = username
-        self._password = password
 
     @classmethod
     def from_dict(cls, dikt) -> 'VcloudCredentials':
@@ -81,6 +81,31 @@ class VcloudCredentials(Model):
             raise ValueError("Invalid value for `host`, must not be `None`")  # noqa: E501
 
         self._host = host
+
+    @property
+    def password(self):
+        """Gets the password of this VcloudCredentials.
+
+        Your vCloud password  # noqa: E501
+
+        :return: The password of this VcloudCredentials.
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this VcloudCredentials.
+
+        Your vCloud password  # noqa: E501
+
+        :param password: The password of this VcloudCredentials.
+        :type password: str
+        """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
+
+        self._password = password
 
     @property
     def port(self):
@@ -131,28 +156,3 @@ class VcloudCredentials(Model):
             raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
 
         self._username = username
-
-    @property
-    def password(self):
-        """Gets the password of this VcloudCredentials.
-
-        Your vCloud password  # noqa: E501
-
-        :return: The password of this VcloudCredentials.
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        """Sets the password of this VcloudCredentials.
-
-        Your vCloud password  # noqa: E501
-
-        :param password: The password of this VcloudCredentials.
-        :type password: str
-        """
-        if password is None:
-            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-
-        self._password = password

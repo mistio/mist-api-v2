@@ -15,31 +15,31 @@ class Selector(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, ids=None, include=None):  # noqa: E501
+    def __init__(self, ids=None, include=None, type=None):  # noqa: E501
         """Selector - a model defined in OpenAPI
 
-        :param type: The type of this Selector.  # noqa: E501
-        :type type: str
         :param ids: The ids of this Selector.  # noqa: E501
         :type ids: List[str]
         :param include: The include of this Selector.  # noqa: E501
         :type include: List[str]
+        :param type: The type of this Selector.  # noqa: E501
+        :type type: str
         """
         self.openapi_types = {
-            'type': str,
             'ids': List[str],
-            'include': List[str]
+            'include': List[str],
+            'type': str
         }
 
         self.attribute_map = {
-            'type': 'type',
             'ids': 'ids',
-            'include': 'include'
+            'include': 'include',
+            'type': 'type'
         }
 
-        self._type = type
         self._ids = ids
         self._include = include
+        self._type = type
 
     @classmethod
     def from_dict(cls, dikt) -> 'Selector':
@@ -51,31 +51,6 @@ class Selector(Model):
         :rtype: Selector
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def type(self):
-        """Gets the type of this Selector.
-
-        one of \"machines\" or \"tags\"  # noqa: E501
-
-        :return: The type of this Selector.
-        :rtype: str
-        """
-        return self._type
-
-    @type.setter
-    def type(self, type):
-        """Sets the type of this Selector.
-
-        one of \"machines\" or \"tags\"  # noqa: E501
-
-        :param type: The type of this Selector.
-        :type type: str
-        """
-        if type is None:
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
-
-        self._type = type
 
     @property
     def ids(self):
@@ -122,3 +97,28 @@ class Selector(Model):
         """
 
         self._include = include
+
+    @property
+    def type(self):
+        """Gets the type of this Selector.
+
+        one of \"machines\" or \"tags\"  # noqa: E501
+
+        :return: The type of this Selector.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Selector.
+
+        one of \"machines\" or \"tags\"  # noqa: E501
+
+        :param type: The type of this Selector.
+        :type type: str
+        """
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
+
+        self._type = type

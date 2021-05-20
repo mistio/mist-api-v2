@@ -19,31 +19,31 @@ class AddKubevirtCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, credentials=None, features=None, provider=None):  # noqa: E501
         """AddKubevirtCloudRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AddKubevirtCloudRequest.  # noqa: E501
-        :type provider: str
         :param credentials: The credentials of this AddKubevirtCloudRequest.  # noqa: E501
         :type credentials: KubevirtCredentials
         :param features: The features of this AddKubevirtCloudRequest.  # noqa: E501
         :type features: CloudFeatures
+        :param provider: The provider of this AddKubevirtCloudRequest.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
             'credentials': KubevirtCredentials,
-            'features': CloudFeatures
+            'features': CloudFeatures,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
             'credentials': 'credentials',
-            'features': 'features'
+            'features': 'features',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._credentials = credentials
         self._features = features
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddKubevirtCloudRequest':
@@ -55,33 +55,6 @@ class AddKubevirtCloudRequest(Model):
         :rtype: AddKubevirtCloudRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def provider(self):
-        """Gets the provider of this AddKubevirtCloudRequest.
-
-
-        :return: The provider of this AddKubevirtCloudRequest.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this AddKubevirtCloudRequest.
-
-
-        :param provider: The provider of this AddKubevirtCloudRequest.
-        :type provider: str
-        """
-        allowed_values = ["kubevirt"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider
 
     @property
     def credentials(self):
@@ -126,3 +99,30 @@ class AddKubevirtCloudRequest(Model):
         """
 
         self._features = features
+
+    @property
+    def provider(self):
+        """Gets the provider of this AddKubevirtCloudRequest.
+
+
+        :return: The provider of this AddKubevirtCloudRequest.
+        :rtype: str
+        """
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider):
+        """Sets the provider of this AddKubevirtCloudRequest.
+
+
+        :param provider: The provider of this AddKubevirtCloudRequest.
+        :type provider: str
+        """
+        allowed_values = ["kubevirt"]  # noqa: E501
+        if provider not in allowed_values:
+            raise ValueError(
+                "Invalid value for `provider` ({0}), must be one of {1}"
+                .format(provider, allowed_values)
+            )
+
+        self._provider = provider

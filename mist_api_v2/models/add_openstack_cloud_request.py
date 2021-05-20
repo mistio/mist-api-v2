@@ -17,26 +17,26 @@ class AddOpenstackCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, credentials=None, provider=None):  # noqa: E501
         """AddOpenstackCloudRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AddOpenstackCloudRequest.  # noqa: E501
-        :type provider: str
         :param credentials: The credentials of this AddOpenstackCloudRequest.  # noqa: E501
         :type credentials: OpenstackCredentials
+        :param provider: The provider of this AddOpenstackCloudRequest.  # noqa: E501
+        :type provider: str
         """
         self.openapi_types = {
-            'provider': str,
-            'credentials': OpenstackCredentials
+            'credentials': OpenstackCredentials,
+            'provider': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'provider': 'provider'
         }
 
-        self._provider = provider
         self._credentials = credentials
+        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddOpenstackCloudRequest':
@@ -48,6 +48,29 @@ class AddOpenstackCloudRequest(Model):
         :rtype: AddOpenstackCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this AddOpenstackCloudRequest.
+
+
+        :return: The credentials of this AddOpenstackCloudRequest.
+        :rtype: OpenstackCredentials
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this AddOpenstackCloudRequest.
+
+
+        :param credentials: The credentials of this AddOpenstackCloudRequest.
+        :type credentials: OpenstackCredentials
+        """
+        if credentials is None:
+            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
+
+        self._credentials = credentials
 
     @property
     def provider(self):
@@ -75,26 +98,3 @@ class AddOpenstackCloudRequest(Model):
             )
 
         self._provider = provider
-
-    @property
-    def credentials(self):
-        """Gets the credentials of this AddOpenstackCloudRequest.
-
-
-        :return: The credentials of this AddOpenstackCloudRequest.
-        :rtype: OpenstackCredentials
-        """
-        return self._credentials
-
-    @credentials.setter
-    def credentials(self, credentials):
-        """Sets the credentials of this AddOpenstackCloudRequest.
-
-
-        :param credentials: The credentials of this AddOpenstackCloudRequest.
-        :type credentials: OpenstackCredentials
-        """
-        if credentials is None:
-            raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
-
-        self._credentials = credentials

@@ -18,12 +18,12 @@ paths:
       parameters:
       - description: Only return results matching search filter
         examples:
+          Composite filter:
+            value: provider:packet AND status:enabled
           Filter by cloud provider:
             value: provider:amazon
           Filter by title:
             value: title:LXD1
-          Composite filter:
-            value: provider:packet AND status:enabled
         explode: true
         in: query
         name: search
@@ -44,10 +44,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -80,10 +80,10 @@ paths:
         examples:
           (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference creator by email, owner by name:
             value: creator:email, owned_by:name
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -221,10 +221,10 @@ paths:
         examples:
           Automatically replace all foreign key ids with referenced resource name:
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference creator by email, owner by name:
             value: creator:email, owned_by:name
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -283,13 +283,13 @@ paths:
           application/json:
             schema:
               properties:
-                title:
-                  description: Updated title
-                  type: string
                 credentials:
                   $ref: '#/components/schemas/CloudCredentials'
                 features:
                   $ref: '#/components/schemas/CloudFeatures'
+                title:
+                  description: Updated title
+                  type: string
               type: object
       responses:
         "200":
@@ -318,10 +318,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -353,10 +353,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -389,12 +389,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -470,12 +470,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -554,10 +554,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -590,10 +590,10 @@ paths:
         examples:
           (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference creator by email, owner by name:
             value: creator:email, owned_by:name
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -740,10 +740,10 @@ paths:
         examples:
           (default) Automatically replace all foreign key ids with referenced resource name:
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference creator by email, owner by name:
             value: creator:email, owned_by:name
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -839,10 +839,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -874,10 +874,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -910,10 +910,10 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference cloud id to cloud provider:
             value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -978,10 +978,10 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference cloud id to cloud provider:
             value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -1031,10 +1031,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -1066,10 +1066,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -1102,12 +1102,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -1230,12 +1230,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -1775,7 +1775,7 @@ paths:
       - CookieAuth:
         - read:machine
         - list_snapshots:machine
-      summary: Suspend machine
+      summary: List machine snapshots
       tags:
       - snapshots
       x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
@@ -1912,10 +1912,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -1947,10 +1947,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -1983,12 +1983,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -2096,12 +2096,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -2194,12 +2194,12 @@ paths:
       parameters:
       - description: Only return results matching search filter
         examples:
-          Filter by total_run_count:
-            value: total_run_count:5
-          Filter by title:
-            value: rule-disk*
           Composite filter:
             value: provider:packet AND total_run_count:5
+          Filter by title:
+            value: rule-disk*
+          Filter by total_run_count:
+            value: total_run_count:5
         explode: true
         in: query
         name: search
@@ -2220,10 +2220,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -2635,10 +2635,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 3rd result:
-            value: "3"
           Start from item with id xyz:
             value: xyz
+          Start from the 3rd result:
+            value: "3"
         explode: true
         in: query
         name: start
@@ -2671,10 +2671,10 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference creator by email, owner by name:
             value: creator:email, owned_by:name'
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -2771,10 +2771,10 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference creator by email, owner by name:
             value: creator:email, owned_by:name'
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -2869,10 +2869,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -2904,10 +2904,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -2940,10 +2940,10 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference cloud id to cloud provider:
             value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -3008,10 +3008,10 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
           Dereference cloud id to cloud provider:
             value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -3061,10 +3061,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -3096,10 +3096,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -3132,12 +3132,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -3253,12 +3253,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -3357,10 +3357,10 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
+          Filter by cloud title:
+            value: OSP10-new
         explode: true
         in: query
         name: cloud
@@ -3392,10 +3392,10 @@ paths:
         style: form
       - description: Start results from index or id
         examples:
-          Start from the 50th result:
-            value: "50"
           Start from item with id xyz:
             value: xyz
+          Start from the 50th result:
+            value: "50"
         explode: true
         in: query
         name: start
@@ -3428,12 +3428,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -3541,12 +3541,12 @@ paths:
         examples:
           '(default) Automatically replace all foreign key ids with referenced resource name ':
             value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
             value: cloud:provider, creator:email, owned_by:name
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Do not dereference anything, just return ids:
+            value: none
         explode: true
         in: query
         name: deref
@@ -3648,38 +3648,38 @@ components:
   schemas:
     AddAlibabaCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/AlibabaCredentials'
         provider:
           enum:
           - alibaba
           type: string
-        credentials:
-          $ref: '#/components/schemas/AlibabaCredentials'
       required:
       - credentials
       - provider
       type: object
     AddAmazonCloudRequest:
       properties:
-        provider:
-          enum:
-          - amazon
-          type: string
         credentials:
           $ref: '#/components/schemas/AmazonCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - amazon
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddAzureCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/AzureCredentials'
         provider:
           enum:
           - azure
           type: string
-        credentials:
-          $ref: '#/components/schemas/AzureCredentials'
       required:
       - credentials
       - provider
@@ -3689,26 +3689,26 @@ components:
       - $ref: '#/components/schemas/AddCloudRequest_allOf'
       - discriminator:
           mapping:
+            alibaba: '#/components/schemas/AddAlibabaCloudRequest'
             amazon: '#/components/schemas/AddAmazonCloudRequest'
             azure: '#/components/schemas/AddAzureCloudRequest'
-            google: '#/components/schemas/AddGoogleCloudRequest'
             cloudsigma: '#/components/schemas/AddCloudSigmaCloudRequest'
-            alibaba: '#/components/schemas/AddAlibabaCloudRequest'
-            equinix: '#/components/schemas/AddEquinixCloudRequest'
-            ibm: '#/components/schemas/AddIbmCloudRequest'
-            linode: '#/components/schemas/AddLinodeCloudRequest'
-            rackspace: '#/components/schemas/AddRackspaceCloudRequest'
-            maxihost: '#/components/schemas/AddMaxihostCloudRequest'
-            vultr: '#/components/schemas/AddVultrCloudRequest'
-            openstack: '#/components/schemas/AddOpenstackCloudRequest'
-            onapp: '#/components/schemas/AddOnappCloudRequest'
-            vsphere: '#/components/schemas/AddVsphereCloudRequest'
-            vcloud: '#/components/schemas/AddVcloudCloudRequest'
-            kvm: '#/components/schemas/AddKvmCloudRequest'
-            lxd: '#/components/schemas/AddLxdCloudRequest'
             docker: '#/components/schemas/AddDockerCloudRequest'
+            equinix: '#/components/schemas/AddEquinixCloudRequest'
+            google: '#/components/schemas/AddGoogleCloudRequest'
+            ibm: '#/components/schemas/AddIbmCloudRequest'
             kubevirt: '#/components/schemas/AddKubevirtCloudRequest'
+            kvm: '#/components/schemas/AddKvmCloudRequest'
+            linode: '#/components/schemas/AddLinodeCloudRequest'
+            lxd: '#/components/schemas/AddLxdCloudRequest'
+            maxihost: '#/components/schemas/AddMaxihostCloudRequest'
+            onapp: '#/components/schemas/AddOnappCloudRequest'
+            openstack: '#/components/schemas/AddOpenstackCloudRequest'
             other: '#/components/schemas/AddOtherCloudRequest'
+            rackspace: '#/components/schemas/AddRackspaceCloudRequest'
+            vcloud: '#/components/schemas/AddVcloudCloudRequest'
+            vsphere: '#/components/schemas/AddVsphereCloudRequest'
+            vultr: '#/components/schemas/AddVultrCloudRequest'
           propertyName: provider
         oneOf:
         - $ref: '#/components/schemas/AddAmazonCloudRequest'
@@ -3734,80 +3734,80 @@ components:
         - $ref: '#/components/schemas/AddOtherCloudRequest'
     AddCloudSigmaCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/CloudSigmaCredentials'
         provider:
           enum:
           - cloudsigma
           type: string
-        credentials:
-          $ref: '#/components/schemas/CloudSigmaCredentials'
       required:
       - credentials
       - provider
       type: object
     AddDigitaloceanCloudRequest:
       properties:
-        provider:
-          enum:
-          - digitalocean
-          type: string
         credentials:
           $ref: '#/components/schemas/DigitaloceanCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - digitalocean
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddDockerCloudRequest:
       properties:
-        provider:
-          enum:
-          - docker
-          type: string
         credentials:
           $ref: '#/components/schemas/DockerCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - docker
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddEquinixCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/EquinixCredentials'
         provider:
           enum:
           - equinix
           type: string
-        credentials:
-          $ref: '#/components/schemas/EquinixCredentials'
       required:
       - credentials
       - provider
       type: object
     AddGoogleCloudRequest:
       properties:
-        provider:
-          enum:
-          - google
-          type: string
         credentials:
           $ref: '#/components/schemas/GoogleCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - google
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddIbmCloudRequest:
       properties:
-        provider:
-          enum:
-          - ibm
-          type: string
         credentials:
           $ref: '#/components/schemas/IbmCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - ibm
+          type: string
       required:
       - credentials
       - provider
@@ -3833,154 +3833,154 @@ components:
       type: object
     AddKubevirtCloudRequest:
       properties:
-        provider:
-          enum:
-          - kubevirt
-          type: string
         credentials:
           $ref: '#/components/schemas/KubevirtCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - kubevirt
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddKvmCloudRequest:
       properties:
+        credentials:
+          type: object
         provider:
           enum:
           - kvm
           type: string
-        credentials:
-          type: object
       required:
       - credentials
       - provider
       type: object
     AddLinodeCloudRequest:
       properties:
-        provider:
-          enum:
-          - linode
-          type: string
         credentials:
           $ref: '#/components/schemas/LinodeCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - linode
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddLxdCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/LxdCredentials'
         provider:
           enum:
           - lxd
           type: string
-        credentials:
-          $ref: '#/components/schemas/LxdCredentials'
       required:
       - credentials
       - provider
       type: object
     AddMaxihostCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/MaxihostCredentials'
         provider:
           enum:
           - maxihost
           type: string
-        credentials:
-          $ref: '#/components/schemas/MaxihostCredentials'
       required:
       - credentials
       - provider
       type: object
     AddOnappCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/OnappCredentials'
         provider:
           enum:
           - onapp
           type: string
-        credentials:
-          $ref: '#/components/schemas/OnappCredentials'
       required:
       - credentials
       - provider
       type: object
     AddOpenstackCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/OpenstackCredentials'
         provider:
           enum:
           - openstack
           type: string
-        credentials:
-          $ref: '#/components/schemas/OpenstackCredentials'
       required:
       - credentials
       - provider
       type: object
     AddOtherCloudRequest:
       properties:
-        provider:
-          enum:
-          - other
-          type: string
         credentials:
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - other
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddRackspaceCloudRequest:
       properties:
-        provider:
-          enum:
-          - rackspace
-          type: string
         credentials:
           $ref: '#/components/schemas/RackspaceCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - rackspace
+          type: string
       required:
       - credentials
       - provider
       type: object
     AddVcloudCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/VcloudCredentials'
         provider:
           enum:
           - vcloud
           type: string
-        credentials:
-          $ref: '#/components/schemas/VcloudCredentials'
       required:
       - credentials
       - provider
       type: object
     AddVsphereCloudRequest:
       properties:
+        credentials:
+          $ref: '#/components/schemas/VsphereCredentials'
         provider:
           enum:
           - vsphere
           type: string
-        credentials:
-          $ref: '#/components/schemas/VsphereCredentials'
       required:
       - credentials
       - provider
       type: object
     AddVultrCloudRequest:
       properties:
-        provider:
-          enum:
-          - vultr
-          type: string
         credentials:
           $ref: '#/components/schemas/VultrCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        provider:
+          enum:
+          - vultr
+          type: string
       required:
       - credentials
       - provider
@@ -4010,16 +4010,22 @@ components:
           items:
             oneOf:
             - properties:
-                volume:
-                  description: Name or id of the volume
-                  type: string
                 device:
                   description: the device name (for example, /dev/sdh or xvdh)
+                  type: string
+                volume:
+                  description: Name or id of the volume
                   type: string
               required:
               - device
               - volume
             - properties:
+                delete_on_termination:
+                  description: delete volume when machine is deleted
+                  type: boolean
+                iops:
+                  description: number of I/O operations per second
+                  type: integer
                 name:
                   description: the device name (for example, /dev/sdh or xvdh)
                   type: string
@@ -4034,12 +4040,6 @@ components:
                   - sc1
                   - standard
                   type: string
-                iops:
-                  description: number of I/O operations per second
-                  type: integer
-                delete_on_termination:
-                  description: delete volume when machine is deleted
-                  type: boolean
               required:
               - name
               - size
@@ -4065,17 +4065,17 @@ components:
       type: object
     AzureCredentials:
       properties:
-        tenantId:
-          description: Your Azure tenant ID
-          type: string
-        subscriptionId:
-          description: Your Azure subscription ID
-          type: string
         key:
           description: Your Azure key
           type: string
         secret:
           description: Your Azure secret
+          type: string
+        subscriptionId:
+          description: Your Azure subscription ID
+          type: string
+        tenantId:
+          description: Your Azure tenant ID
           type: string
       required:
       - key
@@ -4095,21 +4095,21 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
-        id:
-          type: string
-        title:
-          type: string
-        provider:
-          $ref: '#/components/schemas/SupportedProviders'
         config:
-          type: object
-        features:
-          $ref: '#/components/schemas/CloudFeatures'
-        tags:
           type: object
         created_by:
           type: string
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+        id:
+          type: string
         owned_by:
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        tags:
+          type: object
+        title:
           type: string
       type: object
     CloudCredentials:
@@ -4153,14 +4153,14 @@ components:
       type: object
     CloudSigmaCredentials:
       properties:
-        username:
-          description: Your CloudSigma username
-          type: string
         password:
           description: Your CloudSigma password
           type: string
         region:
           description: Your CloudSigma region
+          type: string
+        username:
+          description: Your CloudSigma username
           type: string
       required:
       - password
@@ -4191,26 +4191,26 @@ components:
         dry: true
         tags: '{}'
       properties:
-        name:
-          description: Specify network name
-          type: string
         cloud:
           description: Specify cloud to provision on
           type: string
-        tags:
-          description: Assign tags to provisioned network
-          type: object
-        extra:
-          description: Configure additional parameters
-          type: object
-        template:
-          type: object
         dry:
           description: Return provisioning plan and exit without executing it
           type: boolean
+        extra:
+          description: Configure additional parameters
+          type: object
+        name:
+          description: Specify network name
+          type: string
         save:
           description: Save provisioning plan as template
           type: boolean
+        tags:
+          description: Assign tags to provisioned network
+          type: object
+        template:
+          type: object
       required:
       - cloud
       - name
@@ -4231,41 +4231,41 @@ components:
         extra: '{}'
         name: name
         save: true
-        location: location
         dry: true
+        location: location
         tags: '{}'
       properties:
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        extra:
+          description: Configure additional parameters
+          type: object
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: string
         name:
           description: Specify volume name
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
-        cloud:
-          description: Specify cloud to provision on
-          type: string
-        location:
-          description: Where to provision e.g. region, datacenter, rack
-          type: string
+        quantity:
+          description: Provision multiple volumes of this type
+          type: number
+        save:
+          description: Save provisioning plan as template
+          type: boolean
         size:
           description: Volume sizing spec
           type: object
         tags:
           description: Assign tags to provisioned volume
           type: object
-        extra:
-          description: Configure additional parameters
-          type: object
-        quantity:
-          description: Provision multiple volumes of this type
-          type: number
         template:
           type: object
-        dry:
-          description: Return provisioning plan and exit without executing it
-          type: boolean
-        save:
-          description: Save provisioning plan as template
-          type: boolean
       required:
       - name
       - size
@@ -4285,26 +4285,26 @@ components:
         dry: true
         tags: '{}'
       properties:
-        name:
-          description: Specify zone name
-          type: string
         cloud:
           description: Specify cloud to provision on
           type: string
-        tags:
-          description: Assign tags to provisioned zone
-          type: object
-        extra:
-          description: Configure additional parameters
-          type: object
-        template:
-          type: object
         dry:
           description: Return provisioning plan and exit without executing it
           type: boolean
+        extra:
+          description: Configure additional parameters
+          type: object
+        name:
+          description: Specify zone name
+          type: string
         save:
           description: Save provisioning plan as template
           type: boolean
+        tags:
+          description: Assign tags to provisioned zone
+          type: object
+        template:
+          type: object
       required:
       - cloud
       - name
@@ -4317,31 +4317,31 @@ components:
     CronSchedule:
       description: crontab schedule
       properties:
-        schedule_type:
-          enum:
-          - crontab
-          type: string
-        minute:
-          type: string
-        hour:
-          type: string
         day_of_month:
           type: string
-        month_of_year:
-          type: string
         day_of_week:
-          type: string
-        start_after:
-          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
-          format: date-time
           type: string
         expires:
           description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
           type: string
+        hour:
+          type: string
         max_run_count:
           minimum: 1
           type: integer
+        minute:
+          type: string
+        month_of_year:
+          type: string
+        schedule_type:
+          enum:
+          - crontab
+          type: string
+        start_after:
+          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
+          format: date-time
+          type: string
       required:
       - day_of_month
       - day_of_week
@@ -4364,18 +4364,18 @@ components:
               required:
               - volume
             - properties:
-                name:
-                  description: Name of the volume to be created
-                  type: string
-                size:
-                  description: Size of the volume in GBs
-                  type: integer
                 filesystem_type:
                   description: The name of the filesystem type to be used on the volume
                   enum:
                   - ext4
                   - xfs
                   type: string
+                name:
+                  description: Name of the volume to be created
+                  type: string
+                size:
+                  description: Size of the volume in GBs
+                  type: integer
               required:
               - name
               - size
@@ -4396,27 +4396,27 @@ components:
         host:
           description: Your Docker host
           type: string
-        port:
-          description: Your Docker port
-          type: string
-        username:
-          description: Your Docker username
-          type: string
         password:
           description: Your Docker password
           type: string
-        tlsKey:
-          description: Your TLS auth key
-          type: string
-        tlsCert:
-          description: Your TLS auth certificate
-          type: string
-        tlsCaCert:
-          description: Your TLS CA certifcate
+        port:
+          description: Your Docker port
           type: string
         showAll:
           description: Show all containers, including stopped
           type: boolean
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        username:
+          description: Your Docker username
+          type: string
       required:
       - host
       - port
@@ -4433,6 +4433,10 @@ components:
     EquinixMetalCreateMachineRequest:
       description: Equinix Metal specific fields
       properties:
+        extra:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_extra'
+        net:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net'
         volumes:
           items:
             oneOf:
@@ -4443,24 +4447,20 @@ components:
               required:
               - volume
             - properties:
-                size:
-                  description: Size of the volume to be created
-                  minimum: 100
-                  type: integer
                 plan:
                   description: Type of volume to create, defaults to standard
                   enum:
                   - standard
                   - performance
                   type: string
+                size:
+                  description: Size of the volume to be created
+                  minimum: 100
+                  type: integer
               required:
               - size
             type: object
           type: array
-        net:
-          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net'
-        extra:
-          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_extra'
       title: EqunixMetal
       type: object
     Expiration:
@@ -4497,16 +4497,16 @@ components:
       type: object
     GenericCreateMachineRequest:
       properties:
-        net:
-          type: object
         disks:
+          type: object
+        extra:
+          type: object
+        net:
           type: object
         volumes:
           items:
             type: object
           type: array
-        extra:
-          type: object
       type: object
     GetCloudResponse:
       example:
@@ -4521,10 +4521,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
@@ -4536,8 +4536,8 @@ components:
         data:
           cloud: cloud
           starred: true
-          os_type: os_type
           extra: '{}'
+          os_type: os_type
           name: name
           external_id: external_id
           owned_by: owned_by
@@ -4545,10 +4545,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Image'
@@ -4567,10 +4567,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Key'
@@ -4586,10 +4586,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Location'
@@ -4608,10 +4608,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Machine'
@@ -4629,10 +4629,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Network'
@@ -4648,14 +4648,14 @@ components:
           id: id
           window: '{}'
           title: title
-          queries: '{}'
           actions: '{}'
+          queries: '{}'
           frequency: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Rule'
@@ -4672,10 +4672,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Script'
@@ -4691,10 +4691,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Size'
@@ -4715,10 +4715,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Volume'
@@ -4736,10 +4736,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           $ref: '#/components/schemas/Zone'
@@ -4748,11 +4748,11 @@ components:
       type: object
     GoogleCredentials:
       properties:
-        projectId:
-          description: The Id of your GCP project
-          type: string
         privateKey:
           description: Your GCP private key
+          type: string
+        projectId:
+          description: The Id of your GCP project
           type: string
       required:
       - privateKey
@@ -4760,15 +4760,15 @@ components:
       type: object
     IbmCredentials:
       properties:
+        apikey:
+          description: Your IBM Cloud API key
+          type: string
         provider:
           enum:
           - ibm
           type: string
         username:
           description: Your IBM Cloud username
-          type: string
-        apikey:
-          description: Your IBM Cloud API key
           type: string
       required:
       - apikey
@@ -4777,8 +4777,8 @@ components:
       example:
         cloud: cloud
         starred: true
-        os_type: os_type
         extra: '{}'
+        os_type: os_type
         name: name
         external_id: external_id
         owned_by: owned_by
@@ -4786,25 +4786,25 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
-        id:
+        cloud:
+          type: string
+        created_by:
           type: string
         external_id:
           type: string
+        extra:
+          type: object
+        id:
+          type: string
         name:
           type: string
-        cloud:
-          type: string
-        starred:
-          type: boolean
         os_type:
-          type: string
-        tags:
-          type: object
-        created_by:
           type: string
         owned_by:
           type: string
-        extra:
+        starred:
+          type: boolean
+        tags:
           type: object
       type: object
     InlineScript:
@@ -4817,22 +4817,8 @@ components:
     IntervalSchedule:
       description: interval schedule
       properties:
-        schedule_type:
-          enum:
-          - interval
-          type: string
         every:
           type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          type: string
-        start_after:
-          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
-          format: date-time
-          type: string
         expires:
           description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
           format: date-time
@@ -4840,6 +4826,20 @@ components:
         max_run_count:
           minimum: 1
           type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          type: string
+        schedule_type:
+          enum:
+          - interval
+          type: string
+        start_after:
+          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
+          format: date-time
+          type: string
       required:
       - every
       - period
@@ -4857,20 +4857,20 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
+        config:
+          type: object
+        created_by:
+          type: string
+        default:
+          type: boolean
         id:
           type: string
         name:
           type: string
-        config:
-          type: object
-        tags:
-          type: object
-        created_by:
-          type: string
         owned_by:
           type: string
-        default:
-          type: boolean
+        tags:
+          type: object
         type:
           enum:
           - ssh
@@ -4882,30 +4882,30 @@ components:
         host:
           description: Your Kubernetes API host
           type: string
-        port:
-          description: Your Kubernetes API port
-          type: string
-        username:
-          description: Your Kubernetes API username
-          type: string
         password:
           description: Your Kubernetes API password
           type: string
-        token:
-          description: Your Kubernetes API bearer token
-          type: string
-        tlsKey:
-          description: Your TLS auth key
-          type: string
-        tlsCert:
-          description: Your TLS auth certificate
-          type: string
-        tlsCaCert:
-          description: Your TLS CA certifcate
+        port:
+          description: Your Kubernetes API port
           type: string
         showAll:
           description: Show all containers, including stopped
           type: boolean
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        token:
+          description: Your Kubernetes API bearer token
+          type: string
+        username:
+          description: Your Kubernetes API username
+          type: string
       required:
       - host
       - port
@@ -4951,10 +4951,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -4968,8 +4968,8 @@ components:
         data:
         - cloud: cloud
           starred: true
-          os_type: os_type
           extra: '{}'
+          os_type: os_type
           name: name
           external_id: external_id
           owned_by: owned_by
@@ -4978,8 +4978,8 @@ components:
           tags: '{}'
         - cloud: cloud
           starred: true
-          os_type: os_type
           extra: '{}'
+          os_type: os_type
           name: name
           external_id: external_id
           owned_by: owned_by
@@ -4987,10 +4987,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5019,10 +5019,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5045,10 +5045,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5077,10 +5077,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5107,10 +5107,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5128,8 +5128,8 @@ components:
           id: id
           window: '{}'
           title: title
-          queries: '{}'
           actions: '{}'
+          queries: '{}'
           frequency: '{}'
         - triggered_after: '{}'
           data_type: data_type
@@ -5137,14 +5137,14 @@ components:
           id: id
           window: '{}'
           title: title
-          queries: '{}'
           actions: '{}'
+          queries: '{}'
           frequency: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5169,10 +5169,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5195,10 +5195,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5213,10 +5213,10 @@ components:
         - null
         - null
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5249,10 +5249,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5279,10 +5279,10 @@ components:
           created_by: created_by
           tags: '{}'
         meta:
-          total: 0
-          start: 1
+          total: 1
+          start: 6
           sort: sort
-          returned: 6
+          returned: 0
       properties:
         data:
           items:
@@ -5299,43 +5299,43 @@ components:
         external_id: external_id
         id: id
       properties:
-        id:
+        cloud:
           type: string
         external_id:
           type: string
-        name:
-          type: string
-        cloud:
-          type: string
         extra:
           type: object
+        id:
+          type: string
+        name:
+          type: string
       type: object
     LxdCredentials:
       properties:
         host:
           description: Your LXD host
           type: string
-        port:
-          description: Your LXD port
-          type: string
-        username:
-          description: Your LXD username
-          type: string
         password:
           description: Your LXD password
           type: string
-        tlsKey:
-          description: Your TLS auth key
-          type: string
-        tlsCert:
-          description: Your TLS auth certificate
-          type: string
-        tlsCaCert:
-          description: Your TLS CA certifcate
+        port:
+          description: Your LXD port
           type: string
         showAll:
           description: Show all containers, including stopped
           type: boolean
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        username:
+          description: Your LXD username
+          type: string
       required:
       - host
       - port
@@ -5351,24 +5351,24 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
-        id:
-          type: string
-        external_id:
-          type: string
-        name:
-          type: string
         cloud:
           type: string
-        tags:
-          type: object
         created_by:
-          type: string
-        owned_by:
           type: string
         default:
           type: boolean
+        external_id:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        owned_by:
+          type: string
         state:
           $ref: '#/components/schemas/MachineState'
+        tags:
+          type: object
       type: object
     MachineState:
       enum:
@@ -5403,30 +5403,30 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
-        id:
+        cloud:
+          type: string
+        created_by:
           type: string
         external_id:
           type: string
+        id:
+          type: string
         name:
-          type: string
-        cloud:
-          type: string
-        tags:
-          type: object
-        created_by:
           type: string
         owned_by:
           type: string
+        tags:
+          type: object
       type: object
     OnappCredentials:
       properties:
-        authUrl:
-          type: string
-        username:
-          type: string
         apikey:
           type: string
+        authUrl:
+          type: string
         host:
+          type: string
+        username:
           type: string
         verify:
           type: boolean
@@ -5438,13 +5438,13 @@ components:
     OneOffSchedule:
       description: one_off schedule
       properties:
-        schedule_type:
-          enum:
-          - one_off
-          type: string
         datetime:
           description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
           format: date-time
+          type: string
+        schedule_type:
+          enum:
+          - one_off
           type: string
       required:
       - datetime
@@ -5455,17 +5455,17 @@ components:
       properties:
         authUrl:
           type: string
-        user:
-          type: string
-        password:
-          type: string
-        tenant:
+        computeEndpoint:
           type: string
         domain:
           type: string
+        password:
+          type: string
         region:
           type: string
-        computeEndpoint:
+        tenant:
+          type: string
+        user:
           type: string
       required:
       - authUrl
@@ -5476,10 +5476,10 @@ components:
       type: object
     PostDeployScript:
       properties:
+        params:
+          type: string
         script:
           description: Name or ID of the script to run
-          type: string
-        params:
           type: string
       required:
       - script
@@ -5490,21 +5490,21 @@ components:
       type: array
     Query:
       properties:
-        target:
-          description: the metric's name, e.g. "load.shortterm"
+        aggregation:
+          description: |
+            the function to be applied on the computed series. Must be one
+            of: all, any, avg
           type: string
         operator:
           description: |
             the operator used to compare the computed value with the given
             threshold
           type: string
+        target:
+          description: the metric's name, e.g. "load.shortterm"
+          type: string
         threshold:
           description: the value over/under which an alert will be raised
-          type: string
-        aggregation:
-          description: |
-            the function to be applied on the computed series. Must be one
-            of: all, any, avg
           type: string
       required:
       - aggregation
@@ -5514,18 +5514,18 @@ components:
       type: object
     RackspaceCredentials:
       properties:
+        apikey:
+          description: Your Rackspace Cloud API key
+          type: string
         provider:
           enum:
           - rackspace
           type: string
-        username:
-          description: Your Rackspace Cloud username
-          type: string
-        apikey:
-          description: Your Rackspace Cloud API key
-          type: string
         region:
           description: Your Rackspace Cloud region
+          type: string
+        username:
+          description: Your Rackspace Cloud username
           type: string
       required:
       - apikey
@@ -5534,14 +5534,11 @@ components:
       type: object
     ResponseMetadata:
       example:
-        total: 0
-        start: 1
+        total: 1
+        start: 6
         sort: sort
-        returned: 6
+        returned: 0
       properties:
-        total:
-          description: Total items matching the query
-          type: integer
         returned:
           description: Number of items in response
           type: integer
@@ -5550,6 +5547,9 @@ components:
           type: string
         start:
           description: Index of first response item in total matching items
+          type: integer
+        total:
+          description: Total items matching the query
           type: integer
       type: object
     Rule:
@@ -5560,31 +5560,53 @@ components:
         id: id
         window: '{}'
         title: title
-        queries: '{}'
         actions: '{}'
+        queries: '{}'
         frequency: '{}'
       properties:
-        id:
+        actions:
+          type: object
+        data_type:
           type: string
-        title:
+        disabled:
+          type: string
+        frequency:
+          type: object
+        id:
           type: string
         queries:
           type: object
-        window:
-          type: object
-        frequency:
-          type: object
+        title:
+          type: string
         triggered_after:
           type: object
-        actions:
+        window:
           type: object
-        disabled:
-          type: string
-        data_type:
-          type: string
       type: object
     RuleAction:
       properties:
+        action:
+          description: |
+            the action to be performed. Required by machine_action type
+          type: string
+        command:
+          description: |
+            the command to be executed. Required by the command type
+          type: string
+        emails:
+          description: |
+            a list of e-mails to send a notification to. Can be used by a
+            notification action (optional)
+          items:
+            type: string
+          type: array
+        teams:
+          description: |
+            a list of teams, denoted by their UUIDs, whose users will be
+            notified. Can be used by a notification action (optional)
+          items:
+            type: string
+          type: array
         type:
           description: |
             the action's type: notification, machine_action, command
@@ -5596,28 +5618,6 @@ components:
           items:
             type: string
           type: array
-        teams:
-          description: |
-            a list of teams, denoted by their UUIDs, whose users will be
-            notified. Can be used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to. Can be used by a
-            notification action (optional)
-          items:
-            type: string
-          type: array
-        action:
-          description: |
-            the action to be performed. Required by machine_action type
-          type: string
-        command:
-          description: |
-            the command to be executed. Required by the command type
-          type: string
       required:
       - type
       type: object
@@ -5634,24 +5634,21 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
+        created_by:
+          type: string
+        description:
+          type: string
         id:
           type: string
         name:
           type: string
-        description:
+        owned_by:
           type: string
         tags:
           type: object
-        created_by:
-          type: string
-        owned_by:
-          type: string
       type: object
     Selector:
       properties:
-        type:
-          description: one of "machines" or "tags"
-          type: string
         ids:
           description: a list of UUIDs in case type is "machines"
           items:
@@ -5662,6 +5659,9 @@ components:
           items:
             type: string
           type: array
+        type:
+          description: one of "machines" or "tags"
+          type: string
       required:
       - type
       type: object
@@ -5677,16 +5677,16 @@ components:
         external_id: external_id
         id: id
       properties:
-        id:
+        cloud:
           type: string
         external_id:
           type: string
-        name:
-          type: string
-        cloud:
-          type: string
         extra:
           type: object
+        id:
+          type: string
+        name:
+          type: string
       type: object
     Snapshot:
       type: object
@@ -5731,14 +5731,14 @@ components:
         host:
           description: Your vCloud host
           type: string
+        password:
+          description: Your vCloud password
+          type: string
         port:
           description: Your vCloud port
           type: string
         username:
           description: Your vCloud username
-          type: string
-        password:
-          description: Your vCloud password
           type: string
       required:
       - host
@@ -5759,40 +5759,40 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
+        cloud:
+          type: string
+        created_by:
+          type: string
+        default:
+          type: boolean
+        external_id:
+          type: string
         id:
           type: string
-        external_id:
+        location:
           type: string
         name:
           type: string
-        cloud:
-          type: string
-        location:
+        owned_by:
           type: string
         size:
           type: string
         tags:
           type: object
-        created_by:
-          type: string
-        owned_by:
-          type: string
-        default:
-          type: boolean
       type: object
     VsphereCredentials:
       properties:
+        ca_cert_file:
+          description: CA certificate
+          type: string
         host:
           description: Your vSphere/vCenter host
-          type: string
-        username:
-          description: Your username
           type: string
         password:
           description: Your password
           type: string
-        ca_cert_file:
-          description: CA certificate
+        username:
+          description: Your username
           type: string
       required:
       - host
@@ -5809,6 +5809,9 @@ components:
       type: object
     Window:
       properties:
+        period:
+          description: units of time, e.g. "seconds"
+          type: string
         start:
           description: |
             a positive integer denoting the start of the search window in
@@ -5820,9 +5823,6 @@ components:
             a positive integer, where stop < start, denoting the end of the
             search window. Defaults to now
           type: integer
-        period:
-          description: units of time, e.g. "seconds"
-          type: string
       required:
       - period
       - start
@@ -5837,20 +5837,20 @@ components:
         created_by: created_by
         tags: '{}'
       properties:
-        id:
+        cloud:
+          type: string
+        created_by:
           type: string
         external_id:
           type: string
+        id:
+          type: string
         name:
-          type: string
-        cloud:
-          type: string
-        tags:
-          type: object
-        created_by:
           type: string
         owned_by:
           type: string
+        tags:
+          type: object
       type: object
     inline_response_200:
       example:
@@ -5861,19 +5861,16 @@ components:
       type: object
     inline_object:
       properties:
-        title:
-          description: Updated title
-          type: string
         credentials:
           $ref: '#/components/schemas/CloudCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
+        title:
+          description: Updated title
+          type: string
       type: object
     AddCloudRequest_allOf:
       properties:
-        title:
-          description: The name of the cloud to add
-          type: string
         provider:
           description: The provider of the cloud
           enum:
@@ -5898,45 +5895,48 @@ components:
           - vsphere
           - vultr
           type: string
+        title:
+          description: The name of the cloud to add
+          type: string
       required:
       - provider
       - title
       type: object
     AddKeyRequest_anyOf:
       properties:
+        certificate:
+          description: The signed public key, when using signed ssh keys
+          type: string
         name:
           description: The key's name
           type: string
         private:
           description: The private key
           type: string
-        certificate:
-          description: The signed public key, when using signed ssh keys
-          type: string
       required:
       - name
       - private
     AddKeyRequest_anyOf_1:
       properties:
-        name:
-          description: The key's name
-          type: string
-        generate:
-          description: Generate a keypair instead of providing one
-          type: boolean
         dry:
           description: Return generated key without actually adding it
           type: boolean
+        generate:
+          description: Generate a keypair instead of providing one
+          type: boolean
+        name:
+          description: The key's name
+          type: string
       required:
       - generate
       - name
     AddKeyRequest_anyOf_2:
       properties:
-        generate:
-          description: Generate a keypair instead of providing one
-          type: boolean
         dry:
           description: Return generated key without actually adding it
+          type: boolean
+        generate:
+          description: Generate a keypair instead of providing one
           type: boolean
       required:
       - dry
@@ -5952,17 +5952,105 @@ components:
       type: object
     CreateMachineRequest_allOf:
       properties:
-        name:
-          description: Specify machine name
-          type: string
-        provider:
-          $ref: '#/components/schemas/SupportedProviders'
         cloud:
           description: Specify cloud to provision on
           type: string
+        cloudinit:
+          description: Run this Cloud Init script on first boot
+          type: string
+        disks:
+          description: Configure local disks
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        expiration:
+          $ref: '#/components/schemas/Expiration'
+        extra:
+          description: Configure additional parameters
+          type: object
+        fqdn:
+          description: Add DNS A Record that points machine's public IP to this Fully
+            Qualified Domain Name. Zone needs to be managed by a configured Cloud
+            DNS provider
+          type: string
+        image:
+          description: Operating System image to boot from
+          oneOf:
+          - type: object
+          - description: Name or ID of the image to boot from
+            type: string
+        key:
+          description: Associate SSH key
+          oneOf:
+          - type: object
+          - description: Name or ID of the SSH key to deploy
+            type: string
         location:
           description: Where to provision e.g. region, datacenter, rack
           type: string
+        monitoring:
+          description: Enable monitoring of this machine
+          type: boolean
+        name:
+          description: Specify machine name
+          type: string
+        net:
+          description: Specify network configuration parameters
+          type: object
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        quantity:
+          description: Provision multiple machines of this type
+          type: number
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+        schedules:
+          description: Configure scheduled actions for the provisioned machine
+          items:
+            allOf:
+            - properties:
+                action:
+                  enum:
+                  - start
+                  - stop
+                  - reboot
+                  - destroy
+                  type: string
+                description:
+                  type: string
+                schedule_type:
+                  enum:
+                  - one_off
+                  - crontab
+                  - interval
+                  type: string
+                script:
+                  $ref: '#/components/schemas/PostDeployScript'
+              required:
+              - schedule_type
+              type: object
+            - discriminator:
+                mapping:
+                  crontab: '#/components/schemas/CronSchedule'
+                  interval: '#/components/schemas/IntervalSchedule'
+                  one_off: '#/components/schemas/OneOffSchedule'
+                propertyName: schedule_type
+              oneOf:
+              - $ref: '#/components/schemas/OneOffSchedule'
+              - $ref: '#/components/schemas/CronSchedule'
+              - $ref: '#/components/schemas/IntervalSchedule'
+          type: array
+        scripts:
+          description: Run post deploy scripts over SSH
+          items:
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/InlineScript'
+              - $ref: '#/components/schemas/PostDeployScript'
+          type: array
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
           oneOf:
@@ -5981,104 +6069,16 @@ components:
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
-        image:
-          description: Operating System image to boot from
-          oneOf:
-          - type: object
-          - description: Name or ID of the image to boot from
-            type: string
-        net:
-          description: Specify network configuration parameters
+        tags:
+          description: Assign tags to provisioned machine
           type: object
-        key:
-          description: Associate SSH key
-          oneOf:
-          - type: object
-          - description: Name or ID of the SSH key to deploy
-            type: string
-        disks:
-          description: Configure local disks
+        template:
           type: object
         volumes:
           description: Configure of attached storage volumes, e.g. cloud disks
           items:
             type: object
           type: array
-        fqdn:
-          description: Add DNS A Record that points machine's public IP to this Fully
-            Qualified Domain Name. Zone needs to be managed by a configured Cloud
-            DNS provider
-          type: string
-        cloudinit:
-          description: Run this Cloud Init script on first boot
-          type: string
-        scripts:
-          description: Run post deploy scripts over SSH
-          items:
-            allOf:
-            - type: object
-            - oneOf:
-              - $ref: '#/components/schemas/InlineScript'
-              - $ref: '#/components/schemas/PostDeployScript'
-          type: array
-        schedules:
-          description: Configure scheduled actions for the provisioned machine
-          items:
-            allOf:
-            - properties:
-                schedule_type:
-                  enum:
-                  - one_off
-                  - crontab
-                  - interval
-                  type: string
-                script:
-                  $ref: '#/components/schemas/PostDeployScript'
-                action:
-                  enum:
-                  - start
-                  - stop
-                  - reboot
-                  - destroy
-                  type: string
-                description:
-                  type: string
-              required:
-              - schedule_type
-              type: object
-            - discriminator:
-                mapping:
-                  one_off: '#/components/schemas/OneOffSchedule'
-                  crontab: '#/components/schemas/CronSchedule'
-                  interval: '#/components/schemas/IntervalSchedule'
-                propertyName: schedule_type
-              oneOf:
-              - $ref: '#/components/schemas/OneOffSchedule'
-              - $ref: '#/components/schemas/CronSchedule'
-              - $ref: '#/components/schemas/IntervalSchedule'
-          type: array
-        tags:
-          description: Assign tags to provisioned machine
-          type: object
-        expiration:
-          $ref: '#/components/schemas/Expiration'
-        extra:
-          description: Configure additional parameters
-          type: object
-        monitoring:
-          description: Enable monitoring of this machine
-          type: boolean
-        quantity:
-          description: Provision multiple machines of this type
-          type: number
-        template:
-          type: object
-        dry:
-          description: Return provisioning plan and exit without executing it
-          type: boolean
-        save:
-          description: Save provisioning plan as template
-          type: boolean
       required:
       - image
       - name
@@ -6094,6 +6094,13 @@ components:
       properties:
         plan:
           type: object
+    EquinixMetalCreateMachineRequest_extra:
+      properties:
+        project_id:
+          description: Project UUID, if not given the first one available will be
+            selected
+          type: string
+      type: object
     EquinixMetalCreateMachineRequest_net_ip_addresses:
       properties:
         address_family:
@@ -6102,14 +6109,14 @@ components:
           - 4
           - 6
           type: integer
-        public:
-          description: Address Type for IP Address
-          type: boolean
         cidr:
           description: Cidr Size for the IP Block created. Valid values depend on
             the operating system being provisioned. (28..32 for IPv4 addresses, 124..127
             for IPv6 addresses)
           type: integer
+        public:
+          description: Address Type for IP Address
+          type: boolean
       required:
       - address_family
       - cidr
@@ -6124,50 +6131,43 @@ components:
             $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net_ip_addresses'
           type: array
       type: object
-    EquinixMetalCreateMachineRequest_extra:
-      properties:
-        project_id:
-          description: Project UUID, if not given the first one available will be
-            selected
-          type: string
-      type: object
     Expiration_notify:
       description: Notify user before machine expiration
       properties:
-        value:
-          minimum: 1
-          type: integer
         period:
           enum:
           - minutes
           - hours
           - days
           type: string
+        value:
+          minimum: 1
+          type: integer
       required:
       - period
       - value
       type: object
     KvmCreateMachineRequest_disks:
       properties:
+        disk_path:
+          description: Where the VM disk file will be created
+          type: string
         disk_size:
           description: The VM's size will be the size of the image plus the number
             in GBs provided here
           type: integer
-        disk_path:
-          description: Where the VM disk file will be created
-          type: string
       type: object
     KvmCreateMachineRequest_net_networks:
       properties:
-        network:
-          description: id or name of the network, if only this field is provided a
-            dynamic IP address will be assigned
+        gateway:
+          description: the IPv4 address for the default Gateway
           type: string
         ip:
           description: the IPv4 address to statically assign to the interface
           type: string
-        gateway:
-          description: the IPv4 address for the default Gateway
+        network:
+          description: id or name of the network, if only this field is provided a
+            dynamic IP address will be assigned
           type: string
         primary:
           description: the primary interface, which will be assigned a routing rule

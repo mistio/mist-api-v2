@@ -15,66 +15,66 @@ class Volume(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, external_id=None, name=None, cloud=None, location=None, size=None, tags=None, created_by=None, owned_by=None, default=None):  # noqa: E501
+    def __init__(self, cloud=None, created_by=None, default=None, external_id=None, id=None, location=None, name=None, owned_by=None, size=None, tags=None):  # noqa: E501
         """Volume - a model defined in OpenAPI
 
-        :param id: The id of this Volume.  # noqa: E501
-        :type id: str
-        :param external_id: The external_id of this Volume.  # noqa: E501
-        :type external_id: str
-        :param name: The name of this Volume.  # noqa: E501
-        :type name: str
         :param cloud: The cloud of this Volume.  # noqa: E501
         :type cloud: str
+        :param created_by: The created_by of this Volume.  # noqa: E501
+        :type created_by: str
+        :param default: The default of this Volume.  # noqa: E501
+        :type default: bool
+        :param external_id: The external_id of this Volume.  # noqa: E501
+        :type external_id: str
+        :param id: The id of this Volume.  # noqa: E501
+        :type id: str
         :param location: The location of this Volume.  # noqa: E501
         :type location: str
+        :param name: The name of this Volume.  # noqa: E501
+        :type name: str
+        :param owned_by: The owned_by of this Volume.  # noqa: E501
+        :type owned_by: str
         :param size: The size of this Volume.  # noqa: E501
         :type size: str
         :param tags: The tags of this Volume.  # noqa: E501
         :type tags: object
-        :param created_by: The created_by of this Volume.  # noqa: E501
-        :type created_by: str
-        :param owned_by: The owned_by of this Volume.  # noqa: E501
-        :type owned_by: str
-        :param default: The default of this Volume.  # noqa: E501
-        :type default: bool
         """
         self.openapi_types = {
-            'id': str,
-            'external_id': str,
-            'name': str,
             'cloud': str,
-            'location': str,
-            'size': str,
-            'tags': object,
             'created_by': str,
+            'default': bool,
+            'external_id': str,
+            'id': str,
+            'location': str,
+            'name': str,
             'owned_by': str,
-            'default': bool
+            'size': str,
+            'tags': object
         }
 
         self.attribute_map = {
-            'id': 'id',
-            'external_id': 'external_id',
-            'name': 'name',
             'cloud': 'cloud',
-            'location': 'location',
-            'size': 'size',
-            'tags': 'tags',
             'created_by': 'created_by',
+            'default': 'default',
+            'external_id': 'external_id',
+            'id': 'id',
+            'location': 'location',
+            'name': 'name',
             'owned_by': 'owned_by',
-            'default': 'default'
+            'size': 'size',
+            'tags': 'tags'
         }
 
-        self._id = id
-        self._external_id = external_id
-        self._name = name
         self._cloud = cloud
+        self._created_by = created_by
+        self._default = default
+        self._external_id = external_id
+        self._id = id
         self._location = location
+        self._name = name
+        self._owned_by = owned_by
         self._size = size
         self._tags = tags
-        self._created_by = created_by
-        self._owned_by = owned_by
-        self._default = default
 
     @classmethod
     def from_dict(cls, dikt) -> 'Volume':
@@ -86,69 +86,6 @@ class Volume(Model):
         :rtype: Volume
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def id(self):
-        """Gets the id of this Volume.
-
-
-        :return: The id of this Volume.
-        :rtype: str
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):
-        """Sets the id of this Volume.
-
-
-        :param id: The id of this Volume.
-        :type id: str
-        """
-
-        self._id = id
-
-    @property
-    def external_id(self):
-        """Gets the external_id of this Volume.
-
-
-        :return: The external_id of this Volume.
-        :rtype: str
-        """
-        return self._external_id
-
-    @external_id.setter
-    def external_id(self, external_id):
-        """Sets the external_id of this Volume.
-
-
-        :param external_id: The external_id of this Volume.
-        :type external_id: str
-        """
-
-        self._external_id = external_id
-
-    @property
-    def name(self):
-        """Gets the name of this Volume.
-
-
-        :return: The name of this Volume.
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this Volume.
-
-
-        :param name: The name of this Volume.
-        :type name: str
-        """
-
-        self._name = name
 
     @property
     def cloud(self):
@@ -172,6 +109,90 @@ class Volume(Model):
         self._cloud = cloud
 
     @property
+    def created_by(self):
+        """Gets the created_by of this Volume.
+
+
+        :return: The created_by of this Volume.
+        :rtype: str
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """Sets the created_by of this Volume.
+
+
+        :param created_by: The created_by of this Volume.
+        :type created_by: str
+        """
+
+        self._created_by = created_by
+
+    @property
+    def default(self):
+        """Gets the default of this Volume.
+
+
+        :return: The default of this Volume.
+        :rtype: bool
+        """
+        return self._default
+
+    @default.setter
+    def default(self, default):
+        """Sets the default of this Volume.
+
+
+        :param default: The default of this Volume.
+        :type default: bool
+        """
+
+        self._default = default
+
+    @property
+    def external_id(self):
+        """Gets the external_id of this Volume.
+
+
+        :return: The external_id of this Volume.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Volume.
+
+
+        :param external_id: The external_id of this Volume.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
+
+    @property
+    def id(self):
+        """Gets the id of this Volume.
+
+
+        :return: The id of this Volume.
+        :rtype: str
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        """Sets the id of this Volume.
+
+
+        :param id: The id of this Volume.
+        :type id: str
+        """
+
+        self._id = id
+
+    @property
     def location(self):
         """Gets the location of this Volume.
 
@@ -191,6 +212,48 @@ class Volume(Model):
         """
 
         self._location = location
+
+    @property
+    def name(self):
+        """Gets the name of this Volume.
+
+
+        :return: The name of this Volume.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Volume.
+
+
+        :param name: The name of this Volume.
+        :type name: str
+        """
+
+        self._name = name
+
+    @property
+    def owned_by(self):
+        """Gets the owned_by of this Volume.
+
+
+        :return: The owned_by of this Volume.
+        :rtype: str
+        """
+        return self._owned_by
+
+    @owned_by.setter
+    def owned_by(self, owned_by):
+        """Sets the owned_by of this Volume.
+
+
+        :param owned_by: The owned_by of this Volume.
+        :type owned_by: str
+        """
+
+        self._owned_by = owned_by
 
     @property
     def size(self):
@@ -233,66 +296,3 @@ class Volume(Model):
         """
 
         self._tags = tags
-
-    @property
-    def created_by(self):
-        """Gets the created_by of this Volume.
-
-
-        :return: The created_by of this Volume.
-        :rtype: str
-        """
-        return self._created_by
-
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Volume.
-
-
-        :param created_by: The created_by of this Volume.
-        :type created_by: str
-        """
-
-        self._created_by = created_by
-
-    @property
-    def owned_by(self):
-        """Gets the owned_by of this Volume.
-
-
-        :return: The owned_by of this Volume.
-        :rtype: str
-        """
-        return self._owned_by
-
-    @owned_by.setter
-    def owned_by(self, owned_by):
-        """Sets the owned_by of this Volume.
-
-
-        :param owned_by: The owned_by of this Volume.
-        :type owned_by: str
-        """
-
-        self._owned_by = owned_by
-
-    @property
-    def default(self):
-        """Gets the default of this Volume.
-
-
-        :return: The default of this Volume.
-        :rtype: bool
-        """
-        return self._default
-
-    @default.setter
-    def default(self, default):
-        """Sets the default of this Volume.
-
-
-        :param default: The default of this Volume.
-        :type default: bool
-        """
-
-        self._default = default
