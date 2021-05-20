@@ -1775,7 +1775,7 @@ paths:
       - CookieAuth:
         - read:machine
         - list_snapshots:machine
-      summary: Suspend machine
+      summary: List machine snapshots
       tags:
       - snapshots
       x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
