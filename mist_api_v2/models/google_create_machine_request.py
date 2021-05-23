@@ -6,13 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.google_create_machine_request_disks import GoogleCreateMachineRequestDisks
 from mist_api_v2.models.google_create_machine_request_net import GoogleCreateMachineRequestNet
 from mist_api_v2.models.one_ofobjectobject import OneOfobjectobject
 from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring
 from mist_api_v2 import util
 
-from mist_api_v2.models.google_create_machine_request_disks import GoogleCreateMachineRequestDisks  # noqa: E501
 from mist_api_v2.models.google_create_machine_request_net import GoogleCreateMachineRequestNet  # noqa: E501
 from mist_api_v2.models.one_ofobjectobject import OneOfobjectobject  # noqa: E501
 from mist_api_v2.models.one_ofobjectstring import OneOfobjectstring  # noqa: E501
@@ -23,15 +21,13 @@ class GoogleCreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, key=None, size=None, disks=None, volumes=None, net=None):  # noqa: E501
+    def __init__(self, key=None, size=None, volumes=None, net=None):  # noqa: E501
         """GoogleCreateMachineRequest - a model defined in OpenAPI
 
         :param key: The key of this GoogleCreateMachineRequest.  # noqa: E501
         :type key: OneOfobjectstring
         :param size: The size of this GoogleCreateMachineRequest.  # noqa: E501
         :type size: OneOfobjectstring
-        :param disks: The disks of this GoogleCreateMachineRequest.  # noqa: E501
-        :type disks: GoogleCreateMachineRequestDisks
         :param volumes: The volumes of this GoogleCreateMachineRequest.  # noqa: E501
         :type volumes: List[OneOfobjectobject]
         :param net: The net of this GoogleCreateMachineRequest.  # noqa: E501
@@ -40,7 +36,6 @@ class GoogleCreateMachineRequest(Model):
         self.openapi_types = {
             'key': OneOfobjectstring,
             'size': OneOfobjectstring,
-            'disks': GoogleCreateMachineRequestDisks,
             'volumes': List[OneOfobjectobject],
             'net': GoogleCreateMachineRequestNet
         }
@@ -48,14 +43,12 @@ class GoogleCreateMachineRequest(Model):
         self.attribute_map = {
             'key': 'key',
             'size': 'size',
-            'disks': 'disks',
             'volumes': 'volumes',
             'net': 'net'
         }
 
         self._key = key
         self._size = size
-        self._disks = disks
         self._volumes = volumes
         self._net = net
 
@@ -111,27 +104,6 @@ class GoogleCreateMachineRequest(Model):
         """
 
         self._size = size
-
-    @property
-    def disks(self):
-        """Gets the disks of this GoogleCreateMachineRequest.
-
-
-        :return: The disks of this GoogleCreateMachineRequest.
-        :rtype: GoogleCreateMachineRequestDisks
-        """
-        return self._disks
-
-    @disks.setter
-    def disks(self, disks):
-        """Sets the disks of this GoogleCreateMachineRequest.
-
-
-        :param disks: The disks of this GoogleCreateMachineRequest.
-        :type disks: GoogleCreateMachineRequestDisks
-        """
-
-        self._disks = disks
 
     @property
     def volumes(self):

@@ -4791,8 +4791,6 @@ components:
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
-        disks:
-          $ref: '#/components/schemas/GoogleCreateMachineRequest_disks'
         volumes:
           items:
             oneOf:
@@ -4800,16 +4798,25 @@ components:
                 volume:
                   description: Name or ID of the volume to attach
                   type: string
+                boot:
+                  description: Whether this volume should be used as the boot drive.
+                    Up to one volume must set this parameter
+                  type: boolean
               required:
               - volume
             - properties:
                 name:
-                  description: Name of the volume to be created
+                  description: Name of the volume to be created, mandatory on non-boot
+                    volumes
                   type: string
                 size:
                   description: Size of the volume to be created
                   minimum: 1
                   type: integer
+                boot:
+                  description: Whether this volume should be used as the boot drive.
+                    Up to one volume must set this parameter
+                  type: boolean
                 type:
                   description: Type of the volume to create, defaults to 'pd-standard'
                   enum:
@@ -4817,7 +4824,6 @@ components:
                   - pd-ssd
                   type: string
               required:
-              - name
               - size
             type: object
           type: array
@@ -6222,18 +6228,6 @@ components:
       required:
       - period
       - value
-      type: object
-    GoogleCreateMachineRequest_disks:
-      description: Placeholder
-      properties:
-        boot_disk:
-          description: Name or ID of an existing volume to use as the boot drive.
-            Mutually exclusive with 'boot_disk_size'
-          type: string
-        boot_disk_size:
-          description: The size of the boot drive in GBs. Mutually exclusive with
-            'boot_disk'
-          type: integer
       type: object
     GoogleCreateMachineRequest_net:
       properties:
