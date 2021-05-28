@@ -33,6 +33,7 @@ from mist_api_v2.models.add_vsphere_cloud_request import AddVsphereCloudRequest
 from mist_api_v2.models.add_vultr_cloud_request import AddVultrCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
+from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_credentials import CloudCredentials
@@ -52,6 +53,9 @@ from mist_api_v2.models.cron_schedule import CronSchedule
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
+from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra
+from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
+from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
@@ -67,12 +71,19 @@ from mist_api_v2.models.get_size_response import GetSizeResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.get_zone_response import GetZoneResponse
 from mist_api_v2.models.google_credentials import GoogleCredentials
+from mist_api_v2.models.google_key import GoogleKey
+from mist_api_v2.models.google_net import GoogleNet
+from mist_api_v2.models.google_size import GoogleSize
+from mist_api_v2.models.google_size_accelerators import GoogleSizeAccelerators
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_object import InlineObject
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
+from mist_api_v2.models.kvm_disks import KVMDisks
+from mist_api_v2.models.kvm_net import KVMNet
+from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials
