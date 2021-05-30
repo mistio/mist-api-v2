@@ -4242,12 +4242,12 @@ components:
           - description: Name or ID of the image to boot from
             type: string
         net:
-          description: Specify network configuration parameters
-          oneOf:
+          anyOf:
           - $ref: '#/components/schemas/AmazonNet'
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
+          description: Specify network configuration parameters
         key:
           anyOf:
           - description: Name or ID of the SSH key to deploy
