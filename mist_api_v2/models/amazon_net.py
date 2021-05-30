@@ -51,7 +51,7 @@ class AmazonNet(Model):
     def security_group(self):
         """Gets the security_group of this AmazonNet.
 
-        security group to assign to the machine  # noqa: E501
+        Security group to assign to the machine  # noqa: E501
 
         :return: The security_group of this AmazonNet.
         :rtype: str
@@ -62,7 +62,7 @@ class AmazonNet(Model):
     def security_group(self, security_group):
         """Sets the security_group of this AmazonNet.
 
-        security group to assign to the machine  # noqa: E501
+        Security group to assign to the machine  # noqa: E501
 
         :param security_group: The security_group of this AmazonNet.
         :type security_group: str
@@ -74,7 +74,7 @@ class AmazonNet(Model):
     def subnet(self):
         """Gets the subnet of this AmazonNet.
 
-        Name or id of the subnet to launch the machine into  # noqa: E501
+        Name or ID of the subnet to launch the machine into  # noqa: E501
 
         :return: The subnet of this AmazonNet.
         :rtype: str
@@ -85,7 +85,7 @@ class AmazonNet(Model):
     def subnet(self, subnet):
         """Sets the subnet of this AmazonNet.
 
-        Name or id of the subnet to launch the machine into  # noqa: E501
+        Name or ID of the subnet to launch the machine into  # noqa: E501
 
         :param subnet: The subnet of this AmazonNet.
         :type subnet: str

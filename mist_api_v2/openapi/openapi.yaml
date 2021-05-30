@@ -4020,10 +4020,10 @@ components:
     AmazonNet:
       properties:
         security_group:
-          description: security group to assign to the machine
+          description: Security group to assign to the machine
           type: string
         subnet:
-          description: Name or id of the subnet to launch the machine into
+          description: Name or ID of the subnet to launch the machine into
           type: string
       title: Amazon net parameter
       type: object
@@ -4032,20 +4032,20 @@ components:
         oneOf:
         - properties:
             volume:
-              description: Name or id of the volume
+              description: Name or ID of the volume
               type: string
             device:
-              description: the device name (for example, /dev/sdh or xvdh)
+              description: The device name (for example, /dev/sdh or xvdh)
               type: string
           required:
           - device
           - volume
         - properties:
             name:
-              description: the device name (for example, /dev/sdh or xvdh)
+              description: The device name (for example, /dev/sdh or xvdh)
               type: string
             size:
-              description: size of the volume in GBs
+              description: Size of the volume in GBs
               type: integer
             volume_type:
               enum:
@@ -4056,10 +4056,10 @@ components:
               - standard
               type: string
             iops:
-              description: number of I/O operations per second
+              description: Number of I/O operations per second
               type: integer
             delete_on_termination:
-              description: delete volume when machine is deleted
+              description: Delete volume when machine is deleted
               type: boolean
           required:
           - name
@@ -4217,8 +4217,7 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
-          oneOf:
+          anyOf:
           - properties:
               cpus:
                 description: Number of cpu cores
@@ -4228,10 +4227,14 @@ components:
                 description: Ram size in MBs
                 minimum: 256
                 type: integer
+            required:
+            - cpus
+            - ram
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
           - $ref: '#/components/schemas/GoogleSize'
+          description: Machine sizing spec e.g. cpu/ram/flavor
         image:
           description: Operating System image to boot from
           oneOf:
@@ -4246,23 +4249,22 @@ components:
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
         key:
-          description: Associate SSH key
-          oneOf:
-          - type: object
+          anyOf:
           - description: Name or ID of the SSH key to deploy
             type: string
           - $ref: '#/components/schemas/GoogleKey'
+          description: Associate SSH key
         disks:
           description: Configure local disks
           oneOf:
           - $ref: '#/components/schemas/KVMDisks'
         volumes:
-          description: Configure of attached storage volumes, e.g. cloud disks
-          oneOf:
+          anyOf:
           - $ref: '#/components/schemas/AmazonVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
+          description: Configure of attached storage volumes, e.g. cloud disks
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
             Qualified Domain Name. Zone needs to be managed by a configured Cloud
@@ -4524,7 +4526,7 @@ components:
         oneOf:
         - properties:
             volume:
-              description: Name or id of the volume to attach
+              description: Name or ID of the volume to attach
               type: string
           required:
           - volume
@@ -4617,7 +4619,7 @@ components:
         oneOf:
         - properties:
             volume:
-              description: Name or id of the volume to attach
+              description: Name or ID of the volume to attach
               type: string
           required:
           - volume
@@ -4934,6 +4936,7 @@ components:
         user:
           description: SSH user, defaults to 'user'
           type: string
+      title: Google key parameter
       type: object
     GoogleNet:
       properties:
@@ -6259,17 +6262,17 @@ components:
     KVMNet_networks:
       properties:
         network:
-          description: id or name of the network, if only this field is provided a
+          description: Name or ID of the network, if only this field is provided a
             dynamic IP address will be assigned
           type: string
         ip:
-          description: the IPv4 address to statically assign to the interface
+          description: The IPv4 address to statically assign to the interface
           type: string
         gateway:
-          description: the IPv4 address for the default Gateway
+          description: The IPv4 address for the default Gateway
           type: string
         primary:
-          description: the primary interface, which will be assigned a routing rule
+          description: The primary interface, which will be assigned a routing rule
             for the default GW
           type: string
       required:

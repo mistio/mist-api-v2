@@ -61,7 +61,7 @@ class KVMNetNetworks(Model):
     def network(self):
         """Gets the network of this KVMNetNetworks.
 
-        id or name of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
+        Name or ID of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
 
         :return: The network of this KVMNetNetworks.
         :rtype: str
@@ -72,7 +72,7 @@ class KVMNetNetworks(Model):
     def network(self, network):
         """Sets the network of this KVMNetNetworks.
 
-        id or name of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
+        Name or ID of the network, if only this field is provided a dynamic IP address will be assigned  # noqa: E501
 
         :param network: The network of this KVMNetNetworks.
         :type network: str
@@ -86,7 +86,7 @@ class KVMNetNetworks(Model):
     def ip(self):
         """Gets the ip of this KVMNetNetworks.
 
-        the IPv4 address to statically assign to the interface  # noqa: E501
+        The IPv4 address to statically assign to the interface  # noqa: E501
 
         :return: The ip of this KVMNetNetworks.
         :rtype: str
@@ -97,7 +97,7 @@ class KVMNetNetworks(Model):
     def ip(self, ip):
         """Sets the ip of this KVMNetNetworks.
 
-        the IPv4 address to statically assign to the interface  # noqa: E501
+        The IPv4 address to statically assign to the interface  # noqa: E501
 
         :param ip: The ip of this KVMNetNetworks.
         :type ip: str
@@ -109,7 +109,7 @@ class KVMNetNetworks(Model):
     def gateway(self):
         """Gets the gateway of this KVMNetNetworks.
 
-        the IPv4 address for the default Gateway  # noqa: E501
+        The IPv4 address for the default Gateway  # noqa: E501
 
         :return: The gateway of this KVMNetNetworks.
         :rtype: str
@@ -120,7 +120,7 @@ class KVMNetNetworks(Model):
     def gateway(self, gateway):
         """Sets the gateway of this KVMNetNetworks.
 
-        the IPv4 address for the default Gateway  # noqa: E501
+        The IPv4 address for the default Gateway  # noqa: E501
 
         :param gateway: The gateway of this KVMNetNetworks.
         :type gateway: str
@@ -132,7 +132,7 @@ class KVMNetNetworks(Model):
     def primary(self):
         """Gets the primary of this KVMNetNetworks.
 
-        the primary interface, which will be assigned a routing rule for the default GW  # noqa: E501
+        The primary interface, which will be assigned a routing rule for the default GW  # noqa: E501
 
         :return: The primary of this KVMNetNetworks.
         :rtype: str
@@ -143,7 +143,7 @@ class KVMNetNetworks(Model):
     def primary(self, primary):
         """Sets the primary of this KVMNetNetworks.
 
-        the primary interface, which will be assigned a routing rule for the default GW  # noqa: E501
+        The primary interface, which will be assigned a routing rule for the default GW  # noqa: E501
 
         :param primary: The primary of this KVMNetNetworks.
         :type primary: str
