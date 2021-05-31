@@ -86,7 +86,7 @@ flake8:
   before_script:
     - cd /usr/src/app
   script:
-    - flake8 --ignore=E402,E722,F632,F841,W504,W605
+    - flake8 --ignore=E402,E722,F632,F841,W504,W605 mist_api_v2/controllers
 
 uniq:
   stage: test
