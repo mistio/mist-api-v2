@@ -21,50 +21,54 @@ from mist.api.exceptions import CloudUnauthorizedError
 from .base import list_resources, get_resource
 
 
-logging.basicConfig(level=config.PY_LOG_LEVEL,
-                    format=config.PY_LOG_FORMAT,
-                    datefmt=config.PY_LOG_FORMAT_DATE)
+logging.basicConfig(
+    level=config.PY_LOG_LEVEL,
+    format=config.PY_LOG_FORMAT,
+    datefmt=config.PY_LOG_FORMAT_DATE,
+)
 
 
 log = logging.getLogger(__name__)
 
 # dict that maps provider name aliases to
 # names expected by add_cloud_v2
-PROVIDER_ALIASES = {
-    'equinix': 'equinixmetal',
-    'alibaba': 'aliyun_ecs'
-}
+PROVIDER_ALIASES = {"equinix": "equinixmetal", "alibaba": "aliyun_ecs"}
+
 
 def mongo_connect(*args, **kwargs):
     """Connect mongoengine to mongo db. This connection is reused everywhere"""
     exc = None
     for _ in range(30):
         try:
-            log.info("Attempting to connect to %s at %s...", config.MONGO_DB,
-                     config.MONGO_URI)
+            log.info(
+                "Attempting to connect to %s at %s...",
+                config.MONGO_DB,
+                config.MONGO_URI,
+            )
             me.connect(db=config.MONGO_DB, host=config.MONGO_URI)
         except Exception as e:
-            log.warning("Error connecting to mongo, will retry in 1 sec: %r",
-                        e)
+            log.warning("Error connecting to mongo, will retry in 1 sec: %r", e)
             time.sleep(1)
             exc = e
         else:
             log.info("Connected...")
             break
     else:
-        log.critical("Unable to connect to %s at %s: %r", config.MONGO_DB,
-                     config.MONGO_URI, exc)
+        log.critical(
+            "Unable to connect to %s at %s: %r", config.MONGO_DB, config.MONGO_URI, exc
+        )
         raise exc
 
 
 try:
     import uwsgi  # noqa
 except ImportError:
-    log.debug('Not in uwsgi context')
+    log.debug("Not in uwsgi context")
     mongo_connect()
 else:
-    log.info('Uwsgi context')
+    log.info("Uwsgi context")
     from uwsgidecorators import postfork
+
     mongo_connect = postfork(mongo_connect)
 
 
@@ -79,7 +83,9 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     :rtype: InlineResponse200
     """
     if connexion.request.is_json:
-        add_cloud_request = AddCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
+        add_cloud_request = AddCloudRequest.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
 
     from mist.api.clouds.models import Cloud
     from mist.api.clouds.methods import add_cloud_v_2
@@ -87,25 +93,27 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     from mist.api.dramatiq_tasks import dramatiq_async_session_update
     from mist.api.tag.methods import add_tags_to_resource
 
-    auth_context = connexion.context['token_info']['auth_context']
-    cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    cloud_tags, _ = auth_context.check_perm("cloud", "add", None)
     provider = add_cloud_request.provider
-    provider = provider if provider not in PROVIDER_ALIASES else PROVIDER_ALIASES.get(provider)
+    provider = (
+        provider if provider not in PROVIDER_ALIASES else PROVIDER_ALIASES.get(provider)
+    )
     try:
         result = add_cloud_v_2(
             auth_context.owner,
             add_cloud_request.title,
             provider,
-            add_cloud_request.credentials
+            add_cloud_request.credentials,
         )
     except CloudExistsError as exc:
         return exc.args[0], 409
     except CloudUnauthorizedError as exc:
         return exc.args[0], 403
 
-    cloud_id = result['cloud_id']
-    monitoring = result.get('monitoring')
-    errors = result.get('errors')
+    cloud_id = result["cloud_id"]
+    monitoring = result.get("monitoring")
+    errors = result.get("errors")
 
     cloud = Cloud.objects.get(owner=auth_context.owner, id=cloud_id)
 
@@ -115,7 +123,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     # Set ownership.
     cloud.assign_to(auth_context.user)
 
-    trigger_session_update(auth_context.owner.id, ['clouds'])
+    trigger_session_update(auth_context.owner.id, ["clouds"])
 
     # SEC
     # Update the RBAC & User/Ownership mappings with the new Cloud and finally
@@ -124,16 +132,16 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
         auth_context.owner.mapper.update(
             cloud,
             callback=dramatiq_async_session_update,
-            args=(auth_context.owner.id, ['clouds'], )
+            args=(auth_context.owner.id, ["clouds"]),
         )
 
     c_count = Cloud.objects(owner=auth_context.owner, deleted=None).count()
     ret = cloud.as_dict_v2()
-    ret['index'] = c_count - 1
+    ret["index"] = c_count - 1
     if errors:
-        ret['errors'] = errors
+        ret["errors"] = errors
     if monitoring:
-        ret['monitoring'] = monitoring
+        ret["monitoring"] = monitoring
 
     return ret
 
@@ -150,13 +158,14 @@ def delete_cloud(cloud):  # noqa: E501
     """
     from mist.api.clouds.methods import delete_cloud
     from mist.api.clouds.models import Cloud
-    auth_context = connexion.context['token_info']['auth_context']
+
+    auth_context = connexion.context["token_info"]["auth_context"]
     cloud_id = cloud
     try:
         Cloud.objects.get(owner=auth_context.owner, id=cloud_id, deleted=None)
     except Cloud.DoesNotExist:
-        return 'Cloud does not exist', 404
-    auth_context.check_perm('cloud', 'remove', cloud_id)
+        return "Cloud does not exist", 404
+    auth_context.check_perm("cloud", "remove", cloud_id)
     delete_cloud(auth_context.owner, cloud_id)
     return None
 
@@ -174,8 +183,10 @@ def edit_cloud(cloud, inline_object=None):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        inline_object = InlineObject.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        inline_object = InlineObject.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
+    return "do some magic!"
 
 
 def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
@@ -194,14 +205,14 @@ def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
 
     :rtype: GetCloudResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(auth_context, 'cloud',
-                          search=cloud, only=only, deref=deref)
-    return GetCloudResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(auth_context, "cloud", search=cloud, only=only, deref=deref)
+    return GetCloudResponse(data=result["data"], meta=result["meta"])
 
 
-
-def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
+def list_clouds(
+    search=None, sort=None, start=0, limit=100, only=None, deref="auto"
+):  # noqa: E501
     """List clouds
 
     List clouds owned by the active org. READ permission required on cloud. # noqa: E501
@@ -221,8 +232,14 @@ def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref='au
 
     :rtype: ListCloudsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = list_resources(auth_context, 'cloud', search=search,
-                            only=only, sort=sort, limit=limit,
-                            deref=deref)
-    return ListCloudsResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = list_resources(
+        auth_context,
+        "cloud",
+        search=search,
+        only=only,
+        sort=sort,
+        limit=limit,
+        deref=deref,
+    )
+    return ListCloudsResponse(data=result["data"], meta=result["meta"])

@@ -21,8 +21,10 @@ def create_zone(create_zone_request=None):  # noqa: E501
     :rtype: CreateZoneResponse
     """
     if connexion.request.is_json:
-        create_zone_request = CreateZoneRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        create_zone_request = CreateZoneRequest.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
+    return "do some magic!"
 
 
 def edit_zone(zone, name=None):  # noqa: E501
@@ -37,7 +39,7 @@ def edit_zone(zone, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def get_zone(zone, only=None, deref=None):  # noqa: E501
@@ -54,13 +56,14 @@ def get_zone(zone, only=None, deref=None):  # noqa: E501
 
     :rtype: GetZoneResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(
-        auth_context, 'zone', search=volume, only=only, deref=deref)
-    return GetZoneResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(auth_context, "zone", search=volume, only=only, deref=deref)
+    return GetZoneResponse(data=result["data"], meta=result["meta"])
 
 
-def list_zones(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_zones(
+    cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None
+):  # noqa: E501
     """List zones
 
     List zones owned by the active org. READ permission required on zone &amp; cloud. # noqa: E501
@@ -82,8 +85,16 @@ def list_zones(cloud=None, search=None, sort=None, start=None, limit=None, only=
 
     :rtype: ListZonesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'zone', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
-    return ListZonesResponse(data=result['data'], meta=result['meta'])
+        auth_context,
+        "zone",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
+    )
+    return ListZonesResponse(data=result["data"], meta=result["meta"])

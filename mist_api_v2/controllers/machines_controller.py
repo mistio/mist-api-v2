@@ -15,7 +15,9 @@ from mist.api.methods import list_resources as list_resources_v1
 from mist.api.dramatiq_tasks import dramatiq_create_machine_async
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
-from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
+from mist_api_v2.models.create_machine_response import (
+    CreateMachineResponse,
+)  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2 import util
@@ -34,21 +36,27 @@ def clone_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
-    except ValueError:
-        return 'Machine does not exist', 404
 
-    auth_context.check_perm('machine', 'clone', machine.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [machine], total = list_resources(
+            auth_context, "machine", search=machine, limit=1
+        )
+    except ValueError:
+        return "Machine does not exist", 404
+
+    auth_context.check_perm("machine", "clone", machine.id)
     log_event(
-        auth_context.owner.id, 'request', 'clone_machine',
-        machine_id=machine.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "clone_machine",
+        machine_id=machine.id,
+        user_id=auth_context.user.id,
     )
     machine.ctl.clone()
-    return 'Cloned machine `%s`' % machine.name, 200
+    return "Cloned machine `%s`" % machine.name, 200
 
 
 def console(machine):  # noqa: E501
@@ -61,7 +69,7 @@ def console(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def create_machine(create_machine_request=None):  # noqa: E501
@@ -84,60 +92,64 @@ def create_machine(create_machine_request=None):  # noqa: E501
     """
 
     if connexion.request.is_json:
-        create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
+        create_machine_request = CreateMachineRequest.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
 
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     plan = {}
 
     if create_machine_request.cloud:
         cloud_search = create_machine_request.cloud
     elif create_machine_request.provider:
-        cloud_search = f'provider:{create_machine_request.provider}'
+        cloud_search = f"provider:{create_machine_request.provider}"
     else:
-        cloud_search = ''
+        cloud_search = ""
     # TODO handle multiple clouds
     # TODO add permissions constraint to list_resources
     try:
         # TODO use list_resources
         [cloud], _ = list_resources_v1(
-            auth_context, 'cloud', search=cloud_search, limit=1
+            auth_context, "cloud", search=cloud_search, limit=1
         )
     except ValueError:
-        return 'Cloud does not exist', 404
+        return "Cloud does not exist", 404
     try:
-        auth_context.check_perm('cloud', 'create_resources', cloud.id)
+        auth_context.check_perm("cloud", "create_resources", cloud.id)
     except PolicyUnauthorizedError as exc:
         return exc.args[0], 403
 
-    plan['cloud'] = {'id': cloud.id, 'name': cloud.name}
+    plan["cloud"] = {"id": cloud.id, "name": cloud.name}
 
     kwargs = {
-        'name': create_machine_request.name,
-        'image': create_machine_request.image or {},
-        'location': create_machine_request.location or '',
-        'size': create_machine_request.size or {},
-        'key': create_machine_request.key or {},
-        'networks': create_machine_request.net or {},
-        'volumes': create_machine_request.volumes or [],
-        'disks': create_machine_request.disks or {},
-        'extra': create_machine_request.extra or {},
-        'scripts': create_machine_request.scripts or [],
-        'schedules': create_machine_request.schedules or [],
-        'cloudinit': create_machine_request.cloudinit or '',
-        'fqdn': create_machine_request.fqdn or '',
-        'monitoring': create_machine_request.monitoring,
-        'request_tags': create_machine_request.tags or {},
-        'expiration': create_machine_request.expiration,
-        'quantity': create_machine_request.quantity or 1
+        "name": create_machine_request.name,
+        "image": create_machine_request.image or {},
+        "location": create_machine_request.location or "",
+        "size": create_machine_request.size or {},
+        "key": create_machine_request.key or {},
+        "networks": create_machine_request.net or {},
+        "volumes": create_machine_request.volumes or [],
+        "disks": create_machine_request.disks or {},
+        "extra": create_machine_request.extra or {},
+        "scripts": create_machine_request.scripts or [],
+        "schedules": create_machine_request.schedules or [],
+        "cloudinit": create_machine_request.cloudinit or "",
+        "fqdn": create_machine_request.fqdn or "",
+        "monitoring": create_machine_request.monitoring,
+        "request_tags": create_machine_request.tags or {},
+        "expiration": create_machine_request.expiration,
+        "quantity": create_machine_request.quantity or 1,
     }
 
     try:
         cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
     except NotFoundError as exc:
         return exc.args[0], 404
-    except (BadRequestError,
-            PolicyUnauthorizedError,
-            MachineNameValidationError) as exc:
+    except (
+        BadRequestError,
+        PolicyUnauthorizedError,
+        MachineNameValidationError,
+    ) as exc:
         return exc.args[0], 400
     except ForbiddenError as err:
         return err.args[0], 403
@@ -154,7 +166,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     else:
         # TODO job,job_id could also be passed as parameter
         job_id = uuid.uuid4().hex
-        job = 'create_machine'
+        job = "create_machine"
         # TODO add countdown=2
         dramatiq_create_machine_async.send(
             auth_context.serialize(), plan, job_id=job_id, job=job
@@ -173,21 +185,27 @@ def destroy_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
-    except ValueError:
-        return 'Machine does not exist', 404
 
-    auth_context.check_perm('machine', 'destroy', machine.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [machine], total = list_resources(
+            auth_context, "machine", search=machine, limit=1
+        )
+    except ValueError:
+        return "Machine does not exist", 404
+
+    auth_context.check_perm("machine", "destroy", machine.id)
     log_event(
-        auth_context.owner.id, 'request', 'destroy_machine',
-        machine_id=machine.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "destroy_machine",
+        machine_id=machine.id,
+        user_id=auth_context.user.id,
     )
     machine.ctl.destroy()
-    return 'Destroyed machine `%s`' % machine.name, 200
+    return "Destroyed machine `%s`" % machine.name, 200
 
 
 def edit_machine(machine, name=None):  # noqa: E501
@@ -202,7 +220,7 @@ def edit_machine(machine, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def expose_machine(machine):  # noqa: E501
@@ -215,7 +233,7 @@ def expose_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def get_machine(machine, only=None, deref=None):  # noqa: E501
@@ -232,14 +250,17 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
 
     :rtype: GetMachineResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(auth_context, 'machine', search=machine, only=only,
-        deref=deref)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(
+        auth_context, "machine", search=machine, only=only, deref=deref
+    )
 
-    return GetMachineResponse(data=result['data'], meta=result['meta'])
+    return GetMachineResponse(data=result["data"], meta=result["meta"])
 
 
-def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
+def list_machines(
+    cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref="auto"
+):  # noqa: E501
     """List machines
 
     List machines owned by the active org. READ permission required on machine &amp; cloud. # noqa: E501
@@ -261,12 +282,19 @@ def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=N
 
     :rtype: ListMachinesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'machine', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref
+        auth_context,
+        "machine",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
     )
-    return ListMachinesResponse(data=result['data'], meta=result['meta'])
+    return ListMachinesResponse(data=result["data"], meta=result["meta"])
 
 
 def reboot_machine(machine):  # noqa: E501
@@ -280,21 +308,27 @@ def reboot_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
-    except ValueError:
-        return 'Machine does not exist', 404
 
-    auth_context.check_perm('machine', 'reboot', machine.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [machine], total = list_resources(
+            auth_context, "machine", search=machine, limit=1
+        )
+    except ValueError:
+        return "Machine does not exist", 404
+
+    auth_context.check_perm("machine", "reboot", machine.id)
     log_event(
-        auth_context.owner.id, 'request', 'reboot_machine',
-        machine_id=machine.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "reboot_machine",
+        machine_id=machine.id,
+        user_id=auth_context.user.id,
     )
     machine.ctl.reboot()
-    return 'Rebooted machine `%s`' % machine.name, 200
+    return "Rebooted machine `%s`" % machine.name, 200
 
 
 def rename_machine(machine):  # noqa: E501
@@ -307,7 +341,7 @@ def rename_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def resize_machine(machine):  # noqa: E501
@@ -320,7 +354,7 @@ def resize_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def resume_machine(machine):  # noqa: E501
@@ -333,7 +367,7 @@ def resume_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def ssh(machine):  # noqa: E501
@@ -348,19 +382,21 @@ def ssh(machine):  # noqa: E501
     """
     from mist.api.methods import list_resources
     from mist.api.machines.methods import prepare_ssh_uri
-    auth_context = connexion.context['token_info']['auth_context']
-    search = f'{machine} state=running'
+
+    auth_context = connexion.context["token_info"]["auth_context"]
+    search = f"{machine} state=running"
     try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=search, limit=1)
+        [machine], total = list_resources(
+            auth_context, "machine", search=search, limit=1
+        )
     except ValueError:
-        return 'Machine does not exist', 404
+        return "Machine does not exist", 404
 
     auth_context.check_perm("cloud", "read", machine.cloud.id)
 
     ssh_uri = prepare_ssh_uri(auth_context, machine)
 
-    return 'Found', 302, {'Location': ssh_uri}
+    return "Found", 302, {"Location": ssh_uri}
 
 
 def start_machine(machine):  # noqa: E501
@@ -374,21 +410,27 @@ def start_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
-    except ValueError:
-        return 'Machine does not exist', 404
 
-    auth_context.check_perm('machine', 'start', machine.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [machine], total = list_resources(
+            auth_context, "machine", search=machine, limit=1
+        )
+    except ValueError:
+        return "Machine does not exist", 404
+
+    auth_context.check_perm("machine", "start", machine.id)
     log_event(
-        auth_context.owner.id, 'request', 'start_machine',
-        machine_id=machine.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "start_machine",
+        machine_id=machine.id,
+        user_id=auth_context.user.id,
     )
     machine.ctl.start()
-    return 'Started machine `%s`' % machine.name, 200
+    return "Started machine `%s`" % machine.name, 200
 
 
 def stop_machine(machine):  # noqa: E501
@@ -402,21 +444,27 @@ def stop_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
-    except ValueError:
-        return 'Machine does not exist', 404
 
-    auth_context.check_perm('machine', 'stop', machine.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [machine], total = list_resources(
+            auth_context, "machine", search=machine, limit=1
+        )
+    except ValueError:
+        return "Machine does not exist", 404
+
+    auth_context.check_perm("machine", "stop", machine.id)
     log_event(
-        auth_context.owner.id, 'request', 'stop_machine',
-        machine_id=machine.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "stop_machine",
+        machine_id=machine.id,
+        user_id=auth_context.user.id,
     )
     machine.ctl.stop()
-    return 'Stopped machine `%s`' % machine.name, 200
+    return "Stopped machine `%s`" % machine.name, 200
 
 
 def suspend_machine(machine):  # noqa: E501
@@ -429,7 +477,7 @@ def suspend_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def undefine_machine(machine):  # noqa: E501
@@ -443,18 +491,24 @@ def undefine_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [machine], total = list_resources(auth_context, 'machine',
-                                          search=machine, limit=1)
-    except ValueError:
-        return 'Machine does not exist', 404
 
-    auth_context.check_perm('machine', 'undefine', machine.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [machine], total = list_resources(
+            auth_context, "machine", search=machine, limit=1
+        )
+    except ValueError:
+        return "Machine does not exist", 404
+
+    auth_context.check_perm("machine", "undefine", machine.id)
     log_event(
-        auth_context.owner.id, 'request', 'undefine_machine',
-        machine_id=machine.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "undefine_machine",
+        machine_id=machine.id,
+        user_id=auth_context.user.id,
     )
     machine.ctl.undefine()
-    return 'Undefined machine `%s`' % machine.name, 200
+    return "Undefined machine `%s`" % machine.name, 200

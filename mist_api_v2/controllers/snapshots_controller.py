@@ -1,7 +1,9 @@
 import connexion
 import six
 
-from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse  # noqa: E501
+from mist_api_v2.models.list_snapshots_response import (
+    ListSnapshotsResponse,
+)  # noqa: E501
 from mist_api_v2 import util
 
 
@@ -15,7 +17,7 @@ def create_snapshot(machine):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def list_snapshots(machine):  # noqa: E501
@@ -28,7 +30,7 @@ def list_snapshots(machine):  # noqa: E501
 
     :rtype: ListSnapshotsResponse
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def remove_snapshot(machine, snapshot):  # noqa: E501
@@ -43,7 +45,7 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def revert_to_snapshot(machine, snapshot):  # noqa: E501
@@ -58,4 +60,4 @@ def revert_to_snapshot(machine, snapshot):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"

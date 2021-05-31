@@ -21,8 +21,10 @@ def create_volume(create_volume_request=None):  # noqa: E501
     :rtype: CreateVolumeResponse
     """
     if connexion.request.is_json:
-        create_volume_request = CreateVolumeRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        create_volume_request = CreateVolumeRequest.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
+    return "do some magic!"
 
 
 def edit_volume(volume, name=None):  # noqa: E501
@@ -37,7 +39,7 @@ def edit_volume(volume, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def get_volume(volume, only=None, deref=None):  # noqa: E501
@@ -54,13 +56,14 @@ def get_volume(volume, only=None, deref=None):  # noqa: E501
 
     :rtype: GetVolumeResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(
-        auth_context, 'volume', search=volume, only=only, deref=deref)
-    return GetVolumeResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(auth_context, "volume", search=volume, only=only, deref=deref)
+    return GetVolumeResponse(data=result["data"], meta=result["meta"])
 
 
-def list_volumes(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
+def list_volumes(
+    cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref="auto"
+):  # noqa: E501
     """List volumes
 
     List volumes owned by the active org. READ permission required on volume &amp; cloud. # noqa: E501
@@ -82,8 +85,16 @@ def list_volumes(cloud=None, search=None, sort=None, start=0, limit=100, only=No
 
     :rtype: ListVolumesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'volume', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
-    return ListVolumesResponse(data=result['data'], meta=result['meta'])
+        auth_context,
+        "volume",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
+    )
+    return ListVolumesResponse(data=result["data"], meta=result["meta"])

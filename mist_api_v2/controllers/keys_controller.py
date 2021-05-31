@@ -20,9 +20,11 @@ from mist_api_v2 import util
 from .base import list_resources, get_resource
 
 
-logging.basicConfig(level=config.PY_LOG_LEVEL,
-                    format=config.PY_LOG_FORMAT,
-                    datefmt=config.PY_LOG_FORMAT_DATE)
+logging.basicConfig(
+    level=config.PY_LOG_LEVEL,
+    format=config.PY_LOG_FORMAT,
+    datefmt=config.PY_LOG_FORMAT_DATE,
+)
 
 
 log = logging.getLogger(__name__)
@@ -39,13 +41,15 @@ def add_key(add_key_request=None):  # noqa: E501
     :rtype: AddKeyResponse
     """
     if connexion.request.is_json:
-        add_key_request = AddKeyRequest.from_dict(connexion.request.get_json())  # noqa: E501
+        add_key_request = AddKeyRequest.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
 
     from mist.api.exceptions import BadRequestError, KeyExistsError
     from mist.api.keys.models import SignedSSHKey, SSHKey, Key
     from mist.api.tag.methods import add_tags_to_resource
 
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     key_tags, _ = auth_context.check_perm("key", "add", None)
 
     if add_key_request.generate:
@@ -53,8 +57,11 @@ def add_key(add_key_request=None):  # noqa: E501
         key.ctl.generate()
         if add_key_request.dry:  # If dry generate requested then we're done
             log_event(
-                auth_context.owner.id, 'request', 'generate_key',
-                key_id=key.id, user_id=auth_context.user.id,
+                auth_context.owner.id,
+                "request",
+                "generate_key",
+                key_id=key.id,
+                user_id=auth_context.user.id,
             )
             return AddKeyResponse(private=key.private, public=key.public)
 
@@ -66,13 +73,13 @@ def add_key(add_key_request=None):  # noqa: E501
                 auth_context.owner,
                 add_key_request.name,
                 private=add_key_request.private,
-                certificate=add_key_request.certificate
+                certificate=add_key_request.certificate,
             )
         else:
             key = SSHKey.add(
                 auth_context.owner,
                 add_key_request.name,
-                private=add_key_request.private
+                private=add_key_request.private,
             )
     except BadRequestError as exc:
         return exc.args[0], 400
@@ -86,8 +93,11 @@ def add_key(add_key_request=None):  # noqa: E501
         add_tags_to_resource(auth_context.owner, key, list(key_tags.items()))
 
     log_event(
-        auth_context.owner.id, 'request', 'add_key',
-        key_id=key.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "add_key",
+        key_id=key.id,
+        user_id=auth_context.user.id,
     )
     return AddKeyResponse(key.id)
 
@@ -105,22 +115,24 @@ def delete_key(key):  # noqa: E501
     from mist.api.keys.models import Key
     from mist.api.keys.methods import delete_key as m_delete_key
 
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     key_id = key
     try:
-        key = Key.objects.get(owner=auth_context.owner, id=key_id,
-                              deleted=None)
+        key = Key.objects.get(owner=auth_context.owner, id=key_id, deleted=None)
     except me.DoesNotExist:
-        return 'Key does not exist', 404
+        return "Key does not exist", 404
 
-    auth_context.check_perm('key', 'remove', key.id)
+    auth_context.check_perm("key", "remove", key.id)
     m_delete_key(auth_context.owner, key_id)
     log_event(
-        auth_context.owner.id, 'request', 'delete_key',
-        key_id=key.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "delete_key",
+        key_id=key.id,
+        user_id=auth_context.user.id,
     )
 
-    return 'Deleted key `%s`' % key.name, 200
+    return "Deleted key `%s`" % key.name, 200
 
 
 def edit_key(key, name=None, default=None):  # noqa: E501
@@ -138,26 +150,32 @@ def edit_key(key, name=None, default=None):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.logs.methods import log_event
-    try:
-        [key], total = list_resources(auth_context, 'key',
-                                      search=key, limit=1)
-    except ValueError:
-        return 'Key does not exist', 404
 
-    auth_context.check_perm('key', 'edit', key.id)
+    auth_context = connexion.context["token_info"]["auth_context"]
+    from mist.api.logs.methods import log_event
+
+    try:
+        [key], total = list_resources(auth_context, "key", search=key, limit=1)
+    except ValueError:
+        return "Key does not exist", 404
+
+    auth_context.check_perm("key", "edit", key.id)
     log_event(
-        auth_context.owner.id, 'request', 'edit_key',
-        key_id=key.id, user_id=auth_context.user.id,
-        key_name=key.name, key_default=key.default,
-        new_name=name, new_default=default
+        auth_context.owner.id,
+        "request",
+        "edit_key",
+        key_id=key.id,
+        user_id=auth_context.user.id,
+        key_name=key.name,
+        key_default=key.default,
+        new_name=name,
+        new_default=default,
     )
     if name:
         key.name = name
     if default:
         key.ctl.set_default()
-    return 'Updated key `%s`' % key.name, 200
+    return "Updated key `%s`" % key.name, 200
 
 
 def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
@@ -179,35 +197,35 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
     :rtype: GetKeyResponse
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+
+    auth_context = connexion.context["token_info"]["auth_context"]
     from mist.api.logs.methods import log_event
+
     try:
-        [key], total = list_resources(auth_context, 'key',
-                                      search=key, limit=1)
+        [key], total = list_resources(auth_context, "key", search=key, limit=1)
     except ValueError:
-        return 'Key does not exist', 404
+        return "Key does not exist", 404
 
-    meta = {
-        'total': total,
-        'returned': 1,
-    }
+    meta = {"total": total, "returned": 1}
 
-    result = {
-        'data': key.as_dict(),
-        'meta': meta
-    }
+    result = {"data": key.as_dict(), "meta": meta}
 
     if private:
-        auth_context.check_perm('key', 'read_private', key.id)
+        auth_context.check_perm("key", "read_private", key.id)
         log_event(
-            auth_context.owner.id, 'request', 'read_private',
-            key_id=key.id, user_id=auth_context.user.id,
+            auth_context.owner.id,
+            "request",
+            "read_private",
+            key_id=key.id,
+            user_id=auth_context.user.id,
         )
-        result['data']['private'] = key.private
-    return GetKeyResponse(data=result['data'], meta=result['meta'])
+        result["data"]["private"] = key.private
+    return GetKeyResponse(data=result["data"], meta=result["meta"])
 
 
-def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=None):  # noqa: E501
+def list_keys(
+    search=None, sort=None, start=None, limit=100, only=None, deref=None
+):  # noqa: E501
     """List keys
 
     List keys owned by the active org. READ permission required on key. # noqa: E501
@@ -227,8 +245,15 @@ def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=No
 
     :rtype: ListKeysResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'key', search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
-    return ListKeysResponse(data=result['data'], meta=result['meta'])
+        auth_context,
+        "key",
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
+    )
+    return ListKeysResponse(data=result["data"], meta=result["meta"])

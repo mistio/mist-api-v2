@@ -22,14 +22,14 @@ def get_image(image, only=None, deref=None):  # noqa: E501
 
     :rtype: GetImageResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(
-        auth_context, 'image', search=image, only=only, deref=deref
-    )
-    return GetImageResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(auth_context, "image", search=image, only=only, deref=deref)
+    return GetImageResponse(data=result["data"], meta=result["meta"])
 
 
-def list_images(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_images(
+    cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None
+):  # noqa: E501
     """List images
 
     List images owned by the active org. READ permission required on image &amp; cloud. # noqa: E501
@@ -51,9 +51,16 @@ def list_images(cloud=None, search=None, sort=None, start=None, limit=None, only
 
     :rtype: ListImagesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'image', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref
+        auth_context,
+        "image",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
     )
-    return ListImagesResponse(data=result['data'], meta=result['meta'])
+    return ListImagesResponse(data=result["data"], meta=result["meta"])

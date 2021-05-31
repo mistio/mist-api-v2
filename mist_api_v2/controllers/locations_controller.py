@@ -2,7 +2,9 @@ import connexion
 import six
 
 from mist_api_v2.models.get_location_response import GetLocationResponse  # noqa: E501
-from mist_api_v2.models.list_locations_response import ListLocationsResponse  # noqa: E501
+from mist_api_v2.models.list_locations_response import (
+    ListLocationsResponse,
+)  # noqa: E501
 from mist_api_v2 import util
 
 from .base import list_resources, get_resource
@@ -22,13 +24,16 @@ def get_location(location, only=None, deref=None):  # noqa: E501
 
     :rtype: GetLocationResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = get_resource(
-        auth_context, 'location', search=volume, only=only, deref=deref)
-    return GetLocationResponse(data=result['data'], meta=result['meta'])
+        auth_context, "location", search=volume, only=only, deref=deref
+    )
+    return GetLocationResponse(data=result["data"], meta=result["meta"])
 
 
-def list_locations(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_locations(
+    cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None
+):  # noqa: E501
     """List locations
 
     List locations owned by the active org. READ permission required on location &amp; cloud. # noqa: E501
@@ -50,8 +55,16 @@ def list_locations(cloud=None, search=None, sort=None, start=None, limit=None, o
 
     :rtype: ListLocationsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'location', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
-    return ListLocationsResponse(data=result['data'], meta=result['meta'])
+        auth_context,
+        "location",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
+    )
+    return ListLocationsResponse(data=result["data"], meta=result["meta"])

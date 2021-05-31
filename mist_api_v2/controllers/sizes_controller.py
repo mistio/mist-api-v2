@@ -22,13 +22,14 @@ def get_size(size, only=None, deref=None):  # noqa: E501
 
     :rtype: GetSizeResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(
-        auth_context, 'size', search=volume, only=only, deref=deref)
-    return GetSizeResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(auth_context, "size", search=volume, only=only, deref=deref)
+    return GetSizeResponse(data=result["data"], meta=result["meta"])
 
 
-def list_sizes(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_sizes(
+    cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None
+):  # noqa: E501
     """List sizes
 
     List sizes owned by the active org. READ permission required on size &amp; cloud. # noqa: E501
@@ -50,8 +51,16 @@ def list_sizes(cloud=None, search=None, sort=None, start=None, limit=None, only=
 
     :rtype: ListSizesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'size', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
-    return ListSizesResponse(data=result['data'], meta=result['meta'])
+        auth_context,
+        "size",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
+    )
+    return ListSizesResponse(data=result["data"], meta=result["meta"])

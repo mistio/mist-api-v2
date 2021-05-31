@@ -2,7 +2,9 @@ import connexion
 import six
 
 from mist_api_v2.models.create_network_request import CreateNetworkRequest  # noqa: E501
-from mist_api_v2.models.create_network_response import CreateNetworkResponse  # noqa: E501
+from mist_api_v2.models.create_network_response import (
+    CreateNetworkResponse,
+)  # noqa: E501
 from mist_api_v2.models.get_network_response import GetNetworkResponse  # noqa: E501
 from mist_api_v2.models.list_networks_response import ListNetworksResponse  # noqa: E501
 from mist_api_v2 import util
@@ -21,8 +23,10 @@ def create_network(create_network_request=None):  # noqa: E501
     :rtype: CreateNetworkResponse
     """
     if connexion.request.is_json:
-        create_network_request = CreateNetworkRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        create_network_request = CreateNetworkRequest.from_dict(
+            connexion.request.get_json()
+        )  # noqa: E501
+    return "do some magic!"
 
 
 def edit_network(network, name=None):  # noqa: E501
@@ -37,10 +41,10 @@ def edit_network(network, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
-def get_network(network, only=None, deref='auto'):  # noqa: E501
+def get_network(network, only=None, deref="auto"):  # noqa: E501
     """Get network
 
     Get details about target network # noqa: E501
@@ -54,13 +58,16 @@ def get_network(network, only=None, deref='auto'):  # noqa: E501
 
     :rtype: GetNetworkResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = get_resource(
-        auth_context, 'network', search=network, only=only, deref=deref)
-    return GetNetworkResponse(data=result['data'], meta=result['meta'])
+        auth_context, "network", search=network, only=only, deref=deref
+    )
+    return GetNetworkResponse(data=result["data"], meta=result["meta"])
 
 
-def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref='auto'):  # noqa: E501
+def list_networks(
+    cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref="auto"
+):  # noqa: E501
     """List networks
 
     List networks owned by the active org. READ permission required on network &amp; cloud. # noqa: E501
@@ -82,8 +89,16 @@ def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, on
 
     :rtype: ListNetworksResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     result = list_resources(
-        auth_context, 'network', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
-    return ListNetworksResponse(data=result['data'], meta=result['meta'])
+        auth_context,
+        "network",
+        cloud=cloud,
+        search=search,
+        only=only,
+        sort=sort,
+        start=start,
+        limit=limit,
+        deref=deref,
+    )
+    return ListNetworksResponse(data=result["data"], meta=result["meta"])

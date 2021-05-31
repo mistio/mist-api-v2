@@ -24,22 +24,26 @@ def delete_script(script):  # noqa: E501
     """
     from mist.api.scripts.models import Script
 
-    auth_context = connexion.context['token_info']['auth_context']
+    auth_context = connexion.context["token_info"]["auth_context"]
     script_id = script
     try:
-        script = Script.objects.get(owner=auth_context.owner, id=script_id,
-                                    deleted=None)
+        script = Script.objects.get(
+            owner=auth_context.owner, id=script_id, deleted=None
+        )
     except me.DoesNotExist:
-        return 'Script does not exist', 404
+        return "Script does not exist", 404
 
-    auth_context.check_perm('script', 'remove', script.id)
+    auth_context.check_perm("script", "remove", script.id)
     script.ctl.delete()
     log_event(
-        auth_context.owner.id, 'request', 'delete_script',
-        script_id=script.id, user_id=auth_context.user.id,
+        auth_context.owner.id,
+        "request",
+        "delete_script",
+        script_id=script.id,
+        user_id=auth_context.user.id,
     )
 
-    return 'Deleted script `%s`' % script.name, 200
+    return "Deleted script `%s`" % script.name, 200
 
 
 def edit_script(script, name=None, description=None):  # noqa: E501
@@ -57,19 +61,19 @@ def edit_script(script, name=None, description=None):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+
+    auth_context = connexion.context["token_info"]["auth_context"]
     try:
-        [script], total = list_resources(auth_context, 'script',
-                                         search=script, limit=1)
+        [script], total = list_resources(auth_context, "script", search=script, limit=1)
     except ValueError:
-        return 'Script does not exist', 404
+        return "Script does not exist", 404
 
-    auth_context.check_perm('script', 'edit', script.id)
+    auth_context.check_perm("script", "edit", script.id)
     script.ctl.edit(name, description)
-    return 'Updated script `%s`' % script.name, 200
+    return "Updated script `%s`" % script.name, 200
 
 
-def get_script(script, only=None, deref='auto'):  # noqa: E501
+def get_script(script, only=None, deref="auto"):  # noqa: E501
     """Get script
 
     Get details about target script # noqa: E501
@@ -83,13 +87,14 @@ def get_script(script, only=None, deref='auto'):  # noqa: E501
 
     :rtype: GetScriptResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(auth_context, 'script',
-                          search=script, only=only, deref=deref)
-    return GetScriptResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = get_resource(auth_context, "script", search=script, only=only, deref=deref)
+    return GetScriptResponse(data=result["data"], meta=result["meta"])
 
 
-def list_scripts(search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_scripts(
+    search=None, sort=None, start=None, limit=None, only=None, deref=None
+):  # noqa: E501
     """List scripts
 
     List scripts owned by the active org. READ permission required on script. # noqa: E501
@@ -109,8 +114,14 @@ def list_scripts(search=None, sort=None, start=None, limit=None, only=None, dere
 
     :rtype: ListScriptsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = list_resources(auth_context, 'script', search=search,
-                            only=only, sort=sort, limit=limit,
-                            deref=deref)
-    return ListScriptsResponse(data=result['data'], meta=result['meta'])
+    auth_context = connexion.context["token_info"]["auth_context"]
+    result = list_resources(
+        auth_context,
+        "script",
+        search=search,
+        only=only,
+        sort=sort,
+        limit=limit,
+        deref=deref,
+    )
+    return ListScriptsResponse(data=result["data"], meta=result["meta"])
