@@ -4175,8 +4175,10 @@ components:
       example:
         template: '{}'
         image: ""
-        quantity: 6.027456183070403
-        disks: ""
+        quantity: 1.4658129805029452
+        disks:
+          disk_size: 0
+          disk_path: disk_path
         fqdn: fqdn
         cloudinit: cloudinit
         volumes: ""
@@ -4189,7 +4191,8 @@ components:
         schedules:
         - ""
         - ""
-        extra: ""
+        extra:
+          project_id: project_id
         name: name
         location: location
         expiration:
@@ -4217,24 +4220,36 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          anyOf:
+          description: Machine sizing spec e.g. cpu/ram/flavor
+          oneOf:
           - properties:
               cpus:
-                description: Number of cpu cores
+                description: Number of cpu cores. Mutually exclusive with 'size'
                 minimum: 1
                 type: integer
               ram:
-                description: Ram size in MBs
+                description: Ram size in MBs. Mutually exclusive with 'size'
                 minimum: 256
                 type: integer
-            required:
-            - cpus
-            - ram
+              size:
+                description: Name or ID of the size to select for this machine. Mutually
+                  exclusive with 'cpus' and 'ram'
+                type: string
+              accelerators:
+                description: Google specific parameter
+                properties:
+                  accelerator_type:
+                    description: Accelerator type to attach to this machine. e.g.
+                      'nvidia-tesla-p100'
+                    type: string
+                  accelerator_count:
+                    description: The number of the accelerator cards exposed to this
+                      instance
+                    type: integer
+                type: object
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
-          - $ref: '#/components/schemas/GoogleSize'
-          description: Machine sizing spec e.g. cpu/ram/flavor
         image:
           description: Operating System image to boot from
           oneOf:
@@ -4249,15 +4264,20 @@ components:
           - $ref: '#/components/schemas/KVMNet'
           description: Specify network configuration parameters
         key:
-          anyOf:
+          description: Associate SSH key
+          oneOf:
+          - properties:
+              key:
+                description: Name or ID of the SSH key to deploy
+                type: string
+              user:
+                description: SSH user, supported on Google
+                type: string
+            type: object
           - description: Name or ID of the SSH key to deploy
             type: string
-          - $ref: '#/components/schemas/GoogleKey'
-          description: Associate SSH key
         disks:
-          description: Configure local disks
-          oneOf:
-          - $ref: '#/components/schemas/KVMDisks'
+          $ref: '#/components/schemas/CreateMachineRequest_disks'
         volumes:
           anyOf:
           - $ref: '#/components/schemas/AmazonVolumes'
@@ -4324,9 +4344,7 @@ components:
         expiration:
           $ref: '#/components/schemas/Expiration'
         extra:
-          description: Configure additional parameters
-          oneOf:
-          - $ref: '#/components/schemas/EquinixMetalExtra'
+          $ref: '#/components/schemas/CreateMachineRequest_extra'
         monitoring:
           description: Enable monitoring of this machine
           type: boolean
@@ -4595,14 +4613,6 @@ components:
           type: string
       required:
       - apikey
-      type: object
-    EquinixMetalExtra:
-      properties:
-        project_id:
-          description: Project UUID, if not given the first one available will be
-            selected
-          type: string
-      title: Equnix Metal extra parameter
       type: object
     EquinixMetalNet:
       properties:
@@ -4928,16 +4938,6 @@ components:
       - privateKey
       - projectId
       type: object
-    GoogleKey:
-      properties:
-        key:
-          description: Name or ID of the SSH key to deploy
-          type: string
-        user:
-          description: SSH user, defaults to 'user'
-          type: string
-      title: Google key parameter
-      type: object
     GoogleNet:
       properties:
         network:
@@ -4947,24 +4947,6 @@ components:
           description: The subnetwork resource for this machine
           type: string
       title: Google net parameter
-      type: object
-    GoogleSize:
-      properties:
-        cpus:
-          description: Number of cpu cores. Mutually exclusive with 'size'
-          minimum: 1
-          type: integer
-        ram:
-          description: Ram size in MBs. Mutually exclusive with 'size'
-          minimum: 256
-          type: integer
-        size:
-          description: Name or ID of the size to select for this machine. Mutually
-            exclusive with 'cpus' and 'ram'
-          type: string
-        accelerators:
-          $ref: '#/components/schemas/GoogleSize_accelerators'
-      title: Google size parameter
       type: object
     GoogleVolumes:
       items:
@@ -5090,17 +5072,6 @@ components:
       - period
       - schedule_type
       title: Interval
-      type: object
-    KVMDisks:
-      properties:
-        disk_size:
-          description: The VM's size will be the size of the image plus the number
-            in GBs provided here
-          type: integer
-        disk_path:
-          description: Where the VM disk file will be created
-          type: string
-      title: KVM disks parameter
       type: object
     KVMNet:
       properties:
@@ -6200,6 +6171,30 @@ components:
       required:
       - dry
       - generate
+    CreateMachineRequest_disks:
+      description: Configure local disks
+      example:
+        disk_size: 0
+        disk_path: disk_path
+      properties:
+        disk_size:
+          description: KVM specific parameter. The VM's size will be the size of the
+            image plus the number in GBs provided here
+          type: integer
+        disk_path:
+          description: KVM specific parameter. Where the VM disk file will be created
+          type: string
+      type: object
+    CreateMachineRequest_extra:
+      description: Configure additional parameters
+      example:
+        project_id: project_id
+      properties:
+        project_id:
+          description: Equinix specific parameter. Project UUID, if not given the
+            first one available will be selected
+          type: string
+      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
@@ -6249,15 +6244,6 @@ components:
       required:
       - period
       - value
-      type: object
-    GoogleSize_accelerators:
-      properties:
-        accelerator_type:
-          description: Accelerator type to attach to this machine. e.g. 'nvidia-tesla-p100'
-          type: string
-        accelerator_count:
-          description: The number of the accelerator cards exposed to this instance
-          type: integer
       type: object
     KVMNet_networks:
       properties:

@@ -60,6 +60,8 @@ mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py
 mist_api_v2/models/cloud_sigma_credentials.py
 mist_api_v2/models/create_machine_request.py
+mist_api_v2/models/create_machine_request_disks.py
+mist_api_v2/models/create_machine_request_extra.py
 mist_api_v2/models/create_machine_response.py
 mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
@@ -73,7 +75,6 @@ mist_api_v2/models/cron_schedule.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/equinix_credentials.py
-mist_api_v2/models/equinix_metal_extra.py
 mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
 mist_api_v2/models/expiration.py
@@ -91,10 +92,7 @@ mist_api_v2/models/get_size_response.py
 mist_api_v2/models/get_volume_response.py
 mist_api_v2/models/get_zone_response.py
 mist_api_v2/models/google_credentials.py
-mist_api_v2/models/google_key.py
 mist_api_v2/models/google_net.py
-mist_api_v2/models/google_size.py
-mist_api_v2/models/google_size_accelerators.py
 mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
 mist_api_v2/models/inline_object.py
@@ -103,7 +101,6 @@ mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/key.py
 mist_api_v2/models/kubevirt_credentials.py
-mist_api_v2/models/kvm_disks.py
 mist_api_v2/models/kvm_net.py
 mist_api_v2/models/kvm_net_networks.py
 mist_api_v2/models/linode_credentials.py
