@@ -3052,6 +3052,93 @@ paths:
       - external_id
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/users:
+    get:
+      description: Return current user if all parameter is false. Return all users
+        if all paramater is True and user is an admin.
+      operationId: list_users
+      parameters:
+      - explode: true
+        in: query
+        name: all
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last_login & registration_date:
+            value: email,last_login,registration_date
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsersResponse'
+          description: List users response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      summary: List users
+      tags:
+      - users
+      x-openapi-router-controller: mist_api_v2.controllers.users_controller
   /api/v2/volumes:
     get:
       description: List volumes owned by the active org. READ permission required
@@ -4001,6 +4088,52 @@ components:
       - apisecret
       - region
       type: object
+    AmazonCreateMachineRequest:
+      description: Amazon specific fields
+      properties:
+        net:
+          $ref: '#/components/schemas/AmazonCreateMachineRequest_net'
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or id of the volume
+                  type: string
+                device:
+                  description: the device name (for example, /dev/sdh or xvdh)
+                  type: string
+              required:
+              - device
+              - volume
+            - properties:
+                name:
+                  description: the device name (for example, /dev/sdh or xvdh)
+                  type: string
+                size:
+                  description: size of the volume in GBs
+                  type: integer
+                volume_type:
+                  enum:
+                  - gp2
+                  - io1
+                  - st1
+                  - sc1
+                  - standard
+                  type: string
+                iops:
+                  description: number of I/O operations per second
+                  type: integer
+                delete_on_termination:
+                  description: delete volume when machine is deleted
+                  type: boolean
+              required:
+              - name
+              - size
+            type: object
+          type: array
+      title: Amazon
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -4017,56 +4150,6 @@ components:
       - apisecret
       - region
       type: object
-    AmazonNet:
-      properties:
-        security_group:
-          description: Security group to assign to the machine
-          type: string
-        subnet:
-          description: Name or ID of the subnet to launch the machine into
-          type: string
-      title: Amazon net parameter
-      type: object
-    AmazonVolumes:
-      items:
-        oneOf:
-        - properties:
-            volume:
-              description: Name or ID of the volume
-              type: string
-            device:
-              description: The device name (for example, /dev/sdh or xvdh)
-              type: string
-          required:
-          - device
-          - volume
-        - properties:
-            name:
-              description: The device name (for example, /dev/sdh or xvdh)
-              type: string
-            size:
-              description: Size of the volume in GBs
-              type: integer
-            volume_type:
-              enum:
-              - gp2
-              - io1
-              - st1
-              - sc1
-              - standard
-              type: string
-            iops:
-              description: Number of I/O operations per second
-              type: integer
-            delete_on_termination:
-              description: Delete volume when machine is deleted
-              type: boolean
-          required:
-          - name
-          - size
-        type: object
-      title: Amazon volumes parameter
-      type: array
     AzureCredentials:
       properties:
         tenantId:
@@ -4172,198 +4255,15 @@ components:
       - username
       type: object
     CreateMachineRequest:
-      example:
-        template: '{}'
-        image: ""
-        quantity: 1.4658129805029452
-        disks:
-          disk_size: 0
-          disk_path: disk_path
-        fqdn: fqdn
-        cloudinit: cloudinit
-        volumes: ""
-        save: true
-        dry: true
-        monitoring: true
-        tags: '{}'
-        cloud: cloud
-        size: ""
-        schedules:
-        - ""
-        - ""
-        extra:
-          project_id: project_id
-        name: name
-        location: location
-        expiration:
-          date: 2000-01-23T04:56:07.000+00:00
-          action: stop
-          notify:
-            period: minutes
-            value: 1
-          notify_msg: notify_msg
-        net: ""
-        scripts:
-        - ""
-        - ""
-        key: ""
-      properties:
-        name:
-          description: Specify machine name
-          type: string
-        provider:
-          $ref: '#/components/schemas/SupportedProviders'
-        cloud:
-          description: Specify cloud to provision on
-          type: string
-        location:
-          description: Where to provision e.g. region, datacenter, rack
-          type: string
-        size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
-          oneOf:
-          - properties:
-              cpus:
-                description: Number of cpu cores. Mutually exclusive with 'size'
-                minimum: 1
-                type: integer
-              ram:
-                description: Ram size in MBs. Mutually exclusive with 'size'
-                minimum: 256
-                type: integer
-              size:
-                description: Name or ID of the size to select for this machine. Mutually
-                  exclusive with 'cpus' and 'ram'
-                type: string
-              accelerators:
-                description: Google specific parameter
-                properties:
-                  accelerator_type:
-                    description: Accelerator type to attach to this machine. e.g.
-                      'nvidia-tesla-p100'
-                    type: string
-                  accelerator_count:
-                    description: The number of the accelerator cards exposed to this
-                      instance
-                    type: integer
-                type: object
-            type: object
-          - description: Name or ID of the size to select for this machine
-            type: string
-        image:
-          description: Operating System image to boot from
-          oneOf:
-          - type: object
-          - description: Name or ID of the image to boot from
-            type: string
-        net:
-          anyOf:
-          - $ref: '#/components/schemas/AmazonNet'
-          - $ref: '#/components/schemas/EquinixMetalNet'
-          - $ref: '#/components/schemas/GoogleNet'
-          - $ref: '#/components/schemas/KVMNet'
-          description: Specify network configuration parameters
-        key:
-          description: Associate SSH key
-          oneOf:
-          - properties:
-              key:
-                description: Name or ID of the SSH key to deploy
-                type: string
-              user:
-                description: SSH user, supported on Google
-                type: string
-            type: object
-          - description: Name or ID of the SSH key to deploy
-            type: string
-        disks:
-          $ref: '#/components/schemas/CreateMachineRequest_disks'
-        volumes:
-          anyOf:
-          - $ref: '#/components/schemas/AmazonVolumes'
-          - $ref: '#/components/schemas/DigitalOceanVolumes'
-          - $ref: '#/components/schemas/EquinixMetalVolumes'
-          - $ref: '#/components/schemas/GoogleVolumes'
-          description: Configure of attached storage volumes, e.g. cloud disks
-        fqdn:
-          description: Add DNS A Record that points machine's public IP to this Fully
-            Qualified Domain Name. Zone needs to be managed by a configured Cloud
-            DNS provider
-          type: string
-        cloudinit:
-          description: Run this Cloud Init script on first boot
-          type: string
-        scripts:
-          description: Run post deploy scripts over SSH
-          items:
-            allOf:
-            - type: object
-            - oneOf:
-              - $ref: '#/components/schemas/InlineScript'
-              - $ref: '#/components/schemas/PostDeployScript'
-          type: array
-        schedules:
-          description: Configure scheduled actions for the provisioned machine
-          items:
-            allOf:
-            - properties:
-                schedule_type:
-                  enum:
-                  - one_off
-                  - crontab
-                  - interval
-                  type: string
-                script:
-                  $ref: '#/components/schemas/PostDeployScript'
-                action:
-                  enum:
-                  - start
-                  - stop
-                  - reboot
-                  - destroy
-                  type: string
-                description:
-                  type: string
-              required:
-              - schedule_type
-              type: object
-            - discriminator:
-                mapping:
-                  one_off: '#/components/schemas/OneOffSchedule'
-                  crontab: '#/components/schemas/CronSchedule'
-                  interval: '#/components/schemas/IntervalSchedule'
-                propertyName: schedule_type
-              oneOf:
-              - $ref: '#/components/schemas/OneOffSchedule'
-              - $ref: '#/components/schemas/CronSchedule'
-              - $ref: '#/components/schemas/IntervalSchedule'
-          type: array
-        tags:
-          description: Assign tags to provisioned machine
-          type: object
-        expiration:
-          $ref: '#/components/schemas/Expiration'
-        extra:
-          $ref: '#/components/schemas/CreateMachineRequest_extra'
-        monitoring:
-          description: Enable monitoring of this machine
-          type: boolean
-        quantity:
-          description: Provision multiple machines of this type
-          type: number
-        template:
-          type: object
-        dry:
-          description: Return provisioning plan and exit without executing it
-          type: boolean
-        save:
-          description: Save provisioning plan as template
-          type: boolean
-      required:
-      - image
-      - name
-      - size
-      type: object
+      allOf:
+      - $ref: '#/components/schemas/CreateMachineRequest_allOf'
+      - anyOf:
+        - $ref: '#/components/schemas/KvmCreateMachineRequest'
+        - $ref: '#/components/schemas/AmazonCreateMachineRequest'
+        - $ref: '#/components/schemas/DigitalOceanCreateMachineRequest'
+        - $ref: '#/components/schemas/EquinixMetalCreateMachineRequest'
+        - $ref: '#/components/schemas/GoogleCreateMachineRequest'
+        - $ref: '#/components/schemas/GenericCreateMachineRequest'
     CreateMachineResponse:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
@@ -4539,34 +4439,38 @@ components:
       - schedule_type
       title: Cron
       type: object
-    DigitalOceanVolumes:
-      items:
-        oneOf:
-        - properties:
-            volume:
-              description: Name or ID of the volume to attach
-              type: string
-          required:
-          - volume
-        - properties:
-            name:
-              description: Name of the volume to be created
-              type: string
-            size:
-              description: Size of the volume in GBs
-              type: integer
-            filesystem_type:
-              description: The name of the filesystem type to be used on the volume
-              enum:
-              - ext4
-              - xfs
-              type: string
-          required:
-          - name
-          - size
-        type: object
-      title: DigitalOcean volumes parameter
-      type: array
+    DigitalOceanCreateMachineRequest:
+      description: DigitalOcean specific fields
+      properties:
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or id of the volume to attach
+                  type: string
+              required:
+              - volume
+            - properties:
+                name:
+                  description: Name of the volume to be created
+                  type: string
+                size:
+                  description: Size of the volume in GBs
+                  type: integer
+                filesystem_type:
+                  description: The name of the filesystem type to be used on the volume
+                  enum:
+                  - ext4
+                  - xfs
+                  type: string
+              required:
+              - name
+              - size
+            type: object
+          type: array
+      title: DigitalOcean
+      type: object
     DigitaloceanCredentials:
       properties:
         token:
@@ -4614,49 +4518,40 @@ components:
       required:
       - apikey
       type: object
-    EquinixMetalNet:
+    EquinixMetalCreateMachineRequest:
+      description: Equinix Metal specific fields
       properties:
-        ip_addresses:
-          description: Specify addresses to be created with your machine.By default
-            Equinix configures public IPv4, public IPv6, and private IPv4
+        volumes:
           items:
-            $ref: '#/components/schemas/EquinixMetalNet_ip_addresses'
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or id of the volume to attach
+                  type: string
+              required:
+              - volume
+            - properties:
+                size:
+                  description: Size of the volume to be created
+                  minimum: 100
+                  type: integer
+                plan:
+                  description: Type of volume to create, defaults to standard
+                  enum:
+                  - standard
+                  - performance
+                  type: string
+              required:
+              - size
+            type: object
           type: array
-      title: Equnix Metal net parameter
+        net:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net'
+        extra:
+          $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_extra'
+      title: EqunixMetal
       type: object
-    EquinixMetalVolumes:
-      items:
-        oneOf:
-        - properties:
-            volume:
-              description: Name or ID of the volume to attach
-              type: string
-          required:
-          - volume
-        - properties:
-            size:
-              description: Size of the volume to be created
-              minimum: 100
-              type: integer
-            plan:
-              description: Type of volume to create, defaults to standard
-              enum:
-              - standard
-              - performance
-              type: string
-          required:
-          - size
-        type: object
-      title: Equnix Metal volumes parameter
-      type: array
     Expiration:
-      example:
-        date: 2000-01-23T04:56:07.000+00:00
-        action: stop
-        notify:
-          period: minutes
-          value: 1
-        notify_msg: notify_msg
       properties:
         action:
           enum:
@@ -4687,6 +4582,19 @@ components:
       required:
       - every
       - period
+      type: object
+    GenericCreateMachineRequest:
+      properties:
+        net:
+          type: object
+        disks:
+          type: object
+        volumes:
+          items:
+            type: object
+          type: array
+        extra:
+          type: object
       type: object
     GetCloudResponse:
       example:
@@ -4926,6 +4834,90 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GoogleCreateMachineRequest:
+      description: Google specific fields
+      properties:
+        key:
+          oneOf:
+          - properties:
+              key:
+                description: Name or ID of the SSH key to deploy
+                type: string
+              user:
+                description: SSH user, defaults to 'user'
+                type: string
+            type: object
+          - description: Name or ID of the SSH key to deploy
+            type: string
+        size:
+          oneOf:
+          - properties:
+              cpus:
+                description: Number of cpu cores. Mutually exclusive with 'size'
+                minimum: 1
+                type: integer
+              ram:
+                description: Ram size in MBs. Mutually exclusive with 'size'
+                minimum: 256
+                type: integer
+              size:
+                description: Name or ID of the size to select for this machine. Mutually
+                  exclusive with 'cpus' and 'ram'
+                type: string
+              accelerators:
+                properties:
+                  accelerator_type:
+                    description: Accelerator type to attach to this machine. e.g.
+                      'nvidia-tesla-p100'
+                    type: string
+                  accelerator_count:
+                    description: The number of the accelerator cards exposed to this
+                      instance
+                    type: integer
+                type: object
+            type: object
+          - description: Name or ID of the size to select for this machine
+            type: string
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or ID of the volume to attach
+                  type: string
+                boot:
+                  description: Whether this volume should be used as the boot drive.
+                    Up to one volume must set this parameter
+                  type: boolean
+              required:
+              - volume
+            - properties:
+                name:
+                  description: Name of the volume to be created, mandatory on non-boot
+                    volumes
+                  type: string
+                size:
+                  description: Size of the volume to be created
+                  minimum: 1
+                  type: integer
+                boot:
+                  description: Whether this volume should be used as the boot drive.
+                    Up to one volume must set this parameter
+                  type: boolean
+                type:
+                  description: Type of the volume to create, defaults to 'pd-standard'
+                  enum:
+                  - pd-standard
+                  - pd-ssd
+                  type: string
+              required:
+              - size
+            type: object
+          type: array
+        net:
+          $ref: '#/components/schemas/GoogleCreateMachineRequest_net'
+      title: Google
+      type: object
     GoogleCredentials:
       properties:
         projectId:
@@ -4938,53 +4930,6 @@ components:
       - privateKey
       - projectId
       type: object
-    GoogleNet:
-      properties:
-        network:
-          description: The network to associate with the machine
-          type: string
-        subnetwork:
-          description: The subnetwork resource for this machine
-          type: string
-      title: Google net parameter
-      type: object
-    GoogleVolumes:
-      items:
-        oneOf:
-        - properties:
-            volume:
-              description: Name or ID of the volume to attach
-              type: string
-            boot:
-              description: Whether this volume should be used as the boot drive. Up
-                to one volume must set this parameter
-              type: boolean
-          required:
-          - volume
-        - properties:
-            name:
-              description: Name of the volume to be created, mandatory on non-boot
-                volumes
-              type: string
-            size:
-              description: Size of the volume to be created
-              minimum: 1
-              type: integer
-            boot:
-              description: Whether this volume should be used as the boot drive. Up
-                to one volume must set this parameter
-              type: boolean
-            type:
-              description: Type of the volume to create, defaults to 'pd-standard'
-              enum:
-              - pd-standard
-              - pd-ssd
-              type: string
-          required:
-          - size
-        type: object
-      title: Google volumes parameter
-      type: array
     IbmCredentials:
       properties:
         provider:
@@ -5073,18 +5018,6 @@ components:
       - schedule_type
       title: Interval
       type: object
-    KVMNet:
-      properties:
-        networks:
-          items:
-            $ref: '#/components/schemas/KVMNet_networks'
-          type: array
-        vnfs:
-          items:
-            type: string
-          type: array
-      title: KVM net parameter
-      type: object
     Key:
       example:
         default: true
@@ -5148,6 +5081,15 @@ components:
       required:
       - host
       - port
+      type: object
+    KvmCreateMachineRequest:
+      description: KVM specific fields
+      properties:
+        disks:
+          $ref: '#/components/schemas/KvmCreateMachineRequest_disks'
+        net:
+          $ref: '#/components/schemas/KvmCreateMachineRequest_net'
+      title: KVM
       type: object
     KvmCredentials:
       type: object
@@ -5451,6 +5393,36 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Snapshot'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListUsersResponse:
+      example:
+        data:
+        - registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        - registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/User'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -5956,6 +5928,31 @@ components:
       - offset
       - period
       type: object
+    User:
+      example:
+        registration_date: registration_date
+        last_login: last_login
+        last_name: last_name
+        id: id
+        first_name: first_name
+        email: email
+        username: username
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        last_login:
+          type: string
+        username:
+          type: string
+        registration_date:
+          type: string
+      type: object
     VcloudCredentials:
       properties:
         host:
@@ -6171,29 +6168,145 @@ components:
       required:
       - dry
       - generate
-    CreateMachineRequest_disks:
-      description: Configure local disks
-      example:
-        disk_size: 0
-        disk_path: disk_path
+    AmazonCreateMachineRequest_net:
       properties:
-        disk_size:
-          description: KVM specific parameter. The VM's size will be the size of the
-            image plus the number in GBs provided here
-          type: integer
-        disk_path:
-          description: KVM specific parameter. Where the VM disk file will be created
+        security_group:
+          description: security group to assign to the machine
+          type: string
+        subnet:
+          description: Name or id of the subnet to launch the machine into
           type: string
       type: object
-    CreateMachineRequest_extra:
-      description: Configure additional parameters
-      example:
-        project_id: project_id
+    CreateMachineRequest_allOf:
       properties:
-        project_id:
-          description: Equinix specific parameter. Project UUID, if not given the
-            first one available will be selected
+        name:
+          description: Specify machine name
           type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: string
+        size:
+          description: Machine sizing spec e.g. cpu/ram/flavor
+          oneOf:
+          - properties:
+              cpus:
+                description: Number of cpu cores
+                minimum: 1
+                type: integer
+              ram:
+                description: Ram size in MBs
+                minimum: 256
+                type: integer
+            type: object
+          - description: Name or ID of the size to select for this machine
+            type: string
+        image:
+          description: Operating System image to boot from
+          oneOf:
+          - type: object
+          - description: Name or ID of the image to boot from
+            type: string
+        net:
+          description: Specify network configuration parameters
+          type: object
+        key:
+          description: Associate SSH key
+          oneOf:
+          - type: object
+          - description: Name or ID of the SSH key to deploy
+            type: string
+        disks:
+          description: Configure local disks
+          type: object
+        volumes:
+          description: Configure of attached storage volumes, e.g. cloud disks
+          items:
+            type: object
+          type: array
+        fqdn:
+          description: Add DNS A Record that points machine's public IP to this Fully
+            Qualified Domain Name. Zone needs to be managed by a configured Cloud
+            DNS provider
+          type: string
+        cloudinit:
+          description: Run this Cloud Init script on first boot
+          type: string
+        scripts:
+          description: Run post deploy scripts over SSH
+          items:
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/InlineScript'
+              - $ref: '#/components/schemas/PostDeployScript'
+          type: array
+        schedules:
+          description: Configure scheduled actions for the provisioned machine
+          items:
+            allOf:
+            - properties:
+                schedule_type:
+                  enum:
+                  - one_off
+                  - crontab
+                  - interval
+                  type: string
+                script:
+                  $ref: '#/components/schemas/PostDeployScript'
+                action:
+                  enum:
+                  - start
+                  - stop
+                  - reboot
+                  - destroy
+                  type: string
+                description:
+                  type: string
+              required:
+              - schedule_type
+              type: object
+            - discriminator:
+                mapping:
+                  one_off: '#/components/schemas/OneOffSchedule'
+                  crontab: '#/components/schemas/CronSchedule'
+                  interval: '#/components/schemas/IntervalSchedule'
+                propertyName: schedule_type
+              oneOf:
+              - $ref: '#/components/schemas/OneOffSchedule'
+              - $ref: '#/components/schemas/CronSchedule'
+              - $ref: '#/components/schemas/IntervalSchedule'
+          type: array
+        tags:
+          description: Assign tags to provisioned machine
+          type: object
+        expiration:
+          $ref: '#/components/schemas/Expiration'
+        extra:
+          description: Configure additional parameters
+          type: object
+        monitoring:
+          description: Enable monitoring of this machine
+          type: boolean
+        quantity:
+          description: Provision multiple machines of this type
+          type: number
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+      required:
+      - image
+      - name
+      - size
       type: object
     CreateMachineResponse_oneOf:
       properties:
@@ -6205,7 +6318,7 @@ components:
       properties:
         plan:
           type: object
-    EquinixMetalNet_ip_addresses:
+    EquinixMetalCreateMachineRequest_net_ip_addresses:
       properties:
         address_family:
           description: Address Family for IP Address(IPv4, IPv6)
@@ -6226,11 +6339,24 @@ components:
       - cidr
       - public
       type: object
+    EquinixMetalCreateMachineRequest_net:
+      properties:
+        ip_addresses:
+          description: Specify addresses to be created with your machine.By default
+            Equinix configures public IPv4, public IPv6, and private IPv4
+          items:
+            $ref: '#/components/schemas/EquinixMetalCreateMachineRequest_net_ip_addresses'
+          type: array
+      type: object
+    EquinixMetalCreateMachineRequest_extra:
+      properties:
+        project_id:
+          description: Project UUID, if not given the first one available will be
+            selected
+          type: string
+      type: object
     Expiration_notify:
       description: Notify user before machine expiration
-      example:
-        period: minutes
-        value: 1
       properties:
         value:
           minimum: 1
@@ -6245,24 +6371,54 @@ components:
       - period
       - value
       type: object
-    KVMNet_networks:
+    GoogleCreateMachineRequest_net:
       properties:
         network:
-          description: Name or ID of the network, if only this field is provided a
+          description: The network to associate with the machine
+          type: string
+        subnetwork:
+          description: The subnetwork resource for this machine
+          type: string
+      type: object
+    KvmCreateMachineRequest_disks:
+      properties:
+        disk_size:
+          description: The VM's size will be the size of the image plus the number
+            in GBs provided here
+          type: integer
+        disk_path:
+          description: Where the VM disk file will be created
+          type: string
+      type: object
+    KvmCreateMachineRequest_net_networks:
+      properties:
+        network:
+          description: id or name of the network, if only this field is provided a
             dynamic IP address will be assigned
           type: string
         ip:
-          description: The IPv4 address to statically assign to the interface
+          description: the IPv4 address to statically assign to the interface
           type: string
         gateway:
-          description: The IPv4 address for the default Gateway
+          description: the IPv4 address for the default Gateway
           type: string
         primary:
-          description: The primary interface, which will be assigned a routing rule
+          description: the primary interface, which will be assigned a routing rule
             for the default GW
           type: string
       required:
       - network
+      type: object
+    KvmCreateMachineRequest_net:
+      properties:
+        networks:
+          items:
+            $ref: '#/components/schemas/KvmCreateMachineRequest_net_networks'
+          type: array
+        vnfs:
+          items:
+            type: string
+          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:
