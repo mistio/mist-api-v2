@@ -4175,6 +4175,7 @@ components:
         - $ref: '#/components/schemas/AmazonCreateMachineRequest'
         - $ref: '#/components/schemas/DigitalOceanCreateMachineRequest'
         - $ref: '#/components/schemas/EquinixMetalCreateMachineRequest'
+        - $ref: '#/components/schemas/GoogleCreateMachineRequest'
         - $ref: '#/components/schemas/GenericCreateMachineRequest'
     CreateMachineResponse:
       oneOf:
@@ -4745,6 +4746,90 @@ components:
           $ref: '#/components/schemas/Zone'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GoogleCreateMachineRequest:
+      description: Google specific fields
+      properties:
+        key:
+          oneOf:
+          - properties:
+              key:
+                description: Name or ID of the SSH key to deploy
+                type: string
+              user:
+                description: SSH user, defaults to 'user'
+                type: string
+            type: object
+          - description: Name or ID of the SSH key to deploy
+            type: string
+        size:
+          oneOf:
+          - properties:
+              cpus:
+                description: Number of cpu cores. Mutually exclusive with 'size'
+                minimum: 1
+                type: integer
+              ram:
+                description: Ram size in MBs. Mutually exclusive with 'size'
+                minimum: 256
+                type: integer
+              size:
+                description: Name or ID of the size to select for this machine. Mutually
+                  exclusive with 'cpus' and 'ram'
+                type: string
+              accelerators:
+                properties:
+                  accelerator_type:
+                    description: Accelerator type to attach to this machine. e.g.
+                      'nvidia-tesla-p100'
+                    type: string
+                  accelerator_count:
+                    description: The number of the accelerator cards exposed to this
+                      instance
+                    type: integer
+                type: object
+            type: object
+          - description: Name or ID of the size to select for this machine
+            type: string
+        volumes:
+          items:
+            oneOf:
+            - properties:
+                volume:
+                  description: Name or ID of the volume to attach
+                  type: string
+                boot:
+                  description: Whether this volume should be used as the boot drive.
+                    Up to one volume must set this parameter
+                  type: boolean
+              required:
+              - volume
+            - properties:
+                name:
+                  description: Name of the volume to be created, mandatory on non-boot
+                    volumes
+                  type: string
+                size:
+                  description: Size of the volume to be created
+                  minimum: 1
+                  type: integer
+                boot:
+                  description: Whether this volume should be used as the boot drive.
+                    Up to one volume must set this parameter
+                  type: boolean
+                type:
+                  description: Type of the volume to create, defaults to 'pd-standard'
+                  enum:
+                  - pd-standard
+                  - pd-ssd
+                  type: string
+              required:
+              - size
+            type: object
+          type: array
+        net:
+          $ref: '#/components/schemas/GoogleCreateMachineRequest_net'
+      title: Google
       type: object
     GoogleCredentials:
       properties:
@@ -5975,9 +6060,6 @@ components:
                 description: Ram size in MBs
                 minimum: 256
                 type: integer
-            required:
-            - cpus
-            - ram
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
@@ -6146,6 +6228,15 @@ components:
       required:
       - period
       - value
+      type: object
+    GoogleCreateMachineRequest_net:
+      properties:
+        network:
+          description: The network to associate with the machine
+          type: string
+        subnetwork:
+          description: The subnetwork resource for this machine
+          type: string
       type: object
     KvmCreateMachineRequest_disks:
       properties:

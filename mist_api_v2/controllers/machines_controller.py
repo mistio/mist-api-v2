@@ -87,7 +87,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if create_machine_request.cloud:
         cloud_search = create_machine_request.cloud
     elif create_machine_request.provider:
-        cloud_search = f'provider:{create_machine_request.provider}'
+        cloud_search = f'provider:{create_machine_request.provider} enabled:True'
     else:
         cloud_search = ''
     # TODO handle multiple clouds
