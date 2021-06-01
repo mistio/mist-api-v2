@@ -8,6 +8,7 @@ import mongoengine as me
 from mist.api import config
 
 from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
+from mist_api_v2.models.inline_object import InlineObject  # noqa: E501
 from mist_api_v2.models.get_cloud_response import GetCloudResponse  # noqa: E501
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
 
@@ -171,11 +172,50 @@ def edit_cloud(cloud, inline_object=None):  # noqa: E501
 
     :rtype: None
     """
-    from mist_api_v2.models.inline_object import InlineObject  # noqa: E501
+    from mist.api.clouds.models import Cloud
+    from mist.api.helpers import trigger_session_update
 
     if connexion.request.is_json:
         inline_object = InlineObject.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(auth_context, 'cloud', search=cloud)
+    result_data = result.get('data')
+    if result_data is None:
+        return 'Cloud does not exist', 404
+    cloud_id = result_data.get('id')
+    cloud_obj = Cloud.objects.get(owner=auth_context.owner, id=cloud_id,
+                                  deleted=None)
+    rename = inline_object.title is not None and \
+        inline_object.title != cloud_obj.title
+    if rename:
+        from mist.api.clouds.methods import rename_cloud
+        new_name = inline_object.title
+        rename_cloud(auth_context.owner, cloud_id, new_name)
+    credentials = inline_object.credentials
+    update_credentials = credentials is not None
+    if update_credentials:
+        auth_context.check_perm('cloud', 'edit', cloud_id)
+        log.info(f'Updating cloud: {cloud_id}')
+        new_credentials = {
+            cred: value
+            for cred, value in credentials.to_dict().items()
+            if value is not None
+        }
+        cloud_obj.ctl.update(**new_credentials)
+        log.info(f'Cloud {cloud_id} updated successfully.')
+        trigger_session_update(auth_context.owner, ['clouds'])
+    features = inline_object.features
+    update_features = features is not None
+    if update_features:
+        if features.compute:
+            cloud_obj.ctl.enable()
+        else:
+            cloud_obj.ctl.disable()
+        if features.dns:
+            cloud_obj.ctl.dns_enable()
+        else:
+            cloud_obj.ctl.dns_disable()
+    return None, 200
 
 
 def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
