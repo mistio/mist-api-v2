@@ -1,10 +1,3 @@
-import connexion
-import six
-
-from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse  # noqa: E501
-from mist_api_v2 import util
-
-
 def create_snapshot(machine):  # noqa: E501
     """Create snapshot
 

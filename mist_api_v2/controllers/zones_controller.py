@@ -1,11 +1,8 @@
 import connexion
-import six
 
 from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
-from mist_api_v2.models.create_zone_response import CreateZoneResponse  # noqa: E501
 from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
 from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -56,7 +53,7 @@ def get_zone(zone, only=None, deref=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(
-        auth_context, 'zone', search=volume, only=only, deref=deref)
+        auth_context, 'zone', search=zone, only=only, deref=deref)
     return GetZoneResponse(data=result['data'], meta=result['meta'])
 
 

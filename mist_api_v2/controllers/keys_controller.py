@@ -1,9 +1,6 @@
-import os
-import time
 import logging
 
 import connexion
-import six
 
 import mongoengine as me
 
@@ -15,9 +12,7 @@ from mist_api_v2.models.add_key_response import AddKeyResponse  # noqa: E501
 from mist_api_v2.models.get_key_response import GetKeyResponse  # noqa: E501
 from mist_api_v2.models.list_keys_response import ListKeysResponse  # noqa: E501
 
-from mist_api_v2 import util
-
-from .base import list_resources, get_resource
+from .base import list_resources
 
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
@@ -42,7 +37,7 @@ def add_key(add_key_request=None):  # noqa: E501
         add_key_request = AddKeyRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     from mist.api.exceptions import BadRequestError, KeyExistsError
-    from mist.api.keys.models import SignedSSHKey, SSHKey, Key
+    from mist.api.keys.models import SignedSSHKey, SSHKey
     from mist.api.tag.methods import add_tags_to_resource
 
     auth_context = connexion.context['token_info']['auth_context']
@@ -97,7 +92,7 @@ def delete_key(key):  # noqa: E501
 
     Delete target key # noqa: E501
 
-    :param key: 
+    :param key:
     :type key: str
 
     :rtype: None
@@ -165,7 +160,7 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
 
     Get details about target key # noqa: E501
 
-    :param key: 
+    :param key:
     :type key: str
     :param private: Return the private key. Requires READ_PRIVATE permission on key.
     :type private: bool

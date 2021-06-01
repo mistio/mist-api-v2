@@ -1,11 +1,8 @@
 import connexion
-import six
 
 from mist_api_v2.models.create_network_request import CreateNetworkRequest  # noqa: E501
-from mist_api_v2.models.create_network_response import CreateNetworkResponse  # noqa: E501
 from mist_api_v2.models.get_network_response import GetNetworkResponse  # noqa: E501
 from mist_api_v2.models.list_networks_response import ListNetworksResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -15,7 +12,7 @@ def create_network(create_network_request=None):  # noqa: E501
 
     Creates one or more networks on the specified cloud. If async is true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on network. # noqa: E501
 
-    :param create_network_request: 
+    :param create_network_request:
     :type create_network_request: dict | bytes
 
     :rtype: CreateNetworkResponse
@@ -30,7 +27,7 @@ def edit_network(network, name=None):  # noqa: E501
 
     Edit target network # noqa: E501
 
-    :param network: 
+    :param network:
     :type network: str
     :param name: New network name
     :type name: str
@@ -45,7 +42,7 @@ def get_network(network, only=None, deref='auto'):  # noqa: E501
 
     Get details about target network # noqa: E501
 
-    :param network: 
+    :param network:
     :type network: str
     :param only: Only return these fields
     :type only: str
@@ -65,7 +62,7 @@ def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, on
 
     List networks owned by the active org. READ permission required on network &amp; cloud. # noqa: E501
 
-    :param cloud: 
+    :param cloud:
     :type cloud: str
     :param search: Only return results matching search filter
     :type search: str

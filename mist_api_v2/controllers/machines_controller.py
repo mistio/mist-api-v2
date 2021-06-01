@@ -1,16 +1,12 @@
 import uuid
 import connexion
-import six
-import mongoengine as me
 
-from mist.api import config
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
 from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
 
-from mist.api.machines.methods import machine_name_validator
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.dramatiq_tasks import dramatiq_create_machine_async
 
@@ -18,7 +14,6 @@ from mist_api_v2.models.create_machine_request import CreateMachineRequest  # no
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -223,7 +218,7 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
 
     Get details about target machine # noqa: E501
 
-    :param machine: 
+    :param machine:
     :type machine: str
     :param only: Only return these fields
     :type only: str
@@ -234,7 +229,7 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(auth_context, 'machine', search=machine, only=only,
-        deref=deref)
+                          deref=deref)
 
     return GetMachineResponse(data=result['data'], meta=result['meta'])
 

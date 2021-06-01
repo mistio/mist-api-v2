@@ -1,5 +1,5 @@
 def list_resources(auth_context, resource_type, cloud=None, search='', only='',
-        sort='', start=0, limit=100, deref='auto'):
+                   sort='', start=0, limit=100, deref='auto'):
     """
         List resources of any type and prepare the HTTP response
     """
@@ -23,12 +23,13 @@ def list_resources(auth_context, resource_type, cloud=None, search='', only='',
 
 
 def get_resource(auth_context, resource_type, cloud=None, search='', only='',
-        sort='', deref='auto'):
+                 sort='', deref='auto'):
     """
         Get a single resource of any type and prepare the HTTP response
     """
     result = list_resources(auth_context, resource_type, cloud=cloud,
-        search=search, only=only, sort=sort, limit=1, deref=deref)
+                            search=search, only=only, sort=sort, limit=1,
+                            deref=deref)
 
     if result['data']:
         result['data'] = result['data'][0]
