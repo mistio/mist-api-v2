@@ -4262,6 +4262,7 @@ components:
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
+          - $ref: '#/components/schemas/LinodeNet'
           description: Specify network configuration parameters
         key:
           description: Associate SSH key
@@ -4284,6 +4285,7 @@ components:
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
+          - $ref: '#/components/schemas/LinodeVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
@@ -5159,6 +5161,38 @@ components:
       required:
       - apikey
       type: object
+    LinodeNet:
+      properties:
+        private_ip:
+          description: Assign a private IPv4 address, defaults to True
+      title: Linode net parameter
+      type: object
+    LinodeVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the volume to attach
+              type: string
+            persist_across_boots:
+              description: Whether the volume should be attached to node across reboots,
+                defaults to True
+              type: boolean
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume to be created in GBs
+              type: integer
+          required:
+          - name
+          - size
+        type: object
+      title: Linode volumes parameter
+      type: array
     ListCloudsResponse:
       example:
         data:
