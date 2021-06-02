@@ -3054,17 +3054,10 @@ paths:
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
   /api/v2/users:
     get:
-      description: Return current user if all parameter is false. Return all users
-        if all paramater is True and user is an admin.
+      description: Return current user if requester is not admin. Return all users
+        for admin.
       operationId: list_users
       parameters:
-      - explode: true
-        in: query
-        name: all
-        required: false
-        schema:
-          type: boolean
-        style: form
       - description: Order results by
         examples:
           Sort by name, descending:
@@ -3135,6 +3128,11 @@ paths:
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
       summary: List users
       tags:
       - users
