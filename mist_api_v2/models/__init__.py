@@ -4,7 +4,7 @@
 from __future__ import absolute_import
 # import models into model package
 from mist_api_v2.models.add_cloud_request import AddCloudRequest
-from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf
+from mist_api_v2.models.add_cloud_request_any_of import AddCloudRequestAnyOf
 from mist_api_v2.models.add_digitalocean_cloud_request import AddDigitaloceanCloudRequest
 from mist_api_v2.models.add_key_request import AddKeyRequest
 from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf

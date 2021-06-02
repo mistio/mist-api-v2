@@ -3633,8 +3633,8 @@ components:
   responses: {}
   schemas:
     AddCloudRequest:
-      allOf:
-      - $ref: '#/components/schemas/AddCloudRequest_allOf'
+      anyOf:
+      - $ref: '#/components/schemas/AddCloudRequest_anyOf'
       - discriminator:
           mapping:
             amazon: '#/components/schemas/AmazonCloudRequest'
@@ -6123,7 +6123,7 @@ components:
         id:
           type: string
       type: object
-    AddCloudRequest_allOf:
+    AddCloudRequest_anyOf:
       properties:
         title:
           description: The name of the cloud to add

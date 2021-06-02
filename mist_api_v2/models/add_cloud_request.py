@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf
+from mist_api_v2.models.add_cloud_request_any_of import AddCloudRequestAnyOf
 from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2 import util
 
-from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf  # noqa: E501
+from mist_api_v2.models.add_cloud_request_any_of import AddCloudRequestAnyOf  # noqa: E501
 from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
 
 class AddCloudRequest(Model):

@@ -23,7 +23,7 @@ mist_api_v2/controllers/zones_controller.py
 mist_api_v2/encoder.py
 mist_api_v2/models/__init__.py
 mist_api_v2/models/add_cloud_request.py
-mist_api_v2/models/add_cloud_request_all_of.py
+mist_api_v2/models/add_cloud_request_any_of.py
 mist_api_v2/models/add_digitalocean_cloud_request.py
 mist_api_v2/models/add_key_request.py
 mist_api_v2/models/add_key_request_any_of.py
