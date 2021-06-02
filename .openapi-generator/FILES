@@ -38,7 +38,6 @@ mist_api_v2/models/azure_cloud_request.py
 mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/base_model_.py
 mist_api_v2/models/cloud.py
-mist_api_v2/models/cloud_credentials.py
 mist_api_v2/models/cloud_features.py
 mist_api_v2/models/cloud_sigma_cloud_request.py
 mist_api_v2/models/cloud_sigma_credentials.py

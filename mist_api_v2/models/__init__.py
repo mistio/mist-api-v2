@@ -18,7 +18,6 @@ from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.cloud import Cloud
-from mist_api_v2.models.cloud_credentials import CloudCredentials
 from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.cloud_sigma_cloud_request import CloudSigmaCloudRequest
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials

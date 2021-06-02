@@ -3700,6 +3700,7 @@ components:
           type: string
       type: object
     AlibabaCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -3712,6 +3713,7 @@ components:
       - provider
       type: object
     AlibabaCredentials:
+      additionalProperties: false
       properties:
         apikey:
           description: Your Alibaba Cloud API key
@@ -3728,6 +3730,7 @@ components:
       - region
       type: object
     AmazonCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -3742,6 +3745,7 @@ components:
       - provider
       type: object
     AmazonCredentials:
+      additionalProperties: false
       properties:
         apikey:
           description: Your AWS API key
@@ -3808,6 +3812,7 @@ components:
       title: Amazon volumes parameter
       type: array
     AzureCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -3820,6 +3825,7 @@ components:
       - provider
       type: object
     AzureCredentials:
+      additionalProperties: false
       properties:
         tenantId:
           description: Your Azure tenant ID
@@ -3868,30 +3874,6 @@ components:
         owned_by:
           type: string
       type: object
-    CloudCredentials:
-      oneOf:
-      - $ref: '#/components/schemas/AmazonCredentials'
-      - $ref: '#/components/schemas/AzureCredentials'
-      - $ref: '#/components/schemas/GoogleCredentials'
-      - $ref: '#/components/schemas/AlibabaCredentials'
-      - $ref: '#/components/schemas/CloudSigmaCredentials'
-      - $ref: '#/components/schemas/EquinixCredentials'
-      - $ref: '#/components/schemas/IbmCredentials'
-      - $ref: '#/components/schemas/DigitaloceanCredentials'
-      - $ref: '#/components/schemas/LinodeCredentials'
-      - $ref: '#/components/schemas/RackspaceCredentials'
-      - $ref: '#/components/schemas/MaxihostCredentials'
-      - $ref: '#/components/schemas/VultrCredentials'
-      - $ref: '#/components/schemas/OpenstackCredentials'
-      - $ref: '#/components/schemas/OnappCredentials'
-      - $ref: '#/components/schemas/VsphereCredentials'
-      - $ref: '#/components/schemas/VcloudCredentials'
-      - $ref: '#/components/schemas/KvmCredentials'
-      - $ref: '#/components/schemas/LxdCredentials'
-      - $ref: '#/components/schemas/DockerCredentials'
-      - $ref: '#/components/schemas/KubevirtCredentials'
-      - $ref: '#/components/schemas/OtherCredentials'
-      type: object
     CloudFeatures:
       description: The cloud features that should be enabled
       example:
@@ -3908,6 +3890,7 @@ components:
           type: boolean
       type: object
     CloudSigmaCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -3920,6 +3903,7 @@ components:
       - provider
       type: object
     CloudSigmaCredentials:
+      additionalProperties: false
       properties:
         username:
           description: Your CloudSigma username
@@ -4332,6 +4316,7 @@ components:
       title: DigitalOcean volumes parameter
       type: array
     DigitaloceanCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -4346,6 +4331,7 @@ components:
       - provider
       type: object
     DigitaloceanCredentials:
+      additionalProperties: false
       properties:
         token:
           description: Your DigitalOcean API token
@@ -4354,6 +4340,7 @@ components:
       - token
       type: object
     DockerCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -4368,6 +4355,7 @@ components:
       - provider
       type: object
     DockerCredentials:
+      additionalProperties: false
       properties:
         host:
           description: Your Docker host
@@ -4446,6 +4434,7 @@ components:
         - $ref: '#/components/schemas/KubevirtCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
     EquinixCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -4779,6 +4768,7 @@ components:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
     GoogleCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -4793,6 +4783,7 @@ components:
       - provider
       type: object
     GoogleCredentials:
+      additionalProperties: false
       properties:
         projectId:
           description: The Id of your GCP project
@@ -4852,6 +4843,7 @@ components:
       title: Google volumes parameter
       type: array
     IbmCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -4866,6 +4858,7 @@ components:
       - provider
       type: object
     IbmCredentials:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -4997,6 +4990,7 @@ components:
           type: string
       type: object
     KubevirtCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5011,6 +5005,7 @@ components:
       - provider
       type: object
     KubevirtCredentials:
+      additionalProperties: false
       properties:
         host:
           description: Your Kubernetes API host
@@ -5044,6 +5039,7 @@ components:
       - port
       type: object
     KvmCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5058,6 +5054,7 @@ components:
     KvmCredentials:
       type: object
     LinodeCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5072,6 +5069,7 @@ components:
       - provider
       type: object
     LinodeCredentials:
+      additionalProperties: false
       properties:
         apikey:
           description: You Linode API key
@@ -5461,6 +5459,7 @@ components:
           type: object
       type: object
     LxdCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5473,6 +5472,7 @@ components:
       - provider
       type: object
     LxdCredentials:
+      additionalProperties: false
       properties:
         host:
           description: Your LXD host
@@ -5548,6 +5548,7 @@ components:
       - unknown
       type: string
     MaxihostCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5560,6 +5561,7 @@ components:
       - provider
       type: object
     MaxihostCredentials:
+      additionalProperties: false
       properties:
         token:
           description: Your Maxihost API token
@@ -5593,6 +5595,7 @@ components:
           type: string
       type: object
     OnappCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5605,6 +5608,7 @@ components:
       - provider
       type: object
     OnappCredentials:
+      additionalProperties: false
       properties:
         authUrl:
           type: string
@@ -5638,6 +5642,7 @@ components:
       title: OneOff
       type: object
     OpenstackCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5650,6 +5655,7 @@ components:
       - provider
       type: object
     OpenstackCredentials:
+      additionalProperties: false
       properties:
         authUrl:
           type: string
@@ -5671,6 +5677,7 @@ components:
       - user
       type: object
     OtherCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5725,6 +5732,7 @@ components:
       - threshold
       type: object
     RackspaceCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5739,6 +5747,7 @@ components:
       - provider
       type: object
     RackspaceCredentials:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5953,6 +5962,7 @@ components:
       - period
       type: object
     VcloudCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -5965,6 +5975,7 @@ components:
       - provider
       type: object
     VcloudCredentials:
+      additionalProperties: false
       properties:
         host:
           description: Your vCloud host
@@ -6019,6 +6030,7 @@ components:
           type: boolean
       type: object
     VsphereCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -6031,6 +6043,7 @@ components:
       - provider
       type: object
     VsphereCredentials:
+      additionalProperties: false
       properties:
         host:
           description: Your vSphere/vCenter host
@@ -6050,6 +6063,7 @@ components:
       - username
       type: object
     VultrCloudRequest:
+      additionalProperties: false
       properties:
         provider:
           enum:
@@ -6064,6 +6078,7 @@ components:
       - provider
       type: object
     VultrCredentials:
+      additionalProperties: false
       properties:
         apikey:
           description: Your Vultr API key
