@@ -4450,6 +4450,15 @@ components:
           - $ref: '#/components/schemas/DockerCloudRequest'
           - $ref: '#/components/schemas/KubevirtCloudRequest'
           - $ref: '#/components/schemas/OtherCloudRequest'
+    EditCloudRequest_anyOf:
+      additionalProperties: false
+      properties:
+        title:
+          description: Updated title
+          type: string
+      required:
+      - title
+      type: object
     EquinixCloudRequest:
       properties:
         provider:
@@ -6234,14 +6243,6 @@ components:
       properties:
         plan:
           type: object
-    EditCloudRequest_anyOf:
-      properties:
-        title:
-          description: Updated title
-          type: string
-      required:
-      - title
-      type: object
     EquinixMetalNet_ip_addresses:
       properties:
         address_family:
