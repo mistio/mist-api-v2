@@ -5165,6 +5165,7 @@ components:
       properties:
         private_ip:
           description: Assign a private IPv4 address, defaults to True
+          type: boolean
       title: Linode net parameter
       type: object
     LinodeVolumes:
