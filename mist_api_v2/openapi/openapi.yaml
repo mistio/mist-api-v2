@@ -524,6 +524,40 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.images_controller
+  /api/v2/jobs/{job_id}:
+    get:
+      description: "null"
+      operationId: get_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetJobResponse'
+          description: Job returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Job not found
+      security:
+      - ApiKeyAuth:
+        - read:job
+      - CookieAuth:
+        - read:job
+      summary: Get job
+      tags:
+      - jobs
+      x-openapi-router-controller: mist_api_v2.controllers.jobs_controller
   /api/v2/keys:
     get:
       description: List keys owned by the active org. READ permission required on
@@ -4735,6 +4769,54 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetJobResponse:
+      example:
+        data:
+          finished_at: 6.027456183070403
+          org: org
+          job_id: job_id
+          started_at: 0.8008281904610115
+          action: action
+          machine_id: machine_id
+          cloud_id: cloud_id
+          error: true
+          logs:
+          - network_id: network_id
+            tunnel_id: tunnel_id
+            volume_id: volume_id
+            key_id: key_id
+            job_id: job_id
+            stack_id: stack_id
+            machine_id: machine_id
+            script_id: script_id
+            template_id: template_id
+            external_id: external_id
+            cloud_id: cloud_id
+            schedule_id: schedule_id
+          - network_id: network_id
+            tunnel_id: tunnel_id
+            volume_id: volume_id
+            key_id: key_id
+            job_id: job_id
+            stack_id: stack_id
+            machine_id: machine_id
+            script_id: script_id
+            template_id: template_id
+            external_id: external_id
+            cloud_id: cloud_id
+            schedule_id: schedule_id
+          user: user
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Job'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetKeyResponse:
       example:
         data:
@@ -5072,6 +5154,74 @@ components:
       - period
       - schedule_type
       title: Interval
+      type: object
+    Job:
+      example:
+        finished_at: 6.027456183070403
+        org: org
+        job_id: job_id
+        started_at: 0.8008281904610115
+        action: action
+        machine_id: machine_id
+        cloud_id: cloud_id
+        error: true
+        logs:
+        - network_id: network_id
+          tunnel_id: tunnel_id
+          volume_id: volume_id
+          key_id: key_id
+          job_id: job_id
+          stack_id: stack_id
+          machine_id: machine_id
+          script_id: script_id
+          template_id: template_id
+          external_id: external_id
+          cloud_id: cloud_id
+          schedule_id: schedule_id
+        - network_id: network_id
+          tunnel_id: tunnel_id
+          volume_id: volume_id
+          key_id: key_id
+          job_id: job_id
+          stack_id: stack_id
+          machine_id: machine_id
+          script_id: script_id
+          template_id: template_id
+          external_id: external_id
+          cloud_id: cloud_id
+          schedule_id: schedule_id
+        user: user
+      properties:
+        logs:
+          items:
+            $ref: '#/components/schemas/Log'
+          type: array
+        error:
+          type: boolean
+        started_at:
+          type: number
+        finished_at:
+          type: number
+        org:
+          type: string
+        machine_id:
+          type: string
+        job_id:
+          type: string
+        cloud_id:
+          type: string
+        action:
+          type: string
+        user:
+          type: string
+      required:
+      - action
+      - error
+      - finished_at
+      - job_id
+      - logs
+      - org
+      - started_at
       type: object
     KVMNet:
       properties:
@@ -5539,6 +5689,48 @@ components:
           type: string
         extra:
           type: object
+      type: object
+    Log:
+      example:
+        network_id: network_id
+        tunnel_id: tunnel_id
+        volume_id: volume_id
+        key_id: key_id
+        job_id: job_id
+        stack_id: stack_id
+        machine_id: machine_id
+        script_id: script_id
+        template_id: template_id
+        external_id: external_id
+        cloud_id: cloud_id
+        schedule_id: schedule_id
+      properties:
+        job_id:
+          type: string
+        cloud_id:
+          type: string
+        machine_id:
+          type: string
+        network_id:
+          type: string
+        volume_id:
+          type: string
+        key_id:
+          type: string
+        script_id:
+          type: string
+        template_id:
+          type: string
+        stack_id:
+          type: string
+        tunnel_id:
+          type: string
+        schedule_id:
+          type: string
+        external_id:
+          type: string
+      required:
+      - job_id
       type: object
     LxdCredentials:
       properties:
