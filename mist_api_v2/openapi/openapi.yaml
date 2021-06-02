@@ -3058,6 +3058,17 @@ paths:
         for admin.
       operationId: list_users
       parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by email:
+            value: email:dev@mist.io
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Order results by
         examples:
           Sort by name, descending:
