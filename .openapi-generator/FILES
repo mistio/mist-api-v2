@@ -59,7 +59,7 @@ mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_cloud_request.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/edit_cloud_request.py
-mist_api_v2/models/edit_cloud_request_any_of.py
+mist_api_v2/models/edit_cloud_request_one_of.py
 mist_api_v2/models/equinix_cloud_request.py
 mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/equinix_metal_net.py

@@ -4386,53 +4386,83 @@ components:
       - port
       type: object
     EditCloudRequest:
-      anyOf:
-      - $ref: '#/components/schemas/EditCloudRequest_anyOf'
-      - discriminator:
-          mapping:
-            amazon: '#/components/schemas/AmazonCloudRequest'
-            azure: '#/components/schemas/AzureCloudRequest'
-            google: '#/components/schemas/GoogleCloudRequest'
-            cloudsigma: '#/components/schemas/CloudSigmaCloudRequest'
-            alibaba: '#/components/schemas/AlibabaCloudRequest'
-            equinix: '#/components/schemas/EquinixCloudRequest'
-            ibm: '#/components/schemas/IbmCloudRequest'
-            linode: '#/components/schemas/LinodeCloudRequest'
-            rackspace: '#/components/schemas/RackspaceCloudRequest'
-            maxihost: '#/components/schemas/MaxihostCloudRequest'
-            vultr: '#/components/schemas/VultrCloudRequest'
-            openstack: '#/components/schemas/OpenstackCloudRequest'
-            onapp: '#/components/schemas/OnappCloudRequest'
-            vsphere: '#/components/schemas/VsphereCloudRequest'
-            vcloud: '#/components/schemas/VcloudCloudRequest'
-            kvm: '#/components/schemas/KvmCloudRequest'
-            lxd: '#/components/schemas/LxdCloudRequest'
-            docker: '#/components/schemas/DockerCloudRequest'
-            kubevirt: '#/components/schemas/KubevirtCloudRequest'
-            other: '#/components/schemas/OtherCloudRequest'
-          propertyName: provider
-        oneOf:
-        - $ref: '#/components/schemas/AmazonCloudRequest'
-        - $ref: '#/components/schemas/AzureCloudRequest'
-        - $ref: '#/components/schemas/GoogleCloudRequest'
-        - $ref: '#/components/schemas/AlibabaCloudRequest'
-        - $ref: '#/components/schemas/CloudSigmaCloudRequest'
-        - $ref: '#/components/schemas/EquinixCloudRequest'
-        - $ref: '#/components/schemas/IbmCloudRequest'
-        - $ref: '#/components/schemas/DigitaloceanCloudRequest'
-        - $ref: '#/components/schemas/LinodeCloudRequest'
-        - $ref: '#/components/schemas/RackspaceCloudRequest'
-        - $ref: '#/components/schemas/MaxihostCloudRequest'
-        - $ref: '#/components/schemas/VultrCloudRequest'
-        - $ref: '#/components/schemas/OpenstackCloudRequest'
-        - $ref: '#/components/schemas/OnappCloudRequest'
-        - $ref: '#/components/schemas/VsphereCloudRequest'
-        - $ref: '#/components/schemas/VcloudCloudRequest'
-        - $ref: '#/components/schemas/KvmCloudRequest'
-        - $ref: '#/components/schemas/LxdCloudRequest'
-        - $ref: '#/components/schemas/DockerCloudRequest'
-        - $ref: '#/components/schemas/KubevirtCloudRequest'
-        - $ref: '#/components/schemas/OtherCloudRequest'
+      oneOf:
+      - $ref: '#/components/schemas/EditCloudRequest_oneOf'
+      - allOf:
+        - additionalProperties: false
+          properties:
+            provider:
+              description: The provider of the cloud
+              enum:
+              - alibaba
+              - amazon
+              - azure
+              - cloudsigma
+              - digitalocean
+              - equinix
+              - google
+              - ibm
+              - kvm
+              - kubevirt
+              - linode
+              - lxd
+              - maxihost
+              - onapp
+              - openstack
+              - other
+              - rackspace
+              - vcloud
+              - vsphere
+              - vultr
+              type: string
+          required:
+          - provider
+          type: object
+        - discriminator:
+            mapping:
+              amazon: '#/components/schemas/AmazonCloudRequest'
+              azure: '#/components/schemas/AzureCloudRequest'
+              google: '#/components/schemas/GoogleCloudRequest'
+              cloudsigma: '#/components/schemas/CloudSigmaCloudRequest'
+              alibaba: '#/components/schemas/AlibabaCloudRequest'
+              equinix: '#/components/schemas/EquinixCloudRequest'
+              ibm: '#/components/schemas/IbmCloudRequest'
+              linode: '#/components/schemas/LinodeCloudRequest'
+              rackspace: '#/components/schemas/RackspaceCloudRequest'
+              maxihost: '#/components/schemas/MaxihostCloudRequest'
+              vultr: '#/components/schemas/VultrCloudRequest'
+              openstack: '#/components/schemas/OpenstackCloudRequest'
+              onapp: '#/components/schemas/OnappCloudRequest'
+              vsphere: '#/components/schemas/VsphereCloudRequest'
+              vcloud: '#/components/schemas/VcloudCloudRequest'
+              kvm: '#/components/schemas/KvmCloudRequest'
+              lxd: '#/components/schemas/LxdCloudRequest'
+              docker: '#/components/schemas/DockerCloudRequest'
+              kubevirt: '#/components/schemas/KubevirtCloudRequest'
+              other: '#/components/schemas/OtherCloudRequest'
+            propertyName: provider
+          oneOf:
+          - $ref: '#/components/schemas/AmazonCloudRequest'
+          - $ref: '#/components/schemas/AzureCloudRequest'
+          - $ref: '#/components/schemas/GoogleCloudRequest'
+          - $ref: '#/components/schemas/AlibabaCloudRequest'
+          - $ref: '#/components/schemas/CloudSigmaCloudRequest'
+          - $ref: '#/components/schemas/EquinixCloudRequest'
+          - $ref: '#/components/schemas/IbmCloudRequest'
+          - $ref: '#/components/schemas/DigitaloceanCloudRequest'
+          - $ref: '#/components/schemas/LinodeCloudRequest'
+          - $ref: '#/components/schemas/RackspaceCloudRequest'
+          - $ref: '#/components/schemas/MaxihostCloudRequest'
+          - $ref: '#/components/schemas/VultrCloudRequest'
+          - $ref: '#/components/schemas/OpenstackCloudRequest'
+          - $ref: '#/components/schemas/OnappCloudRequest'
+          - $ref: '#/components/schemas/VsphereCloudRequest'
+          - $ref: '#/components/schemas/VcloudCloudRequest'
+          - $ref: '#/components/schemas/KvmCloudRequest'
+          - $ref: '#/components/schemas/LxdCloudRequest'
+          - $ref: '#/components/schemas/DockerCloudRequest'
+          - $ref: '#/components/schemas/KubevirtCloudRequest'
+          - $ref: '#/components/schemas/OtherCloudRequest'
     EquinixCloudRequest:
       additionalProperties: false
       properties:
@@ -6244,37 +6274,13 @@ components:
       properties:
         plan:
           type: object
-    EditCloudRequest_anyOf:
+    EditCloudRequest_oneOf:
       properties:
         title:
           description: Updated title
           type: string
-        provider:
-          description: The provider of the cloud
-          enum:
-          - alibaba
-          - amazon
-          - azure
-          - cloudsigma
-          - digitalocean
-          - equinix
-          - google
-          - ibm
-          - kvm
-          - kubevirt
-          - linode
-          - lxd
-          - maxihost
-          - onapp
-          - openstack
-          - other
-          - rackspace
-          - vcloud
-          - vsphere
-          - vultr
-          type: string
       required:
-      - provider
+      - title
       type: object
     EquinixMetalNet_ip_addresses:
       properties:
