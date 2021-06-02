@@ -15,26 +15,21 @@ class EditCloudRequestAnyOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, provider=None):  # noqa: E501
+    def __init__(self, title=None):  # noqa: E501
         """EditCloudRequestAnyOf - a model defined in OpenAPI
 
         :param title: The title of this EditCloudRequestAnyOf.  # noqa: E501
         :type title: str
-        :param provider: The provider of this EditCloudRequestAnyOf.  # noqa: E501
-        :type provider: str
         """
         self.openapi_types = {
-            'title': str,
-            'provider': str
+            'title': str
         }
 
         self.attribute_map = {
-            'title': 'title',
-            'provider': 'provider'
+            'title': 'title'
         }
 
         self._title = title
-        self._provider = provider
 
     @classmethod
     def from_dict(cls, dikt) -> 'EditCloudRequestAnyOf':
@@ -67,34 +62,7 @@ class EditCloudRequestAnyOf(Model):
         :param title: The title of this EditCloudRequestAnyOf.
         :type title: str
         """
+        if title is None:
+            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
 
         self._title = title
-
-    @property
-    def provider(self):
-        """Gets the provider of this EditCloudRequestAnyOf.
-
-        The provider of the cloud  # noqa: E501
-
-        :return: The provider of this EditCloudRequestAnyOf.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this EditCloudRequestAnyOf.
-
-        The provider of the cloud  # noqa: E501
-
-        :param provider: The provider of this EditCloudRequestAnyOf.
-        :type provider: str
-        """
-        allowed_values = ["alibaba", "amazon", "azure", "cloudsigma", "digitalocean", "equinix", "google", "ibm", "kvm", "kubevirt", "linode", "lxd", "maxihost", "onapp", "openstack", "other", "rackspace", "vcloud", "vsphere", "vultr"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider
