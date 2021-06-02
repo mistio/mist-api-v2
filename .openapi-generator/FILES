@@ -24,7 +24,6 @@ mist_api_v2/encoder.py
 mist_api_v2/models/__init__.py
 mist_api_v2/models/add_cloud_request.py
 mist_api_v2/models/add_cloud_request_all_of.py
-mist_api_v2/models/add_digitalocean_cloud_request.py
 mist_api_v2/models/add_key_request.py
 mist_api_v2/models/add_key_request_any_of.py
 mist_api_v2/models/add_key_request_any_of1.py
@@ -56,6 +55,7 @@ mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
 mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
+mist_api_v2/models/digitalocean_cloud_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_cloud_request.py
 mist_api_v2/models/docker_credentials.py

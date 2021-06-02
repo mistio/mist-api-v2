@@ -3666,7 +3666,7 @@ components:
         - $ref: '#/components/schemas/CloudSigmaCloudRequest'
         - $ref: '#/components/schemas/EquinixCloudRequest'
         - $ref: '#/components/schemas/IbmCloudRequest'
-        - $ref: '#/components/schemas/AddDigitaloceanCloudRequest'
+        - $ref: '#/components/schemas/DigitaloceanCloudRequest'
         - $ref: '#/components/schemas/LinodeCloudRequest'
         - $ref: '#/components/schemas/RackspaceCloudRequest'
         - $ref: '#/components/schemas/MaxihostCloudRequest'
@@ -3680,20 +3680,6 @@ components:
         - $ref: '#/components/schemas/DockerCloudRequest'
         - $ref: '#/components/schemas/KubevirtCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
-    AddDigitaloceanCloudRequest:
-      properties:
-        provider:
-          enum:
-          - digitalocean
-          type: string
-        credentials:
-          $ref: '#/components/schemas/DigitaloceanCredentials'
-        features:
-          $ref: '#/components/schemas/CloudFeatures'
-      required:
-      - credentials
-      - provider
-      type: object
     AddKeyRequest:
       anyOf:
       - $ref: '#/components/schemas/AddKeyRequest_anyOf'
@@ -4345,6 +4331,20 @@ components:
         type: object
       title: DigitalOcean volumes parameter
       type: array
+    DigitaloceanCloudRequest:
+      properties:
+        provider:
+          enum:
+          - digitalocean
+          type: string
+        credentials:
+          $ref: '#/components/schemas/DigitaloceanCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
     DigitaloceanCredentials:
       properties:
         token:
@@ -4431,7 +4431,7 @@ components:
         - $ref: '#/components/schemas/CloudSigmaCloudRequest'
         - $ref: '#/components/schemas/EquinixCloudRequest'
         - $ref: '#/components/schemas/IbmCloudRequest'
-        - $ref: '#/components/schemas/AddDigitaloceanCloudRequest'
+        - $ref: '#/components/schemas/DigitaloceanCloudRequest'
         - $ref: '#/components/schemas/LinodeCloudRequest'
         - $ref: '#/components/schemas/RackspaceCloudRequest'
         - $ref: '#/components/schemas/MaxihostCloudRequest'

@@ -5,7 +5,6 @@ from __future__ import absolute_import
 # import models into model package
 from mist_api_v2.models.add_cloud_request import AddCloudRequest
 from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf
-from mist_api_v2.models.add_digitalocean_cloud_request import AddDigitaloceanCloudRequest
 from mist_api_v2.models.add_key_request import AddKeyRequest
 from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
 from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
@@ -34,6 +33,7 @@ from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.create_zone_request import CreateZoneRequest
 from mist_api_v2.models.create_zone_response import CreateZoneResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
+from mist_api_v2.models.digitalocean_cloud_request import DigitaloceanCloudRequest
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
 from mist_api_v2.models.docker_credentials import DockerCredentials
