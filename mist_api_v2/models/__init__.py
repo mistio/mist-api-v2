@@ -4,7 +4,7 @@
 from __future__ import absolute_import
 # import models into model package
 from mist_api_v2.models.add_cloud_request import AddCloudRequest
-from mist_api_v2.models.add_cloud_request_any_of import AddCloudRequestAnyOf
+from mist_api_v2.models.add_cloud_request_all_of import AddCloudRequestAllOf
 from mist_api_v2.models.add_digitalocean_cloud_request import AddDigitaloceanCloudRequest
 from mist_api_v2.models.add_key_request import AddKeyRequest
 from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
@@ -38,7 +38,7 @@ from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest
-from mist_api_v2.models.edit_cloud_request_all_of import EditCloudRequestAllOf
+from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.equinix_metal_net import EquinixMetalNet

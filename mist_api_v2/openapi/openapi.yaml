@@ -3633,8 +3633,8 @@ components:
   responses: {}
   schemas:
     AddCloudRequest:
-      anyOf:
-      - $ref: '#/components/schemas/AddCloudRequest_anyOf'
+      allOf:
+      - $ref: '#/components/schemas/AddCloudRequest_allOf'
       - discriminator:
           mapping:
             amazon: '#/components/schemas/AmazonCloudRequest'
@@ -4398,8 +4398,8 @@ components:
       - port
       type: object
     EditCloudRequest:
-      allOf:
-      - $ref: '#/components/schemas/EditCloudRequest_allOf'
+      anyOf:
+      - $ref: '#/components/schemas/EditCloudRequest_anyOf'
       - discriminator:
           mapping:
             amazon: '#/components/schemas/AmazonCloudRequest'
@@ -6123,7 +6123,7 @@ components:
         id:
           type: string
       type: object
-    AddCloudRequest_anyOf:
+    AddCloudRequest_allOf:
       properties:
         title:
           description: The name of the cloud to add
@@ -6229,7 +6229,7 @@ components:
       properties:
         plan:
           type: object
-    EditCloudRequest_allOf:
+    EditCloudRequest_anyOf:
       properties:
         title:
           description: Updated title
