@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
 from mist_api_v2 import util
 
+from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials  # noqa: E501
 
 class VsphereCloudRequest(Model):
@@ -17,26 +19,31 @@ class VsphereCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
         """VsphereCloudRequest - a model defined in OpenAPI
 
         :param provider: The provider of this VsphereCloudRequest.  # noqa: E501
         :type provider: str
         :param credentials: The credentials of this VsphereCloudRequest.  # noqa: E501
         :type credentials: VsphereCredentials
+        :param features: The features of this VsphereCloudRequest.  # noqa: E501
+        :type features: CloudFeatures
         """
         self.openapi_types = {
             'provider': str,
-            'credentials': VsphereCredentials
+            'credentials': VsphereCredentials,
+            'features': CloudFeatures
         }
 
         self.attribute_map = {
             'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'features': 'features'
         }
 
         self._provider = provider
         self._credentials = credentials
+        self._features = features
 
     @classmethod
     def from_dict(cls, dikt) -> 'VsphereCloudRequest':
@@ -98,3 +105,24 @@ class VsphereCloudRequest(Model):
             raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
 
         self._credentials = credentials
+
+    @property
+    def features(self):
+        """Gets the features of this VsphereCloudRequest.
+
+
+        :return: The features of this VsphereCloudRequest.
+        :rtype: CloudFeatures
+        """
+        return self._features
+
+    @features.setter
+    def features(self, features):
+        """Sets the features of this VsphereCloudRequest.
+
+
+        :param features: The features of this VsphereCloudRequest.
+        :type features: CloudFeatures
+        """
+
+        self._features = features

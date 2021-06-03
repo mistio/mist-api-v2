@@ -3707,6 +3707,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/AlibabaCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -3815,6 +3817,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/AzureCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -3891,6 +3895,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/CloudSigmaCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -4467,6 +4473,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/EquinixCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -5065,6 +5073,8 @@ components:
           type: string
         credentials:
           type: object
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -5482,6 +5492,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/LxdCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -5569,6 +5581,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/MaxihostCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -5614,6 +5628,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/OnappCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -5659,6 +5675,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/OpenstackCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -5974,6 +5992,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/VcloudCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
@@ -6040,6 +6060,8 @@ components:
           type: string
         credentials:
           $ref: '#/components/schemas/VsphereCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider

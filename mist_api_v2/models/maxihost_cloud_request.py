@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
 from mist_api_v2 import util
 
+from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials  # noqa: E501
 
 class MaxihostCloudRequest(Model):
@@ -17,26 +19,31 @@ class MaxihostCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None):  # noqa: E501
+    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
         """MaxihostCloudRequest - a model defined in OpenAPI
 
         :param provider: The provider of this MaxihostCloudRequest.  # noqa: E501
         :type provider: str
         :param credentials: The credentials of this MaxihostCloudRequest.  # noqa: E501
         :type credentials: MaxihostCredentials
+        :param features: The features of this MaxihostCloudRequest.  # noqa: E501
+        :type features: CloudFeatures
         """
         self.openapi_types = {
             'provider': str,
-            'credentials': MaxihostCredentials
+            'credentials': MaxihostCredentials,
+            'features': CloudFeatures
         }
 
         self.attribute_map = {
             'provider': 'provider',
-            'credentials': 'credentials'
+            'credentials': 'credentials',
+            'features': 'features'
         }
 
         self._provider = provider
         self._credentials = credentials
+        self._features = features
 
     @classmethod
     def from_dict(cls, dikt) -> 'MaxihostCloudRequest':
@@ -98,3 +105,24 @@ class MaxihostCloudRequest(Model):
             raise ValueError("Invalid value for `credentials`, must not be `None`")  # noqa: E501
 
         self._credentials = credentials
+
+    @property
+    def features(self):
+        """Gets the features of this MaxihostCloudRequest.
+
+
+        :return: The features of this MaxihostCloudRequest.
+        :rtype: CloudFeatures
+        """
+        return self._features
+
+    @features.setter
+    def features(self, features):
+        """Sets the features of this MaxihostCloudRequest.
+
+
+        :param features: The features of this MaxihostCloudRequest.
+        :type features: CloudFeatures
+        """
+
+        self._features = features
