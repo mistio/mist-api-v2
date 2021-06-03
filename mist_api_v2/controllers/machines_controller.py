@@ -144,8 +144,13 @@ def create_machine(create_machine_request=None):  # noqa: E501
     else:
         dry = True
 
+    # sensitive fields that shouldn't be returned in plan
+    sensitive_fields = ['root_pass', ]
+    user_plan = {key: plan[key] for key in plan
+                 if key not in sensitive_fields}
+
     if dry:
-        return CreateMachineResponse(plan=plan)
+        return CreateMachineResponse(plan=user_plan)
     else:
         # TODO job,job_id could also be passed as parameter
         job_id = uuid.uuid4().hex
@@ -154,7 +159,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
         dramatiq_create_machine_async.send(
             auth_context.serialize(), plan, job_id=job_id, job=job
         )
-        return CreateMachineResponse(plan=plan, job_id=job_id)
+        return CreateMachineResponse(plan=user_plan, job_id=job_id)
 
 
 def destroy_machine(machine):  # noqa: E501
