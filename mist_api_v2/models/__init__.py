@@ -19,6 +19,7 @@ from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
 from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
+from mist_api_v2.models.add_kubernetes_cloud_request import AddKubernetesCloudRequest
 from mist_api_v2.models.add_kubevirt_cloud_request import AddKubevirtCloudRequest
 from mist_api_v2.models.add_kvm_cloud_request import AddKvmCloudRequest
 from mist_api_v2.models.add_linode_cloud_request import AddLinodeCloudRequest
@@ -82,6 +83,7 @@ from mist_api_v2.models.job import Job
 from mist_api_v2.models.kvm_net import KVMNet
 from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
+from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials
 from mist_api_v2.models.linode_net import LinodeNet

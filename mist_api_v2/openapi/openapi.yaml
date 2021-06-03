@@ -3775,6 +3775,7 @@ components:
             lxd: '#/components/schemas/AddLxdCloudRequest'
             docker: '#/components/schemas/AddDockerCloudRequest'
             kubevirt: '#/components/schemas/AddKubevirtCloudRequest'
+            kubernetes: '#/components/schemas/AddKubernetesCloudRequest'
             other: '#/components/schemas/AddOtherCloudRequest'
           propertyName: provider
         oneOf:
@@ -3798,6 +3799,7 @@ components:
         - $ref: '#/components/schemas/AddLxdCloudRequest'
         - $ref: '#/components/schemas/AddDockerCloudRequest'
         - $ref: '#/components/schemas/AddKubevirtCloudRequest'
+        - $ref: '#/components/schemas/AddKubernetesCloudRequest'
         - $ref: '#/components/schemas/AddOtherCloudRequest'
     AddCloudSigmaCloudRequest:
       properties:
@@ -3897,6 +3899,20 @@ components:
           type: string
         public:
           type: string
+      type: object
+    AddKubernetesCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kubernetes
+          type: string
+        credentials:
+          $ref: '#/components/schemas/KubernetesCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
       type: object
     AddKubevirtCloudRequest:
       properties:
@@ -5262,6 +5278,39 @@ components:
           - signed_ssh
           type: string
       type: object
+    KubernetesCredentials:
+      properties:
+        host:
+          description: Your Kubernetes API host
+          type: string
+        port:
+          description: Your Kubernetes API port
+          type: string
+        username:
+          description: Your Kubernetes API username
+          type: string
+        password:
+          description: Your Kubernetes API password
+          type: string
+        token:
+          description: Your Kubernetes API bearer token
+          type: string
+        tlsKey:
+          description: Your TLS auth key
+          type: string
+        tlsCert:
+          description: Your TLS auth certificate
+          type: string
+        tlsCaCert:
+          description: Your TLS CA certifcate
+          type: string
+        showAll:
+          description: Show all containers, including stopped
+          type: boolean
+      required:
+      - host
+      - port
+      type: object
     KubevirtCredentials:
       properties:
         host:
@@ -6309,6 +6358,7 @@ components:
           - ibm
           - kvm
           - kubevirt
+          - kubernetes
           - linode
           - lxd
           - maxihost
