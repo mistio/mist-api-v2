@@ -4193,6 +4193,7 @@ components:
         - ""
         extra:
           project_id: project_id
+          root_pass: root_pass
         name: name
         location: location
         expiration:
@@ -6224,10 +6225,15 @@ components:
       description: Configure additional parameters
       example:
         project_id: project_id
+        root_pass: root_pass
       properties:
         project_id:
           description: Equinix specific parameter. Project UUID, if not given the
             first one available will be selected
+          type: string
+        root_pass:
+          description: Linode specific parameter. Set root password. If not given
+            a secure password will be generated
           type: string
       type: object
     CreateMachineResponse_oneOf:
