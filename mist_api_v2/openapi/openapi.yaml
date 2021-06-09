@@ -4781,30 +4781,10 @@ components:
           cloud_id: cloud_id
           error: true
           logs:
-          - network_id: network_id
-            tunnel_id: tunnel_id
-            volume_id: volume_id
-            key_id: key_id
-            job_id: job_id
-            stack_id: stack_id
-            machine_id: machine_id
-            script_id: script_id
-            template_id: template_id
-            external_id: external_id
-            cloud_id: cloud_id
-            schedule_id: schedule_id
-          - network_id: network_id
-            tunnel_id: tunnel_id
-            volume_id: volume_id
-            key_id: key_id
-            job_id: job_id
-            stack_id: stack_id
-            machine_id: machine_id
-            script_id: script_id
-            template_id: template_id
-            external_id: external_id
-            cloud_id: cloud_id
-            schedule_id: schedule_id
+          - job_id: job_id
+            org_id: org_id
+          - job_id: job_id
+            org_id: org_id
           user: user
         meta:
           total: 0
@@ -5166,30 +5146,10 @@ components:
         cloud_id: cloud_id
         error: true
         logs:
-        - network_id: network_id
-          tunnel_id: tunnel_id
-          volume_id: volume_id
-          key_id: key_id
-          job_id: job_id
-          stack_id: stack_id
-          machine_id: machine_id
-          script_id: script_id
-          template_id: template_id
-          external_id: external_id
-          cloud_id: cloud_id
-          schedule_id: schedule_id
-        - network_id: network_id
-          tunnel_id: tunnel_id
-          volume_id: volume_id
-          key_id: key_id
-          job_id: job_id
-          stack_id: stack_id
-          machine_id: machine_id
-          script_id: script_id
-          template_id: template_id
-          external_id: external_id
-          cloud_id: cloud_id
-          schedule_id: schedule_id
+        - job_id: job_id
+          org_id: org_id
+        - job_id: job_id
+          org_id: org_id
         user: user
       properties:
         logs:
@@ -5692,45 +5652,16 @@ components:
       type: object
     Log:
       example:
-        network_id: network_id
-        tunnel_id: tunnel_id
-        volume_id: volume_id
-        key_id: key_id
         job_id: job_id
-        stack_id: stack_id
-        machine_id: machine_id
-        script_id: script_id
-        template_id: template_id
-        external_id: external_id
-        cloud_id: cloud_id
-        schedule_id: schedule_id
+        org_id: org_id
       properties:
         job_id:
           type: string
-        cloud_id:
-          type: string
-        machine_id:
-          type: string
-        network_id:
-          type: string
-        volume_id:
-          type: string
-        key_id:
-          type: string
-        script_id:
-          type: string
-        template_id:
-          type: string
-        stack_id:
-          type: string
-        tunnel_id:
-          type: string
-        schedule_id:
-          type: string
-        external_id:
+        org_id:
           type: string
       required:
       - job_id
+      - org_id
       type: object
     LxdCredentials:
       properties:

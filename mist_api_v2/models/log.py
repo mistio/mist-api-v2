@@ -15,76 +15,26 @@ class Log(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, job_id=None, cloud_id=None, machine_id=None, network_id=None, volume_id=None, key_id=None, script_id=None, template_id=None, stack_id=None, tunnel_id=None, schedule_id=None, external_id=None):  # noqa: E501
+    def __init__(self, job_id=None, org_id=None):  # noqa: E501
         """Log - a model defined in OpenAPI
 
         :param job_id: The job_id of this Log.  # noqa: E501
         :type job_id: str
-        :param cloud_id: The cloud_id of this Log.  # noqa: E501
-        :type cloud_id: str
-        :param machine_id: The machine_id of this Log.  # noqa: E501
-        :type machine_id: str
-        :param network_id: The network_id of this Log.  # noqa: E501
-        :type network_id: str
-        :param volume_id: The volume_id of this Log.  # noqa: E501
-        :type volume_id: str
-        :param key_id: The key_id of this Log.  # noqa: E501
-        :type key_id: str
-        :param script_id: The script_id of this Log.  # noqa: E501
-        :type script_id: str
-        :param template_id: The template_id of this Log.  # noqa: E501
-        :type template_id: str
-        :param stack_id: The stack_id of this Log.  # noqa: E501
-        :type stack_id: str
-        :param tunnel_id: The tunnel_id of this Log.  # noqa: E501
-        :type tunnel_id: str
-        :param schedule_id: The schedule_id of this Log.  # noqa: E501
-        :type schedule_id: str
-        :param external_id: The external_id of this Log.  # noqa: E501
-        :type external_id: str
+        :param org_id: The org_id of this Log.  # noqa: E501
+        :type org_id: str
         """
         self.openapi_types = {
             'job_id': str,
-            'cloud_id': str,
-            'machine_id': str,
-            'network_id': str,
-            'volume_id': str,
-            'key_id': str,
-            'script_id': str,
-            'template_id': str,
-            'stack_id': str,
-            'tunnel_id': str,
-            'schedule_id': str,
-            'external_id': str
+            'org_id': str
         }
 
         self.attribute_map = {
             'job_id': 'job_id',
-            'cloud_id': 'cloud_id',
-            'machine_id': 'machine_id',
-            'network_id': 'network_id',
-            'volume_id': 'volume_id',
-            'key_id': 'key_id',
-            'script_id': 'script_id',
-            'template_id': 'template_id',
-            'stack_id': 'stack_id',
-            'tunnel_id': 'tunnel_id',
-            'schedule_id': 'schedule_id',
-            'external_id': 'external_id'
+            'org_id': 'org_id'
         }
 
         self._job_id = job_id
-        self._cloud_id = cloud_id
-        self._machine_id = machine_id
-        self._network_id = network_id
-        self._volume_id = volume_id
-        self._key_id = key_id
-        self._script_id = script_id
-        self._template_id = template_id
-        self._stack_id = stack_id
-        self._tunnel_id = tunnel_id
-        self._schedule_id = schedule_id
-        self._external_id = external_id
+        self._org_id = org_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'Log':
@@ -121,232 +71,24 @@ class Log(Model):
         self._job_id = job_id
 
     @property
-    def cloud_id(self):
-        """Gets the cloud_id of this Log.
+    def org_id(self):
+        """Gets the org_id of this Log.
 
 
-        :return: The cloud_id of this Log.
+        :return: The org_id of this Log.
         :rtype: str
         """
-        return self._cloud_id
+        return self._org_id
 
-    @cloud_id.setter
-    def cloud_id(self, cloud_id):
-        """Sets the cloud_id of this Log.
+    @org_id.setter
+    def org_id(self, org_id):
+        """Sets the org_id of this Log.
 
 
-        :param cloud_id: The cloud_id of this Log.
-        :type cloud_id: str
+        :param org_id: The org_id of this Log.
+        :type org_id: str
         """
+        if org_id is None:
+            raise ValueError("Invalid value for `org_id`, must not be `None`")  # noqa: E501
 
-        self._cloud_id = cloud_id
-
-    @property
-    def machine_id(self):
-        """Gets the machine_id of this Log.
-
-
-        :return: The machine_id of this Log.
-        :rtype: str
-        """
-        return self._machine_id
-
-    @machine_id.setter
-    def machine_id(self, machine_id):
-        """Sets the machine_id of this Log.
-
-
-        :param machine_id: The machine_id of this Log.
-        :type machine_id: str
-        """
-
-        self._machine_id = machine_id
-
-    @property
-    def network_id(self):
-        """Gets the network_id of this Log.
-
-
-        :return: The network_id of this Log.
-        :rtype: str
-        """
-        return self._network_id
-
-    @network_id.setter
-    def network_id(self, network_id):
-        """Sets the network_id of this Log.
-
-
-        :param network_id: The network_id of this Log.
-        :type network_id: str
-        """
-
-        self._network_id = network_id
-
-    @property
-    def volume_id(self):
-        """Gets the volume_id of this Log.
-
-
-        :return: The volume_id of this Log.
-        :rtype: str
-        """
-        return self._volume_id
-
-    @volume_id.setter
-    def volume_id(self, volume_id):
-        """Sets the volume_id of this Log.
-
-
-        :param volume_id: The volume_id of this Log.
-        :type volume_id: str
-        """
-
-        self._volume_id = volume_id
-
-    @property
-    def key_id(self):
-        """Gets the key_id of this Log.
-
-
-        :return: The key_id of this Log.
-        :rtype: str
-        """
-        return self._key_id
-
-    @key_id.setter
-    def key_id(self, key_id):
-        """Sets the key_id of this Log.
-
-
-        :param key_id: The key_id of this Log.
-        :type key_id: str
-        """
-
-        self._key_id = key_id
-
-    @property
-    def script_id(self):
-        """Gets the script_id of this Log.
-
-
-        :return: The script_id of this Log.
-        :rtype: str
-        """
-        return self._script_id
-
-    @script_id.setter
-    def script_id(self, script_id):
-        """Sets the script_id of this Log.
-
-
-        :param script_id: The script_id of this Log.
-        :type script_id: str
-        """
-
-        self._script_id = script_id
-
-    @property
-    def template_id(self):
-        """Gets the template_id of this Log.
-
-
-        :return: The template_id of this Log.
-        :rtype: str
-        """
-        return self._template_id
-
-    @template_id.setter
-    def template_id(self, template_id):
-        """Sets the template_id of this Log.
-
-
-        :param template_id: The template_id of this Log.
-        :type template_id: str
-        """
-
-        self._template_id = template_id
-
-    @property
-    def stack_id(self):
-        """Gets the stack_id of this Log.
-
-
-        :return: The stack_id of this Log.
-        :rtype: str
-        """
-        return self._stack_id
-
-    @stack_id.setter
-    def stack_id(self, stack_id):
-        """Sets the stack_id of this Log.
-
-
-        :param stack_id: The stack_id of this Log.
-        :type stack_id: str
-        """
-
-        self._stack_id = stack_id
-
-    @property
-    def tunnel_id(self):
-        """Gets the tunnel_id of this Log.
-
-
-        :return: The tunnel_id of this Log.
-        :rtype: str
-        """
-        return self._tunnel_id
-
-    @tunnel_id.setter
-    def tunnel_id(self, tunnel_id):
-        """Sets the tunnel_id of this Log.
-
-
-        :param tunnel_id: The tunnel_id of this Log.
-        :type tunnel_id: str
-        """
-
-        self._tunnel_id = tunnel_id
-
-    @property
-    def schedule_id(self):
-        """Gets the schedule_id of this Log.
-
-
-        :return: The schedule_id of this Log.
-        :rtype: str
-        """
-        return self._schedule_id
-
-    @schedule_id.setter
-    def schedule_id(self, schedule_id):
-        """Sets the schedule_id of this Log.
-
-
-        :param schedule_id: The schedule_id of this Log.
-        :type schedule_id: str
-        """
-
-        self._schedule_id = schedule_id
-
-    @property
-    def external_id(self):
-        """Gets the external_id of this Log.
-
-
-        :return: The external_id of this Log.
-        :rtype: str
-        """
-        return self._external_id
-
-    @external_id.setter
-    def external_id(self, external_id):
-        """Sets the external_id of this Log.
-
-
-        :param external_id: The external_id of this Log.
-        :type external_id: str
-        """
-
-        self._external_id = external_id
+        self._org_id = org_id
