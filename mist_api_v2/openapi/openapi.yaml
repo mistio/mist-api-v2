@@ -4781,10 +4781,10 @@ components:
           cloud_id: cloud_id
           error: true
           logs:
-          - job_id: job_id
-            org_id: org_id
-          - job_id: job_id
-            org_id: org_id
+          - org: org
+            job_id: job_id
+          - org: org
+            job_id: job_id
           user: user
         meta:
           total: 0
@@ -5146,10 +5146,10 @@ components:
         cloud_id: cloud_id
         error: true
         logs:
-        - job_id: job_id
-          org_id: org_id
-        - job_id: job_id
-          org_id: org_id
+        - org: org
+          job_id: job_id
+        - org: org
+          job_id: job_id
         user: user
       properties:
         logs:
@@ -5652,16 +5652,16 @@ components:
       type: object
     Log:
       example:
+        org: org
         job_id: job_id
-        org_id: org_id
       properties:
         job_id:
           type: string
-        org_id:
+        org:
           type: string
       required:
       - job_id
-      - org_id
+      - org
       type: object
     LxdCredentials:
       properties:

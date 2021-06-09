@@ -15,26 +15,26 @@ class Log(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, job_id=None, org_id=None):  # noqa: E501
+    def __init__(self, job_id=None, org=None):  # noqa: E501
         """Log - a model defined in OpenAPI
 
         :param job_id: The job_id of this Log.  # noqa: E501
         :type job_id: str
-        :param org_id: The org_id of this Log.  # noqa: E501
-        :type org_id: str
+        :param org: The org of this Log.  # noqa: E501
+        :type org: str
         """
         self.openapi_types = {
             'job_id': str,
-            'org_id': str
+            'org': str
         }
 
         self.attribute_map = {
             'job_id': 'job_id',
-            'org_id': 'org_id'
+            'org': 'org'
         }
 
         self._job_id = job_id
-        self._org_id = org_id
+        self._org = org
 
     @classmethod
     def from_dict(cls, dikt) -> 'Log':
@@ -71,24 +71,24 @@ class Log(Model):
         self._job_id = job_id
 
     @property
-    def org_id(self):
-        """Gets the org_id of this Log.
+    def org(self):
+        """Gets the org of this Log.
 
 
-        :return: The org_id of this Log.
+        :return: The org of this Log.
         :rtype: str
         """
-        return self._org_id
+        return self._org
 
-    @org_id.setter
-    def org_id(self, org_id):
-        """Sets the org_id of this Log.
+    @org.setter
+    def org(self, org):
+        """Sets the org of this Log.
 
 
-        :param org_id: The org_id of this Log.
-        :type org_id: str
+        :param org: The org of this Log.
+        :type org: str
         """
-        if org_id is None:
-            raise ValueError("Invalid value for `org_id`, must not be `None`")  # noqa: E501
+        if org is None:
+            raise ValueError("Invalid value for `org`, must not be `None`")  # noqa: E501
 
-        self._org_id = org_id
+        self._org = org
