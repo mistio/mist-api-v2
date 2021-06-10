@@ -3921,7 +3921,7 @@ components:
           - kubevirt
           type: string
         credentials:
-          $ref: '#/components/schemas/KubevirtCredentials'
+          $ref: '#/components/schemas/KubernetesCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
@@ -4220,7 +4220,7 @@ components:
       - $ref: '#/components/schemas/KvmCredentials'
       - $ref: '#/components/schemas/LxdCredentials'
       - $ref: '#/components/schemas/DockerCredentials'
-      - $ref: '#/components/schemas/KubevirtCredentials'
+      - $ref: '#/components/schemas/KubernetesCredentials'
       - $ref: '#/components/schemas/KubernetesCredentials'
       - $ref: '#/components/schemas/OtherCredentials'
       type: object
@@ -5277,39 +5277,6 @@ components:
           type: string
       type: object
     KubernetesCredentials:
-      properties:
-        host:
-          description: Your Kubernetes API host
-          type: string
-        port:
-          description: Your Kubernetes API port
-          type: string
-        username:
-          description: Your Kubernetes API username
-          type: string
-        password:
-          description: Your Kubernetes API password
-          type: string
-        token:
-          description: Your Kubernetes API bearer token
-          type: string
-        tlsKey:
-          description: Your TLS auth key
-          type: string
-        tlsCert:
-          description: Your TLS auth certificate
-          type: string
-        tlsCaCert:
-          description: Your TLS CA certifcate
-          type: string
-        showAll:
-          description: Show all containers, including stopped
-          type: boolean
-      required:
-      - host
-      - port
-      type: object
-    KubevirtCredentials:
       properties:
         host:
           description: Your Kubernetes API host
