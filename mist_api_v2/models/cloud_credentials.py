@@ -16,7 +16,6 @@ from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
-from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials
 from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
@@ -38,7 +37,6 @@ from mist_api_v2.models.equinix_credentials import EquinixCredentials  # noqa: E
 from mist_api_v2.models.google_credentials import GoogleCredentials  # noqa: E501
 from mist_api_v2.models.ibm_credentials import IbmCredentials  # noqa: E501
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials  # noqa: E501
-from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials  # noqa: E501
 from mist_api_v2.models.linode_credentials import LinodeCredentials  # noqa: E501
 from mist_api_v2.models.lxd_credentials import LxdCredentials  # noqa: E501
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials  # noqa: E501

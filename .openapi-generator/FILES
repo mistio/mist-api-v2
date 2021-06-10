@@ -105,7 +105,6 @@ mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
 mist_api_v2/models/key.py
 mist_api_v2/models/kubernetes_credentials.py
-mist_api_v2/models/kubevirt_credentials.py
 mist_api_v2/models/kvm_net.py
 mist_api_v2/models/kvm_net_networks.py
 mist_api_v2/models/linode_credentials.py
