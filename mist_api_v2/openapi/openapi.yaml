@@ -2292,6 +2292,16 @@ paths:
       summary: List orgs
       tags:
       - orgs
+      x-cli-table-default:
+      - name
+      - clouds_count
+      - teams_count
+      x-cli-table-extended:
+      - name
+      - id
+      - clouds_count
+      - teams_count
+      - default_monitoring_method
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/orgs/{org}:
     get:
@@ -2355,6 +2365,15 @@ paths:
       summary: Get Org
       tags:
       - orgs
+      - name
+      - clouds_count
+      - total_machine_count
+      x-cli-table-extended:
+      - name
+      - id
+      - clouds_count
+      - total_machine_count
+      - default_monitoring_method
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/orgs/{org}/members:
     get:
@@ -2445,6 +2464,13 @@ paths:
       tags:
       - orgs
       - members
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/orgs/{org}/members/{member}:
     get:
@@ -2499,6 +2525,13 @@ paths:
       summary: Get Org
       tags:
       - orgs
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/orgs/{org}/teams:
     get:
@@ -2605,6 +2638,16 @@ paths:
       tags:
       - orgs
       - teams
+      x-cli-table-default:
+      - name
+      - members_count
+      x-cli-table-extended:
+      - id
+      - name
+      - members_count
+      - members
+      - description
+      - policy
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/rules:
     get:
@@ -5264,7 +5307,6 @@ components:
       example:
         data:
           enterprise_plan: '{}'
-          total_machine_count: total_machine_count
           selected_plan: selected_plan
           enable_r12ns: true
           created: true
@@ -5273,6 +5315,7 @@ components:
           id: id
           clouds_count: clouds_count
           insights_enabled: true
+          teams_count: teams_count
           default_monitoring_method: default_monitoring_method
         meta:
           total: 0
@@ -5869,6 +5912,7 @@ components:
             username: username
           name: name
           description: description
+          members_count: members_count
           id: id
           policy: '{}'
         - members:
@@ -5890,6 +5934,7 @@ components:
             username: username
           name: name
           description: description
+          members_count: members_count
           id: id
           policy: '{}'
         meta:
@@ -5909,7 +5954,6 @@ components:
       example:
         data:
         - enterprise_plan: '{}'
-          total_machine_count: total_machine_count
           selected_plan: selected_plan
           enable_r12ns: true
           created: true
@@ -5918,9 +5962,9 @@ components:
           id: id
           clouds_count: clouds_count
           insights_enabled: true
+          teams_count: teams_count
           default_monitoring_method: default_monitoring_method
         - enterprise_plan: '{}'
-          total_machine_count: total_machine_count
           selected_plan: selected_plan
           enable_r12ns: true
           created: true
@@ -5929,6 +5973,7 @@ components:
           id: id
           clouds_count: clouds_count
           insights_enabled: true
+          teams_count: teams_count
           default_monitoring_method: default_monitoring_method
         meta:
           total: 0
@@ -6327,7 +6372,6 @@ components:
     Org:
       example:
         enterprise_plan: '{}'
-        total_machine_count: total_machine_count
         selected_plan: selected_plan
         enable_r12ns: true
         created: true
@@ -6336,6 +6380,7 @@ components:
         id: id
         clouds_count: clouds_count
         insights_enabled: true
+        teams_count: teams_count
         default_monitoring_method: default_monitoring_method
       properties:
         id:
@@ -6344,7 +6389,7 @@ components:
           type: string
         clouds_count:
           type: string
-        total_machine_count:
+        teams_count:
           type: string
         created:
           type: boolean
@@ -6624,6 +6669,7 @@ components:
           username: username
         name: name
         description: description
+        members_count: members_count
         id: id
         policy: '{}'
       properties:
@@ -6635,6 +6681,8 @@ components:
           items:
             $ref: '#/components/schemas/Member'
           type: array
+        members_count:
+          type: string
         description:
           type: string
         policy:

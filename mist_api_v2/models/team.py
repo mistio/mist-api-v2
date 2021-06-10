@@ -17,7 +17,7 @@ class Team(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, members=None, description=None, policy=None):  # noqa: E501
+    def __init__(self, id=None, name=None, members=None, members_count=None, description=None, policy=None):  # noqa: E501
         """Team - a model defined in OpenAPI
 
         :param id: The id of this Team.  # noqa: E501
@@ -26,6 +26,8 @@ class Team(Model):
         :type name: str
         :param members: The members of this Team.  # noqa: E501
         :type members: List[Member]
+        :param members_count: The members_count of this Team.  # noqa: E501
+        :type members_count: str
         :param description: The description of this Team.  # noqa: E501
         :type description: str
         :param policy: The policy of this Team.  # noqa: E501
@@ -35,6 +37,7 @@ class Team(Model):
             'id': str,
             'name': str,
             'members': List[Member],
+            'members_count': str,
             'description': str,
             'policy': object
         }
@@ -43,6 +46,7 @@ class Team(Model):
             'id': 'id',
             'name': 'name',
             'members': 'members',
+            'members_count': 'members_count',
             'description': 'description',
             'policy': 'policy'
         }
@@ -50,6 +54,7 @@ class Team(Model):
         self._id = id
         self._name = name
         self._members = members
+        self._members_count = members_count
         self._description = description
         self._policy = policy
 
@@ -126,6 +131,27 @@ class Team(Model):
         """
 
         self._members = members
+
+    @property
+    def members_count(self):
+        """Gets the members_count of this Team.
+
+
+        :return: The members_count of this Team.
+        :rtype: str
+        """
+        return self._members_count
+
+    @members_count.setter
+    def members_count(self, members_count):
+        """Sets the members_count of this Team.
+
+
+        :param members_count: The members_count of this Team.
+        :type members_count: str
+        """
+
+        self._members_count = members_count
 
     @property
     def description(self):
