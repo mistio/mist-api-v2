@@ -84,6 +84,7 @@ from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials
+from mist_api_v2.models.linode_net import LinodeNet
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse
 from mist_api_v2.models.list_images_response import ListImagesResponse
 from mist_api_v2.models.list_keys_response import ListKeysResponse

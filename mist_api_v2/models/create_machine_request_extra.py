@@ -15,21 +15,26 @@ class CreateMachineRequestExtra(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, project_id=None):  # noqa: E501
+    def __init__(self, project_id=None, root_pass=None):  # noqa: E501
         """CreateMachineRequestExtra - a model defined in OpenAPI
 
         :param project_id: The project_id of this CreateMachineRequestExtra.  # noqa: E501
         :type project_id: str
+        :param root_pass: The root_pass of this CreateMachineRequestExtra.  # noqa: E501
+        :type root_pass: str
         """
         self.openapi_types = {
-            'project_id': str
+            'project_id': str,
+            'root_pass': str
         }
 
         self.attribute_map = {
-            'project_id': 'project_id'
+            'project_id': 'project_id',
+            'root_pass': 'root_pass'
         }
 
         self._project_id = project_id
+        self._root_pass = root_pass
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateMachineRequestExtra':
@@ -64,3 +69,26 @@ class CreateMachineRequestExtra(Model):
         """
 
         self._project_id = project_id
+
+    @property
+    def root_pass(self):
+        """Gets the root_pass of this CreateMachineRequestExtra.
+
+        Linode specific parameter. Set root password. If not given a secure password will be generated  # noqa: E501
+
+        :return: The root_pass of this CreateMachineRequestExtra.
+        :rtype: str
+        """
+        return self._root_pass
+
+    @root_pass.setter
+    def root_pass(self, root_pass):
+        """Sets the root_pass of this CreateMachineRequestExtra.
+
+        Linode specific parameter. Set root password. If not given a secure password will be generated  # noqa: E501
+
+        :param root_pass: The root_pass of this CreateMachineRequestExtra.
+        :type root_pass: str
+        """
+
+        self._root_pass = root_pass

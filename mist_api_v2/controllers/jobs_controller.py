@@ -1,10 +1,9 @@
 import connexion
-import six
 
 from mist_api_v2.models.get_job_response import GetJobResponse  # noqa: E501
 from mist_api_v2.models.response_metadata import ResponseMetadata  # noqa: E501
-from mist_api_v2.models.job import Job  # noqa: E501
-from mist_api_v2 import util
+from mist_api_v2.models.job import Job  # noqa: F401
+from mist_api_v2 import util  # noqa: F401
 
 
 def get_job(job_id):  # noqa: E501
@@ -12,7 +11,7 @@ def get_job(job_id):  # noqa: E501
 
     null # noqa: E501
 
-    :param job_id: 
+    :param job_id:
     :type job_id: str
 
     :rtype: GetJobResponse
@@ -33,4 +32,5 @@ def get_job(job_id):  # noqa: E501
     for log in story.get("logs"):
         if log.get("owner_id"):
             log["org"] = log.pop("owner_id", None)
-    return GetJobResponse(data=story, meta=ResponseMetadata(total=1, returned=1))
+    return GetJobResponse(
+        data=story, meta=ResponseMetadata(total=1, returned=1))
