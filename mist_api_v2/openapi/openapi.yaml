@@ -6548,3 +6548,24 @@ components:
       name: session.id
       type: apiKey
       x-apikeyInfoFunc: mist_api_v2.controllers.security_controller_.info_from_CookieAuth
+x-cli-waiters:
+  job-finished:
+    short: Wait job
+    long: Wait until job finishes
+    delay: 2
+    attempts: 900
+    retryCodes:
+    - 404
+    operationId: get-job
+    matchers:
+    - select: response.body#data.finished_at
+      test: notEqual
+      expected: 0
+      state: success
+    - select: response.body#data.error
+      expected: true
+      state: failure
+    updates: response.body#data.logs[:].action
+    after:
+      create-machine:
+        job_id: response.body#jobId
