@@ -3259,6 +3259,39 @@ paths:
       - volumes
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
   /api/v2/volumes/{volume}:
+    delete:
+      description: Delete target volume
+      operationId: delete_volume
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Volume successfully deleted
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Volume not found
+      security:
+      - ApiKeyAuth:
+        - read:volume
+        - delete:volume
+        - read:cloud
+      - CookieAuth:
+        - read:volume
+        - delete:volume
+        - read:cloud
+      summary: Delete volume
+      tags:
+      - volumes
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     get:
       description: Get details about target volume
       operationId: get_volume

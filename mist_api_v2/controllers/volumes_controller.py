@@ -37,6 +37,34 @@ def edit_volume(volume, name=None):  # noqa: E501
     return 'do some magic!'
 
 
+def delete_volume(volume):  # noqa: E501
+    """Delete volume
+
+    Delete target volume # noqa: E501
+
+    :param volume:
+    :type volume: str
+
+    :rtype: None
+    """
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [volume], _ = list_resources(auth_context, 'volume',
+                                     search=volume, limit=1)
+    except ValueError:
+        return 'Volume does not exist', 404
+
+    cloud = volume.cloud
+    # SEC
+    auth_context.check_perm('cloud', 'read', cloud.id)
+    auth_context.check_perm('volume', 'remove', volume.id)
+
+    volume.ctl.delete()
+
+    return 'Destroyed volume `%s`' % volume.name, 200
+
+
 def get_volume(volume, only=None, deref=None):  # noqa: E501
     """Get volume
 
