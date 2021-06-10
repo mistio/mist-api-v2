@@ -2189,14 +2189,14 @@ paths:
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
   /api/v2/orgs:
     get:
-      description: List orgs owned by the requester. If parameter all is True and
-        requester is an admin then all orgs will be listed.
+      description: List orgs owned by the requester. If parameter allorgs is true
+        and requester is an admin then all orgs will be listed.
       operationId: list_orgs
       parameters:
       - description: Return all existing organizations
         explode: true
         in: query
-        name: all
+        name: allorgs
         required: false
         schema:
           type: string
