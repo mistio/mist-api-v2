@@ -98,7 +98,6 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     if not limit:
         limit = 100
     if sort:
-        import ipdb;ipdb.set_trace()
         reverse = sort.find('-') != -1
         sort = sort.replace('-', '')
         sort = sort.replace('+', '')
