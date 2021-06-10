@@ -47,6 +47,7 @@ from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_image_response import GetImageResponse
+from mist_api_v2.models.get_job_response import GetJobResponse
 from mist_api_v2.models.get_key_response import GetKeyResponse
 from mist_api_v2.models.get_location_response import GetLocationResponse
 from mist_api_v2.models.get_machine_response import GetMachineResponse
@@ -65,6 +66,7 @@ from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
+from mist_api_v2.models.job import Job
 from mist_api_v2.models.kvm_net import KVMNet
 from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
@@ -73,6 +75,7 @@ from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
 from mist_api_v2.models.linode_cloud_request import LinodeCloudRequest
 from mist_api_v2.models.linode_credentials import LinodeCredentials
+from mist_api_v2.models.linode_net import LinodeNet
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse
 from mist_api_v2.models.list_images_response import ListImagesResponse
 from mist_api_v2.models.list_keys_response import ListKeysResponse
@@ -86,6 +89,7 @@ from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse
 from mist_api_v2.models.list_zones_response import ListZonesResponse
 from mist_api_v2.models.location import Location
+from mist_api_v2.models.log import Log
 from mist_api_v2.models.lxd_cloud_request import LxdCloudRequest
 from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2.models.machine import Machine

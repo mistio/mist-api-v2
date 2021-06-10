@@ -515,6 +515,40 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.images_controller
+  /api/v2/jobs/{job_id}:
+    get:
+      description: "null"
+      operationId: get_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetJobResponse'
+          description: Job returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Job not found
+      security:
+      - ApiKeyAuth:
+        - read:job
+      - CookieAuth:
+        - read:job
+      summary: Get job
+      tags:
+      - jobs
+      x-openapi-router-controller: mist_api_v2.controllers.jobs_controller
   /api/v2/keys:
     get:
       description: List keys owned by the active org. READ permission required on
@@ -3216,6 +3250,39 @@ paths:
       - volumes
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
   /api/v2/volumes/{volume}:
+    delete:
+      description: Delete target volume
+      operationId: delete_volume
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Volume successfully deleted
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Volume not found
+      security:
+      - ApiKeyAuth:
+        - read:volume
+        - delete:volume
+        - read:cloud
+      - CookieAuth:
+        - read:volume
+        - delete:volume
+        - read:cloud
+      summary: Delete volume
+      tags:
+      - volumes
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     get:
       description: Get details about target volume
       operationId: get_volume
@@ -3939,6 +4006,7 @@ components:
         - ""
         extra:
           project_id: project_id
+          root_pass: root_pass
         name: name
         location: location
         expiration:
@@ -4008,6 +4076,7 @@ components:
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
+          - $ref: '#/components/schemas/LinodeNet'
           description: Specify network configuration parameters
         key:
           description: Associate SSH key
@@ -4030,6 +4099,7 @@ components:
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
+          - $ref: '#/components/schemas/LinodeVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
@@ -4609,6 +4679,34 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetJobResponse:
+      example:
+        data:
+          finished_at: 6.027456183070403
+          org: org
+          job_id: job_id
+          started_at: 0.8008281904610115
+          action: action
+          machine_id: machine_id
+          cloud_id: cloud_id
+          error: true
+          logs:
+          - org: org
+            job_id: job_id
+          - org: org
+            job_id: job_id
+          user: user
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Job'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetKeyResponse:
       example:
         data:
@@ -4975,6 +5073,54 @@ components:
       - schedule_type
       title: Interval
       type: object
+    Job:
+      example:
+        finished_at: 6.027456183070403
+        org: org
+        job_id: job_id
+        started_at: 0.8008281904610115
+        action: action
+        machine_id: machine_id
+        cloud_id: cloud_id
+        error: true
+        logs:
+        - org: org
+          job_id: job_id
+        - org: org
+          job_id: job_id
+        user: user
+      properties:
+        logs:
+          items:
+            $ref: '#/components/schemas/Log'
+          type: array
+        error:
+          type: boolean
+        started_at:
+          type: number
+        finished_at:
+          type: number
+        org:
+          type: string
+        machine_id:
+          type: string
+        job_id:
+          type: string
+        cloud_id:
+          type: string
+        action:
+          type: string
+        user:
+          type: string
+      required:
+      - action
+      - error
+      - finished_at
+      - job_id
+      - logs
+      - org
+      - started_at
+      type: object
     KVMNet:
       properties:
         networks:
@@ -5103,6 +5249,39 @@ components:
       required:
       - apikey
       type: object
+    LinodeNet:
+      properties:
+        private_ip:
+          description: Assign a private IPv4 address, defaults to True
+          type: boolean
+      title: Linode net parameter
+      type: object
+    LinodeVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the volume to attach
+              type: string
+            persist_across_boots:
+              description: Whether the volume should be attached to node across reboots,
+                defaults to True
+              type: boolean
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume to be created in GBs
+              type: integer
+          required:
+          - name
+          - size
+        type: object
+      title: Linode volumes parameter
+      type: array
     ListCloudsResponse:
       example:
         data:
@@ -5483,6 +5662,19 @@ components:
           type: string
         extra:
           type: object
+      type: object
+    Log:
+      example:
+        org: org
+        job_id: job_id
+      properties:
+        job_id:
+          type: string
+        org:
+          type: string
+      required:
+      - job_id
+      - org
       type: object
     LxdCloudRequest:
       properties:
@@ -6249,10 +6441,15 @@ components:
       description: Configure additional parameters
       example:
         project_id: project_id
+        root_pass: root_pass
       properties:
         project_id:
           description: Equinix specific parameter. Project UUID, if not given the
             first one available will be selected
+          type: string
+        root_pass:
+          description: Linode specific parameter. Set root password. If not given
+            a secure password will be generated
           type: string
       type: object
     CreateMachineResponse_oneOf:
