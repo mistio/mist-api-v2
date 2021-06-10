@@ -64,6 +64,8 @@ from mist_api_v2.models.get_key_response import GetKeyResponse
 from mist_api_v2.models.get_location_response import GetLocationResponse
 from mist_api_v2.models.get_machine_response import GetMachineResponse
 from mist_api_v2.models.get_network_response import GetNetworkResponse
+from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse
+from mist_api_v2.models.get_org_response import GetOrgResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
 from mist_api_v2.models.get_script_response import GetScriptResponse
 from mist_api_v2.models.get_size_response import GetSizeResponse
@@ -88,6 +90,9 @@ from mist_api_v2.models.list_keys_response import ListKeysResponse
 from mist_api_v2.models.list_locations_response import ListLocationsResponse
 from mist_api_v2.models.list_machines_response import ListMachinesResponse
 from mist_api_v2.models.list_networks_response import ListNetworksResponse
+from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse
+from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse
+from mist_api_v2.models.list_orgs_response import ListOrgsResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
@@ -99,10 +104,12 @@ from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2.models.machine import Machine
 from mist_api_v2.models.machine_state import MachineState
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
+from mist_api_v2.models.member import Member
 from mist_api_v2.models.network import Network
 from mist_api_v2.models.onapp_credentials import OnappCredentials
 from mist_api_v2.models.one_off_schedule import OneOffSchedule
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
+from mist_api_v2.models.org import Org
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
@@ -113,6 +120,7 @@ from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
+from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.vcloud_credentials import VcloudCredentials
 from mist_api_v2.models.volume import Volume
