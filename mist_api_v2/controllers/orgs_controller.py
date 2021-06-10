@@ -97,15 +97,23 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     total = len(org_members)
     if not limit:
         limit = 100
-    org_members = org_members.order_by(sort)[0:limit-1]
+    if sort:
+        import ipdb;ipdb.set_trace()
+        reverse = sort.find('-') != -1
+        sort = sort.replace('-', '')
+        sort = sort.replace('+', '')
+        sort = sort.strip()
+        org_members.sort(key=lambda user: getattr(user, sort),
+                         reverse=reverse)
+    org_members = org_members[0:limit-1]
     meta = {
         'total': total,
-        'returned': len(org_teams),
+        'returned': len(org_members),
         'sort': sort,
         'start': start
     }
     result = {
-        'data': [i.as_dict_v2(deref or '', only or '') for i in org_teams],
+        'data': [i.as_dict_v2('', only or '') for i in org_members],
         'meta': meta
     }
     return ListOrgMembersResponse(data=result['data'], meta=result['meta'])
@@ -134,30 +142,38 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     """
     auth_context = connexion.context['token_info']['auth_context']
     org_teams = auth_context.org.teams
-    total = len(org_members)
+    total = len(org_teams)
     if not limit:
         limit = 100
-    org_teams = org_teams.order_by(sort)[0:limit-1]
+    if sort:
+        reverse = sort.find('-') != -1
+        sort = sort.replace('-', '')
+        sort = sort.replace('+', '')
+        sort = sort.strip()
+        org_teams.sort(key=lambda team: getattr(team, sort),
+                       reverse=reverse)
+
+    org_teams = org_teams[0:limit-1]
     meta = {
         'total': total,
-        'returned': len(org_members),
+        'returned': len(org_teams),
         'sort': sort,
         'start': start
     }
     result = {
-        'data': [i.as_dict_v2(deref or '', only or '') for i in org_members],
+        'data': [i.as_dict_v2(deref or '', only or '') for i in org_teams],
         'meta': meta
     }
     return ListOrgTeamsResponse(data=result['data'], meta=result['meta'])
 
 
-def list_orgs(all=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
     """List orgs
 
-    List orgs owned by the requester. If parameter all is True and requester is an admin then all orgs will be listed. # noqa: E501
+    List orgs owned by the requester. If parameter allorgs is True and requester is an admin then all orgs will be listed. # noqa: E501
 
-    :param all: Return all existing organizations
-    :type all: bool
+    :param allorgs: Return all existing organizations
+    :type allorgs: str
     :param search: Only return results matching search filter
     :type search: str
     :param sort: Order results by
@@ -174,9 +190,8 @@ def list_orgs(all=None, search=None, sort=None, start=None, limit=None, only=Non
     :rtype: ListOrgsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    
+    all_orgs = allorgs == 'true'
     result = list_resources(auth_context, 'orgs', search=search, only=only,
                             sort=sort, start=start, limit=limit, deref=deref,
-                            all_orgs=all)
+                            all_orgs=all_orgs)
     return ListOrgsResponse(data=result['data'], meta=result['meta'])
-
