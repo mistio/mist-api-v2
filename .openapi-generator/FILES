@@ -9,6 +9,7 @@ mist_api_v2/__main__.py
 mist_api_v2/controllers/__init__.py
 mist_api_v2/controllers/clouds_controller.py
 mist_api_v2/controllers/images_controller.py
+mist_api_v2/controllers/jobs_controller.py
 mist_api_v2/controllers/keys_controller.py
 mist_api_v2/controllers/locations_controller.py
 mist_api_v2/controllers/machines_controller.py
@@ -83,6 +84,7 @@ mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_image_response.py
+mist_api_v2/models/get_job_response.py
 mist_api_v2/models/get_key_response.py
 mist_api_v2/models/get_location_response.py
 mist_api_v2/models/get_machine_response.py
@@ -100,6 +102,7 @@ mist_api_v2/models/inline_object.py
 mist_api_v2/models/inline_response200.py
 mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
+mist_api_v2/models/job.py
 mist_api_v2/models/key.py
 mist_api_v2/models/kubernetes_credentials.py
 mist_api_v2/models/kubevirt_credentials.py
@@ -119,6 +122,7 @@ mist_api_v2/models/list_snapshots_response.py
 mist_api_v2/models/list_volumes_response.py
 mist_api_v2/models/list_zones_response.py
 mist_api_v2/models/location.py
+mist_api_v2/models/log.py
 mist_api_v2/models/lxd_credentials.py
 mist_api_v2/models/machine.py
 mist_api_v2/models/machine_state.py
@@ -147,6 +151,7 @@ mist_api_v2/models/zone.py
 mist_api_v2/openapi/openapi.yaml
 mist_api_v2/test/__init__.py
 mist_api_v2/test/test_images_controller.py
+mist_api_v2/test/test_jobs_controller.py
 mist_api_v2/test/test_keys_controller.py
 mist_api_v2/test/test_locations_controller.py
 mist_api_v2/test/test_machines_controller.py
