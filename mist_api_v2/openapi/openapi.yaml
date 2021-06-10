@@ -524,6 +524,40 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.images_controller
+  /api/v2/jobs/{job_id}:
+    get:
+      description: "null"
+      operationId: get_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetJobResponse'
+          description: Job returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Job not found
+      security:
+      - ApiKeyAuth:
+        - read:job
+      - CookieAuth:
+        - read:job
+      summary: Get job
+      tags:
+      - jobs
+      x-openapi-router-controller: mist_api_v2.controllers.jobs_controller
   /api/v2/keys:
     get:
       description: List keys owned by the active org. READ permission required on
@@ -3225,6 +3259,39 @@ paths:
       - volumes
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
   /api/v2/volumes/{volume}:
+    delete:
+      description: Delete target volume
+      operationId: delete_volume
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Volume successfully deleted
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Volume not found
+      security:
+      - ApiKeyAuth:
+        - read:volume
+        - delete:volume
+        - read:cloud
+      - CookieAuth:
+        - read:volume
+        - delete:volume
+        - read:cloud
+      summary: Delete volume
+      tags:
+      - volumes
+      x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     get:
       description: Get details about target volume
       operationId: get_volume
@@ -4738,6 +4805,34 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetJobResponse:
+      example:
+        data:
+          finished_at: 6.027456183070403
+          org: org
+          job_id: job_id
+          started_at: 0.8008281904610115
+          action: action
+          machine_id: machine_id
+          cloud_id: cloud_id
+          error: true
+          logs:
+          - org: org
+            job_id: job_id
+          - org: org
+            job_id: job_id
+          user: user
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Job'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetKeyResponse:
       example:
         data:
@@ -5075,6 +5170,54 @@ components:
       - period
       - schedule_type
       title: Interval
+      type: object
+    Job:
+      example:
+        finished_at: 6.027456183070403
+        org: org
+        job_id: job_id
+        started_at: 0.8008281904610115
+        action: action
+        machine_id: machine_id
+        cloud_id: cloud_id
+        error: true
+        logs:
+        - org: org
+          job_id: job_id
+        - org: org
+          job_id: job_id
+        user: user
+      properties:
+        logs:
+          items:
+            $ref: '#/components/schemas/Log'
+          type: array
+        error:
+          type: boolean
+        started_at:
+          type: number
+        finished_at:
+          type: number
+        org:
+          type: string
+        machine_id:
+          type: string
+        job_id:
+          type: string
+        cloud_id:
+          type: string
+        action:
+          type: string
+        user:
+          type: string
+      required:
+      - action
+      - error
+      - finished_at
+      - job_id
+      - logs
+      - org
+      - started_at
       type: object
     KVMNet:
       properties:
@@ -5575,6 +5718,19 @@ components:
           type: string
         extra:
           type: object
+      type: object
+    Log:
+      example:
+        org: org
+        job_id: job_id
+      properties:
+        job_id:
+          type: string
+        org:
+          type: string
+      required:
+      - job_id
+      - org
       type: object
     LxdCredentials:
       properties:
