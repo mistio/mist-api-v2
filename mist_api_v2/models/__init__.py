@@ -10,7 +10,6 @@ from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
 from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
-from mist_api_v2.models.add_kubernetes_cloud_request import AddKubernetesCloudRequest
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
@@ -71,6 +70,7 @@ from mist_api_v2.models.job import Job
 from mist_api_v2.models.kvm_net import KVMNet
 from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
+from mist_api_v2.models.kubernetes_cloud_request import KubernetesCloudRequest
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest

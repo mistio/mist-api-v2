@@ -3722,6 +3722,7 @@ components:
             kvm: '#/components/schemas/KvmCloudRequest'
             lxd: '#/components/schemas/LxdCloudRequest'
             docker: '#/components/schemas/DockerCloudRequest'
+            kubernetes: '#/components/schemas/KubernetesCloudRequest'
             kubevirt: '#/components/schemas/KubevirtCloudRequest'
             other: '#/components/schemas/OtherCloudRequest'
           propertyName: provider
@@ -3745,6 +3746,7 @@ components:
         - $ref: '#/components/schemas/KvmCloudRequest'
         - $ref: '#/components/schemas/LxdCloudRequest'
         - $ref: '#/components/schemas/DockerCloudRequest'
+        - $ref: '#/components/schemas/KubernetesCloudRequest'
         - $ref: '#/components/schemas/KubevirtCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
     AddKeyRequest:
@@ -3765,20 +3767,6 @@ components:
           type: string
         public:
           type: string
-      type: object
-    AddKubernetesCloudRequest:
-      properties:
-        provider:
-          enum:
-          - kubernetes
-          type: string
-        credentials:
-          $ref: '#/components/schemas/KubernetesCredentials'
-        features:
-          $ref: '#/components/schemas/CloudFeatures'
-      required:
-      - credentials
-      - provider
       type: object
     AlibabaCloudRequest:
       properties:
@@ -4481,6 +4469,7 @@ components:
               - ibm
               - kvm
               - kubevirt
+              - kubernetes
               - linode
               - lxd
               - maxihost
@@ -4515,6 +4504,7 @@ components:
               kvm: '#/components/schemas/KvmCloudRequest'
               lxd: '#/components/schemas/LxdCloudRequest'
               docker: '#/components/schemas/DockerCloudRequest'
+              kubernetes: '#/components/schemas/KubernetesCloudRequest'
               kubevirt: '#/components/schemas/KubevirtCloudRequest'
               other: '#/components/schemas/OtherCloudRequest'
             propertyName: provider
@@ -4538,6 +4528,7 @@ components:
           - $ref: '#/components/schemas/KvmCloudRequest'
           - $ref: '#/components/schemas/LxdCloudRequest'
           - $ref: '#/components/schemas/DockerCloudRequest'
+          - $ref: '#/components/schemas/KubernetesCloudRequest'
           - $ref: '#/components/schemas/KubevirtCloudRequest'
           - $ref: '#/components/schemas/OtherCloudRequest'
     EditCloudRequest_anyOf:
@@ -5177,6 +5168,20 @@ components:
           - ssh
           - signed_ssh
           type: string
+      type: object
+    KubernetesCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kubernetes
+          type: string
+        credentials:
+          $ref: '#/components/schemas/KubernetesCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
       type: object
     KubernetesCredentials:
       properties:

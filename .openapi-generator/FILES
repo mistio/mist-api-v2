@@ -30,7 +30,6 @@ mist_api_v2/models/add_key_request_any_of.py
 mist_api_v2/models/add_key_request_any_of1.py
 mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
-mist_api_v2/models/add_kubernetes_cloud_request.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/amazon_cloud_request.py
@@ -92,6 +91,7 @@ mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
 mist_api_v2/models/key.py
+mist_api_v2/models/kubernetes_cloud_request.py
 mist_api_v2/models/kubernetes_credentials.py
 mist_api_v2/models/kubevirt_cloud_request.py
 mist_api_v2/models/kvm_cloud_request.py
