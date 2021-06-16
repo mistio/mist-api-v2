@@ -17,9 +17,9 @@ def get_member(org, member, only=None):  # noqa: E501
 
     Get details about target member # noqa: E501
 
-    :param org: 
+    :param org:
     :type org: str
-    :param member: 
+    :param member:
     :type member: str
     :param only: Only return these fields
     :type only: str
@@ -48,7 +48,7 @@ def get_org(org, only=None, deref=None):  # noqa: E501
 
     Get details about target org # noqa: E501
 
-    :param org: 
+    :param org:
     :type org: str
     :param only: Only return these fields
     :type only: str
@@ -80,7 +80,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
 
     List org members owned by the requester. The requester must be a member of the org. # noqa: E501
 
-    :param org: 
+    :param org:
     :type org: str
     :param search: Only return results matching search filter
     :type search: str
