@@ -33,7 +33,6 @@ from mist_api_v2.models.add_vsphere_cloud_request import AddVsphereCloudRequest
 from mist_api_v2.models.add_vultr_cloud_request import AddVultrCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
-from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_credentials import CloudCredentials
@@ -53,8 +52,6 @@ from mist_api_v2.models.cron_schedule import CronSchedule
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
-from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
-from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
@@ -72,15 +69,12 @@ from mist_api_v2.models.get_size_response import GetSizeResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.get_zone_response import GetZoneResponse
 from mist_api_v2.models.google_credentials import GoogleCredentials
-from mist_api_v2.models.google_net import GoogleNet
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_object import InlineObject
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
-from mist_api_v2.models.kvm_net import KVMNet
-from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.kubevirt_credentials import KubevirtCredentials
 from mist_api_v2.models.linode_credentials import LinodeCredentials
@@ -97,6 +91,7 @@ from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
 from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
+from mist_api_v2.models.list_users_response import ListUsersResponse
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse
 from mist_api_v2.models.list_zones_response import ListZonesResponse
 from mist_api_v2.models.location import Location
@@ -122,6 +117,7 @@ from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
+from mist_api_v2.models.user import User
 from mist_api_v2.models.vcloud_credentials import VcloudCredentials
 from mist_api_v2.models.volume import Volume
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
