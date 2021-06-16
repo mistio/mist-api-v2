@@ -26,9 +26,9 @@ def get_member(org, member, only=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     search = f'id:{org}'
-    org = list_resources(auth_context, 'orgs', search=search, all_orgs=True)
+    [org], _ = list_r(auth_context, 'orgs', search=search, all_orgs=True)
     try:
-        member = org.members.get(member)
+        [member] = filter(lambda user: user.id == member, org.members)
     except ValueError:
         return "Member does not exist", 404
     meta = {
@@ -36,7 +36,7 @@ def get_member(org, member, only=None):  # noqa: E501
         'returned': 1
     }
     result = {
-        'data': member.as_dict_v2(only=only),
+        'data': member.as_dict_v2(only=only or ''),
         'meta': meta
     }
     return GetOrgMemberResponse(data=result['data'], meta=result['meta'])
