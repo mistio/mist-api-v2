@@ -1,12 +1,10 @@
 import connexion
-import six
 
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse  # noqa: E501
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
 from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse  # noqa: E501
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse  # noqa: E501
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources
 from mist.api.methods import list_resources as list_r
@@ -41,7 +39,8 @@ def get_member(org, member, only=None):  # noqa: E501
         'data': member.as_dict_v2(only=only),
         'meta': meta
     }
-    return GetOrgMemberResponse(data=result['date'], meta=result['meta'])
+    return GetOrgMemberResponse(data=result['data'], meta=result['meta'])
+
 
 def get_org(org, only=None, deref=None):  # noqa: E501
     """Get Org
@@ -99,7 +98,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     try:
         search = f'id={org}'
         [org], _ = list_r(auth_context, 'orgs', search=search,
-                              all_orgs=True)
+                          all_orgs=True)
     except ValueError:
         return 'Org does not exist', 404
     org_members = org.members
@@ -113,7 +112,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
         sort = sort.strip()
         org_members.sort(key=lambda user: getattr(user, sort),
                          reverse=reverse)
-    org_members = org_members[0:limit-1]
+    org_members = org_members[0:limit - 1]
     meta = {
         'total': total,
         'returned': len(org_members),
@@ -125,6 +124,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
         'meta': meta
     }
     return ListOrgMembersResponse(data=result['data'], meta=result['meta'])
+
 
 def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
     """List org teams
@@ -152,7 +152,7 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     try:
         search = f'id={org}'
         [org], _ = list_r(auth_context, 'orgs', search=search,
-                              all_orgs=True)
+                          all_orgs=True)
     except ValueError:
         return 'Org does not exist', 404
     org_teams = org.teams
@@ -167,7 +167,7 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
         org_teams.sort(key=lambda team: getattr(team, sort),
                        reverse=reverse)
 
-    org_teams = org_teams[0:limit-1]
+    org_teams = org_teams[0:limit - 1]
     meta = {
         'total': total,
         'returned': len(org_teams),
