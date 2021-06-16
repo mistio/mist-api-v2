@@ -22,12 +22,9 @@ mist_api_v2/controllers/scripts_controller.py
 mist_api_v2/controllers/security_controller_.py
 mist_api_v2/controllers/sizes_controller.py
 mist_api_v2/controllers/snapshots_controller.py
-<<<<<<< HEAD
 mist_api_v2/controllers/teams_controller.py
 mist_api_v2/controllers/total_machine_count_controller.py
-=======
 mist_api_v2/controllers/users_controller.py
->>>>>>> users-endpoint
 mist_api_v2/controllers/volumes_controller.py
 mist_api_v2/controllers/zones_controller.py
 mist_api_v2/encoder.py
@@ -184,12 +181,9 @@ mist_api_v2/test/test_rules_controller.py
 mist_api_v2/test/test_scripts_controller.py
 mist_api_v2/test/test_sizes_controller.py
 mist_api_v2/test/test_snapshots_controller.py
-<<<<<<< HEAD
 mist_api_v2/test/test_teams_controller.py
 mist_api_v2/test/test_total_machine_count_controller.py
-=======
 mist_api_v2/test/test_users_controller.py
->>>>>>> users-endpoint
 mist_api_v2/test/test_volumes_controller.py
 mist_api_v2/test/test_zones_controller.py
 mist_api_v2/typing_utils.py
