@@ -9,6 +9,7 @@ from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
 from mist_api_v2 import util
 
 from .base import list_resources
+from mist.api.methods import list_resources as list_r
 
 
 def get_member(org, member, only=None):  # noqa: E501
@@ -26,7 +27,8 @@ def get_member(org, member, only=None):  # noqa: E501
     :rtype: GetOrgMemberResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    org = list_resources(auth_context, 'orgs', search=org)
+    search = f'id:{org}'
+    org = list_resources(auth_context, 'orgs', search=search, all_orgs=True)
     try:
         member = org.members.get(member)
     except ValueError:
@@ -57,8 +59,9 @@ def get_org(org, only=None, deref=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     try:
-        [org], total = list_resources(auth_context, 'orgs', search=org,
-                                      only=only, deref=deref)
+        search = f'id={org}'
+        [org], total = list_r(auth_context, 'orgs', search=search,
+                              all_orgs=True)
     except ValueError:
         return 'Org does not exist', 404
     meta = {
@@ -66,7 +69,7 @@ def get_org(org, only=None, deref=None):  # noqa: E501
         'returned': 1
     }
     result = {
-        'data': org,
+        'data': org.as_dict_v2('', only or ''),
         'meta': meta
     }
     return GetOrgResponse(data=result['data'], meta=result['meta'])
@@ -93,7 +96,13 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     :rtype: ListOrgMembersResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    org_members = auth_context.org.members
+    try:
+        search = f'id={org}'
+        [org], _ = list_r(auth_context, 'orgs', search=search,
+                              all_orgs=True)
+    except ValueError:
+        return 'Org does not exist', 404
+    org_members = org.members
     total = len(org_members)
     if not limit:
         limit = 100
@@ -140,7 +149,13 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     :rtype: ListOrgTeamsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    org_teams = auth_context.org.teams
+    try:
+        search = f'id={org}'
+        [org], _ = list_r(auth_context, 'orgs', search=search,
+                              all_orgs=True)
+    except ValueError:
+        return 'Org does not exist', 404
+    org_teams = org.teams
     total = len(org_teams)
     if not limit:
         limit = 100
