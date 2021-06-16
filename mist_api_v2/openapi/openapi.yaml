@@ -3147,6 +3147,13 @@ paths:
       summary: List users
       tags:
       - users
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.users_controller
   /api/v2/volumes:
     get:
