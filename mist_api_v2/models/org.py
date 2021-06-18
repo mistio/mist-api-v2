@@ -15,7 +15,7 @@ class Org(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, clouds_count=None, teams_count=None, created=None, enterprise_plan=None, selected_plan=None, default_monitoring_method=None, enable_r12ns=None, insights_enabled=None, ownership_enabled=None):  # noqa: E501
+    def __init__(self, id=None, name=None, clouds_count=None, teams_count=None, total_machine_count=None, created=None, enterprise_plan=None, selected_plan=None, default_monitoring_method=None, enable_r12ns=None, insights_enabled=None, ownership_enabled=None):  # noqa: E501
         """Org - a model defined in OpenAPI
 
         :param id: The id of this Org.  # noqa: E501
@@ -26,6 +26,8 @@ class Org(Model):
         :type clouds_count: str
         :param teams_count: The teams_count of this Org.  # noqa: E501
         :type teams_count: str
+        :param total_machine_count: The total_machine_count of this Org.  # noqa: E501
+        :type total_machine_count: str
         :param created: The created of this Org.  # noqa: E501
         :type created: bool
         :param enterprise_plan: The enterprise_plan of this Org.  # noqa: E501
@@ -46,6 +48,7 @@ class Org(Model):
             'name': str,
             'clouds_count': str,
             'teams_count': str,
+            'total_machine_count': str,
             'created': bool,
             'enterprise_plan': object,
             'selected_plan': str,
@@ -60,6 +63,7 @@ class Org(Model):
             'name': 'name',
             'clouds_count': 'clouds_count',
             'teams_count': 'teams_count',
+            'total_machine_count': 'total_machine_count',
             'created': 'created',
             'enterprise_plan': 'enterprise_plan',
             'selected_plan': 'selected_plan',
@@ -73,6 +77,7 @@ class Org(Model):
         self._name = name
         self._clouds_count = clouds_count
         self._teams_count = teams_count
+        self._total_machine_count = total_machine_count
         self._created = created
         self._enterprise_plan = enterprise_plan
         self._selected_plan = selected_plan
@@ -175,6 +180,27 @@ class Org(Model):
         """
 
         self._teams_count = teams_count
+
+    @property
+    def total_machine_count(self):
+        """Gets the total_machine_count of this Org.
+
+
+        :return: The total_machine_count of this Org.
+        :rtype: str
+        """
+        return self._total_machine_count
+
+    @total_machine_count.setter
+    def total_machine_count(self, total_machine_count):
+        """Sets the total_machine_count of this Org.
+
+
+        :param total_machine_count: The total_machine_count of this Org.
+        :type total_machine_count: str
+        """
+
+        self._total_machine_count = total_machine_count
 
     @property
     def created(self):
