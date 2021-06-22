@@ -6568,7 +6568,8 @@ x-cli-waiters:
       expected: 0
       state: success
     - select: response.body#data.error
-      expected: true
+      test: notEqual
+      expected: false
       state: failure
     updates: response.body#data.logs[:].action
     after:
