@@ -6165,6 +6165,7 @@ components:
     SSHKey:
       oneOf:
       - $ref: '#/components/schemas/SSHKey_oneOf'
+      - $ref: '#/components/schemas/SSHKey_oneOf_1'
       - description: Name or ID of the SSH key to deploy
         type: string
       type: object
@@ -6623,6 +6624,18 @@ components:
           type: string
         user:
           description: SSH user, supported on Google
+          type: string
+      type: object
+    SSHKey_oneOf_1:
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
           type: string
       type: object
   securitySchemes:
