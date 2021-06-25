@@ -37,6 +37,8 @@ mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/amazon_net.py
 mist_api_v2/models/azure_cloud_request.py
 mist_api_v2/models/azure_credentials.py
+mist_api_v2/models/azure_extra.py
+mist_api_v2/models/azure_net.py
 mist_api_v2/models/base_model_.py
 mist_api_v2/models/cloud.py
 mist_api_v2/models/cloud_features.py
@@ -44,7 +46,6 @@ mist_api_v2/models/cloud_sigma_cloud_request.py
 mist_api_v2/models/cloud_sigma_credentials.py
 mist_api_v2/models/create_machine_request.py
 mist_api_v2/models/create_machine_request_disks.py
-mist_api_v2/models/create_machine_request_extra.py
 mist_api_v2/models/create_machine_response.py
 mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
@@ -63,6 +64,7 @@ mist_api_v2/models/edit_cloud_request.py
 mist_api_v2/models/edit_cloud_request_any_of.py
 mist_api_v2/models/equinix_cloud_request.py
 mist_api_v2/models/equinix_credentials.py
+mist_api_v2/models/equinix_metal_extra.py
 mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
 mist_api_v2/models/expiration.py
@@ -99,6 +101,7 @@ mist_api_v2/models/kvm_net.py
 mist_api_v2/models/kvm_net_networks.py
 mist_api_v2/models/linode_cloud_request.py
 mist_api_v2/models/linode_credentials.py
+mist_api_v2/models/linode_extra.py
 mist_api_v2/models/linode_net.py
 mist_api_v2/models/list_clouds_response.py
 mist_api_v2/models/list_images_response.py
