@@ -111,6 +111,8 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
+from mist_api_v2.models.ssh_key import SSHKey
+from mist_api_v2.models.ssh_key_one_of import SSHKeyOneOf
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size

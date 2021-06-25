@@ -137,6 +137,8 @@ mist_api_v2/models/rule_action.py
 mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
+mist_api_v2/models/ssh_key.py
+mist_api_v2/models/ssh_key_one_of.py
 mist_api_v2/models/supported_providers.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/vcloud_cloud_request.py
