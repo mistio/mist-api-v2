@@ -2326,7 +2326,7 @@ paths:
       - id
       - clouds_count
       - teams_count
-      - default_monitoring_method
+      - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/orgs/{org}:
     get:
@@ -2398,7 +2398,7 @@ paths:
       - id
       - clouds_count
       - total_machine_count
-      - default_monitoring_method
+      - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/orgs/{org}/members:
     get:
@@ -3539,6 +3539,109 @@ paths:
       - external_id
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/users:
+    get:
+      description: Return current user if requester is not admin. Return all users
+        for admin.
+      operationId: list_users
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by email:
+            value: email:dev@mist.io
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last_login & registration_date:
+            value: email,last_login,registration_date
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsersResponse'
+          description: List users response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List users
+      tags:
+      - users
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
+      x-openapi-router-controller: mist_api_v2.controllers.users_controller
   /api/v2/volumes:
     get:
       description: List volumes owned by the active org. READ permission required
@@ -4184,6 +4287,7 @@ components:
             kvm: '#/components/schemas/KvmCloudRequest'
             lxd: '#/components/schemas/LxdCloudRequest'
             docker: '#/components/schemas/DockerCloudRequest'
+            kubernetes: '#/components/schemas/KubernetesCloudRequest'
             kubevirt: '#/components/schemas/KubevirtCloudRequest'
             other: '#/components/schemas/OtherCloudRequest'
           propertyName: provider
@@ -4207,6 +4311,7 @@ components:
         - $ref: '#/components/schemas/KvmCloudRequest'
         - $ref: '#/components/schemas/LxdCloudRequest'
         - $ref: '#/components/schemas/DockerCloudRequest'
+        - $ref: '#/components/schemas/KubernetesCloudRequest'
         - $ref: '#/components/schemas/KubevirtCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
     AddKeyRequest:
@@ -4227,20 +4332,6 @@ components:
           type: string
         public:
           type: string
-      type: object
-    AddKubernetesCloudRequest:
-      properties:
-        provider:
-          enum:
-          - kubernetes
-          type: string
-        credentials:
-          $ref: '#/components/schemas/KubernetesCredentials'
-        features:
-          $ref: '#/components/schemas/CloudFeatures'
-      required:
-      - credentials
-      - provider
       type: object
     AlibabaCloudRequest:
       properties:
@@ -4943,6 +5034,7 @@ components:
               - ibm
               - kvm
               - kubevirt
+              - kubernetes
               - linode
               - lxd
               - maxihost
@@ -4977,6 +5069,7 @@ components:
               kvm: '#/components/schemas/KvmCloudRequest'
               lxd: '#/components/schemas/LxdCloudRequest'
               docker: '#/components/schemas/DockerCloudRequest'
+              kubernetes: '#/components/schemas/KubernetesCloudRequest'
               kubevirt: '#/components/schemas/KubevirtCloudRequest'
               other: '#/components/schemas/OtherCloudRequest'
             propertyName: provider
@@ -5000,6 +5093,7 @@ components:
           - $ref: '#/components/schemas/KvmCloudRequest'
           - $ref: '#/components/schemas/LxdCloudRequest'
           - $ref: '#/components/schemas/DockerCloudRequest'
+          - $ref: '#/components/schemas/KubernetesCloudRequest'
           - $ref: '#/components/schemas/KubevirtCloudRequest'
           - $ref: '#/components/schemas/OtherCloudRequest'
     EditCloudRequest_anyOf:
@@ -5295,15 +5389,12 @@ components:
           enterprise_plan: '{}'
           total_machine_count: total_machine_count
           selected_plan: selected_plan
-          enable_r12ns: true
           created: true
           name: name
-          ownership_enabled: true
           id: id
+          last_active: last_active
           clouds_count: clouds_count
-          insights_enabled: true
           teams_count: teams_count
-          default_monitoring_method: default_monitoring_method
         meta:
           total: 0
           start: 1
@@ -5687,6 +5778,20 @@ components:
           - ssh
           - signed_ssh
           type: string
+      type: object
+    KubernetesCloudRequest:
+      properties:
+        provider:
+          enum:
+          - kubernetes
+          type: string
+        credentials:
+          $ref: '#/components/schemas/KubernetesCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
       type: object
     KubernetesCredentials:
       properties:
@@ -6094,27 +6199,21 @@ components:
         - enterprise_plan: '{}'
           total_machine_count: total_machine_count
           selected_plan: selected_plan
-          enable_r12ns: true
           created: true
           name: name
-          ownership_enabled: true
           id: id
+          last_active: last_active
           clouds_count: clouds_count
-          insights_enabled: true
           teams_count: teams_count
-          default_monitoring_method: default_monitoring_method
         - enterprise_plan: '{}'
           total_machine_count: total_machine_count
           selected_plan: selected_plan
-          enable_r12ns: true
           created: true
           name: name
-          ownership_enabled: true
           id: id
+          last_active: last_active
           clouds_count: clouds_count
-          insights_enabled: true
           teams_count: teams_count
-          default_monitoring_method: default_monitoring_method
         meta:
           total: 0
           start: 1
@@ -6230,6 +6329,36 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Snapshot'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListUsersResponse:
+      example:
+        data:
+        - registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        - registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/User'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -6583,15 +6712,12 @@ components:
         enterprise_plan: '{}'
         total_machine_count: total_machine_count
         selected_plan: selected_plan
-        enable_r12ns: true
         created: true
         name: name
-        ownership_enabled: true
         id: id
+        last_active: last_active
         clouds_count: clouds_count
-        insights_enabled: true
         teams_count: teams_count
-        default_monitoring_method: default_monitoring_method
       properties:
         id:
           type: string
@@ -6609,14 +6735,8 @@ components:
           type: object
         selected_plan:
           type: string
-        default_monitoring_method:
+        last_active:
           type: string
-        enable_r12ns:
-          type: boolean
-        insights_enabled:
-          type: boolean
-        ownership_enabled:
-          type: boolean
       type: object
     OtherCloudRequest:
       properties:
@@ -6940,6 +7060,31 @@ components:
       required:
       - offset
       - period
+      type: object
+    User:
+      example:
+        registration_date: registration_date
+        last_login: last_login
+        last_name: last_name
+        id: id
+        first_name: first_name
+        email: email
+        username: username
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        last_login:
+          type: string
+        username:
+          type: string
+        registration_date:
+          type: string
       type: object
     VcloudCloudRequest:
       properties:
@@ -7313,7 +7458,8 @@ x-cli-waiters:
       expected: 0
       state: success
     - select: response.body#data.error
-      expected: true
+      test: notEqual
+      expected: false
       state: failure
     updates: response.body#data.logs[:].action
     after:

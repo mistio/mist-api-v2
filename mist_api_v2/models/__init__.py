@@ -10,7 +10,6 @@ from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
 from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
-from mist_api_v2.models.add_kubernetes_cloud_request import AddKubernetesCloudRequest
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
@@ -73,6 +72,7 @@ from mist_api_v2.models.job import Job
 from mist_api_v2.models.kvm_net import KVMNet
 from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
+from mist_api_v2.models.kubernetes_cloud_request import KubernetesCloudRequest
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
@@ -92,6 +92,7 @@ from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
 from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
+from mist_api_v2.models.list_users_response import ListUsersResponse
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse
 from mist_api_v2.models.list_zones_response import ListZonesResponse
 from mist_api_v2.models.location import Location
@@ -124,6 +125,7 @@ from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
+from mist_api_v2.models.user import User
 from mist_api_v2.models.vcloud_cloud_request import VcloudCloudRequest
 from mist_api_v2.models.vcloud_credentials import VcloudCredentials
 from mist_api_v2.models.volume import Volume

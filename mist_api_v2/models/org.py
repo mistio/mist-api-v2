@@ -15,7 +15,7 @@ class Org(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, clouds_count=None, teams_count=None, total_machine_count=None, created=None, enterprise_plan=None, selected_plan=None, default_monitoring_method=None, enable_r12ns=None, insights_enabled=None, ownership_enabled=None):  # noqa: E501
+    def __init__(self, id=None, name=None, clouds_count=None, teams_count=None, total_machine_count=None, created=None, enterprise_plan=None, selected_plan=None, last_active=None):  # noqa: E501
         """Org - a model defined in OpenAPI
 
         :param id: The id of this Org.  # noqa: E501
@@ -34,14 +34,8 @@ class Org(Model):
         :type enterprise_plan: object
         :param selected_plan: The selected_plan of this Org.  # noqa: E501
         :type selected_plan: str
-        :param default_monitoring_method: The default_monitoring_method of this Org.  # noqa: E501
-        :type default_monitoring_method: str
-        :param enable_r12ns: The enable_r12ns of this Org.  # noqa: E501
-        :type enable_r12ns: bool
-        :param insights_enabled: The insights_enabled of this Org.  # noqa: E501
-        :type insights_enabled: bool
-        :param ownership_enabled: The ownership_enabled of this Org.  # noqa: E501
-        :type ownership_enabled: bool
+        :param last_active: The last_active of this Org.  # noqa: E501
+        :type last_active: str
         """
         self.openapi_types = {
             'id': str,
@@ -52,10 +46,7 @@ class Org(Model):
             'created': bool,
             'enterprise_plan': object,
             'selected_plan': str,
-            'default_monitoring_method': str,
-            'enable_r12ns': bool,
-            'insights_enabled': bool,
-            'ownership_enabled': bool
+            'last_active': str
         }
 
         self.attribute_map = {
@@ -67,10 +58,7 @@ class Org(Model):
             'created': 'created',
             'enterprise_plan': 'enterprise_plan',
             'selected_plan': 'selected_plan',
-            'default_monitoring_method': 'default_monitoring_method',
-            'enable_r12ns': 'enable_r12ns',
-            'insights_enabled': 'insights_enabled',
-            'ownership_enabled': 'ownership_enabled'
+            'last_active': 'last_active'
         }
 
         self._id = id
@@ -81,10 +69,7 @@ class Org(Model):
         self._created = created
         self._enterprise_plan = enterprise_plan
         self._selected_plan = selected_plan
-        self._default_monitoring_method = default_monitoring_method
-        self._enable_r12ns = enable_r12ns
-        self._insights_enabled = insights_enabled
-        self._ownership_enabled = ownership_enabled
+        self._last_active = last_active
 
     @classmethod
     def from_dict(cls, dikt) -> 'Org':
@@ -266,85 +251,22 @@ class Org(Model):
         self._selected_plan = selected_plan
 
     @property
-    def default_monitoring_method(self):
-        """Gets the default_monitoring_method of this Org.
+    def last_active(self):
+        """Gets the last_active of this Org.
 
 
-        :return: The default_monitoring_method of this Org.
+        :return: The last_active of this Org.
         :rtype: str
         """
-        return self._default_monitoring_method
+        return self._last_active
 
-    @default_monitoring_method.setter
-    def default_monitoring_method(self, default_monitoring_method):
-        """Sets the default_monitoring_method of this Org.
+    @last_active.setter
+    def last_active(self, last_active):
+        """Sets the last_active of this Org.
 
 
-        :param default_monitoring_method: The default_monitoring_method of this Org.
-        :type default_monitoring_method: str
+        :param last_active: The last_active of this Org.
+        :type last_active: str
         """
 
-        self._default_monitoring_method = default_monitoring_method
-
-    @property
-    def enable_r12ns(self):
-        """Gets the enable_r12ns of this Org.
-
-
-        :return: The enable_r12ns of this Org.
-        :rtype: bool
-        """
-        return self._enable_r12ns
-
-    @enable_r12ns.setter
-    def enable_r12ns(self, enable_r12ns):
-        """Sets the enable_r12ns of this Org.
-
-
-        :param enable_r12ns: The enable_r12ns of this Org.
-        :type enable_r12ns: bool
-        """
-
-        self._enable_r12ns = enable_r12ns
-
-    @property
-    def insights_enabled(self):
-        """Gets the insights_enabled of this Org.
-
-
-        :return: The insights_enabled of this Org.
-        :rtype: bool
-        """
-        return self._insights_enabled
-
-    @insights_enabled.setter
-    def insights_enabled(self, insights_enabled):
-        """Sets the insights_enabled of this Org.
-
-
-        :param insights_enabled: The insights_enabled of this Org.
-        :type insights_enabled: bool
-        """
-
-        self._insights_enabled = insights_enabled
-
-    @property
-    def ownership_enabled(self):
-        """Gets the ownership_enabled of this Org.
-
-
-        :return: The ownership_enabled of this Org.
-        :rtype: bool
-        """
-        return self._ownership_enabled
-
-    @ownership_enabled.setter
-    def ownership_enabled(self, ownership_enabled):
-        """Sets the ownership_enabled of this Org.
-
-
-        :param ownership_enabled: The ownership_enabled of this Org.
-        :type ownership_enabled: bool
-        """
-
-        self._ownership_enabled = ownership_enabled
+        self._last_active = last_active

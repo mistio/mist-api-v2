@@ -25,6 +25,7 @@ mist_api_v2/controllers/sizes_controller.py
 mist_api_v2/controllers/snapshots_controller.py
 mist_api_v2/controllers/teams_controller.py
 mist_api_v2/controllers/total_machine_count_controller.py
+mist_api_v2/controllers/users_controller.py
 mist_api_v2/controllers/volumes_controller.py
 mist_api_v2/controllers/zones_controller.py
 mist_api_v2/encoder.py
@@ -36,7 +37,6 @@ mist_api_v2/models/add_key_request_any_of.py
 mist_api_v2/models/add_key_request_any_of1.py
 mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
-mist_api_v2/models/add_kubernetes_cloud_request.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/amazon_cloud_request.py
@@ -100,6 +100,7 @@ mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
 mist_api_v2/models/key.py
+mist_api_v2/models/kubernetes_cloud_request.py
 mist_api_v2/models/kubernetes_credentials.py
 mist_api_v2/models/kubevirt_cloud_request.py
 mist_api_v2/models/kvm_cloud_request.py
@@ -121,6 +122,7 @@ mist_api_v2/models/list_rules_response.py
 mist_api_v2/models/list_scripts_response.py
 mist_api_v2/models/list_sizes_response.py
 mist_api_v2/models/list_snapshots_response.py
+mist_api_v2/models/list_users_response.py
 mist_api_v2/models/list_volumes_response.py
 mist_api_v2/models/list_zones_response.py
 mist_api_v2/models/location.py
@@ -153,6 +155,7 @@ mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
 mist_api_v2/models/team.py
 mist_api_v2/models/trigger_after.py
+mist_api_v2/models/user.py
 mist_api_v2/models/vcloud_cloud_request.py
 mist_api_v2/models/vcloud_credentials.py
 mist_api_v2/models/volume.py
@@ -180,6 +183,7 @@ mist_api_v2/test/test_sizes_controller.py
 mist_api_v2/test/test_snapshots_controller.py
 mist_api_v2/test/test_teams_controller.py
 mist_api_v2/test/test_total_machine_count_controller.py
+mist_api_v2/test/test_users_controller.py
 mist_api_v2/test/test_volumes_controller.py
 mist_api_v2/test/test_zones_controller.py
 mist_api_v2/typing_utils.py
