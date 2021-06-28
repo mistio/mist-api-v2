@@ -9,7 +9,6 @@ from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
 from .base import list_resources, get_resource
 
 
-
 def get_member(org, member, only=None):  # noqa: E501
     """Get Member
 
