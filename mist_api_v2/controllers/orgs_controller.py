@@ -6,8 +6,8 @@ from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse 
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse  # noqa: E501
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
 
-from .base import list_resources
-from mist.api.methods import list_resources as list_r
+from .base import list_resources, get_resource
+
 
 
 def get_member(org, member, only=None):  # noqa: E501
@@ -26,7 +26,13 @@ def get_member(org, member, only=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     search = f'id:{org}'
-    [org], _ = list_r(auth_context, 'orgs', search=search, all_orgs=True)
+
+    from mist.api.methods import list_resources
+    try:
+        search = f'id={org}'
+        [org], _ = list_resources(auth_context, 'orgs', search=search)
+    except ValueError:
+        return 'Org does not exist', 404
     try:
         [member] = filter(lambda user: user.id == member, org.members)
     except ValueError:
@@ -39,6 +45,7 @@ def get_member(org, member, only=None):  # noqa: E501
         'data': member.as_dict_v2(only=only or ''),
         'meta': meta
     }
+
     return GetOrgMemberResponse(data=result['data'], meta=result['meta'])
 
 
@@ -57,20 +64,8 @@ def get_org(org, only=None, deref=None):  # noqa: E501
     :rtype: GetOrgResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    try:
-        search = f'id={org}'
-        [org], total = list_r(auth_context, 'orgs', search=search,
-                              all_orgs=True)
-    except ValueError:
-        return 'Org does not exist', 404
-    meta = {
-        'total': total,
-        'returned': 1
-    }
-    result = {
-        'data': org.as_dict_v2('', only or ''),
-        'meta': meta
-    }
+    search = f'id={org}'
+    result = get_resource(auth_context, 'orgs', search=search, only=only)
     return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 
@@ -95,10 +90,10 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     :rtype: ListOrgMembersResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.methods import list_resources
     try:
         search = f'id={org}'
-        [org], _ = list_r(auth_context, 'orgs', search=search,
-                          all_orgs=True)
+        [org], _ = list_resources(auth_context, 'orgs', search=search)
     except ValueError:
         return 'Org does not exist', 404
     org_members = org.members
@@ -149,10 +144,10 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     :rtype: ListOrgTeamsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.methods import list_resources
     try:
         search = f'id={org}'
-        [org], _ = list_r(auth_context, 'orgs', search=search,
-                          all_orgs=True)
+        [org], _ = list_resources(auth_context, 'orgs', search=search)
     except ValueError:
         return 'Org does not exist', 404
     org_teams = org.teams
@@ -181,13 +176,11 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     return ListOrgTeamsResponse(data=result['data'], meta=result['meta'])
 
 
-def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_orgs(search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
     """List orgs
 
     List orgs owned by the requester. If parameter allorgs is True and requester is an admin then all orgs will be listed. # noqa: E501
 
-    :param allorgs: Return all existing organizations
-    :type allorgs: str
     :param search: Only return results matching search filter
     :type search: str
     :param sort: Order results by
@@ -204,8 +197,6 @@ def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only
     :rtype: ListOrgsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    all_orgs = allorgs == 'true'
     result = list_resources(auth_context, 'orgs', search=search, only=only,
-                            sort=sort, start=start, limit=limit, deref=deref,
-                            all_orgs=all_orgs)
+                            sort=sort, start=start, limit=limit, deref=deref)
     return ListOrgsResponse(data=result['data'], meta=result['meta'])
