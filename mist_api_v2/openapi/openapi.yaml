@@ -6990,8 +6990,8 @@ components:
     SSHKey:
       oneOf:
       - $ref: '#/components/schemas/SSHKey_oneOf'
-      - description: Name or ID of the SSH key to deploy
-        type: string
+      - $ref: '#/components/schemas/SSHKey_oneOf_1'
+      - $ref: '#/components/schemas/SSHKey_oneOf_2'
       type: object
     Script:
       example:
@@ -7514,7 +7514,22 @@ components:
         user:
           description: SSH user, supported on Google
           type: string
-      type: object
+    SSHKey_oneOf_1:
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
+          type: string
+    SSHKey_oneOf_2:
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
   securitySchemes:
     ApiKeyAuth:
       in: header
