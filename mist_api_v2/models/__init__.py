@@ -15,7 +15,6 @@ from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
-from mist_api_v2.models.association_ssh_key import AssociationSSHKey
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.cloud import Cloud
@@ -120,6 +119,10 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
+from mist_api_v2.models.ssh_key import SSHKey
+from mist_api_v2.models.ssh_key_one_of import SSHKeyOneOf
+from mist_api_v2.models.ssh_key_one_of1 import SSHKeyOneOf1
+from mist_api_v2.models.ssh_key_one_of2 import SSHKeyOneOf2
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
