@@ -4683,7 +4683,7 @@ components:
         scripts:
         - ""
         - ""
-        key: '{}'
+        key: ""
       properties:
         name:
           description: Specify machine name
@@ -4754,7 +4754,6 @@ components:
             type: object
           - description: Name or ID of the SSH key to deploy
             type: string
-          type: object
         disks:
           $ref: '#/components/schemas/CreateMachineRequest_disks'
         volumes:
