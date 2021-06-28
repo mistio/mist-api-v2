@@ -15,13 +15,13 @@ class AzureExtra(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, resource_group=None, storage_account=None, user=None, password=None):  # noqa: E501
+    def __init__(self, resource_group=None, storage_account_type=None, user=None, password=None):  # noqa: E501
         """AzureExtra - a model defined in OpenAPI
 
         :param resource_group: The resource_group of this AzureExtra.  # noqa: E501
         :type resource_group: str
-        :param storage_account: The storage_account of this AzureExtra.  # noqa: E501
-        :type storage_account: str
+        :param storage_account_type: The storage_account_type of this AzureExtra.  # noqa: E501
+        :type storage_account_type: str
         :param user: The user of this AzureExtra.  # noqa: E501
         :type user: str
         :param password: The password of this AzureExtra.  # noqa: E501
@@ -29,20 +29,20 @@ class AzureExtra(Model):
         """
         self.openapi_types = {
             'resource_group': str,
-            'storage_account': str,
+            'storage_account_type': str,
             'user': str,
             'password': str
         }
 
         self.attribute_map = {
             'resource_group': 'resource_group',
-            'storage_account': 'storage_account',
+            'storage_account_type': 'storage_account_type',
             'user': 'user',
             'password': 'password'
         }
 
         self._resource_group = resource_group
-        self._storage_account = storage_account
+        self._storage_account_type = storage_account_type
         self._user = user
         self._password = password
 
@@ -81,27 +81,33 @@ class AzureExtra(Model):
         self._resource_group = resource_group
 
     @property
-    def storage_account(self):
-        """Gets the storage_account of this AzureExtra.
+    def storage_account_type(self):
+        """Gets the storage_account_type of this AzureExtra.
 
-        A new or existing storage account. If not provided a `mist-{location}` storage account will be used.  # noqa: E501
+        Specifies the storage account type for the OS disk. Defaults to StandardSSD_LRS  # noqa: E501
 
-        :return: The storage_account of this AzureExtra.
+        :return: The storage_account_type of this AzureExtra.
         :rtype: str
         """
-        return self._storage_account
+        return self._storage_account_type
 
-    @storage_account.setter
-    def storage_account(self, storage_account):
-        """Sets the storage_account of this AzureExtra.
+    @storage_account_type.setter
+    def storage_account_type(self, storage_account_type):
+        """Sets the storage_account_type of this AzureExtra.
 
-        A new or existing storage account. If not provided a `mist-{location}` storage account will be used.  # noqa: E501
+        Specifies the storage account type for the OS disk. Defaults to StandardSSD_LRS  # noqa: E501
 
-        :param storage_account: The storage_account of this AzureExtra.
-        :type storage_account: str
+        :param storage_account_type: The storage_account_type of this AzureExtra.
+        :type storage_account_type: str
         """
+        allowed_values = ["Premium_LRS", "Premium_ZRS", "StandardSSD_LRS", "StandardSSD_ZRS", "Standard_LRS"]  # noqa: E501
+        if storage_account_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `storage_account_type` ({0}), must be one of {1}"
+                .format(storage_account_type, allowed_values)
+            )
 
-        self._storage_account = storage_account
+        self._storage_account_type = storage_account_type
 
     @property
     def user(self):
