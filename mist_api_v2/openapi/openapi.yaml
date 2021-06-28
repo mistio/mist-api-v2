@@ -4480,12 +4480,12 @@ components:
     AzureExtra:
       properties:
         resource_group:
-          description: A new or existing resource group. If not provided a `mist-{location}`
+          description: A new or existing resource group. If not provided a `mist`
             resource group will be used.
           type: string
         storage_account_type:
           description: Specifies the storage account type for the OS disk. Defaults
-            to StandardSSD_LRS
+            to `StandardSSD_LRS`
           enum:
           - Premium_LRS
           - Premium_ZRS
@@ -4504,7 +4504,7 @@ components:
     AzureNet:
       properties:
         network:
-          description: A new or existing network If not provided a `mist-{location}`
+          description: A new or existing network If not provided a `mist-resource_group-location`
             network will be used.
           type: string
       title: Azure net parameter
@@ -4534,7 +4534,7 @@ components:
               type: string
             storage_account_type:
               description: Specifies the storage account type for the managed volume.
-                Defaults to StandardSSD_LRS
+                Defaults to `StandardSSD_LRS`
               enum:
               - Premium_LRS
               - Premium_ZRS

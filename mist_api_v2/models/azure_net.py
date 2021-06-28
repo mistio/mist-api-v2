@@ -46,7 +46,7 @@ class AzureNet(Model):
     def network(self):
         """Gets the network of this AzureNet.
 
-        A new or existing network If not provided a `mist-{location}` network will be used.  # noqa: E501
+        A new or existing network If not provided a `mist-resource_group-location` network will be used.  # noqa: E501
 
         :return: The network of this AzureNet.
         :rtype: str
@@ -57,7 +57,7 @@ class AzureNet(Model):
     def network(self, network):
         """Sets the network of this AzureNet.
 
-        A new or existing network If not provided a `mist-{location}` network will be used.  # noqa: E501
+        A new or existing network If not provided a `mist-resource_group-location` network will be used.  # noqa: E501
 
         :param network: The network of this AzureNet.
         :type network: str

@@ -61,7 +61,7 @@ class AzureExtra(Model):
     def resource_group(self):
         """Gets the resource_group of this AzureExtra.
 
-        A new or existing resource group. If not provided a `mist-{location}` resource group will be used.  # noqa: E501
+        A new or existing resource group. If not provided a `mist` resource group will be used.  # noqa: E501
 
         :return: The resource_group of this AzureExtra.
         :rtype: str
@@ -72,7 +72,7 @@ class AzureExtra(Model):
     def resource_group(self, resource_group):
         """Sets the resource_group of this AzureExtra.
 
-        A new or existing resource group. If not provided a `mist-{location}` resource group will be used.  # noqa: E501
+        A new or existing resource group. If not provided a `mist` resource group will be used.  # noqa: E501
 
         :param resource_group: The resource_group of this AzureExtra.
         :type resource_group: str
@@ -84,7 +84,7 @@ class AzureExtra(Model):
     def storage_account_type(self):
         """Gets the storage_account_type of this AzureExtra.
 
-        Specifies the storage account type for the OS disk. Defaults to StandardSSD_LRS  # noqa: E501
+        Specifies the storage account type for the OS disk. Defaults to `StandardSSD_LRS`  # noqa: E501
 
         :return: The storage_account_type of this AzureExtra.
         :rtype: str
@@ -95,7 +95,7 @@ class AzureExtra(Model):
     def storage_account_type(self, storage_account_type):
         """Sets the storage_account_type of this AzureExtra.
 
-        Specifies the storage account type for the OS disk. Defaults to StandardSSD_LRS  # noqa: E501
+        Specifies the storage account type for the OS disk. Defaults to `StandardSSD_LRS`  # noqa: E501
 
         :param storage_account_type: The storage_account_type of this AzureExtra.
         :type storage_account_type: str
