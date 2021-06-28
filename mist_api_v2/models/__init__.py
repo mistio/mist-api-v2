@@ -65,6 +65,8 @@ from mist_api_v2.models.google_net import GoogleNet
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
+from mist_api_v2.models.inline_object import InlineObject
+from mist_api_v2.models.inline_object1 import InlineObject1
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
@@ -119,10 +121,6 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
-from mist_api_v2.models.ssh_key import SSHKey
-from mist_api_v2.models.ssh_key_one_of import SSHKeyOneOf
-from mist_api_v2.models.ssh_key_one_of1 import SSHKeyOneOf1
-from mist_api_v2.models.ssh_key_one_of2 import SSHKeyOneOf2
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size

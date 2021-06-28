@@ -1358,10 +1358,21 @@ paths:
           type: string
         style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object'
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SSHKey'
+              properties:
+                key:
+                  description: Name or ID of the SSH key to deploy
+                  type: string
+                port:
+                  description: SSH port
+                  type: integer
+                user:
+                  description: SSH user
+                  type: string
+              type: object
       responses:
         "200":
           description: Association successful
@@ -1495,10 +1506,21 @@ paths:
           type: string
         style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SSHKey'
+              properties:
+                key:
+                  description: Name or ID of the SSH key to deploy
+                  type: string
+                port:
+                  description: SSH port
+                  type: integer
+                user:
+                  description: SSH user
+                  type: string
+              type: object
       responses:
         "200":
           description: Association successful
@@ -4341,7 +4363,17 @@ components:
   headers: {}
   links: {}
   parameters: {}
-  requestBodies: {}
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+    inline_object_1:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
   responses: {}
   schemas:
     AddCloudRequest:
@@ -4667,6 +4699,7 @@ components:
         scripts:
         - ""
         - ""
+        key: ""
       properties:
         name:
           description: Specify machine name
@@ -4725,7 +4758,18 @@ components:
           - $ref: '#/components/schemas/LinodeNet'
           description: Specify network configuration parameters
         key:
-          $ref: '#/components/schemas/SSHKey'
+          description: Associate SSH key
+          oneOf:
+          - properties:
+              key:
+                description: Name or ID of the SSH key to deploy
+                type: string
+              user:
+                description: SSH user, supported on Google
+                type: string
+            type: object
+          - description: Name or ID of the SSH key to deploy
+            type: string
         disks:
           $ref: '#/components/schemas/CreateMachineRequest_disks'
         volumes:
@@ -6987,12 +7031,6 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
-    SSHKey:
-      oneOf:
-      - $ref: '#/components/schemas/SSHKey_oneOf'
-      - $ref: '#/components/schemas/SSHKey_oneOf_1'
-      - $ref: '#/components/schemas/SSHKey_oneOf_2'
-      type: object
     Script:
       example:
         name: name
@@ -7335,6 +7373,30 @@ components:
         id:
           type: string
       type: object
+    inline_object:
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
+          type: string
+      type: object
+    inline_object_1:
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
+          type: string
+      type: object
     AddCloudRequest_allOf:
       properties:
         title:
@@ -7506,30 +7568,6 @@ components:
       required:
       - network
       type: object
-    SSHKey_oneOf:
-      properties:
-        key:
-          description: Name or ID of the SSH key to deploy
-          type: string
-        user:
-          description: SSH user, supported on Google
-          type: string
-    SSHKey_oneOf_1:
-      properties:
-        key:
-          description: Name or ID of the SSH key to deploy
-          type: string
-        port:
-          description: SSH port
-          type: integer
-        user:
-          description: SSH user
-          type: string
-    SSHKey_oneOf_2:
-      properties:
-        key:
-          description: Name or ID of the SSH key to deploy
-          type: string
   securitySchemes:
     ApiKeyAuth:
       in: header
