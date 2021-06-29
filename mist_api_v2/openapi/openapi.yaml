@@ -1358,21 +1358,10 @@ paths:
           type: string
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/json:
             schema:
-              properties:
-                key:
-                  description: Name or ID of the SSH key to deploy
-                  type: string
-                port:
-                  description: SSH port
-                  type: integer
-                user:
-                  description: SSH user
-                  type: string
-              type: object
+              $ref: '#/components/schemas/KeyMachineAssociation'
       responses:
         "200":
           description: Association successful
@@ -1506,21 +1495,10 @@ paths:
           type: string
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           application/json:
             schema:
-              properties:
-                key:
-                  description: Name or ID of the SSH key to deploy
-                  type: string
-                port:
-                  description: SSH port
-                  type: integer
-                user:
-                  description: SSH user
-                  type: string
-              type: object
+              $ref: '#/components/schemas/KeyMachineAssociation'
       responses:
         "200":
           description: Association successful
@@ -4363,17 +4341,7 @@ components:
   headers: {}
   links: {}
   parameters: {}
-  requestBodies:
-    inline_object:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
+  requestBodies: {}
   responses: {}
   schemas:
     AddCloudRequest:
@@ -5891,6 +5859,22 @@ components:
           - signed_ssh
           type: string
       type: object
+    KeyMachineAssociation:
+      example:
+        port: 0
+        user: user
+        key: key
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
+          type: string
+      type: object
     KubernetesCloudRequest:
       properties:
         provider:
@@ -7371,30 +7355,6 @@ components:
         id: id
       properties:
         id:
-          type: string
-      type: object
-    inline_object:
-      properties:
-        key:
-          description: Name or ID of the SSH key to deploy
-          type: string
-        port:
-          description: SSH port
-          type: integer
-        user:
-          description: SSH user
-          type: string
-      type: object
-    inline_object_1:
-      properties:
-        key:
-          description: Name or ID of the SSH key to deploy
-          type: string
-        port:
-          description: SSH port
-          type: integer
-        user:
-          description: SSH user
           type: string
       type: object
     AddCloudRequest_allOf:

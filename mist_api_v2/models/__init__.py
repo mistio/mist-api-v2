@@ -65,8 +65,6 @@ from mist_api_v2.models.google_net import GoogleNet
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
-from mist_api_v2.models.inline_object import InlineObject
-from mist_api_v2.models.inline_object1 import InlineObject1
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
 from mist_api_v2.models.interval_schedule import IntervalSchedule
@@ -74,6 +72,7 @@ from mist_api_v2.models.job import Job
 from mist_api_v2.models.kvm_net import KVMNet
 from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
+from mist_api_v2.models.key_machine_association import KeyMachineAssociation
 from mist_api_v2.models.kubernetes_cloud_request import KubernetesCloudRequest
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
