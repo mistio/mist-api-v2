@@ -14,6 +14,7 @@ from mist_api_v2.models.create_machine_request import CreateMachineRequest  # no
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
+from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
 
 from .base import list_resources, get_resource
 
@@ -459,3 +460,41 @@ def undefine_machine(machine):  # noqa: E501
     )
     machine.ctl.undefine()
     return 'Undefined machine `%s`' % machine.name, 200
+
+
+def associate_key(machine, key_machine_association=None):  # noqa: E501
+    """Associate a key with a machine
+
+    Associate a key with a machine. # noqa: E501
+
+    :param machine:
+    :type machine: str
+    :param key_machine_association:
+    :type key_machine_association: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
+    auth_context = connexion.context['token_info']['auth_context']
+
+    return 'do some magic!'
+
+
+def disassociate_key(machine, key_machine_association=None):  # noqa: E501
+    """Associate a key with a machine
+
+    Disassociate a key from a machine. # noqa: E501
+
+    :param machine:
+    :type machine: str
+    :param key_machine_association:
+    :type key_machine_association: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
+    auth_context = connexion.context['token_info']['auth_context']
+
+    return 'do some magic!'
