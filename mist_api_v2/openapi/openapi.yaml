@@ -1345,6 +1345,47 @@ paths:
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/associate-key:
+    put:
+      description: Associate a key with a machine.
+      operationId: associate_key
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyMachineAssociation'
+      responses:
+        "200":
+          description: Association successful
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - associate_key:machine
+        - read:cloud
+        - read_private:key
+      - CookieAuth:
+        - associate_key:machine
+        - read:cloud
+        - read_private:key
+      summary: Associate a key with a machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
   /api/v2/machines/{machine}/actions/clone:
     post:
       description: Clone target machine
@@ -1438,6 +1479,45 @@ paths:
       - CookieAuth:
         - destroy:machine
       summary: Destroy machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/disassociate-key:
+    delete:
+      description: Disassociate a key from a machine.
+      operationId: disassociate_key
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyMachineAssociation'
+      responses:
+        "200":
+          description: Association successful
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - disassociate_key:machine
+        - read:cloud
+      - CookieAuth:
+        - disassociate_key:machine
+        - read:cloud
+      summary: Associate a key with a machine
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
@@ -2212,6 +2292,468 @@ paths:
       tags:
       - networks
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+  /api/v2/orgs:
+    get:
+      description: List orgs owned by the requester. If parameter allorgs is true
+        and requester is an admin then all orgs will be listed.
+      operationId: list_orgs
+      parameters:
+      - description: Return all existing organizations
+        explode: true
+        in: query
+        name: allorgs
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by orgs by name:
+            value: name:Acme
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 100 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return name, id, teams:
+            value: name,id,teams
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          (default) Automatically replace all foreign key ids with referenced resource name:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference teams:
+            value: teams:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOrgsResponse'
+          description: List orgs response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List orgs
+      tags:
+      - orgs
+      x-cli-table-default:
+      - name
+      - clouds_count
+      - teams_count
+      x-cli-table-extended:
+      - name
+      - id
+      - clouds_count
+      - teams_count
+      - last_active
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+  /api/v2/orgs/{org}:
+    get:
+      description: Get details about target org
+      operationId: get_org
+      parameters:
+      - explode: false
+        in: path
+        name: org
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return name, id, teams:
+            value: name,id,teams
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          (default) Automatically replace all foreign key ids with referenced resource name:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference teams by name:
+            value: teams:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrgResponse'
+          description: Organization returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Org not found
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Get Org
+      tags:
+      - orgs
+      - name
+      - clouds_count
+      - total_machine_count
+      x-cli-table-extended:
+      - name
+      - id
+      - clouds_count
+      - total_machine_count
+      - last_active
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+  /api/v2/orgs/{org}/members:
+    get:
+      description: List org members owned by the requester. The requester must be
+        a member of the org.
+      operationId: list_org_members
+      parameters:
+      - explode: false
+        in: path
+        name: org
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return results matching search filter
+        examples:
+          Filter by orgs by email:
+            value: email:dev@mist.io
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last name, registration date:
+            value: email,last_name,registration_date
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOrgMembersResponse'
+          description: List org members response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List org members
+      tags:
+      - orgs
+      - members
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+  /api/v2/orgs/{org}/members/{member}:
+    get:
+      description: Get details about target member
+      operationId: get_member
+      parameters:
+      - explode: false
+        in: path
+        name: org
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: member
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last_name:
+            value: email,last_name
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrgMemberResponse'
+          description: member returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Org not found
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Get Org
+      tags:
+      - orgs
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+  /api/v2/orgs/{org}/teams:
+    get:
+      description: List teams in org.
+      operationId: list_org_teams
+      parameters:
+      - description: Organization id
+        explode: false
+        in: path
+        name: org
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return results matching search filter
+        examples:
+          Filter by teams by name:
+            value: name:finance
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return name, members:
+            value: name,members
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          (default) Automatically replace all foreign key ids with referenced resource name:
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference members by email:
+            value: members:email
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOrgTeamsResponse'
+          description: List org teams response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List org teams
+      tags:
+      - orgs
+      - teams
+      x-cli-table-default:
+      - name
+      - members_count
+      x-cli-table-extended:
+      - id
+      - name
+      - members_count
+      - members
+      - description
+      - policy
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -3077,6 +3619,109 @@ paths:
       - external_id
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/users:
+    get:
+      description: Return current user if requester is not admin. Return all users
+        for admin.
+      operationId: list_users
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by email:
+            value: email:dev@mist.io
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last_login & registration_date:
+            value: email,last_login,registration_date
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsersResponse'
+          description: List users response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List users
+      tags:
+      - users
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
+      x-openapi-router-controller: mist_api_v2.controllers.users_controller
   /api/v2/volumes:
     get:
       description: List volumes owned by the active org. READ permission required
@@ -3912,6 +4557,78 @@ components:
       - subscriptionId
       - tenantId
       type: object
+    AzureExtra:
+      properties:
+        resource_group:
+          description: A new or existing resource group. If not provided a `mist`
+            resource group will be used.
+          type: string
+        storage_account_type:
+          description: Specifies the storage account type for the OS disk. Defaults
+            to `StandardSSD_LRS`
+          enum:
+          - Premium_LRS
+          - Premium_ZRS
+          - StandardSSD_LRS
+          - StandardSSD_ZRS
+          - Standard_LRS
+          type: string
+        user:
+          description: The machine username. Defaults to azureuser
+          type: string
+        password:
+          description: The machine password. Only used on Microsoft images
+          type: string
+      title: Azure extra parameter
+      type: object
+    AzureNet:
+      properties:
+        network:
+          description: A new or existing network If not provided a `mist-resource_group-location`
+            network will be used.
+          type: string
+      title: Azure net parameter
+      type: object
+    AzureVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the volume to attach
+              type: string
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume to be created in GBs
+              type: integer
+            caching_type:
+              description: Specifies the caching requirements
+              enum:
+              - None
+              - ReadOnly
+              - ReadWrite
+              type: string
+            storage_account_type:
+              description: Specifies the storage account type for the managed volume.
+                Defaults to `StandardSSD_LRS`
+              enum:
+              - Premium_LRS
+              - Premium_ZRS
+              - StandardSSD_LRS
+              - StandardSSD_ZRS
+              - Standard_LRS
+              - UltraSSD_LRS
+              type: string
+          required:
+          - name
+          - size
+        type: object
+      title: Azure volumes parameter
+      type: array
     Cloud:
       example:
         features:
@@ -4006,9 +4723,7 @@ components:
         schedules:
         - ""
         - ""
-        extra:
-          project_id: project_id
-          root_pass: root_pass
+        extra: ""
         name: name
         location: location
         expiration:
@@ -4075,6 +4790,7 @@ components:
         net:
           anyOf:
           - $ref: '#/components/schemas/AmazonNet'
+          - $ref: '#/components/schemas/AzureNet'
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
@@ -4098,6 +4814,7 @@ components:
         volumes:
           anyOf:
           - $ref: '#/components/schemas/AmazonVolumes'
+          - $ref: '#/components/schemas/AzureVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
@@ -4162,7 +4879,11 @@ components:
         expiration:
           $ref: '#/components/schemas/Expiration'
         extra:
-          $ref: '#/components/schemas/CreateMachineRequest_extra'
+          anyOf:
+          - $ref: '#/components/schemas/AzureExtra'
+          - $ref: '#/components/schemas/EquinixMetalExtra'
+          - $ref: '#/components/schemas/LinodeExtra'
+          description: Configure additional parameters
         monitoring:
           description: Enable monitoring of this machine
           type: boolean
@@ -4563,6 +5284,14 @@ components:
       required:
       - apikey
       type: object
+    EquinixMetalExtra:
+      properties:
+        project_id:
+          description: Project UUID, if not given the first one available will be
+            selected
+          type: string
+      title: Equnix Metal extra parameter
+      type: object
     EquinixMetalNet:
       properties:
         ip_addresses:
@@ -4793,6 +5522,51 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Network'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetOrgMemberResponse:
+      example:
+        data:
+          registration_date: registration_date
+          last_login: last_login
+          pending: true
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Member'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetOrgResponse:
+      example:
+        data:
+          enterprise_plan: '{}'
+          total_machine_count: total_machine_count
+          selected_plan: selected_plan
+          created: true
+          name: name
+          id: id
+          last_active: last_active
+          clouds_count: clouds_count
+          teams_count: teams_count
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Org'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -5169,6 +5943,22 @@ components:
           - signed_ssh
           type: string
       type: object
+    KeyMachineAssociation:
+      example:
+        port: 0
+        user: user
+        key: key
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
+          type: string
+      type: object
     KubernetesCloudRequest:
       properties:
         provider:
@@ -5267,6 +6057,13 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    LinodeExtra:
+      properties:
+        root_pass:
+          description: Set root password. If not given a secure password will be generated
+          type: string
+      title: Linode extra parameter
       type: object
     LinodeNet:
       properties:
@@ -5491,6 +6288,132 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListOrgMembersResponse:
+      example:
+        data:
+        - registration_date: registration_date
+          last_login: last_login
+          pending: true
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        - registration_date: registration_date
+          last_login: last_login
+          pending: true
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Member'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListOrgTeamsResponse:
+      example:
+        data:
+        - members:
+          - registration_date: registration_date
+            last_login: last_login
+            pending: true
+            last_name: last_name
+            id: id
+            first_name: first_name
+            email: email
+            username: username
+          - registration_date: registration_date
+            last_login: last_login
+            pending: true
+            last_name: last_name
+            id: id
+            first_name: first_name
+            email: email
+            username: username
+          name: name
+          description: description
+          members_count: members_count
+          id: id
+          policy: '{}'
+        - members:
+          - registration_date: registration_date
+            last_login: last_login
+            pending: true
+            last_name: last_name
+            id: id
+            first_name: first_name
+            email: email
+            username: username
+          - registration_date: registration_date
+            last_login: last_login
+            pending: true
+            last_name: last_name
+            id: id
+            first_name: first_name
+            email: email
+            username: username
+          name: name
+          description: description
+          members_count: members_count
+          id: id
+          policy: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Team'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListOrgsResponse:
+      example:
+        data:
+        - enterprise_plan: '{}'
+          total_machine_count: total_machine_count
+          selected_plan: selected_plan
+          created: true
+          name: name
+          id: id
+          last_active: last_active
+          clouds_count: clouds_count
+          teams_count: teams_count
+        - enterprise_plan: '{}'
+          total_machine_count: total_machine_count
+          selected_plan: selected_plan
+          created: true
+          name: name
+          id: id
+          last_active: last_active
+          clouds_count: clouds_count
+          teams_count: teams_count
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Org'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListRulesResponse:
       example:
         data:
@@ -5593,6 +6516,36 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Snapshot'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListUsersResponse:
+      example:
+        data:
+        - registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        - registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/User'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -5806,6 +6759,34 @@ components:
       required:
       - token
       type: object
+    Member:
+      example:
+        registration_date: registration_date
+        last_login: last_login
+        pending: true
+        last_name: last_name
+        id: id
+        first_name: first_name
+        email: email
+        username: username
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        last_login:
+          type: string
+        username:
+          type: string
+        registration_date:
+          type: string
+        pending:
+          type: boolean
+      type: object
     Network:
       example:
         cloud: cloud
@@ -5912,6 +6893,37 @@ components:
       - authUrl
       - password
       - user
+      type: object
+    Org:
+      example:
+        enterprise_plan: '{}'
+        total_machine_count: total_machine_count
+        selected_plan: selected_plan
+        created: true
+        name: name
+        id: id
+        last_active: last_active
+        clouds_count: clouds_count
+        teams_count: teams_count
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        clouds_count:
+          type: string
+        teams_count:
+          type: string
+        total_machine_count:
+          type: string
+        created:
+          type: boolean
+        enterprise_plan:
+          type: object
+        selected_plan:
+          type: string
+        last_active:
+          type: string
       type: object
     OtherCloudRequest:
       properties:
@@ -6184,6 +7196,46 @@ components:
       - kubernetes
       - other
       type: string
+    Team:
+      example:
+        members:
+        - registration_date: registration_date
+          last_login: last_login
+          pending: true
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        - registration_date: registration_date
+          last_login: last_login
+          pending: true
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+        name: name
+        description: description
+        members_count: members_count
+        id: id
+        policy: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        members:
+          items:
+            $ref: '#/components/schemas/Member'
+          type: array
+        members_count:
+          type: string
+        description:
+          type: string
+        policy:
+          type: object
+      type: object
     TriggerAfter:
       properties:
         offset:
@@ -6195,6 +7247,31 @@ components:
       required:
       - offset
       - period
+      type: object
+    User:
+      example:
+        registration_date: registration_date
+        last_login: last_login
+        last_name: last_name
+        id: id
+        first_name: first_name
+        email: email
+        username: username
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        last_login:
+          type: string
+        username:
+          type: string
+        registration_date:
+          type: string
       type: object
     VcloudCloudRequest:
       properties:
@@ -6458,21 +7535,6 @@ components:
           description: KVM specific parameter. Where the VM disk file will be created
           type: string
       type: object
-    CreateMachineRequest_extra:
-      description: Configure additional parameters
-      example:
-        project_id: project_id
-        root_pass: root_pass
-      properties:
-        project_id:
-          description: Equinix specific parameter. Project UUID, if not given the
-            first one available will be selected
-          type: string
-        root_pass:
-          description: Linode specific parameter. Set root password. If not given
-            a secure password will be generated
-          type: string
-      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
@@ -6568,7 +7630,8 @@ x-cli-waiters:
       expected: 0
       state: success
     - select: response.body#data.error
-      expected: true
+      test: notEqual
+      expected: false
       state: failure
     updates: response.body#data.logs[:].action
     after:
