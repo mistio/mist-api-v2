@@ -102,6 +102,7 @@ mist_api_v2/models/inline_script.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
 mist_api_v2/models/key.py
+mist_api_v2/models/key_machine_association.py
 mist_api_v2/models/kubernetes_cloud_request.py
 mist_api_v2/models/kubernetes_credentials.py
 mist_api_v2/models/kubevirt_cloud_request.py

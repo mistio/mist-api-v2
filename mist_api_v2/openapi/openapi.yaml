@@ -1345,6 +1345,47 @@ paths:
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/associate-key:
+    put:
+      description: Associate a key with a machine.
+      operationId: associate_key
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyMachineAssociation'
+      responses:
+        "200":
+          description: Association successful
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - associate_key:machine
+        - read:cloud
+        - read_private:key
+      - CookieAuth:
+        - associate_key:machine
+        - read:cloud
+        - read_private:key
+      summary: Associate a key with a machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
   /api/v2/machines/{machine}/actions/clone:
     post:
       description: Clone target machine
@@ -1438,6 +1479,45 @@ paths:
       - CookieAuth:
         - destroy:machine
       summary: Destroy machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+  /api/v2/machines/{machine}/actions/disassociate-key:
+    delete:
+      description: Disassociate a key from a machine.
+      operationId: disassociate_key
+      parameters:
+      - explode: false
+        in: path
+        name: machine
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyMachineAssociation'
+      responses:
+        "200":
+          description: Association successful
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Machine not found
+        "422":
+          description: Action not supported on target machine
+      security:
+      - ApiKeyAuth:
+        - disassociate_key:machine
+        - read:cloud
+      - CookieAuth:
+        - disassociate_key:machine
+        - read:cloud
+      summary: Associate a key with a machine
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
@@ -5861,6 +5941,22 @@ components:
           enum:
           - ssh
           - signed_ssh
+          type: string
+      type: object
+    KeyMachineAssociation:
+      example:
+        port: 0
+        user: user
+        key: key
+      properties:
+        key:
+          description: Name or ID of the SSH key to deploy
+          type: string
+        port:
+          description: SSH port
+          type: integer
+        user:
+          description: SSH user
           type: string
       type: object
     KubernetesCloudRequest:
