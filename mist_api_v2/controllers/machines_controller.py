@@ -476,9 +476,35 @@ def associate_key(machine, key_machine_association=None):  # noqa: E501
     """
     if connexion.request.is_json:
         key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
-
-    return 'do some magic!'
+    ssh_user = key_machine_association.user
+    ssh_port = key_machine_association.port or 22
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except Exception:
+        return 'Authentication failed', 401
+    try:
+        [machine], _ = list_resources(auth_context, 'machine',
+                                      search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [key], _ = list_resources(auth_context, 'key',
+                                  search=key_machine_association.key, limit=1)
+    except Key.DoesNotExist:
+        return 'Key id does not exist', 404
+    try:
+        auth_context.check_perm('machine', 'associate_key', machine.id)
+        auth_context.check_perm('cloud', 'read', machine.cloud.id)
+        auth_context.check_perm('key', 'read', key.id)
+    except Exception:
+        return 'You are not authorized to perform this action', 403
+    try:
+        import ipdb;ipdb.set_trace()
+        key.ctl.associate(machine, username=ssh_user, port=ssh_port)
+    except Exception:
+        return 'Action not supported on target machine', 422
+    return 'Association successful', 200
 
 
 def disassociate_key(machine, key_machine_association=None):  # noqa: E501
