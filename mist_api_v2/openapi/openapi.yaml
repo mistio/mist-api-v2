@@ -4557,6 +4557,78 @@ components:
       - subscriptionId
       - tenantId
       type: object
+    AzureExtra:
+      properties:
+        resource_group:
+          description: A new or existing resource group. If not provided a `mist`
+            resource group will be used.
+          type: string
+        storage_account_type:
+          description: Specifies the storage account type for the OS disk. Defaults
+            to `StandardSSD_LRS`
+          enum:
+          - Premium_LRS
+          - Premium_ZRS
+          - StandardSSD_LRS
+          - StandardSSD_ZRS
+          - Standard_LRS
+          type: string
+        user:
+          description: The machine username. Defaults to azureuser
+          type: string
+        password:
+          description: The machine password. Only used on Microsoft images
+          type: string
+      title: Azure extra parameter
+      type: object
+    AzureNet:
+      properties:
+        network:
+          description: A new or existing network If not provided a `mist-resource_group-location`
+            network will be used.
+          type: string
+      title: Azure net parameter
+      type: object
+    AzureVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the volume to attach
+              type: string
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume to be created in GBs
+              type: integer
+            caching_type:
+              description: Specifies the caching requirements
+              enum:
+              - None
+              - ReadOnly
+              - ReadWrite
+              type: string
+            storage_account_type:
+              description: Specifies the storage account type for the managed volume.
+                Defaults to `StandardSSD_LRS`
+              enum:
+              - Premium_LRS
+              - Premium_ZRS
+              - StandardSSD_LRS
+              - StandardSSD_ZRS
+              - Standard_LRS
+              - UltraSSD_LRS
+              type: string
+          required:
+          - name
+          - size
+        type: object
+      title: Azure volumes parameter
+      type: array
     Cloud:
       example:
         features:
@@ -4651,9 +4723,7 @@ components:
         schedules:
         - ""
         - ""
-        extra:
-          project_id: project_id
-          root_pass: root_pass
+        extra: ""
         name: name
         location: location
         expiration:
@@ -4720,6 +4790,7 @@ components:
         net:
           anyOf:
           - $ref: '#/components/schemas/AmazonNet'
+          - $ref: '#/components/schemas/AzureNet'
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
@@ -4743,6 +4814,7 @@ components:
         volumes:
           anyOf:
           - $ref: '#/components/schemas/AmazonVolumes'
+          - $ref: '#/components/schemas/AzureVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
@@ -4807,7 +4879,11 @@ components:
         expiration:
           $ref: '#/components/schemas/Expiration'
         extra:
-          $ref: '#/components/schemas/CreateMachineRequest_extra'
+          anyOf:
+          - $ref: '#/components/schemas/AzureExtra'
+          - $ref: '#/components/schemas/EquinixMetalExtra'
+          - $ref: '#/components/schemas/LinodeExtra'
+          description: Configure additional parameters
         monitoring:
           description: Enable monitoring of this machine
           type: boolean
@@ -5207,6 +5283,14 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    EquinixMetalExtra:
+      properties:
+        project_id:
+          description: Project UUID, if not given the first one available will be
+            selected
+          type: string
+      title: Equnix Metal extra parameter
       type: object
     EquinixMetalNet:
       properties:
@@ -5973,6 +6057,13 @@ components:
           type: string
       required:
       - apikey
+      type: object
+    LinodeExtra:
+      properties:
+        root_pass:
+          description: Set root password. If not given a secure password will be generated
+          type: string
+      title: Linode extra parameter
       type: object
     LinodeNet:
       properties:
@@ -7442,21 +7533,6 @@ components:
           type: integer
         disk_path:
           description: KVM specific parameter. Where the VM disk file will be created
-          type: string
-      type: object
-    CreateMachineRequest_extra:
-      description: Configure additional parameters
-      example:
-        project_id: project_id
-        root_pass: root_pass
-      properties:
-        project_id:
-          description: Equinix specific parameter. Project UUID, if not given the
-            first one available will be selected
-          type: string
-        root_pass:
-          description: Linode specific parameter. Set root password. If not given
-            a secure password will be generated
           type: string
       type: object
     CreateMachineResponse_oneOf:

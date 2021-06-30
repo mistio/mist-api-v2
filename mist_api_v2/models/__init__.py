@@ -17,6 +17,8 @@ from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
+from mist_api_v2.models.azure_extra import AzureExtra
+from mist_api_v2.models.azure_net import AzureNet
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.cloud_sigma_cloud_request import CloudSigmaCloudRequest
@@ -40,6 +42,7 @@ from mist_api_v2.models.edit_cloud_request import EditCloudRequest
 from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
+from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra
 from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
 from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
@@ -79,6 +82,7 @@ from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
 from mist_api_v2.models.linode_cloud_request import LinodeCloudRequest
 from mist_api_v2.models.linode_credentials import LinodeCredentials
+from mist_api_v2.models.linode_extra import LinodeExtra
 from mist_api_v2.models.linode_net import LinodeNet
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse
 from mist_api_v2.models.list_images_response import ListImagesResponse
