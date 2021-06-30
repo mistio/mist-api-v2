@@ -461,6 +461,7 @@ def undefine_machine(machine):  # noqa: E501
     machine.ctl.undefine()
     return 'Undefined machine `%s`' % machine.name, 200
 
+
 def associate_key(machine, key_machine_association=None):  # noqa: E501
     """Associate a key with a machine
 
