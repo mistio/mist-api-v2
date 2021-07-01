@@ -34,6 +34,8 @@ from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.create_zone_request import CreateZoneRequest
 from mist_api_v2.models.create_zone_response import CreateZoneResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
+from mist_api_v2.models.datapoints import Datapoints
+from mist_api_v2.models.datapoints_data import DatapointsData
 from mist_api_v2.models.digitalocean_cloud_request import DigitaloceanCloudRequest
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
@@ -49,6 +51,7 @@ from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
+from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse
 from mist_api_v2.models.get_image_response import GetImageResponse
 from mist_api_v2.models.get_job_response import GetJobResponse
 from mist_api_v2.models.get_key_response import GetKeyResponse
@@ -70,6 +73,7 @@ from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_script import InlineScript
+from mist_api_v2.models.instant_vector import InstantVector
 from mist_api_v2.models.interval_schedule import IntervalSchedule
 from mist_api_v2.models.job import Job
 from mist_api_v2.models.kvm_net import KVMNet
@@ -123,6 +127,7 @@ from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
+from mist_api_v2.models.range_vector import RangeVector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
