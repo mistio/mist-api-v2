@@ -1370,7 +1370,7 @@ paths:
         "403":
           description: You are not authorized to perform this action
         "404":
-          description: Machine not found
+          description: Machine or Key not found
         "422":
           description: Action not supported on target machine
       security:
@@ -1507,7 +1507,7 @@ paths:
         "403":
           description: You are not authorized to perform this action
         "404":
-          description: Machine not found
+          description: Machine or Key not found
         "422":
           description: Action not supported on target machine
       security:
@@ -4369,6 +4369,7 @@ components:
             docker: '#/components/schemas/DockerCloudRequest'
             kubernetes: '#/components/schemas/KubernetesCloudRequest'
             kubevirt: '#/components/schemas/KubevirtCloudRequest'
+            openshift: '#/components/schemas/OpenshiftCloudRequest'
             other: '#/components/schemas/OtherCloudRequest'
           propertyName: provider
         oneOf:
@@ -4393,6 +4394,7 @@ components:
         - $ref: '#/components/schemas/DockerCloudRequest'
         - $ref: '#/components/schemas/KubernetesCloudRequest'
         - $ref: '#/components/schemas/KubevirtCloudRequest'
+        - $ref: '#/components/schemas/OpenshiftCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
     AddKeyRequest:
       anyOf:
@@ -5191,6 +5193,7 @@ components:
               - kvm
               - kubevirt
               - kubernetes
+              - openshift
               - linode
               - lxd
               - maxihost
@@ -5227,6 +5230,7 @@ components:
               docker: '#/components/schemas/DockerCloudRequest'
               kubernetes: '#/components/schemas/KubernetesCloudRequest'
               kubevirt: '#/components/schemas/KubevirtCloudRequest'
+              openshift: '#/components/schemas/OpenshiftCloudRequest'
               other: '#/components/schemas/OtherCloudRequest'
             propertyName: provider
           oneOf:
@@ -5251,6 +5255,7 @@ components:
           - $ref: '#/components/schemas/DockerCloudRequest'
           - $ref: '#/components/schemas/KubernetesCloudRequest'
           - $ref: '#/components/schemas/KubevirtCloudRequest'
+          - $ref: '#/components/schemas/OpenshiftCloudRequest'
           - $ref: '#/components/schemas/OtherCloudRequest'
     EditCloudRequest_anyOf:
       additionalProperties: false
@@ -6859,6 +6864,20 @@ components:
       - schedule_type
       title: OneOff
       type: object
+    OpenshiftCloudRequest:
+      properties:
+        provider:
+          enum:
+          - openshift
+          type: string
+        credentials:
+          $ref: '#/components/schemas/KubernetesCredentials'
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
     OpenstackCloudRequest:
       properties:
         provider:
@@ -7194,6 +7213,7 @@ components:
       - docker
       - kubevirt
       - kubernetes
+      - openshift
       - other
       type: string
     Team:
@@ -7467,6 +7487,7 @@ components:
           - kvm
           - kubevirt
           - kubernetes
+          - openshift
           - linode
           - lxd
           - maxihost
