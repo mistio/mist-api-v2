@@ -300,6 +300,81 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/datapoints:
+    get:
+      description: Get datapoints for a specific query
+      operationId: get_datapoints
+      parameters:
+      - explode: true
+        in: query
+        name: query
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: tags
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: end
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: step
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: time
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDatapointsResponse'
+          description: Datapoints returned successfully
+        "400":
+          description: Bad Request
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "422":
+          description: Unprocessable Entity
+        "503":
+          description: Service Unavailable
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+        - read:machine
+      - CookieAuth:
+        - read:cloud
+        - read:machine
+      summary: Get datapoints
+      tags:
+      - datapoints
+      x-openapi-router-controller: mist_api_v2.controllers.datapoints_controller
   /api/v2/images:
     get:
       description: List images owned by the active org. READ permission required on
@@ -1370,7 +1445,7 @@ paths:
         "403":
           description: You are not authorized to perform this action
         "404":
-          description: Machine not found
+          description: Machine or Key not found
         "422":
           description: Action not supported on target machine
       security:
@@ -1507,7 +1582,7 @@ paths:
         "403":
           description: You are not authorized to perform this action
         "404":
-          description: Machine not found
+          description: Machine or Key not found
         "422":
           description: Action not supported on target machine
       security:
@@ -5078,6 +5153,26 @@ components:
       - schedule_type
       title: Cron
       type: object
+    Datapoints:
+      example:
+        data:
+          result:
+          - ""
+          - ""
+          resultType: resultType
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          $ref: '#/components/schemas/Datapoints_data'
+      type: object
+    DatapointsValues:
+      items:
+        anyOf:
+        - type: string
+        - type: number
+      type: array
     DigitalOceanVolumes:
       items:
         oneOf:
@@ -5386,6 +5481,26 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetDatapointsResponse:
+      example:
+        data:
+          data:
+            result:
+            - ""
+            - ""
+            resultType: resultType
+          status: status
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Datapoints'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -5819,6 +5934,17 @@ components:
           type: string
       required:
       - inline
+      type: object
+    InstantVector:
+      properties:
+        metric:
+          type: object
+        values:
+          items:
+            anyOf:
+            - type: string
+            - type: number
+          type: array
       type: object
     IntervalSchedule:
       description: interval schedule
@@ -7013,6 +7139,15 @@ components:
       - region
       - username
       type: object
+    RangeVector:
+      properties:
+        metric:
+          type: object
+        value:
+          items:
+            $ref: '#/components/schemas/DatapointsValues'
+          type: array
+      type: object
     ResponseMetadata:
       example:
         total: 0
@@ -7545,6 +7680,22 @@ components:
       properties:
         plan:
           type: object
+    Datapoints_data:
+      example:
+        result:
+        - ""
+        - ""
+        resultType: resultType
+      properties:
+        resultType:
+          type: string
+        result:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/InstantVector'
+            - $ref: '#/components/schemas/RangeVector'
+          type: array
+      type: object
     EquinixMetalNet_ip_addresses:
       properties:
         address_family:
