@@ -38,6 +38,8 @@ class SupportedProviders(Model):
     LXD = "lxd"
     DOCKER = "docker"
     KUBEVIRT = "kubevirt"
+    KUBERNETES = "kubernetes"
+    OPENSHIFT = "openshift"
     OTHER = "other"
     def __init__(self):  # noqa: E501
         """SupportedProviders - a model defined in OpenAPI
