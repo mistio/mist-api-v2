@@ -5157,8 +5157,8 @@ components:
       example:
         data:
           result:
-          - ""
-          - ""
+          - null
+          - null
           resultType: resultType
         status: status
       properties:
@@ -5489,8 +5489,8 @@ components:
         data:
           data:
             result:
-            - ""
-            - ""
+            - null
+            - null
             resultType: resultType
           status: status
         meta:
@@ -7442,6 +7442,11 @@ components:
       - port
       - username
       type: object
+    Vector:
+      oneOf:
+      - $ref: '#/components/schemas/InstantVector'
+      - $ref: '#/components/schemas/RangeVector'
+      type: object
     Volume:
       example:
         cloud: cloud
@@ -7683,17 +7688,15 @@ components:
     Datapoints_data:
       example:
         result:
-        - ""
-        - ""
+        - null
+        - null
         resultType: resultType
       properties:
         resultType:
           type: string
         result:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/InstantVector'
-            - $ref: '#/components/schemas/RangeVector'
+            $ref: '#/components/schemas/Vector'
           type: array
       type: object
     EquinixMetalNet_ip_addresses:

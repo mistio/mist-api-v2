@@ -168,6 +168,7 @@ mist_api_v2/models/trigger_after.py
 mist_api_v2/models/user.py
 mist_api_v2/models/vcloud_cloud_request.py
 mist_api_v2/models/vcloud_credentials.py
+mist_api_v2/models/vector.py
 mist_api_v2/models/volume.py
 mist_api_v2/models/vsphere_cloud_request.py
 mist_api_v2/models/vsphere_credentials.py
