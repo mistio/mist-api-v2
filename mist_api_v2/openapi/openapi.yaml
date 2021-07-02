@@ -5167,11 +5167,13 @@ components:
         data:
           $ref: '#/components/schemas/Datapoints_data'
       type: object
-    DatapointsValues:
+    DatapointsValuesItem:
+      anyOf:
+      - type: string
+      - type: number
+    DatapointsValuesTuple:
       items:
-        anyOf:
-        - type: string
-        - type: number
+        $ref: '#/components/schemas/DatapointsValuesItem'
       type: array
     DigitalOceanVolumes:
       items:
@@ -5941,9 +5943,7 @@ components:
           type: object
         values:
           items:
-            anyOf:
-            - type: string
-            - type: number
+            $ref: '#/components/schemas/DatapointsValuesItem'
           type: array
       type: object
     IntervalSchedule:
@@ -7145,7 +7145,7 @@ components:
           type: object
         value:
           items:
-            $ref: '#/components/schemas/DatapointsValues'
+            $ref: '#/components/schemas/DatapointsValuesTuple'
           type: array
       type: object
     ResponseMetadata:
