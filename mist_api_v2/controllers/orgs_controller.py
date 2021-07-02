@@ -26,22 +26,21 @@ def get_member(org, member, only=None):  # noqa: E501
     auth_context = connexion.context['token_info']['auth_context']
     search = f'id:{org}'
 
-    from mist.api.methods import list_resources
     try:
         search = f'id={org}'
-        [org], _ = list_resources(auth_context, 'orgs', search=search)
+        org = get_resource(auth_context, 'orgs', search=search)['data']
     except ValueError:
         return 'Org does not exist', 404
     try:
-        [member] = filter(lambda user: user.id == member, org.members)
+        [member] = filter(lambda user: user['id'] == member, org.get('members', []))
     except ValueError:
         return "Member does not exist", 404
     meta = {
-        'total': len(org.members),
+        'total': len(org.get('members')),
         'returned': 1
     }
     result = {
-        'data': member.as_dict_v2(only=only or ''),
+        'data': member,
         'meta': meta
     }
 
@@ -89,13 +88,12 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     :rtype: ListOrgMembersResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.methods import list_resources
     try:
         search = f'id={org}'
-        [org], _ = list_resources(auth_context, 'orgs', search=search)
+        org = get_resource(auth_context, 'orgs', search=search)['data']
     except ValueError:
         return 'Org does not exist', 404
-    org_members = org.members
+    org_members = org.get('members', [])
     total = len(org_members)
     if not limit:
         limit = 100
@@ -104,7 +102,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
         sort = sort.replace('-', '')
         sort = sort.replace('+', '')
         sort = sort.strip()
-        org_members.sort(key=lambda user: getattr(user, sort),
+        org_members.sort(key=lambda user: user.get(sort, ""),
                          reverse=reverse)
     org_members = org_members[0:limit - 1]
     meta = {
@@ -114,7 +112,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
         'start': start
     }
     result = {
-        'data': [i.as_dict_v2('', only or '') for i in org_members],
+        'data': org_members,
         'meta': meta
     }
     return ListOrgMembersResponse(data=result['data'], meta=result['meta'])
@@ -143,13 +141,12 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     :rtype: ListOrgTeamsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.methods import list_resources
     try:
         search = f'id={org}'
-        [org], _ = list_resources(auth_context, 'orgs', search=search)
+        org = get_resource(auth_context, 'orgs', search=search)['data']
     except ValueError:
         return 'Org does not exist', 404
-    org_teams = org.teams
+    org_teams = org.get('teams', [])
     total = len(org_teams)
     if not limit:
         limit = 100
@@ -158,7 +155,7 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
         sort = sort.replace('-', '')
         sort = sort.replace('+', '')
         sort = sort.strip()
-        org_teams.sort(key=lambda team: getattr(team, sort),
+        org_teams.sort(key=lambda team: team.get(sort, ''),
                        reverse=reverse)
 
     org_teams = org_teams[0:limit - 1]
@@ -169,7 +166,7 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
         'start': start
     }
     result = {
-        'data': [i.as_dict_v2(deref or '', only or '') for i in org_teams],
+        'data': org_teams,
         'meta': meta
     }
     return ListOrgTeamsResponse(data=result['data'], meta=result['meta'])
