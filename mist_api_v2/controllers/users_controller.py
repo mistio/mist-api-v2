@@ -1,8 +1,18 @@
-# import connexion
-# import six
+import connexion
+import logging
 
-# from mist_api_v2.models.list_users_response import ListUsersResponse  # noqa: E501
-# from mist_api_v2 import util
+from mist.api import config
+
+from mist_api_v2.models.list_users_response import ListUsersResponse  # noqa: E501
+
+from .base import list_resources, get_resource
+
+logging.basicConfig(level=config.PY_LOG_LEVEL,
+                    format=config.PY_LOG_FORMAT,
+                    datefmt=config.PY_LOG_FORMAT_DATE)
+
+
+log = logging.getLogger(__name__)
 
 
 def list_users(search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
@@ -25,4 +35,16 @@ def list_users(search=None, sort=None, start=None, limit=None, only=None, deref=
 
     :rtype: ListUsersResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    if auth_context.user.role == "Admin":
+        result = list_resources(
+            auth_context, 'users', search=search, only=only,
+            sort=sort, start=start, limit=limit, deref=deref)
+    else:
+        search = "id={}".format(auth_context.user.id)
+        result = get_resource(auth_context, 'users', search=search)
+        result['meta'] = {
+            'total': 1,
+            'returned': 1
+        }
+    return ListUsersResponse(data=result['data'], meta=result['meta'])
