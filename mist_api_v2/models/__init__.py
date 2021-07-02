@@ -36,6 +36,7 @@ from mist_api_v2.models.create_zone_response import CreateZoneResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
 from mist_api_v2.models.datapoints import Datapoints
 from mist_api_v2.models.datapoints_data import DatapointsData
+from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem
 from mist_api_v2.models.digitalocean_cloud_request import DigitaloceanCloudRequest
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest

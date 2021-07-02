@@ -6,12 +6,12 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.any_ofstringnumber import AnyOfstringnumber
+from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem
 from mist_api_v2.models.instant_vector import InstantVector
 from mist_api_v2.models.range_vector import RangeVector
 from mist_api_v2 import util
 
-from mist_api_v2.models.any_ofstringnumber import AnyOfstringnumber  # noqa: E501
+from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem  # noqa: E501
 from mist_api_v2.models.instant_vector import InstantVector  # noqa: E501
 from mist_api_v2.models.range_vector import RangeVector  # noqa: E501
 
@@ -27,13 +27,13 @@ class Vector(Model):
         :param metric: The metric of this Vector.  # noqa: E501
         :type metric: object
         :param values: The values of this Vector.  # noqa: E501
-        :type values: List[AnyOfstringnumber]
+        :type values: List[DatapointsValuesItem]
         :param value: The value of this Vector.  # noqa: E501
         :type value: List[List]
         """
         self.openapi_types = {
             'metric': object,
-            'values': List[AnyOfstringnumber],
+            'values': List[DatapointsValuesItem],
             'value': List[List]
         }
 
@@ -85,7 +85,7 @@ class Vector(Model):
 
 
         :return: The values of this Vector.
-        :rtype: List[AnyOfstringnumber]
+        :rtype: List[DatapointsValuesItem]
         """
         return self._values
 
@@ -95,7 +95,7 @@ class Vector(Model):
 
 
         :param values: The values of this Vector.
-        :type values: List[AnyOfstringnumber]
+        :type values: List[DatapointsValuesItem]
         """
 
         self._values = values

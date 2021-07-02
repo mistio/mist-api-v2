@@ -66,6 +66,7 @@ mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
 mist_api_v2/models/datapoints.py
 mist_api_v2/models/datapoints_data.py
+mist_api_v2/models/datapoints_values_item.py
 mist_api_v2/models/digitalocean_cloud_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_cloud_request.py
