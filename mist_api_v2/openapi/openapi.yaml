@@ -1373,6 +1373,8 @@ paths:
           description: Machine or Key not found
         "422":
           description: Action not supported on target machine
+        "503":
+          description: Could not connect to target machine
       security:
       - ApiKeyAuth:
         - associate_key:machine
