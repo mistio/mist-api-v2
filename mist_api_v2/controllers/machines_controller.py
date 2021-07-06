@@ -479,7 +479,7 @@ def associate_key(machine, key_machine_association=None):  # noqa: E501
     """
     if connexion.request.is_json:
         key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
-    ssh_user = key_machine_association.user
+    ssh_user = key_machine_association.user or 'root'
     ssh_port = key_machine_association.port or 22
     from mist.api.methods import list_resources
     try:
