@@ -6,6 +6,8 @@ from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
 from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import MachineUnauthorizedError
+from mist.api.exceptions import ServiceUnavailableError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.dramatiq_tasks import dramatiq_create_machine_async
@@ -15,6 +17,7 @@ from mist_api_v2.models.create_machine_response import CreateMachineResponse  # 
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
+from mist.api.keys.models import Key  # noqa: E501
 
 from .base import list_resources, get_resource
 
@@ -476,9 +479,36 @@ def associate_key(machine, key_machine_association=None):  # noqa: E501
     """
     if connexion.request.is_json:
         key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
-
-    return 'do some magic!'
+    ssh_user = key_machine_association.user or 'root'
+    ssh_port = key_machine_association.port or 22
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except Exception:
+        return 'Authentication failed', 401
+    try:
+        [machine], _ = list_resources(auth_context, 'machine',
+                                      search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [key], _ = list_resources(auth_context, 'key',
+                                  search=key_machine_association.key, limit=1)
+    except Key.DoesNotExist:
+        return 'Key id does not exist', 404
+    try:
+        auth_context.check_perm('machine', 'associate_key', machine.id)
+        auth_context.check_perm('cloud', 'read', machine.cloud.id)
+        auth_context.check_perm('key', 'read', key.id)
+    except Exception:
+        return 'You are not authorized to perform this action', 403
+    try:
+        key.ctl.associate(machine, username=ssh_user, port=ssh_port)
+    except (MachineUnauthorizedError, ServiceUnavailableError):
+        return 'Could not connect to target machine', 503
+    except Exception as e:
+        return 'Action not supported on target machine', 422
+    return 'Association successful', 200
 
 
 def disassociate_key(machine, key_machine_association=None):  # noqa: E501
@@ -495,6 +525,28 @@ def disassociate_key(machine, key_machine_association=None):  # noqa: E501
     """
     if connexion.request.is_json:
         key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
-
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except:
+        return 'Authentication failed', 401
+    try:
+        [machine], _ = list_resources(auth_context, 'machine',
+                                      search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [key], _ = list_resources(auth_context, 'key',
+                                  search=key_machine_association.key, limit=1)
+    except Key.DoesNotExist:
+        return 'Key id does not exist', 404
+    try:
+        auth_context.check_perm("machine", "disassociate_key", machine.id)
+        auth_context.check_perm("cloud", "read", machine.cloud.id)
+    except:
+        return 'You are not authorized to perform this action', 403
+    try:
+        key.ctl.disassociate(machine)
+    except (MachineUnauthorizedError, ServiceUnavailableError):
+        return 'Could not connect to target machine', 503
+    return 'Disassociation successful', 200
