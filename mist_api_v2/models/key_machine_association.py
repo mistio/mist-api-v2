@@ -56,7 +56,7 @@ class KeyMachineAssociation(Model):
     def key(self):
         """Gets the key of this KeyMachineAssociation.
 
-        Name or ID of the SSH key to associate  # noqa: E501
+        Name or ID of the SSH key to deploy  # noqa: E501
 
         :return: The key of this KeyMachineAssociation.
         :rtype: str
@@ -67,7 +67,7 @@ class KeyMachineAssociation(Model):
     def key(self, key):
         """Sets the key of this KeyMachineAssociation.
 
-        Name or ID of the SSH key to associate  # noqa: E501
+        Name or ID of the SSH key to deploy  # noqa: E501
 
         :param key: The key of this KeyMachineAssociation.
         :type key: str
