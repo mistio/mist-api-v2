@@ -1500,10 +1500,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/KeyMachineAssociation'
+              $ref: '#/components/schemas/KeyMachineDisassociation'
       responses:
         "200":
-          description: Association successful
+          description: Disassociation successful
         "401":
           description: Authentication failed
         "403":
@@ -1519,7 +1519,7 @@ paths:
       - CookieAuth:
         - disassociate_key:machine
         - read:cloud
-      summary: Associate a key with a machine
+      summary: Disassociate a key from a machine
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
@@ -5964,13 +5964,21 @@ components:
         key: key
       properties:
         key:
-          description: Name or ID of the SSH key to deploy
+          description: Name or ID of the SSH key to associate
           type: string
         port:
           description: SSH port
           type: integer
         user:
           description: SSH user
+          type: string
+      type: object
+    KeyMachineDisassociation:
+      example:
+        key: key
+      properties:
+        key:
+          description: Name or ID of the SSH key to disassociate
           type: string
       type: object
     KubernetesCloudRequest:
