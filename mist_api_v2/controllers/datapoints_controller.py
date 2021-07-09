@@ -42,9 +42,7 @@ def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None)
             time_args += f"&start={parse_relative_time(start)}"
         if stop != None:
             time_args += f"&end={parse_relative_time(stop)}"
-        if step == None:
-            time_args += "&step=5s"
-        else:
+        if step != None:
             time_args += f"&step={parse_relative_time(step)}"
         return time_args
 
