@@ -19,25 +19,30 @@ class CreateClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, provider=None):  # noqa: E501
+    def __init__(self, title=None, cloud=None, provider=None):  # noqa: E501
         """CreateClusterRequest - a model defined in OpenAPI
 
         :param title: The title of this CreateClusterRequest.  # noqa: E501
         :type title: str
+        :param cloud: The cloud of this CreateClusterRequest.  # noqa: E501
+        :type cloud: str
         :param provider: The provider of this CreateClusterRequest.  # noqa: E501
         :type provider: ClusterProviders
         """
         self.openapi_types = {
             'title': str,
+            'cloud': str,
             'provider': ClusterProviders
         }
 
         self.attribute_map = {
             'title': 'title',
+            'cloud': 'cloud',
             'provider': 'provider'
         }
 
         self._title = title
+        self._cloud = cloud
         self._provider = provider
 
     @classmethod
@@ -75,6 +80,31 @@ class CreateClusterRequest(Model):
             raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
 
         self._title = title
+
+    @property
+    def cloud(self):
+        """Gets the cloud of this CreateClusterRequest.
+
+        The cloud the cluster belongs to  # noqa: E501
+
+        :return: The cloud of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._cloud
+
+    @cloud.setter
+    def cloud(self, cloud):
+        """Sets the cloud of this CreateClusterRequest.
+
+        The cloud the cluster belongs to  # noqa: E501
+
+        :param cloud: The cloud of this CreateClusterRequest.
+        :type cloud: str
+        """
+        if cloud is None:
+            raise ValueError("Invalid value for `cloud`, must not be `None`")  # noqa: E501
+
+        self._cloud = cloud
 
     @property
     def provider(self):
