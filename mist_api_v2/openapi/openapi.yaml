@@ -300,6 +300,241 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/clusters:
+    get:
+      description: List clusters
+      operationId: list_clusters
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud title:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by cluster created_by attribute:
+            value: created_by:csk
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListClustersResponse'
+          description: List clusters response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+      - CookieAuth:
+        - read:cluster
+      summary: List clusters
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+    post:
+      description: Create a new cluster and return the cluster's id
+      operationId: create_cluster
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClusterRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Cluster creation successful
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+      - CookieAuth:
+        - read:cluster
+      summary: Create cluster
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+  /api/v2/clusters/{cluster}:
+    delete:
+      description: Delete target clusters
+      operationId: delete_cluster
+      parameters:
+      - explode: false
+        in: path
+        name: cluster
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Cluster deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cluster not found
+      security:
+      - ApiKeyAuth:
+        - delete:cluster
+      - CookieAuth:
+        - delete:cluster
+      summary: Delete cluster
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+    get:
+      description: Get details about target cluster
+      operationId: get_cluster
+      parameters:
+      - explode: false
+        in: path
+        name: cluster
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClusterResponse'
+          description: Cluster returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cluster not found
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+      - CookieAuth:
+        - read:cluster
+      summary: Get cluster
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
   /api/v2/images:
     get:
       description: List images owned by the active org. READ permission required on
@@ -4713,6 +4948,47 @@ components:
       - region
       - username
       type: object
+    Cluster:
+      example:
+        cloud: cloud
+        owned_by: owned_by
+        id: id
+        title: title
+        config: '{}'
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        cloud:
+          type: string
+        provider:
+          $ref: '#/components/schemas/ClusterProviders'
+        config:
+          type: object
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
+    ClusterProviders:
+      description: The provider of the cluster
+      enum:
+      - amazon
+      - azure
+      - digitalocean
+      - google
+      - kubernetes
+      - openshift
+      - linode
+      type: string
+    CreateClusterRequest:
+      allOf:
+      - $ref: '#/components/schemas/CreateClusterRequest_allOf'
     CreateMachineRequest:
       example:
         template: '{}'
@@ -5400,6 +5676,27 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetClusterResponse:
+      example:
+        data:
+          cloud: cloud
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Cluster'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -6152,6 +6449,36 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Cloud'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListClustersResponse:
+      example:
+        data:
+        - cloud: cloud
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        - cloud: cloud
+          owned_by: owned_by
+          id: id
+          title: title
+          config: '{}'
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Cluster'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -7561,6 +7888,17 @@ components:
       required:
       - dry
       - generate
+    CreateClusterRequest_allOf:
+      properties:
+        title:
+          description: The name of the cluster to create
+          type: string
+        provider:
+          $ref: '#/components/schemas/ClusterProviders'
+      required:
+      - provider
+      - title
+      type: object
     CreateMachineRequest_disks:
       description: Configure local disks
       example:
