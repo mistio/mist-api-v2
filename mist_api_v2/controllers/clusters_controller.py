@@ -1,3 +1,10 @@
+import connexion
+
+from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
+
+from .base import list_resources
+
+
 def create_cluster(create_cluster_request=None):  # noqa: E501
     """Create cluster
 
@@ -63,4 +70,9 @@ def list_clusters(cloud=None, search=None, sort=None, start=None, limit=None, on
 
     :rtype: ListClustersResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = list_resources(
+        auth_context, 'cluster', cloud=cloud, search=search, only=only,
+        sort=sort, start=start, limit=limit, deref=deref
+    )
+    return ListClustersResponse(data=result['data'], meta=result['meta'])
