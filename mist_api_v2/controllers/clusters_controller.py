@@ -30,7 +30,26 @@ def delete_cluster(cluster):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except Exception:
+        return 'Authentication failed', 401
+    from mist.api.logs.methods import log_event
+    try:
+        [cluster], total = list_resources(auth_context, 'cluster',
+                                          search=cluster, limit=1)
+    except ValueError:
+        return 'Cluster not found', 404
+    try:
+        auth_context.check_perm('cluster', 'delete', cluster.id)
+    except Exception:
+        return 'You are not authorized to perform this action', 403
+    log_event(
+        auth_context.owner.id, 'request', 'delete_cluster',
+        cluster_id=cluster.id, user_id=auth_context.user.id,
+    )
+    cluster.ctl.delete()
+    return 'Cluster deleted successfully', 200
 
 
 def get_cluster(cluster, only=None, deref=None):  # noqa: E501
