@@ -35,8 +35,9 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     except ValueError:
         return 'Cloud not found', 404
     try:
+        auth_context.check_perm('cluster', 'create', cloud.id)
         auth_context.check_perm('cloud', 'read', cloud.id)
-        auth_context.check_perm('cloud', 'create', cloud.id)
+        auth_context.check_perm('cloud', 'create_resources', cloud.id)
     except Exception:
         return 'You are not authorized to perform this action', 403
     kwargs = {
