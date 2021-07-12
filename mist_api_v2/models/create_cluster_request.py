@@ -124,7 +124,5 @@ class CreateClusterRequest(Model):
         :param provider: The provider of this CreateClusterRequest.
         :type provider: ClusterProviders
         """
-        if provider is None:
-            raise ValueError("Invalid value for `provider`, must not be `None`")  # noqa: E501
 
         self._provider = provider
