@@ -1,12 +1,13 @@
 import connexion
 
+from mist.api.methods import list_resources
+
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 
 from .base import get_resource
-from .base import list_resources
 
 
 def create_cluster(create_cluster_request=None):  # noqa: E501
