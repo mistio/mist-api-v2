@@ -1,6 +1,7 @@
 import connexion
 
 from mist.api.methods import list_resources
+from mist.api.logs.methods import log_event
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
@@ -45,6 +46,8 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         'cloud': cloud_param,
         'provider': provider_param
     }
+    log_event(auth_context.owner.id, 'request', 'create_cluster',
+              cloud_id=cloud.id, user_id=auth_context.user.id)
     job_id = cloud.ctl.create_cluster(**kwargs)
     return CreateClusterResponse(id=job_id)
 
@@ -72,6 +75,8 @@ def delete_cluster(cluster):  # noqa: E501
         auth_context.check_perm('cluster', 'delete', cluster.id)
     except Exception:
         return 'You are not authorized to perform this action', 403
+    log_event(auth_context.owner.id, 'request', 'delete_cluster',
+              cluster_id=cluster.id, user_id=auth_context.user.id)
     cluster.ctl.delete()
     return 'Cluster deleted successfully', 200
 
