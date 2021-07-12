@@ -45,7 +45,8 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         'cloud': cloud_param,
         'provider': provider_param
     }
-    return CreateClusterResponse(**kwargs)
+    job_id = cloud.ctl.create_cluster(**kwargs)
+    return CreateClusterResponse(id=job_id)
 
 
 def delete_cluster(cluster):  # noqa: E501
