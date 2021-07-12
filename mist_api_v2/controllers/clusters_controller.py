@@ -1,7 +1,9 @@
 import connexion
 
+from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 
+from .base import get_resource
 from .base import list_resources
 
 
@@ -45,7 +47,10 @@ def get_cluster(cluster, only=None, deref=None):  # noqa: E501
 
     :rtype: GetClusterResponse
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(auth_context, 'cluster', search=cluster, only=only,
+                          deref=deref)
+    return GetClusterResponse(data=result['data'], meta=result['meta'])
 
 
 def list_clusters(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
