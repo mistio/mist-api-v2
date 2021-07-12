@@ -407,8 +407,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cluster
+        - read:cloud
       - CookieAuth:
         - read:cluster
+        - read:cloud
       summary: List clusters
       tags:
       - clusters
@@ -434,9 +436,13 @@ paths:
           description: You are not authorized to perform this action
       security:
       - ApiKeyAuth:
-        - read:cluster
+        - create:cluster
+        - read:cloud
+        - create_resources:cloud
       - CookieAuth:
-        - read:cluster
+        - create:cluster
+        - read:cloud
+        - create_resources:cloud
       summary: Create cluster
       tags:
       - clusters
@@ -464,8 +470,10 @@ paths:
           description: Cluster not found
       security:
       - ApiKeyAuth:
+        - read:cloud
         - delete:cluster
       - CookieAuth:
+        - read:cloud
         - delete:cluster
       summary: Delete cluster
       tags:
@@ -529,8 +537,10 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cluster
+        - read:cloud
       - CookieAuth:
         - read:cluster
+        - read:cloud
       summary: Get cluster
       tags:
       - clusters
@@ -7907,7 +7917,6 @@ components:
           $ref: '#/components/schemas/ClusterProviders'
       required:
       - cloud
-      - provider
       - title
       type: object
     CreateMachineRequest_disks:
