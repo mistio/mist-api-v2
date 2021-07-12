@@ -1,5 +1,7 @@
 import connexion
 
+from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
+from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 
@@ -15,9 +17,33 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     :param create_cluster_request:
     :type create_cluster_request: dict | bytes
 
-    :rtype: InlineResponse200
+    :rtype: CreateClusterResponse
     """
-    return 'do some magic!'
+    if connexion.request.is_json:
+        create_cluster_request = CreateClusterRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except Exception:
+        return 'Authentication failed', 401
+    title_param = create_cluster_request.title
+    cloud_param = create_cluster_request.cloud
+    provider_param = create_cluster_request.provider
+    try:
+        [cloud], _ = list_resources(auth_context, 'cloud',
+                                    search=cloud_param, limit=1)
+    except ValueError:
+        return 'Cloud not found', 404
+    try:
+        auth_context.check_perm('cloud', 'read', cloud.id)
+        auth_context.check_perm('cloud', 'create', cloud.id)
+    except Exception:
+        return 'You are not authorized to perform this action', 403
+    kwargs = {
+        'title': title_param,
+        'cloud': cloud_param,
+        'provider': provider_param
+    }
+    return CreateClusterResponse(**kwargs)
 
 
 def delete_cluster(cluster):  # noqa: E501
