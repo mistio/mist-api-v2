@@ -17,30 +17,35 @@ class CreateClusterRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, config=None, provider=None):  # noqa: E501
         """CreateClusterRequestAllOf - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequestAllOf.  # noqa: E501
         :type name: str
         :param cloud: The cloud of this CreateClusterRequestAllOf.  # noqa: E501
         :type cloud: str
+        :param config: The config of this CreateClusterRequestAllOf.  # noqa: E501
+        :type config: object
         :param provider: The provider of this CreateClusterRequestAllOf.  # noqa: E501
         :type provider: ClusterProviders
         """
         self.openapi_types = {
             'name': str,
             'cloud': str,
+            'config': object,
             'provider': ClusterProviders
         }
 
         self.attribute_map = {
             'name': 'name',
             'cloud': 'cloud',
+            'config': 'config',
             'provider': 'provider'
         }
 
         self._name = name
         self._cloud = cloud
+        self._config = config
         self._provider = provider
 
     @classmethod
@@ -103,6 +108,29 @@ class CreateClusterRequestAllOf(Model):
             raise ValueError("Invalid value for `cloud`, must not be `None`")  # noqa: E501
 
         self._cloud = cloud
+
+    @property
+    def config(self):
+        """Gets the config of this CreateClusterRequestAllOf.
+
+        The provider-specific cluster configuration  # noqa: E501
+
+        :return: The config of this CreateClusterRequestAllOf.
+        :rtype: object
+        """
+        return self._config
+
+    @config.setter
+    def config(self, config):
+        """Sets the config of this CreateClusterRequestAllOf.
+
+        The provider-specific cluster configuration  # noqa: E501
+
+        :param config: The config of this CreateClusterRequestAllOf.
+        :type config: object
+        """
+
+        self._config = config
 
     @property
     def provider(self):
