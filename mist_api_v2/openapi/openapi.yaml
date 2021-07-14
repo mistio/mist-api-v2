@@ -308,7 +308,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4961,21 +4961,31 @@ components:
     Cluster:
       example:
         cloud: cloud
+        total_memory: total_memory
+        extra: '{}'
+        name: name
+        total_nodes: ""
+        total_cpus: total_cpus
         owned_by: owned_by
         id: id
-        title: title
         config: '{}'
         created_by: created_by
         tags: '{}'
       properties:
         id:
           type: string
-        title:
+        name:
           type: string
         cloud:
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
+        total_nodes:
+          type: int
+        total_cpus:
+          type: string
+        total_memory:
+          type: string
         config:
           type: object
         tags:
@@ -4984,6 +4994,8 @@ components:
           type: string
         owned_by:
           type: string
+        extra:
+          type: object
       type: object
     ClusterProviders:
       description: The cloud provider of the cluster
@@ -5700,9 +5712,13 @@ components:
       example:
         data:
           cloud: cloud
+          total_memory: total_memory
+          extra: '{}'
+          name: name
+          total_nodes: ""
+          total_cpus: total_cpus
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -6474,16 +6490,24 @@ components:
       example:
         data:
         - cloud: cloud
+          total_memory: total_memory
+          extra: '{}'
+          name: name
+          total_nodes: ""
+          total_cpus: total_cpus
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
         - cloud: cloud
+          total_memory: total_memory
+          extra: '{}'
+          name: name
+          total_nodes: ""
+          total_cpus: total_cpus
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -7907,7 +7931,7 @@ components:
       - generate
     CreateClusterRequest_allOf:
       properties:
-        title:
+        name:
           description: The name of the cluster to create
           type: string
         cloud:
@@ -7917,7 +7941,7 @@ components:
           $ref: '#/components/schemas/ClusterProviders'
       required:
       - cloud
-      - title
+      - name
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks

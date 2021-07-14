@@ -17,29 +17,29 @@ class CreateClusterRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, cloud=None, provider=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None):  # noqa: E501
         """CreateClusterRequestAllOf - a model defined in OpenAPI
 
-        :param title: The title of this CreateClusterRequestAllOf.  # noqa: E501
-        :type title: str
+        :param name: The name of this CreateClusterRequestAllOf.  # noqa: E501
+        :type name: str
         :param cloud: The cloud of this CreateClusterRequestAllOf.  # noqa: E501
         :type cloud: str
         :param provider: The provider of this CreateClusterRequestAllOf.  # noqa: E501
         :type provider: ClusterProviders
         """
         self.openapi_types = {
-            'title': str,
+            'name': str,
             'cloud': str,
             'provider': ClusterProviders
         }
 
         self.attribute_map = {
-            'title': 'title',
+            'name': 'name',
             'cloud': 'cloud',
             'provider': 'provider'
         }
 
-        self._title = title
+        self._name = name
         self._cloud = cloud
         self._provider = provider
 
@@ -55,29 +55,29 @@ class CreateClusterRequestAllOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def title(self):
-        """Gets the title of this CreateClusterRequestAllOf.
+    def name(self):
+        """Gets the name of this CreateClusterRequestAllOf.
 
         The name of the cluster to create  # noqa: E501
 
-        :return: The title of this CreateClusterRequestAllOf.
+        :return: The name of this CreateClusterRequestAllOf.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this CreateClusterRequestAllOf.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this CreateClusterRequestAllOf.
 
         The name of the cluster to create  # noqa: E501
 
-        :param title: The title of this CreateClusterRequestAllOf.
-        :type title: str
+        :param name: The name of this CreateClusterRequestAllOf.
+        :type name: str
         """
-        if title is None:
-            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._title = title
+        self._name = name
 
     @property
     def cloud(self):
