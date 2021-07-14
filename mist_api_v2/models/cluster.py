@@ -19,7 +19,7 @@ class Cluster(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, cloud=None, provider=None, total_nodes=None, total_cpus=None, total_memory=None, config=None, tags=None, created_by=None, owned_by=None, extra=None):  # noqa: E501
+    def __init__(self, id=None, name=None, cloud=None, provider=None, total_nodes=None, total_cpus=None, total_memory=None, location=None, config=None, tags=None, created_by=None, owned_by=None, extra=None):  # noqa: E501
         """Cluster - a model defined in OpenAPI
 
         :param id: The id of this Cluster.  # noqa: E501
@@ -36,6 +36,8 @@ class Cluster(Model):
         :type total_cpus: str
         :param total_memory: The total_memory of this Cluster.  # noqa: E501
         :type total_memory: str
+        :param location: The location of this Cluster.  # noqa: E501
+        :type location: str
         :param config: The config of this Cluster.  # noqa: E501
         :type config: object
         :param tags: The tags of this Cluster.  # noqa: E501
@@ -55,6 +57,7 @@ class Cluster(Model):
             'total_nodes': Int,
             'total_cpus': str,
             'total_memory': str,
+            'location': str,
             'config': object,
             'tags': object,
             'created_by': str,
@@ -70,6 +73,7 @@ class Cluster(Model):
             'total_nodes': 'total_nodes',
             'total_cpus': 'total_cpus',
             'total_memory': 'total_memory',
+            'location': 'location',
             'config': 'config',
             'tags': 'tags',
             'created_by': 'created_by',
@@ -84,6 +88,7 @@ class Cluster(Model):
         self._total_nodes = total_nodes
         self._total_cpus = total_cpus
         self._total_memory = total_memory
+        self._location = location
         self._config = config
         self._tags = tags
         self._created_by = created_by
@@ -247,6 +252,27 @@ class Cluster(Model):
         """
 
         self._total_memory = total_memory
+
+    @property
+    def location(self):
+        """Gets the location of this Cluster.
+
+
+        :return: The location of this Cluster.
+        :rtype: str
+        """
+        return self._location
+
+    @location.setter
+    def location(self, location):
+        """Sets the location of this Cluster.
+
+
+        :param location: The location of this Cluster.
+        :type location: str
+        """
+
+        self._location = location
 
     @property
     def config(self):
