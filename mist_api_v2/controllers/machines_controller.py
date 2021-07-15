@@ -10,7 +10,7 @@ from mist.api.exceptions import MachineUnauthorizedError
 from mist.api.exceptions import ServiceUnavailableError
 
 from mist.api.methods import list_resources as list_resources_v1
-from mist.api.dramatiq_tasks import dramatiq_multicreate_async
+from mist.api.tasks import create_machine_async_v2
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -161,7 +161,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
         job_id = uuid.uuid4().hex
         job = 'create_machine'
         # TODO add countdown=2
-        dramatiq_multicreate_async.send(
+        create_machine_async_v2.send(
             auth_context.serialize(), plan, job_id=job_id, job=job
         )
         return CreateMachineResponse(plan=user_plan, job_id=job_id)
