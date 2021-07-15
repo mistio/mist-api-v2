@@ -9,6 +9,8 @@ from mist_api_v2 import util
 
 from mist.api.monitoring.victoriametrics.helpers import calculate_time_args, parse_relative_time
 
+from .base import get_resource
+
 
 def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None):  # noqa: E501
     """Get datapoints
@@ -60,13 +62,24 @@ def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None)
         datapoints = requests.get(
             f"{uri}/api/v1/query_range"
             f"?query={query}{time_args}", timeout=20)
-    if datapoints.ok:
-        meta = {
-            'total_matching': 1,
-            'total_returned': 1,
-            'sort': '',
-            'start': ''
-        }
-        return GetDatapointsResponse(data=datapoints.json(), meta=meta)
-    error_response = datapoints.json()
-    return error_response.get("error", ""), datapoints.status_code
+    if not datapoints.ok:
+        error_response = datapoints.json()
+        return error_response.get("error", ""), datapoints.status_code
+
+    datapoints = datapoints.json()
+    machine_ids = {item["metric"]["machine_id"] for item in datapoints.get(
+        "data", {}).get("result", []) if item.get("metric", {}).get("machine_id")}
+    machine_name_map = {machine_id: get_resource(auth_context, 'machine', search=machine_id)["data"]["name"]
+                        for machine_id in machine_ids}
+    for item in datapoints.get("data", {}).get("result", []):
+        if isinstance(item, dict) and item.get("metric", {}).get("machine_id"):
+            item["metric"].update(
+                {"name": machine_name_map[item["metric"]["machine_id"]]})
+
+    meta = {
+        'total_matching': 1,
+        'total_returned': 1,
+        'sort': '',
+        'start': ''
+    }
+    return GetDatapointsResponse(data=datapoints, meta=meta)
