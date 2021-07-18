@@ -1,5 +1,4 @@
 import connexion
-import six
 
 import mongoengine as me
 
@@ -7,7 +6,6 @@ from mist.api.logs.methods import log_event
 
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -17,7 +15,7 @@ def delete_script(script):  # noqa: E501
 
     Delete target script # noqa: E501
 
-    :param script: 
+    :param script:
     :type script: str
 
     :rtype: None
@@ -47,7 +45,7 @@ def edit_script(script, name=None, description=None):  # noqa: E501
 
     Edit target script # noqa: E501
 
-    :param script: 
+    :param script:
     :type script: str
     :param name: New script name
     :type name: str
@@ -74,7 +72,7 @@ def get_script(script, only=None, deref='auto'):  # noqa: E501
 
     Get details about target script # noqa: E501
 
-    :param script: 
+    :param script:
     :type script: str
     :param only: Only return these fields
     :type only: str

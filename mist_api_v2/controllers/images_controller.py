@@ -1,9 +1,7 @@
 import connexion
-import six
 
 from mist_api_v2.models.get_image_response import GetImageResponse  # noqa: E501
 from mist_api_v2.models.list_images_response import ListImagesResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -13,7 +11,7 @@ def get_image(image, only=None, deref=None):  # noqa: E501
 
     Get details about target image # noqa: E501
 
-    :param image: 
+    :param image:
     :type image: str
     :param only: Only return these fields
     :type only: str
@@ -34,7 +32,7 @@ def list_images(cloud=None, search=None, sort=None, start=None, limit=None, only
 
     List images owned by the active org. READ permission required on image &amp; cloud. # noqa: E501
 
-    :param cloud: 
+    :param cloud:
     :type cloud: str
     :param search: Only return results matching search filter
     :type search: str

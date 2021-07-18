@@ -1,23 +1,15 @@
-import os
-import time
 import logging
 
 import connexion
-import six
-
-import mongoengine as me
 
 from mist.api import config
 
 from mist_api_v2.models.action import Action  # noqa: E501
 from mist_api_v2.models.frequency import Frequency  # noqa: E501
-from mist_api_v2.models.list_rules_response import ListRulesResponse  # noqa: E501
 from mist_api_v2.models.query import Query  # noqa: E501
-from mist_api_v2.models.rule import Rule  # noqa: E501
 from mist_api_v2.models.selector import Selector  # noqa: E501
 from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
 from mist_api_v2.models.window import Window  # noqa: E501
-from mist_api_v2 import util
 
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
@@ -33,17 +25,17 @@ def add_rule(queries, window, frequency, trigger_after, actions, selectors):  # 
 
     Add a new rule, READ permission required on target resource, ADD permission required on Rule # noqa: E501
 
-    :param queries: 
+    :param queries:
     :type queries: list | bytes
-    :param window: 
+    :param window:
     :type window: dict | bytes
-    :param frequency: 
+    :param frequency:
     :type frequency: dict | bytes
-    :param trigger_after: 
+    :param trigger_after:
     :type trigger_after: dict | bytes
-    :param actions: 
+    :param actions:
     :type actions: list | bytes
-    :param selectors: 
+    :param selectors:
     :type selectors: dict | bytes
 
     :rtype: Rule
@@ -51,15 +43,15 @@ def add_rule(queries, window, frequency, trigger_after, actions, selectors):  # 
     if connexion.request.is_json:
         queries = [Query.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
     if connexion.request.is_json:
-        window =  Window.from_dict(connexion.request.get_json())  # noqa: E501
+        window = Window.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
-        frequency =  Frequency.from_dict(connexion.request.get_json())  # noqa: E501
+        frequency = Frequency.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
-        trigger_after =  TriggerAfter.from_dict(connexion.request.get_json())  # noqa: E501
+        trigger_after = TriggerAfter.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
         actions = [Action.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
     if connexion.request.is_json:
-        selectors =  Selector.from_dict(connexion.request.get_json())  # noqa: E501
+        selectors = Selector.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -68,7 +60,7 @@ def delete_rule(rule):  # noqa: E501
 
     Delete a rule given its UUID. # noqa: E501
 
-    :param rule: 
+    :param rule:
     :type rule: str
 
     :rtype: None
@@ -91,7 +83,7 @@ def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
     rules, total = list_resources(auth_context, 'rule',
-                                   search=search, sort=sort, limit=limit)
+                                  search=search, sort=sort, limit=limit)
     meta = {
         'total_matching': total,
         'total_returned': rules.count(),
@@ -109,9 +101,9 @@ def rename_rule(rule, action):  # noqa: E501
 
     Rename a rule # noqa: E501
 
-    :param rule: 
+    :param rule:
     :type rule: str
-    :param action: 
+    :param action:
     :type action: str
 
     :rtype: None
@@ -124,9 +116,9 @@ def toggle_rule(rule, action):  # noqa: E501
 
     Enable or disable a rule # noqa: E501
 
-    :param rule: 
+    :param rule:
     :type rule: str
-    :param action: 
+    :param action:
     :type action: str
 
     :rtype: None
@@ -139,19 +131,19 @@ def update_rule(rule, queries=None, window=None, frequency=None, trigger_after=N
 
     Update a rule given its UUID, EDIT permission required on rule # noqa: E501
 
-    :param rule: 
+    :param rule:
     :type rule: str
-    :param queries: 
+    :param queries:
     :type queries: list | bytes
-    :param window: 
+    :param window:
     :type window: dict | bytes
-    :param frequency: 
+    :param frequency:
     :type frequency: dict | bytes
-    :param trigger_after: 
+    :param trigger_after:
     :type trigger_after: dict | bytes
-    :param actions: 
+    :param actions:
     :type actions: list | bytes
-    :param selectors: 
+    :param selectors:
     :type selectors: dict | bytes
 
     :rtype: Rule
@@ -159,15 +151,15 @@ def update_rule(rule, queries=None, window=None, frequency=None, trigger_after=N
     if connexion.request.is_json:
         queries = [Query.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
     if connexion.request.is_json:
-        window =  Window.from_dict(connexion.request.get_json())  # noqa: E501
+        window = Window.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
-        frequency =  Frequency.from_dict(connexion.request.get_json())  # noqa: E501
+        frequency = Frequency.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
-        trigger_after =  TriggerAfter.from_dict(connexion.request.get_json())  # noqa: E501
+        trigger_after = TriggerAfter.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
         actions = [Action.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
     if connexion.request.is_json:
-        selectors =  Selector.from_dict(connexion.request.get_json())  # noqa: E501
+        selectors = Selector.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -176,7 +168,7 @@ def get_rule(rule):  # noqa: E501
 
     Get details about target rule # noqa: E501
 
-    :param rule: 
+    :param rule:
     :type rule: str
 
     :rtype: None
@@ -184,8 +176,8 @@ def get_rule(rule):  # noqa: E501
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
     try:
-        [rule], total = list_resources(auth_context, 'rule',
-                                        search=rule, limit=1)
+        [rule], total = list_resources(
+            auth_context, 'rule', search=rule, limit=1)
     except ValueError:
         return 'Rule does not exist', 404
 

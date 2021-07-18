@@ -1,24 +1,23 @@
 import uuid
 import connexion
-import six
-import mongoengine as me
 
-from mist.api import config
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
 from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import MachineUnauthorizedError
+from mist.api.exceptions import ServiceUnavailableError
 
-from mist.api.machines.methods import machine_name_validator
 from mist.api.methods import list_resources as list_resources_v1
-from mist.api.dramatiq_tasks import dramatiq_create_machine_async
+from mist.api.tasks import create_machine_async_v2
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
-from mist_api_v2 import util
+from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
+from mist.api.keys.models import Key  # noqa: E501
 
 from .base import list_resources, get_resource
 
@@ -92,7 +91,8 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if create_machine_request.cloud:
         cloud_search = create_machine_request.cloud
     elif create_machine_request.provider:
-        cloud_search = f'provider:{create_machine_request.provider}'
+        cloud_search = \
+            f'provider:{create_machine_request.provider} enabled:True'
     else:
         cloud_search = ''
     # TODO handle multiple clouds
@@ -149,17 +149,22 @@ def create_machine(create_machine_request=None):  # noqa: E501
     else:
         dry = True
 
+    # sensitive fields that shouldn't be returned in plan
+    sensitive_fields = ['root_pass', ]
+    user_plan = {key: plan[key] for key in plan
+                 if key not in sensitive_fields}
+
     if dry:
-        return CreateMachineResponse(plan=plan)
+        return CreateMachineResponse(plan=user_plan)
     else:
         # TODO job,job_id could also be passed as parameter
         job_id = uuid.uuid4().hex
         job = 'create_machine'
         # TODO add countdown=2
-        dramatiq_create_machine_async.send(
+        create_machine_async_v2.send(
             auth_context.serialize(), plan, job_id=job_id, job=job
         )
-        return CreateMachineResponse(plan=plan, job_id=job_id)
+        return CreateMachineResponse(plan=user_plan, job_id=job_id)
 
 
 def destroy_machine(machine):  # noqa: E501
@@ -223,7 +228,7 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
 
     Get details about target machine # noqa: E501
 
-    :param machine: 
+    :param machine:
     :type machine: str
     :param only: Only return these fields
     :type only: str
@@ -234,7 +239,7 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(auth_context, 'machine', search=machine, only=only,
-        deref=deref)
+                          deref=deref)
 
     return GetMachineResponse(data=result['data'], meta=result['meta'])
 
@@ -458,3 +463,90 @@ def undefine_machine(machine):  # noqa: E501
     )
     machine.ctl.undefine()
     return 'Undefined machine `%s`' % machine.name, 200
+
+
+def associate_key(machine, key_machine_association=None):  # noqa: E501
+    """Associate a key with a machine
+
+    Associate a key with a machine. # noqa: E501
+
+    :param machine:
+    :type machine: str
+    :param key_machine_association:
+    :type key_machine_association: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
+    ssh_user = key_machine_association.user or 'root'
+    ssh_port = key_machine_association.port or 22
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except Exception:
+        return 'Authentication failed', 401
+    try:
+        [machine], _ = list_resources(auth_context, 'machine',
+                                      search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [key], _ = list_resources(auth_context, 'key',
+                                  search=key_machine_association.key, limit=1)
+    except Key.DoesNotExist:
+        return 'Key id does not exist', 404
+    try:
+        auth_context.check_perm('machine', 'associate_key', machine.id)
+        auth_context.check_perm('cloud', 'read', machine.cloud.id)
+        auth_context.check_perm('key', 'read', key.id)
+    except Exception:
+        return 'You are not authorized to perform this action', 403
+    try:
+        key.ctl.associate(machine, username=ssh_user, port=ssh_port)
+    except (MachineUnauthorizedError, ServiceUnavailableError):
+        return 'Could not connect to target machine', 503
+    except Exception as e:
+        return 'Action not supported on target machine', 422
+    return 'Association successful', 200
+
+
+def disassociate_key(machine, key_machine_association=None):  # noqa: E501
+    """Associate a key with a machine
+
+    Disassociate a key from a machine. # noqa: E501
+
+    :param machine:
+    :type machine: str
+    :param key_machine_association:
+    :type key_machine_association: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        key_machine_association = KeyMachineAssociation.from_dict(connexion.request.get_json())  # noqa: E501
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except:
+        return 'Authentication failed', 401
+    try:
+        [machine], _ = list_resources(auth_context, 'machine',
+                                      search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [key], _ = list_resources(auth_context, 'key',
+                                  search=key_machine_association.key, limit=1)
+    except Key.DoesNotExist:
+        return 'Key id does not exist', 404
+    try:
+        auth_context.check_perm("machine", "disassociate_key", machine.id)
+        auth_context.check_perm("cloud", "read", machine.cloud.id)
+    except:
+        return 'You are not authorized to perform this action', 403
+    try:
+        key.ctl.disassociate(machine)
+    except (MachineUnauthorizedError, ServiceUnavailableError):
+        return 'Could not connect to target machine', 503
+    return 'Disassociation successful', 200

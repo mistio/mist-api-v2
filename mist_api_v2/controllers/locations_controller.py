@@ -1,9 +1,7 @@
 import connexion
-import six
 
 from mist_api_v2.models.get_location_response import GetLocationResponse  # noqa: E501
 from mist_api_v2.models.list_locations_response import ListLocationsResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -24,7 +22,7 @@ def get_location(location, only=None, deref=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(
-        auth_context, 'location', search=volume, only=only, deref=deref)
+        auth_context, 'location', search=location, only=only, deref=deref)
     return GetLocationResponse(data=result['data'], meta=result['meta'])
 
 

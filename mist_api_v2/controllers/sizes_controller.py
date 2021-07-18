@@ -1,9 +1,7 @@
 import connexion
-import six
 
 from mist_api_v2.models.get_size_response import GetSizeResponse  # noqa: E501
 from mist_api_v2.models.list_sizes_response import ListSizesResponse  # noqa: E501
-from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -24,7 +22,7 @@ def get_size(size, only=None, deref=None):  # noqa: E501
     """
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(
-        auth_context, 'size', search=volume, only=only, deref=deref)
+        auth_context, 'size', search=size, only=only, deref=deref)
     return GetSizeResponse(data=result['data'], meta=result['meta'])
 
 
