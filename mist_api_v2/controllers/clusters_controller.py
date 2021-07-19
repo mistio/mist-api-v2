@@ -1,12 +1,11 @@
 import connexion
 
-from mist.api.methods import list_resources
-
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 
+from .base import list_resources
 from .base import get_resource
 
 
@@ -96,7 +95,7 @@ def get_cluster(cluster, only=None, deref=None):  # noqa: E501
     return GetClusterResponse(data=result['data'], meta=result['meta'])
 
 
-def list_clusters(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref=None):  # noqa: E501
     """List clusters
 
     List clusters # noqa: E501
