@@ -4960,15 +4960,15 @@ components:
       type: object
     Cluster:
       example:
-        total_cpus: total_cpus
+        total_cpus: 6.027456183070403
         owned_by: owned_by
         created_by: created_by
         tags: '{}'
         cloud: cloud
-        total_memory: total_memory
+        total_memory: 1.4658129805029452
         extra: '{}'
         name: name
-        total_nodes: ""
+        total_nodes: 0
         location: location
         id: id
         config: '{}'
@@ -4982,11 +4982,11 @@ components:
         provider:
           $ref: '#/components/schemas/ClusterProviders'
         total_nodes:
-          type: int
+          type: integer
         total_cpus:
-          type: string
+          type: number
         total_memory:
-          type: string
+          type: number
         location:
           type: string
         config:
@@ -5714,15 +5714,15 @@ components:
     GetClusterResponse:
       example:
         data:
-          total_cpus: total_cpus
+          total_cpus: 6.027456183070403
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
           cloud: cloud
-          total_memory: total_memory
+          total_memory: 1.4658129805029452
           extra: '{}'
           name: name
-          total_nodes: ""
+          total_nodes: 0
           location: location
           id: id
           config: '{}'
@@ -6493,27 +6493,27 @@ components:
     ListClustersResponse:
       example:
         data:
-        - total_cpus: total_cpus
+        - total_cpus: 6.027456183070403
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
           cloud: cloud
-          total_memory: total_memory
+          total_memory: 1.4658129805029452
           extra: '{}'
           name: name
-          total_nodes: ""
+          total_nodes: 0
           location: location
           id: id
           config: '{}'
-        - total_cpus: total_cpus
+        - total_cpus: 6.027456183070403
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
           cloud: cloud
-          total_memory: total_memory
+          total_memory: 1.4658129805029452
           extra: '{}'
           name: name
-          total_nodes: ""
+          total_nodes: 0
           location: location
           id: id
           config: '{}'
