@@ -5434,14 +5434,6 @@ components:
       - host
       - port
       type: object
-    EditSecretRequest:
-      example:
-        secret: '{}'
-      properties:
-        secret:
-          type: object
-      required:
-      - secret
     EditCloudRequest:
       anyOf:
       - $ref: '#/components/schemas/EditCloudRequest_anyOf'
@@ -5533,6 +5525,15 @@ components:
           type: string
       required:
       - title
+      type: object
+    EditSecretRequest:
+      example:
+        secret: '{}'
+      properties:
+        secret:
+          type: object
+      required:
+      - secret
       type: object
     EquinixCloudRequest:
       properties:
