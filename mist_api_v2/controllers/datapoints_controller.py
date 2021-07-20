@@ -1,13 +1,11 @@
 import connexion
-import six
 import requests
 
 from mist.api import config
 
 from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # noqa: E501
-from mist_api_v2 import util
 
-from mist.api.monitoring.victoriametrics.helpers import calculate_time_args, parse_relative_time
+from mist.api.monitoring.victoriametrics.helpers import parse_relative_time
 
 from .base import get_resource
 
@@ -17,17 +15,17 @@ def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None)
 
     Get datapoints for a specific query # noqa: E501
 
-    :param query: 
+    :param query:
     :type query: str
-    :param tags: 
+    :param tags:
     :type tags: str
-    :param start: 
+    :param start:
     :type start: str
-    :param end: 
+    :param end:
     :type end: str
-    :param step: 
+    :param step:
     :type step: str
-    :param time: 
+    :param time:
     :type time: str
 
     :rtype: GetDatapointsResponse
@@ -36,11 +34,11 @@ def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None)
 
     def calculate_time_args(start, stop, step):
         time_args = ""
-        if start != None:
+        if start is not None:
             time_args += f"&start={parse_relative_time(start)}"
-        if stop != None:
+        if stop is not None:
             time_args += f"&end={parse_relative_time(stop)}"
-        if step != None:
+        if step is not None:
             time_args += f"&step={parse_relative_time(step)}"
         return time_args
 
@@ -64,9 +62,11 @@ def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None)
 
     datapoints = datapoints.json()
     machine_ids = {item["metric"]["machine_id"] for item in datapoints.get(
-        "data", {}).get("result", []) if item.get("metric", {}).get("machine_id")}
-    machine_name_map = {machine_id: get_resource(auth_context, 'machine', search=machine_id)["data"]["name"]
-                        for machine_id in machine_ids}
+        "data", {}).get("result", []) if item.get(
+            "metric", {}).get("machine_id")}
+    machine_name_map = {machine_id: get_resource(
+        auth_context, 'machine', search=machine_id)["data"]["name"]
+        for machine_id in machine_ids}
     for item in datapoints.get("data", {}).get("result", []):
         if isinstance(item, dict) and item.get("metric", {}).get("machine_id"):
             item["metric"].update(
