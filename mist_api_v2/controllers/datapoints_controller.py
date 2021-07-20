@@ -33,10 +33,6 @@ def get_datapoints(query, tags=None, start=None, end=None, step=None, time=None)
     :rtype: GetDatapointsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    """from mist.api.methods import list_resources
-    resources, _ = list_resources(auth_context, "machine")
-    from mist.api.monitoring.methods import filter_resources_by_tags
-    resources = filter_resources_by_tags(resources, tags)"""
 
     def calculate_time_args(start, stop, step):
         time_args = ""
