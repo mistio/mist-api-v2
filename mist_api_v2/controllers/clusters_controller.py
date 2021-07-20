@@ -1,5 +1,7 @@
 import connexion
 
+from mist.api.methods import list_resources as list_resources_v1
+
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
@@ -25,12 +27,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except Exception:
         return 'Authentication failed', 401
-    title_param = create_cluster_request.title
-    cloud_param = create_cluster_request.cloud
-    provider_param = create_cluster_request.provider
     try:
-        [cloud], _ = list_resources(auth_context, 'cloud',
-                                    search=cloud_param, limit=1)
+        [cloud], _ = list_resources_v1(auth_context, 'cloud',
+                                       search=create_cluster_request.cloud,
+                                       limit=1)
     except ValueError:
         return 'Cloud not found', 404
     try:
@@ -40,12 +40,14 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     except Exception:
         return 'You are not authorized to perform this action', 403
     kwargs = {
-        'title': title_param,
-        'cloud': cloud_param,
-        'provider': provider_param
+        'zone': create_cluster_request.zone,
+        'name': create_cluster_request.name,
     }
-    job_id = cloud.ctl.create_cluster(**kwargs)
-    return CreateClusterResponse(id=job_id)
+    try:
+        cloud.ctl.container.create_cluster(**kwargs)
+    except Exception:
+        return 'Cluster creation failed', 409
+    return CreateClusterResponse()
 
 
 def delete_cluster(cluster):  # noqa: E501
@@ -63,16 +65,23 @@ def delete_cluster(cluster):  # noqa: E501
     except Exception:
         return 'Authentication failed', 401
     try:
-        [cluster], total = list_resources(auth_context, 'cluster',
-                                          search=cluster, limit=1)
+        [cluster], total = list_resources_v1(auth_context, 'cluster',
+                                             search=cluster, limit=1)
     except ValueError:
         return 'Cluster not found', 404
     try:
         auth_context.check_perm('cluster', 'delete', cluster.id)
     except Exception:
         return 'You are not authorized to perform this action', 403
-    cluster.ctl.delete()
-    return 'Cluster deleted successfully', 200
+    kwargs = {
+        'zone': cluster.extra['zone'],
+        'name': cluster.name,
+    }
+    try:
+        cluster.cloud.ctl.container.delete_cluster(**kwargs)
+    except Exception:
+        return 'Cluster deletion failed', 404
+    return 'Cluster deletion successful', 200
 
 
 def get_cluster(cluster, only=None, deref=None):  # noqa: E501
