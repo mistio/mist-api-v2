@@ -7,7 +7,7 @@ from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # 
 
 from mist.api.monitoring.victoriametrics.helpers import parse_relative_time
 
-from .base import list_resources, get_resource
+from .base import list_resources
 
 
 def get_datapoints(query, search=None, tags=None, start=None, end=None, step=None, time=None):  # noqa: E501
@@ -45,7 +45,8 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
     machines = list_resources(
         auth_context, 'machine', search=search
     )
-    machine_name_map = {machine["id"]: machine["name"] for machine in machines.get("data", [])
+    machine_name_map = {machine["id"]: machine["name"]
+                        for machine in machines.get("data", [])
                         if machine.get("id") and machine.get("name")}
 
     tenant = str(int(auth_context.org.id[:8], 16))
@@ -70,7 +71,9 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
     filtered_result = []
     if datapoints.get("data", {}).get("result", []):
         for item in datapoints["data"]["result"]:
-            if isinstance(item, dict) and item.get("metric", {}).get("machine_id") and machine_name_map.get(item.get("metric", {})["machine_id"]):
+            if isinstance(item, dict) and item.get(
+                    "metric", {}).get("machine_id") and machine_name_map.get(
+                        item.get("metric", {})["machine_id"]):
                 item["metric"].update(
                     {"name": machine_name_map[item["metric"]["machine_id"]]})
                 filtered_result.append(item)
