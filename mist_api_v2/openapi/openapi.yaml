@@ -566,6 +566,13 @@ paths:
         style: form
       - explode: true
         in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
         name: start
         required: false
         schema:
