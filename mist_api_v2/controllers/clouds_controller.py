@@ -82,7 +82,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     from mist.api.clouds.models import Cloud
     from mist.api.clouds.methods import add_cloud_v_2
     from mist.api.helpers import trigger_session_update
-    from mist.api.dramatiq_tasks import dramatiq_async_session_update
+    from mist.api.tasks import async_session_update
     from mist.api.tag.methods import add_tags_to_resource
 
     auth_context = connexion.context['token_info']['auth_context']
@@ -122,7 +122,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     if config.HAS_RBAC:
         auth_context.owner.mapper.update(
             cloud,
-            callback=dramatiq_async_session_update,
+            callback=async_session_update,
             args=(auth_context.owner.id, ['clouds'], )
         )
 
