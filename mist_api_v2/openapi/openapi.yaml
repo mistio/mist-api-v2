@@ -545,6 +545,81 @@ paths:
       tags:
       - clusters
       x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+  /api/v2/datapoints:
+    get:
+      description: Get datapoints for a specific query
+      operationId: get_datapoints
+      parameters:
+      - explode: true
+        in: query
+        name: query
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: tags
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: end
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: step
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: time
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDatapointsResponse'
+          description: Datapoints returned successfully
+        "400":
+          description: Bad Request
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "422":
+          description: Unprocessable Entity
+        "503":
+          description: Service Unavailable
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+        - read:machine
+      - CookieAuth:
+        - read:cloud
+        - read:machine
+      summary: Get datapoints
+      tags:
+      - datapoints
+      x-openapi-router-controller: mist_api_v2.controllers.datapoints_controller
   /api/v2/images:
     get:
       description: List images owned by the active org. READ permission required on
@@ -4960,12 +5035,12 @@ components:
       type: object
     Cluster:
       example:
-        total_cpus: 6.027456183070403
+        total_cpus: 6
         owned_by: owned_by
         created_by: created_by
         tags: '{}'
         cloud: cloud
-        total_memory: 1.4658129805029452
+        total_memory: 1
         extra: '{}'
         name: name
         total_nodes: 0
@@ -4984,9 +5059,9 @@ components:
         total_nodes:
           type: integer
         total_cpus:
-          type: number
+          type: integer
         total_memory:
-          type: number
+          type: integer
         location:
           type: string
         config:
@@ -5396,6 +5471,28 @@ components:
       - schedule_type
       title: Cron
       type: object
+    Datapoints:
+      example:
+        data:
+          result:
+          - null
+          - null
+          resultType: resultType
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          $ref: '#/components/schemas/Datapoints_data'
+      type: object
+    DatapointsValuesItem:
+      anyOf:
+      - type: string
+      - type: number
+    DatapointsValuesTuple:
+      items:
+        $ref: '#/components/schemas/DatapointsValuesItem'
+      type: array
     DigitalOceanVolumes:
       items:
         oneOf:
@@ -5714,12 +5811,12 @@ components:
     GetClusterResponse:
       example:
         data:
-          total_cpus: 6.027456183070403
+          total_cpus: 6
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
           cloud: cloud
-          total_memory: 1.4658129805029452
+          total_memory: 1
           extra: '{}'
           name: name
           total_nodes: 0
@@ -5734,6 +5831,26 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Cluster'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetDatapointsResponse:
+      example:
+        data:
+          data:
+            result:
+            - null
+            - null
+            resultType: resultType
+          status: status
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Datapoints'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -6168,6 +6285,15 @@ components:
       required:
       - inline
       type: object
+    InstantVector:
+      properties:
+        metric:
+          type: object
+        values:
+          items:
+            $ref: '#/components/schemas/DatapointsValuesItem'
+          type: array
+      type: object
     IntervalSchedule:
       description: interval schedule
       properties:
@@ -6493,24 +6619,24 @@ components:
     ListClustersResponse:
       example:
         data:
-        - total_cpus: 6.027456183070403
+        - total_cpus: 6
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
           cloud: cloud
-          total_memory: 1.4658129805029452
+          total_memory: 1
           extra: '{}'
           name: name
           total_nodes: 0
           location: location
           id: id
           config: '{}'
-        - total_cpus: 6.027456183070403
+        - total_cpus: 6
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
           cloud: cloud
-          total_memory: 1.4658129805029452
+          total_memory: 1
           extra: '{}'
           name: name
           total_nodes: 0
@@ -7425,6 +7551,15 @@ components:
       - region
       - username
       type: object
+    RangeVector:
+      properties:
+        metric:
+          type: object
+        value:
+          items:
+            $ref: '#/components/schemas/DatapointsValuesTuple'
+          type: array
+      type: object
     ResponseMetadata:
       example:
         total: 0
@@ -7720,6 +7855,11 @@ components:
       - port
       - username
       type: object
+    Vector:
+      oneOf:
+      - $ref: '#/components/schemas/InstantVector'
+      - $ref: '#/components/schemas/RangeVector'
+      type: object
     Volume:
       example:
         cloud: cloud
@@ -7940,6 +8080,9 @@ components:
         name:
           description: The name of the cluster to create
           type: string
+        zone:
+          description: The name of the zone to create the cluster in
+          type: string
         cloud:
           description: The cloud the cluster belongs to
           type: string
@@ -7951,6 +8094,7 @@ components:
       required:
       - cloud
       - name
+      - zone
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks
@@ -7976,6 +8120,20 @@ components:
       properties:
         plan:
           type: object
+    Datapoints_data:
+      example:
+        result:
+        - null
+        - null
+        resultType: resultType
+      properties:
+        resultType:
+          type: string
+        result:
+          items:
+            $ref: '#/components/schemas/Vector'
+          type: array
+      type: object
     EquinixMetalNet_ip_addresses:
       properties:
         address_family:

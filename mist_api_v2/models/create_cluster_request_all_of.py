@@ -17,11 +17,13 @@ class CreateClusterRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, config=None, provider=None):  # noqa: E501
+    def __init__(self, name=None, zone=None, cloud=None, config=None, provider=None):  # noqa: E501
         """CreateClusterRequestAllOf - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequestAllOf.  # noqa: E501
         :type name: str
+        :param zone: The zone of this CreateClusterRequestAllOf.  # noqa: E501
+        :type zone: str
         :param cloud: The cloud of this CreateClusterRequestAllOf.  # noqa: E501
         :type cloud: str
         :param config: The config of this CreateClusterRequestAllOf.  # noqa: E501
@@ -31,6 +33,7 @@ class CreateClusterRequestAllOf(Model):
         """
         self.openapi_types = {
             'name': str,
+            'zone': str,
             'cloud': str,
             'config': object,
             'provider': ClusterProviders
@@ -38,12 +41,14 @@ class CreateClusterRequestAllOf(Model):
 
         self.attribute_map = {
             'name': 'name',
+            'zone': 'zone',
             'cloud': 'cloud',
             'config': 'config',
             'provider': 'provider'
         }
 
         self._name = name
+        self._zone = zone
         self._cloud = cloud
         self._config = config
         self._provider = provider
@@ -83,6 +88,31 @@ class CreateClusterRequestAllOf(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
+
+    @property
+    def zone(self):
+        """Gets the zone of this CreateClusterRequestAllOf.
+
+        The name of the zone to create the cluster in  # noqa: E501
+
+        :return: The zone of this CreateClusterRequestAllOf.
+        :rtype: str
+        """
+        return self._zone
+
+    @zone.setter
+    def zone(self, zone):
+        """Sets the zone of this CreateClusterRequestAllOf.
+
+        The name of the zone to create the cluster in  # noqa: E501
+
+        :param zone: The zone of this CreateClusterRequestAllOf.
+        :type zone: str
+        """
+        if zone is None:
+            raise ValueError("Invalid value for `zone`, must not be `None`")  # noqa: E501
+
+        self._zone = zone
 
     @property
     def cloud(self):

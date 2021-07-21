@@ -10,6 +10,7 @@ mist_api_v2/controllers/__init__.py
 mist_api_v2/controllers/clouds_controller.py
 mist_api_v2/controllers/clouds_count_controller.py
 mist_api_v2/controllers/clusters_controller.py
+mist_api_v2/controllers/datapoints_controller.py
 mist_api_v2/controllers/images_controller.py
 mist_api_v2/controllers/jobs_controller.py
 mist_api_v2/controllers/keys_controller.py
@@ -69,6 +70,9 @@ mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
 mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
+mist_api_v2/models/datapoints.py
+mist_api_v2/models/datapoints_data.py
+mist_api_v2/models/datapoints_values_item.py
 mist_api_v2/models/digitalocean_cloud_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_cloud_request.py
@@ -85,6 +89,7 @@ mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_cluster_response.py
+mist_api_v2/models/get_datapoints_response.py
 mist_api_v2/models/get_image_response.py
 mist_api_v2/models/get_job_response.py
 mist_api_v2/models/get_key_response.py
@@ -106,6 +111,7 @@ mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
 mist_api_v2/models/inline_response200.py
 mist_api_v2/models/inline_script.py
+mist_api_v2/models/instant_vector.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
 mist_api_v2/models/key.py
@@ -160,6 +166,7 @@ mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
+mist_api_v2/models/range_vector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
@@ -172,6 +179,7 @@ mist_api_v2/models/trigger_after.py
 mist_api_v2/models/user.py
 mist_api_v2/models/vcloud_cloud_request.py
 mist_api_v2/models/vcloud_credentials.py
+mist_api_v2/models/vector.py
 mist_api_v2/models/volume.py
 mist_api_v2/models/vsphere_cloud_request.py
 mist_api_v2/models/vsphere_credentials.py
@@ -183,6 +191,7 @@ mist_api_v2/openapi/openapi.yaml
 mist_api_v2/test/__init__.py
 mist_api_v2/test/test_clouds_count_controller.py
 mist_api_v2/test/test_clusters_controller.py
+mist_api_v2/test/test_datapoints_controller.py
 mist_api_v2/test/test_images_controller.py
 mist_api_v2/test/test_jobs_controller.py
 mist_api_v2/test/test_keys_controller.py

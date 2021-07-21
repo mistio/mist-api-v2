@@ -31,9 +31,9 @@ class Cluster(Model):
         :param total_nodes: The total_nodes of this Cluster.  # noqa: E501
         :type total_nodes: int
         :param total_cpus: The total_cpus of this Cluster.  # noqa: E501
-        :type total_cpus: float
+        :type total_cpus: int
         :param total_memory: The total_memory of this Cluster.  # noqa: E501
-        :type total_memory: float
+        :type total_memory: int
         :param location: The location of this Cluster.  # noqa: E501
         :type location: str
         :param config: The config of this Cluster.  # noqa: E501
@@ -53,8 +53,8 @@ class Cluster(Model):
             'cloud': str,
             'provider': ClusterProviders,
             'total_nodes': int,
-            'total_cpus': float,
-            'total_memory': float,
+            'total_cpus': int,
+            'total_memory': int,
             'location': str,
             'config': object,
             'tags': object,
@@ -215,7 +215,7 @@ class Cluster(Model):
 
 
         :return: The total_cpus of this Cluster.
-        :rtype: float
+        :rtype: int
         """
         return self._total_cpus
 
@@ -225,7 +225,7 @@ class Cluster(Model):
 
 
         :param total_cpus: The total_cpus of this Cluster.
-        :type total_cpus: float
+        :type total_cpus: int
         """
 
         self._total_cpus = total_cpus
@@ -236,7 +236,7 @@ class Cluster(Model):
 
 
         :return: The total_memory of this Cluster.
-        :rtype: float
+        :rtype: int
         """
         return self._total_memory
 
@@ -246,7 +246,7 @@ class Cluster(Model):
 
 
         :param total_memory: The total_memory of this Cluster.
-        :type total_memory: float
+        :type total_memory: int
         """
 
         self._total_memory = total_memory
