@@ -3,7 +3,6 @@ import connexion
 from mist.api.methods import list_resources as list_resources_v1
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
-from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 
@@ -47,7 +46,7 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         cloud.ctl.container.create_cluster(**kwargs)
     except Exception:
         return 'Cluster creation failed', 409
-    return CreateClusterResponse()
+    return 'Cluster creation successful', 200
 
 
 def delete_cluster(cluster):  # noqa: E501
