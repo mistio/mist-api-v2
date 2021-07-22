@@ -425,10 +425,6 @@ paths:
               $ref: '#/components/schemas/CreateClusterRequest'
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateClusterResponse'
           description: Cluster creation successful
         "401":
           description: Authentication failed
@@ -5096,13 +5092,6 @@ components:
     CreateClusterRequest:
       allOf:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
-    CreateClusterResponse:
-      example:
-        id: id
-      properties:
-        id:
-          type: string
-      type: object
     CreateMachineRequest:
       example:
         template: '{}'
