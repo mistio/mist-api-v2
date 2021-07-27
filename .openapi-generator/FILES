@@ -9,6 +9,7 @@ mist_api_v2/__main__.py
 mist_api_v2/controllers/__init__.py
 mist_api_v2/controllers/clouds_controller.py
 mist_api_v2/controllers/clouds_count_controller.py
+mist_api_v2/controllers/clusters_controller.py
 mist_api_v2/controllers/datapoints_controller.py
 mist_api_v2/controllers/images_controller.py
 mist_api_v2/controllers/jobs_controller.py
@@ -41,6 +42,7 @@ mist_api_v2/models/add_key_response.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/amazon_cloud_request.py
+mist_api_v2/models/amazon_cluster_request.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/amazon_net.py
 mist_api_v2/models/azure_cloud_request.py
@@ -52,6 +54,10 @@ mist_api_v2/models/cloud.py
 mist_api_v2/models/cloud_features.py
 mist_api_v2/models/cloud_sigma_cloud_request.py
 mist_api_v2/models/cloud_sigma_credentials.py
+mist_api_v2/models/cluster.py
+mist_api_v2/models/cluster_providers.py
+mist_api_v2/models/create_cluster_request.py
+mist_api_v2/models/create_cluster_request_all_of.py
 mist_api_v2/models/create_machine_request.py
 mist_api_v2/models/create_machine_request_disks.py
 mist_api_v2/models/create_machine_response.py
@@ -82,6 +88,7 @@ mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
+mist_api_v2/models/get_cluster_response.py
 mist_api_v2/models/get_datapoints_response.py
 mist_api_v2/models/get_image_response.py
 mist_api_v2/models/get_job_response.py
@@ -97,6 +104,7 @@ mist_api_v2/models/get_size_response.py
 mist_api_v2/models/get_volume_response.py
 mist_api_v2/models/get_zone_response.py
 mist_api_v2/models/google_cloud_request.py
+mist_api_v2/models/google_cluster_request.py
 mist_api_v2/models/google_credentials.py
 mist_api_v2/models/google_net.py
 mist_api_v2/models/ibm_cloud_request.py
@@ -121,6 +129,7 @@ mist_api_v2/models/linode_credentials.py
 mist_api_v2/models/linode_extra.py
 mist_api_v2/models/linode_net.py
 mist_api_v2/models/list_clouds_response.py
+mist_api_v2/models/list_clusters_response.py
 mist_api_v2/models/list_images_response.py
 mist_api_v2/models/list_keys_response.py
 mist_api_v2/models/list_locations_response.py
@@ -182,6 +191,7 @@ mist_api_v2/models/zone.py
 mist_api_v2/openapi/openapi.yaml
 mist_api_v2/test/__init__.py
 mist_api_v2/test/test_clouds_count_controller.py
+mist_api_v2/test/test_clusters_controller.py
 mist_api_v2/test/test_datapoints_controller.py
 mist_api_v2/test/test_images_controller.py
 mist_api_v2/test/test_jobs_controller.py
