@@ -136,7 +136,7 @@ class CreateClusterRequest(Model):
         : param provider: The provider of this CreateClusterRequest.
         : type provider: str
         """
-        allowed_values = ["google"]  # noqa: E501
+        allowed_values = ["google", "amazon"]  # noqa: E501
         if provider not in allowed_values:
             raise ValueError(
                 "Invalid value for `provider` ({0}), must be one of {1}"
