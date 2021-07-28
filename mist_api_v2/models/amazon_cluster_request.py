@@ -109,6 +109,8 @@ class AmazonClusterRequest(Model):
         :param role_arn: The role_arn of this AmazonClusterRequest.
         :type role_arn: str
         """
+        if role_arn is None:
+            raise ValueError("Invalid value for `role_arn`, must not be `None`")  # noqa: E501
 
         self._role_arn = role_arn
 
@@ -132,6 +134,8 @@ class AmazonClusterRequest(Model):
         :param vpc_id: The vpc_id of this AmazonClusterRequest.
         :type vpc_id: str
         """
+        if vpc_id is None:
+            raise ValueError("Invalid value for `vpc_id`, must not be `None`")  # noqa: E501
 
         self._vpc_id = vpc_id
 
@@ -155,6 +159,8 @@ class AmazonClusterRequest(Model):
         :param subnet_ids: The subnet_ids of this AmazonClusterRequest.
         :type subnet_ids: List[str]
         """
+        if subnet_ids is None:
+            raise ValueError("Invalid value for `subnet_ids`, must not be `None`")  # noqa: E501
 
         self._subnet_ids = subnet_ids
 
@@ -178,5 +184,7 @@ class AmazonClusterRequest(Model):
         :param security_group_ids: The security_group_ids of this AmazonClusterRequest.
         :type security_group_ids: List[str]
         """
+        if security_group_ids is None:
+            raise ValueError("Invalid value for `security_group_ids`, must not be `None`")  # noqa: E501
 
         self._security_group_ids = security_group_ids

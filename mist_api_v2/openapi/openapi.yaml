@@ -4810,6 +4810,12 @@ components:
           items:
             type: string
           type: array
+      required:
+      - provider
+      - role_arn
+      - security_group_ids
+      - subnet_ids
+      - vpc_id
       type: object
     AmazonCredentials:
       properties:
