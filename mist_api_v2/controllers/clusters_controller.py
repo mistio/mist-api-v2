@@ -26,9 +26,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except Exception:
         return 'Authentication failed', 401
+    params = create_cluster_request.to_dict()
     try:
         [cloud], _ = list_resources_v1(auth_context, 'cloud',
-                                       search=create_cluster_request.cloud,
+                                       search=params.pop('cloud'),
                                        limit=1)
     except ValueError:
         return 'Cloud not found', 404
@@ -38,10 +39,8 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         auth_context.check_perm('cloud', 'create_resources', cloud.id)
     except Exception:
         return 'You are not authorized to perform this action', 403
-    kwargs = {
-        'zone': create_cluster_request.zone,
-        'name': create_cluster_request.name,
-    }
+    params.pop('provider')
+    kwargs = {k: v for k, v in params.items() if v is not None}
     try:
         cloud.ctl.container.create_cluster(**kwargs)
     except Exception:
