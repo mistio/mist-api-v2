@@ -72,12 +72,15 @@ def delete_cluster(cluster):  # noqa: E501
     except Exception:
         return 'You are not authorized to perform this action', 403
     kwargs = {
-        'zone': cluster.extra['zone'],
         'name': cluster.name,
     }
+    if cluster.provider == 'gce':
+        kwargs['zone'] = cluster.location.name or cluster.extra.get('zone')
     try:
-        cluster.cloud.ctl.container.delete_cluster(**kwargs)
+        result = cluster.cloud.ctl.container.delete_cluster(**kwargs)
     except Exception:
+        result = False
+    if result is False:
         return 'Cluster deletion failed', 404
     return 'Cluster deletion successful', 200
 
