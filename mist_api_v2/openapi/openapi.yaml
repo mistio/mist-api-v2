@@ -20,8 +20,8 @@ paths:
         examples:
           Filter by cloud provider:
             value: provider:amazon
-          Filter by title:
-            value: title:LXD1
+          Filter by name:
+            value: name:LXD1
           Composite filter:
             value: provider:packet AND status:enabled
         explode: true
@@ -33,8 +33,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -67,8 +67,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -195,8 +195,8 @@ paths:
         style: simple
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -208,8 +208,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -267,7 +267,7 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
     put:
-      description: Update target cloud title or credentials
+      description: Update target cloud name or credentials
       operationId: edit_cloud
       parameters:
       - explode: false
@@ -632,7 +632,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -891,8 +891,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -925,8 +925,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -1062,8 +1062,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -1075,8 +1075,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -1187,7 +1187,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -1379,7 +1379,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -2342,7 +2342,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -3088,7 +3088,7 @@ paths:
         examples:
           Filter by total_run_count:
             value: total_run_count:5
-          Filter by title:
+          Filter by name:
             value: rule-disk*
           Composite filter:
             value: provider:packet AND total_run_count:5
@@ -3101,8 +3101,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -3135,8 +3135,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -3164,13 +3164,13 @@ paths:
       tags:
       - rules
       x-cli-table-default:
-      - title
+      - name
       - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - resource_type
       - selectors
       - queries
@@ -3289,8 +3289,8 @@ paths:
         style: simple
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -3302,8 +3302,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -3333,13 +3333,13 @@ paths:
       tags:
       - rules
       x-cli-table-default:
-      - title
+      - name
       - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - resource_type
       - selectors
       - queries
@@ -3761,7 +3761,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4056,7 +4056,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4385,7 +4385,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4962,16 +4962,16 @@ components:
           compute: true
           container: false
           dns: false
+        name: name
         owned_by: owned_by
         id: id
-        title: title
         config: '{}'
         created_by: created_by
         tags: '{}'
       properties:
         id:
           type: string
-        title:
+        name:
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
@@ -5669,11 +5669,11 @@ components:
     EditCloudRequest_anyOf:
       additionalProperties: false
       properties:
-        title:
-          description: Updated title
+        name:
+          description: Updated name
           type: string
       required:
-      - title
+      - name
       type: object
     EquinixCloudRequest:
       properties:
@@ -5787,9 +5787,9 @@ components:
             compute: true
             container: false
             dns: false
+          name: name
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -6035,11 +6035,11 @@ components:
       example:
         data:
           triggered_after: '{}'
+          name: name
           data_type: data_type
           disabled: disabled
           id: id
           window: '{}'
-          title: title
           queries: '{}'
           actions: '{}'
           frequency: '{}'
@@ -6583,9 +6583,9 @@ components:
             compute: true
             container: false
             dns: false
+          name: name
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -6593,9 +6593,9 @@ components:
             compute: true
             container: false
             dns: false
+          name: name
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -6938,20 +6938,20 @@ components:
       example:
         data:
         - triggered_after: '{}'
+          name: name
           data_type: data_type
           disabled: disabled
           id: id
           window: '{}'
-          title: title
           queries: '{}'
           actions: '{}'
           frequency: '{}'
         - triggered_after: '{}'
+          name: name
           data_type: data_type
           disabled: disabled
           id: id
           window: '{}'
-          title: title
           queries: '{}'
           actions: '{}'
           frequency: '{}'
@@ -7579,18 +7579,18 @@ components:
     Rule:
       example:
         triggered_after: '{}'
+        name: name
         data_type: data_type
         disabled: disabled
         id: id
         window: '{}'
-        title: title
         queries: '{}'
         actions: '{}'
         frequency: '{}'
       properties:
         id:
           type: string
-        title:
+        name:
           type: string
         queries:
           type: object
@@ -7999,7 +7999,7 @@ components:
       type: object
     AddCloudRequest_allOf:
       properties:
-        title:
+        name:
           description: The name of the cloud to add
           type: string
         provider:
@@ -8029,8 +8029,8 @@ components:
           - vultr
           type: string
       required:
+      - name
       - provider
-      - title
       type: object
     AddKeyRequest_anyOf:
       properties:

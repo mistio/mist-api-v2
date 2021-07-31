@@ -15,21 +15,21 @@ class EditCloudRequestAnyOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None):  # noqa: E501
+    def __init__(self, name=None):  # noqa: E501
         """EditCloudRequestAnyOf - a model defined in OpenAPI
 
-        :param title: The title of this EditCloudRequestAnyOf.  # noqa: E501
-        :type title: str
+        :param name: The name of this EditCloudRequestAnyOf.  # noqa: E501
+        :type name: str
         """
         self.openapi_types = {
-            'title': str
+            'name': str
         }
 
         self.attribute_map = {
-            'title': 'title'
+            'name': 'name'
         }
 
-        self._title = title
+        self._name = name
 
     @classmethod
     def from_dict(cls, dikt) -> 'EditCloudRequestAnyOf':
@@ -43,26 +43,26 @@ class EditCloudRequestAnyOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def title(self):
-        """Gets the title of this EditCloudRequestAnyOf.
+    def name(self):
+        """Gets the name of this EditCloudRequestAnyOf.
 
-        Updated title  # noqa: E501
+        Updated name  # noqa: E501
 
-        :return: The title of this EditCloudRequestAnyOf.
+        :return: The name of this EditCloudRequestAnyOf.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this EditCloudRequestAnyOf.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this EditCloudRequestAnyOf.
 
-        Updated title  # noqa: E501
+        Updated name  # noqa: E501
 
-        :param title: The title of this EditCloudRequestAnyOf.
-        :type title: str
+        :param name: The name of this EditCloudRequestAnyOf.
+        :type name: str
         """
-        if title is None:
-            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._title = title
+        self._name = name

@@ -19,13 +19,13 @@ class Cloud(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, title=None, provider=None, config=None, features=None, tags=None, created_by=None, owned_by=None):  # noqa: E501
+    def __init__(self, id=None, name=None, provider=None, config=None, features=None, tags=None, created_by=None, owned_by=None):  # noqa: E501
         """Cloud - a model defined in OpenAPI
 
         :param id: The id of this Cloud.  # noqa: E501
         :type id: str
-        :param title: The title of this Cloud.  # noqa: E501
-        :type title: str
+        :param name: The name of this Cloud.  # noqa: E501
+        :type name: str
         :param provider: The provider of this Cloud.  # noqa: E501
         :type provider: SupportedProviders
         :param config: The config of this Cloud.  # noqa: E501
@@ -41,7 +41,7 @@ class Cloud(Model):
         """
         self.openapi_types = {
             'id': str,
-            'title': str,
+            'name': str,
             'provider': SupportedProviders,
             'config': object,
             'features': CloudFeatures,
@@ -52,7 +52,7 @@ class Cloud(Model):
 
         self.attribute_map = {
             'id': 'id',
-            'title': 'title',
+            'name': 'name',
             'provider': 'provider',
             'config': 'config',
             'features': 'features',
@@ -62,7 +62,7 @@ class Cloud(Model):
         }
 
         self._id = id
-        self._title = title
+        self._name = name
         self._provider = provider
         self._config = config
         self._features = features
@@ -103,25 +103,25 @@ class Cloud(Model):
         self._id = id
 
     @property
-    def title(self):
-        """Gets the title of this Cloud.
+    def name(self):
+        """Gets the name of this Cloud.
 
 
-        :return: The title of this Cloud.
+        :return: The name of this Cloud.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this Cloud.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Cloud.
 
 
-        :param title: The title of this Cloud.
-        :type title: str
+        :param name: The name of this Cloud.
+        :type name: str
         """
 
-        self._title = title
+        self._name = name
 
     @property
     def provider(self):
