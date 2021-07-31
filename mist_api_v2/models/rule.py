@@ -15,13 +15,13 @@ class Rule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, title=None, queries=None, window=None, frequency=None, triggered_after=None, actions=None, disabled=None, data_type=None):  # noqa: E501
+    def __init__(self, id=None, name=None, queries=None, window=None, frequency=None, triggered_after=None, actions=None, disabled=None, data_type=None):  # noqa: E501
         """Rule - a model defined in OpenAPI
 
         :param id: The id of this Rule.  # noqa: E501
         :type id: str
-        :param title: The title of this Rule.  # noqa: E501
-        :type title: str
+        :param name: The name of this Rule.  # noqa: E501
+        :type name: str
         :param queries: The queries of this Rule.  # noqa: E501
         :type queries: object
         :param window: The window of this Rule.  # noqa: E501
@@ -39,7 +39,7 @@ class Rule(Model):
         """
         self.openapi_types = {
             'id': str,
-            'title': str,
+            'name': str,
             'queries': object,
             'window': object,
             'frequency': object,
@@ -51,7 +51,7 @@ class Rule(Model):
 
         self.attribute_map = {
             'id': 'id',
-            'title': 'title',
+            'name': 'name',
             'queries': 'queries',
             'window': 'window',
             'frequency': 'frequency',
@@ -62,7 +62,7 @@ class Rule(Model):
         }
 
         self._id = id
-        self._title = title
+        self._name = name
         self._queries = queries
         self._window = window
         self._frequency = frequency
@@ -104,25 +104,25 @@ class Rule(Model):
         self._id = id
 
     @property
-    def title(self):
-        """Gets the title of this Rule.
+    def name(self):
+        """Gets the name of this Rule.
 
 
-        :return: The title of this Rule.
+        :return: The name of this Rule.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this Rule.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Rule.
 
 
-        :param title: The title of this Rule.
-        :type title: str
+        :param name: The name of this Rule.
+        :type name: str
         """
 
-        self._title = title
+        self._name = name
 
     @property
     def queries(self):
