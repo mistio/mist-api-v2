@@ -159,6 +159,7 @@ mist_api_v2/models/onapp_cloud_request.py
 mist_api_v2/models/onapp_credentials.py
 mist_api_v2/models/one_off_schedule.py
 mist_api_v2/models/openshift_cloud_request.py
+mist_api_v2/models/openshift_credentials.py
 mist_api_v2/models/openstack_cloud_request.py
 mist_api_v2/models/openstack_credentials.py
 mist_api_v2/models/org.py
