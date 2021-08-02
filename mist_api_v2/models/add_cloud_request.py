@@ -104,7 +104,7 @@ class AddCloudRequest(Model):
         :param provider: The provider of this AddCloudRequest.
         :type provider: str
         """
-        allowed_values = ["alibaba", "amazon", "azure", "cloudsigma", "digitalocean", "equinix", "google", "ibm", "kvm", "kubevirt", "kubernetes", "linode", "lxd", "maxihost", "onapp", "openstack", "other", "rackspace", "vcloud", "vsphere", "vultr"]  # noqa: E501
+        allowed_values = ["alibaba", "amazon", "azure", "cloudsigma", "digitalocean", "equinix", "google", "ibm", "kvm", "kubevirt", "kubernetes", "linode", "lxd", "maxihost", "onapp", "openshift", "openstack", "other", "rackspace", "vcloud", "vsphere", "vultr"]  # noqa: E501
         if provider not in allowed_values:
             raise ValueError(
                 "Invalid value for `provider` ({0}), must be one of {1}"
