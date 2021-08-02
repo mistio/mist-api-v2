@@ -5630,31 +5630,7 @@ components:
       - allOf:
         - properties:
             provider:
-              description: The provider of the cloud
-              enum:
-              - alibaba
-              - amazon
-              - azure
-              - cloudsigma
-              - digitalocean
-              - equinix
-              - google
-              - ibm
-              - kvm
-              - kubevirt
-              - kubernetes
-              - openshift
-              - linode
-              - lxd
-              - maxihost
-              - onapp
-              - openstack
-              - other
-              - rackspace
-              - vcloud
-              - vsphere
-              - vultr
-              type: string
+              $ref: '#/components/schemas/SupportedProviders'
           required:
           - provider
           type: object
@@ -7440,12 +7416,32 @@ components:
           - openshift
           type: string
         credentials:
-          $ref: '#/components/schemas/KubernetesCredentials'
+          $ref: '#/components/schemas/OpenshiftCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
+      type: object
+    OpenshiftCredentials:
+      properties:
+        host:
+          description: Your OpenShift API host
+          type: string
+        port:
+          description: Your OpenShift API port
+          type: string
+        username:
+          description: Your OpenShift API username
+          type: string
+        password:
+          description: Your OpenShift API password
+          type: string
+      required:
+      - host
+      - password
+      - port
+      - username
       type: object
     OpenstackCloudRequest:
       properties:
@@ -8057,31 +8053,7 @@ components:
           description: The name of the cloud to add
           type: string
         provider:
-          description: The provider of the cloud
-          enum:
-          - alibaba
-          - amazon
-          - azure
-          - cloudsigma
-          - digitalocean
-          - equinix
-          - google
-          - ibm
-          - kvm
-          - kubevirt
-          - kubernetes
-          - openshift
-          - linode
-          - lxd
-          - maxihost
-          - onapp
-          - openstack
-          - other
-          - rackspace
-          - vcloud
-          - vsphere
-          - vultr
-          type: string
+          $ref: '#/components/schemas/SupportedProviders'
       required:
       - name
       - provider

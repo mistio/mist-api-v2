@@ -92,7 +92,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     try:
         result = add_cloud_v_2(
             auth_context.owner,
-            add_cloud_request.title,
+            add_cloud_request.name,
             provider,
             add_cloud_request.credentials
         )
