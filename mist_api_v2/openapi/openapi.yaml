@@ -4784,6 +4784,39 @@ components:
       - credentials
       - provider
       type: object
+    AmazonClusterRequest:
+      properties:
+        provider:
+          enum:
+          - amazon
+          type: string
+        role_arn:
+          description: The Amazon Resource Name (ARN) of the IAM role that provides
+            permissions for the Kubernetes control plane to make calls to AWS API
+            operations on your behalf
+          type: string
+        vpc_id:
+          description: The VPC associated with the cluster
+          type: string
+        subnet_ids:
+          description: The subnets associated with the cluster
+          items:
+            type: string
+          type: array
+        security_group_ids:
+          description: The security groups associated with the cross-account elastic
+            network interfaces that are used to allow communication between your nodes
+            and the Kubernetes control plane
+          items:
+            type: string
+          type: array
+      required:
+      - provider
+      - role_arn
+      - security_group_ids
+      - subnet_ids
+      - vpc_id
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -5092,6 +5125,14 @@ components:
     CreateClusterRequest:
       allOf:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
+      - discriminator:
+          mapping:
+            amazon: '#/components/schemas/AmazonClusterRequest'
+            google: '#/components/schemas/GoogleClusterRequest'
+          propertyName: provider
+        oneOf:
+        - $ref: '#/components/schemas/AmazonClusterRequest'
+        - $ref: '#/components/schemas/GoogleClusterRequest'
     CreateMachineRequest:
       example:
         template: '{}'
@@ -6150,6 +6191,19 @@ components:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
+      - provider
+      type: object
+    GoogleClusterRequest:
+      properties:
+        provider:
+          enum:
+          - google
+          type: string
+        location:
+          description: The name of the location to create the cluster in
+          type: string
+      required:
+      - location
       - provider
       type: object
     GoogleCredentials:
@@ -8076,21 +8130,15 @@ components:
         name:
           description: The name of the cluster to create
           type: string
-        zone:
-          description: The name of the zone to create the cluster in
-          type: string
         cloud:
           description: The cloud the cluster belongs to
           type: string
-        config:
-          description: The provider-specific cluster configuration
-          type: object
         provider:
           $ref: '#/components/schemas/ClusterProviders'
       required:
       - cloud
       - name
-      - zone
+      - provider
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks

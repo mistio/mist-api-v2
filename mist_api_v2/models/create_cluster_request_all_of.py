@@ -17,40 +17,30 @@ class CreateClusterRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, zone=None, cloud=None, config=None, provider=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None):  # noqa: E501
         """CreateClusterRequestAllOf - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequestAllOf.  # noqa: E501
         :type name: str
-        :param zone: The zone of this CreateClusterRequestAllOf.  # noqa: E501
-        :type zone: str
         :param cloud: The cloud of this CreateClusterRequestAllOf.  # noqa: E501
         :type cloud: str
-        :param config: The config of this CreateClusterRequestAllOf.  # noqa: E501
-        :type config: object
         :param provider: The provider of this CreateClusterRequestAllOf.  # noqa: E501
         :type provider: ClusterProviders
         """
         self.openapi_types = {
             'name': str,
-            'zone': str,
             'cloud': str,
-            'config': object,
             'provider': ClusterProviders
         }
 
         self.attribute_map = {
             'name': 'name',
-            'zone': 'zone',
             'cloud': 'cloud',
-            'config': 'config',
             'provider': 'provider'
         }
 
         self._name = name
-        self._zone = zone
         self._cloud = cloud
-        self._config = config
         self._provider = provider
 
     @classmethod
@@ -90,31 +80,6 @@ class CreateClusterRequestAllOf(Model):
         self._name = name
 
     @property
-    def zone(self):
-        """Gets the zone of this CreateClusterRequestAllOf.
-
-        The name of the zone to create the cluster in  # noqa: E501
-
-        :return: The zone of this CreateClusterRequestAllOf.
-        :rtype: str
-        """
-        return self._zone
-
-    @zone.setter
-    def zone(self, zone):
-        """Sets the zone of this CreateClusterRequestAllOf.
-
-        The name of the zone to create the cluster in  # noqa: E501
-
-        :param zone: The zone of this CreateClusterRequestAllOf.
-        :type zone: str
-        """
-        if zone is None:
-            raise ValueError("Invalid value for `zone`, must not be `None`")  # noqa: E501
-
-        self._zone = zone
-
-    @property
     def cloud(self):
         """Gets the cloud of this CreateClusterRequestAllOf.
 
@@ -140,29 +105,6 @@ class CreateClusterRequestAllOf(Model):
         self._cloud = cloud
 
     @property
-    def config(self):
-        """Gets the config of this CreateClusterRequestAllOf.
-
-        The provider-specific cluster configuration  # noqa: E501
-
-        :return: The config of this CreateClusterRequestAllOf.
-        :rtype: object
-        """
-        return self._config
-
-    @config.setter
-    def config(self, config):
-        """Sets the config of this CreateClusterRequestAllOf.
-
-        The provider-specific cluster configuration  # noqa: E501
-
-        :param config: The config of this CreateClusterRequestAllOf.
-        :type config: object
-        """
-
-        self._config = config
-
-    @property
     def provider(self):
         """Gets the provider of this CreateClusterRequestAllOf.
 
@@ -180,5 +122,7 @@ class CreateClusterRequestAllOf(Model):
         :param provider: The provider of this CreateClusterRequestAllOf.
         :type provider: ClusterProviders
         """
+        if provider is None:
+            raise ValueError("Invalid value for `provider`, must not be `None`")  # noqa: E501
 
         self._provider = provider

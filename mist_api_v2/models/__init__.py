@@ -13,6 +13,7 @@ from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
+from mist_api_v2.models.amazon_cluster_request import AmazonClusterRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
@@ -72,6 +73,7 @@ from mist_api_v2.models.get_size_response import GetSizeResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.get_zone_response import GetZoneResponse
 from mist_api_v2.models.google_cloud_request import GoogleCloudRequest
+from mist_api_v2.models.google_cluster_request import GoogleClusterRequest
 from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.google_net import GoogleNet
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
