@@ -17,7 +17,7 @@ class CreateClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, vpc_id=None, subnet_ids=None, security_group_ids=None, zone=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, vpc_id=None, subnet_ids=None, security_group_ids=None, location=None):  # noqa: E501
         """CreateClusterRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequest.  # noqa: E501
@@ -34,8 +34,8 @@ class CreateClusterRequest(Model):
         :type subnet_ids: List[str]
         :param security_group_ids: The security_group_ids of this CreateClusterRequest.  # noqa: E501
         :type security_group_ids: List[str]
-        :param zone: The zone of this CreateClusterRequest.  # noqa: E501
-        :type zone: str
+        :param location: The location of this CreateClusterRequest.  # noqa: E501
+        :type location: str
         """
         self.openapi_types = {
             'name': str,
@@ -45,7 +45,7 @@ class CreateClusterRequest(Model):
             'vpc_id': str,
             'subnet_ids': List[str],
             'security_group_ids': List[str],
-            'zone': str
+            'location': str
         }
 
         self.attribute_map = {
@@ -56,7 +56,7 @@ class CreateClusterRequest(Model):
             'vpc_id': 'vpc_id',
             'subnet_ids': 'subnet_ids',
             'security_group_ids': 'security_group_ids',
-            'zone': 'zone'
+            'location': 'location'
         }
 
         self._name = name
@@ -66,7 +66,7 @@ class CreateClusterRequest(Model):
         self._vpc_id = vpc_id
         self._subnet_ids = subnet_ids
         self._security_group_ids = security_group_ids
-        self._zone = zone
+        self._location = location
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateClusterRequest':
@@ -257,26 +257,26 @@ class CreateClusterRequest(Model):
         self._security_group_ids = security_group_ids
 
     @property
-    def zone(self):
-        """Gets the zone of this CreateClusterRequest.
+    def location(self):
+        """Gets the location of this CreateClusterRequest.
 
-        The name of the zone to create the cluster in  # noqa: E501
+        The name of the location to create the cluster in  # noqa: E501
 
-        :return: The zone of this CreateClusterRequest.
+        :return: The location of this CreateClusterRequest.
         :rtype: str
         """
-        return self._zone
+        return self._location
 
-    @zone.setter
-    def zone(self, zone):
-        """Sets the zone of this CreateClusterRequest.
+    @location.setter
+    def location(self, location):
+        """Sets the location of this CreateClusterRequest.
 
-        The name of the zone to create the cluster in  # noqa: E501
+        The name of the location to create the cluster in  # noqa: E501
 
-        :param zone: The zone of this CreateClusterRequest.
-        :type zone: str
+        :param location: The location of this CreateClusterRequest.
+        :type location: str
         """
-        if zone is None:
-            raise ValueError("Invalid value for `zone`, must not be `None`")  # noqa: E501
+        if location is None:
+            raise ValueError("Invalid value for `location`, must not be `None`")  # noqa: E501
 
-        self._zone = zone
+        self._location = location

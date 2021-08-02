@@ -15,26 +15,26 @@ class GoogleClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, zone=None):  # noqa: E501
+    def __init__(self, provider=None, location=None):  # noqa: E501
         """GoogleClusterRequest - a model defined in OpenAPI
 
         :param provider: The provider of this GoogleClusterRequest.  # noqa: E501
         :type provider: str
-        :param zone: The zone of this GoogleClusterRequest.  # noqa: E501
-        :type zone: str
+        :param location: The location of this GoogleClusterRequest.  # noqa: E501
+        :type location: str
         """
         self.openapi_types = {
             'provider': str,
-            'zone': str
+            'location': str
         }
 
         self.attribute_map = {
             'provider': 'provider',
-            'zone': 'zone'
+            'location': 'location'
         }
 
         self._provider = provider
-        self._zone = zone
+        self._location = location
 
     @classmethod
     def from_dict(cls, dikt) -> 'GoogleClusterRequest':
@@ -75,26 +75,26 @@ class GoogleClusterRequest(Model):
         self._provider = provider
 
     @property
-    def zone(self):
-        """Gets the zone of this GoogleClusterRequest.
+    def location(self):
+        """Gets the location of this GoogleClusterRequest.
 
-        The name of the zone to create the cluster in  # noqa: E501
+        The name of the location to create the cluster in  # noqa: E501
 
-        :return: The zone of this GoogleClusterRequest.
+        :return: The location of this GoogleClusterRequest.
         :rtype: str
         """
-        return self._zone
+        return self._location
 
-    @zone.setter
-    def zone(self, zone):
-        """Sets the zone of this GoogleClusterRequest.
+    @location.setter
+    def location(self, location):
+        """Sets the location of this GoogleClusterRequest.
 
-        The name of the zone to create the cluster in  # noqa: E501
+        The name of the location to create the cluster in  # noqa: E501
 
-        :param zone: The zone of this GoogleClusterRequest.
-        :type zone: str
+        :param location: The location of this GoogleClusterRequest.
+        :type location: str
         """
-        if zone is None:
-            raise ValueError("Invalid value for `zone`, must not be `None`")  # noqa: E501
+        if location is None:
+            raise ValueError("Invalid value for `location`, must not be `None`")  # noqa: E501
 
-        self._zone = zone
+        self._location = location
