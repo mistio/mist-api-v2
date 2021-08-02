@@ -15,25 +15,25 @@ class AddCloudRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, provider=None):  # noqa: E501
+    def __init__(self, name=None, provider=None):  # noqa: E501
         """AddCloudRequestAllOf - a model defined in OpenAPI
 
-        :param title: The title of this AddCloudRequestAllOf.  # noqa: E501
-        :type title: str
+        :param name: The name of this AddCloudRequestAllOf.  # noqa: E501
+        :type name: str
         :param provider: The provider of this AddCloudRequestAllOf.  # noqa: E501
         :type provider: str
         """
         self.openapi_types = {
-            'title': str,
+            'name': str,
             'provider': str
         }
 
         self.attribute_map = {
-            'title': 'title',
+            'name': 'name',
             'provider': 'provider'
         }
 
-        self._title = title
+        self._name = name
         self._provider = provider
 
     @classmethod
@@ -48,29 +48,29 @@ class AddCloudRequestAllOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def title(self):
-        """Gets the title of this AddCloudRequestAllOf.
+    def name(self):
+        """Gets the name of this AddCloudRequestAllOf.
 
         The name of the cloud to add  # noqa: E501
 
-        :return: The title of this AddCloudRequestAllOf.
+        :return: The name of this AddCloudRequestAllOf.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this AddCloudRequestAllOf.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this AddCloudRequestAllOf.
 
         The name of the cloud to add  # noqa: E501
 
-        :param title: The title of this AddCloudRequestAllOf.
-        :type title: str
+        :param name: The name of this AddCloudRequestAllOf.
+        :type name: str
         """
-        if title is None:
-            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._title = title
+        self._name = name
 
     @property
     def provider(self):
