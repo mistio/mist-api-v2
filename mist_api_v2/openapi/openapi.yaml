@@ -7426,16 +7426,16 @@ components:
     OpenshiftCredentials:
       properties:
         host:
-          description: Your Kubernetes API host
+          description: Your OpenShift API host
           type: string
         port:
-          description: Your Kubernetes API port
+          description: Your OpenShift API port
           type: string
         username:
-          description: Your Kubernetes API username
+          description: Your OpenShift API username
           type: string
         password:
-          description: Your Kubernetes API password
+          description: Your OpenShift API password
           type: string
       required:
       - host

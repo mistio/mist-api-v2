@@ -61,7 +61,7 @@ class OpenshiftCredentials(Model):
     def host(self):
         """Gets the host of this OpenshiftCredentials.
 
-        Your Kubernetes API host  # noqa: E501
+        Your OpenShift API host  # noqa: E501
 
         :return: The host of this OpenshiftCredentials.
         :rtype: str
@@ -72,7 +72,7 @@ class OpenshiftCredentials(Model):
     def host(self, host):
         """Sets the host of this OpenshiftCredentials.
 
-        Your Kubernetes API host  # noqa: E501
+        Your OpenShift API host  # noqa: E501
 
         :param host: The host of this OpenshiftCredentials.
         :type host: str
@@ -86,7 +86,7 @@ class OpenshiftCredentials(Model):
     def port(self):
         """Gets the port of this OpenshiftCredentials.
 
-        Your Kubernetes API port  # noqa: E501
+        Your OpenShift API port  # noqa: E501
 
         :return: The port of this OpenshiftCredentials.
         :rtype: str
@@ -97,7 +97,7 @@ class OpenshiftCredentials(Model):
     def port(self, port):
         """Sets the port of this OpenshiftCredentials.
 
-        Your Kubernetes API port  # noqa: E501
+        Your OpenShift API port  # noqa: E501
 
         :param port: The port of this OpenshiftCredentials.
         :type port: str
@@ -111,7 +111,7 @@ class OpenshiftCredentials(Model):
     def username(self):
         """Gets the username of this OpenshiftCredentials.
 
-        Your Kubernetes API username  # noqa: E501
+        Your OpenShift API username  # noqa: E501
 
         :return: The username of this OpenshiftCredentials.
         :rtype: str
@@ -122,7 +122,7 @@ class OpenshiftCredentials(Model):
     def username(self, username):
         """Sets the username of this OpenshiftCredentials.
 
-        Your Kubernetes API username  # noqa: E501
+        Your OpenShift API username  # noqa: E501
 
         :param username: The username of this OpenshiftCredentials.
         :type username: str
@@ -136,7 +136,7 @@ class OpenshiftCredentials(Model):
     def password(self):
         """Gets the password of this OpenshiftCredentials.
 
-        Your Kubernetes API password  # noqa: E501
+        Your OpenShift API password  # noqa: E501
 
         :return: The password of this OpenshiftCredentials.
         :rtype: str
@@ -147,7 +147,7 @@ class OpenshiftCredentials(Model):
     def password(self, password):
         """Sets the password of this OpenshiftCredentials.
 
-        Your Kubernetes API password  # noqa: E501
+        Your OpenShift API password  # noqa: E501
 
         :param password: The password of this OpenshiftCredentials.
         :type password: str
