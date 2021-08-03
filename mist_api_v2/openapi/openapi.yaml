@@ -472,7 +472,7 @@ paths:
         style: simple
       responses:
         "200":
-          description: Cluster destroyed successfully
+          description: Cluster destruction successful
         "401":
           description: Authentication failed
         "403":
