@@ -414,6 +414,20 @@ paths:
       summary: List clusters
       tags:
       - clusters
+      x-cli-table-default:
+      - name
+      - cloud
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - total_nodes
+      - total_cpus
+      - total_ram
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
     post:
       description: Create a new cluster and return the cluster's id
