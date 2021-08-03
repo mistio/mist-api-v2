@@ -554,6 +554,20 @@ paths:
       summary: Get cluster
       tags:
       - clusters
+      x-cli-table-default:
+      - name
+      - cloud
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - total_nodes
+      - total_cpus
+      - total_ram
+      - tags
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
   /api/v2/datapoints:
     get:
