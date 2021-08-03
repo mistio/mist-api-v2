@@ -15,26 +15,31 @@ class CloudFeatures(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, compute=True, dns=False):  # noqa: E501
+    def __init__(self, compute=True, dns=False, container=False):  # noqa: E501
         """CloudFeatures - a model defined in OpenAPI
 
         :param compute: The compute of this CloudFeatures.  # noqa: E501
         :type compute: bool
         :param dns: The dns of this CloudFeatures.  # noqa: E501
         :type dns: bool
+        :param container: The container of this CloudFeatures.  # noqa: E501
+        :type container: bool
         """
         self.openapi_types = {
             'compute': bool,
-            'dns': bool
+            'dns': bool,
+            'container': bool
         }
 
         self.attribute_map = {
             'compute': 'compute',
-            'dns': 'dns'
+            'dns': 'dns',
+            'container': 'container'
         }
 
         self._compute = compute
         self._dns = dns
+        self._container = container
 
     @classmethod
     def from_dict(cls, dikt) -> 'CloudFeatures':
@@ -92,3 +97,26 @@ class CloudFeatures(Model):
         """
 
         self._dns = dns
+
+    @property
+    def container(self):
+        """Gets the container of this CloudFeatures.
+
+        Enable container services  # noqa: E501
+
+        :return: The container of this CloudFeatures.
+        :rtype: bool
+        """
+        return self._container
+
+    @container.setter
+    def container(self, container):
+        """Sets the container of this CloudFeatures.
+
+        Enable container services  # noqa: E501
+
+        :param container: The container of this CloudFeatures.
+        :type container: bool
+        """
+
+        self._container = container

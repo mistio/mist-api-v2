@@ -20,8 +20,8 @@ paths:
         examples:
           Filter by cloud provider:
             value: provider:amazon
-          Filter by title:
-            value: title:LXD1
+          Filter by name:
+            value: name:LXD1
           Composite filter:
             value: provider:packet AND status:enabled
         explode: true
@@ -33,8 +33,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -67,8 +67,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -195,8 +195,8 @@ paths:
         style: simple
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -208,8 +208,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -267,7 +267,7 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
     put:
-      description: Update target cloud title or credentials
+      description: Update target cloud name or credentials
       operationId: edit_cloud
       parameters:
       - explode: false
@@ -300,6 +300,247 @@ paths:
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
+  /api/v2/clusters:
+    get:
+      description: List clusters
+      operationId: list_clusters
+      parameters:
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud name:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by cluster created_by attribute:
+            value: created_by:csk
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListClustersResponse'
+          description: List clusters response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+      summary: List clusters
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+    post:
+      description: Create a new cluster and return the cluster's id
+      operationId: create_cluster
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClusterRequest'
+      responses:
+        "200":
+          description: Cluster creation successful
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:cluster
+        - read:cloud
+        - create_resources:cloud
+      - CookieAuth:
+        - create:cluster
+        - read:cloud
+        - create_resources:cloud
+      summary: Create cluster
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+  /api/v2/clusters/{cluster}:
+    delete:
+      description: Delete target clusters
+      operationId: delete_cluster
+      parameters:
+      - explode: false
+        in: path
+        name: cluster
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Cluster deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cluster not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+        - delete:cluster
+      - CookieAuth:
+        - read:cloud
+        - delete:cluster
+      summary: Delete cluster
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+    get:
+      description: Get details about target cluster
+      operationId: get_cluster
+      parameters:
+      - explode: false
+        in: path
+        name: cluster
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClusterResponse'
+          description: Cluster returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Cluster not found
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+      summary: Get cluster
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
   /api/v2/datapoints:
     get:
       description: Get datapoints for a specific query
@@ -391,7 +632,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -650,8 +891,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -684,8 +925,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -821,8 +1062,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -834,8 +1075,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -946,7 +1187,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -1138,7 +1379,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -2101,7 +2342,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -2847,7 +3088,7 @@ paths:
         examples:
           Filter by total_run_count:
             value: total_run_count:5
-          Filter by title:
+          Filter by name:
             value: rule-disk*
           Composite filter:
             value: provider:packet AND total_run_count:5
@@ -2860,8 +3101,8 @@ paths:
         style: form
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -2894,8 +3135,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -2923,13 +3164,13 @@ paths:
       tags:
       - rules
       x-cli-table-default:
-      - title
+      - name
       - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - resource_type
       - selectors
       - queries
@@ -3048,8 +3289,8 @@ paths:
         style: simple
       - description: Order results by
         examples:
-          Sort by title, descending:
-            value: -title
+          Sort by name, descending:
+            value: -name
         explode: true
         in: query
         name: sort
@@ -3061,8 +3302,8 @@ paths:
         examples:
           Only return id:
             value: id
-          Return id, title & owned_by:
-            value: id,title,owned_by
+          Return id, name & owned_by:
+            value: id,name,owned_by
         explode: true
         in: query
         name: only
@@ -3092,13 +3333,13 @@ paths:
       tags:
       - rules
       x-cli-table-default:
-      - title
+      - name
       - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
-      - title
+      - name
       - resource_type
       - selectors
       - queries
@@ -3763,7 +4004,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4058,7 +4299,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4387,7 +4628,7 @@ paths:
       - examples:
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud title:
+          Filter by cloud name:
             value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
@@ -4786,6 +5027,39 @@ components:
       - credentials
       - provider
       type: object
+    AmazonClusterRequest:
+      properties:
+        provider:
+          enum:
+          - amazon
+          type: string
+        role_arn:
+          description: The Amazon Resource Name (ARN) of the IAM role that provides
+            permissions for the Kubernetes control plane to make calls to AWS API
+            operations on your behalf
+          type: string
+        vpc_id:
+          description: The VPC associated with the cluster
+          type: string
+        subnet_ids:
+          description: The subnets associated with the cluster
+          items:
+            type: string
+          type: array
+        security_group_ids:
+          description: The security groups associated with the cross-account elastic
+            network interfaces that are used to allow communication between your nodes
+            and the Kubernetes control plane
+          items:
+            type: string
+          type: array
+      required:
+      - provider
+      - role_arn
+      - security_group_ids
+      - subnet_ids
+      - vpc_id
+      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -4962,17 +5236,18 @@ components:
       example:
         features:
           compute: true
+          container: false
           dns: false
+        name: name
         owned_by: owned_by
         id: id
-        title: title
         config: '{}'
         created_by: created_by
         tags: '{}'
       properties:
         id:
           type: string
-        title:
+        name:
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
@@ -4991,6 +5266,7 @@ components:
       description: The cloud features that should be enabled
       example:
         compute: true
+        container: false
         dns: false
       properties:
         compute:
@@ -5000,6 +5276,10 @@ components:
         dns:
           default: false
           description: Enable DNS services
+          type: boolean
+        container:
+          default: false
+          description: Enable container services
           type: boolean
       type: object
     CloudSigmaCloudRequest:
@@ -5032,6 +5312,70 @@ components:
       - region
       - username
       type: object
+    Cluster:
+      example:
+        total_cpus: 6
+        owned_by: owned_by
+        created_by: created_by
+        tags: '{}'
+        cloud: cloud
+        total_memory: 1
+        extra: '{}'
+        name: name
+        total_nodes: 0
+        location: location
+        id: id
+        config: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cloud:
+          type: string
+        provider:
+          $ref: '#/components/schemas/ClusterProviders'
+        total_nodes:
+          type: integer
+        total_cpus:
+          type: integer
+        total_memory:
+          type: integer
+        location:
+          type: string
+        config:
+          type: object
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+        extra:
+          type: object
+      type: object
+    ClusterProviders:
+      description: The cloud provider of the cluster
+      enum:
+      - amazon
+      - azure
+      - digitalocean
+      - google
+      - kubernetes
+      - openshift
+      - linode
+      type: string
+    CreateClusterRequest:
+      allOf:
+      - $ref: '#/components/schemas/CreateClusterRequest_allOf'
+      - discriminator:
+          mapping:
+            amazon: '#/components/schemas/AmazonClusterRequest'
+            google: '#/components/schemas/GoogleClusterRequest'
+          propertyName: provider
+        oneOf:
+        - $ref: '#/components/schemas/AmazonClusterRequest'
+        - $ref: '#/components/schemas/GoogleClusterRequest'
     CreateMachineRequest:
       example:
         template: '{}'
@@ -5544,31 +5888,7 @@ components:
       - allOf:
         - properties:
             provider:
-              description: The provider of the cloud
-              enum:
-              - alibaba
-              - amazon
-              - azure
-              - cloudsigma
-              - digitalocean
-              - equinix
-              - google
-              - ibm
-              - kvm
-              - kubevirt
-              - kubernetes
-              - openshift
-              - linode
-              - lxd
-              - maxihost
-              - onapp
-              - openstack
-              - other
-              - rackspace
-              - vcloud
-              - vsphere
-              - vultr
-              type: string
+              $ref: '#/components/schemas/SupportedProviders'
           required:
           - provider
           type: object
@@ -5624,11 +5944,11 @@ components:
     EditCloudRequest_anyOf:
       additionalProperties: false
       properties:
-        title:
-          description: Updated title
+        name:
+          description: Updated name
           type: string
       required:
-      - title
+      - name
       type: object
     EditSecretRequest:
       example:
@@ -5749,10 +6069,11 @@ components:
         data:
           features:
             compute: true
+            container: false
             dns: false
+          name: name
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -5764,6 +6085,32 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetClusterResponse:
+      example:
+        data:
+          total_cpus: 6
+          owned_by: owned_by
+          created_by: created_by
+          tags: '{}'
+          cloud: cloud
+          total_memory: 1
+          extra: '{}'
+          name: name
+          total_nodes: 0
+          location: location
+          id: id
+          config: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Cluster'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -5972,11 +6319,11 @@ components:
       example:
         data:
           triggered_after: '{}'
+          name: name
           data_type: data_type
           disabled: disabled
           id: id
           window: '{}'
-          title: title
           queries: '{}'
           actions: '{}'
           frequency: '{}'
@@ -6106,6 +6453,19 @@ components:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
+      - provider
+      type: object
+    GoogleClusterRequest:
+      properties:
+        provider:
+          enum:
+          - google
+          type: string
+        location:
+          description: The name of the location to create the cluster in
+          type: string
+      required:
+      - location
       - provider
       type: object
     GoogleCredentials:
@@ -6537,19 +6897,21 @@ components:
         data:
         - features:
             compute: true
+            container: false
             dns: false
+          name: name
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
         - features:
             compute: true
+            container: false
             dns: false
+          name: name
           owned_by: owned_by
           id: id
-          title: title
           config: '{}'
           created_by: created_by
           tags: '{}'
@@ -6562,6 +6924,46 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Cloud'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListClustersResponse:
+      example:
+        data:
+        - total_cpus: 6
+          owned_by: owned_by
+          created_by: created_by
+          tags: '{}'
+          cloud: cloud
+          total_memory: 1
+          extra: '{}'
+          name: name
+          total_nodes: 0
+          location: location
+          id: id
+          config: '{}'
+        - total_cpus: 6
+          owned_by: owned_by
+          created_by: created_by
+          tags: '{}'
+          cloud: cloud
+          total_memory: 1
+          extra: '{}'
+          name: name
+          total_nodes: 0
+          location: location
+          id: id
+          config: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Cluster'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -6852,20 +7254,20 @@ components:
       example:
         data:
         - triggered_after: '{}'
+          name: name
           data_type: data_type
           disabled: disabled
           id: id
           window: '{}'
-          title: title
           queries: '{}'
           actions: '{}'
           frequency: '{}'
         - triggered_after: '{}'
+          name: name
           data_type: data_type
           disabled: disabled
           id: id
           window: '{}'
-          title: title
           queries: '{}'
           actions: '{}'
           frequency: '{}'
@@ -7326,12 +7728,32 @@ components:
           - openshift
           type: string
         credentials:
-          $ref: '#/components/schemas/KubernetesCredentials'
+          $ref: '#/components/schemas/OpenshiftCredentials'
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
+      type: object
+    OpenshiftCredentials:
+      properties:
+        host:
+          description: Your OpenShift API host
+          type: string
+        port:
+          description: Your OpenShift API port
+          type: string
+        username:
+          description: Your OpenShift API username
+          type: string
+        password:
+          description: Your OpenShift API password
+          type: string
+      required:
+      - host
+      - password
+      - port
+      - username
       type: object
     OpenstackCloudRequest:
       properties:
@@ -7519,18 +7941,18 @@ components:
     Rule:
       example:
         triggered_after: '{}'
+        name: name
         data_type: data_type
         disabled: disabled
         id: id
         window: '{}'
-        title: title
         queries: '{}'
         actions: '{}'
         frequency: '{}'
       properties:
         id:
           type: string
-        title:
+        name:
           type: string
         queries:
           type: object
@@ -7958,38 +8380,14 @@ components:
       type: object
     AddCloudRequest_allOf:
       properties:
-        title:
+        name:
           description: The name of the cloud to add
           type: string
         provider:
-          description: The provider of the cloud
-          enum:
-          - alibaba
-          - amazon
-          - azure
-          - cloudsigma
-          - digitalocean
-          - equinix
-          - google
-          - ibm
-          - kvm
-          - kubevirt
-          - kubernetes
-          - openshift
-          - linode
-          - lxd
-          - maxihost
-          - onapp
-          - openstack
-          - other
-          - rackspace
-          - vcloud
-          - vsphere
-          - vultr
-          type: string
+          $ref: '#/components/schemas/SupportedProviders'
       required:
+      - name
       - provider
-      - title
       type: object
     AddKeyRequest_anyOf:
       properties:
@@ -8030,6 +8428,21 @@ components:
       required:
       - dry
       - generate
+    CreateClusterRequest_allOf:
+      properties:
+        name:
+          description: The name of the cluster to create
+          type: string
+        cloud:
+          description: The cloud the cluster belongs to
+          type: string
+        provider:
+          $ref: '#/components/schemas/ClusterProviders'
+      required:
+      - cloud
+      - name
+      - provider
+      type: object
     CreateMachineRequest_disks:
       description: Configure local disks
       example:

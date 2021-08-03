@@ -19,11 +19,11 @@ class AddCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, provider=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, name=None, provider=None, credentials=None, features=None):  # noqa: E501
         """AddCloudRequest - a model defined in OpenAPI
 
-        :param title: The title of this AddCloudRequest.  # noqa: E501
-        :type title: str
+        :param name: The name of this AddCloudRequest.  # noqa: E501
+        :type name: str
         :param provider: The provider of this AddCloudRequest.  # noqa: E501
         :type provider: str
         :param credentials: The credentials of this AddCloudRequest.  # noqa: E501
@@ -32,20 +32,20 @@ class AddCloudRequest(Model):
         :type features: CloudFeatures
         """
         self.openapi_types = {
-            'title': str,
+            'name': str,
             'provider': str,
             'credentials': object,
             'features': CloudFeatures
         }
 
         self.attribute_map = {
-            'title': 'title',
+            'name': 'name',
             'provider': 'provider',
             'credentials': 'credentials',
             'features': 'features'
         }
 
-        self._title = title
+        self._name = name
         self._provider = provider
         self._credentials = credentials
         self._features = features
@@ -62,29 +62,29 @@ class AddCloudRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def title(self):
-        """Gets the title of this AddCloudRequest.
+    def name(self):
+        """Gets the name of this AddCloudRequest.
 
         The name of the cloud to add  # noqa: E501
 
-        :return: The title of this AddCloudRequest.
+        :return: The name of this AddCloudRequest.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this AddCloudRequest.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this AddCloudRequest.
 
         The name of the cloud to add  # noqa: E501
 
-        :param title: The title of this AddCloudRequest.
-        :type title: str
+        :param name: The name of this AddCloudRequest.
+        :type name: str
         """
-        if title is None:
-            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._title = title
+        self._name = name
 
     @property
     def provider(self):

@@ -19,11 +19,11 @@ class EditCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, title=None, provider=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, name=None, provider=None, credentials=None, features=None):  # noqa: E501
         """EditCloudRequest - a model defined in OpenAPI
 
-        :param title: The title of this EditCloudRequest.  # noqa: E501
-        :type title: str
+        :param name: The name of this EditCloudRequest.  # noqa: E501
+        :type name: str
         :param provider: The provider of this EditCloudRequest.  # noqa: E501
         :type provider: str
         :param credentials: The credentials of this EditCloudRequest.  # noqa: E501
@@ -32,20 +32,20 @@ class EditCloudRequest(Model):
         :type features: CloudFeatures
         """
         self.openapi_types = {
-            'title': str,
+            'name': str,
             'provider': str,
             'credentials': object,
             'features': CloudFeatures
         }
 
         self.attribute_map = {
-            'title': 'title',
+            'name': 'name',
             'provider': 'provider',
             'credentials': 'credentials',
             'features': 'features'
         }
 
-        self._title = title
+        self._name = name
         self._provider = provider
         self._credentials = credentials
         self._features = features
@@ -62,29 +62,29 @@ class EditCloudRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def title(self):
-        """Gets the title of this EditCloudRequest.
+    def name(self):
+        """Gets the name of this EditCloudRequest.
 
-        Updated title  # noqa: E501
+        Updated name  # noqa: E501
 
-        :return: The title of this EditCloudRequest.
+        :return: The name of this EditCloudRequest.
         :rtype: str
         """
-        return self._title
+        return self._name
 
-    @title.setter
-    def title(self, title):
-        """Sets the title of this EditCloudRequest.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this EditCloudRequest.
 
-        Updated title  # noqa: E501
+        Updated name  # noqa: E501
 
-        :param title: The title of this EditCloudRequest.
-        :type title: str
+        :param name: The name of this EditCloudRequest.
+        :type name: str
         """
-        if title is None:
-            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._title = title
+        self._name = name
 
     @property
     def provider(self):
