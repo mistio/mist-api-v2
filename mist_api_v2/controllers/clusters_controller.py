@@ -50,10 +50,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     return 'Cluster creation successful', 200
 
 
-def delete_cluster(cluster):  # noqa: E501
-    """Delete cluster
+def destroy_cluster(cluster):  # noqa: E501
+    """Destroy cluster
 
-    Delete target clusters # noqa: E501
+    Destroy target clusters # noqa: E501
 
     :param cluster:
     :type cluster: str
@@ -70,7 +70,7 @@ def delete_cluster(cluster):  # noqa: E501
     except ValueError:
         return 'Cluster not found', 404
     try:
-        auth_context.check_perm('cluster', 'delete', cluster.id)
+        auth_context.check_perm('cluster', 'destroy', cluster.id)
     except Exception:
         return 'You are not authorized to perform this action', 403
     kwargs = {
@@ -80,12 +80,12 @@ def delete_cluster(cluster):  # noqa: E501
         kwargs['zone'] = cluster.location.name or cluster.extra.get(
             'location')
     try:
-        result = cluster.cloud.ctl.container.delete_cluster(**kwargs)
+        result = cluster.cloud.ctl.container.destroy_cluster(**kwargs)
     except Exception:
         result = False
     if result is False:
-        return 'Cluster deletion failed', 404
-    return 'Cluster deletion successful', 200
+        return 'Cluster destruction failed', 404
+    return 'Cluster destruction successful', 200
 
 
 def get_cluster(cluster, only=None, deref=None):  # noqa: E501
