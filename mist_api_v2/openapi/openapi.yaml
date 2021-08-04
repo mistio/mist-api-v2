@@ -417,6 +417,7 @@ paths:
       x-cli-table-default:
       - name
       - cloud
+      - total_nodes
       - tags
       x-cli-table-extended:
       - id
@@ -557,6 +558,7 @@ paths:
       x-cli-table-default:
       - name
       - cloud
+      - total_nodes
       - tags
       x-cli-table-extended:
       - id
