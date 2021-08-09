@@ -17,7 +17,7 @@ class Cluster(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, cloud=None, provider=None, total_nodes=None, total_cpus=None, total_memory=None, location=None, config=None, tags=None, created_by=None, owned_by=None, extra=None):  # noqa: E501
+    def __init__(self, id=None, name=None, cloud=None, provider=None, total_nodes=None, total_cpus=None, total_memory=None, location=None, credentials=None, config=None, tags=None, created_by=None, owned_by=None, extra=None):  # noqa: E501
         """Cluster - a model defined in OpenAPI
 
         :param id: The id of this Cluster.  # noqa: E501
@@ -36,6 +36,8 @@ class Cluster(Model):
         :type total_memory: int
         :param location: The location of this Cluster.  # noqa: E501
         :type location: str
+        :param credentials: The credentials of this Cluster.  # noqa: E501
+        :type credentials: object
         :param config: The config of this Cluster.  # noqa: E501
         :type config: object
         :param tags: The tags of this Cluster.  # noqa: E501
@@ -56,6 +58,7 @@ class Cluster(Model):
             'total_cpus': int,
             'total_memory': int,
             'location': str,
+            'credentials': object,
             'config': object,
             'tags': object,
             'created_by': str,
@@ -72,6 +75,7 @@ class Cluster(Model):
             'total_cpus': 'total_cpus',
             'total_memory': 'total_memory',
             'location': 'location',
+            'credentials': 'credentials',
             'config': 'config',
             'tags': 'tags',
             'created_by': 'created_by',
@@ -87,6 +91,7 @@ class Cluster(Model):
         self._total_cpus = total_cpus
         self._total_memory = total_memory
         self._location = location
+        self._credentials = credentials
         self._config = config
         self._tags = tags
         self._created_by = created_by
@@ -271,6 +276,27 @@ class Cluster(Model):
         """
 
         self._location = location
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this Cluster.
+
+
+        :return: The credentials of this Cluster.
+        :rtype: object
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this Cluster.
+
+
+        :param credentials: The credentials of this Cluster.
+        :type credentials: object
+        """
+
+        self._credentials = credentials
 
     @property
     def config(self):
