@@ -5101,6 +5101,7 @@ components:
       type: object
     Cluster:
       example:
+        credentials: '{}'
         total_cpus: 6
         owned_by: owned_by
         created_by: created_by
@@ -5130,6 +5131,8 @@ components:
           type: integer
         location:
           type: string
+        credentials:
+          type: object
         config:
           type: object
         tags:
@@ -5854,6 +5857,7 @@ components:
     GetClusterResponse:
       example:
         data:
+          credentials: '{}'
           total_cpus: 6
           owned_by: owned_by
           created_by: created_by
@@ -6675,7 +6679,8 @@ components:
     ListClustersResponse:
       example:
         data:
-        - total_cpus: 6
+        - credentials: '{}'
+          total_cpus: 6
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
@@ -6687,7 +6692,8 @@ components:
           location: location
           id: id
           config: '{}'
-        - total_cpus: 6
+        - credentials: '{}'
+          total_cpus: 6
           owned_by: owned_by
           created_by: created_by
           tags: '{}'
