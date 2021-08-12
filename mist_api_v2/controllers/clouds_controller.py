@@ -215,6 +215,10 @@ def edit_cloud(cloud, inline_object=None):  # noqa: E501
             cloud_obj.ctl.dns_enable()
         else:
             cloud_obj.ctl.dns_disable()
+        if features.container:
+            cloud_obj.ctl.container_enable()
+        else:
+            cloud_obj.ctl.container_disable()
     return None, 200
 
 
