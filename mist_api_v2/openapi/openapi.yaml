@@ -7557,10 +7557,6 @@ components:
               description: Size of the volume to be created
               minimum: 1
               type: integer
-            type:
-              description: The volume type. If not specified, Openstack will provide
-                a default volume type
-              type: string
             boot:
               description: Use as boot volume, up to one volume can be used as boot.
                 Defaults to false
