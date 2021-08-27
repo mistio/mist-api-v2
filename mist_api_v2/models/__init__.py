@@ -12,6 +12,7 @@ from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
+from mist_api_v2.models.alibaba_net import AlibabaNet
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_cluster_request import AmazonClusterRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
@@ -131,6 +132,7 @@ from mist_api_v2.models.openshift_cloud_request import OpenshiftCloudRequest
 from mist_api_v2.models.openshift_credentials import OpenshiftCredentials
 from mist_api_v2.models.openstack_cloud_request import OpenstackCloudRequest
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
+from mist_api_v2.models.openstack_net import OpenstackNet
 from mist_api_v2.models.org import Org
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
 from mist_api_v2.models.post_deploy_script import PostDeployScript

@@ -4800,6 +4800,53 @@ components:
       - apisecret
       - region
       type: object
+    AlibabaNet:
+      properties:
+        security_group:
+          description: Name or Alibaba ID of the security group to assign to the machine.
+            If not provided a default 'mistio' security group will be created.
+          type: string
+      title: Alibaba net parameter
+      type: object
+    AlibabaVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the existing volume to attach
+              type: string
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume in GBs. The minimum size depends on
+                the volume type
+              type: integer
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+            type:
+              description: Type of the volume to create, defaults to 'cloud'
+              enum:
+              - cloud
+              - cloud_efficiency
+              - cloud_ssd
+              - cloud_essd
+              type: string
+          required:
+          - name
+          - size
+        type: object
+      title: Alibaba volumes parameter
+      type: array
     AmazonCloudRequest:
       properties:
         provider:
@@ -5252,12 +5299,14 @@ components:
             type: string
         net:
           anyOf:
+          - $ref: '#/components/schemas/AlibabaNet'
           - $ref: '#/components/schemas/AmazonNet'
           - $ref: '#/components/schemas/AzureNet'
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
+          - $ref: '#/components/schemas/OpenstackNet'
           description: Specify network configuration parameters
         key:
           description: Associate SSH key
@@ -5276,12 +5325,14 @@ components:
           $ref: '#/components/schemas/CreateMachineRequest_disks'
         volumes:
           anyOf:
+          - $ref: '#/components/schemas/AlibabaVolumes'
           - $ref: '#/components/schemas/AmazonVolumes'
           - $ref: '#/components/schemas/AzureVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
           - $ref: '#/components/schemas/LinodeVolumes'
+          - $ref: '#/components/schemas/OpenstackVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
@@ -7514,6 +7565,60 @@ components:
       - password
       - user
       type: object
+    OpenstackNet:
+      properties:
+        security_groups:
+          description: Name or Openstack UUID of the security groups to assign to
+            the machine
+          items:
+            type: string
+          type: array
+        networks:
+          description: Name or ID of the networks to launch the machine into. Required
+            parameter when there are multiple networks defined for the tenant
+          items:
+            type: string
+          type: array
+        associate_floating_ip:
+          description: Assign a floating IP to the machine, defaults to True
+          type: boolean
+      title: Openstack net parameter
+      type: object
+    OpenstackVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the existing volume to attach
+              type: string
+            boot:
+              description: Use as boot volume, up to one volume can be used as boot.
+                Defaults to false
+              type: boolean
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+          required:
+          - volume
+        - properties:
+            size:
+              description: Size of the volume to be created
+              minimum: 1
+              type: integer
+            boot:
+              description: Use as boot volume, up to one volume can be used as boot.
+                Defaults to false
+              type: boolean
+            delete_on_termination:
+              description: Delete the  volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+          required:
+          - size
+        type: object
+      title: Openstack volumes parameter
+      type: array
     Org:
       example:
         enterprise_plan: '{}'
