@@ -46,7 +46,7 @@ class AlibabaNet(Model):
     def security_group(self):
         """Gets the security_group of this AlibabaNet.
 
-        Name or Alibaba ID of the security group to assign to the machine. If not provided a default 'mistio' security group will be created.  # noqa: E501
+        Name of the security group to assign to the machine. If not provided a default 'mistio' security group will be created.  # noqa: E501
 
         :return: The security_group of this AlibabaNet.
         :rtype: str
@@ -57,7 +57,7 @@ class AlibabaNet(Model):
     def security_group(self, security_group):
         """Sets the security_group of this AlibabaNet.
 
-        Name or Alibaba ID of the security group to assign to the machine. If not provided a default 'mistio' security group will be created.  # noqa: E501
+        Name of the security group to assign to the machine. If not provided a default 'mistio' security group will be created.  # noqa: E501
 
         :param security_group: The security_group of this AlibabaNet.
         :type security_group: str

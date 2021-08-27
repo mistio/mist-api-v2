@@ -4803,8 +4803,8 @@ components:
     AlibabaNet:
       properties:
         security_group:
-          description: Name or Alibaba ID of the security group to assign to the machine.
-            If not provided a default 'mistio' security group will be created.
+          description: Name of the security group to assign to the machine. If not
+            provided a default 'mistio' security group will be created.
           type: string
       title: Alibaba net parameter
       type: object
