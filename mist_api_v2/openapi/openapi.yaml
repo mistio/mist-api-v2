@@ -5258,6 +5258,7 @@ components:
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
+          - $ref: '#/components/schemas/OpenstackNet'
           description: Specify network configuration parameters
         key:
           description: Associate SSH key
@@ -5282,6 +5283,7 @@ components:
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
           - $ref: '#/components/schemas/LinodeVolumes'
+          - $ref: '#/components/schemas/OpenstackVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
@@ -7514,6 +7516,60 @@ components:
       - password
       - user
       type: object
+    OpenstackNet:
+      properties:
+        security_groups:
+          description: Name or Openstack UUID of the security groups to assign to
+            the machine
+          items:
+            type: string
+          type: array
+        networks:
+          description: Name or ID of the networks to launch the machine into. Required
+            parameter when there are multiple networks defined for the tenant
+          items:
+            type: string
+          type: array
+        associate_floating_ip:
+          description: Assign a floating IP to the machine, defaults to True
+          type: boolean
+      title: Openstack net parameter
+      type: object
+    OpenstackVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the existing volume to attach
+              type: string
+            boot:
+              description: Use as boot volume, up to one volume can be used as boot.
+                Defaults to false
+              type: boolean
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+          required:
+          - volume
+        - properties:
+            size:
+              description: Size of the volume to be created
+              minimum: 1
+              type: integer
+            boot:
+              description: Use as boot volume, up to one volume can be used as boot.
+                Defaults to false
+              type: boolean
+            delete_on_termination:
+              description: Delete the  volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+          required:
+          - size
+        type: object
+      title: Openstack volumes parameter
+      type: array
     Org:
       example:
         enterprise_plan: '{}'

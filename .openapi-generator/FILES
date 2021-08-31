@@ -162,6 +162,7 @@ mist_api_v2/models/openshift_cloud_request.py
 mist_api_v2/models/openshift_credentials.py
 mist_api_v2/models/openstack_cloud_request.py
 mist_api_v2/models/openstack_credentials.py
+mist_api_v2/models/openstack_net.py
 mist_api_v2/models/org.py
 mist_api_v2/models/other_cloud_request.py
 mist_api_v2/models/post_deploy_script.py
