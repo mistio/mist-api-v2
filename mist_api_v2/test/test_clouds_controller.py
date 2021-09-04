@@ -76,8 +76,8 @@ class TestCloudsController(BaseTestCase):
 
         List clouds
         """
-        query_string = [('filter', provider:packet AND status:enabled),
-                        ('sort', -title)]
+        query_string = [('filter', 'provider:packet AND status:enabled'),
+                        ('sort', '-title')]
         headers = { 
             'Accept': 'application/json',
             'ApiKeyAuth': 'special-key',
