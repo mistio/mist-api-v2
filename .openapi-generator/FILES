@@ -192,6 +192,7 @@ mist_api_v2/models/window.py
 mist_api_v2/models/zone.py
 mist_api_v2/openapi/openapi.yaml
 mist_api_v2/test/__init__.py
+mist_api_v2/test/test_clouds_controller.py
 mist_api_v2/test/test_clouds_count_controller.py
 mist_api_v2/test/test_clusters_controller.py
 mist_api_v2/test/test_datapoints_controller.py
