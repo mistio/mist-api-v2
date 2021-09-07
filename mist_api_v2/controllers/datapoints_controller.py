@@ -5,7 +5,7 @@ from mist.api import config
 
 from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # noqa: E501
 
-from mist.api.monitoring.victoriametrics.helpers import parse_relative_time
+from mist.api.monitoring.victoriametrics.helpers import parse_relative_time, apply_rbac
 
 from .base import list_resources
 
@@ -45,9 +45,13 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
     machines = list_resources(
         auth_context, 'machine', search=search
     )
-    machine_name_map = {machine["id"]: machine["name"]
-                        for machine in machines.get("data", [])
-                        if machine.get("id") and machine.get("name")}
+
+    machine_ids = "|".join([machine["id"] for machine in machines.get(
+        "data", []) if machine.get("id")])
+    try:
+        query = apply_rbac(query, machine_ids)
+    except RuntimeError as exc:
+        return str(exc), 400
 
     tenant = str(int(auth_context.org.id[:8], 16))
     uri = config.VICTORIAMETRICS_URI.replace("<org_id>", tenant)
@@ -68,16 +72,6 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
         return error_response.get("error", ""), datapoints.status_code
 
     datapoints = datapoints.json()
-    filtered_result = []
-    if datapoints.get("data", {}).get("result", []):
-        for item in datapoints["data"]["result"]:
-            if isinstance(item, dict) and item.get(
-                    "metric", {}).get("machine_id") and machine_name_map.get(
-                        item.get("metric", {})["machine_id"]):
-                item["metric"].update(
-                    {"name": machine_name_map[item["metric"]["machine_id"]]})
-                filtered_result.append(item)
-        datapoints["data"]["result"] = filtered_result
 
     meta = {
         'total_matching': 1,
