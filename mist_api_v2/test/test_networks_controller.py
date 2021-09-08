@@ -24,6 +24,7 @@ class TestNetworksController(BaseTestCase):
 
         Create network
         """
+        print('Hello@@@@@@@@')
         create_network_request = {
   "cloud" : "cloud",
   "template" : "{}",
@@ -53,6 +54,7 @@ class TestNetworksController(BaseTestCase):
 
         Edit network
         """
+        print('Hello@@@@@@@@')
         query_string = [('name', "'name_example'")]
         headers = { 
             'Authorization': create_short_lived_token(),
@@ -70,6 +72,7 @@ class TestNetworksController(BaseTestCase):
 
         Get network
         """
+        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -89,6 +92,7 @@ class TestNetworksController(BaseTestCase):
 
         List networks
         """
+        print('Hello@@@@@@@@')
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "cinet3"),
                         ('sort', "-name"),

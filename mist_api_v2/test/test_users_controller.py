@@ -21,6 +21,7 @@ class TestUsersController(BaseTestCase):
 
         List users
         """
+        print('Hello@@@@@@@@')
         query_string = [('search', "email:dev@mist.io"),
                         ('sort', "-name"),
                         ('start', "50"),

@@ -21,6 +21,7 @@ class TestDatapointsController(BaseTestCase):
 
         Get datapoints
         """
+        print('Hello@@@@@@@@')
         query_string = [('query', "'query_example'"),
                         ('tags', "'tags_example'"),
                         ('search', "'search_example'"),

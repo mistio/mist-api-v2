@@ -21,6 +21,7 @@ class TestNameController(BaseTestCase):
 
         Get Org
         """
+        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 

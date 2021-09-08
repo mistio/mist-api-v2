@@ -21,6 +21,7 @@ class TestTeamsController(BaseTestCase):
 
         List org teams
         """
+        print('Hello@@@@@@@@')
         query_string = [('search', "name:finance"),
                         ('sort', "-name"),
                         ('start', "50"),

@@ -21,6 +21,7 @@ class TestSnapshotsController(BaseTestCase):
 
         Create snapshot
         """
+        print('Hello@@@@@@@@')
         headers = { 
             'Accept': 'application/json',
             'Authorization': create_short_lived_token(),
@@ -37,6 +38,7 @@ class TestSnapshotsController(BaseTestCase):
 
         List machine snapshots
         """
+        print('Hello@@@@@@@@')
         headers = { 
             'Accept': 'application/json',
             'Authorization': create_short_lived_token(),
@@ -53,6 +55,7 @@ class TestSnapshotsController(BaseTestCase):
 
         Remove snapshot
         """
+        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -68,6 +71,7 @@ class TestSnapshotsController(BaseTestCase):
 
         Revert to snapshot
         """
+        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
