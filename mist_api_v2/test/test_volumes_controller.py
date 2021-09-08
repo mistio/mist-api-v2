@@ -24,7 +24,6 @@ class TestVolumesController(BaseTestCase):
 
         Create volume
         """
-        print('Hello@@@@@@@@')
         create_volume_request = {
   "cloud" : "cloud",
   "template" : "{}",
@@ -57,7 +56,6 @@ class TestVolumesController(BaseTestCase):
 
         Delete volume
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -73,7 +71,6 @@ class TestVolumesController(BaseTestCase):
 
         Edit volume
         """
-        print('Hello@@@@@@@@')
         query_string = [('name', "'name_example'")]
         headers = { 
             'Authorization': create_short_lived_token(),
@@ -91,7 +88,6 @@ class TestVolumesController(BaseTestCase):
 
         Get volume
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -111,7 +107,6 @@ class TestVolumesController(BaseTestCase):
 
         List volumes
         """
-        print('Hello@@@@@@@@')
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "location:Amsterdam"),
                         ('sort', "-name"),

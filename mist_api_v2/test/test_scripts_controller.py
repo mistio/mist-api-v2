@@ -22,7 +22,6 @@ class TestScriptsController(BaseTestCase):
 
         Delete script
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -38,7 +37,6 @@ class TestScriptsController(BaseTestCase):
 
         Edit script
         """
-        print('Hello@@@@@@@@')
         query_string = [('name', "'name_example'"),
                         ('description', "'description_example'")]
         headers = { 
@@ -57,7 +55,6 @@ class TestScriptsController(BaseTestCase):
 
         Get script
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -77,7 +74,6 @@ class TestScriptsController(BaseTestCase):
 
         List scripts
         """
-        print('Hello@@@@@@@@')
         query_string = [('search', "install-tensorflow"),
                         ('sort', "-name"),
                         ('start', "3"),

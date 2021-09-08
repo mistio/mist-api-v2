@@ -23,7 +23,6 @@ class TestClustersController(BaseTestCase):
 
         Create cluster
         """
-        print('Hello@@@@@@@@')
         create_cluster_request = null
         inject_vault_credentials_into_request(create_cluster_request)
         headers = { 
@@ -44,7 +43,6 @@ class TestClustersController(BaseTestCase):
 
         Destroy cluster
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -60,7 +58,6 @@ class TestClustersController(BaseTestCase):
 
         Get cluster
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -80,7 +77,6 @@ class TestClustersController(BaseTestCase):
 
         List clusters
         """
-        print('Hello@@@@@@@@')
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "created_by:csk"),
                         ('sort', "-name"),

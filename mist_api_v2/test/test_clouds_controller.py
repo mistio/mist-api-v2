@@ -25,7 +25,6 @@ class TestCloudsController(BaseTestCase):
 
         Add cloud
         """
-        print('Hello@@@@@@@@')
         add_cloud_request = {
   "name" : "example_aws_cloud",
   "provider" : "amazon",
@@ -55,7 +54,6 @@ class TestCloudsController(BaseTestCase):
 
         Delete cloud
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -71,7 +69,6 @@ class TestCloudsController(BaseTestCase):
 
         Edit cloud
         """
-        print('Hello@@@@@@@@')
         edit_cloud_request = {
   "name" : "renamed_example_cloud"
 }
@@ -94,7 +91,6 @@ class TestCloudsController(BaseTestCase):
 
         Get cloud
         """
-        print('Hello@@@@@@@@')
         query_string = [('sort', "-name"),
                         ('only', "id"),
                         ('deref', "auto")]
@@ -115,7 +111,6 @@ class TestCloudsController(BaseTestCase):
 
         List clouds
         """
-        print('Hello@@@@@@@@')
         query_string = [('search', "provider:amazon"),
                         ('sort', "-name"),
                         ('start', "50"),

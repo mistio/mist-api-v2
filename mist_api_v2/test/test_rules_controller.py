@@ -29,7 +29,6 @@ class TestRulesController(BaseTestCase):
 
         Add rule
         """
-        print('Hello@@@@@@@@')
         query_string = [('queries', "{}"),
                         ('window', "{}"),
                         ('frequency', "{}"),
@@ -53,7 +52,6 @@ class TestRulesController(BaseTestCase):
 
         Delete rule
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -69,7 +67,6 @@ class TestRulesController(BaseTestCase):
 
         Get rule
         """
-        print('Hello@@@@@@@@')
         query_string = [('sort', "-name"),
                         ('only', "id")]
         headers = { 
@@ -89,7 +86,6 @@ class TestRulesController(BaseTestCase):
 
         List rules
         """
-        print('Hello@@@@@@@@')
         query_string = [('search', "total_run_count:5"),
                         ('sort', "-name"),
                         ('start', "50"),
@@ -112,7 +108,6 @@ class TestRulesController(BaseTestCase):
 
         Rename rule
         """
-        print('Hello@@@@@@@@')
         query_string = [('action', "'action_example'")]
         headers = { 
             'Authorization': create_short_lived_token(),
@@ -130,7 +125,6 @@ class TestRulesController(BaseTestCase):
 
         Toggle rule
         """
-        print('Hello@@@@@@@@')
         query_string = [('action', "'action_example'")]
         headers = { 
             'Authorization': create_short_lived_token(),
@@ -148,7 +142,6 @@ class TestRulesController(BaseTestCase):
 
         Update rule
         """
-        print('Hello@@@@@@@@')
         query_string = [('queries', "{}"),
                         ('window', "{}"),
                         ('frequency', "{}"),

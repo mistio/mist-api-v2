@@ -22,7 +22,6 @@ class TestSizesController(BaseTestCase):
 
         Get size
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -42,7 +41,6 @@ class TestSizesController(BaseTestCase):
 
         List sizes
         """
-        print('Hello@@@@@@@@')
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "cinet3"),
                         ('sort', "-name"),

@@ -25,7 +25,6 @@ class TestOrgsController(BaseTestCase):
 
         Get Org
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id")]
         headers = { 
             'Accept': 'application/json',
@@ -44,7 +43,6 @@ class TestOrgsController(BaseTestCase):
 
         Get Org
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -64,7 +62,6 @@ class TestOrgsController(BaseTestCase):
 
         List org members
         """
-        print('Hello@@@@@@@@')
         query_string = [('search', "email:dev@mist.io"),
                         ('sort', "-name"),
                         ('start', "50"),
@@ -87,7 +84,6 @@ class TestOrgsController(BaseTestCase):
 
         List org teams
         """
-        print('Hello@@@@@@@@')
         query_string = [('search', "name:finance"),
                         ('sort', "-name"),
                         ('start', "50"),
@@ -111,7 +107,6 @@ class TestOrgsController(BaseTestCase):
 
         List orgs
         """
-        print('Hello@@@@@@@@')
         query_string = [('allorgs', "'allorgs_example'"),
                         ('search', "name:Acme"),
                         ('sort', "-name"),

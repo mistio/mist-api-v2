@@ -24,7 +24,6 @@ class TestKeysController(BaseTestCase):
 
         Add key
         """
-        print('Hello@@@@@@@@')
         add_key_request = null
         inject_vault_credentials_into_request(add_key_request)
         headers = { 
@@ -46,7 +45,6 @@ class TestKeysController(BaseTestCase):
 
         Delete key
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -62,7 +60,6 @@ class TestKeysController(BaseTestCase):
 
         Edit key
         """
-        print('Hello@@@@@@@@')
         query_string = [('name', "'name_example'"),
                         ('default', "True")]
         headers = { 
@@ -81,7 +78,6 @@ class TestKeysController(BaseTestCase):
 
         Get key
         """
-        print('Hello@@@@@@@@')
         query_string = [('private', "False"),
                         ('sort', "-name"),
                         ('only', "id"),
@@ -103,7 +99,6 @@ class TestKeysController(BaseTestCase):
 
         List keys
         """
-        print('Hello@@@@@@@@')
         query_string = [('search', "type:ssh"),
                         ('sort', "-name"),
                         ('start', "50"),

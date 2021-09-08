@@ -26,7 +26,6 @@ class TestMachinesController(BaseTestCase):
 
         Associate a key with a machine
         """
-        print('Hello@@@@@@@@')
         key_machine_association = {
   "port" : 0,
   "user" : "user",
@@ -51,7 +50,6 @@ class TestMachinesController(BaseTestCase):
 
         Clone machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -67,7 +65,6 @@ class TestMachinesController(BaseTestCase):
 
         Open console
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -83,7 +80,6 @@ class TestMachinesController(BaseTestCase):
 
         Create machine
         """
-        print('Hello@@@@@@@@')
         create_machine_request = {
   "template" : "{}",
   "image" : "",
@@ -138,7 +134,6 @@ class TestMachinesController(BaseTestCase):
 
         Destroy machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -154,7 +149,6 @@ class TestMachinesController(BaseTestCase):
 
         Disassociate a key from a machine
         """
-        print('Hello@@@@@@@@')
         key_machine_disassociation = {
   "key" : "key"
 }
@@ -177,7 +171,6 @@ class TestMachinesController(BaseTestCase):
 
         Edit machine
         """
-        print('Hello@@@@@@@@')
         query_string = [('name', "'name_example'")]
         headers = { 
             'Authorization': create_short_lived_token(),
@@ -195,7 +188,6 @@ class TestMachinesController(BaseTestCase):
 
         Expose machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -211,7 +203,6 @@ class TestMachinesController(BaseTestCase):
 
         Get machine
         """
-        print('Hello@@@@@@@@')
         query_string = [('only', "id"),
                         ('deref', "auto")]
         headers = { 
@@ -231,7 +222,6 @@ class TestMachinesController(BaseTestCase):
 
         List machines
         """
-        print('Hello@@@@@@@@')
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "state:running"),
                         ('sort', "-name"),
@@ -256,7 +246,6 @@ class TestMachinesController(BaseTestCase):
 
         Reboot machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -272,7 +261,6 @@ class TestMachinesController(BaseTestCase):
 
         Rename machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -288,7 +276,6 @@ class TestMachinesController(BaseTestCase):
 
         Resize machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -304,7 +291,6 @@ class TestMachinesController(BaseTestCase):
 
         Resume machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -320,7 +306,6 @@ class TestMachinesController(BaseTestCase):
 
         Open secure shell
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -336,7 +321,6 @@ class TestMachinesController(BaseTestCase):
 
         Start machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -352,7 +336,6 @@ class TestMachinesController(BaseTestCase):
 
         Stop machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -368,7 +351,6 @@ class TestMachinesController(BaseTestCase):
 
         Suspend machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
@@ -384,7 +366,6 @@ class TestMachinesController(BaseTestCase):
 
         Undefine machine
         """
-        print('Hello@@@@@@@@')
         headers = { 
             'Authorization': create_short_lived_token(),
         }
