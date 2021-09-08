@@ -4751,6 +4751,13 @@ components:
         - $ref: '#/components/schemas/KubevirtCloudRequest'
         - $ref: '#/components/schemas/OpenshiftCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
+      example:
+        name: example_aws_cloud
+        provider: amazon
+        credentials:
+          apikey: apikey
+          apisecret: apisecret
+          region: region
     AddKeyRequest:
       anyOf:
       - $ref: '#/components/schemas/AddKeyRequest_anyOf'
@@ -5718,6 +5725,8 @@ components:
           - $ref: '#/components/schemas/KubevirtCloudRequest'
           - $ref: '#/components/schemas/OpenshiftCloudRequest'
           - $ref: '#/components/schemas/OtherCloudRequest'
+      example:
+        name: renamed_example_cloud
     EditCloudRequest_anyOf:
       additionalProperties: false
       properties:
