@@ -20,6 +20,9 @@ from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
 from mist_api_v2.models.window import Window  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
+unittest.TestLoader.sortTestMethodsUsing = \
+    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
+
 
 class TestRulesController(BaseTestCase):
     """RulesController integration test stubs"""

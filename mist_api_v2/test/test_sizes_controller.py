@@ -13,6 +13,9 @@ from mist_api_v2.models.get_size_response import GetSizeResponse  # noqa: E501
 from mist_api_v2.models.list_sizes_response import ListSizesResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
+unittest.TestLoader.sortTestMethodsUsing = \
+    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
+
 
 class TestSizesController(BaseTestCase):
     """SizesController integration test stubs"""

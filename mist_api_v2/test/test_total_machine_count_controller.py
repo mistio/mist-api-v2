@@ -12,6 +12,9 @@ from mist.api.auth.methods import inject_vault_credentials_into_request
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
+unittest.TestLoader.sortTestMethodsUsing = \
+    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
+
 
 class TestTotalMachineCountController(BaseTestCase):
     """TotalMachineCountController integration test stubs"""

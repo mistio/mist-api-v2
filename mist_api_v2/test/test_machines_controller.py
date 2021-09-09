@@ -17,6 +17,9 @@ from mist_api_v2.models.key_machine_disassociation import KeyMachineDisassociati
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
+unittest.TestLoader.sortTestMethodsUsing = \
+    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
+
 
 class TestMachinesController(BaseTestCase):
     """MachinesController integration test stubs"""

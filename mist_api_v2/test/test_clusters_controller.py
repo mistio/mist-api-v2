@@ -14,6 +14,9 @@ from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: 
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
+unittest.TestLoader.sortTestMethodsUsing = \
+    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
+
 
 class TestClustersController(BaseTestCase):
     """ClustersController integration test stubs"""

@@ -13,6 +13,9 @@ from mist_api_v2.models.get_location_response import GetLocationResponse  # noqa
 from mist_api_v2.models.list_locations_response import ListLocationsResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
+unittest.TestLoader.sortTestMethodsUsing = \
+    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
+
 
 class TestLocationsController(BaseTestCase):
     """LocationsController integration test stubs"""
