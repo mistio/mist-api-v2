@@ -32,7 +32,7 @@ class TestLocationsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/locations/{location}'.format(location='location_example'),
+            '/api/v2/locations/{location}'.format(location="'location_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

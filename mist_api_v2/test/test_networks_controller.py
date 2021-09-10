@@ -61,7 +61,7 @@ class TestNetworksController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/networks/{network}'.format(network='network_example'),
+            '/api/v2/networks/{network}'.format(network="'network_example'"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -80,7 +80,7 @@ class TestNetworksController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/networks/{network}'.format(network='network_example'),
+            '/api/v2/networks/{network}'.format(network="'network_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

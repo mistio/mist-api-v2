@@ -32,7 +32,7 @@ class TestImagesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/images/{image}'.format(image='image_example'),
+            '/api/v2/images/{image}'.format(image="'image_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

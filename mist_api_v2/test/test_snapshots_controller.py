@@ -29,7 +29,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots'.format(machine='machine_example'),
+            '/api/v2/machines/{machine}/snapshots'.format(machine="'machine_example'"),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -45,7 +45,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots'.format(machine='machine_example'),
+            '/api/v2/machines/{machine}/snapshots'.format(machine="'machine_example'"),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -60,7 +60,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine='machine_example', snapshot='snapshot_example'),
+            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine="'machine_example'", snapshot="'snapshot_example'"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -75,7 +75,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine='machine_example', snapshot='snapshot_example'),
+            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine="'machine_example'", snapshot="'snapshot_example'"),
             method='POST',
             headers=headers)
         self.assert200(response,

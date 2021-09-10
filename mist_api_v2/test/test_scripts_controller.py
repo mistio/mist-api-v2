@@ -29,7 +29,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script='script_example'),
+            '/api/v2/scripts/{script}'.format(script="'script_example'"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -46,7 +46,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script='script_example'),
+            '/api/v2/scripts/{script}'.format(script="'script_example'"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -65,7 +65,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script='script_example'),
+            '/api/v2/scripts/{script}'.format(script="'script_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

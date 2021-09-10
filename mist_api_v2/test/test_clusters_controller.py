@@ -50,7 +50,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster='cluster_example'),
+            '/api/v2/clusters/{cluster}'.format(cluster="'cluster_example'"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -68,7 +68,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster='cluster_example'),
+            '/api/v2/clusters/{cluster}'.format(cluster="'cluster_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

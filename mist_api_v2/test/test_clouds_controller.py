@@ -29,7 +29,7 @@ class TestCloudsController(BaseTestCase):
         Add cloud
         """
         add_cloud_request = {
-  "name" : "example_aws_cloud",
+  "name" : "example_cloud",
   "provider" : "amazon",
   "credentials" : {
     "apikey" : "apikey",
@@ -61,7 +61,7 @@ class TestCloudsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud='cloud_example'),
+            '/api/v2/clouds/{cloud}'.format(cloud="example_cloud"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -81,7 +81,7 @@ class TestCloudsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud='cloud_example'),
+            '/api/v2/clouds/{cloud}'.format(cloud="example_cloud"),
             method='PUT',
             headers=headers,
             data=json.dumps(edit_cloud_request),
@@ -102,7 +102,7 @@ class TestCloudsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud='cloud_example'),
+            '/api/v2/clouds/{cloud}'.format(cloud="example_cloud"),
             method='GET',
             headers=headers,
             query_string=query_string)

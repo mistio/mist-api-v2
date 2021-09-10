@@ -63,7 +63,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume='volume_example'),
+            '/api/v2/volumes/{volume}'.format(volume="'volume_example'"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -79,7 +79,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume='volume_example'),
+            '/api/v2/volumes/{volume}'.format(volume="'volume_example'"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -98,7 +98,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume='volume_example'),
+            '/api/v2/volumes/{volume}'.format(volume="'volume_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

@@ -34,7 +34,7 @@ class TestMembersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/orgs/{org}/members'.format(org='org_example'),
+            '/api/v2/orgs/{org}/members'.format(org="'org_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

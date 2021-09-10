@@ -29,7 +29,7 @@ class TestJobsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/jobs/{job_id}'.format(job_id='job_id_example'),
+            '/api/v2/jobs/{job_id}'.format(job_id="'job_id_example'"),
             method='GET',
             headers=headers)
         self.assert200(response,

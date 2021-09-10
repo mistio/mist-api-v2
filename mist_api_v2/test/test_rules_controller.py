@@ -59,7 +59,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule='rule_example'),
+            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -77,7 +77,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule='rule_example'),
+            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -116,7 +116,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule='rule_example'),
+            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
             method='PATCH',
             headers=headers,
             query_string=query_string)
@@ -133,7 +133,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule='rule_example'),
+            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -156,7 +156,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule='rule_example'),
+            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
             method='POST',
             headers=headers,
             query_string=query_string)
