@@ -5,7 +5,8 @@ from mist.api import config
 
 from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # noqa: E501
 
-from mist.api.monitoring.victoriametrics.helpers import parse_relative_time, apply_rbac
+from mist.api.monitoring.victoriametrics.helpers import (
+    parse_relative_time, apply_rbac)
 
 from .base import list_resources
 
