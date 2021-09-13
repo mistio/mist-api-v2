@@ -14,8 +14,8 @@ from mist_api_v2.models.list_locations_response import ListLocationsResponse  # 
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestLocationsController(BaseTestCase):
     """LocationsController integration test stubs"""
@@ -32,7 +32,7 @@ class TestLocationsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/locations/{location}'.format(location="'location_example'"),
+            '/api/v2/locations/{location}'.format(location='location_example'),
             method='GET',
             headers=headers,
             query_string=query_string)

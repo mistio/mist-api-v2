@@ -16,8 +16,8 @@ from mist_api_v2.models.list_volumes_response import ListVolumesResponse  # noqa
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestVolumesController(BaseTestCase):
     """VolumesController integration test stubs"""
@@ -55,7 +55,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume="example_volume"),
+            '/api/v2/volumes/{volume}'.format(volume=example_volume),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -71,7 +71,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume="example_volume"),
+            '/api/v2/volumes/{volume}'.format(volume=example_volume),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -90,7 +90,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume="example_volume"),
+            '/api/v2/volumes/{volume}'.format(volume=example_volume),
             method='GET',
             headers=headers,
             query_string=query_string)

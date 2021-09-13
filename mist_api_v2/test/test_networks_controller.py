@@ -16,8 +16,8 @@ from mist_api_v2.models.list_networks_response import ListNetworksResponse  # no
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestNetworksController(BaseTestCase):
     """NetworksController integration test stubs"""
@@ -56,7 +56,7 @@ class TestNetworksController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/networks/{network}'.format(network="example_network"),
+            '/api/v2/networks/{network}'.format(network=example_network),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -75,7 +75,7 @@ class TestNetworksController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/networks/{network}'.format(network="example_network"),
+            '/api/v2/networks/{network}'.format(network=example_network),
             method='GET',
             headers=headers,
             query_string=query_string)

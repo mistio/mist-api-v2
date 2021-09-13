@@ -13,8 +13,8 @@ from mist_api_v2.models.get_job_response import GetJobResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestJobsController(BaseTestCase):
     """JobsController integration test stubs"""
@@ -29,7 +29,7 @@ class TestJobsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/jobs/{job_id}'.format(job_id="'job_id_example'"),
+            '/api/v2/jobs/{job_id}'.format(job_id='job_id_example'),
             method='GET',
             headers=headers)
         self.assert200(response,

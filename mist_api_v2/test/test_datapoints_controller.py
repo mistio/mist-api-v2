@@ -13,8 +13,8 @@ from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # 
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestDatapointsController(BaseTestCase):
     """DatapointsController integration test stubs"""

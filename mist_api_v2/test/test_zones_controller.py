@@ -16,8 +16,8 @@ from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E5
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestZonesController(BaseTestCase):
     """ZonesController integration test stubs"""
@@ -56,7 +56,7 @@ class TestZonesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/zones/{zone}'.format(zone="example_zone"),
+            '/api/v2/zones/{zone}'.format(zone=example_zone),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -75,7 +75,7 @@ class TestZonesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/zones/{zone}'.format(zone="example_zone"),
+            '/api/v2/zones/{zone}'.format(zone=example_zone),
             method='GET',
             headers=headers,
             query_string=query_string)

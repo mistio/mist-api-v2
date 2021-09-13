@@ -18,8 +18,8 @@ from mist_api_v2.models.list_machines_response import ListMachinesResponse  # no
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestMachinesController(BaseTestCase):
     """MachinesController integration test stubs"""
@@ -40,7 +40,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/associate-key'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/associate-key'.format(machine=example_machine),
             method='PUT',
             headers=headers,
             data=json.dumps(key_machine_association),
@@ -57,7 +57,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/clone'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/clone'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -72,7 +72,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/console'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/console'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -112,7 +112,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/destroy'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/destroy'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -132,7 +132,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/disassociate-key'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/disassociate-key'.format(machine=example_machine),
             method='DELETE',
             headers=headers,
             data=json.dumps(key_machine_disassociation),
@@ -150,7 +150,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}'.format(machine=example_machine),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -166,7 +166,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/expose'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/expose'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -184,7 +184,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}'.format(machine=example_machine),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -224,7 +224,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/reboot'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/reboot'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -239,7 +239,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/rename'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/rename'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -254,7 +254,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/resize'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/resize'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -269,7 +269,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/resume'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/resume'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -284,7 +284,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/ssh'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/ssh'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -299,7 +299,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/start'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/start'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -314,7 +314,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/stop'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/stop'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -329,7 +329,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/suspend'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/suspend'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -344,7 +344,7 @@ class TestMachinesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/actions/undefine'.format(machine="example_machine"),
+            '/api/v2/machines/{machine}/actions/undefine'.format(machine=example_machine),
             method='POST',
             headers=headers)
         self.assert200(response,

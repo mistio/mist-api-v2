@@ -15,8 +15,8 @@ from mist_api_v2.models.list_clusters_response import ListClustersResponse  # no
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestClustersController(BaseTestCase):
     """ClustersController integration test stubs"""
@@ -55,7 +55,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster="example_cluster"),
+            '/api/v2/clusters/{cluster}'.format(cluster=example_cluster),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -73,7 +73,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster="example_cluster"),
+            '/api/v2/clusters/{cluster}'.format(cluster=example_cluster),
             method='GET',
             headers=headers,
             query_string=query_string)

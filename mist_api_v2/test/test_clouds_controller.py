@@ -17,8 +17,8 @@ from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: 
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: -1 if any(k in y for k in ['delete', 'remove']) else 1
-
+    lambda _, x, y: - 1 if any(
+        k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 class TestCloudsController(BaseTestCase):
     """CloudsController integration test stubs"""
@@ -61,7 +61,7 @@ class TestCloudsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud="example_cloud"),
+            '/api/v2/clouds/{cloud}'.format(cloud=example_cloud),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -81,7 +81,7 @@ class TestCloudsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud="example_cloud"),
+            '/api/v2/clouds/{cloud}'.format(cloud=example_cloud),
             method='PUT',
             headers=headers,
             data=json.dumps(edit_cloud_request),
@@ -102,7 +102,7 @@ class TestCloudsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud="example_cloud"),
+            '/api/v2/clouds/{cloud}'.format(cloud=example_cloud),
             method='GET',
             headers=headers,
             query_string=query_string)
