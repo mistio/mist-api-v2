@@ -57,16 +57,15 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
     uri = config.VICTORIAMETRICS_URI.replace("<org_id>", tenant)
     datapoints = None
     if time:
-        print(time)
-        datapoints = requests.get(
-            f"{uri}/api/v1/query"
-            f"?query={query}&time={parse_relative_time(time)}",
+        datapoints = requests.post(
+            f"{uri}/api/v1/query",
+            data={"query": query, "time": parse_relative_time(time)},
             timeout=20)
     else:
         time_args = calculate_time_args(start, end, step)
-        datapoints = requests.get(
-            f"{uri}/api/v1/query_range"
-            f"?query={query}{time_args}", timeout=20)
+        datapoints = requests.post(
+            f"{uri}/api/v1/query_range",
+            data={"query": f"{query}{time_args}"}, timeout=20)
     if not datapoints.ok:
         error_response = datapoints.json()
         return error_response.get("error", ""), datapoints.status_code
