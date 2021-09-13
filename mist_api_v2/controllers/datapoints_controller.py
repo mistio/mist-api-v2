@@ -32,14 +32,14 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
     """
     auth_context = connexion.context['token_info']['auth_context']
 
-    def calculate_time_args(start, stop, step):
-        time_args = ""
+    def dictify_time_args(start, stop, step):
+        time_args = {}
         if start is not None:
-            time_args += f"&start={parse_relative_time(start)}"
+            time_args["start"] = parse_relative_time(start)
         if stop is not None:
-            time_args += f"&end={parse_relative_time(stop)}"
+            time_args["end"] = parse_relative_time(stop)
         if step is not None:
-            time_args += f"&step={parse_relative_time(step)}"
+            time_args["step"] = parse_relative_time(step)
         return time_args
 
     machines = list_resources(
@@ -62,10 +62,11 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
             data={"query": query, "time": parse_relative_time(time)},
             timeout=20)
     else:
-        time_args = calculate_time_args(start, end, step)
+        time_args = dictify_time_args(start, end, step)
+        req = {"query": query}
+        req.update(time_args)
         datapoints = requests.post(
-            f"{uri}/api/v1/query_range",
-            data={"query": f"{query}{time_args}"}, timeout=20)
+            f"{uri}/api/v1/query_range", data=req, timeout=20)
     if not datapoints.ok:
         error_response = datapoints.json()
         return error_response.get("error", ""), datapoints.status_code
