@@ -26,7 +26,12 @@ class TestClustersController(BaseTestCase):
 
         Create cluster
         """
-        create_cluster_request = null
+        create_cluster_request = {
+  "name" : "example_cluster",
+  "cloud" : "example_cloud",
+  "provider" : "google",
+  "location" : "example_location"
+}
         inject_vault_credentials_into_request(create_cluster_request)
         headers = { 
             'Content-Type': 'application/json',
@@ -50,7 +55,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster="'cluster_example'"),
+            '/api/v2/clusters/{cluster}'.format(cluster="example_cluster"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -68,7 +73,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster="'cluster_example'"),
+            '/api/v2/clusters/{cluster}'.format(cluster="example_cluster"),
             method='GET',
             headers=headers,
             query_string=query_string)

@@ -28,13 +28,8 @@ class TestNetworksController(BaseTestCase):
         Create network
         """
         create_network_request = {
-  "cloud" : "cloud",
-  "template" : "{}",
-  "extra" : "{}",
-  "name" : "name",
-  "save" : true,
-  "dry" : true,
-  "tags" : "{}"
+  "name" : "example_network",
+  "cloud" : "example_cloud"
 }
         inject_vault_credentials_into_request(create_network_request)
         headers = { 
@@ -56,12 +51,12 @@ class TestNetworksController(BaseTestCase):
 
         Edit network
         """
-        query_string = [('name', "'name_example'")]
+        query_string = [('name', "renamed_example_network")]
         headers = { 
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/networks/{network}'.format(network="'network_example'"),
+            '/api/v2/networks/{network}'.format(network="example_network"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -80,7 +75,7 @@ class TestNetworksController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/networks/{network}'.format(network="'network_example'"),
+            '/api/v2/networks/{network}'.format(network="example_network"),
             method='GET',
             headers=headers,
             query_string=query_string)

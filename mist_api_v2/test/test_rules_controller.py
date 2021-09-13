@@ -59,7 +59,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -77,7 +77,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -111,12 +111,12 @@ class TestRulesController(BaseTestCase):
 
         Rename rule
         """
-        query_string = [('action', "'action_example'")]
+        query_string = [('action', "renamed_example_rule")]
         headers = { 
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='PATCH',
             headers=headers,
             query_string=query_string)
@@ -128,12 +128,12 @@ class TestRulesController(BaseTestCase):
 
         Toggle rule
         """
-        query_string = [('action', "'action_example'")]
+        query_string = [('action', "example_action")]
         headers = { 
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -156,7 +156,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule="'rule_example'"),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='POST',
             headers=headers,
             query_string=query_string)

@@ -29,7 +29,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script="'script_example'"),
+            '/api/v2/scripts/{script}'.format(script="example_script"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -40,13 +40,13 @@ class TestScriptsController(BaseTestCase):
 
         Edit script
         """
-        query_string = [('name', "'name_example'"),
+        query_string = [('name', "example_script"),
                         ('description', "'description_example'")]
         headers = { 
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script="'script_example'"),
+            '/api/v2/scripts/{script}'.format(script="example_script"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -65,7 +65,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script="'script_example'"),
+            '/api/v2/scripts/{script}'.format(script="example_script"),
             method='GET',
             headers=headers,
             query_string=query_string)

@@ -34,7 +34,7 @@ class TestOrgsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/orgs/{org}/members/{member}'.format(org="'org_example'", member="'member_example'"),
+            '/api/v2/orgs/{org}/members/{member}'.format(org="example_org", member="example_member"),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -53,7 +53,7 @@ class TestOrgsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/orgs/{org}'.format(org="'org_example'"),
+            '/api/v2/orgs/{org}'.format(org="example_org"),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -75,7 +75,7 @@ class TestOrgsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/orgs/{org}/members'.format(org="'org_example'"),
+            '/api/v2/orgs/{org}/members'.format(org="example_org"),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -98,7 +98,7 @@ class TestOrgsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/orgs/{org}/teams'.format(org="'org_example'"),
+            '/api/v2/orgs/{org}/teams'.format(org="example_org"),
             method='GET',
             headers=headers,
             query_string=query_string)

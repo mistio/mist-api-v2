@@ -28,13 +28,8 @@ class TestZonesController(BaseTestCase):
         Create zone
         """
         create_zone_request = {
-  "cloud" : "cloud",
-  "template" : "{}",
-  "extra" : "{}",
-  "name" : "name",
-  "save" : true,
-  "dry" : true,
-  "tags" : "{}"
+  "name" : "example_zone",
+  "cloud" : "example_cloud"
 }
         inject_vault_credentials_into_request(create_zone_request)
         headers = { 
@@ -56,12 +51,12 @@ class TestZonesController(BaseTestCase):
 
         Edit zone
         """
-        query_string = [('name', "'name_example'")]
+        query_string = [('name', "renamed_example_zone")]
         headers = { 
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/zones/{zone}'.format(zone="'zone_example'"),
+            '/api/v2/zones/{zone}'.format(zone="example_zone"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -80,7 +75,7 @@ class TestZonesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/zones/{zone}'.format(zone="'zone_example'"),
+            '/api/v2/zones/{zone}'.format(zone="example_zone"),
             method='GET',
             headers=headers,
             query_string=query_string)

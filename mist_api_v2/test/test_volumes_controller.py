@@ -28,16 +28,8 @@ class TestVolumesController(BaseTestCase):
         Create volume
         """
         create_volume_request = {
-  "cloud" : "cloud",
-  "template" : "{}",
-  "quantity" : 0.8008281904610115,
-  "size" : "{}",
-  "extra" : "{}",
-  "name" : "name",
-  "save" : true,
-  "location" : "location",
-  "dry" : true,
-  "tags" : "{}"
+  "name" : "example_volume",
+  "size" : "example_size"
 }
         inject_vault_credentials_into_request(create_volume_request)
         headers = { 
@@ -63,7 +55,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume="'volume_example'"),
+            '/api/v2/volumes/{volume}'.format(volume="example_volume"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -74,12 +66,12 @@ class TestVolumesController(BaseTestCase):
 
         Edit volume
         """
-        query_string = [('name', "'name_example'")]
+        query_string = [('name', "renamed_example_volume")]
         headers = { 
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume="'volume_example'"),
+            '/api/v2/volumes/{volume}'.format(volume="example_volume"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -98,7 +90,7 @@ class TestVolumesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/volumes/{volume}'.format(volume="'volume_example'"),
+            '/api/v2/volumes/{volume}'.format(volume="example_volume"),
             method='GET',
             headers=headers,
             query_string=query_string)

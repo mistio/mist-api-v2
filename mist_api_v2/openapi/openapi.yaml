@@ -466,7 +466,8 @@ paths:
       description: Destroy target clusters
       operationId: destroy_cluster
       parameters:
-      - explode: false
+      - example: example_cluster
+        explode: false
         in: path
         name: cluster
         required: true
@@ -497,7 +498,8 @@ paths:
       description: Get details about target cluster
       operationId: get_cluster
       parameters:
-      - explode: false
+      - example: example_cluster
+        explode: false
         in: path
         name: cluster
         required: true
@@ -1048,7 +1050,8 @@ paths:
       description: Delete target key
       operationId: delete_key
       parameters:
-      - explode: false
+      - example: example_key
+        explode: false
         in: path
         name: key
         required: true
@@ -1077,7 +1080,8 @@ paths:
       description: Get details about target key
       operationId: get_key
       parameters:
-      - explode: false
+      - example: example_key
+        explode: false
         in: path
         name: key
         required: true
@@ -1170,7 +1174,8 @@ paths:
       description: Edit target key
       operationId: edit_key
       parameters:
-      - explode: false
+      - example: example_key
+        explode: false
         in: path
         name: key
         required: true
@@ -1178,6 +1183,7 @@ paths:
           type: string
         style: simple
       - description: New key name
+        example: renamed_example_key
         explode: true
         in: query
         name: name
@@ -1587,7 +1593,8 @@ paths:
       description: Get details about target machine
       operationId: get_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1668,7 +1675,8 @@ paths:
       description: Edit target machine
       operationId: edit_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1676,6 +1684,7 @@ paths:
           type: string
         style: simple
       - description: New machine name
+        example: renamed_example_machine
         explode: true
         in: query
         name: name
@@ -1706,7 +1715,8 @@ paths:
       description: Associate a key with a machine.
       operationId: associate_key
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1749,7 +1759,8 @@ paths:
       description: Clone target machine
       operationId: clone_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1781,7 +1792,8 @@ paths:
       description: Open VNC console on target machine
       operationId: console
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1813,7 +1825,8 @@ paths:
       description: Destroy target machine
       operationId: destroy_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1845,7 +1858,8 @@ paths:
       description: Disassociate a key from a machine.
       operationId: disassociate_key
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1884,7 +1898,8 @@ paths:
       description: Expose target machine
       operationId: expose_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1916,7 +1931,8 @@ paths:
       description: Reboot target machine
       operationId: reboot_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1948,7 +1964,8 @@ paths:
       description: Rename target machine
       operationId: rename_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -1980,7 +1997,8 @@ paths:
       description: Resize target machine
       operationId: resize_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2012,7 +2030,8 @@ paths:
       description: Resume target machine
       operationId: resume_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2044,7 +2063,8 @@ paths:
       description: Open secure shell on target machine
       operationId: ssh
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2081,7 +2101,8 @@ paths:
       description: Start target machine
       operationId: start_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2113,7 +2134,8 @@ paths:
       description: Stop target machine
       operationId: stop_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2145,7 +2167,8 @@ paths:
       description: Suspend target machine
       operationId: suspend_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2177,7 +2200,8 @@ paths:
       description: Undefine target machine
       operationId: undefine_machine
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2209,7 +2233,8 @@ paths:
       description: List snapshots of target machine
       operationId: list_snapshots
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2246,7 +2271,8 @@ paths:
       description: Create snapshots of target machine
       operationId: create_snapshot
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
@@ -2286,14 +2312,16 @@ paths:
       description: Remove target machine snapshot
       operationId: remove_snapshot
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
         schema:
           type: string
         style: simple
-      - explode: false
+      - example: example_snapshot
+        explode: false
         in: path
         name: snapshot
         required: true
@@ -2328,14 +2356,16 @@ paths:
       description: Revert machine to snapshot
       operationId: revert_to_snapshot
       parameters:
-      - explode: false
+      - example: example_machine
+        explode: false
         in: path
         name: machine
         required: true
         schema:
           type: string
         style: simple
-      - explode: false
+      - example: example_snapshot
+        explode: false
         in: path
         name: snapshot
         required: true
@@ -2535,7 +2565,8 @@ paths:
       description: Get details about target network
       operationId: get_network
       parameters:
-      - explode: false
+      - example: example_network
+        explode: false
         in: path
         name: network
         required: true
@@ -2617,7 +2648,8 @@ paths:
       description: Edit target network
       operationId: edit_network
       parameters:
-      - explode: false
+      - example: example_network
+        explode: false
         in: path
         name: network
         required: true
@@ -2625,6 +2657,7 @@ paths:
           type: string
         style: simple
       - description: New network name
+        example: renamed_example_network
         explode: true
         in: query
         name: name
@@ -2771,7 +2804,8 @@ paths:
       description: Get details about target org
       operationId: get_org
       parameters:
-      - explode: false
+      - example: example_org
+        explode: false
         in: path
         name: org
         required: true
@@ -2844,7 +2878,8 @@ paths:
         a member of the org.
       operationId: list_org_members
       parameters:
-      - explode: false
+      - example: example_org
+        explode: false
         in: path
         name: org
         required: true
@@ -2940,14 +2975,16 @@ paths:
       description: Get details about target member
       operationId: get_member
       parameters:
-      - explode: false
+      - example: example_org
+        explode: false
         in: path
         name: org
         required: true
         schema:
           type: string
         style: simple
-      - explode: false
+      - example: example_member
+        explode: false
         in: path
         name: member
         required: true
@@ -3002,6 +3039,7 @@ paths:
       operationId: list_org_teams
       parameters:
       - description: Organization id
+        example: example_org
         explode: false
         in: path
         name: org
@@ -3284,7 +3322,8 @@ paths:
       description: Delete a rule given its UUID.
       operationId: delete_rule
       parameters:
-      - explode: false
+      - example: example_rule
+        explode: false
         in: path
         name: rule
         required: true
@@ -3313,7 +3352,8 @@ paths:
       description: Get details about target rule
       operationId: get_rule
       parameters:
-      - explode: false
+      - example: example_rule
+        explode: false
         in: path
         name: rule
         required: true
@@ -3385,14 +3425,16 @@ paths:
       description: Rename a rule
       operationId: rename_rule
       parameters:
-      - explode: false
+      - example: example_rule
+        explode: false
         in: path
         name: rule
         required: true
         schema:
           type: string
         style: simple
-      - explode: true
+      - example: renamed_example_rule
+        explode: true
         in: query
         name: action
         required: true
@@ -3463,7 +3505,8 @@ paths:
         schema:
           $ref: '#/components/schemas/Selector'
         style: form
-      - explode: false
+      - example: example_rule
+        explode: false
         in: path
         name: rule
         required: true
@@ -3498,14 +3541,16 @@ paths:
       description: Enable or disable a rule
       operationId: toggle_rule
       parameters:
-      - explode: false
+      - example: example_rule
+        explode: false
         in: path
         name: rule
         required: true
         schema:
           type: string
         style: simple
-      - explode: true
+      - example: example_action
+        explode: true
         in: query
         name: action
         required: true
@@ -3643,7 +3688,8 @@ paths:
       description: Delete target script
       operationId: delete_script
       parameters:
-      - explode: false
+      - example: example_script
+        explode: false
         in: path
         name: script
         required: true
@@ -3672,7 +3718,8 @@ paths:
       description: Get details about target script
       operationId: get_script
       parameters:
-      - explode: false
+      - example: example_script
+        explode: false
         in: path
         name: script
         required: true
@@ -3744,7 +3791,8 @@ paths:
       description: Edit target script
       operationId: edit_script
       parameters:
-      - explode: false
+      - example: example_script
+        explode: false
         in: path
         name: script
         required: true
@@ -3752,6 +3800,7 @@ paths:
           type: string
         style: simple
       - description: New script name
+        example: example_script
         explode: true
         in: query
         name: name
@@ -3911,7 +3960,8 @@ paths:
       description: Get details about target size
       operationId: get_size
       parameters:
-      - explode: false
+      - example: example_size
+        explode: false
         in: path
         name: size
         required: true
@@ -4257,7 +4307,8 @@ paths:
       description: Delete target volume
       operationId: delete_volume
       parameters:
-      - explode: false
+      - example: example_volume
+        explode: false
         in: path
         name: volume
         required: true
@@ -4290,7 +4341,8 @@ paths:
       description: Get details about target volume
       operationId: get_volume
       parameters:
-      - explode: false
+      - example: example_volume
+        explode: false
         in: path
         name: volume
         required: true
@@ -4374,7 +4426,8 @@ paths:
       description: Edit target volume
       operationId: edit_volume
       parameters:
-      - explode: false
+      - example: example_volume
+        explode: false
         in: path
         name: volume
         required: true
@@ -4382,6 +4435,7 @@ paths:
           type: string
         style: simple
       - description: New volume name
+        example: renamed_example_volume
         explode: true
         in: query
         name: name
@@ -4578,7 +4632,8 @@ paths:
       description: Get details about target zone
       operationId: get_zone
       parameters:
-      - explode: false
+      - example: example_zone
+        explode: false
         in: path
         name: zone
         required: true
@@ -4660,7 +4715,8 @@ paths:
       description: Edit target zone
       operationId: edit_zone
       parameters:
-      - explode: false
+      - example: example_zone
+        explode: false
         in: path
         name: zone
         required: true
@@ -4668,6 +4724,7 @@ paths:
           type: string
         style: simple
       - description: New zone name
+        example: renamed_example_zone
         explode: true
         in: query
         name: name
@@ -4766,6 +4823,20 @@ components:
       - $ref: '#/components/schemas/AddKeyRequest_anyOf'
       - $ref: '#/components/schemas/AddKeyRequest_anyOf_1'
       - $ref: '#/components/schemas/AddKeyRequest_anyOf_2'
+      example:
+        name: example_key
+        private: '-----BEGIN RSA PRIVATE KEY----- MIICXAIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUp
+          wmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ5
+          1s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQABAoGAFijko56+qGyN8M0RVyaRAXz++xTqHBLh
+          3tx4VgMtrQ+WEgCjhoTwo23KMBAuJGSYnRmoBZM3lMfTKevIkAidPExvYCdm5dYq3XToLkkLv5L2
+          pIIVOFMDG+KESnAFV7l2c+cnzRMW0+b6f8mR1CJzZuxVLL6Q02fvLi55/mbSYxECQQDeAw6fiIQX
+          GukBI4eMZZt4nscy2o12KyYner3VpoeE+Np2q+Z3pvAMd/aNzQ/W9WaI+NRfcxUJrmfPwIGm63il
+          AkEAxCL5HQb2bQr4ByorcMWm/hEP2MZzROV73yF41hPsRC9m66KrheO9HPTJuo3/9s5p+sqGxOlF
+          L0NDt4SkosjgGwJAFklyR1uZ/wPJjj611cdBcztlPdqoxssQGnh85BzCj/u3WqBpE2vjvyyvyI5k
+          X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl
+          U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
+          37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0= -----END RSA PRIVATE
+          KEY-----'
       type: object
     AddKeyResponse:
       example:
@@ -5176,41 +5247,16 @@ components:
         oneOf:
         - $ref: '#/components/schemas/AmazonClusterRequest'
         - $ref: '#/components/schemas/GoogleClusterRequest'
+      example:
+        name: example_cluster
+        cloud: example_cloud
+        provider: google
+        location: example_location
     CreateMachineRequest:
       example:
-        template: '{}'
-        image: ""
-        quantity: 1.4658129805029452
-        disks:
-          disk_size: 0
-          disk_path: disk_path
-        fqdn: fqdn
-        cloudinit: cloudinit
-        volumes: ""
-        save: true
-        dry: true
-        monitoring: true
-        tags: '{}'
-        cloud: cloud
-        size: ""
-        schedules:
-        - ""
-        - ""
-        extra: ""
-        name: name
-        location: location
-        expiration:
-          date: 2000-01-23T04:56:07.000+00:00
-          action: stop
-          notify:
-            period: minutes
-            value: 1
-          notify_msg: notify_msg
-        net: ""
-        scripts:
-        - ""
-        - ""
-        key: ""
+        name: example_machine
+        size: example_size
+        image: example_image
       properties:
         name:
           description: Specify machine name
@@ -5385,13 +5431,8 @@ components:
       type: object
     CreateNetworkRequest:
       example:
-        cloud: cloud
-        template: '{}'
-        extra: '{}'
-        name: name
-        save: true
-        dry: true
-        tags: '{}'
+        name: example_network
+        cloud: example_cloud
       properties:
         name:
           description: Specify network name
@@ -5426,16 +5467,8 @@ components:
       type: object
     CreateVolumeRequest:
       example:
-        cloud: cloud
-        template: '{}'
-        quantity: 0.8008281904610115
-        size: '{}'
-        extra: '{}'
-        name: name
-        save: true
-        location: location
-        dry: true
-        tags: '{}'
+        name: example_volume
+        size: example_size
       properties:
         name:
           description: Specify volume name
@@ -5479,13 +5512,8 @@ components:
       type: object
     CreateZoneRequest:
       example:
-        cloud: cloud
-        template: '{}'
-        extra: '{}'
-        name: name
-        save: true
-        dry: true
-        tags: '{}'
+        name: example_zone
+        cloud: example_cloud
       properties:
         name:
           description: Specify zone name
@@ -5806,13 +5834,6 @@ components:
       title: Equnix Metal volumes parameter
       type: array
     Expiration:
-      example:
-        date: 2000-01-23T04:56:07.000+00:00
-        action: stop
-        notify:
-          period: minutes
-          value: 1
-        notify_msg: notify_msg
       properties:
         action:
           enum:
@@ -8218,9 +8239,6 @@ components:
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks
-      example:
-        disk_size: 0
-        disk_path: disk_path
       properties:
         disk_size:
           description: KVM specific parameter. The VM's size will be the size of the
@@ -8277,9 +8295,6 @@ components:
       type: object
     Expiration_notify:
       description: Notify user before machine expiration
-      example:
-        period: minutes
-        value: 1
       properties:
         value:
           minimum: 1

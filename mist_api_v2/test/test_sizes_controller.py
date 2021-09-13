@@ -32,7 +32,7 @@ class TestSizesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/sizes/{size}'.format(size="'size_example'"),
+            '/api/v2/sizes/{size}'.format(size="example_size"),
             method='GET',
             headers=headers,
             query_string=query_string)
