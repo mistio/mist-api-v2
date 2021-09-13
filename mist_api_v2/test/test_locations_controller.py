@@ -4,18 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.get_location_response import GetLocationResponse  # noqa: E501
-from mist_api_v2.models.list_locations_response import ListLocationsResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestLocationsController(BaseTestCase):
     """LocationsController integration test stubs"""
@@ -32,7 +30,7 @@ class TestLocationsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/locations/{location}'.format(location='location_example'),
+            '/api/v2/locations/{location}'.format(location="'location_example'"),
             method='GET',
             headers=headers,
             query_string=query_string)

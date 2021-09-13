@@ -4,18 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
-from mist_api_v2.models.list_scripts_response import ListScriptsResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestScriptsController(BaseTestCase):
     """ScriptsController integration test stubs"""
@@ -29,7 +27,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script=example_script),
+            '/api/v2/scripts/{script}'.format(script="example_script"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -46,7 +44,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script=example_script),
+            '/api/v2/scripts/{script}'.format(script="example_script"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -65,7 +63,7 @@ class TestScriptsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/scripts/{script}'.format(script=example_script),
+            '/api/v2/scripts/{script}'.format(script="example_script"),
             method='GET',
             headers=headers,
             query_string=query_string)

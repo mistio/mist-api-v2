@@ -4,17 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestSnapshotsController(BaseTestCase):
     """SnapshotsController integration test stubs"""
@@ -29,7 +28,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots'.format(machine=example_machine),
+            '/api/v2/machines/{machine}/snapshots'.format(machine="example_machine"),
             method='POST',
             headers=headers)
         self.assert200(response,
@@ -45,7 +44,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots'.format(machine=example_machine),
+            '/api/v2/machines/{machine}/snapshots'.format(machine="example_machine"),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -60,7 +59,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine=example_machine, snapshot=example_snapshot),
+            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine="example_machine", snapshot="example_snapshot"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -75,7 +74,7 @@ class TestSnapshotsController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine=example_machine, snapshot=example_snapshot),
+            '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine="example_machine", snapshot="example_snapshot"),
             method='POST',
             headers=headers)
         self.assert200(response,

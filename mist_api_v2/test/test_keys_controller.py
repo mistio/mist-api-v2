@@ -4,20 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.add_key_request import AddKeyRequest  # noqa: E501
-from mist_api_v2.models.add_key_response import AddKeyResponse  # noqa: E501
-from mist_api_v2.models.get_key_response import GetKeyResponse  # noqa: E501
-from mist_api_v2.models.list_keys_response import ListKeysResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestKeysController(BaseTestCase):
     """KeysController integration test stubs"""
@@ -55,7 +51,7 @@ class TestKeysController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/keys/{key}'.format(key=example_key),
+            '/api/v2/keys/{key}'.format(key="example_key"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -72,7 +68,7 @@ class TestKeysController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/keys/{key}'.format(key=example_key),
+            '/api/v2/keys/{key}'.format(key="example_key"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -93,7 +89,7 @@ class TestKeysController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/keys/{key}'.format(key=example_key),
+            '/api/v2/keys/{key}'.format(key="example_key"),
             method='GET',
             headers=headers,
             query_string=query_string)

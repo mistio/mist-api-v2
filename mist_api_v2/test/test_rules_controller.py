@@ -4,25 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.frequency import Frequency  # noqa: E501
-from mist_api_v2.models.get_rule_response import GetRuleResponse  # noqa: E501
-from mist_api_v2.models.list_rules_response import ListRulesResponse  # noqa: E501
-from mist_api_v2.models.query import Query  # noqa: E501
-from mist_api_v2.models.rule import Rule  # noqa: E501
-from mist_api_v2.models.rule_action import RuleAction  # noqa: E501
-from mist_api_v2.models.selector import Selector  # noqa: E501
-from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
-from mist_api_v2.models.window import Window  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestRulesController(BaseTestCase):
     """RulesController integration test stubs"""
@@ -59,7 +50,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule=example_rule),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -77,7 +68,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule=example_rule),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -116,7 +107,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule=example_rule),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='PATCH',
             headers=headers,
             query_string=query_string)
@@ -133,7 +124,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule=example_rule),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -156,7 +147,7 @@ class TestRulesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/rules/{rule}'.format(rule=example_rule),
+            '/api/v2/rules/{rule}'.format(rule="example_rule"),
             method='POST',
             headers=headers,
             query_string=query_string)

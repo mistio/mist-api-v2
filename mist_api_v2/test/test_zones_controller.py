@@ -4,20 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
-from mist_api_v2.models.create_zone_response import CreateZoneResponse  # noqa: E501
-from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
-from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestZonesController(BaseTestCase):
     """ZonesController integration test stubs"""
@@ -56,7 +52,7 @@ class TestZonesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/zones/{zone}'.format(zone=example_zone),
+            '/api/v2/zones/{zone}'.format(zone="example_zone"),
             method='PUT',
             headers=headers,
             query_string=query_string)
@@ -75,7 +71,7 @@ class TestZonesController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/zones/{zone}'.format(zone=example_zone),
+            '/api/v2/zones/{zone}'.format(zone="example_zone"),
             method='GET',
             headers=headers,
             query_string=query_string)

@@ -4,19 +4,16 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
 from mist.api.auth.methods import create_short_lived_token
 from mist.api.auth.methods import inject_vault_credentials_into_request
 
-from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
-from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
-from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 from mist_api_v2.test import BaseTestCase
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
+
 
 class TestClustersController(BaseTestCase):
     """ClustersController integration test stubs"""
@@ -55,7 +52,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster=example_cluster),
+            '/api/v2/clusters/{cluster}'.format(cluster="example_cluster"),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -73,7 +70,7 @@ class TestClustersController(BaseTestCase):
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster=example_cluster),
+            '/api/v2/clusters/{cluster}'.format(cluster="example_cluster"),
             method='GET',
             headers=headers,
             query_string=query_string)
