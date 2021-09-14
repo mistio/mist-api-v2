@@ -25,11 +25,10 @@ class TestCloudsController(BaseTestCase):
         """
         add_cloud_request = {
   "name" : "example_cloud",
-  "provider" : "amazon",
+  "provider" : "google",
   "credentials" : {
-    "apikey" : "apikey",
-    "apisecret" : "apisecret",
-    "region" : "region"
+    "projectId" : "projectId",
+    "privateKey" : "privateKey"
   }
 }
         inject_vault_credentials_into_request(add_cloud_request)

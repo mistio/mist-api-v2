@@ -4813,11 +4813,10 @@ components:
         - $ref: '#/components/schemas/OtherCloudRequest'
       example:
         name: example_cloud
-        provider: amazon
+        provider: google
         credentials:
-          apikey: apikey
-          apisecret: apisecret
-          region: region
+          projectId: projectId
+          privateKey: privateKey
     AddKeyRequest:
       anyOf:
       - $ref: '#/components/schemas/AddKeyRequest_anyOf'
