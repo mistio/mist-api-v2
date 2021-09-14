@@ -8,7 +8,7 @@ import mongoengine as me
 from mist.api import config
 
 from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
-from mist_api_v2.models.inline_object import InlineObject  # noqa: E501
+from mist_api_v2.models.edit_cloud_request import EditCloudRequest  # noqa: E501
 from mist_api_v2.models.get_cloud_response import GetCloudResponse  # noqa: E501
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
 
@@ -148,27 +148,26 @@ def delete_cloud(cloud):  # noqa: E501
     :rtype: None
     """
     from mist.api.clouds.methods import delete_cloud
-    from mist.api.clouds.models import Cloud
     auth_context = connexion.context['token_info']['auth_context']
-    cloud_id = cloud
-    try:
-        Cloud.objects.get(owner=auth_context.owner, id=cloud_id, deleted=None)
-    except Cloud.DoesNotExist:
+    result = get_resource(auth_context, 'cloud', search=cloud)
+    result_data = result.get('data')
+    if not result_data:
         return 'Cloud does not exist', 404
+    cloud_id = result_data.get('id')
     auth_context.check_perm('cloud', 'remove', cloud_id)
     delete_cloud(auth_context.owner, cloud_id)
-    return None
+    return None, 200
 
 
-def edit_cloud(cloud, inline_object=None):  # noqa: E501
+def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
     """Edit cloud
 
     Update target cloud title or credentials # noqa: E501
 
     :param cloud:
     :type cloud: str
-    :param inline_object:
-    :type inline_object: dict | bytes
+    :param edit_cloud_request:
+    :type edit_cloud_request: dict | bytes
 
     :rtype: None
     """
@@ -176,22 +175,22 @@ def edit_cloud(cloud, inline_object=None):  # noqa: E501
     from mist.api.helpers import trigger_session_update
 
     if connexion.request.is_json:
-        inline_object = InlineObject.from_dict(connexion.request.get_json())  # noqa: E501
+        edit_cloud_request = EditCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(auth_context, 'cloud', search=cloud)
     result_data = result.get('data')
-    if result_data is None:
+    if not result_data:
         return 'Cloud does not exist', 404
     cloud_id = result_data.get('id')
     cloud_obj = Cloud.objects.get(owner=auth_context.owner, id=cloud_id,
                                   deleted=None)
-    rename = inline_object.title is not None and \
-        inline_object.title != cloud_obj.title
+    rename = edit_cloud_request.name is not None and \
+        edit_cloud_request.name != cloud_obj.name
     if rename:
         from mist.api.clouds.methods import rename_cloud
-        new_name = inline_object.title
+        new_name = edit_cloud_request.name
         rename_cloud(auth_context.owner, cloud_id, new_name)
-    credentials = inline_object.credentials
+    credentials = edit_cloud_request.credentials
     update_credentials = credentials is not None
     if update_credentials:
         auth_context.check_perm('cloud', 'edit', cloud_id)
@@ -204,7 +203,7 @@ def edit_cloud(cloud, inline_object=None):  # noqa: E501
         cloud_obj.ctl.update(**new_credentials)
         log.info(f'Cloud {cloud_id} updated successfully.')
         trigger_session_update(auth_context.owner, ['clouds'])
-    features = inline_object.features
+    features = edit_cloud_request.features
     update_features = features is not None
     if update_features:
         if features.compute:
