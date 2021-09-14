@@ -4817,6 +4817,7 @@ components:
         credentials:
           projectId: projectId
           privateKey: privateKey
+          email: email
     AddKeyRequest:
       anyOf:
       - $ref: '#/components/schemas/AddKeyRequest_anyOf'
@@ -6258,7 +6259,11 @@ components:
         privateKey:
           description: Your GCP private key
           type: string
+        email:
+          description: Your GCP client email
+          type: email
       required:
+      - email
       - privateKey
       - projectId
       type: object
