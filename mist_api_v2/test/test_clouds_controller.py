@@ -28,7 +28,8 @@ class TestCloudsController(BaseTestCase):
   "provider" : "google",
   "credentials" : {
     "projectId" : "projectId",
-    "privateKey" : "privateKey"
+    "privateKey" : "privateKey",
+    "email" : "email"
   }
 }
         inject_vault_credentials_into_request(add_cloud_request)
