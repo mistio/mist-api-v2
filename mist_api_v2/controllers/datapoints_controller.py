@@ -5,10 +5,9 @@ from mist.api import config
 
 from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # noqa: E501
 
-from mist.api.monitoring.victoriametrics.helpers import (
-    parse_relative_time, apply_rbac)
+from mist.api.monitoring.victoriametrics.helpers import parse_relative_time
 
-from .base import list_resources
+from mist.api.helpers import apply_promql_query_rbac
 
 
 def get_datapoints(query, search=None, tags=None, start=None, end=None, step=None, time=None):  # noqa: E501
@@ -43,14 +42,8 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
             time_args["step"] = parse_relative_time(step)
         return time_args
 
-    machines = list_resources(
-        auth_context, 'machine', search=search
-    )
-
-    machine_ids = "|".join([machine["id"] for machine in machines.get(
-        "data", []) if machine.get("id")])
     try:
-        query = apply_rbac(query, machine_ids)
+        query = apply_promql_query_rbac(auth_context, search, query)
     except RuntimeError as exc:
         return str(exc), 400
 
