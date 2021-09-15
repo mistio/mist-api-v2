@@ -43,9 +43,8 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     kwargs = {k: v for k, v in params.items() if v is not None}
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
-    try:
-        cloud.ctl.container.create_cluster(**kwargs)
-    except Exception:
+    success = cloud.ctl.container.create_cluster(**kwargs)
+    if not success:
         return 'Cluster creation failed', 409
     return 'Cluster creation successful', 200
 
@@ -64,9 +63,11 @@ def destroy_cluster(cluster):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except Exception:
         return 'Authentication failed', 401
+    cluster_name = cluster
     try:
         [cluster], total = list_resources_v1(auth_context, 'cluster',
-                                             search=cluster, limit=1)
+                                             search=f'"{cluster_name}"',
+                                             limit=1)
     except ValueError:
         return 'Cluster not found', 404
     try:
@@ -79,11 +80,8 @@ def destroy_cluster(cluster):  # noqa: E501
     if cluster.provider == 'gce':
         kwargs['zone'] = cluster.location.name or cluster.extra.get(
             'location')
-    try:
-        result = cluster.cloud.ctl.container.destroy_cluster(**kwargs)
-    except Exception:
-        result = False
-    if result is False:
+    success = cluster.cloud.ctl.container.destroy_cluster(**kwargs)
+    if not success:
         return 'Cluster destruction failed', 404
     return 'Cluster destruction successful', 200
 
