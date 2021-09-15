@@ -56,7 +56,7 @@ class AlibabaNet(Model):
     def network(self):
         """Gets the network of this AlibabaNet.
 
-        Name or ID of an existing or new network to associate the machine with. If not provided a default 'mistio' network will be created.  # noqa: E501
+        Name or ID of an existing network to associate the machine with. If not provided, one existing network will be selected.  # noqa: E501
 
         :return: The network of this AlibabaNet.
         :rtype: str
@@ -67,7 +67,7 @@ class AlibabaNet(Model):
     def network(self, network):
         """Sets the network of this AlibabaNet.
 
-        Name or ID of an existing or new network to associate the machine with. If not provided a default 'mistio' network will be created.  # noqa: E501
+        Name or ID of an existing network to associate the machine with. If not provided, one existing network will be selected.  # noqa: E501
 
         :param network: The network of this AlibabaNet.
         :type network: str

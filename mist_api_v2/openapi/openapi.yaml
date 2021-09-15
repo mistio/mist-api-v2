@@ -4803,8 +4803,8 @@ components:
     AlibabaNet:
       properties:
         network:
-          description: Name or ID of an existing or new network to associate the machine
-            with. If not provided a default 'mistio' network will be created.
+          description: Name or ID of an existing network to associate the machine
+            with. If not provided, one existing network will be selected.
           type: string
         subnet:
           description: Name or ID of an existing or new subnet(switch) to launch the
