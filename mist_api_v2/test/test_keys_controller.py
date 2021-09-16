@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+import importlib
 import unittest
 
 from flask import json
@@ -10,6 +11,15 @@ from mist.api.auth.methods import inject_vault_credentials_into_request
 
 from mist_api_v2.test import BaseTestCase
 
+try:
+    setup_module_name = 'KeysController'.replace('Controller', '').lower()
+    setup_module = importlib.import_module(
+        f'mist_api_v2.test.setup.{setup_module_name}')
+except ImportError:
+    SETUP_MODULES_EXISTS = False
+else:
+    SETUP_MODULES_EXISTS = True
+
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
@@ -17,6 +27,21 @@ unittest.TestLoader.sortTestMethodsUsing = \
 
 class TestKeysController(BaseTestCase):
     """KeysController integration test stubs"""
+
+    if SETUP_MODULES_EXISTS:
+        @classmethod
+        def get_test_client(cls):
+            if not hasattr(cls, 'test_client'):
+                cls.test_client = cls().create_app().test_client()
+            return cls.test_client
+
+        @classmethod
+        def setUpClass(cls):
+            setup_module.setup(cls.get_test_client())
+
+        @classmethod
+        def tearDownClass(cls):
+            setup_module.teardown(cls.get_test_client())
 
     def test_add_key(self):
         """Test case for add_key
