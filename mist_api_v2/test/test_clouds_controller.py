@@ -16,9 +16,9 @@ try:
     setup_module = importlib.import_module(
         f'mist_api_v2.test.setup.{setup_module_name}')
 except ImportError:
-    SETUP_MODULES_EXISTS = False
+    SETUP_MODULES_EXIST = False
 else:
-    SETUP_MODULES_EXISTS = True
+    SETUP_MODULES_EXIST = True
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
@@ -28,7 +28,7 @@ unittest.TestLoader.sortTestMethodsUsing = \
 class TestCloudsController(BaseTestCase):
     """CloudsController integration test stubs"""
 
-    if SETUP_MODULES_EXISTS:
+    if SETUP_MODULES_EXIST:
         @classmethod
         def get_test_client(cls):
             if not hasattr(cls, 'test_client'):
