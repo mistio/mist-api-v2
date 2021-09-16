@@ -12,7 +12,7 @@ from mist.api.auth.methods import inject_vault_credentials_into_request
 from mist_api_v2.test import BaseTestCase
 
 try:
-    setup_module_name = 'DatapointsController'.replace('Controller', '').lower()
+    setup_module_name = 'CloudsCountController'.replace('Controller', '').lower()
     setup_module = importlib.import_module(
         f'mist_api_v2.test.setup.{setup_module_name}')
 except ImportError:
@@ -25,8 +25,8 @@ unittest.TestLoader.sortTestMethodsUsing = \
         k in y for k in ['delete', 'remove', 'destroy']) else 1
 
 
-class TestDatapointsController(BaseTestCase):
-    """DatapointsController integration test stubs"""
+class TestCloudsCountController(BaseTestCase):
+    """CloudsCountController integration test stubs"""
 
     if SETUP_MODULES_EXISTS:
         @classmethod
@@ -43,24 +43,19 @@ class TestDatapointsController(BaseTestCase):
         def tearDownClass(cls):
             setup_module.teardown(cls.get_test_client())
 
-    def test_get_datapoints(self):
-        """Test case for get_datapoints
+    def test_get_org(self):
+        """Test case for get_org
 
-        Get datapoints
+        Get Org
         """
-        query_string = [('query', "'query_example'"),
-                        ('tags', "'tags_example'"),
-                        ('search', "'search_example'"),
-                        ('start', "'start_example'"),
-                        ('end', "'end_example'"),
-                        ('step', "'step_example'"),
-                        ('time', "'time_example'")]
+        query_string = [('only', "id"),
+                        ('deref', "auto")]
         headers = { 
             'Accept': 'application/json',
             'Authorization': create_short_lived_token(),
         }
         response = self.client.open(
-            '/api/v2/datapoints',
+            '/api/v2/orgs/{org}'.format(org="example_org"),
             method='GET',
             headers=headers,
             query_string=query_string)

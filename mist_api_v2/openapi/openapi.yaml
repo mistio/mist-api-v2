@@ -466,7 +466,7 @@ paths:
       description: Destroy target clusters
       operationId: destroy_cluster
       parameters:
-      - example: example_cluster
+      - example: example-cluster
         explode: false
         in: path
         name: cluster
@@ -498,7 +498,7 @@ paths:
       description: Get details about target cluster
       operationId: get_cluster
       parameters:
-      - example: example_cluster
+      - example: example-cluster
         explode: false
         in: path
         name: cluster
@@ -4881,6 +4881,61 @@ components:
       - apisecret
       - region
       type: object
+    AlibabaNet:
+      properties:
+        network:
+          description: Name or ID of an existing network to associate the machine
+            with. If not provided, one existing network will be selected.
+          type: string
+        subnet:
+          description: Name or ID of an existing or new subnet(switch) to launch the
+            machine into. If not provided a default 'mistio' subnet will be created.
+          type: string
+        security_group:
+          description: Name of the security group to assign to the machine. If not
+            provided a default 'mistio' security group will be created.
+          type: string
+      title: Alibaba net parameter
+      type: object
+    AlibabaVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of the existing volume to attach
+              type: string
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume in GBs. The minimum size depends on
+                the volume type
+              type: integer
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
+              type: boolean
+            type:
+              description: Type of the volume to create, defaults to 'cloud'
+              enum:
+              - cloud
+              - cloud_efficiency
+              - cloud_ssd
+              - cloud_essd
+              type: string
+          required:
+          - name
+          - size
+        type: object
+      title: Alibaba volumes parameter
+      type: array
     AmazonCloudRequest:
       properties:
         provider:
@@ -5248,7 +5303,7 @@ components:
         - $ref: '#/components/schemas/AmazonClusterRequest'
         - $ref: '#/components/schemas/GoogleClusterRequest'
       example:
-        name: example_cluster
+        name: example-cluster
         cloud: example_cloud
         provider: google
         location: example_location
@@ -5308,6 +5363,7 @@ components:
             type: string
         net:
           anyOf:
+          - $ref: '#/components/schemas/AlibabaNet'
           - $ref: '#/components/schemas/AmazonNet'
           - $ref: '#/components/schemas/AzureNet'
           - $ref: '#/components/schemas/EquinixMetalNet'
@@ -5333,6 +5389,7 @@ components:
           $ref: '#/components/schemas/CreateMachineRequest_disks'
         volumes:
           anyOf:
+          - $ref: '#/components/schemas/AlibabaVolumes'
           - $ref: '#/components/schemas/AmazonVolumes'
           - $ref: '#/components/schemas/AzureVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'

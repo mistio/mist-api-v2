@@ -33,6 +33,15 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
                                        limit=1)
     except ValueError:
         return 'Cloud not found', 404
+    cluster_name = params['name']
+    try:
+        [cluster], total = list_resources_v1(auth_context, 'cluster',
+                                             search=f'"{cluster_name}"',
+                                             limit=1)
+    except ValueError:
+        pass
+    else:
+        return 'Cluster already exists', 409
     try:
         auth_context.check_perm('cluster', 'create', cloud.id)
         auth_context.check_perm('cloud', 'read', cloud.id)
