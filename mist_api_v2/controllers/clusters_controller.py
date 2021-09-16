@@ -2,6 +2,8 @@ import connexion
 
 from mist.api.methods import list_resources as list_resources_v1
 
+from mist.api.exceptions import ServiceUnavailableError
+
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
@@ -52,7 +54,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     kwargs = {k: v for k, v in params.items() if v is not None}
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
-    success = cloud.ctl.container.create_cluster(**kwargs)
+    try:
+        success = cloud.ctl.container.create_cluster(**kwargs)
+    except ServiceUnavailableError as e:
+        return e.msg, e.http_code
     if not success:
         return 'Cluster creation failed', 409
     return 'Cluster creation successful', 200
