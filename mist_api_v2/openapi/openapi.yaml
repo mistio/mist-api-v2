@@ -154,8 +154,8 @@ paths:
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
   /api/v2/clouds/{cloud}:
     delete:
-      description: Delete target cloud
-      operationId: delete_cloud
+      description: Remove target cloud
+      operationId: remove_cloud
       parameters:
       - explode: false
         in: path
@@ -166,7 +166,7 @@ paths:
         style: simple
       responses:
         "200":
-          description: Cloud deleted successfully
+          description: Cloud removed successfully
         "401":
           description: Authentication failed
         "403":
@@ -178,7 +178,7 @@ paths:
         - delete:cloud
       - CookieAuth:
         - delete:cloud
-      summary: Delete cloud
+      summary: Remove cloud
       tags:
       - clouds
       x-openapi-router-controller: mist_api_v2.controllers.clouds_controller
