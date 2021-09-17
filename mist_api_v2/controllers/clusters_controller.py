@@ -55,10 +55,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
     try:
-        success = cloud.ctl.container.create_cluster(**kwargs)
+        result = cloud.ctl.container.create_cluster(**kwargs)
     except ServiceUnavailableError as e:
         return e.msg, e.http_code
-    if not success:
+    if not result:
         return 'Cluster creation failed', 409
     return 'Cluster creation successful', 200
 
@@ -94,8 +94,8 @@ def destroy_cluster(cluster):  # noqa: E501
     if cluster.provider == 'gce':
         kwargs['zone'] = cluster.location.name or cluster.extra.get(
             'location')
-    success = cluster.cloud.ctl.container.destroy_cluster(**kwargs)
-    if not success:
+    result = cluster.cloud.ctl.container.destroy_cluster(**kwargs)
+    if not result:
         return 'Cluster destruction failed', 404
     return 'Cluster destruction successful', 200
 
