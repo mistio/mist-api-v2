@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+import time
 import importlib
 import unittest
 
@@ -19,6 +20,16 @@ except ImportError:
     SETUP_MODULES_EXIST = False
 else:
     SETUP_MODULES_EXIST = True
+
+
+def delay(seconds):
+    def decorator(func):
+        def wrapper(self):
+            time.sleep(seconds)
+            func(self)
+        return wrapper
+    return decorator
+
 
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
@@ -127,6 +138,11 @@ class TestZonesController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+
+
+if setup_module_name == 'clusters':
+    TestZonesController.test_destroy_cluster = delay(seconds=200)(
+        TestZonesController.test_destroy_cluster)
 
 if __name__ == '__main__':
     unittest.main()
