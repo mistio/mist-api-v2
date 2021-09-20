@@ -20,6 +20,16 @@ except ImportError:
 else:
     SETUP_MODULES_EXIST = True
 
+
+def delay(seconds):
+    def decorator(func):
+        def wrapper(self):
+            time.sleep(seconds)
+            func(self)
+        return wrapper
+    return decorator
+
+
 unittest.TestLoader.sortTestMethodsUsing = \
     lambda _, x, y: - 1 if any(
         k in y for k in ['delete', 'remove', 'destroy']) else 1
@@ -142,6 +152,11 @@ class TestVolumesController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+
+
+if setup_module_name == 'clusters':
+    TestVolumesController.test_destroy_cluster = delay(seconds=200)(
+        TestVolumesController.test_destroy_cluster)
 
 if __name__ == '__main__':
     unittest.main()
