@@ -22,11 +22,11 @@ else:
     SETUP_MODULES_EXIST = True
 
 
-def delay(seconds):
+def post_delay(seconds):
     def decorator(func):
         def wrapper(self):
-            time.sleep(seconds)
             func(self)
+            time.sleep(seconds)
         return wrapper
     return decorator
 
@@ -132,8 +132,8 @@ class TestScriptsController(BaseTestCase):
 
 
 if setup_module_name == 'clusters':
-    TestScriptsController.test_destroy_cluster = delay(seconds=200)(
-        TestScriptsController.test_destroy_cluster)
+    TestScriptsController.test_create_cluster = post_delay(seconds=200)(
+        TestScriptsController.test_create_cluster)
 
 if __name__ == '__main__':
     unittest.main()
