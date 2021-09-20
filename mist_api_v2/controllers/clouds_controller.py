@@ -137,17 +137,17 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     return ret
 
 
-def delete_cloud(cloud):  # noqa: E501
-    """Delete cloud
+def remove_cloud(cloud):  # noqa: E501
+    """Remove cloud
 
-    Delete target cloud # noqa: E501
+    Remove target cloud # noqa: E501
 
     :param cloud:
     :type cloud: str
 
     :rtype: None
     """
-    from mist.api.clouds.methods import delete_cloud
+    from mist.api.clouds.methods import remove_cloud
     auth_context = connexion.context['token_info']['auth_context']
     result = get_resource(auth_context, 'cloud', search=cloud)
     result_data = result.get('data')
@@ -155,7 +155,7 @@ def delete_cloud(cloud):  # noqa: E501
         return 'Cloud does not exist', 404
     cloud_id = result_data.get('id')
     auth_context.check_perm('cloud', 'remove', cloud_id)
-    delete_cloud(auth_context.owner, cloud_id)
+    remove_cloud(auth_context.owner, cloud_id)
     return None, 200
 
 

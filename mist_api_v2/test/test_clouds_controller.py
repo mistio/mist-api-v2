@@ -42,10 +42,10 @@ class TestCloudsController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_delete_cloud(self):
-        """Test case for delete_cloud
+    def test_remove_cloud(self):
+        """Test case for remove_cloud
 
-        Delete cloud
+        Remove cloud
         """
         headers = { 
             'ApiKeyAuth': 'special-key',
