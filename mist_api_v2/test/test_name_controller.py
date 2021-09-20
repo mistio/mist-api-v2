@@ -74,7 +74,6 @@ class TestNameController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestNameController.test_create_cluster = post_delay(seconds=200)(
         TestNameController.test_create_cluster)

@@ -381,7 +381,6 @@ class TestMachinesController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestMachinesController.test_create_cluster = post_delay(seconds=200)(
         TestMachinesController.test_create_cluster)

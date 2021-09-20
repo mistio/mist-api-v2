@@ -98,7 +98,6 @@ class TestSizesController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestSizesController.test_create_cluster = post_delay(seconds=200)(
         TestSizesController.test_create_cluster)

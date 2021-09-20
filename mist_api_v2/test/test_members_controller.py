@@ -77,7 +77,6 @@ class TestMembersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestMembersController.test_create_cluster = post_delay(seconds=200)(
         TestMembersController.test_create_cluster)

@@ -191,7 +191,6 @@ class TestRulesController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestRulesController.test_create_cluster = post_delay(seconds=200)(
         TestRulesController.test_create_cluster)
