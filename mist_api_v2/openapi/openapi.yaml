@@ -4821,7 +4821,7 @@ components:
         oneOf:
         - properties:
             volume:
-              description: Name or ID of the existing volume to attach
+              description: Name or ID of an existing volume to attach
               type: string
             delete_on_termination:
               description: Delete the volume when the machine is deleted. Defaults
@@ -7598,7 +7598,7 @@ components:
         oneOf:
         - properties:
             volume:
-              description: Name or ID of the existing volume to attach
+              description: Name or ID of an existing volume to attach
               type: string
             boot:
               description: Use as boot volume, up to one volume can be used as boot.
@@ -8146,6 +8146,58 @@ components:
       required:
       - apikey
       type: object
+    VultrExtra:
+      properties:
+        backups:
+          description: Enable automatic backups for the instance, invalid for "Bare
+            Metal" & "Dedicated Cloud" size types. There is an additional charge depending
+            on the size selected
+          type: boolean
+        ddos_protection:
+          description: Enable DDoS protection, invalid for "Bare Metal" size type.
+            There is an additional charge depending on the type of the size selected
+      title: Vultr extra parameter
+      type: object
+    VultrNet:
+      properties:
+        networks:
+          description: An array of network names or IDs to attach to this machine,
+            invalid for "Bare Metal" machines
+          items:
+            type: string
+          type: array
+        ipv6:
+          description: Enable IPv6, defaults to false
+          type: boolean
+        hostname:
+          description: The hostname to use when deploying this machine, defaults to
+            machine name
+          type: string
+      title: Vultr net parameter
+      type: object
+    VultrVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of an existing volume to attach
+              type: string
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume in GBs
+              minimum: 10
+              type: integer
+          required:
+          - name
+          - size
+        type: object
+      title: Vultr volumes parameter
+      type: array
     Window:
       properties:
         start:

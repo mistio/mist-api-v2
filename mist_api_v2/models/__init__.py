@@ -158,5 +158,7 @@ from mist_api_v2.models.vsphere_cloud_request import VsphereCloudRequest
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
 from mist_api_v2.models.vultr_cloud_request import VultrCloudRequest
 from mist_api_v2.models.vultr_credentials import VultrCredentials
+from mist_api_v2.models.vultr_extra import VultrExtra
+from mist_api_v2.models.vultr_net import VultrNet
 from mist_api_v2.models.window import Window
 from mist_api_v2.models.zone import Zone

@@ -189,6 +189,8 @@ mist_api_v2/models/vsphere_cloud_request.py
 mist_api_v2/models/vsphere_credentials.py
 mist_api_v2/models/vultr_cloud_request.py
 mist_api_v2/models/vultr_credentials.py
+mist_api_v2/models/vultr_extra.py
+mist_api_v2/models/vultr_net.py
 mist_api_v2/models/window.py
 mist_api_v2/models/zone.py
 mist_api_v2/openapi/openapi.yaml
