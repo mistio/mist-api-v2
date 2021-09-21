@@ -74,7 +74,6 @@ class TestTotalMachineCountController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestTotalMachineCountController.test_create_cluster = post_delay(seconds=200)(
         TestTotalMachineCountController.test_create_cluster)

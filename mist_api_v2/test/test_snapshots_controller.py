@@ -117,7 +117,6 @@ class TestSnapshotsController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestSnapshotsController.test_create_cluster = post_delay(seconds=200)(
         TestSnapshotsController.test_create_cluster)

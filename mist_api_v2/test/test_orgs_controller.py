@@ -161,7 +161,6 @@ class TestOrgsController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestOrgsController.test_create_cluster = post_delay(seconds=200)(
         TestOrgsController.test_create_cluster)

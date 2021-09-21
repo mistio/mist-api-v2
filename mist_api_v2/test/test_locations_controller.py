@@ -98,7 +98,6 @@ class TestLocationsController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestLocationsController.test_create_cluster = post_delay(seconds=200)(
         TestLocationsController.test_create_cluster)

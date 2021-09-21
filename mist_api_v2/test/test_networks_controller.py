@@ -139,7 +139,6 @@ class TestNetworksController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
-
 if setup_module_name == 'clusters':
     TestNetworksController.test_create_cluster = post_delay(seconds=200)(
         TestNetworksController.test_create_cluster)
