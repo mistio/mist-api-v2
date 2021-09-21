@@ -97,8 +97,8 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     if features:
         del features['compute']
         del params['features']
+        params.update(features)
     params.update(credentials)
-    params.update(features)
     try:
         result = add_cloud_v_2(
             auth_context.owner,
