@@ -5315,6 +5315,7 @@ components:
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
           - $ref: '#/components/schemas/OpenstackNet'
+          - $ref: '#/components/schemas/VultrNet'
           description: Specify network configuration parameters
         key:
           description: Associate SSH key
@@ -5341,6 +5342,7 @@ components:
           - $ref: '#/components/schemas/GoogleVolumes'
           - $ref: '#/components/schemas/LinodeVolumes'
           - $ref: '#/components/schemas/OpenstackVolumes'
+          - $ref: '#/components/schemas/VultrVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
@@ -5405,6 +5407,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
           - $ref: '#/components/schemas/LinodeExtra'
+          - $ref: '#/components/schemas/VultrExtra'
           description: Configure additional parameters
         monitoring:
           description: Enable monitoring of this machine
@@ -8149,13 +8152,14 @@ components:
     VultrExtra:
       properties:
         backups:
-          description: Enable automatic backups for the instance, invalid for "Bare
+          description: Enable automatic backups for the machine, invalid for "Bare
             Metal" & "Dedicated Cloud" size types. There is an additional charge depending
             on the size selected
           type: boolean
         ddos_protection:
           description: Enable DDoS protection, invalid for "Bare Metal" size type.
             There is an additional charge depending on the type of the size selected
+          type: boolean
       title: Vultr extra parameter
       type: object
     VultrNet:
