@@ -34,7 +34,6 @@ class SupportedProviders(Model):
     ONAPP = "onapp"
     VSPHERE = "vsphere"
     VEXXHOST = "vexxhost"
-    VCLOUD = "vcloud"
     KVM = "kvm"
     LXD = "lxd"
     DOCKER = "docker"
