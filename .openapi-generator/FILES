@@ -181,6 +181,8 @@ mist_api_v2/models/supported_providers.py
 mist_api_v2/models/team.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/user.py
+mist_api_v2/models/v_sphere_extra.py
+mist_api_v2/models/v_sphere_net.py
 mist_api_v2/models/vcloud_cloud_request.py
 mist_api_v2/models/vcloud_credentials.py
 mist_api_v2/models/vector.py

@@ -150,6 +150,8 @@ from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.user import User
+from mist_api_v2.models.v_sphere_extra import VSphereExtra
+from mist_api_v2.models.v_sphere_net import VSphereNet
 from mist_api_v2.models.vcloud_cloud_request import VcloudCloudRequest
 from mist_api_v2.models.vcloud_credentials import VcloudCredentials
 from mist_api_v2.models.vector import Vector

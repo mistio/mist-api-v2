@@ -8018,6 +8018,24 @@ components:
         registration_date:
           type: string
       type: object
+    VSphereExtra:
+      properties:
+        folder:
+          description: Name or ID of the Vsphere folder to place the machine into.
+            Required for Vsphere 6.7
+          type: string
+        datastore:
+          description: Name or ID of a VSphere datastore
+          type: string
+      title: VSphere extra parameter
+      type: object
+    VSphereNet:
+      properties:
+        network:
+          description: Name or ID of the network to launch the machine into
+          type: string
+      title: VSphere net parameter
+      type: object
     VcloudCloudRequest:
       properties:
         provider:
