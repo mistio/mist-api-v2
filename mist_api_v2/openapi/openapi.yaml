@@ -5315,6 +5315,7 @@ components:
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
           - $ref: '#/components/schemas/OpenstackNet'
+          - $ref: '#/components/schemas/VSphereNet'
           description: Specify network configuration parameters
         key:
           description: Associate SSH key
@@ -5405,6 +5406,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
           - $ref: '#/components/schemas/LinodeExtra'
+          - $ref: '#/components/schemas/VSphereExtra'
           description: Configure additional parameters
         monitoring:
           description: Enable monitoring of this machine
