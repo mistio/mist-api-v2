@@ -89,12 +89,22 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
     provider = add_cloud_request.provider
     provider = PROVIDER_ALIASES.get(provider, provider)
+    params = add_cloud_request.to_dict()
+    credentials = params['credentials']
+    features = params.get('features', {})
+    del params['name']
+    del params['credentials']
+    if features:
+        del features['compute']
+        del params['features']
+        params.update(features)
+    params.update(credentials)
     try:
         result = add_cloud_v_2(
             auth_context.owner,
             add_cloud_request.name,
             provider,
-            add_cloud_request.credentials
+            params
         )
     except CloudExistsError as exc:
         return exc.args[0], 409
