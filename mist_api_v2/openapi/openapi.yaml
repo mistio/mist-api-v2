@@ -5313,6 +5313,7 @@ components:
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
           - $ref: '#/components/schemas/OpenstackNet'
+          - $ref: '#/components/schemas/VSphereNet'
           - $ref: '#/components/schemas/VultrNet'
           description: Specify network configuration parameters
         key:
@@ -5405,6 +5406,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
           - $ref: '#/components/schemas/LinodeExtra'
+          - $ref: '#/components/schemas/VSphereExtra'
           - $ref: '#/components/schemas/VultrExtra'
           description: Configure additional parameters
         monitoring:
@@ -8015,6 +8017,24 @@ components:
           type: string
         registration_date:
           type: string
+      type: object
+    VSphereExtra:
+      properties:
+        folder:
+          description: Name or ID of the Vsphere folder to place the machine into.
+            Required for Vsphere 6.7
+          type: string
+        datastore:
+          description: Name or ID of a VSphere datastore
+          type: string
+      title: VSphere extra parameter
+      type: object
+    VSphereNet:
+      properties:
+        network:
+          description: Name or ID of the network to launch the machine into
+          type: string
+      title: VSphere net parameter
       type: object
     Vector:
       oneOf:
