@@ -150,13 +150,13 @@ from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.user import User
-from mist_api_v2.models.vcloud_cloud_request import VcloudCloudRequest
-from mist_api_v2.models.vcloud_credentials import VcloudCredentials
 from mist_api_v2.models.vector import Vector
 from mist_api_v2.models.volume import Volume
 from mist_api_v2.models.vsphere_cloud_request import VsphereCloudRequest
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
 from mist_api_v2.models.vultr_cloud_request import VultrCloudRequest
 from mist_api_v2.models.vultr_credentials import VultrCredentials
+from mist_api_v2.models.vultr_extra import VultrExtra
+from mist_api_v2.models.vultr_net import VultrNet
 from mist_api_v2.models.window import Window
 from mist_api_v2.models.zone import Zone
