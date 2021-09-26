@@ -17,6 +17,7 @@ except ImportError:
 else:
     SETUP_MODULE_EXISTS = True
 
+
 @pytest.fixture(scope="class")
 def setup(owner_api_token):
     if SETUP_MODULE_EXISTS:
