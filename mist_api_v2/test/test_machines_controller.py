@@ -1,60 +1,16 @@
-# coding: utf-8
+import pytest
 
-from __future__ import absolute_import
-import time
-import importlib
-import unittest
+from misttests import config
+from misttests.integration.api.helpers import *
+from misttests.integration.api.mistrequests import MistRequests
 
-from flask import json
-
-from mist.api.auth.methods import create_short_lived_token
-from mist.api.auth.methods import inject_vault_credentials_into_request
-
-from mist_api_v2.test import BaseTestCase
-
-try:
-    setup_module_name = 'MachinesController'.replace('Controller', '').lower()
-    setup_module = importlib.import_module(
-        f'mist_api_v2.test.setup.{setup_module_name}')
-except ImportError:
-    SETUP_MODULES_EXIST = False
-else:
-    SETUP_MODULES_EXIST = True
+DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 
-def post_delay(seconds):
-    def decorator(func):
-        def wrapper(self):
-            func(self)
-            time.sleep(seconds)
-        return wrapper
-    return decorator
-
-
-unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: - 1 if any(
-        k in y for k in ['delete', 'remove', 'destroy']) else 1
-
-
-class TestMachinesController(BaseTestCase):
+class TestMachinesController:
     """MachinesController integration test stubs"""
 
-    if SETUP_MODULES_EXIST:
-        @classmethod
-        def get_test_client(cls):
-            if not hasattr(cls, 'test_client'):
-                cls.test_client = cls().create_app().test_client()
-            return cls.test_client
-
-        @classmethod
-        def setUpClass(cls):
-            setup_module.setup(cls.get_test_client())
-
-        @classmethod
-        def tearDownClass(cls):
-            setup_module.teardown(cls.get_test_client())
-
-    def test_associate_key(self):
+    def test_associate_key(self, pretty_print, mist_core, owner_api_token):
         """Test case for associate_key
 
         Associate a key with a machine
@@ -64,51 +20,39 @@ class TestMachinesController(BaseTestCase):
   "user" : "user",
   "key" : "key"
 }
-        inject_vault_credentials_into_request(key_machine_association)
-        headers = { 
-            'Content-Type': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/associate-key'.format(machine="example_machine"),
-            method='PUT',
-            headers=headers,
-            data=json.dumps(key_machine_association),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        config.inject_vault_credentials(key_machine_association)
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/associate-key'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri, json=key_machine_association)
+        request_method = getattr(request, 'PUT'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_clone_machine(self):
+    def test_clone_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for clone_machine
 
         Clone machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/clone'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/clone'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_console(self):
+    def test_console(self, pretty_print, mist_core, owner_api_token):
         """Test case for console
 
         Open console
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/console'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/console'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_create_machine(self):
+    def test_create_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for create_machine
 
         Create machine
@@ -118,37 +62,27 @@ class TestMachinesController(BaseTestCase):
   "size" : "example_size",
   "image" : "example_image"
 }
-        inject_vault_credentials_into_request(create_machine_request)
-        headers = { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines',
-            method='POST',
-            headers=headers,
-            data=json.dumps(create_machine_request),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        config.inject_vault_credentials(create_machine_request)
+        uri = mist_core.uri + '/api/v2/machines' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, json=create_machine_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_destroy_machine(self):
+    def test_destroy_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for destroy_machine
 
         Destroy machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/destroy'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/destroy'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_disassociate_key(self):
+    def test_disassociate_key(self, pretty_print, mist_core, owner_api_token):
         """Test case for disassociate_key
 
         Disassociate a key from a machine
@@ -156,72 +90,54 @@ class TestMachinesController(BaseTestCase):
         key_machine_disassociation = {
   "key" : "key"
 }
-        inject_vault_credentials_into_request(key_machine_disassociation)
-        headers = { 
-            'Content-Type': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/disassociate-key'.format(machine="example_machine"),
-            method='DELETE',
-            headers=headers,
-            data=json.dumps(key_machine_disassociation),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        config.inject_vault_credentials(key_machine_disassociation)
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/disassociate-key'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri, json=key_machine_disassociation)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_edit_machine(self):
+    def test_edit_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_machine
 
         Edit machine
         """
         query_string = [('name', "renamed_example_machine")]
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}'.format(machine="example_machine"),
-            method='PUT',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'PUT'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_expose_machine(self):
+    def test_expose_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for expose_machine
 
         Expose machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/expose'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/expose'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_get_machine(self):
+    def test_get_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_machine
 
         Get machine
         """
         query_string = [('only', "id"),
                         ('deref', "auto")]
-        headers = { 
-            'Accept': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}'.format(machine="example_machine"),
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_list_machines(self):
+    def test_list_machines(self, pretty_print, mist_core, owner_api_token):
         """Test case for list_machines
 
         List machines
@@ -233,157 +149,124 @@ class TestMachinesController(BaseTestCase):
                         ('limit', "56"),
                         ('only', "id"),
                         ('deref', "auto")]
-        headers = { 
-            'Accept': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines',
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_reboot_machine(self):
+    def test_reboot_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for reboot_machine
 
         Reboot machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/reboot'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/reboot'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_rename_machine(self):
+    def test_rename_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for rename_machine
 
         Rename machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/rename'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_resize_machine(self):
+    def test_resize_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for resize_machine
 
         Resize machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/resize'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_resume_machine(self):
+    def test_resume_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for resume_machine
 
         Resume machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/resume'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resume'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_ssh(self):
+    def test_ssh(self, pretty_print, mist_core, owner_api_token):
         """Test case for ssh
 
         Open secure shell
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/ssh'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/ssh'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_start_machine(self):
+    def test_start_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for start_machine
 
         Start machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/start'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/start'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_stop_machine(self):
+    def test_stop_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for stop_machine
 
         Stop machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/stop'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/stop'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_suspend_machine(self):
+    def test_suspend_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for suspend_machine
 
         Suspend machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/suspend'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/suspend'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_undefine_machine(self):
+    def test_undefine_machine(self, pretty_print, mist_core, owner_api_token):
         """Test case for undefine_machine
 
         Undefine machine
         """
-        headers = { 
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/machines/{machine}/actions/undefine'.format(machine="example_machine"),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/machines/{machine}/actions/undefine'.format(machine="example_machine") 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
 
-if setup_module_name == 'clusters':
-    TestMachinesController.test_create_cluster = post_delay(seconds=200)(
-        TestMachinesController.test_create_cluster)
-
-if __name__ == '__main__':
-    unittest.main()
+# Mark delete-related test methods as last to be run
+for key in vars(TestCloudsController):
+    attr = getattr(TestCloudsController, key)
+    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+        setattr(TestCloudsController, key, pytest.mark.last(attr))

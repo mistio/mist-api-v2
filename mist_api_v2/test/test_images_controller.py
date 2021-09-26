@@ -1,79 +1,30 @@
-# coding: utf-8
+import pytest
 
-from __future__ import absolute_import
-import time
-import importlib
-import unittest
+from misttests import config
+from misttests.integration.api.helpers import *
+from misttests.integration.api.mistrequests import MistRequests
 
-from flask import json
-
-from mist.api.auth.methods import create_short_lived_token
-from mist.api.auth.methods import inject_vault_credentials_into_request
-
-from mist_api_v2.test import BaseTestCase
-
-try:
-    setup_module_name = 'ImagesController'.replace('Controller', '').lower()
-    setup_module = importlib.import_module(
-        f'mist_api_v2.test.setup.{setup_module_name}')
-except ImportError:
-    SETUP_MODULES_EXIST = False
-else:
-    SETUP_MODULES_EXIST = True
+DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 
-def post_delay(seconds):
-    def decorator(func):
-        def wrapper(self):
-            func(self)
-            time.sleep(seconds)
-        return wrapper
-    return decorator
-
-
-unittest.TestLoader.sortTestMethodsUsing = \
-    lambda _, x, y: - 1 if any(
-        k in y for k in ['delete', 'remove', 'destroy']) else 1
-
-
-class TestImagesController(BaseTestCase):
+class TestImagesController:
     """ImagesController integration test stubs"""
 
-    if SETUP_MODULES_EXIST:
-        @classmethod
-        def get_test_client(cls):
-            if not hasattr(cls, 'test_client'):
-                cls.test_client = cls().create_app().test_client()
-            return cls.test_client
-
-        @classmethod
-        def setUpClass(cls):
-            setup_module.setup(cls.get_test_client())
-
-        @classmethod
-        def tearDownClass(cls):
-            setup_module.teardown(cls.get_test_client())
-
-    def test_get_image(self):
+    def test_get_image(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_image
 
         Get image
         """
         query_string = [('only', "id"),
                         ('deref', "auto")]
-        headers = { 
-            'Accept': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/images/{image}'.format(image="'image_example'"),
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/images/{image}'.format(image="'image_example'") 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
-    def test_list_images(self):
+    def test_list_images(self, pretty_print, mist_core, owner_api_token):
         """Test case for list_images
 
         List images
@@ -85,22 +36,16 @@ class TestImagesController(BaseTestCase):
                         ('limit', "56"),
                         ('only', "id"),
                         ('deref', "auto")]
-        headers = { 
-            'Accept': 'application/json',
-            'Authorization': create_short_lived_token(),
-        }
-        response = self.client.open(
-            '/api/v2/images',
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/images' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print("Success!!!")
 
 
-if setup_module_name == 'clusters':
-    TestImagesController.test_create_cluster = post_delay(seconds=200)(
-        TestImagesController.test_create_cluster)
-
-if __name__ == '__main__':
-    unittest.main()
+# Mark delete-related test methods as last to be run
+for key in vars(TestCloudsController):
+    attr = getattr(TestCloudsController, key)
+    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+        setattr(TestCloudsController, key, pytest.mark.last(attr))
