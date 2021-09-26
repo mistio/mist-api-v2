@@ -90,19 +90,17 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     provider = add_cloud_request.provider
     provider = PROVIDER_ALIASES.get(provider, provider)
     params = add_cloud_request.to_dict()
-    credentials = params['credentials']
-    features = params.get('features', {})
-    del params['name']
-    del params['credentials']
+    name = params.pop('name')
+    credentials = params.pop('credentials')
+    features = params.pop('features')
     if features:
         del features['compute']
-        del params['features']
         params.update(features)
     params.update(credentials)
     try:
         result = add_cloud_v_2(
             auth_context.owner,
-            add_cloud_request.name,
+            name,
             provider,
             params
         )
