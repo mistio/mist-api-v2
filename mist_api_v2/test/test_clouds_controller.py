@@ -1,3 +1,5 @@
+import importlib
+
 import pytest
 
 from misttests import config
@@ -5,6 +7,15 @@ from misttests.integration.api.helpers import *
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+try:
+    setup_module_name = 'CloudsController'.replace('Controller', '').lower()
+    setup_module = importlib.import_module(
+        f'mist_api_v2.test.setup.{setup_module_name}')
+except ImportError:
+    SETUP_MODULES_EXIST = False
+else:
+    SETUP_MODULES_EXIST = True
 
 
 class TestCloudsController:
@@ -15,6 +26,16 @@ class TestCloudsController:
 
         Add cloud
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         add_cloud_request = {
   "name" : "example_cloud",
   "provider" : "google",
@@ -37,6 +58,16 @@ class TestCloudsController:
 
         Delete cloud
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud="example_cloud") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
@@ -49,6 +80,16 @@ class TestCloudsController:
 
         Edit cloud
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         edit_cloud_request = {
   "name" : "renamed_example_cloud"
 }
@@ -65,6 +106,16 @@ class TestCloudsController:
 
         Get cloud
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('sort', "-name"),
                         ('only', "id"),
                         ('deref', "auto")]
@@ -80,6 +131,16 @@ class TestCloudsController:
 
         List clouds
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('search', "provider:amazon"),
                         ('sort', "-name"),
                         ('start', "50"),

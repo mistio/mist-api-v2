@@ -1,3 +1,5 @@
+import importlib
+
 import pytest
 
 from misttests import config
@@ -5,6 +7,15 @@ from misttests.integration.api.helpers import *
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+try:
+    setup_module_name = 'TotalMachineCountController'.replace('Controller', '').lower()
+    setup_module = importlib.import_module(
+        f'mist_api_v2.test.setup.{setup_module_name}')
+except ImportError:
+    SETUP_MODULES_EXIST = False
+else:
+    SETUP_MODULES_EXIST = True
 
 
 class TestTotalMachineCountController:
@@ -15,6 +26,16 @@ class TestTotalMachineCountController:
 
         Get Org
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('only', "id"),
                         ('deref', "auto")]
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(org="example_org") 

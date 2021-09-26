@@ -1,3 +1,5 @@
+import importlib
+
 import pytest
 
 from misttests import config
@@ -5,6 +7,15 @@ from misttests.integration.api.helpers import *
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+try:
+    setup_module_name = 'VolumesController'.replace('Controller', '').lower()
+    setup_module = importlib.import_module(
+        f'mist_api_v2.test.setup.{setup_module_name}')
+except ImportError:
+    SETUP_MODULES_EXIST = False
+else:
+    SETUP_MODULES_EXIST = True
 
 
 class TestVolumesController:
@@ -15,6 +26,16 @@ class TestVolumesController:
 
         Create volume
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         create_volume_request = {
   "name" : "example_volume",
   "size" : "example_size"
@@ -32,6 +53,16 @@ class TestVolumesController:
 
         Delete volume
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume="example_volume") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
@@ -44,6 +75,16 @@ class TestVolumesController:
 
         Edit volume
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('name', "renamed_example_volume")]
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume="example_volume") 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
@@ -57,6 +98,16 @@ class TestVolumesController:
 
         Get volume
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('only', "id"),
                         ('deref', "auto")]
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume="example_volume") 
@@ -71,6 +122,16 @@ class TestVolumesController:
 
         List volumes
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "location:Amsterdam"),
                         ('sort', "-name"),

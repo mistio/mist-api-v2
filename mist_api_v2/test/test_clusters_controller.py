@@ -1,3 +1,5 @@
+import importlib
+
 import pytest
 
 from misttests import config
@@ -5,6 +7,15 @@ from misttests.integration.api.helpers import *
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+try:
+    setup_module_name = 'ClustersController'.replace('Controller', '').lower()
+    setup_module = importlib.import_module(
+        f'mist_api_v2.test.setup.{setup_module_name}')
+except ImportError:
+    SETUP_MODULES_EXIST = False
+else:
+    SETUP_MODULES_EXIST = True
 
 
 class TestClustersController:
@@ -15,6 +26,16 @@ class TestClustersController:
 
         Create cluster
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         create_cluster_request = {
   "name" : "example-cluster",
   "cloud" : "example_cloud",
@@ -34,6 +55,16 @@ class TestClustersController:
 
         Destroy cluster
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster="example-cluster") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
@@ -46,6 +77,16 @@ class TestClustersController:
 
         Get cluster
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('only', "id"),
                         ('deref', "auto")]
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster="example-cluster") 
@@ -60,6 +101,16 @@ class TestClustersController:
 
         List clusters
         """
+
+        if SETUP_MODULES_EXIST:
+            @classmethod
+            def setUpClass(cls):
+                setup_module.setup()
+
+            @classmethod
+            def tearDownClass(cls):
+                setup_module.teardown()
+
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "created_by:csk"),
                         ('sort', "-name"),
