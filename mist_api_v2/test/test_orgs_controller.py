@@ -93,7 +93,7 @@ class TestOrgsController:
 
 
 # Mark delete-related test methods as last to be run
-for key in vars(TestCloudsController):
-    attr = getattr(TestCloudsController, key)
+for key in vars(TestOrgsController):
+    attr = getattr(TestOrgsController, key)
     if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestCloudsController, key, pytest.mark.last(attr))
+        setattr(TestOrgsController, key, pytest.mark.last(attr))
