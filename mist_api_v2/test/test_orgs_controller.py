@@ -10,8 +10,8 @@ DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 try:
     setup_module_name = 'OrgsController'.replace('Controller', '').lower()
-    setup_module = importlib.import_module(
-        f'mist_api_v2.test.setup.{setup_module_name}')
+    _setup_module = importlib.import_module(
+        f'misttests.integration.api.main.v2.setup.{setup_module_name}')
 except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
@@ -21,9 +21,9 @@ else:
 @pytest.fixture(scope="class")
 def setup(owner_api_token):
     if SETUP_MODULE_EXISTS:
-        setup_module.setup(owner_api_token)
+        _setup_module.setup(owner_api_token)
         yield
-        setup_module.teardown(owner_api_token)
+        _setup_module.teardown(owner_api_token)
     else:
         yield
 
