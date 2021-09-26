@@ -13,11 +13,21 @@ try:
     setup_module = importlib.import_module(
         f'mist_api_v2.test.setup.{setup_module_name}')
 except ImportError:
-    SETUP_MODULES_EXIST = False
+    SETUP_MODULE_EXISTS = False
 else:
-    SETUP_MODULES_EXIST = True
+    SETUP_MODULE_EXISTS = True
+
+@pytest.fixture(scope="class")
+def setup(owner_api_token):
+    if SETUP_MODULE_EXISTS:
+        setup_module.setup(owner_api_token)
+        yield
+        setup_module.teardown(owner_api_token)
+    else:
+        yield
 
 
+@pytest.mark.usefixtures("setup")
 class TestRulesController:
     """RulesController integration test stubs"""
 
@@ -26,16 +36,6 @@ class TestRulesController:
 
         Add rule
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('queries', "{}"),
                         ('window', "{}"),
                         ('frequency', "{}"),
@@ -54,16 +54,6 @@ class TestRulesController:
 
         Delete rule
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule="example_rule") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
@@ -76,16 +66,6 @@ class TestRulesController:
 
         Get rule
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('sort', "-name"),
                         ('only', "id")]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule="example_rule") 
@@ -100,16 +80,6 @@ class TestRulesController:
 
         List rules
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('search', "total_run_count:5"),
                         ('sort', "-name"),
                         ('start', "50"),
@@ -127,16 +97,6 @@ class TestRulesController:
 
         Rename rule
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('action', "renamed_example_rule")]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule="example_rule") 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
@@ -150,16 +110,6 @@ class TestRulesController:
 
         Toggle rule
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('action', "example_action")]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule="example_rule") 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
@@ -173,16 +123,6 @@ class TestRulesController:
 
         Update rule
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('queries', "{}"),
                         ('window', "{}"),
                         ('frequency', "{}"),

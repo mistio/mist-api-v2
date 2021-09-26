@@ -13,11 +13,21 @@ try:
     setup_module = importlib.import_module(
         f'mist_api_v2.test.setup.{setup_module_name}')
 except ImportError:
-    SETUP_MODULES_EXIST = False
+    SETUP_MODULE_EXISTS = False
 else:
-    SETUP_MODULES_EXIST = True
+    SETUP_MODULE_EXISTS = True
+
+@pytest.fixture(scope="class")
+def setup(owner_api_token):
+    if SETUP_MODULE_EXISTS:
+        setup_module.setup(owner_api_token)
+        yield
+        setup_module.teardown(owner_api_token)
+    else:
+        yield
 
 
+@pytest.mark.usefixtures("setup")
 class TestSnapshotsController:
     """SnapshotsController integration test stubs"""
 
@@ -26,16 +36,6 @@ class TestSnapshotsController:
 
         Create snapshot
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -48,16 +48,6 @@ class TestSnapshotsController:
 
         List machine snapshots
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'GET'.lower())
@@ -70,16 +60,6 @@ class TestSnapshotsController:
 
         Remove snapshot
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine="example_machine", snapshot="example_snapshot") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
@@ -92,16 +72,6 @@ class TestSnapshotsController:
 
         Revert to snapshot
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine="example_machine", snapshot="example_snapshot") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())

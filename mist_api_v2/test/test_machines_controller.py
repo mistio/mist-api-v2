@@ -13,11 +13,21 @@ try:
     setup_module = importlib.import_module(
         f'mist_api_v2.test.setup.{setup_module_name}')
 except ImportError:
-    SETUP_MODULES_EXIST = False
+    SETUP_MODULE_EXISTS = False
 else:
-    SETUP_MODULES_EXIST = True
+    SETUP_MODULE_EXISTS = True
+
+@pytest.fixture(scope="class")
+def setup(owner_api_token):
+    if SETUP_MODULE_EXISTS:
+        setup_module.setup(owner_api_token)
+        yield
+        setup_module.teardown(owner_api_token)
+    else:
+        yield
 
 
+@pytest.mark.usefixtures("setup")
 class TestMachinesController:
     """MachinesController integration test stubs"""
 
@@ -26,16 +36,6 @@ class TestMachinesController:
 
         Associate a key with a machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         key_machine_association = {
   "port" : 0,
   "user" : "user",
@@ -54,16 +54,6 @@ class TestMachinesController:
 
         Clone machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/clone'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -76,16 +66,6 @@ class TestMachinesController:
 
         Open console
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/console'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -98,16 +78,6 @@ class TestMachinesController:
 
         Create machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         create_machine_request = {
   "name" : "example_machine",
   "size" : "example_size",
@@ -126,16 +96,6 @@ class TestMachinesController:
 
         Destroy machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/destroy'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -148,16 +108,6 @@ class TestMachinesController:
 
         Disassociate a key from a machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         key_machine_disassociation = {
   "key" : "key"
 }
@@ -174,16 +124,6 @@ class TestMachinesController:
 
         Edit machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('name', "renamed_example_machine")]
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
@@ -197,16 +137,6 @@ class TestMachinesController:
 
         Expose machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/expose'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -219,16 +149,6 @@ class TestMachinesController:
 
         Get machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('only', "id"),
                         ('deref', "auto")]
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(machine="example_machine") 
@@ -243,16 +163,6 @@ class TestMachinesController:
 
         List machines
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
                         ('search', "state:running"),
                         ('sort', "-name"),
@@ -272,16 +182,6 @@ class TestMachinesController:
 
         Reboot machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/reboot'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -294,16 +194,6 @@ class TestMachinesController:
 
         Rename machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -316,16 +206,6 @@ class TestMachinesController:
 
         Resize machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -338,16 +218,6 @@ class TestMachinesController:
 
         Resume machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resume'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -360,16 +230,6 @@ class TestMachinesController:
 
         Open secure shell
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/ssh'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -382,16 +242,6 @@ class TestMachinesController:
 
         Start machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/start'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -404,16 +254,6 @@ class TestMachinesController:
 
         Stop machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/stop'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -426,16 +266,6 @@ class TestMachinesController:
 
         Suspend machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/suspend'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
@@ -448,16 +278,6 @@ class TestMachinesController:
 
         Undefine machine
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/undefine'.format(machine="example_machine") 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())

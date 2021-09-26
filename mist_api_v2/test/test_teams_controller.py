@@ -13,11 +13,21 @@ try:
     setup_module = importlib.import_module(
         f'mist_api_v2.test.setup.{setup_module_name}')
 except ImportError:
-    SETUP_MODULES_EXIST = False
+    SETUP_MODULE_EXISTS = False
 else:
-    SETUP_MODULES_EXIST = True
+    SETUP_MODULE_EXISTS = True
+
+@pytest.fixture(scope="class")
+def setup(owner_api_token):
+    if SETUP_MODULE_EXISTS:
+        setup_module.setup(owner_api_token)
+        yield
+        setup_module.teardown(owner_api_token)
+    else:
+        yield
 
 
+@pytest.mark.usefixtures("setup")
 class TestTeamsController:
     """TeamsController integration test stubs"""
 
@@ -26,16 +36,6 @@ class TestTeamsController:
 
         List org teams
         """
-
-        if SETUP_MODULES_EXIST:
-            @classmethod
-            def setUpClass(cls):
-                setup_module.setup()
-
-            @classmethod
-            def tearDownClass(cls):
-                setup_module.teardown()
-
         query_string = [('search', "name:finance"),
                         ('sort', "-name"),
                         ('start', "50"),
