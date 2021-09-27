@@ -1,101 +1,118 @@
-# coding: utf-8
+import time
+import importlib
 
-from __future__ import absolute_import
-import unittest
+import pytest
 
-from flask import json
-from six import BytesIO
+from misttests import config
+from misttests.integration.api.helpers import *
+from misttests.integration.api.mistrequests import MistRequests
 
-from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
-from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
-from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
-from mist_api_v2.test import BaseTestCase
+DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+resource_name = 'ClustersController'.replace('Controller', '').lower()
+try:
+    _setup_module = importlib.import_module(
+        f'misttests.integration.api.main.v2.setup.{resource_name}')
+except ImportError:
+    SETUP_MODULE_EXISTS = False
+else:
+    SETUP_MODULE_EXISTS = True
 
 
-class TestClustersController(BaseTestCase):
+@pytest.fixture(autouse=True)
+def conditional_delay(request):
+    yield
+    method_name = request._pyfuncitem._obj.__name__
+    if method_name == 'test_create_cluster':
+        time.sleep(200)
+
+
+class TestClustersController:
     """ClustersController integration test stubs"""
 
-    def test_create_cluster(self):
+    def test_create_cluster(self, pretty_print, mist_core, owner_api_token):
         """Test case for create_cluster
 
         Create cluster
         """
-        create_cluster_request = null
-        headers = { 
-            'Content-Type': 'application/json',
-            'ApiKeyAuth': 'special-key',
-            'CookieAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clusters',
-            method='POST',
-            headers=headers,
-            data=json.dumps(create_cluster_request),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        create_cluster_request = {
+  "name" : "example-cluster",
+  "cloud" : "example-cloud",
+  "provider" : "google",
+  "location" : "example-location"
+}
+        config.inject_vault_credentials(create_cluster_request)
+        uri = mist_core.uri + '/api/v2/clusters' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, json=create_cluster_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
-    def test_destroy_cluster(self):
+    def test_destroy_cluster(self, pretty_print, mist_core, owner_api_token):
         """Test case for destroy_cluster
 
         Destroy cluster
         """
-        headers = { 
-            'ApiKeyAuth': 'special-key',
-            'CookieAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster='cluster_example'),
-            method='DELETE',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster') 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
-    def test_get_cluster(self):
+    def test_get_cluster(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_cluster
 
         Get cluster
         """
-        query_string = [('only', "id"),
-                        ('deref', "auto")]
-        headers = { 
-            'Accept': 'application/json',
-            'ApiKeyAuth': 'special-key',
-            'CookieAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clusters/{cluster}'.format(cluster='cluster_example'),
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster') 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
-    def test_list_clusters(self):
+    def test_list_clusters(self, pretty_print, mist_core, owner_api_token):
         """Test case for list_clusters
 
         List clusters
         """
-        query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
-                        ('search', "created_by:csk"),
-                        ('sort', "-name"),
-                        ('start', "50"),
-                        ('limit', "56"),
-                        ('only', "id"),
-                        ('deref', "auto")]
-        headers = { 
-            'Accept': 'application/json',
-            'ApiKeyAuth': 'special-key',
-            'CookieAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clusters',
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'created_by:csk'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = mist_core.uri + '/api/v2/clusters' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
 
-if __name__ == '__main__':
-    unittest.main()
+# Mark delete-related test methods as last to be run
+for key in vars(TestClustersController):
+    attr = getattr(TestClustersController, key)
+    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+        setattr(TestClustersController, key, pytest.mark.order('last')(attr))
+
+if SETUP_MODULE_EXISTS:
+    # Add setup and teardown methods to test class
+    class_setup_done = False
+
+    @pytest.fixture(scope='class')
+    def setup(owner_api_token):
+        global class_setup_done
+        if class_setup_done:
+            yield
+        else:
+            _setup_module.setup(owner_api_token)
+            yield
+            _setup_module.teardown(owner_api_token)
+            class_setup_done = True
+    TestClustersController = pytest.mark.usefixtures('setup')(TestClustersController)

@@ -1,35 +1,66 @@
-# coding: utf-8
+import time
+import importlib
 
-from __future__ import absolute_import
-import unittest
+import pytest
 
-from flask import json
-from six import BytesIO
+from misttests import config
+from misttests.integration.api.helpers import *
+from misttests.integration.api.mistrequests import MistRequests
 
-from mist_api_v2.models.get_job_response import GetJobResponse  # noqa: E501
-from mist_api_v2.test import BaseTestCase
+DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+resource_name = 'JobsController'.replace('Controller', '').lower()
+try:
+    _setup_module = importlib.import_module(
+        f'misttests.integration.api.main.v2.setup.{resource_name}')
+except ImportError:
+    SETUP_MODULE_EXISTS = False
+else:
+    SETUP_MODULE_EXISTS = True
 
 
-class TestJobsController(BaseTestCase):
+@pytest.fixture(autouse=True)
+def conditional_delay(request):
+    yield
+    method_name = request._pyfuncitem._obj.__name__
+    if method_name == 'test_create_cluster':
+        time.sleep(200)
+
+
+class TestJobsController:
     """JobsController integration test stubs"""
 
-    def test_get_job(self):
+    def test_get_job(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_job
 
         Get job
         """
-        headers = { 
-            'Accept': 'application/json',
-            'ApiKeyAuth': 'special-key',
-            'CookieAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/jobs/{job_id}'.format(job_id='job_id_example'),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(job_id=''job_id_example'') 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
 
-if __name__ == '__main__':
-    unittest.main()
+# Mark delete-related test methods as last to be run
+for key in vars(TestJobsController):
+    attr = getattr(TestJobsController, key)
+    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+        setattr(TestJobsController, key, pytest.mark.order('last')(attr))
+
+if SETUP_MODULE_EXISTS:
+    # Add setup and teardown methods to test class
+    class_setup_done = False
+
+    @pytest.fixture(scope='class')
+    def setup(owner_api_token):
+        global class_setup_done
+        if class_setup_done:
+            yield
+        else:
+            _setup_module.setup(owner_api_token)
+            yield
+            _setup_module.teardown(owner_api_token)
+            class_setup_done = True
+    TestJobsController = pytest.mark.usefixtures('setup')(TestJobsController)

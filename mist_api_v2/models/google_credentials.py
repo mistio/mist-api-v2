@@ -15,26 +15,31 @@ class GoogleCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, project_id=None, private_key=None):  # noqa: E501
+    def __init__(self, project_id=None, private_key=None, email=None):  # noqa: E501
         """GoogleCredentials - a model defined in OpenAPI
 
         :param project_id: The project_id of this GoogleCredentials.  # noqa: E501
         :type project_id: str
         :param private_key: The private_key of this GoogleCredentials.  # noqa: E501
         :type private_key: str
+        :param email: The email of this GoogleCredentials.  # noqa: E501
+        :type email: str
         """
         self.openapi_types = {
             'project_id': str,
-            'private_key': str
+            'private_key': str,
+            'email': str
         }
 
         self.attribute_map = {
             'project_id': 'projectId',
-            'private_key': 'privateKey'
+            'private_key': 'privateKey',
+            'email': 'email'
         }
 
         self._project_id = project_id
         self._private_key = private_key
+        self._email = email
 
     @classmethod
     def from_dict(cls, dikt) -> 'GoogleCredentials':
@@ -96,3 +101,28 @@ class GoogleCredentials(Model):
             raise ValueError("Invalid value for `private_key`, must not be `None`")  # noqa: E501
 
         self._private_key = private_key
+
+    @property
+    def email(self):
+        """Gets the email of this GoogleCredentials.
+
+        Your GCP client email  # noqa: E501
+
+        :return: The email of this GoogleCredentials.
+        :rtype: str
+        """
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        """Sets the email of this GoogleCredentials.
+
+        Your GCP client email  # noqa: E501
+
+        :param email: The email of this GoogleCredentials.
+        :type email: str
+        """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
+
+        self._email = email

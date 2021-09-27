@@ -1,95 +1,137 @@
-# coding: utf-8
+import time
+import importlib
 
-from __future__ import absolute_import
-import unittest
+import pytest
 
-from flask import json
-from six import BytesIO
+from misttests import config
+from misttests.integration.api.helpers import *
+from misttests.integration.api.mistrequests import MistRequests
 
-from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
-from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
-from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
-from mist_api_v2.test import BaseTestCase
+DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+
+resource_name = 'CloudsController'.replace('Controller', '').lower()
+try:
+    _setup_module = importlib.import_module(
+        f'misttests.integration.api.main.v2.setup.{resource_name}')
+except ImportError:
+    SETUP_MODULE_EXISTS = False
+else:
+    SETUP_MODULE_EXISTS = True
 
 
-class TestCloudsController(BaseTestCase):
+@pytest.fixture(autouse=True)
+def conditional_delay(request):
+    yield
+    method_name = request._pyfuncitem._obj.__name__
+    if method_name == 'test_create_cluster':
+        time.sleep(200)
+
+
+class TestCloudsController:
     """CloudsController integration test stubs"""
 
-    def test_add_cloud(self):
+    def test_add_cloud(self, pretty_print, mist_core, owner_api_token):
         """Test case for add_cloud
 
         Add cloud
         """
         add_cloud_request = {
-  "features" : {
-    "compute" : true,
-    "dns" : false
-  },
-  "provider" : "amazon",
-  "title" : "title"
+  "name" : "example-cloud",
+  "provider" : "google",
+  "credentials" : {
+    "projectId" : "projectId",
+    "privateKey" : "privateKey",
+    "email" : "email"
+  }
 }
-        headers = { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'ApiKeyAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clouds',
-            method='POST',
-            headers=headers,
-            data=json.dumps(add_cloud_request),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        config.inject_vault_credentials(add_cloud_request)
+        uri = mist_core.uri + '/api/v2/clouds' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, json=add_cloud_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
-    def test_remove_cloud(self):
-        """Test case for remove_cloud
+    def test_edit_cloud(self, pretty_print, mist_core, owner_api_token):
+        """Test case for edit_cloud
 
-        Remove cloud
+        Edit cloud
         """
-        headers = { 
-            'ApiKeyAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud='cloud_example'),
-            method='DELETE',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        edit_cloud_request = {
+  "name" : "renamed-example-cloud"
+}
+        config.inject_vault_credentials(edit_cloud_request)
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
+        request = MistRequests(api_token=owner_api_token, uri=uri, json=edit_cloud_request)
+        request_method = getattr(request, 'PUT'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
-    def test_get_cloud(self):
+    def test_get_cloud(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_cloud
 
         Get cloud
         """
-        headers = { 
-        }
-        response = self.client.open(
-            '/api/v2/clouds/{cloud}'.format(cloud='cloud_example'),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        query_string = [('sort', '-name'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
-    def test_list_clouds(self):
+    def test_list_clouds(self, pretty_print, mist_core, owner_api_token):
         """Test case for list_clouds
 
         List clouds
         """
-        query_string = [('filter', 'provider:packet AND status:enabled'),
-                        ('sort', '-title')]
-        headers = { 
-            'Accept': 'application/json',
-            'ApiKeyAuth': 'special-key',
-        }
-        response = self.client.open(
-            '/api/v2/clouds',
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        query_string = [('search', 'provider:amazon'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = mist_core.uri + '/api/v2/clouds' 
+        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
+    def test_remove_cloud(self, pretty_print, mist_core, owner_api_token):
+        """Test case for remove_cloud
+
+        Remove cloud
+        """
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
 
 
-if __name__ == '__main__':
-    unittest.main()
+# Mark delete-related test methods as last to be run
+for key in vars(TestCloudsController):
+    attr = getattr(TestCloudsController, key)
+    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+        setattr(TestCloudsController, key, pytest.mark.order('last')(attr))
+
+if SETUP_MODULE_EXISTS:
+    # Add setup and teardown methods to test class
+    class_setup_done = False
+
+    @pytest.fixture(scope='class')
+    def setup(owner_api_token):
+        global class_setup_done
+        if class_setup_done:
+            yield
+        else:
+            _setup_module.setup(owner_api_token)
+            yield
+            _setup_module.teardown(owner_api_token)
+            class_setup_done = True
+    TestCloudsController = pytest.mark.usefixtures('setup')(TestCloudsController)
