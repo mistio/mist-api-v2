@@ -22,7 +22,6 @@ from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
 from mist_api_v2.models.onapp_credentials import OnappCredentials
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
-from mist_api_v2.models.vcloud_credentials import VcloudCredentials
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
 from mist_api_v2.models.vultr_credentials import VultrCredentials
 from mist_api_v2 import util
@@ -43,7 +42,6 @@ from mist_api_v2.models.maxihost_credentials import MaxihostCredentials  # noqa:
 from mist_api_v2.models.onapp_credentials import OnappCredentials  # noqa: E501
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials  # noqa: E501
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials  # noqa: E501
-from mist_api_v2.models.vcloud_credentials import VcloudCredentials  # noqa: E501
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials  # noqa: E501
 from mist_api_v2.models.vultr_credentials import VultrCredentials  # noqa: E501
 
