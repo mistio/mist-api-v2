@@ -36,8 +36,8 @@ class TestVolumesController:
         Create volume
         """
         create_volume_request = {
-  "name" : "example_volume",
-  "size" : "example_size"
+  "name" : "example-volume",
+  "size" : "example-size"
 }
         config.inject_vault_credentials(create_volume_request)
         uri = mist_core.uri + '/api/v2/volumes' 
@@ -52,7 +52,7 @@ class TestVolumesController:
 
         Delete volume
         """
-        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example_volume') 
+        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example-volume') 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
@@ -64,8 +64,8 @@ class TestVolumesController:
 
         Edit volume
         """
-        query_string = [('name', 'renamed_example_volume')]
-        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example_volume') 
+        query_string = [('name', 'renamed-example-volume')]
+        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example-volume') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -79,7 +79,7 @@ class TestVolumesController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example_volume') 
+        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example-volume') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

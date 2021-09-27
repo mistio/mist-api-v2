@@ -36,8 +36,8 @@ class TestNetworksController:
         Create network
         """
         create_network_request = {
-  "name" : "example_network",
-  "cloud" : "example_cloud"
+  "name" : "example-network",
+  "cloud" : "example-cloud"
 }
         config.inject_vault_credentials(create_network_request)
         uri = mist_core.uri + '/api/v2/networks' 
@@ -52,8 +52,8 @@ class TestNetworksController:
 
         Edit network
         """
-        query_string = [('name', 'renamed_example_network')]
-        uri = mist_core.uri + '/api/v2/networks/{network}'.format(network='example_network') 
+        query_string = [('name', 'renamed-example-network')]
+        uri = mist_core.uri + '/api/v2/networks/{network}'.format(network='example-network') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -67,7 +67,7 @@ class TestNetworksController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/networks/{network}'.format(network='example_network') 
+        uri = mist_core.uri + '/api/v2/networks/{network}'.format(network='example-network') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

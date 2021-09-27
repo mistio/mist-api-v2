@@ -36,8 +36,8 @@ class TestZonesController:
         Create zone
         """
         create_zone_request = {
-  "name" : "example_zone",
-  "cloud" : "example_cloud"
+  "name" : "example-zone",
+  "cloud" : "example-cloud"
 }
         config.inject_vault_credentials(create_zone_request)
         uri = mist_core.uri + '/api/v2/zones' 
@@ -52,8 +52,8 @@ class TestZonesController:
 
         Edit zone
         """
-        query_string = [('name', 'renamed_example_zone')]
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(zone='example_zone') 
+        query_string = [('name', 'renamed-example-zone')]
+        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(zone='example-zone') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -67,7 +67,7 @@ class TestZonesController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(zone='example_zone') 
+        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(zone='example-zone') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

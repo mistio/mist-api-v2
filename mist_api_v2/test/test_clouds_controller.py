@@ -36,7 +36,7 @@ class TestCloudsController:
         Add cloud
         """
         add_cloud_request = {
-  "name" : "example_cloud",
+  "name" : "example-cloud",
   "provider" : "google",
   "credentials" : {
     "projectId" : "projectId",
@@ -58,10 +58,10 @@ class TestCloudsController:
         Edit cloud
         """
         edit_cloud_request = {
-  "name" : "renamed_example_cloud"
+  "name" : "renamed-example-cloud"
 }
         config.inject_vault_credentials(edit_cloud_request)
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example_cloud') 
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
         request = MistRequests(api_token=owner_api_token, uri=uri, json=edit_cloud_request)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -76,7 +76,7 @@ class TestCloudsController:
         query_string = [('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example_cloud') 
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -106,7 +106,7 @@ class TestCloudsController:
 
         Remove cloud
         """
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example_cloud') 
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()

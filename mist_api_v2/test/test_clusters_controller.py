@@ -37,9 +37,9 @@ class TestClustersController:
         """
         create_cluster_request = {
   "name" : "example-cluster",
-  "cloud" : "example_cloud",
+  "cloud" : "example-cloud",
   "provider" : "google",
-  "location" : "example_location"
+  "location" : "example-location"
 }
         config.inject_vault_credentials(create_cluster_request)
         uri = mist_core.uri + '/api/v2/clusters' 

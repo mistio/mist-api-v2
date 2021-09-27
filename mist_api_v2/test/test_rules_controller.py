@@ -53,7 +53,7 @@ class TestRulesController:
 
         Delete rule
         """
-        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example_rule') 
+        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example-rule') 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
@@ -67,7 +67,7 @@ class TestRulesController:
         """
         query_string = [('sort', '-name'),
                         ('only', 'id')]
-        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example_rule') 
+        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example-rule') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -96,8 +96,8 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = [('action', 'renamed_example_rule')]
-        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example_rule') 
+        query_string = [('action', 'renamed-example-rule')]
+        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example-rule') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PATCH'.lower())
         response = request_method()
@@ -109,8 +109,8 @@ class TestRulesController:
 
         Toggle rule
         """
-        query_string = [('action', 'example_action')]
-        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example_rule') 
+        query_string = [('action', 'example-action')]
+        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example-rule') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -128,7 +128,7 @@ class TestRulesController:
                         ('trigger_after', '{}'),
                         ('actions', '{}'),
                         ('selectors', '{}')]
-        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example_rule') 
+        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(rule='example-rule') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()

@@ -35,7 +35,7 @@ class TestScriptsController:
 
         Delete script
         """
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example_script') 
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script') 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
@@ -47,9 +47,9 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = [('name', 'example_script'),
+        query_string = [('name', 'example-script'),
                         ('description', ''description_example'')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example_script') 
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -63,7 +63,7 @@ class TestScriptsController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example_script') 
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

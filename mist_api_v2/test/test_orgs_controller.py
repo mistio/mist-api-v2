@@ -36,7 +36,7 @@ class TestOrgsController:
         Get Org
         """
         query_string = [('only', 'id')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(org='example_org', member='example_member') 
+        uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(org='example-org', member='example-member') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -50,7 +50,7 @@ class TestOrgsController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}'.format(org='example_org') 
+        uri = mist_core.uri + '/api/v2/orgs/{org}'.format(org='example-org') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -67,7 +67,7 @@ class TestOrgsController:
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(org='example_org') 
+        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(org='example-org') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -85,7 +85,7 @@ class TestOrgsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(org='example_org') 
+        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(org='example-org') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

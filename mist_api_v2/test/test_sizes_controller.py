@@ -37,7 +37,7 @@ class TestSizesController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/sizes/{size}'.format(size='example_size') 
+        uri = mist_core.uri + '/api/v2/sizes/{size}'.format(size='example-size') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

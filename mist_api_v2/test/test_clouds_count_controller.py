@@ -37,7 +37,7 @@ class TestCloudsCountController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}'.format(org='example_org') 
+        uri = mist_core.uri + '/api/v2/orgs/{org}'.format(org='example-org') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
