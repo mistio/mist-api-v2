@@ -52,18 +52,6 @@ class TestCloudsController:
         assert_response_ok(response)
         print('Success!!!')
 
-    def test_delete_cloud(self, pretty_print, mist_core, owner_api_token):
-        """Test case for delete_cloud
-
-        Delete cloud
-        """
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example_cloud') 
-        request = MistRequests(api_token=owner_api_token, uri=uri)
-        request_method = getattr(request, 'DELETE'.lower())
-        response = request_method()
-        assert_response_ok(response)
-        print('Success!!!')
-
     def test_edit_cloud(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_cloud
 
@@ -109,6 +97,18 @@ class TestCloudsController:
         uri = mist_core.uri + '/api/v2/clouds' 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
+    def test_remove_cloud(self, pretty_print, mist_core, owner_api_token):
+        """Test case for remove_cloud
+
+        Remove cloud
+        """
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example_cloud') 
+        request = MistRequests(api_token=owner_api_token, uri=uri)
+        request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         assert_response_ok(response)
         print('Success!!!')
