@@ -9,7 +9,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
-resource_name = 'ClustersController'.replace('Controller', '').lower()
+resource_name = ZonesController.replace('Controller', '').lower()
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -102,9 +102,16 @@ for key in vars(TestZonesController):
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
+    class_setup_done = False
+
     @pytest.fixture(scope="class")
     def setup(owner_api_token):
-        _setup_module.setup(owner_api_token)
-        yield
-        _setup_module.teardown(owner_api_token)
+        global class_setup_done
+        if class_setup_done:
+            yield
+        else:
+            _setup_module.setup(owner_api_token)
+            yield
+            _setup_module.teardown(owner_api_token)
+            class_setup_done = True
     TestZonesController = pytest.mark.usefixtures("setup")(TestZonesController)
