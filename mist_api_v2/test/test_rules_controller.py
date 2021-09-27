@@ -18,17 +18,6 @@ else:
     SETUP_MODULE_EXISTS = True
 
 
-@pytest.fixture(scope="class")
-def setup(owner_api_token):
-    if SETUP_MODULE_EXISTS:
-        _setup_module.setup(owner_api_token)
-        yield
-        _setup_module.teardown(owner_api_token)
-    else:
-        yield
-
-
-@pytest.mark.usefixtures("setup")
 class TestRulesController:
     """RulesController integration test stubs"""
 
@@ -137,6 +126,15 @@ class TestRulesController:
         assert_response_ok(response)
         print("Success!!!")
 
+
+if SETUP_MODULE_EXISTS:
+    # Add setup and teardown methods to test class
+    @pytest.fixture(scope="class")
+    def setup(owner_api_token):
+        _setup_module.setup(owner_api_token)
+        yield
+        _setup_module.teardown(owner_api_token)
+    TestRulesController = pytest.mark.usefixtures("setup")(TestRulesController)
 
 # Mark delete-related test methods as last to be run
 for key in vars(TestRulesController):
