@@ -1,3 +1,4 @@
+import time
 import importlib
 
 import pytest
@@ -49,6 +50,12 @@ class TestDatapointsController:
         print("Success!!!")
 
 
+# Mark delete-related test methods as last to be run
+for key in vars(TestClustersController):
+    attr = getattr(TestClustersController, key)
+    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+        setattr(TestClustersController, key, pytest.mark.order("last")(attr))
+
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
     @pytest.fixture(scope="class")
@@ -57,9 +64,3 @@ if SETUP_MODULE_EXISTS:
         yield
         _setup_module.teardown(owner_api_token)
     TestDatapointsController = pytest.mark.usefixtures("setup")(TestDatapointsController)
-
-# Mark delete-related test methods as last to be run
-for key in vars(TestDatapointsController):
-    attr = getattr(TestDatapointsController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestDatapointsController, key, pytest.mark.last(attr))
