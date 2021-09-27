@@ -18,6 +18,14 @@ else:
     SETUP_MODULE_EXISTS = True
 
 
+@pytest.fixture(autouse=True)
+def conditional_delay(request):
+    yield
+    method_name = request._pyfuncitem._obj.__name__
+    if method_name == 'test_create_cluster':
+        time.sleep(200)
+
+
 class TestNetworksController:
     """NetworksController integration test stubs"""
 
