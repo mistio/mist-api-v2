@@ -9,7 +9,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
-resource_name = ClustersController.replace('Controller', '').lower()
+resource_name = 'ClustersController'.replace('Controller', '').lower()
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -47,65 +47,65 @@ class TestClustersController:
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
     def test_destroy_cluster(self, pretty_print, mist_core, owner_api_token):
         """Test case for destroy_cluster
 
         Destroy cluster
         """
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster="example-cluster") 
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster') 
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
     def test_get_cluster(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_cluster
 
         Get cluster
         """
-        query_string = [('only', "id"),
-                        ('deref', "auto")]
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster="example-cluster") 
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
     def test_list_clusters(self, pretty_print, mist_core, owner_api_token):
         """Test case for list_clusters
 
         List clusters
         """
-        query_string = [('cloud', "0194030499e74b02bdf68fa7130fb0b2"),
-                        ('search', "created_by:csk"),
-                        ('sort', "-name"),
-                        ('start', "50"),
-                        ('limit', "56"),
-                        ('only', "id"),
-                        ('deref', "auto")]
+        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'created_by:csk'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters' 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
 
 # Mark delete-related test methods as last to be run
 for key in vars(TestClustersController):
     attr = getattr(TestClustersController, key)
     if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestClustersController, key, pytest.mark.order("last")(attr))
+        setattr(TestClustersController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
     class_setup_done = False
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def setup(owner_api_token):
         global class_setup_done
         if class_setup_done:
@@ -115,4 +115,4 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestClustersController = pytest.mark.usefixtures("setup")(TestClustersController)
+    TestClustersController = pytest.mark.usefixtures('setup')(TestClustersController)

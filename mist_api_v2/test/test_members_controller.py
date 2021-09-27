@@ -9,7 +9,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
-resource_name = MembersController.replace('Controller', '').lower()
+resource_name = 'MembersController'.replace('Controller', '').lower()
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -35,30 +35,30 @@ class TestMembersController:
 
         List org members
         """
-        query_string = [('search', "email:dev@mist.io"),
-                        ('sort', "-name"),
-                        ('start', "50"),
-                        ('limit', "56"),
-                        ('only', "id")]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(org="example_org") 
+        query_string = [('search', 'email:dev@mist.io'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id')]
+        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(org='example_org') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
 
 # Mark delete-related test methods as last to be run
 for key in vars(TestMembersController):
     attr = getattr(TestMembersController, key)
     if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestMembersController, key, pytest.mark.order("last")(attr))
+        setattr(TestMembersController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
     class_setup_done = False
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def setup(owner_api_token):
         global class_setup_done
         if class_setup_done:
@@ -68,4 +68,4 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestMembersController = pytest.mark.usefixtures("setup")(TestMembersController)
+    TestMembersController = pytest.mark.usefixtures('setup')(TestMembersController)

@@ -9,7 +9,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
-resource_name = TeamsController.replace('Controller', '').lower()
+resource_name = 'TeamsController'.replace('Controller', '').lower()
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -35,31 +35,31 @@ class TestTeamsController:
 
         List org teams
         """
-        query_string = [('search', "name:finance"),
-                        ('sort', "-name"),
-                        ('start', "50"),
-                        ('limit', "56"),
-                        ('only', "id"),
-                        ('deref', "auto")]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(org="example_org") 
+        query_string = [('search', 'name:finance'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(org='example_org') 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
 
 # Mark delete-related test methods as last to be run
 for key in vars(TestTeamsController):
     attr = getattr(TestTeamsController, key)
     if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestTeamsController, key, pytest.mark.order("last")(attr))
+        setattr(TestTeamsController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
     class_setup_done = False
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def setup(owner_api_token):
         global class_setup_done
         if class_setup_done:
@@ -69,4 +69,4 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestTeamsController = pytest.mark.usefixtures("setup")(TestTeamsController)
+    TestTeamsController = pytest.mark.usefixtures('setup')(TestTeamsController)

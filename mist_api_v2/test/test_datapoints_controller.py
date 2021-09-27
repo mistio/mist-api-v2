@@ -9,7 +9,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
-resource_name = DatapointsController.replace('Controller', '').lower()
+resource_name = 'DatapointsController'.replace('Controller', '').lower()
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -35,32 +35,32 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = [('query', "'query_example'"),
-                        ('tags', "'tags_example'"),
-                        ('search', "'search_example'"),
-                        ('start', "'start_example'"),
-                        ('end', "'end_example'"),
-                        ('step', "'step_example'"),
-                        ('time', "'time_example'")]
+        query_string = [('query', ''query_example''),
+                        ('tags', ''tags_example''),
+                        ('search', ''search_example''),
+                        ('start', ''start_example''),
+                        ('end', ''end_example''),
+                        ('step', ''step_example''),
+                        ('time', ''time_example'')]
         uri = mist_core.uri + '/api/v2/datapoints' 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
-        print("Success!!!")
+        print('Success!!!')
 
 
 # Mark delete-related test methods as last to be run
 for key in vars(TestDatapointsController):
     attr = getattr(TestDatapointsController, key)
     if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestDatapointsController, key, pytest.mark.order("last")(attr))
+        setattr(TestDatapointsController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
     class_setup_done = False
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def setup(owner_api_token):
         global class_setup_done
         if class_setup_done:
@@ -70,4 +70,4 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestDatapointsController = pytest.mark.usefixtures("setup")(TestDatapointsController)
+    TestDatapointsController = pytest.mark.usefixtures('setup')(TestDatapointsController)
