@@ -50,10 +50,10 @@ class TestUsersController:
 
 
 # Mark delete-related test methods as last to be run
-for key in vars(TestClustersController):
-    attr = getattr(TestClustersController, key)
+for key in vars(TestUsersController):
+    attr = getattr(TestUsersController, key)
     if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestClustersController, key, pytest.mark.order("last")(attr))
+        setattr(TestUsersController, key, pytest.mark.order("last")(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
