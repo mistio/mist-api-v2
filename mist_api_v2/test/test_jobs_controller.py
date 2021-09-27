@@ -8,10 +8,10 @@ from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
+resource_name = 'ClustersController'.replace('Controller', '').lower()
 try:
-    setup_module_name = 'JobsController'.replace('Controller', '').lower()
     _setup_module = importlib.import_module(
-        f'misttests.integration.api.main.v2.setup.{setup_module_name}')
+        f'misttests.integration.api.main.v2.setup.{resource_name}')
 except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
