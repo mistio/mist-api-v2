@@ -5,7 +5,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 def setup(api_token):
     add_cloud_request = {
-        "name": "example_cloud",
+        "name": "example-cloud",
         "provider": "google",
         "credentials": {
             "projectId": "projectId",
@@ -26,7 +26,7 @@ def setup(api_token):
 
 def teardown(api_token):
     uri = config.MIST_URL + '/api/v2/clouds/{cloud}'.format(
-        cloud="example_cloud")
+        cloud="example-cloud")
     request = MistRequests(
         api_token=api_token, uri=uri)
     response = request.delete()
