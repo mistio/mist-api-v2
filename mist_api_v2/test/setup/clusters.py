@@ -5,7 +5,7 @@ from misttests.integration.api.mistrequests import MistRequests
 
 def setup(api_token):
     add_cloud_request = {
-        "name": "example_cloud",
+        "name": "example-cloud",
         "provider": "google",
         "credentials": {
             "projectId": "projectId",
