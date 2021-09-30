@@ -629,7 +629,7 @@ paths:
         schema:
           type: string
         style: form
-      - example: example-time
+      - example: 2021-02-01T15:04:05Z07:00
         explode: true
         in: query
         name: time
