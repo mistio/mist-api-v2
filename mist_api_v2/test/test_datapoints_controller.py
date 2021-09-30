@@ -41,7 +41,7 @@ class TestDatapointsController:
                         ('start', 'example-start'),
                         ('end', 'example-end'),
                         ('step', 'example-step'),
-                        ('time', '2021-02-01T15:04:05Z07:00')]
+                        ('time', '2021-02-01 15:04:05+00:00')]
         uri = mist_core.uri + '/api/v2/datapoints'
         request = MistRequests(
             api_token=owner_api_token,
