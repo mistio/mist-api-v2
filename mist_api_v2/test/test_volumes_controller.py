@@ -41,7 +41,10 @@ class TestVolumesController:
 }
         inject_vault_credentials(create_volume_request)
         uri = mist_core.uri + '/api/v2/volumes'
-        request = MistRequests(api_token=owner_api_token, uri=uri, json=create_volume_request)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_volume_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -52,8 +55,11 @@ class TestVolumesController:
 
         Delete volume
         """
-        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example-volume')
-        request = MistRequests(api_token=owner_api_token, uri=uri)
+        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
+            volume='example-volume')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -65,8 +71,12 @@ class TestVolumesController:
         Edit volume
         """
         query_string = [('name', 'renamed-example-volume')]
-        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example-volume')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
+            volume='example-volume')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -79,8 +89,12 @@ class TestVolumesController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(volume='example-volume')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
+            volume='example-volume')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -99,7 +113,10 @@ class TestVolumesController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/volumes'
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -126,4 +143,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestVolumesController = pytest.mark.usefixtures('setup')(TestVolumesController)
+    TestVolumesController = pytest.mark.usefixtures('setup')(
+        TestVolumesController)

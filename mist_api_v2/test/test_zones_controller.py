@@ -41,7 +41,10 @@ class TestZonesController:
 }
         inject_vault_credentials(create_zone_request)
         uri = mist_core.uri + '/api/v2/zones'
-        request = MistRequests(api_token=owner_api_token, uri=uri, json=create_zone_request)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_zone_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -53,8 +56,12 @@ class TestZonesController:
         Edit zone
         """
         query_string = [('name', 'renamed-example-zone')]
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(zone='example-zone')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+            zone='example-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -67,8 +74,12 @@ class TestZonesController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(zone='example-zone')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+            zone='example-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -87,7 +98,10 @@ class TestZonesController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/zones'
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -114,4 +128,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestZonesController = pytest.mark.usefixtures('setup')(TestZonesController)
+    TestZonesController = pytest.mark.usefixtures('setup')(
+        TestZonesController)

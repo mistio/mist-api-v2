@@ -41,8 +41,12 @@ class TestTeamsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(org='example-org')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
+            org='example-org')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -69,4 +73,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestTeamsController = pytest.mark.usefixtures('setup')(TestTeamsController)
+    TestTeamsController = pytest.mark.usefixtures('setup')(
+        TestTeamsController)

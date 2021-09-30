@@ -41,7 +41,10 @@ class TestKeysController:
 }
         inject_vault_credentials(add_key_request)
         uri = mist_core.uri + '/api/v2/keys'
-        request = MistRequests(api_token=owner_api_token, uri=uri, json=add_key_request)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=add_key_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -52,8 +55,11 @@ class TestKeysController:
 
         Delete key
         """
-        uri = mist_core.uri + '/api/v2/keys/{key}'.format(key='example-key')
-        request = MistRequests(api_token=owner_api_token, uri=uri)
+        uri = mist_core.uri + '/api/v2/keys/{key}'.format(
+            key='example-key')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -66,8 +72,12 @@ class TestKeysController:
         """
         query_string = [('name', 'renamed-example-key'),
                         ('default', 'True')]
-        uri = mist_core.uri + '/api/v2/keys/{key}'.format(key='example-key')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/keys/{key}'.format(
+            key='example-key')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -82,8 +92,12 @@ class TestKeysController:
                         ('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/keys/{key}'.format(key='example-key')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/keys/{key}'.format(
+            key='example-key')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -101,7 +115,10 @@ class TestKeysController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/keys'
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -128,4 +145,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestKeysController = pytest.mark.usefixtures('setup')(TestKeysController)
+    TestKeysController = pytest.mark.usefixtures('setup')(
+        TestKeysController)

@@ -37,8 +37,12 @@ class TestImagesController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/images/{image}'.format(image=''image_example'')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/images/{image}'.format(
+            image=''image_example'')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -57,7 +61,10 @@ class TestImagesController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/images'
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -84,4 +91,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestImagesController = pytest.mark.usefixtures('setup')(TestImagesController)
+    TestImagesController = pytest.mark.usefixtures('setup')(
+        TestImagesController)

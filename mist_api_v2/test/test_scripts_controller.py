@@ -35,8 +35,11 @@ class TestScriptsController:
 
         Delete script
         """
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script')
-        request = MistRequests(api_token=owner_api_token, uri=uri)
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+            script='example-script')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -49,8 +52,12 @@ class TestScriptsController:
         """
         query_string = [('name', 'example-script'),
                         ('description', ''description_example'')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+            script='example-script')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -63,8 +70,12 @@ class TestScriptsController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+            script='example-script')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -82,7 +93,10 @@ class TestScriptsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/scripts'
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -109,4 +123,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestScriptsController = pytest.mark.usefixtures('setup')(TestScriptsController)
+    TestScriptsController = pytest.mark.usefixtures('setup')(
+        TestScriptsController)

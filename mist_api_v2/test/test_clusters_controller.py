@@ -43,7 +43,10 @@ class TestClustersController:
 }
         inject_vault_credentials(create_cluster_request)
         uri = mist_core.uri + '/api/v2/clusters'
-        request = MistRequests(api_token=owner_api_token, uri=uri, json=create_cluster_request)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_cluster_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -54,8 +57,11 @@ class TestClustersController:
 
         Destroy cluster
         """
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster')
-        request = MistRequests(api_token=owner_api_token, uri=uri)
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
+            cluster='example-cluster')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -68,8 +74,12 @@ class TestClustersController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster')
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
+            cluster='example-cluster')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -88,7 +98,10 @@ class TestClustersController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters'
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -115,4 +128,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestClustersController = pytest.mark.usefixtures('setup')(TestClustersController)
+    TestClustersController = pytest.mark.usefixtures('setup')(
+        TestClustersController)
