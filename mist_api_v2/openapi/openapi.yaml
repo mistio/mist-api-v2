@@ -581,49 +581,56 @@ paths:
       description: Get datapoints for a specific query
       operationId: get_datapoints
       parameters:
-      - explode: true
+      - example: example-query
+        explode: true
         in: query
         name: query
         required: true
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-tags
+        explode: true
         in: query
         name: tags
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-tags
+        explode: true
         in: query
         name: search
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-start
+        explode: true
         in: query
         name: start
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-end
+        explode: true
         in: query
         name: end
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-step
+        explode: true
         in: query
         name: step
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: 1633006203
+        explode: true
         in: query
         name: time
         required: false
@@ -665,10 +672,10 @@ paths:
       operationId: list_images
       parameters:
       - examples:
+          Filter by cloud name:
+            value: example-cloud
           Filter by cloud id:
             value: 0194030499e74b02bdf68fa7130fb0b2
-          Filter by cloud name:
-            value: OSP10-new
           Filter by cloud provider:
             value: provider:digitalocean
         explode: true
@@ -795,7 +802,8 @@ paths:
       description: Get details about target image
       operationId: get_image
       parameters:
-      - explode: false
+      - example: ubuntu-1604-xenial-v20210928
+        explode: false
         in: path
         name: image
         required: true

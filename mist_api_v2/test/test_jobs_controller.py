@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -35,8 +35,11 @@ class TestJobsController:
 
         Get job
         """
-        uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(job_id=''job_id_example'') 
-        request = MistRequests(api_token=owner_api_token, uri=uri)
+        uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(
+            job_id=''job_id_example'')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -63,4 +66,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestJobsController = pytest.mark.usefixtures('setup')(TestJobsController)
+    TestJobsController = pytest.mark.usefixtures('setup')(
+        TestJobsController)

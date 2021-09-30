@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -35,15 +35,18 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = [('query', ''query_example''),
-                        ('tags', ''tags_example''),
-                        ('search', ''search_example''),
-                        ('start', ''start_example''),
-                        ('end', ''end_example''),
-                        ('step', ''step_example''),
-                        ('time', ''time_example'')]
-        uri = mist_core.uri + '/api/v2/datapoints' 
-        request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
+        query_string = [('query', 'example-query'),
+                        ('tags', 'example-tags'),
+                        ('search', 'example-tags'),
+                        ('start', 'example-start'),
+                        ('end', 'example-end'),
+                        ('step', 'example-step'),
+                        ('time', '1633006203')]
+        uri = mist_core.uri + '/api/v2/datapoints'
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -70,4 +73,5 @@ if SETUP_MODULE_EXISTS:
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
-    TestDatapointsController = pytest.mark.usefixtures('setup')(TestDatapointsController)
+    TestDatapointsController = pytest.mark.usefixtures('setup')(
+        TestDatapointsController)
