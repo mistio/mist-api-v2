@@ -35,13 +35,13 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = [('query', ''query_example''),
-                        ('tags', ''tags_example''),
-                        ('search', ''search_example''),
-                        ('start', ''start_example''),
-                        ('end', ''end_example''),
-                        ('step', ''step_example''),
-                        ('time', ''time_example'')]
+        query_string = [('query', 'example-query'),
+                        ('tags', 'example-tags'),
+                        ('search', 'example-tags'),
+                        ('start', 'example-start'),
+                        ('end', 'example-end'),
+                        ('step', 'example-step'),
+                        ('time', 'example-time')]
         uri = mist_core.uri + '/api/v2/datapoints' 
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())

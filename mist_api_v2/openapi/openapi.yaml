@@ -581,49 +581,56 @@ paths:
       description: Get datapoints for a specific query
       operationId: get_datapoints
       parameters:
-      - explode: true
+      - example: example-query
+        explode: true
         in: query
         name: query
         required: true
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-tags
+        explode: true
         in: query
         name: tags
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-tags
+        explode: true
         in: query
         name: search
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-start
+        explode: true
         in: query
         name: start
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-end
+        explode: true
         in: query
         name: end
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-step
+        explode: true
         in: query
         name: step
         required: false
         schema:
           type: string
         style: form
-      - explode: true
+      - example: example-time
+        explode: true
         in: query
         name: time
         required: false
