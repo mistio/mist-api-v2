@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -40,7 +40,7 @@ class TestMembersController:
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(org='example-org') 
+        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(org='example-org')
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

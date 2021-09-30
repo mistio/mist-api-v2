@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -35,7 +35,7 @@ class TestSnapshotsController:
 
         Create snapshot
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(machine='example-machine') 
+        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(machine='example-machine')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
@@ -47,7 +47,7 @@ class TestSnapshotsController:
 
         List machine snapshots
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(machine='example-machine') 
+        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(machine='example-machine')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -59,7 +59,7 @@ class TestSnapshotsController:
 
         Remove snapshot
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine='example-machine', snapshot='example-snapshot') 
+        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine='example-machine', snapshot='example-snapshot')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
@@ -71,7 +71,7 @@ class TestSnapshotsController:
 
         Revert to snapshot
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine='example-machine', snapshot='example-snapshot') 
+        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(machine='example-machine', snapshot='example-snapshot')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()

@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -41,8 +41,8 @@ class TestClustersController:
   "provider" : "google",
   "location" : "example-location"
 }
-        config.inject_vault_credentials(create_cluster_request)
-        uri = mist_core.uri + '/api/v2/clusters' 
+        inject_vault_credentials(create_cluster_request)
+        uri = mist_core.uri + '/api/v2/clusters'
         request = MistRequests(api_token=owner_api_token, uri=uri, json=create_cluster_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
@@ -54,7 +54,7 @@ class TestClustersController:
 
         Destroy cluster
         """
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster') 
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
@@ -68,7 +68,7 @@ class TestClustersController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster') 
+        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(cluster='example-cluster')
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -87,7 +87,7 @@ class TestClustersController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clusters' 
+        uri = mist_core.uri + '/api/v2/clusters'
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()

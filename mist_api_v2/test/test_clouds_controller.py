@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -44,8 +44,8 @@ class TestCloudsController:
     "email" : "email"
   }
 }
-        config.inject_vault_credentials(add_cloud_request)
-        uri = mist_core.uri + '/api/v2/clouds' 
+        inject_vault_credentials(add_cloud_request)
+        uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(api_token=owner_api_token, uri=uri, json=add_cloud_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
@@ -60,8 +60,8 @@ class TestCloudsController:
         edit_cloud_request = {
   "name" : "renamed-example-cloud"
 }
-        config.inject_vault_credentials(edit_cloud_request)
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
+        inject_vault_credentials(edit_cloud_request)
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud')
         request = MistRequests(api_token=owner_api_token, uri=uri, json=edit_cloud_request)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -76,7 +76,7 @@ class TestCloudsController:
         query_string = [('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud')
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -94,7 +94,7 @@ class TestCloudsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clouds' 
+        uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -106,7 +106,7 @@ class TestCloudsController:
 
         Remove cloud
         """
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud') 
+        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(cloud='example-cloud')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()

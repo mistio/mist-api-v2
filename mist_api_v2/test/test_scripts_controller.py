@@ -3,8 +3,8 @@ import importlib
 
 import pytest
 
-from misttests import config
-from misttests.integration.api.helpers import *
+from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
@@ -35,7 +35,7 @@ class TestScriptsController:
 
         Delete script
         """
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script') 
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script')
         request = MistRequests(api_token=owner_api_token, uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
@@ -49,7 +49,7 @@ class TestScriptsController:
         """
         query_string = [('name', 'example-script'),
                         ('description', ''description_example'')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script') 
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script')
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
@@ -63,7 +63,7 @@ class TestScriptsController:
         """
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script') 
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(script='example-script')
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
@@ -81,7 +81,7 @@ class TestScriptsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/scripts' 
+        uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(api_token=owner_api_token, uri=uri, params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
