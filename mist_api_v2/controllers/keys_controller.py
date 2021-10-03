@@ -144,10 +144,15 @@ def edit_key(key, name=None, default=None):  # noqa: E501
         key_name=key.name, key_default=key.default,
         new_name=name, new_default=default
     )
+    key_updated = False
     if name:
         key.name = name
+        key_updated = True
     if default:
         key.ctl.set_default()
+        key_updated = True
+    if key_updated:
+        key.save()
     return 'Updated key `%s`' % key.name, 200
 
 
