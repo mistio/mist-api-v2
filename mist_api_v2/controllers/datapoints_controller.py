@@ -43,7 +43,7 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
         return time_args
 
     try:
-        query = apply_promql_query_rbac(auth_context, search, query)
+        query = apply_promql_query_rbac(auth_context, tags, search, query)
     except RuntimeError as exc:
         return str(exc), 400
 
