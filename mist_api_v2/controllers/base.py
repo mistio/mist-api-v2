@@ -1,5 +1,6 @@
-def list_resources(auth_context, resource_type, cloud=None, tags='', search='', only='',
-                   sort='', start=0, limit=100, deref='auto'):
+def list_resources(auth_context, resource_type, cloud=None, tags='',
+                   search='', only='', sort='', start=0, limit=100,
+                   deref='auto'):
     """
         List resources of any type and prepare the HTTP response
     """
@@ -7,8 +8,8 @@ def list_resources(auth_context, resource_type, cloud=None, tags='', search='', 
     if not limit:
         limit = 100
     items, total = list_resources(
-        auth_context, resource_type, cloud=cloud, tags=tags, search=search, only=only,
-        sort=sort, limit=limit
+        auth_context, resource_type, cloud=cloud, tags=tags,
+        search=search, only=only, sort=sort, limit=limit
     )
     meta = {
         'total': total,
