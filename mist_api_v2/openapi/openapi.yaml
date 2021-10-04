@@ -581,7 +581,11 @@ paths:
       description: Get datapoints for a specific query
       operationId: get_datapoints
       parameters:
-      - example: example-query
+      - examples:
+          Query system_load1:
+            value: system_load1
+          Query net_bytes_sent:
+            value: rate(net_bytes_sent{interface="eth0", machine_id="1234"})
         explode: true
         in: query
         name: query
@@ -589,7 +593,13 @@ paths:
         schema:
           type: string
         style: form
-      - example: example-tags
+      - examples:
+          Example string:
+            value: cluster=east1,production
+          Example dictionary:
+            value:
+              cluster: east1
+              production: ""
         explode: true
         in: query
         name: tags
@@ -597,7 +607,9 @@ paths:
         schema:
           type: string
         style: form
-      - example: example-tags
+      - examples:
+          Filter by machine type:
+            value: state:running
         explode: true
         in: query
         name: search
@@ -605,7 +617,11 @@ paths:
         schema:
           type: string
         style: form
-      - example: example-start
+      - examples:
+          Unix timestamp:
+            value: 1633096171
+          RFC3339:
+            value: 2019-10-12T07:20:50.52Z
         explode: true
         in: query
         name: start
@@ -613,7 +629,11 @@ paths:
         schema:
           type: string
         style: form
-      - example: example-end
+      - examples:
+          Unix timestamp:
+            value: 1633096171
+          RFC3339:
+            value: 2019-10-12T07:20:50.52Z
         explode: true
         in: query
         name: end
@@ -621,7 +641,21 @@ paths:
         schema:
           type: string
         style: form
-      - example: example-step
+      - examples:
+          "5 seconds (float)":
+            value: 5.0
+          "5 seconds (duration format)":
+            value: 5s
+          "1 minute":
+            value: 1m
+          "2 hours":
+            value: 2h
+          "20 days":
+            value: 20d
+          "4 weeks":
+            value: 4w
+          "1 year":
+            value: 1y
         explode: true
         in: query
         name: step
@@ -629,7 +663,11 @@ paths:
         schema:
           type: string
         style: form
-      - example: 1633006203
+      - examples:
+          Unix timestamp:
+            value: 1633096171
+          RFC3339:
+            value: 2019-10-12T07:20:50.52Z
         explode: true
         in: query
         name: time

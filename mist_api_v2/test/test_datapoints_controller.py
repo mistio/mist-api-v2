@@ -35,13 +35,13 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = [('query', 'example-query'),
-                        ('tags', 'example-tags'),
-                        ('search', 'example-tags'),
-                        ('start', 'example-start'),
-                        ('end', 'example-end'),
-                        ('step', 'example-step'),
-                        ('time', '1633006203')]
+        query_string = [('query', 'system_load1'),
+                        ('tags', 'cluster=east1,production'),
+                        ('search', 'state:running'),
+                        ('start', '1633096171'),
+                        ('end', '1633096171'),
+                        ('step', '5.0'),
+                        ('time', '1633096171')]
         uri = mist_core.uri + '/api/v2/datapoints'
         request = MistRequests(
             api_token=owner_api_token,
