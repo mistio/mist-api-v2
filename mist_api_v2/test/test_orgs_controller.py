@@ -113,7 +113,7 @@ class TestOrgsController:
 
         List orgs
         """
-        query_string = [('allorgs', ''allorgs_example''),
+        query_string = [('allorgs', 'true'),
                         ('search', 'name:Acme'),
                         ('sort', '-name'),
                         ('start', '50'),

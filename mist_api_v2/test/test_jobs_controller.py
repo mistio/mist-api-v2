@@ -36,7 +36,7 @@ class TestJobsController:
         Get job
         """
         uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(
-            job_id=''job_id_example'')
+            job_id='ab74e2f0b7ae4999b1e4013e20dac418')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)

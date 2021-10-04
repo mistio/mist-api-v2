@@ -38,7 +38,7 @@ class TestLocationsController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/locations/{location}'.format(
-            location=''location_example'')
+            location='us-central1-a')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -53,7 +53,7 @@ class TestLocationsController:
 
         List locations
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = [('cloud', 'example-cloud'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

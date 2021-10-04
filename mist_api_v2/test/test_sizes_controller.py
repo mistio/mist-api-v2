@@ -38,7 +38,7 @@ class TestSizesController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/sizes/{size}'.format(
-            size='example-size')
+            size='n2-highcpu-2 (2 vCPUs 2 GB RAM)')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -53,7 +53,7 @@ class TestSizesController:
 
         List sizes
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = [('cloud', 'example-cloud'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),
