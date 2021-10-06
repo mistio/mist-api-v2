@@ -19,6 +19,7 @@ else:
     SETUP_MODULE_EXISTS = True
 setup_retval = None
 
+
 @pytest.fixture(autouse=True)
 def conditional_delay(request):
     yield
