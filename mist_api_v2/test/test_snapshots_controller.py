@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-setup_retval = None
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -37,7 +37,7 @@ class TestSnapshotsController:
         Create snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
-            machine=setup_retval or 'example-machine')
+            machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -52,7 +52,7 @@ class TestSnapshotsController:
         List machine snapshots
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
-            machine=setup_retval or 'example-machine')
+            machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -67,7 +67,7 @@ class TestSnapshotsController:
         Remove snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
-            machine=setup_retval or 'example-machine', snapshot=setup_retval or 'example-snapshot')
+            machine=setup_data.get('machine') or 'example-machine', snapshot=setup_data.get('snapshot') or 'example-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -82,7 +82,7 @@ class TestSnapshotsController:
         Revert to snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
-            machine=setup_retval or 'example-machine', snapshot=setup_retval or 'example-snapshot')
+            machine=setup_data.get('machine') or 'example-machine', snapshot=setup_data.get('snapshot') or 'example-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -109,9 +109,9 @@ if SETUP_MODULE_EXISTS:
             yield
         else:
             retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, str):
-                global setup_retval
-                setup_retval = retval
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

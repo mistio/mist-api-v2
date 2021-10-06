@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-setup_retval = None
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -58,7 +58,7 @@ class TestRulesController:
         Delete rule
         """
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_retval or 'example-rule')
+            rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -75,7 +75,7 @@ class TestRulesController:
         query_string = [('sort', '-name'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_retval or 'example-rule')
+            rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -112,7 +112,7 @@ class TestRulesController:
         """
         query_string = [('action', 'renamed-example-rule')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_retval or 'example-rule')
+            rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -129,7 +129,7 @@ class TestRulesController:
         """
         query_string = [('action', 'example-action')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_retval or 'example-rule')
+            rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -151,7 +151,7 @@ class TestRulesController:
                         ('actions', '{}'),
                         ('selectors', '{}')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_retval or 'example-rule')
+            rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -179,9 +179,9 @@ if SETUP_MODULE_EXISTS:
             yield
         else:
             retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, str):
-                global setup_retval
-                setup_retval = retval
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

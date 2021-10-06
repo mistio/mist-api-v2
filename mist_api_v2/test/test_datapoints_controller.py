@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-setup_retval = None
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -71,9 +71,9 @@ if SETUP_MODULE_EXISTS:
             yield
         else:
             retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, str):
-                global setup_retval
-                setup_retval = retval
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

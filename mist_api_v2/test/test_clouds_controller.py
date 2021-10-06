@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-setup_retval = None
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -66,7 +66,7 @@ class TestCloudsController:
 }
         inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_retval or 'example-cloud')
+            cloud=setup_data.get('cloud') or 'example-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -85,7 +85,7 @@ class TestCloudsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_retval or 'example-cloud')
+            cloud=setup_data.get('cloud') or 'example-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -122,7 +122,7 @@ class TestCloudsController:
         Remove cloud
         """
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_retval or 'example-cloud')
+            cloud=setup_data.get('cloud') or 'example-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -149,9 +149,9 @@ if SETUP_MODULE_EXISTS:
             yield
         else:
             retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, str):
-                global setup_retval
-                setup_retval = retval
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

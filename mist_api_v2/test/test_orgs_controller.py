@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-setup_retval = None
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -38,7 +38,7 @@ class TestOrgsController:
         """
         query_string = [('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
-            org=setup_retval or 'example-org', member=setup_retval or 'example-member')
+            org=setup_data.get('org') or 'example-org', member=setup_data.get('member') or 'example-member')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -56,7 +56,7 @@ class TestOrgsController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
-            org=setup_retval or 'example-org')
+            org=setup_data.get('org') or 'example-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -77,7 +77,7 @@ class TestOrgsController:
                         ('limit', '56'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(
-            org=setup_retval or 'example-org')
+            org=setup_data.get('org') or 'example-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -99,7 +99,7 @@ class TestOrgsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
-            org=setup_retval or 'example-org')
+            org=setup_data.get('org') or 'example-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -149,9 +149,9 @@ if SETUP_MODULE_EXISTS:
             yield
         else:
             retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, str):
-                global setup_retval
-                setup_retval = retval
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
