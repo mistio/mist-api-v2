@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-
+setup_retval = None
 
 @pytest.fixture(autouse=True)
 def conditional_delay(request):
@@ -42,7 +42,7 @@ class TestTeamsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
-            org='example-org')
+            org=setup_retval or 'example-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -69,7 +69,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            _setup_module.setup(owner_api_token)
+            retval = _setup_module.setup(owner_api_token)
+            if isinstance(retval, str):
+                global setup_retval
+                setup_retval = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

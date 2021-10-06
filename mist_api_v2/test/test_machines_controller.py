@@ -17,7 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
-
+setup_retval = None
 
 @pytest.fixture(autouse=True)
 def conditional_delay(request):
@@ -42,7 +42,7 @@ class TestMachinesController:
 }
         inject_vault_credentials(key_machine_association)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/associate-key'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -58,7 +58,7 @@ class TestMachinesController:
         Clone machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/clone'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -73,7 +73,7 @@ class TestMachinesController:
         Open console
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/console'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -109,7 +109,7 @@ class TestMachinesController:
         Destroy machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/destroy'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -128,7 +128,7 @@ class TestMachinesController:
 }
         inject_vault_credentials(key_machine_disassociation)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/disassociate-key'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -145,7 +145,7 @@ class TestMachinesController:
         """
         query_string = [('name', 'renamed-example-machine')]
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -161,7 +161,7 @@ class TestMachinesController:
         Expose machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/expose'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -178,7 +178,7 @@ class TestMachinesController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -216,7 +216,7 @@ class TestMachinesController:
         Reboot machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/reboot'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -231,7 +231,7 @@ class TestMachinesController:
         Rename machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -246,7 +246,7 @@ class TestMachinesController:
         Resize machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -261,7 +261,7 @@ class TestMachinesController:
         Resume machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resume'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -276,7 +276,7 @@ class TestMachinesController:
         Open secure shell
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/ssh'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -291,7 +291,7 @@ class TestMachinesController:
         Start machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/start'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -306,7 +306,7 @@ class TestMachinesController:
         Stop machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/stop'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -321,7 +321,7 @@ class TestMachinesController:
         Suspend machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/suspend'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -336,7 +336,7 @@ class TestMachinesController:
         Undefine machine
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/undefine'.format(
-            machine='example-machine')
+            machine=setup_retval or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -362,7 +362,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            _setup_module.setup(owner_api_token)
+            retval = _setup_module.setup(owner_api_token)
+            if isinstance(retval, str):
+                global setup_retval
+                setup_retval = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True
