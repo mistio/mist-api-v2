@@ -2,8 +2,6 @@ import logging
 
 import connexion
 
-import mongoengine as me
-
 from mist.api import config
 from mist.api.logs.methods import log_event
 
