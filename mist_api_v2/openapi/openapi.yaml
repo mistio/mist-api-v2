@@ -5278,6 +5278,29 @@ components:
       - region
       - username
       type: object
+    CloudSigmaVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of an existing volume to attach
+              type: string
+          required:
+          - volume
+        - properties:
+            name:
+              description: Name of the volume to be created
+              type: string
+            size:
+              description: Size of the volume in GBs
+              minimum: 1
+              type: integer
+          required:
+          - name
+          - size
+        type: object
+      title: CloudSigma volumes parameter
+      type: array
     Cluster:
       example:
         credentials: '{}'
@@ -5437,6 +5460,7 @@ components:
           - $ref: '#/components/schemas/AlibabaVolumes'
           - $ref: '#/components/schemas/AmazonVolumes'
           - $ref: '#/components/schemas/AzureVolumes'
+          - $ref: '#/components/schemas/CloudSigmaVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
@@ -8386,8 +8410,7 @@ components:
       description: Configure local disks
       properties:
         disk_size:
-          description: KVM specific parameter. The VM's size will be the size of the
-            image plus the number in GBs provided here
+          description: KVM, CloudSigma specific parameter
           type: integer
         disk_path:
           description: KVM specific parameter. Where the VM disk file will be created
