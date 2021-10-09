@@ -51,7 +51,7 @@ class CreateMachineRequestDisks(Model):
     def disk_size(self):
         """Gets the disk_size of this CreateMachineRequestDisks.
 
-        KVM specific parameter. The VM's size will be the size of the image plus the number in GBs provided here  # noqa: E501
+        KVM, CloudSigma specific parameter  # noqa: E501
 
         :return: The disk_size of this CreateMachineRequestDisks.
         :rtype: int
@@ -62,7 +62,7 @@ class CreateMachineRequestDisks(Model):
     def disk_size(self, disk_size):
         """Sets the disk_size of this CreateMachineRequestDisks.
 
-        KVM specific parameter. The VM's size will be the size of the image plus the number in GBs provided here  # noqa: E501
+        KVM, CloudSigma specific parameter  # noqa: E501
 
         :param disk_size: The disk_size of this CreateMachineRequestDisks.
         :type disk_size: int
