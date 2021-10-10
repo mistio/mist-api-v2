@@ -17,6 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -38,7 +39,7 @@ class TestLocationsController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/locations/{location}'.format(
-            location=''location_example'')
+            location=setup_data.get('location') or 'us-central1-a')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -53,7 +54,7 @@ class TestLocationsController:
 
         List locations
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = [('cloud', 'example-cloud'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),
@@ -87,7 +88,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            _setup_module.setup(owner_api_token)
+            retval = _setup_module.setup(owner_api_token)
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

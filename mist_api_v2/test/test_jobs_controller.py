@@ -17,6 +17,7 @@ except ImportError:
     SETUP_MODULE_EXISTS = False
 else:
     SETUP_MODULE_EXISTS = True
+setup_data = {}
 
 
 @pytest.fixture(autouse=True)
@@ -36,7 +37,7 @@ class TestJobsController:
         Get job
         """
         uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(
-            job_id=''job_id_example'')
+            job_id=setup_data.get('job_id') or 'ab74e2f0b7ae4999b1e4013e20dac418')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -62,7 +63,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            _setup_module.setup(owner_api_token)
+            retval = _setup_module.setup(owner_api_token)
+            if isinstance(retval, dict):
+                global setup_data
+                setup_data = retval
             yield
             _setup_module.teardown(owner_api_token)
             class_setup_done = True

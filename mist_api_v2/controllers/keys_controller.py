@@ -2,8 +2,6 @@ import logging
 
 import connexion
 
-import mongoengine as me
-
 from mist.api import config
 from mist.api.logs.methods import log_event
 
@@ -12,7 +10,7 @@ from mist_api_v2.models.add_key_response import AddKeyResponse  # noqa: E501
 from mist_api_v2.models.get_key_response import GetKeyResponse  # noqa: E501
 from mist_api_v2.models.list_keys_response import ListKeysResponse  # noqa: E501
 
-from .base import list_resources
+from .base import list_resources, get_resource
 
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
@@ -97,25 +95,21 @@ def delete_key(key):  # noqa: E501
 
     :rtype: None
     """
-    from mist.api.keys.models import Key
     from mist.api.keys.methods import delete_key as m_delete_key
-
     auth_context = connexion.context['token_info']['auth_context']
-    key_id = key
-    try:
-        key = Key.objects.get(owner=auth_context.owner, id=key_id,
-                              deleted=None)
-    except me.DoesNotExist:
-        return 'Key does not exist', 404
-
-    auth_context.check_perm('key', 'remove', key.id)
+    result = get_resource(auth_context, 'key', search=key)
+    result_data = result.get('data')
+    if not result_data:
+        return 'Cloud does not exist', 404
+    key_id = result_data.get('id')
+    auth_context.check_perm('key', 'remove', key_id)
     m_delete_key(auth_context.owner, key_id)
     log_event(
         auth_context.owner.id, 'request', 'delete_key',
-        key_id=key.id, user_id=auth_context.user.id,
+        key_id=key_id, user_id=auth_context.user.id,
     )
-
-    return 'Deleted key `%s`' % key.name, 200
+    key_name = result_data.get('name')
+    return f'Deleted key `{key_name}`', 200
 
 
 def edit_key(key, name=None, default=None):  # noqa: E501
@@ -148,10 +142,15 @@ def edit_key(key, name=None, default=None):  # noqa: E501
         key_name=key.name, key_default=key.default,
         new_name=name, new_default=default
     )
+    key_updated = False
     if name:
         key.name = name
+        key_updated = True
     if default:
         key.ctl.set_default()
+        key_updated = True
+    if key_updated:
+        key.save()
     return 'Updated key `%s`' % key.name, 200
 
 
