@@ -37,7 +37,7 @@ class TestScriptsController:
         Add script
         """
         add_script_request = {
-  "entrypoint" : "entrypoint",
+  "entrypoint" : "entrypoint.sh",
   "extra" : "{}",
   "name" : "example-script",
   "description" : "description",
@@ -76,8 +76,8 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = [('name', 'example-script'),
-                        ('description', ''description_example'')]
+        query_string = [('name', 'renamed-example-script'),
+                        ('description', 'description')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'example-script')
         request = MistRequests(
