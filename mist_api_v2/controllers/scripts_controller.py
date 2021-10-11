@@ -4,11 +4,26 @@ import mongoengine as me
 
 from mist.api.logs.methods import log_event
 
+from mist_api_v2.models.add_script_request import AddScriptRequest  # noqa: E501
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse  # noqa: E501
 
 from .base import list_resources, get_resource
 
+
+def add_script(add_script_request=None):  # noqa: E501
+    """Add script
+
+    Add script to user scripts # noqa: E501
+
+    :param add_script_request:
+    :type add_script_request: dict | bytes
+
+    :rtype: InlineResponse200
+    """
+    if connexion.request.is_json:
+        add_script_request = AddScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 def delete_script(script):  # noqa: E501
     """Delete script
