@@ -58,6 +58,7 @@ def add_script(add_script_request=None):  # noqa: E501
     async_session_update.send(auth_context.owner.id, ['scripts'])
     return script
 
+
 def delete_script(script):  # noqa: E501
     """Delete script
 
@@ -68,23 +69,21 @@ def delete_script(script):  # noqa: E501
 
     :rtype: None
     """
-    from mist.api.scripts.models import Script
-
     auth_context = connexion.context['token_info']['auth_context']
-    script_id = script
-    try:
-        script = Script.objects.get(owner=auth_context.owner, id=script_id,
-                                    deleted=None)
-    except me.DoesNotExist:
+    result = get_resource(auth_context, 'script', search=script)
+    result_data = result.get('data')
+    if not result_data:
         return 'Script does not exist', 404
-
-    auth_context.check_perm('script', 'remove', script.id)
+    from mist.api.scripts.models import Script
+    script_id = result_data.get('id')
+    auth_context.check_perm('script', 'remove', script_id)
+    script = Script.objects.get(owner=auth_context.owner, id=script_id,
+                                deleted=None)
     script.ctl.delete()
     log_event(
         auth_context.owner.id, 'request', 'delete_script',
-        script_id=script.id, user_id=auth_context.user.id,
+        script_id=script_id, user_id=auth_context.user.id,
     )
-
     return 'Deleted script `%s`' % script.name, 200
 
 
