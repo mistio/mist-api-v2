@@ -3624,73 +3624,6 @@ paths:
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
-  /api/v2/script:
-    post:
-      description: Start a script job to run the script.
-      operationId: run_script
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RunScriptRequest'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RunScriptResponse'
-          description: Run-script job started successfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Script not found
-      security:
-      - ApiKeyAuth:
-        - read:cloud
-        - run_scipt:machine
-        - run:script
-      - CookieAuth:
-        - read:cloud
-        - run_scipt:machine
-        - run:script
-      summary: Download script
-      x-openapi-router-controller: mist_api_v2.controllers.default_controller
-  /api/v2/script/file/{script}:
-    get:
-      description: Download script file or archive
-      operationId: download_script
-      parameters:
-      - example: example-script
-        explode: false
-        in: path
-        name: script
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/octet-stream:
-              schema:
-                format: binary
-                type: string
-          description: Script downloaded successfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Script not found
-      security:
-      - ApiKeyAuth:
-        - read:script
-      - CookieAuth:
-        - read:script
-      summary: Download script
-      x-openapi-router-controller: mist_api_v2.controllers.default_controller
   /api/v2/scripts:
     get:
       description: List scripts owned by the active org. READ permission required
@@ -8095,13 +8028,6 @@ components:
         $ref: '#/components/schemas/RuleAction'
       type: array
     RunScriptRequest:
-      example:
-        su: true
-        machine: example-machine
-        job_id: job_id
-        params: params
-        env: env
-        script: example-script
       properties:
         script:
           example: example-script
@@ -8122,8 +8048,6 @@ components:
       - script
       type: object
     RunScriptResponse:
-      example:
-        job_id: job_id
       properties:
         job_id:
           type: string
