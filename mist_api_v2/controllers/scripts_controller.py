@@ -6,6 +6,7 @@ from mist.api.logs.methods import log_event
 from mist.api.scripts.models import ExecutableScript
 from mist.api.scripts.models import AnsibleScript
 from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import ScriptNameExistsError
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tasks import async_session_update
 
@@ -40,13 +41,17 @@ def add_script(add_script_request=None):  # noqa: E501
     name = kwargs.pop('name')
     exec_type = kwargs.pop('exec_type')
     if exec_type == 'executable':
-        script = ExecutableScript.add(auth_context.owner, name, **kwargs)
+        script_cls = ExecutableScript
     elif exec_type == 'ansible':
-        script = AnsibleScript.add(auth_context.owner, name, **kwargs)
+        script_cls = AnsibleScript
     else:
         raise BadRequestError(
             "Param 'exec_type' must be in ('executable', 'ansible')."
         )
+    try:
+        script = script_cls.add(auth_context.owner, name, **kwargs)
+    except ScriptNameExistsError as e:
+        return str(e), 409
     # Set ownership.
     script.assign_to(auth_context.user)
     if script_tags:
@@ -56,7 +61,7 @@ def add_script(add_script_request=None):  # noqa: E501
     if 'job_id' in params:
         script['job_id'] = params['job_id']
     async_session_update.send(auth_context.owner.id, ['scripts'])
-    return script
+    return script, 200
 
 
 def delete_script(script):  # noqa: E501
