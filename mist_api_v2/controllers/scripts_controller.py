@@ -1,7 +1,5 @@
 import connexion
 
-import mongoengine as me
-
 from mist.api.logs.methods import log_event
 from mist.api.scripts.models import ExecutableScript
 from mist.api.scripts.models import AnsibleScript
