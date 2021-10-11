@@ -112,7 +112,7 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = [('search', 'install-tensorflow'),
+        query_string = [('search', 'example-script'),
                         ('sort', '-name'),
                         ('start', '3'),
                         ('limit', '56'),
