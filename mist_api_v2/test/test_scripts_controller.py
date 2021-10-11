@@ -31,6 +31,31 @@ def conditional_delay(request):
 class TestScriptsController:
     """ScriptsController integration test stubs"""
 
+    def test_add_script(self, pretty_print, mist_core, owner_api_token):
+        """Test case for add_script
+
+        Add script
+        """
+        add_script_request = {
+  "entrypoint" : "entrypoint",
+  "extra" : "{}",
+  "name" : "example-script",
+  "description" : "description",
+  "exec_type" : "executable",
+  "script" : "#!/usr/bin/env bash\necho Hello, World!",
+  "location_type" : "inline"
+}
+        inject_vault_credentials(add_script_request)
+        uri = mist_core.uri + '/api/v2/scripts'
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=add_script_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_delete_script(self, pretty_print, mist_core, owner_api_token):
         """Test case for delete_script
 
