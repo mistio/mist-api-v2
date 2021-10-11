@@ -3,6 +3,11 @@ import connexion
 import mongoengine as me
 
 from mist.api.logs.methods import log_event
+from mist.api.scripts.models import ExecutableScript
+from mist.api.scripts.models import AnsibleScript
+from mist.api.exceptions import BadRequestError
+from mist.api.tag.methods import add_tags_to_resource
+from mist.api.tasks import async_session_update
 
 from mist_api_v2.models.add_script_request import AddScriptRequest  # noqa: E501
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
@@ -23,7 +28,35 @@ def add_script(add_script_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         add_script_request = AddScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    params = add_script_request.to_dict()
+    auth_context = connexion.context['token_info']['auth_context']
+    script_tags, _ = auth_context.check_perm("script", "add", None)
+    kwargs = {}
+    for key in params:
+        if key is None:
+            kwargs[key] = {}
+        else:
+            kwargs[key] = params[key]
+    name = kwargs.pop('name')
+    exec_type = kwargs.pop('exec_type')
+    if exec_type == 'executable':
+        script = ExecutableScript.add(auth_context.owner, name, **kwargs)
+    elif exec_type == 'ansible':
+        script = AnsibleScript.add(auth_context.owner, name, **kwargs)
+    else:
+        raise BadRequestError(
+            "Param 'exec_type' must be in ('executable', 'ansible')."
+        )
+    # Set ownership.
+    script.assign_to(auth_context.user)
+    if script_tags:
+        add_tags_to_resource(auth_context.owner, script,
+                             list(script_tags.items()))
+    script = script.as_dict()
+    if 'job_id' in params:
+        script['job_id'] = params['job_id']
+    async_session_update.send(auth_context.owner.id, ['scripts'])
+    return script
 
 def delete_script(script):  # noqa: E501
     """Delete script
