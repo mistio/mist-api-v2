@@ -15,7 +15,7 @@ class AddScriptRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, script=None, location_type=None, entrypoint=None, exec_type=None, description=None, extra=None):  # noqa: E501
+    def __init__(self, name=None, script=None, location_type=None, entrypoint=None, exec_type=None, description=None):  # noqa: E501
         """AddScriptRequest - a model defined in OpenAPI
 
         :param name: The name of this AddScriptRequest.  # noqa: E501
@@ -30,8 +30,6 @@ class AddScriptRequest(Model):
         :type exec_type: str
         :param description: The description of this AddScriptRequest.  # noqa: E501
         :type description: str
-        :param extra: The extra of this AddScriptRequest.  # noqa: E501
-        :type extra: object
         """
         self.openapi_types = {
             'name': str,
@@ -39,8 +37,7 @@ class AddScriptRequest(Model):
             'location_type': str,
             'entrypoint': str,
             'exec_type': str,
-            'description': str,
-            'extra': object
+            'description': str
         }
 
         self.attribute_map = {
@@ -49,8 +46,7 @@ class AddScriptRequest(Model):
             'location_type': 'location_type',
             'entrypoint': 'entrypoint',
             'exec_type': 'exec_type',
-            'description': 'description',
-            'extra': 'extra'
+            'description': 'description'
         }
 
         self._name = name
@@ -59,7 +55,6 @@ class AddScriptRequest(Model):
         self._entrypoint = entrypoint
         self._exec_type = exec_type
         self._description = description
-        self._extra = extra
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddScriptRequest':
@@ -213,24 +208,3 @@ class AddScriptRequest(Model):
         """
 
         self._description = description
-
-    @property
-    def extra(self):
-        """Gets the extra of this AddScriptRequest.
-
-
-        :return: The extra of this AddScriptRequest.
-        :rtype: object
-        """
-        return self._extra
-
-    @extra.setter
-    def extra(self, extra):
-        """Sets the extra of this AddScriptRequest.
-
-
-        :param extra: The extra of this AddScriptRequest.
-        :type extra: object
-        """
-
-        self._extra = extra

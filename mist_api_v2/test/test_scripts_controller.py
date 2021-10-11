@@ -38,7 +38,6 @@ class TestScriptsController:
         """
         add_script_request = {
   "entrypoint" : "entrypoint.sh",
-  "extra" : "{}",
   "name" : "example-script",
   "description" : "description",
   "exec_type" : "executable",
