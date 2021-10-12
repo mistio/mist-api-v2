@@ -90,6 +90,19 @@ def delete_script(script):  # noqa: E501
     return 'Deleted script `%s`' % script.name, 200
 
 
+def download_script(script):  # noqa: E501
+    """Download script
+
+    Download script file or archive # noqa: E501
+
+    :param script:
+    :type script: str
+
+    :rtype: file
+    """
+    return 'do some magic!'
+
+
 def edit_script(script, name=None, description=None):  # noqa: E501
     """Edit script
 
