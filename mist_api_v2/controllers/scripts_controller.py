@@ -150,7 +150,16 @@ def generate_script_url(script):  # noqa: E501
 
     :rtype: InlineResponse2001
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(auth_context, 'script', search=script)
+    result_data = result.get('data')
+    if not result_data:
+        return 'Script does not exist', 404
+    from mist.api.scripts.models import Script
+    script_id = result_data.get('id')
+    script = Script.objects.get(owner=auth_context.owner,
+                                id=script_id, deleted=None)
+    return script.ctl.generate_signed_url()
 
 
 def get_script(script, only=None, deref='auto'):  # noqa: E501
