@@ -8140,9 +8140,9 @@ components:
       type: array
     RunScriptRequest:
       example:
-        su: true
+        su: "false"
         machine: example-machine
-        job_id: job_id
+        job_id: ab74e2f0b7ae4999b1e4013e20dac418
         params: params
         env: env
         script: example-script
@@ -8156,10 +8156,15 @@ components:
         params:
           type: string
         su:
-          type: boolean
+          enum:
+          - "true"
+          - "false"
+          example: "false"
+          type: string
         env:
           type: string
         job_id:
+          example: ab74e2f0b7ae4999b1e4013e20dac418
           type: string
       required:
       - machine

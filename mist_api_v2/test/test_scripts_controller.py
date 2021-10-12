@@ -163,9 +163,9 @@ class TestScriptsController:
         Run script
         """
         run_script_request = {
-  "su" : true,
+  "su" : "false",
   "machine" : "example-machine",
-  "job_id" : "job_id",
+  "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "params",
   "env" : "env",
   "script" : "example-script"

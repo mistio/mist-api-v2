@@ -25,7 +25,7 @@ class RunScriptRequest(Model):
         :param params: The params of this RunScriptRequest.  # noqa: E501
         :type params: str
         :param su: The su of this RunScriptRequest.  # noqa: E501
-        :type su: bool
+        :type su: str
         :param env: The env of this RunScriptRequest.  # noqa: E501
         :type env: str
         :param job_id: The job_id of this RunScriptRequest.  # noqa: E501
@@ -35,7 +35,7 @@ class RunScriptRequest(Model):
             'script': str,
             'machine': str,
             'params': str,
-            'su': bool,
+            'su': str,
             'env': str,
             'job_id': str
         }
@@ -140,7 +140,7 @@ class RunScriptRequest(Model):
 
 
         :return: The su of this RunScriptRequest.
-        :rtype: bool
+        :rtype: str
         """
         return self._su
 
@@ -150,8 +150,14 @@ class RunScriptRequest(Model):
 
 
         :param su: The su of this RunScriptRequest.
-        :type su: bool
+        :type su: str
         """
+        allowed_values = ["true", "false"]  # noqa: E501
+        if su not in allowed_values:
+            raise ValueError(
+                "Invalid value for `su` ({0}), must be one of {1}"
+                .format(su, allowed_values)
+            )
 
         self._su = su
 
