@@ -130,6 +130,19 @@ def edit_script(script, name=None, description=None):  # noqa: E501
     return 'Updated script `%s`' % script.name, 200
 
 
+def generate_script_url(script):  # noqa: E501
+    """Generate script url
+
+    Generate url for fetching script file # noqa: E501
+
+    :param script:
+    :type script: str
+
+    :rtype: InlineResponse2001
+    """
+    return 'do some magic!'
+
+
 def get_script(script, only=None, deref='auto'):  # noqa: E501
     """Get script
 
