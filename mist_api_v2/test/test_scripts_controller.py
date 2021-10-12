@@ -70,6 +70,21 @@ class TestScriptsController:
         assert_response_ok(response)
         print('Success!!!')
 
+    def test_download_script(self, pretty_print, mist_core, owner_api_token):
+        """Test case for download_script
+
+        Download script
+        """
+        uri = mist_core.uri + '/api/v2/scripts/{script}/file'.format(
+            script=setup_data.get('script') or 'example-script')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_edit_script(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_script
 
@@ -84,6 +99,21 @@ class TestScriptsController:
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
+    def test_generate_script_url(self, pretty_print, mist_core, owner_api_token):
+        """Test case for generate_script_url
+
+        Generate script url
+        """
+        uri = mist_core.uri + '/api/v2/scripts/{script}/url'.format(
+            script=setup_data.get('script') or 'example-script')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
+        request_method = getattr(request, 'GET'.lower())
         response = request_method()
         assert_response_ok(response)
         print('Success!!!')
@@ -123,6 +153,31 @@ class TestScriptsController:
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
+    def test_run_script(self, pretty_print, mist_core, owner_api_token):
+        """Test case for run_script
+
+        Run script
+        """
+        run_script_request = {
+  "su" : true,
+  "machine" : "example-machine",
+  "job_id" : "job_id",
+  "params" : "params",
+  "env" : "env",
+  "script" : "example-script"
+}
+        inject_vault_credentials(run_script_request)
+        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+            script=setup_data.get('script') or 'example-script')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=run_script_request)
+        request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
         print('Success!!!')
