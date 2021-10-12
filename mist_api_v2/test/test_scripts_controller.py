@@ -167,8 +167,7 @@ class TestScriptsController:
   "machine" : "example-machine",
   "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "-v",
-  "env" : "EXAMPLE_VAR=123",
-  "script" : "example-script"
+  "env" : "EXAMPLE_VAR=123"
 }
         inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
