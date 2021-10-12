@@ -1,12 +1,19 @@
+import json
+import uuid
 import connexion
+
+from mist.api import tasks
 
 from mist.api.logs.methods import log_event
 from mist.api.scripts.models import ExecutableScript
 from mist.api.scripts.models import AnsibleScript
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import ScriptNameExistsError
+from mist.api.exceptions import RequiredParameterMissingError
+from mist.api.exceptions import NotFoundError
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tasks import async_session_update
+from mist.api.machines.models import Machine
 
 from mist_api_v2.models.add_script_request import AddScriptRequest  # noqa: E501
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
@@ -221,6 +228,51 @@ def run_script(script, run_script_request=None):  # noqa: E501
 
     :rtype: RunScriptResponse
     """
-    if connexion.request.is_json:
-        run_script_request = RunScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(auth_context, 'script', search=script)
+    result_data = result.get('data')
+    if not result_data:
+        return 'Script does not exist', 404
+    from mist.api.scripts.models import Script
+    script_id = result_data.get('id')
+    script = Script.objects.get(owner=auth_context.owner,
+                                id=script_id, deleted=None)
+    params = run_script_request.to_dict()
+    script_params = params.get('params', '')
+    su = params.get('su', '').lower() == 'true'
+    env = params.get('env')
+    job_id = params.get('job_id')
+    if not job_id:
+        job = 'run_script'
+        job_id = uuid.uuid4().hex
+    else:
+        job = None
+    if isinstance(env, dict):
+        env = json.dumps(env)
+    machine = params.get('machine')
+    if not machine:
+        raise RequiredParameterMissingError('machine')
+    result = get_resource(auth_context, 'machine', search=machine)
+    result_data = result.get('data')
+    if not result_data:
+        raise NotFoundError(f"Machine {machine} doesn't exist")
+    machine_id = result_data.get('id')
+    machine = Machine.objects.get(id=machine_id,
+                                  state__ne='terminated')
+    cloud_id = machine.cloud.id
+    auth_context.check_perm("cloud", "read", cloud_id)
+    auth_context.check_perm("machine", "run_script", machine.id)
+    auth_context.check_perm('script', 'run', script_id)
+    job_id = job_id or uuid.uuid4().hex
+    tasks.run_script.send_with_options(
+        args=(auth_context.serialize(), script.id, machine.id),
+        kwargs={
+            "params": script_params,
+            "env": env,
+            "su": su,
+            "job_id": job_id,
+            "job": job
+        },
+        delay=1_000
+    )
+    return {'job_id': job_id, 'job': job}
