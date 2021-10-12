@@ -100,7 +100,17 @@ def download_script(script):  # noqa: E501
 
     :rtype: file
     """
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    result = get_resource(auth_context, 'script', search=script)
+    result_data = result.get('data')
+    if not result_data:
+        return 'Script does not exist', 404
+    from mist.api.scripts.models import Script
+    script_id = result_data.get('id')
+    script = Script.objects.get(owner=auth_context.owner,
+                                id=script_id, deleted=None)
+    auth_context.check_perm('script', 'read', script_id)
+    return script.ctl.get_file()
 
 
 def edit_script(script, name=None, description=None):  # noqa: E501
