@@ -188,3 +188,20 @@ def list_scripts(search=None, sort=None, start=None, limit=None, only=None, dere
                             only=only, sort=sort, limit=limit,
                             deref=deref)
     return ListScriptsResponse(data=result['data'], meta=result['meta'])
+
+
+def run_script(script, run_script_request=None):  # noqa: E501
+    """Run script
+
+    Start a script job to run the script. # noqa: E501
+
+    :param script:
+    :type script: str
+    :param run_script_request:
+    :type run_script_request: dict | bytes
+
+    :rtype: RunScriptResponse
+    """
+    if connexion.request.is_json:
+        run_script_request = RunScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
