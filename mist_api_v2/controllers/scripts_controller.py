@@ -18,6 +18,7 @@ from mist.api.machines.models import Machine
 from mist_api_v2.models.add_script_request import AddScriptRequest  # noqa: E501
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse  # noqa: E501
+from mist_api_v2.models.run_script_request import RunScriptRequest
 
 from .base import list_resources, get_resource
 
@@ -229,6 +230,8 @@ def run_script(script, run_script_request=None):  # noqa: E501
     :rtype: RunScriptResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
+    if connexion.request.is_json:
+        run_script_request = RunScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
     result = get_resource(auth_context, 'script', search=script)
     result_data = result.get('data')
     if not result_data:
@@ -239,7 +242,7 @@ def run_script(script, run_script_request=None):  # noqa: E501
                                 id=script_id, deleted=None)
     params = run_script_request.to_dict()
     script_params = params.get('params', '')
-    su = params.get('su', '').lower() == 'true'
+    su = (params.get('su') or '').lower() == 'true'
     env = params.get('env')
     job_id = params.get('job_id')
     if not job_id:
