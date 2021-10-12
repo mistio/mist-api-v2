@@ -15,11 +15,9 @@ class RunScriptRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, script=None, machine=None, params=None, su=None, env=None, job_id=None):  # noqa: E501
+    def __init__(self, machine=None, params=None, su=None, env=None, job_id=None):  # noqa: E501
         """RunScriptRequest - a model defined in OpenAPI
 
-        :param script: The script of this RunScriptRequest.  # noqa: E501
-        :type script: str
         :param machine: The machine of this RunScriptRequest.  # noqa: E501
         :type machine: str
         :param params: The params of this RunScriptRequest.  # noqa: E501
@@ -32,7 +30,6 @@ class RunScriptRequest(Model):
         :type job_id: str
         """
         self.openapi_types = {
-            'script': str,
             'machine': str,
             'params': str,
             'su': str,
@@ -41,7 +38,6 @@ class RunScriptRequest(Model):
         }
 
         self.attribute_map = {
-            'script': 'script',
             'machine': 'machine',
             'params': 'params',
             'su': 'su',
@@ -49,7 +45,6 @@ class RunScriptRequest(Model):
             'job_id': 'job_id'
         }
 
-        self._script = script
         self._machine = machine
         self._params = params
         self._su = su
@@ -66,29 +61,6 @@ class RunScriptRequest(Model):
         :rtype: RunScriptRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def script(self):
-        """Gets the script of this RunScriptRequest.
-
-
-        :return: The script of this RunScriptRequest.
-        :rtype: str
-        """
-        return self._script
-
-    @script.setter
-    def script(self, script):
-        """Sets the script of this RunScriptRequest.
-
-
-        :param script: The script of this RunScriptRequest.
-        :type script: str
-        """
-        if script is None:
-            raise ValueError("Invalid value for `script`, must not be `None`")  # noqa: E501
-
-        self._script = script
 
     @property
     def machine(self):
