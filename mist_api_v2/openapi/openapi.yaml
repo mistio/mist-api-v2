@@ -8143,8 +8143,8 @@ components:
         su: "false"
         machine: example-machine
         job_id: ab74e2f0b7ae4999b1e4013e20dac418
-        params: params
-        env: env
+        params: -v
+        env: EXAMPLE_VAR=123
         script: example-script
       properties:
         script:
@@ -8154,6 +8154,7 @@ components:
           example: example-machine
           type: string
         params:
+          example: -v
           type: string
         su:
           enum:
@@ -8162,6 +8163,7 @@ components:
           example: "false"
           type: string
         env:
+          example: EXAMPLE_VAR=123
           type: string
         job_id:
           example: ab74e2f0b7ae4999b1e4013e20dac418
