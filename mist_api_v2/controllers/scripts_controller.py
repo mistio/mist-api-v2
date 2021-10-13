@@ -11,10 +11,14 @@ from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import ScriptNameExistsError
 from mist.api.exceptions import RequiredParameterMissingError
 from mist.api.exceptions import NotFoundError
+from mist.api.exceptions import ForbiddenError
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tasks import async_session_update
 from mist.api.machines.models import Machine
+from mist.api.helpers import mac_verify
 
+from mist_api_v2.controllers.security_controller_ import info_from_ApiKeyAuth
+from mist_api_v2.controllers.security_controller_ import info_from_CookieAuth
 from mist_api_v2.models.add_script_request import AddScriptRequest  # noqa: E501
 from mist_api_v2.models.get_script_response import GetScriptResponse  # noqa: E501
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse  # noqa: E501
@@ -108,16 +112,36 @@ def download_script(script):  # noqa: E501
 
     :rtype: file
     """
-    auth_context = connexion.context['token_info']['auth_context']
-    result = get_resource(auth_context, 'script', search=script)
-    result_data = result.get('data')
-    if not result_data:
-        return 'Script does not exist', 404
+    api_key = connexion.request.headers.get('Authorization')
+    session_id = connexion.request.cookies.get('session.id')
+    if api_key:
+        auth_info = info_from_ApiKeyAuth(api_key, None)
+    elif session_id:
+        auth_info = info_from_CookieAuth(session_id, None)
+    else:
+        auth_info = None
+    if auth_info is None:
+        auth_context = None
+    else:
+        auth_context = auth_info['auth_context']
     from mist.api.scripts.models import Script
-    script_id = result_data.get('id')
-    script = Script.objects.get(owner=auth_context.owner,
-                                id=script_id, deleted=None)
-    auth_context.check_perm('script', 'read', script_id)
+    if auth_context is None:
+        params = dict(connexion.request.args)
+        try:
+            mac_verify(params)
+        except Exception as exc:
+            raise ForbiddenError(exc.args)
+        script_id = params['object_id']
+        script = Script.objects.get(id=script_id, deleted=None)
+    else:
+        result = get_resource(auth_context, 'script', search=script)
+        result_data = result.get('data')
+        if not result_data:
+            return 'Script does not exist', 404
+        script_id = result_data.get('id')
+        script = Script.objects.get(owner=auth_context.owner,
+                                    id=script_id, deleted=None)
+        auth_context.check_perm('script', 'read', script_id)
     return script.ctl.get_file()
 
 
@@ -167,7 +191,7 @@ def generate_script_url(script):  # noqa: E501
     script_id = result_data.get('id')
     script = Script.objects.get(owner=auth_context.owner,
                                 id=script_id, deleted=None)
-    return script.ctl.generate_signed_url()
+    return script.ctl.generate_signed_url_v2()
 
 
 def get_script(script, only=None, deref='auto'):  # noqa: E501
