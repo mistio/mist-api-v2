@@ -277,12 +277,10 @@ def run_script(script, run_script_request=None):  # noqa: E501
     if isinstance(env, dict):
         env = json.dumps(env)
     machine = params.get('machine')
-    if not machine:
-        raise RequiredParameterMissingError('machine')
     result = get_resource(auth_context, 'machine', search=machine)
     result_data = result.get('data')
     if not result_data:
-        raise NotFoundError(f"Machine {machine} doesn't exist")
+        return f"Machine {machine} doesn't exist", 404
     machine_id = result_data.get('id')
     machine = Machine.objects.get(id=machine_id,
                                   state__ne='terminated')
