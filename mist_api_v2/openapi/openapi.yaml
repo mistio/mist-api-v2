@@ -3982,11 +3982,6 @@ paths:
           description: You are not authorized to perform this action
         "404":
           description: Script not found
-      security:
-      - ApiKeyAuth:
-        - read:script
-      - CookieAuth:
-        - read:script
       summary: Download script
       tags:
       - scripts
