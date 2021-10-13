@@ -3897,11 +3897,11 @@ paths:
       security:
       - ApiKeyAuth:
         - read:cloud
-        - run_scipt:machine
+        - run_script:machine
         - run:script
       - CookieAuth:
         - read:cloud
-        - run_scipt:machine
+        - run_script:machine
         - run:script
       summary: Run script
       tags:
@@ -3982,11 +3982,7 @@ paths:
           description: You are not authorized to perform this action
         "404":
           description: Script not found
-      security:
-      - ApiKeyAuth:
-        - read:script
-      - CookieAuth:
-        - read:script
+      security: []
       summary: Download script
       tags:
       - scripts
