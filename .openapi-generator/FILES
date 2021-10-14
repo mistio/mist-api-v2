@@ -150,6 +150,8 @@ mist_api_v2/models/location.py
 mist_api_v2/models/log.py
 mist_api_v2/models/lxd_cloud_request.py
 mist_api_v2/models/lxd_credentials.py
+mist_api_v2/models/lxd_extra.py
+mist_api_v2/models/lxd_net.py
 mist_api_v2/models/machine.py
 mist_api_v2/models/machine_state.py
 mist_api_v2/models/maxihost_cloud_request.py
