@@ -5387,7 +5387,8 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
+          description: Machine sizing spec e.g. cpu/ram/flavor. Mandatory field for
+            all providers except LXD, Docker
           oneOf:
           - properties:
               cpus:
@@ -5550,7 +5551,6 @@ components:
       required:
       - image
       - name
-      - size
       type: object
     CreateMachineResponse:
       oneOf:
