@@ -6782,6 +6782,10 @@ components:
             size:
               description: Size of the storage volume in GBs
               type: integer
+            pool:
+              description: The storage pool to create the volume into. If not given
+                the default storage pool will be selected
+              type: string
             filesystem:
               description: Filesystem of the storage volume, defaults to "ext4"
               type: string
