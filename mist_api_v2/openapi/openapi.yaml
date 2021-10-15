@@ -6782,6 +6782,10 @@ components:
             size:
               description: Size of the storage volume in GBs
               type: integer
+            path:
+              description: Path in the container the storage volume will be attached.
+                e.g. /opt/mydata
+              type: string
             pool:
               description: The storage pool to create the volume into. If not given
                 the default storage pool will be selected
@@ -6799,6 +6803,7 @@ components:
               type: boolean
           required:
           - name
+          - path
           - size
         type: object
       title: LXD volumes parameter
