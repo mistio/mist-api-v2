@@ -5387,8 +5387,8 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor. Mandatory field for
-            all providers except LXD, Docker
+          description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
+            LXD
           oneOf:
           - properties:
               cpus:
@@ -6748,6 +6748,8 @@ components:
         ephemeral:
           description: Whether to destroy the container on shutdown, defaults to False
           type: boolean
+        limits:
+          $ref: '#/components/schemas/LXDExtra_limits'
       title: LXD extra parameter
       type: object
     LXDNet:
@@ -8548,6 +8550,15 @@ components:
           type: string
       required:
       - network
+      type: object
+    LXDExtra_limits:
+      properties:
+        cpu:
+          description: The cpu limit to apply
+          type: string
+        memory:
+          description: The memory limit to apply
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:
