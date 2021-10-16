@@ -124,7 +124,21 @@ def rename_rule(rule, action):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    from mist.api.rules.models import Rule
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [rule], total = list_resources(
+            auth_context, 'rule', search=rule, limit=1)
+    except ValueError:
+        return 'Rule does not exist', 404
+    auth_context.check_perm('rule', 'write', rule.id)
+    new_name = action
+    if not auth_context.is_owner():
+        return 'You are not authorized to perform this action', 403
+    rule = Rule.objects.get(owner_id=auth_context.owner.id, id=rule.id)
+    rule.ctl.rename(new_name)
+    return 'Rule renamed succesfully'
 
 
 def toggle_rule(rule, action):  # noqa: E501
