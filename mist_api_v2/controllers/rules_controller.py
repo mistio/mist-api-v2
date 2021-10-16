@@ -153,7 +153,18 @@ def toggle_rule(rule, action):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [rule], total = list_resources(
+            auth_context, 'rule', search=rule, limit=1)
+    except ValueError:
+        return 'Rule does not exist', 404
+    auth_context.check_perm('rule', 'write', rule.id)
+    if not auth_context.is_owner():
+        return 'You are not authorized to perform this action', 403
+    getattr(rule.ctl, action)()
+    return 'Rule toggled succesfully'
 
 
 def update_rule(rule, queries=None, window=None, frequency=None, trigger_after=None, actions=None, selectors=None):  # noqa: E501
