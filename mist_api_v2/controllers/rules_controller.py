@@ -65,7 +65,6 @@ def delete_rule(rule):  # noqa: E501
 
     :rtype: None
     """
-    from mist.api.rules.models import Rule
     from mist.api.methods import list_resources
     from mist.api.notifications.models import Notification
     auth_context = connexion.context['token_info']['auth_context']
@@ -75,7 +74,6 @@ def delete_rule(rule):  # noqa: E501
     except ValueError:
         return 'Rule does not exist', 404
     auth_context.check_perm('rule', 'delete', rule.id)
-    rule = Rule.objects.get(owner_id=auth_context.owner.id, id=rule.id)
     rule.ctl.set_auth_context(auth_context)
     rule.ctl.delete()
     Notification.objects(
@@ -125,7 +123,6 @@ def rename_rule(rule, name):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    from mist.api.rules.models import Rule
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [rule], total = list_resources(
@@ -135,7 +132,6 @@ def rename_rule(rule, name):  # noqa: E501
     auth_context.check_perm('rule', 'write', rule.id)
     if not auth_context.is_owner():
         return 'You are not authorized to perform this action', 403
-    rule = Rule.objects.get(owner_id=auth_context.owner.id, id=rule.id)
     rule.ctl.rename(name)
     return 'Rule renamed succesfully'
 
