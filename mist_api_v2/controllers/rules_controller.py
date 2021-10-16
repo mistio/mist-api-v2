@@ -65,7 +65,23 @@ def delete_rule(rule):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.rules.models import Rule
+    from mist.api.methods import list_resources
+    from mist.api.notifications.models import Notification
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [rule], total = list_resources(
+            auth_context, 'rule', search=rule, limit=1)
+    except ValueError:
+        return 'Rule does not exist', 404
+    auth_context.check_perm('rule', 'delete', rule.id)
+    rule = Rule.objects.get(owner_id=auth_context.owner.id, id=rule.id)
+    rule.ctl.set_auth_context(auth_context)
+    rule.ctl.delete()
+    Notification.objects(
+        owner=auth_context.owner, rtype='rule', rid=rule.id
+    ).delete()
+    return 'Rule deleted succesfully', 200
 
 
 def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
