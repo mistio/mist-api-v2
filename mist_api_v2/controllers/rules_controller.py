@@ -112,15 +112,15 @@ def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
     }
 
 
-def rename_rule(rule, action):  # noqa: E501
+def rename_rule(rule, name):  # noqa: E501
     """Rename rule
 
     Rename a rule # noqa: E501
 
     :param rule:
     :type rule: str
-    :param action:
-    :type action: str
+    :param name:
+    :type name: str
 
     :rtype: None
     """
@@ -133,11 +133,10 @@ def rename_rule(rule, action):  # noqa: E501
     except ValueError:
         return 'Rule does not exist', 404
     auth_context.check_perm('rule', 'write', rule.id)
-    new_name = action
     if not auth_context.is_owner():
         return 'You are not authorized to perform this action', 403
     rule = Rule.objects.get(owner_id=auth_context.owner.id, id=rule.id)
-    rule.ctl.rename(new_name)
+    rule.ctl.rename(name)
     return 'Rule renamed succesfully'
 
 
