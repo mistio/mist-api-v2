@@ -44,21 +44,21 @@ class TestRulesController:
   "data_type" : "logs",
   "window" : {
     "period" : "period",
-    "stop" : 6,
-    "start" : 0
+    "stop" : 1,
+    "start" : 6
   },
   "selectors" : {
     "include" : [ "include", "include" ],
     "ids" : [ "ids", "ids" ],
-    "type" : "type"
+    "type" : "machines"
   },
   "queries" : [ {
-    "threshold" : "threshold",
+    "threshold" : 0.8008281904610115,
     "aggregation" : "aggregation",
     "operator" : "operator",
     "target" : "target"
   }, {
-    "threshold" : "threshold",
+    "threshold" : 0.8008281904610115,
     "aggregation" : "aggregation",
     "operator" : "operator",
     "target" : "target"
@@ -80,7 +80,7 @@ class TestRulesController:
   } ],
   "frequency" : {
     "period" : "period",
-    "every" : 1
+    "every" : 5
   }
 }
         inject_vault_credentials(add_rule_request)
