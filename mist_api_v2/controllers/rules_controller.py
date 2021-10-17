@@ -84,9 +84,23 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
 
     :rtype: Rule
     """
+    from mist.api.methods import list_resources
+    from mist.api.notifications.models import Notification
     if connexion.request.is_json:
         edit_rule_request = EditRuleRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [rule], total = list_resources(
+            auth_context, 'rule', search=rule, limit=1)
+    except ValueError:
+        return 'Rule does not exist', 404
+    rule.ctl.set_auth_context(auth_context)
+    kwargs = delete_none(edit_rule_request.to_dict())
+    rule.ctl.update(**kwargs)
+    Notification.objects(
+        owner=auth_context.owner, rtype='rule', rid=rule.id
+    ).delete()
+    return rule.as_dict()
 
 
 def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
