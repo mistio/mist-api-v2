@@ -3,14 +3,10 @@ import logging
 import connexion
 
 from mist.api import config
+from mist.api.helpers import delete_none
+from mist.api.rules.models import RULES
 
-from mist_api_v2.models.action import Action  # noqa: E501
-from mist_api_v2.models.frequency import Frequency  # noqa: E501
-from mist_api_v2.models.query import Query  # noqa: E501
-from mist_api_v2.models.selector import Selector  # noqa: E501
-from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
-from mist_api_v2.models.window import Window  # noqa: E501
-
+from mist_api_v2.models.add_rule_request import AddRuleRequest  # noqa: E501
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
                     format=config.PY_LOG_FORMAT,
@@ -20,39 +16,32 @@ logging.basicConfig(level=config.PY_LOG_LEVEL,
 log = logging.getLogger(__name__)
 
 
-def add_rule(queries, window, frequency, trigger_after, actions, selectors):  # noqa: E501
+def add_rule(add_rule_request=None):  # noqa: E501
     """Add rule
 
     Add a new rule, READ permission required on target resource, ADD permission required on Rule # noqa: E501
 
-    :param queries:
-    :type queries: list | bytes
-    :param window:
-    :type window: dict | bytes
-    :param frequency:
-    :type frequency: dict | bytes
-    :param trigger_after:
-    :type trigger_after: dict | bytes
-    :param actions:
-    :type actions: list | bytes
-    :param selectors:
-    :type selectors: dict | bytes
+    :param add_rule_request:
+    :type add_rule_request: dict | bytes
 
     :rtype: Rule
     """
     if connexion.request.is_json:
-        queries = [Query.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
-    if connexion.request.is_json:
-        window = Window.from_dict(connexion.request.get_json())  # noqa: E501
-    if connexion.request.is_json:
-        frequency = Frequency.from_dict(connexion.request.get_json())  # noqa: E501
-    if connexion.request.is_json:
-        trigger_after = TriggerAfter.from_dict(connexion.request.get_json())  # noqa: E501
-    if connexion.request.is_json:
-        actions = [Action.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
-    if connexion.request.is_json:
-        selectors = Selector.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        add_rule_request = AddRuleRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    auth_context = connexion.context['token_info']['auth_context']
+    kwargs = add_rule_request.to_dict()
+    arbitrary = kwargs['selectors'] is None
+    delete_none(kwargs)
+    data_type = kwargs.pop('data_type')
+    # Get the proper Rule subclass.
+    rule_key = f'{"arbitrary" if arbitrary else "resource"}-{data_type}'
+    rule_cls = RULES[rule_key]
+    # Add new rule.
+    rule = rule_cls.add(auth_context, **kwargs)
+    # Advance rule counter.
+    auth_context.owner.rule_counter += 1
+    auth_context.owner.save()
+    return rule.as_dict()
 
 
 def delete_rule(rule):  # noqa: E501
