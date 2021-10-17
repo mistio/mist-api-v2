@@ -39,6 +39,7 @@ mist_api_v2/models/add_key_request_any_of.py
 mist_api_v2/models/add_key_request_any_of1.py
 mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
+mist_api_v2/models/add_rule_request.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/alibaba_net.py
@@ -71,6 +72,7 @@ mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
 mist_api_v2/models/create_zone_response.py
 mist_api_v2/models/cron_schedule.py
+mist_api_v2/models/data_type.py
 mist_api_v2/models/datapoints.py
 mist_api_v2/models/datapoints_data.py
 mist_api_v2/models/datapoints_values_item.py

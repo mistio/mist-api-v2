@@ -10,6 +10,7 @@ from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
 from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
+from mist_api_v2.models.add_rule_request import AddRuleRequest
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.alibaba_net import AlibabaNet
@@ -40,6 +41,7 @@ from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.create_zone_request import CreateZoneRequest
 from mist_api_v2.models.create_zone_response import CreateZoneResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
+from mist_api_v2.models.data_type import DataType
 from mist_api_v2.models.datapoints import Datapoints
 from mist_api_v2.models.datapoints_data import DatapointsData
 from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem
