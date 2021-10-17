@@ -219,8 +219,6 @@ class AddRuleRequest(Model):
         :param selectors: The selectors of this AddRuleRequest.
         :type selectors: Selector
         """
-        if selectors is None:
-            raise ValueError("Invalid value for `selectors`, must not be `None`")  # noqa: E501
 
         self._selectors = selectors
 

@@ -4906,8 +4906,8 @@ components:
         data_type: logs
         window:
           period: period
-          stop: 6
-          start: 0
+          stop: 1
+          start: 6
         selectors:
           include:
           - include
@@ -4915,13 +4915,13 @@ components:
           ids:
           - ids
           - ids
-          type: type
+          type: machines
         queries:
-        - threshold: threshold
+        - threshold: 0.8008281904610115
           aggregation: aggregation
           operator: operator
           target: target
-        - threshold: threshold
+        - threshold: 0.8008281904610115
           aggregation: aggregation
           operator: operator
           target: target
@@ -4952,7 +4952,7 @@ components:
           command: command
         frequency:
           period: period
-          every: 1
+          every: 5
       properties:
         queries:
           items:
@@ -4977,7 +4977,6 @@ components:
       - data_type
       - frequency
       - queries
-      - selectors
       - trigger_after
       - window
       type: object
@@ -6075,7 +6074,7 @@ components:
     Frequency:
       example:
         period: period
-        every: 1
+        every: 5
       properties:
         every:
           description: |
@@ -7894,7 +7893,7 @@ components:
       type: array
     Query:
       example:
-        threshold: threshold
+        threshold: 0.8008281904610115
         aggregation: aggregation
         operator: operator
         target: target
@@ -7909,7 +7908,7 @@ components:
           type: string
         threshold:
           description: the value over/under which an alert will be raised
-          type: string
+          type: number
         aggregation:
           description: |
             the function to be applied on the computed series. Must be one
@@ -8100,10 +8099,13 @@ components:
         ids:
         - ids
         - ids
-        type: type
+        type: machines
       properties:
         type:
           description: one of "machines" or "tags"
+          enum:
+          - machines
+          - tags
           type: string
         ids:
           description: a list of UUIDs in case type is "machines"
@@ -8417,8 +8419,8 @@ components:
     Window:
       example:
         period: period
-        stop: 6
-        start: 0
+        stop: 1
+        start: 6
       properties:
         start:
           description: |

@@ -23,14 +23,14 @@ class Query(Model):
         :param operator: The operator of this Query.  # noqa: E501
         :type operator: str
         :param threshold: The threshold of this Query.  # noqa: E501
-        :type threshold: str
+        :type threshold: float
         :param aggregation: The aggregation of this Query.  # noqa: E501
         :type aggregation: str
         """
         self.openapi_types = {
             'target': str,
             'operator': str,
-            'threshold': str,
+            'threshold': float,
             'aggregation': str
         }
 
@@ -114,7 +114,7 @@ class Query(Model):
         the value over/under which an alert will be raised  # noqa: E501
 
         :return: The threshold of this Query.
-        :rtype: str
+        :rtype: float
         """
         return self._threshold
 
@@ -125,7 +125,7 @@ class Query(Model):
         the value over/under which an alert will be raised  # noqa: E501
 
         :param threshold: The threshold of this Query.
-        :type threshold: str
+        :type threshold: float
         """
         if threshold is None:
             raise ValueError("Invalid value for `threshold`, must not be `None`")  # noqa: E501
