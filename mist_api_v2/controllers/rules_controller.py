@@ -7,6 +7,7 @@ from mist.api.helpers import delete_none
 from mist.api.rules.models import RULES
 
 from mist_api_v2.models.add_rule_request import AddRuleRequest  # noqa: E501
+from mist_api_v2.models.edit_rule_request import EditRuleRequest  # noqa: E501
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
                     format=config.PY_LOG_FORMAT,
@@ -69,6 +70,23 @@ def delete_rule(rule):  # noqa: E501
         owner=auth_context.owner, rtype='rule', rid=rule.id
     ).delete()
     return 'Rule deleted succesfully', 200
+
+
+def edit_rule(rule, edit_rule_request=None):  # noqa: E501
+    """Update rule
+
+    Edit a rule given its UUID, EDIT permission required on rule # noqa: E501
+
+    :param rule:
+    :type rule: str
+    :param edit_rule_request:
+    :type edit_rule_request: dict | bytes
+
+    :rtype: Rule
+    """
+    if connexion.request.is_json:
+        edit_rule_request = EditRuleRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
 def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
@@ -149,43 +167,6 @@ def toggle_rule(rule, action):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     getattr(rule.ctl, action)()
     return 'Rule toggled succesfully'
-
-
-def update_rule(rule, queries=None, window=None, frequency=None, trigger_after=None, actions=None, selectors=None):  # noqa: E501
-    """Update rule
-
-    Update a rule given its UUID, EDIT permission required on rule # noqa: E501
-
-    :param rule:
-    :type rule: str
-    :param queries:
-    :type queries: list | bytes
-    :param window:
-    :type window: dict | bytes
-    :param frequency:
-    :type frequency: dict | bytes
-    :param trigger_after:
-    :type trigger_after: dict | bytes
-    :param actions:
-    :type actions: list | bytes
-    :param selectors:
-    :type selectors: dict | bytes
-
-    :rtype: Rule
-    """
-    if connexion.request.is_json:
-        queries = [Query.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
-    if connexion.request.is_json:
-        window = Window.from_dict(connexion.request.get_json())  # noqa: E501
-    if connexion.request.is_json:
-        frequency = Frequency.from_dict(connexion.request.get_json())  # noqa: E501
-    if connexion.request.is_json:
-        trigger_after = TriggerAfter.from_dict(connexion.request.get_json())  # noqa: E501
-    if connexion.request.is_json:
-        actions = [Action.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
-    if connexion.request.is_json:
-        selectors = Selector.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
 
 
 def get_rule(rule):  # noqa: E501
