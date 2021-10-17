@@ -22,6 +22,21 @@ def create_network(create_network_request=None):  # noqa: E501
     return 'do some magic!'
 
 
+def delete_network(network, cloud):  # noqa: E501
+    """Delete network
+
+    Delete target network # noqa: E501
+
+    :param network:
+    :type network: str
+    :param cloud: Cloud the target network belongs to
+    :type cloud: str
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
 def edit_network(network, name=None):  # noqa: E501
     """Edit network
 
