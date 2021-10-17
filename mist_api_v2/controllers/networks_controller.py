@@ -57,7 +57,23 @@ def delete_network(network, cloud):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [cloud], total = list_resources(
+            auth_context, 'cloud', search=cloud, limit=1)
+    except ValueError:
+        return 'Cloud does not exist', 404
+    try:
+        [network], total = list_resources(
+            auth_context, 'network', search=network, limit=1)
+    except ValueError:
+        return 'Network does not exist', 404
+    auth_context.check_perm("cloud", "read", cloud.id)
+    auth_context.check_perm('network', 'read', network.id)
+    auth_context.check_perm('network', 'remove', network.id)
+    network.ctl.delete()
+    return 'Network deleted succesfully', 200
 
 
 def edit_network(network, name=None):  # noqa: E501
