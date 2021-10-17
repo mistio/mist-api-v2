@@ -30,6 +30,7 @@ def add_rule(add_rule_request=None):  # noqa: E501
     if connexion.request.is_json:
         add_rule_request = AddRuleRequest.from_dict(connexion.request.get_json())  # noqa: E501
     auth_context = connexion.context['token_info']['auth_context']
+    auth_context.check_perm('rule', 'add', None)
     kwargs = add_rule_request.to_dict()
     arbitrary = kwargs['selectors'] is None
     delete_none(kwargs)
@@ -94,6 +95,7 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
             auth_context, 'rule', search=rule, limit=1)
     except ValueError:
         return 'Rule does not exist', 404
+    auth_context.check_perm('rule', 'edit', rule.id)
     rule.ctl.set_auth_context(auth_context)
     kwargs = delete_none(edit_rule_request.to_dict())
     rule.ctl.update(**kwargs)
