@@ -41,7 +41,8 @@ class TestRulesController:
                         ('frequency', '{}'),
                         ('trigger_after', '{}'),
                         ('actions', '{}'),
-                        ('selectors', '{}')]
+                        ('selectors', '{}'),
+                        ('data_type', '{}')]
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
@@ -110,7 +111,7 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = [('action', 'renamed-example-rule')]
+        query_string = [('name', 'renamed-example-rule')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(
@@ -127,7 +128,7 @@ class TestRulesController:
 
         Toggle rule
         """
-        query_string = [('action', 'example-action')]
+        query_string = [('action', 'disable')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'example-rule')
         request = MistRequests(

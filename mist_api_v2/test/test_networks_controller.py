@@ -51,6 +51,23 @@ class TestNetworksController:
         assert_response_ok(response)
         print('Success!!!')
 
+    def test_delete_network(self, pretty_print, mist_core, owner_api_token):
+        """Test case for delete_network
+
+        Delete network
+        """
+        query_string = [('cloud', 'example-cloud')]
+        uri = mist_core.uri + '/api/v2/networks/{network}'.format(
+            network=setup_data.get('network') or 'example-network')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_edit_network(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_network
 
