@@ -109,6 +109,69 @@ class TestRulesController:
         assert_response_ok(response)
         print('Success!!!')
 
+    def test_edit_rule(self, pretty_print, mist_core, owner_api_token):
+        """Test case for edit_rule
+
+        Update rule
+        """
+        edit_rule_request = {
+  "trigger_after" : {
+    "period" : "period",
+    "offset" : 5
+  },
+  "window" : {
+    "period" : "period",
+    "stop" : 1,
+    "start" : 6
+  },
+  "selectors" : {
+    "include" : [ "include", "include" ],
+    "ids" : [ "ids", "ids" ],
+    "type" : "machines"
+  },
+  "queries" : [ {
+    "threshold" : 0.8008281904610115,
+    "aggregation" : "aggregation",
+    "operator" : "operator",
+    "target" : "target"
+  }, {
+    "threshold" : 0.8008281904610115,
+    "aggregation" : "aggregation",
+    "operator" : "operator",
+    "target" : "target"
+  } ],
+  "actions" : [ {
+    "emails" : [ "emails", "emails" ],
+    "teams" : [ "teams", "teams" ],
+    "action" : "action",
+    "type" : "type",
+    "users" : [ "users", "users" ],
+    "command" : "command"
+  }, {
+    "emails" : [ "emails", "emails" ],
+    "teams" : [ "teams", "teams" ],
+    "action" : "action",
+    "type" : "type",
+    "users" : [ "users", "users" ],
+    "command" : "command"
+  } ],
+  "frequency" : {
+    "period" : "period",
+    "every" : 5
+  }
+}
+        inject_vault_credentials(edit_rule_request)
+        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
+            rule=setup_data.get('rule') or 'example-rule')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=edit_rule_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_get_rule(self, pretty_print, mist_core, owner_api_token):
         """Test case for get_rule
 
@@ -177,28 +240,6 @@ class TestRulesController:
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
-        response = request_method()
-        assert_response_ok(response)
-        print('Success!!!')
-
-    def test_update_rule(self, pretty_print, mist_core, owner_api_token):
-        """Test case for update_rule
-
-        Update rule
-        """
-        query_string = [('queries', '{}'),
-                        ('window', '{}'),
-                        ('frequency', '{}'),
-                        ('trigger_after', '{}'),
-                        ('actions', '{}'),
-                        ('selectors', '{}')]
-        uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'example-rule')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
         print('Success!!!')

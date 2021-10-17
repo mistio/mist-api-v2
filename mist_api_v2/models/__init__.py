@@ -51,6 +51,7 @@ from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest
 from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
+from mist_api_v2.models.edit_rule_request import EditRuleRequest
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra
