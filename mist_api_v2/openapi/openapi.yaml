@@ -3346,56 +3346,11 @@ paths:
       description: Add a new rule, READ permission required on target resource, ADD
         permission required on Rule
       operationId: add_rule
-      parameters:
-      - explode: true
-        in: query
-        name: queries
-        required: true
-        schema:
-          $ref: '#/components/schemas/Queries'
-        style: form
-      - explode: true
-        in: query
-        name: window
-        required: true
-        schema:
-          $ref: '#/components/schemas/Window'
-        style: form
-      - explode: true
-        in: query
-        name: frequency
-        required: true
-        schema:
-          $ref: '#/components/schemas/Frequency'
-        style: form
-      - explode: true
-        in: query
-        name: trigger_after
-        required: true
-        schema:
-          $ref: '#/components/schemas/TriggerAfter'
-        style: form
-      - explode: true
-        in: query
-        name: actions
-        required: true
-        schema:
-          $ref: '#/components/schemas/RuleActions'
-        style: form
-      - explode: true
-        in: query
-        name: selectors
-        required: true
-        schema:
-          $ref: '#/components/schemas/Selector'
-        style: form
-      - explode: true
-        in: query
-        name: data_type
-        required: true
-        schema:
-          $ref: '#/components/schemas/DataType'
-        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRuleRequest'
       responses:
         "200":
           content:
@@ -5081,6 +5036,89 @@ components:
         public:
           type: string
       type: object
+    AddRuleRequest:
+      example:
+        trigger_after:
+          period: period
+          offset: 5
+        data_type: logs
+        window:
+          period: period
+          stop: 6
+          start: 0
+        selectors:
+          include:
+          - include
+          - include
+          ids:
+          - ids
+          - ids
+          type: type
+        queries:
+        - threshold: threshold
+          aggregation: aggregation
+          operator: operator
+          target: target
+        - threshold: threshold
+          aggregation: aggregation
+          operator: operator
+          target: target
+        actions:
+        - emails:
+          - emails
+          - emails
+          teams:
+          - teams
+          - teams
+          action: action
+          type: type
+          users:
+          - users
+          - users
+          command: command
+        - emails:
+          - emails
+          - emails
+          teams:
+          - teams
+          - teams
+          action: action
+          type: type
+          users:
+          - users
+          - users
+          command: command
+        frequency:
+          period: period
+          every: 1
+      properties:
+        queries:
+          items:
+            $ref: '#/components/schemas/Query'
+          type: array
+        window:
+          $ref: '#/components/schemas/Window'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
+        actions:
+          items:
+            $ref: '#/components/schemas/RuleAction'
+          type: array
+        selectors:
+          $ref: '#/components/schemas/Selector'
+        data_type:
+          $ref: '#/components/schemas/DataType'
+      required:
+      - actions
+      - data_type
+      - frequency
+      - queries
+      - selectors
+      - trigger_after
+      - window
+      type: object
     AddScriptRequest:
       example:
         entrypoint: entrypoint.sh
@@ -6216,6 +6254,9 @@ components:
       - date
       type: object
     Frequency:
+      example:
+        period: period
+        every: 1
       properties:
         every:
           description: |
@@ -8033,6 +8074,11 @@ components:
         $ref: '#/components/schemas/Query'
       type: array
     Query:
+      example:
+        threshold: threshold
+        aggregation: aggregation
+        operator: operator
+        target: target
       properties:
         target:
           description: the metric's name, e.g. "load.shortterm"
@@ -8151,6 +8197,19 @@ components:
           type: string
       type: object
     RuleAction:
+      example:
+        emails:
+        - emails
+        - emails
+        teams:
+        - teams
+        - teams
+        action: action
+        type: type
+        users:
+        - users
+        - users
+        command: command
       properties:
         type:
           description: |
@@ -8251,6 +8310,14 @@ components:
           type: string
       type: object
     Selector:
+      example:
+        include:
+        - include
+        - include
+        ids:
+        - ids
+        - ids
+        type: type
       properties:
         type:
           description: one of "machines" or "tags"
@@ -8360,6 +8427,9 @@ components:
           type: object
       type: object
     TriggerAfter:
+      example:
+        period: period
+        offset: 5
       properties:
         offset:
           description: a positive integer denoting the tolerance period
@@ -8562,6 +8632,10 @@ components:
       title: Vultr volumes parameter
       type: array
     Window:
+      example:
+        period: period
+        stop: 6
+        start: 0
       properties:
         start:
           description: |

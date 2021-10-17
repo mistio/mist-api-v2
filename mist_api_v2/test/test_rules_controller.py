@@ -36,18 +36,59 @@ class TestRulesController:
 
         Add rule
         """
-        query_string = [('queries', '{}'),
-                        ('window', '{}'),
-                        ('frequency', '{}'),
-                        ('trigger_after', '{}'),
-                        ('actions', '{}'),
-                        ('selectors', '{}'),
-                        ('data_type', '{}')]
+        add_rule_request = {
+  "trigger_after" : {
+    "period" : "period",
+    "offset" : 5
+  },
+  "data_type" : "logs",
+  "window" : {
+    "period" : "period",
+    "stop" : 6,
+    "start" : 0
+  },
+  "selectors" : {
+    "include" : [ "include", "include" ],
+    "ids" : [ "ids", "ids" ],
+    "type" : "type"
+  },
+  "queries" : [ {
+    "threshold" : "threshold",
+    "aggregation" : "aggregation",
+    "operator" : "operator",
+    "target" : "target"
+  }, {
+    "threshold" : "threshold",
+    "aggregation" : "aggregation",
+    "operator" : "operator",
+    "target" : "target"
+  } ],
+  "actions" : [ {
+    "emails" : [ "emails", "emails" ],
+    "teams" : [ "teams", "teams" ],
+    "action" : "action",
+    "type" : "type",
+    "users" : [ "users", "users" ],
+    "command" : "command"
+  }, {
+    "emails" : [ "emails", "emails" ],
+    "teams" : [ "teams", "teams" ],
+    "action" : "action",
+    "type" : "type",
+    "users" : [ "users", "users" ],
+    "command" : "command"
+  } ],
+  "frequency" : {
+    "period" : "period",
+    "every" : 1
+  }
+}
+        inject_vault_credentials(add_rule_request)
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            params=query_string)
+            json=add_rule_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
