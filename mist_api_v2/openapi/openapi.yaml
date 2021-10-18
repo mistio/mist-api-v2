@@ -5387,7 +5387,8 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
+          description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
+            LXD
           oneOf:
           - properties:
               cpus:
@@ -5432,6 +5433,7 @@ components:
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
+          - $ref: '#/components/schemas/LXDNet'
           - $ref: '#/components/schemas/OpenstackNet'
           - $ref: '#/components/schemas/VSphereNet'
           - $ref: '#/components/schemas/VultrNet'
@@ -5461,6 +5463,7 @@ components:
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
           - $ref: '#/components/schemas/LinodeVolumes'
+          - $ref: '#/components/schemas/LXDVolumes'
           - $ref: '#/components/schemas/OpenstackVolumes'
           - $ref: '#/components/schemas/VultrVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
@@ -5527,6 +5530,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
           - $ref: '#/components/schemas/LinodeExtra'
+          - $ref: '#/components/schemas/LXDExtra'
           - $ref: '#/components/schemas/VSphereExtra'
           - $ref: '#/components/schemas/VultrExtra'
           description: Configure additional parameters
@@ -5547,7 +5551,6 @@ components:
       required:
       - image
       - name
-      - size
       type: object
     CreateMachineResponse:
       oneOf:
@@ -6740,6 +6743,71 @@ components:
       type: object
     KvmCredentials:
       type: object
+    LXDExtra:
+      properties:
+        ephemeral:
+          description: Whether to destroy the container on shutdown, defaults to False
+          type: boolean
+        limits:
+          $ref: '#/components/schemas/LXDExtra_limits'
+      title: LXD extra parameter
+      type: object
+    LXDNet:
+      properties:
+        networks:
+          description: An array of network names or IDs to launch the container into
+          items:
+            type: string
+          type: array
+      title: LXD net parameter
+      type: object
+    LXDVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of an existing storage volume to attach
+              type: string
+            path:
+              description: Path in the container the storage volume will be attached.
+                e.g. /opt/mydata
+              type: string
+          required:
+          - path
+          - volume
+        - properties:
+            name:
+              description: Name of the storage volume that will be created
+              type: string
+            size:
+              description: Size of the storage volume in GBs
+              type: integer
+            path:
+              description: Path in the container the storage volume will be attached.
+                e.g. /opt/mydata
+              type: string
+            pool:
+              description: The storage pool to create the volume into. If not given
+                the default storage pool will be selected
+              type: string
+            filesystem:
+              description: Filesystem of the storage volume, defaults to "ext4"
+              type: string
+            mount_options:
+              description: Mount options for block devices,  defaults to "discard"
+              type: string
+            security_shifted:
+              description: Whether to enable id shifting overlay (allows attach by
+                multiple isolated instances). Only supported on LXD version 3.16 and
+                up
+              type: boolean
+          required:
+          - name
+          - path
+          - size
+        type: object
+      title: LXD volumes parameter
+      type: array
     LinodeCloudRequest:
       properties:
         provider:
@@ -8491,6 +8559,15 @@ components:
           type: string
       required:
       - network
+      type: object
+    LXDExtra_limits:
+      properties:
+        cpu:
+          description: The cpu limit to apply
+          type: string
+        memory:
+          description: The memory limit to apply
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

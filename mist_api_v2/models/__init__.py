@@ -94,6 +94,9 @@ from mist_api_v2.models.kubernetes_cloud_request import KubernetesCloudRequest
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
+from mist_api_v2.models.lxd_extra import LXDExtra
+from mist_api_v2.models.lxd_extra_limits import LXDExtraLimits
+from mist_api_v2.models.lxd_net import LXDNet
 from mist_api_v2.models.linode_cloud_request import LinodeCloudRequest
 from mist_api_v2.models.linode_credentials import LinodeCredentials
 from mist_api_v2.models.linode_extra import LinodeExtra
