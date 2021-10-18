@@ -5609,14 +5609,21 @@ components:
       type: object
     CreateNetworkRequest:
       example:
-        name: example-network
         cloud: example-cloud
+        template: '{}'
+        extra: '{}'
+        name: example-network
+        save: true
+        dry: true
+        tags: '{}'
       properties:
         name:
           description: Specify network name
+          example: example-network
           type: string
         cloud:
           description: Specify cloud to provision on
+          example: example-cloud
           type: string
         tags:
           description: Assign tags to provisioned network
@@ -5645,8 +5652,16 @@ components:
       type: object
     CreateVolumeRequest:
       example:
-        name: example-volume
-        size: example-size
+        cloud: cloud
+        template: '{}'
+        quantity: 6.027456183070403
+        size: 0
+        extra: '{}'
+        name: name
+        save: true
+        location: location
+        dry: true
+        tags: '{}'
       properties:
         name:
           description: Specify volume name
@@ -5661,7 +5676,7 @@ components:
           type: string
         size:
           description: Volume sizing spec
-          type: object
+          type: integer
         tags:
           description: Assign tags to provisioned volume
           type: object
@@ -5680,6 +5695,8 @@ components:
           description: Save provisioning plan as template
           type: boolean
       required:
+      - cloud
+      - location
       - name
       - size
       type: object

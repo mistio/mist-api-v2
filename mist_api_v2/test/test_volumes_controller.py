@@ -37,8 +37,16 @@ class TestVolumesController:
         Create volume
         """
         create_volume_request = {
-  "name" : "example-volume",
-  "size" : "example-size"
+  "cloud" : "cloud",
+  "template" : "{}",
+  "quantity" : 6.027456183070403,
+  "size" : 0,
+  "extra" : "{}",
+  "name" : "name",
+  "save" : true,
+  "location" : "location",
+  "dry" : true,
+  "tags" : "{}"
 }
         inject_vault_credentials(create_volume_request)
         uri = mist_core.uri + '/api/v2/volumes'

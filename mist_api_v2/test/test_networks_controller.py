@@ -37,8 +37,13 @@ class TestNetworksController:
         Create network
         """
         create_network_request = {
+  "cloud" : "example-cloud",
+  "template" : "{}",
+  "extra" : "{}",
   "name" : "example-network",
-  "cloud" : "example-cloud"
+  "save" : true,
+  "dry" : true,
+  "tags" : "{}"
 }
         inject_vault_credentials(create_network_request)
         uri = mist_core.uri + '/api/v2/networks'
