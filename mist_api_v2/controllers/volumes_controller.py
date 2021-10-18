@@ -74,7 +74,17 @@ def edit_volume(volume, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [volume], total = list_resources(
+            auth_context, 'volume', search=volume, limit=1)
+    except ValueError:
+        return 'Volume does not exist', 404
+    auth_context.check_perm('volume', 'edit', volume.id)
+    volume.name = name
+    volume.save()
+    return 'Volume succesfully updated'
 
 
 def delete_volume(volume):  # noqa: E501
