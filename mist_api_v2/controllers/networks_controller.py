@@ -88,7 +88,17 @@ def edit_network(network, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [network], total = list_resources(
+            auth_context, 'network', search=network, limit=1)
+    except ValueError:
+        return 'Network does not exist', 404
+    auth_context.check_perm('network', 'edit', network.id)
+    network.name = name
+    network.save()
+    return 'Network succesfully updated'
 
 
 def get_network(network, only=None, deref='auto'):  # noqa: E501
