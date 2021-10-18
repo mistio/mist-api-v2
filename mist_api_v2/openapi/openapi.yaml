@@ -6458,7 +6458,7 @@ components:
         data:
           cloud: cloud
           default: true
-          size: size
+          size: 0
           name: name
           external_id: external_id
           location: location
@@ -7454,7 +7454,7 @@ components:
         data:
         - cloud: cloud
           default: true
-          size: size
+          size: 0
           name: name
           external_id: external_id
           location: location
@@ -7464,7 +7464,7 @@ components:
           tags: '{}'
         - cloud: cloud
           default: true
-          size: size
+          size: 0
           name: name
           external_id: external_id
           location: location
@@ -8330,7 +8330,7 @@ components:
       example:
         cloud: cloud
         default: true
-        size: size
+        size: 0
         name: name
         external_id: external_id
         location: location
@@ -8350,7 +8350,7 @@ components:
         location:
           type: string
         size:
-          type: string
+          type: integer
         tags:
           type: object
         created_by:

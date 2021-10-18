@@ -29,7 +29,7 @@ class Volume(Model):
         :param location: The location of this Volume.  # noqa: E501
         :type location: str
         :param size: The size of this Volume.  # noqa: E501
-        :type size: str
+        :type size: int
         :param tags: The tags of this Volume.  # noqa: E501
         :type tags: object
         :param created_by: The created_by of this Volume.  # noqa: E501
@@ -45,7 +45,7 @@ class Volume(Model):
             'name': str,
             'cloud': str,
             'location': str,
-            'size': str,
+            'size': int,
             'tags': object,
             'created_by': str,
             'owned_by': str,
@@ -198,7 +198,7 @@ class Volume(Model):
 
 
         :return: The size of this Volume.
-        :rtype: str
+        :rtype: int
         """
         return self._size
 
@@ -208,7 +208,7 @@ class Volume(Model):
 
 
         :param size: The size of this Volume.
-        :type size: str
+        :type size: int
         """
 
         self._size = size
