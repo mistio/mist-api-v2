@@ -15,13 +15,15 @@ class CreateZoneRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, tags=None, extra=None, template=None, dry=None, save=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, domain=None, tags=None, extra=None, template=None, dry=None, save=None):  # noqa: E501
         """CreateZoneRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateZoneRequest.  # noqa: E501
         :type name: str
         :param cloud: The cloud of this CreateZoneRequest.  # noqa: E501
         :type cloud: str
+        :param domain: The domain of this CreateZoneRequest.  # noqa: E501
+        :type domain: str
         :param tags: The tags of this CreateZoneRequest.  # noqa: E501
         :type tags: object
         :param extra: The extra of this CreateZoneRequest.  # noqa: E501
@@ -36,6 +38,7 @@ class CreateZoneRequest(Model):
         self.openapi_types = {
             'name': str,
             'cloud': str,
+            'domain': str,
             'tags': object,
             'extra': object,
             'template': object,
@@ -46,6 +49,7 @@ class CreateZoneRequest(Model):
         self.attribute_map = {
             'name': 'name',
             'cloud': 'cloud',
+            'domain': 'domain',
             'tags': 'tags',
             'extra': 'extra',
             'template': 'template',
@@ -55,6 +59,7 @@ class CreateZoneRequest(Model):
 
         self._name = name
         self._cloud = cloud
+        self._domain = domain
         self._tags = tags
         self._extra = extra
         self._template = template
@@ -121,6 +126,29 @@ class CreateZoneRequest(Model):
             raise ValueError("Invalid value for `cloud`, must not be `None`")  # noqa: E501
 
         self._cloud = cloud
+
+    @property
+    def domain(self):
+        """Gets the domain of this CreateZoneRequest.
+
+        Specify zone domain (e.g. example.com)  # noqa: E501
+
+        :return: The domain of this CreateZoneRequest.
+        :rtype: str
+        """
+        return self._domain
+
+    @domain.setter
+    def domain(self, domain):
+        """Sets the domain of this CreateZoneRequest.
+
+        Specify zone domain (e.g. example.com)  # noqa: E501
+
+        :param domain: The domain of this CreateZoneRequest.
+        :type domain: str
+        """
+
+        self._domain = domain
 
     @property
     def tags(self):
