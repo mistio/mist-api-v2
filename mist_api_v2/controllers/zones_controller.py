@@ -43,6 +43,19 @@ def create_zone(create_zone_request=None):  # noqa: E501
     return new_zone.as_dict()
 
 
+def delete_zone(zone):  # noqa: E501
+    """Delete zone
+
+    Delete target zone # noqa: E501
+
+    :param zone:
+    :type zone: str
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
 def edit_zone(zone, name=None):  # noqa: E501
     """Edit zone
 
