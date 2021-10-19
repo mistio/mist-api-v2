@@ -53,7 +53,18 @@ def delete_zone(zone):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [zone], _ = list_resources(auth_context, 'zone',
+                                   search=zone, limit=1)
+    except ValueError:
+        return 'Zone does not exist', 404
+    # SEC
+    auth_context.check_perm('cloud', 'read', zone.cloud.id)
+    auth_context.check_perm('zone', 'read', zone.id)
+    zone.ctl.delete_zone()
+    return 'Deleted zone `%s`' % zone.domain, 200
 
 
 def edit_zone(zone, name=None):  # noqa: E501
