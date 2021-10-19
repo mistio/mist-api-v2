@@ -1,5 +1,9 @@
 import connexion
 
+from mist.api.helpers import delete_none
+from mist.api.dns.models import Zone
+from mist.api.tag.methods import resolve_id_and_set_tags
+
 from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
 from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
 from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E501
@@ -17,9 +21,26 @@ def create_zone(create_zone_request=None):  # noqa: E501
 
     :rtype: CreateZoneResponse
     """
+    from mist.api.methods import list_resources
     if connexion.request.is_json:
         create_zone_request = CreateZoneRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    auth_context = connexion.context['token_info']['auth_context']
+    params = delete_none(create_zone_request.to_dict())
+    try:
+        [cloud], total = list_resources(
+            auth_context, 'cloud', search=params.pop('cloud'), limit=1)
+    except ValueError:
+        return 'Cloud does not exist', 404
+    auth_context.check_perm("cloud", "read", cloud.id)
+    auth_context.check_perm("cloud", "create_resources", cloud.id)
+    tags, _ = auth_context.check_perm("zone", "add", None)
+    params['domain'] = params.pop('name')
+    new_zone = Zone.add(owner=cloud.owner, cloud=cloud, **params)
+    new_zone.assign_to(auth_context.user)
+    if tags:
+        resolve_id_and_set_tags(auth_context.owner, 'zone', new_zone.id,
+                                tags, cloud_id=cloud.id)
+    return new_zone.as_dict()
 
 
 def edit_zone(zone, name=None):  # noqa: E501
