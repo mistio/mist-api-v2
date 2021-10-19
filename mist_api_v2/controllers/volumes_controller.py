@@ -82,8 +82,7 @@ def edit_volume(volume, name=None):  # noqa: E501
     except ValueError:
         return 'Volume does not exist', 404
     auth_context.check_perm('volume', 'edit', volume.id)
-    volume.name = name
-    volume.save()
+    # TODO: Implement volume.ctl.rename()
     return 'Volume succesfully updated'
 
 
