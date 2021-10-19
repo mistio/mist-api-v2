@@ -3599,7 +3599,7 @@ paths:
       - description: Only return results matching search filter
         examples:
           Filter by script name:
-            value: install-tensorflow
+            value: example-script
         explode: true
         in: query
         name: search
@@ -3697,6 +3697,34 @@ paths:
       - tags
       - owned_by
       - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+    post:
+      description: Add script to user scripts
+      operationId: add_script
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddScriptRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Script added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - add:script
+      - CookieAuth:
+        - add:script
+      summary: Add script
+      tags:
+      - scripts
       x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
   /api/v2/scripts/{script}:
     delete:
@@ -3802,6 +3830,49 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+    post:
+      description: Start a script job to run the script.
+      operationId: run_script
+      parameters:
+      - example: example-script
+        explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunScriptRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunScriptResponse'
+          description: Run script job started successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+        - run_script:machine
+        - run:script
+      - CookieAuth:
+        - read:cloud
+        - run_script:machine
+        - run:script
+      summary: Run script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
     put:
       description: Edit target script
       operationId: edit_script
@@ -3815,7 +3886,7 @@ paths:
           type: string
         style: simple
       - description: New script name
-        example: example-script
+        example: renamed-example-script
         explode: true
         in: query
         name: name
@@ -3824,6 +3895,7 @@ paths:
           type: string
         style: form
       - description: New script description
+        example: description
         explode: true
         in: query
         name: description
@@ -3846,6 +3918,72 @@ paths:
       - CookieAuth:
         - edit:script
       summary: Edit script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+  /api/v2/scripts/{script}/file:
+    get:
+      description: Download script file or archive
+      operationId: download_script
+      parameters:
+      - example: example-script
+        explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: Script downloaded successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      summary: Download script
+      tags:
+      - scripts
+      x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+  /api/v2/scripts/{script}/url:
+    get:
+      description: Generate url for fetching script file
+      operationId: generate_script_url
+      parameters:
+      - example: example-script
+        explode: false
+        in: path
+        name: script
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: Script url generated successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Script not found
+      security:
+      - ApiKeyAuth:
+        - read:script
+      - CookieAuth:
+        - read:script
+      summary: Generate script url
       tags:
       - scripts
       x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
@@ -4938,6 +5076,49 @@ components:
       - trigger_after
       - window
       type: object
+    AddScriptRequest:
+      example:
+        entrypoint: entrypoint.sh
+        name: example-script
+        description: description
+        exec_type: executable
+        script: |-
+          #!/usr/bin/env bash
+          echo Hello, World!
+        location_type: inline
+      properties:
+        name:
+          example: example-script
+          type: string
+        script:
+          example: |-
+            #!/usr/bin/env bash
+            echo Hello, World!
+          type: string
+        location_type:
+          enum:
+          - inline
+          - github
+          - url
+          example: inline
+          type: string
+        entrypoint:
+          example: entrypoint.sh
+          type: string
+        exec_type:
+          enum:
+          - executable
+          - ansible
+          example: executable
+          type: string
+        description:
+          type: string
+      required:
+      - exec_type
+      - location_type
+      - name
+      - script
+      type: object
     AlibabaCloudRequest:
       properties:
         provider:
@@ -5435,7 +5616,8 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
+          description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
+            LXD
           oneOf:
           - properties:
               cpus:
@@ -5480,6 +5662,7 @@ components:
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
           - $ref: '#/components/schemas/LinodeNet'
+          - $ref: '#/components/schemas/LXDNet'
           - $ref: '#/components/schemas/OpenstackNet'
           - $ref: '#/components/schemas/VSphereNet'
           - $ref: '#/components/schemas/VultrNet'
@@ -5509,6 +5692,7 @@ components:
           - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
           - $ref: '#/components/schemas/LinodeVolumes'
+          - $ref: '#/components/schemas/LXDVolumes'
           - $ref: '#/components/schemas/OpenstackVolumes'
           - $ref: '#/components/schemas/VultrVolumes'
           description: Configure of attached storage volumes, e.g. cloud disks
@@ -5575,6 +5759,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
           - $ref: '#/components/schemas/LinodeExtra'
+          - $ref: '#/components/schemas/LXDExtra'
           - $ref: '#/components/schemas/VSphereExtra'
           - $ref: '#/components/schemas/VultrExtra'
           description: Configure additional parameters
@@ -5595,7 +5780,6 @@ components:
       required:
       - image
       - name
-      - size
       type: object
     CreateMachineResponse:
       oneOf:
@@ -6886,6 +7070,71 @@ components:
       type: object
     KvmCredentials:
       type: object
+    LXDExtra:
+      properties:
+        ephemeral:
+          description: Whether to destroy the container on shutdown, defaults to False
+          type: boolean
+        limits:
+          $ref: '#/components/schemas/LXDExtra_limits'
+      title: LXD extra parameter
+      type: object
+    LXDNet:
+      properties:
+        networks:
+          description: An array of network names or IDs to launch the container into
+          items:
+            type: string
+          type: array
+      title: LXD net parameter
+      type: object
+    LXDVolumes:
+      items:
+        oneOf:
+        - properties:
+            volume:
+              description: Name or ID of an existing storage volume to attach
+              type: string
+            path:
+              description: Path in the container the storage volume will be attached.
+                e.g. /opt/mydata
+              type: string
+          required:
+          - path
+          - volume
+        - properties:
+            name:
+              description: Name of the storage volume that will be created
+              type: string
+            size:
+              description: Size of the storage volume in GBs
+              type: integer
+            path:
+              description: Path in the container the storage volume will be attached.
+                e.g. /opt/mydata
+              type: string
+            pool:
+              description: The storage pool to create the volume into. If not given
+                the default storage pool will be selected
+              type: string
+            filesystem:
+              description: Filesystem of the storage volume, defaults to "ext4"
+              type: string
+            mount_options:
+              description: Mount options for block devices,  defaults to "discard"
+              type: string
+            security_shifted:
+              description: Whether to enable id shifting overlay (allows attach by
+                multiple isolated instances). Only supported on LXD version 3.16 and
+                up
+              type: boolean
+          required:
+          - name
+          - path
+          - size
+        type: object
+      title: LXD volumes parameter
+      type: array
     LinodeCloudRequest:
       properties:
         provider:
@@ -8116,6 +8365,42 @@ components:
       items:
         $ref: '#/components/schemas/RuleAction'
       type: array
+    RunScriptRequest:
+      example:
+        su: "false"
+        machine: example-machine
+        job_id: ab74e2f0b7ae4999b1e4013e20dac418
+        params: -v
+        env: EXAMPLE_VAR=123
+      properties:
+        machine:
+          example: example-machine
+          type: string
+        params:
+          example: -v
+          type: string
+        su:
+          enum:
+          - "true"
+          - "false"
+          example: "false"
+          type: string
+        env:
+          example: EXAMPLE_VAR=123
+          type: string
+        job_id:
+          example: ab74e2f0b7ae4999b1e4013e20dac418
+          type: string
+      required:
+      - machine
+      type: object
+    RunScriptResponse:
+      example:
+        job_id: job_id
+      properties:
+        job_id:
+          type: string
+      type: object
     Script:
       example:
         name: name
@@ -8519,6 +8804,13 @@ components:
         id:
           type: string
       type: object
+    inline_response_200_1:
+      example:
+        url: url
+      properties:
+        url:
+          type: string
+      type: object
     AddCloudRequest_allOf:
       properties:
         name:
@@ -8673,6 +8965,15 @@ components:
           type: string
       required:
       - network
+      type: object
+    LXDExtra_limits:
+      properties:
+        cpu:
+          description: The cpu limit to apply
+          type: string
+        memory:
+          description: The memory limit to apply
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

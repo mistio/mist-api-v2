@@ -34,6 +34,7 @@ mist_api_v2/models/add_key_request_any_of1.py
 mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
 mist_api_v2/models/add_rule_request.py
+mist_api_v2/models/add_script_request.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/alibaba_net.py
@@ -109,6 +110,7 @@ mist_api_v2/models/ibm_cloud_request.py
 mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
 mist_api_v2/models/inline_response200.py
+mist_api_v2/models/inline_response2001.py
 mist_api_v2/models/inline_script.py
 mist_api_v2/models/instant_vector.py
 mist_api_v2/models/interval_schedule.py
@@ -147,6 +149,9 @@ mist_api_v2/models/location.py
 mist_api_v2/models/log.py
 mist_api_v2/models/lxd_cloud_request.py
 mist_api_v2/models/lxd_credentials.py
+mist_api_v2/models/lxd_extra.py
+mist_api_v2/models/lxd_extra_limits.py
+mist_api_v2/models/lxd_net.py
 mist_api_v2/models/machine.py
 mist_api_v2/models/machine_state.py
 mist_api_v2/models/maxihost_cloud_request.py
@@ -171,6 +176,8 @@ mist_api_v2/models/range_vector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
+mist_api_v2/models/run_script_request.py
+mist_api_v2/models/run_script_response.py
 mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
