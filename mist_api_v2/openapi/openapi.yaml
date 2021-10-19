@@ -5610,6 +5610,7 @@ components:
           - $ref: '#/components/schemas/AlibabaNet'
           - $ref: '#/components/schemas/AmazonNet'
           - $ref: '#/components/schemas/AzureNet'
+          - $ref: '#/components/schemas/DockerNet'
           - $ref: '#/components/schemas/EquinixMetalNet'
           - $ref: '#/components/schemas/GoogleNet'
           - $ref: '#/components/schemas/KVMNet'
@@ -5709,6 +5710,7 @@ components:
         extra:
           anyOf:
           - $ref: '#/components/schemas/AzureExtra'
+          - $ref: '#/components/schemas/DockerExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
           - $ref: '#/components/schemas/LinodeExtra'
           - $ref: '#/components/schemas/LXDExtra'
@@ -6005,6 +6007,27 @@ components:
       required:
       - host
       - port
+      type: object
+    DockerExtra:
+      properties:
+        environment:
+          description: Key, value pairs of environment variables to set inside the
+            container
+          type: object
+        command:
+          description: Command to run specified as a string
+          type: string
+        limits:
+          $ref: '#/components/schemas/DockerExtra_limits'
+      title: Docker extra parameter
+      type: object
+    DockerNet:
+      properties:
+        port_bindings:
+          description: 'ContainerPort,HostPort pairs. For example "80": "80", "123/udp":
+            "123"'
+          type: object
+      title: Docker net parameter
       type: object
     EditCloudRequest:
       anyOf:
@@ -8727,6 +8750,15 @@ components:
           items:
             $ref: '#/components/schemas/Vector'
           type: array
+      type: object
+    DockerExtra_limits:
+      properties:
+        cpu:
+          description: The cpu quota. For example with a value of 1.5 the container
+            is guaranteed at most one and a half of the CPUs
+        memory:
+          description: The memory limit in MBs to apply
+          type: int
       type: object
     EquinixMetalNet_ip_addresses:
       properties:
