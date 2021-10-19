@@ -5890,13 +5890,10 @@ components:
         cloud: example-cloud
       properties:
         name:
-          description: Specify zone name
+          description: Specify zone name/domain (e.g. example.com)
           type: string
         cloud:
           description: Specify cloud to provision on
-          type: string
-        domain:
-          description: Specify zone domain (e.g. example.com)
           type: string
         tags:
           description: Assign tags to provisioned zone
