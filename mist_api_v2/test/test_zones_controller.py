@@ -51,6 +51,21 @@ class TestZonesController:
         assert_response_ok(response)
         print('Success!!!')
 
+    def test_delete_zone(self, pretty_print, mist_core, owner_api_token):
+        """Test case for delete_zone
+
+        Delete zone
+        """
+        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+            zone=setup_data.get('zone') or 'example-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_edit_zone(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_zone
 

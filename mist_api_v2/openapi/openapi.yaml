@@ -4781,6 +4781,40 @@ paths:
       - zones
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
   /api/v2/zones/{zone}:
+    delete:
+      description: Delete target zone
+      operationId: delete_zone
+      parameters:
+      - example: example-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Zone successfully deleted
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Zone not found
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - delete:zone
+        - read:cloud
+      - CookieAuth:
+        - read:zone
+        - delete:zone
+        - read:cloud
+      summary: Delete zone
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
     get:
       description: Get details about target zone
       operationId: get_zone
