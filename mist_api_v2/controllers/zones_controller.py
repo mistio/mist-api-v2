@@ -68,7 +68,18 @@ def edit_zone(zone, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [zone], total = list_resources(
+            auth_context, 'zone', search=zone, limit=1)
+    except ValueError:
+        return 'Zone does not exist', 404
+    auth_context.check_perm("zone", "edit", zone.id)
+    # FIX: Replace with controller rename method
+    zone.domain = name
+    zone.save()
+    return 'Zone successfully updated'
 
 
 def get_zone(zone, only=None, deref=None):  # noqa: E501
