@@ -87,9 +87,7 @@ def edit_zone(zone, name=None):  # noqa: E501
     except ValueError:
         return 'Zone does not exist', 404
     auth_context.check_perm("zone", "edit", zone.id)
-    # FIX: Replace with controller rename method
-    zone.domain = name
-    zone.save()
+    # TODO: Implement zone.ctl.rename()
     return 'Zone successfully updated'
 
 
