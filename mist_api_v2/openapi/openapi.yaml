@@ -2313,8 +2313,8 @@ paths:
         - list_snapshots:machine
       summary: List machine snapshots
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
     post:
       description: Create snapshots of target machine
       operationId: create_snapshot
@@ -2353,8 +2353,8 @@ paths:
         - create_snapshots:machine
       summary: Create snapshot
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
   /api/v2/machines/{machine}/snapshots/{snapshot}:
     delete:
       description: Remove target machine snapshot
@@ -2398,8 +2398,8 @@ paths:
         - create_snapshots:machine
       summary: Remove snapshot
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
     post:
       description: Revert machine to snapshot
       operationId: revert_to_snapshot
@@ -2442,8 +2442,8 @@ paths:
         - revert_to_snapshots:machine
       summary: Revert to snapshot
       tags:
-      - machines
-      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+      - snapshots
+      x-openapi-router-controller: mist_api_v2.controllers.snapshots_controller
   /api/v2/networks:
     get:
       description: List networks owned by the active org. READ permission required
