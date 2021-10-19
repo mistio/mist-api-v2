@@ -7,7 +7,7 @@ from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse  # 
 
 from mist.api.monitoring.victoriametrics.helpers import parse_relative_time
 
-from mist.api.helpers import apply_promql_query_rbac
+from mist.api.helpers import apply_promql_query_rbac, get_victoriametrics_uri
 
 
 def get_datapoints(query, search=None, tags=None, start=None, end=None, step=None, time=None):  # noqa: E501
@@ -47,8 +47,7 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
     except RuntimeError as exc:
         return str(exc), 400
 
-    tenant = str(int(auth_context.org.id[:8], 16))
-    uri = config.VICTORIAMETRICS_URI.replace("<org_id>", tenant)
+    uri = get_victoriametrics_uri(auth_context.org)
     datapoints = None
     if time:
         datapoints = requests.post(
