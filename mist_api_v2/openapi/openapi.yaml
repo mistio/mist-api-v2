@@ -6024,8 +6024,7 @@ components:
     DockerNet:
       properties:
         port_bindings:
-          description: 'ContainerPort,HostPort pairs. For example "80": "80", "123/udp":
-            "123"'
+          description: ContainerPort,HostPort pairs. For example "80"/"80", "123/udp"/"123"
           type: object
       title: Docker net parameter
       type: object

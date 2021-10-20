@@ -46,7 +46,7 @@ class DockerNet(Model):
     def port_bindings(self):
         """Gets the port_bindings of this DockerNet.
 
-        ContainerPort,HostPort pairs. For example \"80\": \"80\", \"123/udp\": \"123\"  # noqa: E501
+        ContainerPort,HostPort pairs. For example \"80\"/\"80\", \"123/udp\"/\"123\"  # noqa: E501
 
         :return: The port_bindings of this DockerNet.
         :rtype: object
@@ -57,7 +57,7 @@ class DockerNet(Model):
     def port_bindings(self, port_bindings):
         """Sets the port_bindings of this DockerNet.
 
-        ContainerPort,HostPort pairs. For example \"80\": \"80\", \"123/udp\": \"123\"  # noqa: E501
+        ContainerPort,HostPort pairs. For example \"80\"/\"80\", \"123/udp\"/\"123\"  # noqa: E501
 
         :param port_bindings: The port_bindings of this DockerNet.
         :type port_bindings: object
