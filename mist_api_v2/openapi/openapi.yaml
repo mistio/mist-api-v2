@@ -8759,7 +8759,7 @@ components:
           type: float
         memory:
           description: The memory limit in MBs to apply
-          type: int
+          type: integer
       type: object
     EquinixMetalNet_ip_addresses:
       properties:
