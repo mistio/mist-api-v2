@@ -36,11 +36,13 @@ class TestSnapshotsController:
 
         Create snapshot
         """
+        query_string = [('name', 'example-snapshot')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
             machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
