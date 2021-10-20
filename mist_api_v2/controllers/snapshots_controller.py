@@ -1,3 +1,6 @@
+import connexion
+
+
 def create_snapshot(machine):  # noqa: E501
     """Create snapshot
 
@@ -12,7 +15,7 @@ def create_snapshot(machine):  # noqa: E501
 
 
 def list_snapshots(machine):  # noqa: E501
-    """Suspend machine
+    """List snapshots
 
     List snapshots of target machine # noqa: E501
 
@@ -21,7 +24,16 @@ def list_snapshots(machine):  # noqa: E501
 
     :rtype: ListSnapshotsResponse
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine', search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'read', machine.id)
+    auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    return machine.ctl.list_snapshots()
 
 
 def remove_snapshot(machine, snapshot):  # noqa: E501
