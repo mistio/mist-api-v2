@@ -48,7 +48,19 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine', search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'read', machine.id)
+    auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    auth_context.check_perm('machine', 'create_snapshots', machine.id)
+    machine.ctl.remove_snapshot()
+    return 'Snapshot removed successfully'
+
 
 
 def revert_to_snapshot(machine, snapshot):  # noqa: E501
