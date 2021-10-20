@@ -71,7 +71,7 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
     auth_context.check_perm('machine', 'read', machine.id)
     auth_context.check_perm('machine', 'list_snapshots', machine.id)
     auth_context.check_perm('machine', 'create_snapshots', machine.id)
-    machine.ctl.remove_snapshot()
+    machine.ctl.remove_snapshot(snapshot)
     return 'Snapshot removed successfully'
 
 
