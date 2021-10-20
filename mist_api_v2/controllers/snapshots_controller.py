@@ -82,7 +82,6 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
     return 'Snapshot removed successfully'
 
 
-
 def revert_to_snapshot(machine, snapshot):  # noqa: E501
     """Revert to snapshot
 
