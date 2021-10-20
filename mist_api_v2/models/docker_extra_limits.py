@@ -6,11 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.any_type import AnyType
 from mist_api_v2.models.int import Int
 from mist_api_v2 import util
 
-from mist_api_v2.models.any_type import AnyType  # noqa: E501
 from mist_api_v2.models.int import Int  # noqa: E501
 
 class DockerExtraLimits(Model):
@@ -23,12 +21,12 @@ class DockerExtraLimits(Model):
         """DockerExtraLimits - a model defined in OpenAPI
 
         :param cpu: The cpu of this DockerExtraLimits.  # noqa: E501
-        :type cpu: AnyType
+        :type cpu: float
         :param memory: The memory of this DockerExtraLimits.  # noqa: E501
         :type memory: Int
         """
         self.openapi_types = {
-            'cpu': AnyType,
+            'cpu': float,
             'memory': Int
         }
 
@@ -58,7 +56,7 @@ class DockerExtraLimits(Model):
         The cpu quota. For example with a value of 1.5 the container is guaranteed at most one and a half of the CPUs  # noqa: E501
 
         :return: The cpu of this DockerExtraLimits.
-        :rtype: AnyType
+        :rtype: float
         """
         return self._cpu
 
@@ -69,7 +67,7 @@ class DockerExtraLimits(Model):
         The cpu quota. For example with a value of 1.5 the container is guaranteed at most one and a half of the CPUs  # noqa: E501
 
         :param cpu: The cpu of this DockerExtraLimits.
-        :type cpu: AnyType
+        :type cpu: float
         """
 
         self._cpu = cpu

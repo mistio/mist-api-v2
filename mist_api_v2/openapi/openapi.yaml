@@ -8756,6 +8756,7 @@ components:
         cpu:
           description: The cpu quota. For example with a value of 1.5 the container
             is guaranteed at most one and a half of the CPUs
+          type: float
         memory:
           description: The memory limit in MBs to apply
           type: int
