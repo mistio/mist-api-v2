@@ -1,6 +1,9 @@
 import connexion
 
 
+import mist.api.machines.methods as methods
+
+
 def create_snapshot(machine, name):  # noqa: E501
     """Create snapshot
 
@@ -23,7 +26,9 @@ def create_snapshot(machine, name):  # noqa: E501
     auth_context.check_perm('machine', 'read', machine.id)
     auth_context.check_perm('machine', 'list_snapshots', machine.id)
     auth_context.check_perm('machine', 'create_snapshots', machine.id)
-    machine.ctl.create_snapshot(name)
+    result = machine.ctl.create_snapshot(name)
+    methods.run_post_action_hooks(
+        machine, 'create_snapshot', auth_context.user, result)
     return {'name': name}
 
 
@@ -71,7 +76,9 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
     auth_context.check_perm('machine', 'read', machine.id)
     auth_context.check_perm('machine', 'list_snapshots', machine.id)
     auth_context.check_perm('machine', 'create_snapshots', machine.id)
-    machine.ctl.remove_snapshot(snapshot)
+    result = machine.ctl.remove_snapshot(snapshot)
+    methods.run_post_action_hooks(
+        machine, 'remove_snapshot', auth_context.user, result)
     return 'Snapshot removed successfully'
 
 
@@ -98,5 +105,7 @@ def revert_to_snapshot(machine, snapshot):  # noqa: E501
     auth_context.check_perm('machine', 'read', machine.id)
     auth_context.check_perm('machine', 'list_snapshots', machine.id)
     auth_context.check_perm('machine', 'revert_to_snapshots', machine.id)
-    machine.ctl.revert_to_snapshot(snapshot)
+    result = machine.ctl.revert_to_snapshot(snapshot)
+    methods.run_post_action_hooks(
+        machine, 'revert_to_snapshot', auth_context.user, result)
     return 'Revert machine to snapshot issued successfully'
