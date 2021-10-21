@@ -506,7 +506,7 @@ def associate_key(machine, key_machine_association=None):  # noqa: E501
         key.ctl.associate(machine, username=ssh_user, port=ssh_port)
     except (MachineUnauthorizedError, ServiceUnavailableError):
         return 'Could not connect to target machine', 503
-    except Exception as e:
+    except Exception:
         return 'Action not supported on target machine', 422
     return 'Association successful', 200
 
@@ -528,7 +528,7 @@ def disassociate_key(machine, key_machine_association=None):  # noqa: E501
     from mist.api.methods import list_resources
     try:
         auth_context = connexion.context['token_info']['auth_context']
-    except:
+    except Exception:
         return 'Authentication failed', 401
     try:
         [machine], _ = list_resources(auth_context, 'machine',
@@ -543,7 +543,7 @@ def disassociate_key(machine, key_machine_association=None):  # noqa: E501
     try:
         auth_context.check_perm("machine", "disassociate_key", machine.id)
         auth_context.check_perm("cloud", "read", machine.cloud.id)
-    except:
+    except Exception:
         return 'You are not authorized to perform this action', 403
     try:
         key.ctl.disassociate(machine)
