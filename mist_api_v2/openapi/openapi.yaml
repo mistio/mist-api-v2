@@ -1950,6 +1950,11 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExposeMachineRequest'
       responses:
         "200":
           description: Machine expose issued successfully
@@ -6358,6 +6363,16 @@ components:
       required:
       - action
       - date
+      type: object
+    ExposeMachineRequest:
+      example:
+        port_forwards: '{}'
+      properties:
+        port_forwards:
+          description: Applies only in GigG8 clouds
+          type: object
+      required:
+      - port_forwards
       type: object
     Frequency:
       example:
