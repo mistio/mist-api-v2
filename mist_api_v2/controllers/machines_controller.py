@@ -454,18 +454,52 @@ def rename_machine(machine, name):  # noqa: E501
     return 'Machine renamed successfully'
 
 
-
-def resize_machine(machine):  # noqa: E501
+def resize_machine(machine, size):  # noqa: E501
     """Resize machine
 
     Resize target machine # noqa: E501
 
     :param machine:
     :type machine: str
+    :param size:
+    :type size: str
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [size], total = list_resources(auth_context, 'size',
+                                       cloud=machine.cloud.id,
+                                       search=size, limit=1)
+    except ValueError:
+        return 'Size does not exist', 404
+    _, constraints = auth_context.check_perm(
+        'machine', 'resize', machine.id)
+    # check cost constraint
+    cost_constraint = constraints.get('cost', {})
+    if cost_constraint:
+        try:
+            from mist.rbac.methods import check_cost
+            check_cost(auth_context.org, cost_constraint)
+        except ImportError:
+            pass
+    # check size constraint
+    size_constraint = constraints.get('size', {})
+    if size_constraint:
+        try:
+            from mist.rbac.methods import check_size
+            check_size(machine.cloud.id, size_constraint, size)
+        except ImportError:
+            pass
+    result = machine.ctl.resize(size.id, {})
+    methods.run_post_action_hooks(machine, 'resize', auth_context.user, result)
+    return 'Machine resize issued successfully'
 
 
 def resume_machine(machine):  # noqa: E501
