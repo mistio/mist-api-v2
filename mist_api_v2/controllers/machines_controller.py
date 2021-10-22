@@ -621,7 +621,21 @@ def suspend_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    # used by logging_view_decorator
+    # request.environ['machine_id'] = machine.machine_id
+    # request.environ['cloud_id'] = machine.cloud.id
+    auth_context.check_perm('machine', 'suspend', machine.id)
+    result = machine.ctl.suspend()
+    methods.run_post_action_hooks(
+        machine, 'suspend', auth_context.user, result)
+    return 'Machine suspend issued successfully'
 
 
 def undefine_machine(machine):  # noqa: E501
