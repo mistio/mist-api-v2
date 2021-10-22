@@ -292,6 +292,7 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
         edit_machine_request = EditMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
     params = delete_none(edit_machine_request.to_dict())
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
@@ -305,9 +306,10 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
         raise NotFoundError(
             f'Machine {machine.id} has been terminated'
         )
-    # used by logging_view_decorator
-    # request.environ['machine_id'] = machine.machine_id
-    # request.environ['cloud_id'] = machine.cloud.id
+    log_event(
+        auth_context.owner.id, 'request', 'edit_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
     auth_context.check_perm('machine', 'edit', machine.id)
     machine.ctl.update(auth_context, params)
     return 'Machine successfully updated'
@@ -329,6 +331,7 @@ def expose_machine(machine, expose_machine_request=None):  # noqa: E501
     if connexion.request.is_json:
         expose_machine_request = ExposeMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
@@ -342,6 +345,10 @@ def expose_machine(machine, expose_machine_request=None):  # noqa: E501
     port_forwards = {'ports': params.get('ports', {}),
                      'service_type': params.get('service_type', None)}
     methods.validate_portforwards(port_forwards)
+    log_event(
+        auth_context.owner.id, 'request', 'expose_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
     result = machine.ctl.expose(port_forwards)
     methods.run_post_action_hooks(machine, 'expose', auth_context.user, result)
     return 'Machine expose issued successfully'
@@ -440,14 +447,16 @@ def rename_machine(machine, name):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    # used by logging_view_decorator
-    # request.environ['machine_id'] = machine.machine_id
-    # request.environ['cloud_id'] = machine.cloud.id
+    log_event(
+        auth_context.owner.id, 'request', 'rename_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
     auth_context.check_perm('machine', 'rename', machine.id)
     result = machine.ctl.rename(name)
     methods.run_post_action_hooks(machine, 'rename', auth_context.user, result)
@@ -468,6 +477,7 @@ def resize_machine(machine, size):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
@@ -497,6 +507,10 @@ def resize_machine(machine, size):  # noqa: E501
             check_size(machine.cloud.id, size_constraint, size)
         except ImportError:
             pass
+    log_event(
+        auth_context.owner.id, 'request', 'resize_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
     result = machine.ctl.resize(size.id, {})
     methods.run_post_action_hooks(machine, 'resize', auth_context.user, result)
     return 'Machine resize issued successfully'
@@ -514,14 +528,16 @@ def resume_machine(machine):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    # used by logging_view_decorator
-    # request.environ['machine_id'] = machine.machine_id
-    # request.environ['cloud_id'] = machine.cloud.id
+    log_event(
+        auth_context.owner.id, 'request', 'resume_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
     auth_context.check_perm('machine', 'resume', machine.id)
     result = machine.ctl.resume()
     methods.run_post_action_hooks(machine, 'resume', auth_context.user, result)
@@ -623,15 +639,17 @@ def suspend_machine(machine):  # noqa: E501
     """
     from mist.api.methods import list_resources
     auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    # used by logging_view_decorator
-    # request.environ['machine_id'] = machine.machine_id
-    # request.environ['cloud_id'] = machine.cloud.id
     auth_context.check_perm('machine', 'suspend', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'suspend_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
     result = machine.ctl.suspend()
     methods.run_post_action_hooks(
         machine, 'suspend', auth_context.user, result)
