@@ -5,6 +5,7 @@ import connexion
 from pyramid.renderers import render_to_response
 
 from mist.api import config
+from mist.api.helpers import delete_none
 from mist.api.clouds.models import LibvirtCloud
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
@@ -22,6 +23,7 @@ from mist.api.tasks import multicreate_async_v2
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
+from mist_api_v2.models.edit_machine_request import EditMachineRequest  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
@@ -270,19 +272,22 @@ def destroy_machine(machine):  # noqa: E501
     return 'Destroyed machine `%s`' % machine.name, 200
 
 
-def edit_machine(machine, name=None):  # noqa: E501
+def edit_machine(machine, edit_machine_request=None):  # noqa: E501
     """Edit machine
 
     Edit target machine # noqa: E501
 
     :param machine:
     :type machine: str
-    :param name: New machine name
-    :type name: str
+    :param edit_machine_request:
+    :type edit_machine_request: dict | bytes
 
     :rtype: None
     """
     from mist.api.methods import list_resources
+    if connexion.request.is_json:
+        edit_machine_request = EditMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    params = delete_none(edit_machine_request.to_dict())
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [machine], total = list_resources(auth_context, 'machine',
@@ -301,7 +306,8 @@ def edit_machine(machine, name=None):  # noqa: E501
     # request.environ['machine_id'] = machine.machine_id
     # request.environ['cloud_id'] = machine.cloud.id
     auth_context.check_perm('machine', 'edit', machine.id)
-    return machine.ctl.rename(name)
+    machine.ctl.update(auth_context, params)
+    return 'Machine successfully updated'
 
 
 def expose_machine(machine):  # noqa: E501
