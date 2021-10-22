@@ -2,6 +2,8 @@ import uuid
 import urllib
 import connexion
 
+import mist.api.machines.methods as methods
+
 from pyramid.renderers import render_to_response
 
 from mist.api import config
@@ -24,6 +26,7 @@ from mist.api.tasks import multicreate_async_v2
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.edit_machine_request import EditMachineRequest  # noqa: E501
+from mist_api_v2.models.expose_machine_request import ExposeMachineRequest  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
@@ -310,17 +313,38 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
     return 'Machine successfully updated'
 
 
-def expose_machine(machine):  # noqa: E501
+def expose_machine(machine, expose_machine_request=None):  # noqa: E501
     """Expose machine
 
     Expose target machine # noqa: E501
 
     :param machine:
     :type machine: str
+    :param expose_machine_request:
+    :type expose_machine_request: dict | bytes
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    if connexion.request.is_json:
+        expose_machine_request = ExposeMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'expose', machine.id)
+    if machine.network:
+        auth_context.check_perm('network', 'read', machine.network)
+        auth_context.check_perm('network', 'edit', machine.network)
+    params = delete_none(expose_machine_request.to_dict())
+    port_forwards = {'ports': params.get('ports', {}),
+                     'service_type': params.get('service_type', None)}
+    methods.validate_portforwards(port_forwards)
+    result = machine.ctl.expose(port_forwards)
+    methods.run_post_action_hooks(machine, 'expose', auth_context.user, result)
+    return 'Machine expose issued successfully'
 
 
 def get_machine(machine, only=None, deref=None):  # noqa: E501
