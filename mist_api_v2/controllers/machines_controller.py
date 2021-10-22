@@ -1,6 +1,10 @@
 import uuid
+import urllib
 import connexion
 
+from pyramid.renderers import render_to_response
+
+from mist.api import config
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
@@ -8,6 +12,9 @@ from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import MachineUnauthorizedError
 from mist.api.exceptions import ServiceUnavailableError
+from mist.api.exceptions import MistNotImplementedError
+from mist.api.exceptions import MethodNotAllowedError
+from mist.api.exceptions import RedirectError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
@@ -60,7 +67,74 @@ def console(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine',
+            search=f'{machine} state!=terminated',
+            limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    cloud_id = machine.cloud.id
+    auth_context.check_perm("cloud", "read", cloud_id)
+    auth_context.check_perm("machine", "read", machine.id)
+    if machine.cloud.ctl.provider not in ['vsphere',
+                                          'openstack',
+                                          'libvirt',
+                                          'vexxhost']:
+        raise MistNotImplementedError(
+            "VNC console only supported for vSphere, "
+            "OpenStack, Vexxhost or KVM")
+    if machine.cloud.ctl.provider == 'libvirt':
+        import xml.etree.ElementTree as ET
+        from html import unescape
+        from datetime import datetime
+        import hmac
+        import hashlib
+        xml_desc = unescape(machine.extra.get('xml_description', ''))
+        root = ET.fromstring(xml_desc)
+        vnc_element = root.find('devices').find('graphics[@type="vnc"]')
+        if not vnc_element:
+            raise MethodNotAllowedError(
+                "VNC console not supported by this KVM domain")
+        vnc_port = vnc_element.attrib.get('port')
+        vnc_host = vnc_element.attrib.get('listen')
+        from mongoengine import Q
+        # Get key associations, prefer root or sudoer ones
+        key_associations = KeyMachineAssociation.objects(
+            Q(machine=machine.parent) & (Q(ssh_user='root') | Q(sudo=True))) \
+            or KeyMachineAssociation.objects(machine=machine.parent)
+        if not key_associations:
+            raise ForbiddenError()
+        key_id = key_associations[0].key.id
+        host = '%s@%s:%d' % (key_associations[0].ssh_user,
+                             machine.parent.hostname,
+                             key_associations[0].port)
+        expiry = int(datetime.now().timestamp()) + 100
+        msg = '%s,%s,%s,%s,%s' % (host, key_id, vnc_host, vnc_port, expiry)
+        mac = hmac.new(
+            config.SECRET.encode(),
+            msg=msg.encode(),
+            digestmod=hashlib.sha256).hexdigest()
+        base_ws_uri = config.CORE_URI.replace('http', 'ws')
+        proxy_uri = '%s/proxy/%s/%s/%s/%s/%s/%s' % (
+            base_ws_uri, host, key_id, vnc_host, vnc_port, expiry, mac)
+        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
+    if machine.cloud.ctl.provider == 'vsphere':
+        console_uri = machine.cloud.ctl.compute.connection.ex_open_console(
+            machine.machine_id
+        )
+        protocol, host = config.CORE_URI.split('://')
+        protocol = protocol.replace('http', 'ws')
+        params = urllib.parse.urlencode({'url': console_uri})
+        proxy_uri = f"{protocol}://{host}/wsproxy/?{params}"
+        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
+    else:
+        console_url = machine.cloud.ctl.compute.connection.ex_open_console(
+            machine.machine_id
+        )
+    raise RedirectError(console_url)
 
 
 def create_machine(create_machine_request=None):  # noqa: E501
