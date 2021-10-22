@@ -5,6 +5,7 @@ import connexion
 from pyramid.renderers import render_to_response
 
 from mist.api import config
+from mist.api.clouds.models import LibvirtCloud
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
@@ -281,7 +282,26 @@ def edit_machine(machine, name=None):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    if machine.cloud.owner != auth_context.owner:
+        raise NotFoundError("Machine %s doesn't exist" % machine.id)
+    # VMs in libvirt can be started no matter if they are terminated
+    if machine.state == 'terminated' and not isinstance(machine.cloud,
+                                                        LibvirtCloud):
+        raise NotFoundError(
+            f'Machine {machine.id} has been terminated'
+        )
+    # used by logging_view_decorator
+    # request.environ['machine_id'] = machine.machine_id
+    # request.environ['cloud_id'] = machine.cloud.id
+    auth_context.check_perm('machine', 'edit', machine.id)
+    return machine.ctl.rename(name)
 
 
 def expose_machine(machine):  # noqa: E501
