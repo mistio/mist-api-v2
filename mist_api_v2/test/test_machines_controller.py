@@ -260,11 +260,13 @@ class TestMachinesController:
 
         Resize machine
         """
+        query_string = [('size', '9417745961a84bffbf6419e5of68faa5')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(
             machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)

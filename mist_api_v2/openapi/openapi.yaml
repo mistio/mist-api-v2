@@ -2063,6 +2063,14 @@ paths:
         schema:
           type: string
         style: simple
+      - example: 9417745961a84bffbf6419e5of68faa5
+        explode: true
+        in: query
+        name: size
+        required: true
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           description: Machine resize issued successfully
