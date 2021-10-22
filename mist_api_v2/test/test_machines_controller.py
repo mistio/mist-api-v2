@@ -144,13 +144,20 @@ class TestMachinesController:
 
         Edit machine
         """
-        query_string = [('name', 'renamed-example-machine')]
+        edit_machine_request = {
+  "expiration" : {
+    "date" : "date",
+    "action" : "stop",
+    "notify" : 0
+  }
+}
+        inject_vault_credentials(edit_machine_request)
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            params=query_string)
+            json=edit_machine_request)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -231,11 +238,13 @@ class TestMachinesController:
 
         Rename machine
         """
+        query_string = [('name', 'renamed-example-machine')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(
             machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
