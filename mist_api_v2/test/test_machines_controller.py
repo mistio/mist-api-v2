@@ -168,11 +168,16 @@ class TestMachinesController:
 
         Expose machine
         """
+        expose_machine_request = {
+  "port_forwards" : "{}"
+}
+        inject_vault_credentials(expose_machine_request)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/expose'.format(
             machine=setup_data.get('machine') or 'example-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            json=expose_machine_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
