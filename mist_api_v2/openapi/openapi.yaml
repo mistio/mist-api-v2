@@ -1731,15 +1731,11 @@ paths:
         schema:
           type: string
         style: simple
-      - description: New machine name
-        example: renamed-example-machine
-        explode: true
-        in: query
-        name: name
-        required: false
-        schema:
-          type: string
-        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditMachineRequest'
       responses:
         "200":
           description: Machine successfully updated
@@ -2020,6 +2016,15 @@ paths:
         schema:
           type: string
         style: simple
+      - description: New machine name
+        example: renamed-example-machine
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           description: Machine renamed successfully
@@ -6187,6 +6192,16 @@ components:
       required:
       - name
       type: object
+    EditMachineRequest:
+      example:
+        expiration:
+          date: date
+          action: stop
+          notify: 0
+      properties:
+        expiration:
+          $ref: '#/components/schemas/EditMachineRequest_expiration'
+      type: object
     EditRuleRequest:
       example:
         trigger_after:
@@ -8951,6 +8966,27 @@ components:
           items:
             $ref: '#/components/schemas/Vector'
           type: array
+      type: object
+    EditMachineRequest_expiration:
+      example:
+        date: date
+        action: stop
+        notify: 0
+      properties:
+        date:
+          description: format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          type: string
+        action:
+          enum:
+          - stop
+          - destroy
+          type: string
+        notify:
+          description: seconds before the expiration date to be notified
+          type: integer
+      required:
+      - action
+      - date
       type: object
     EquinixMetalNet_ip_addresses:
       properties:
