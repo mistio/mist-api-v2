@@ -5622,12 +5622,43 @@ components:
         location: example-location
     CreateMachineRequest:
       example:
-        name: example-machine
-        size: example-size
-        image: example-image
+        template: '{}'
+        image: Debian
+        quantity: 1.4658129805029452
+        disks:
+          disk_size: 0
+          disk_path: disk_path
+        fqdn: fqdn
+        cloudinit: cloudinit
+        volumes: ""
+        save: true
+        dry: true
+        monitoring: true
+        tags: '{}'
+        cloud: cloud
+        size: m1.small
+        schedules:
+        - ""
+        - ""
+        extra: ""
+        name: DB mirror
+        location: location
+        expiration:
+          date: 2000-01-23T04:56:07.000+00:00
+          action: stop
+          notify:
+            period: minutes
+            value: 1
+          notify_msg: notify_msg
+        net: ""
+        scripts:
+        - ""
+        - ""
+        key: ""
       properties:
         name:
           description: Specify machine name
+          example: DB mirror
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
@@ -5640,6 +5671,7 @@ components:
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
             LXD
+          example: m1.small
           oneOf:
           - properties:
               cpus:
@@ -5671,6 +5703,7 @@ components:
             type: string
         image:
           description: Operating System image to boot from
+          example: Debian
           oneOf:
           - type: object
           - description: Name or ID of the image to boot from
@@ -6316,6 +6349,13 @@ components:
       title: Equnix Metal volumes parameter
       type: array
     Expiration:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        action: stop
+        notify:
+          period: minutes
+          value: 1
+        notify_msg: notify_msg
       properties:
         action:
           enum:
@@ -8910,6 +8950,9 @@ components:
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks
+      example:
+        disk_size: 0
+        disk_path: disk_path
       properties:
         disk_size:
           description: KVM, CloudSigma specific parameter
@@ -8986,6 +9029,9 @@ components:
       type: object
     Expiration_notify:
       description: Notify user before machine expiration
+      example:
+        period: minutes
+        value: 1
       properties:
         value:
           minimum: 1

@@ -91,9 +91,38 @@ class TestMachinesController:
         Create machine
         """
         create_machine_request = {
-  "name" : "example-machine",
-  "size" : "example-size",
-  "image" : "example-image"
+  "template" : "{}",
+  "image" : "Debian",
+  "quantity" : 1.4658129805029452,
+  "disks" : {
+    "disk_size" : 0,
+    "disk_path" : "disk_path"
+  },
+  "fqdn" : "fqdn",
+  "cloudinit" : "cloudinit",
+  "volumes" : "",
+  "save" : true,
+  "dry" : true,
+  "monitoring" : true,
+  "tags" : "{}",
+  "cloud" : "cloud",
+  "size" : "m1.small",
+  "schedules" : [ "", "" ],
+  "extra" : "",
+  "name" : "DB mirror",
+  "location" : "location",
+  "expiration" : {
+    "date" : "2000-01-23T04:56:07.000+00:00",
+    "action" : "stop",
+    "notify" : {
+      "period" : "minutes",
+      "value" : 1
+    },
+    "notify_msg" : "notify_msg"
+  },
+  "net" : "",
+  "scripts" : [ "", "" ],
+  "key" : ""
 }
         inject_vault_credentials(create_machine_request)
         uri = mist_core.uri + '/api/v2/machines'
