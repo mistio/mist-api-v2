@@ -88,7 +88,6 @@ mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
-mist_api_v2/models/expose_machine_request.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_cluster_response.py

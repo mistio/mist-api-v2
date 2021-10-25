@@ -62,7 +62,6 @@ from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
 from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
-from mist_api_v2.models.expose_machine_request import ExposeMachineRequest
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_cluster_response import GetClusterResponse
