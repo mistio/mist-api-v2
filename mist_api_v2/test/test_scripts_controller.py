@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'ScriptsController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,9 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(250)
+        time.sleep(300)
     elif method_name == 'test_destroy_cluster':
-        time.sleep(120)
+        time.sleep(150)
 
 
 class TestScriptsController:
@@ -46,6 +47,11 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }
+        for k in add_script_request:
+            if k in setup_data:
+                add_script_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                add_script_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(add_script_request)
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
@@ -171,6 +177,11 @@ class TestScriptsController:
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }
+        for k in run_script_request:
+            if k in setup_data:
+                run_script_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                run_script_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'example-script')

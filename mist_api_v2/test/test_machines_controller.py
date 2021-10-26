@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'MachinesController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,9 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(250)
+        time.sleep(300)
     elif method_name == 'test_destroy_cluster':
-        time.sleep(120)
+        time.sleep(150)
 
 
 class TestMachinesController:
@@ -43,6 +44,11 @@ class TestMachinesController:
   "user" : "user",
   "key" : "key"
 }
+        for k in key_machine_association:
+            if k in setup_data:
+                key_machine_association[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                key_machine_association[k] = setup_data[resource_name_singular]
         inject_vault_credentials(key_machine_association)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/associate-key'.format(
             machine=setup_data.get('machine') or 'example-machine')
@@ -124,6 +130,11 @@ class TestMachinesController:
   "scripts" : [ "", "" ],
   "key" : ""
 }
+        for k in create_machine_request:
+            if k in setup_data:
+                create_machine_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                create_machine_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(create_machine_request)
         uri = mist_core.uri + '/api/v2/machines'
         request = MistRequests(
@@ -158,6 +169,11 @@ class TestMachinesController:
         key_machine_disassociation = {
   "key" : "key"
 }
+        for k in key_machine_disassociation:
+            if k in setup_data:
+                key_machine_disassociation[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                key_machine_disassociation[k] = setup_data[resource_name_singular]
         inject_vault_credentials(key_machine_disassociation)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/disassociate-key'.format(
             machine=setup_data.get('machine') or 'example-machine')
@@ -182,6 +198,11 @@ class TestMachinesController:
     "notify" : 0
   }
 }
+        for k in edit_machine_request:
+            if k in setup_data:
+                edit_machine_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                edit_machine_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(edit_machine_request)
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'example-machine')

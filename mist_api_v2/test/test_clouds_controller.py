@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'CloudsController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,9 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(250)
+        time.sleep(300)
     elif method_name == 'test_destroy_cluster':
-        time.sleep(120)
+        time.sleep(150)
 
 
 class TestCloudsController:
@@ -47,6 +48,11 @@ class TestCloudsController:
     "email" : "email"
   }
 }
+        for k in add_cloud_request:
+            if k in setup_data:
+                add_cloud_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                add_cloud_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(add_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
@@ -66,6 +72,11 @@ class TestCloudsController:
         edit_cloud_request = {
   "name" : "renamed-example-cloud"
 }
+        for k in edit_cloud_request:
+            if k in setup_data:
+                edit_cloud_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                edit_cloud_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'example-cloud')

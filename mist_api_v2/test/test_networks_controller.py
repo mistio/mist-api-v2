@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'NetworksController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,9 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(250)
+        time.sleep(300)
     elif method_name == 'test_destroy_cluster':
-        time.sleep(120)
+        time.sleep(150)
 
 
 class TestNetworksController:
@@ -47,6 +48,11 @@ class TestNetworksController:
   "dry" : true,
   "tags" : "{}"
 }
+        for k in create_network_request:
+            if k in setup_data:
+                create_network_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                create_network_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(create_network_request)
         uri = mist_core.uri + '/api/v2/networks'
         request = MistRequests(
