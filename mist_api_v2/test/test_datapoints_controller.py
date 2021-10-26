@@ -74,7 +74,7 @@ if SETUP_MODULE_EXISTS:
             yield
         else:
             global setup_data
-            setup_data = _setup_module.setup(owner_api_token)
+            setup_data = _setup_module.setup(owner_api_token) or {}
             yield
             _setup_module.teardown(owner_api_token, setup_data)
             class_setup_done = True
