@@ -48,6 +48,9 @@ from mist_api_v2.models.digitalocean_cloud_request import DigitaloceanCloudReque
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
 from mist_api_v2.models.docker_credentials import DockerCredentials
+from mist_api_v2.models.docker_extra import DockerExtra
+from mist_api_v2.models.docker_extra_limits import DockerExtraLimits
+from mist_api_v2.models.docker_net import DockerNet
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest
 from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
