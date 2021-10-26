@@ -26,9 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(300)
+        time.sleep(240)
     elif method_name == 'test_destroy_cluster':
-        time.sleep(150)
+        time.sleep(120)
 
 
 class TestMachinesController:
