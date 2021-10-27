@@ -140,7 +140,8 @@ def download_script(script):  # noqa: E501
         script = Script.objects.get(owner=auth_context.owner,
                                     id=script_id, deleted=None)
         auth_context.check_perm('script', 'read', script_id)
-    return script.ctl.get_file()
+    file_kwargs = script.ctl.get_file()
+    return file_kwargs['body']
 
 
 def edit_script(script, name=None, description=None):  # noqa: E501
