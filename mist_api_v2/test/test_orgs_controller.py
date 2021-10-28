@@ -41,7 +41,7 @@ class TestOrgsController:
         """
         query_string = [('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
-            org=setup_data.get('org') or 'example-org', member=setup_data.get('member') or 'example-member')
+            org=setup_data.get('org') or 'my-org', member=setup_data.get('member') or 'my-member')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -59,7 +59,7 @@ class TestOrgsController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
-            org=setup_data.get('org') or 'example-org')
+            org=setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -80,7 +80,7 @@ class TestOrgsController:
                         ('limit', '56'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(
-            org=setup_data.get('org') or 'example-org')
+            org=setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -102,7 +102,7 @@ class TestOrgsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
-            org=setup_data.get('org') or 'example-org')
+            org=setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

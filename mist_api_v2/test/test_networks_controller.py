@@ -40,10 +40,10 @@ class TestNetworksController:
         Create network
         """
         create_network_request = {
-  "cloud" : "example-cloud",
+  "cloud" : "my-cloud",
   "template" : "{}",
   "extra" : "{}",
-  "name" : "example-network",
+  "name" : "my-network",
   "save" : true,
   "dry" : true,
   "tags" : "{}"
@@ -69,9 +69,9 @@ class TestNetworksController:
 
         Delete network
         """
-        query_string = [('cloud', 'example-cloud')]
+        query_string = [('cloud', 'my-cloud')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'example-network')
+            network=setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -86,9 +86,9 @@ class TestNetworksController:
 
         Edit network
         """
-        query_string = [('name', 'renamed-example-network')]
+        query_string = [('name', 'my-renamed-network')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'example-network')
+            network=setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -106,7 +106,7 @@ class TestNetworksController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'example-network')
+            network=setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

@@ -40,8 +40,8 @@ class TestZonesController:
         Create zone
         """
         create_zone_request = {
-  "name" : "example-zone",
-  "cloud" : "example-cloud"
+  "name" : "my-zone",
+  "cloud" : "my-cloud"
 }
         for k in create_zone_request:
             if k in setup_data:
@@ -65,7 +65,7 @@ class TestZonesController:
         Delete zone
         """
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'example-zone')
+            zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -79,9 +79,9 @@ class TestZonesController:
 
         Edit zone
         """
-        query_string = [('name', 'renamed-example-zone')]
+        query_string = [('name', 'my-renamed-zone')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'example-zone')
+            zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -99,7 +99,7 @@ class TestZonesController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'example-zone')
+            zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

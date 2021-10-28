@@ -73,7 +73,7 @@ class TestVolumesController:
         Delete volume
         """
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('volume') or 'example-volume')
+            volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -87,9 +87,9 @@ class TestVolumesController:
 
         Edit volume
         """
-        query_string = [('name', 'renamed-example-volume')]
+        query_string = [('name', 'my-renamed-volume')]
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('volume') or 'example-volume')
+            volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -107,7 +107,7 @@ class TestVolumesController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('volume') or 'example-volume')
+            volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

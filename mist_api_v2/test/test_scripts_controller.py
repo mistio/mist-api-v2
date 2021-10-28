@@ -41,7 +41,7 @@ class TestScriptsController:
         """
         add_script_request = {
   "entrypoint" : "entrypoint.sh",
-  "name" : "example-script",
+  "name" : "my-script",
   "description" : "description",
   "exec_type" : "executable",
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
@@ -69,7 +69,7 @@ class TestScriptsController:
         Delete script
         """
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'example-script')
+            script=setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -84,7 +84,7 @@ class TestScriptsController:
         Download script
         """
         uri = mist_core.uri + '/api/v2/scripts/{script}/file'.format(
-            script=setup_data.get('script') or 'example-script')
+            script=setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -98,10 +98,10 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = [('name', 'renamed-example-script'),
+        query_string = [('name', 'my-renamed-script'),
                         ('description', 'description')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'example-script')
+            script=setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -117,7 +117,7 @@ class TestScriptsController:
         Generate script url
         """
         uri = mist_core.uri + '/api/v2/scripts/{script}/url'.format(
-            script=setup_data.get('script') or 'example-script')
+            script=setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -134,7 +134,7 @@ class TestScriptsController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'example-script')
+            script=setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -149,7 +149,7 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = [('search', 'example-script'),
+        query_string = [('search', 'my-script'),
                         ('sort', '-name'),
                         ('start', '3'),
                         ('limit', '56'),
@@ -172,7 +172,7 @@ class TestScriptsController:
         """
         run_script_request = {
   "su" : "false",
-  "machine" : "example-machine",
+  "machine" : "my-machine",
   "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
@@ -184,7 +184,7 @@ class TestScriptsController:
                 run_script_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'example-script')
+            script=setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

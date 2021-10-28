@@ -40,10 +40,10 @@ class TestClustersController:
         Create cluster
         """
         create_cluster_request = {
-  "name" : "example-cluster",
-  "cloud" : "example-cloud",
+  "name" : "my-cluster",
+  "cloud" : "my-cloud",
   "provider" : "google",
-  "location" : "example-location"
+  "location" : "my-location"
 }
         for k in create_cluster_request:
             if k in setup_data:
@@ -67,7 +67,7 @@ class TestClustersController:
         Destroy cluster
         """
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('cluster') or 'example-cluster')
+            cluster=setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -84,7 +84,7 @@ class TestClustersController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('cluster') or 'example-cluster')
+            cluster=setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

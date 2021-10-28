@@ -57,7 +57,7 @@ class TestLocationsController:
 
         List locations
         """
-        query_string = [('cloud', 'example-cloud'),
+        query_string = [('cloud', 'my-cloud'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

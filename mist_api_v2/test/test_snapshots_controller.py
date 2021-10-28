@@ -39,9 +39,9 @@ class TestSnapshotsController:
 
         Create snapshot
         """
-        query_string = [('name', 'example-snapshot')]
+        query_string = [('name', 'my-snapshot')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
-            machine=setup_data.get('machine') or 'example-machine')
+            machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -57,7 +57,7 @@ class TestSnapshotsController:
         List machine snapshots
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
-            machine=setup_data.get('machine') or 'example-machine')
+            machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -72,7 +72,7 @@ class TestSnapshotsController:
         Remove snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
-            machine=setup_data.get('machine') or 'example-machine', snapshot=setup_data.get('snapshot') or 'example-snapshot')
+            machine=setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -87,7 +87,7 @@ class TestSnapshotsController:
         Revert to snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
-            machine=setup_data.get('machine') or 'example-machine', snapshot=setup_data.get('snapshot') or 'example-snapshot')
+            machine=setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
