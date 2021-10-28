@@ -40,7 +40,7 @@ class TestCloudsController:
         Add cloud
         """
         add_cloud_request = {
-  "name" : "example-cloud",
+  "name" : "my-cloud",
   "provider" : "google",
   "credentials" : {
     "projectId" : "projectId",
@@ -70,7 +70,7 @@ class TestCloudsController:
         Edit cloud
         """
         edit_cloud_request = {
-  "name" : "renamed-example-cloud"
+  "name" : "my-renamed-cloud"
 }
         for k in edit_cloud_request:
             if k in setup_data:
@@ -79,7 +79,7 @@ class TestCloudsController:
                 edit_cloud_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'example-cloud')
+            cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -98,7 +98,7 @@ class TestCloudsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'example-cloud')
+            cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -135,7 +135,7 @@ class TestCloudsController:
         Remove cloud
         """
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'example-cloud')
+            cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)

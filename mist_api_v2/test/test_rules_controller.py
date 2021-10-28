@@ -108,7 +108,7 @@ class TestRulesController:
         Delete rule
         """
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'example-rule')
+            rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -175,7 +175,7 @@ class TestRulesController:
                 edit_rule_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(edit_rule_request)
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'example-rule')
+            rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -193,7 +193,7 @@ class TestRulesController:
         query_string = [('sort', '-name'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'example-rule')
+            rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -228,9 +228,9 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = [('name', 'renamed-example-rule')]
+        query_string = [('name', 'my-renamed-rule')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'example-rule')
+            rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -247,7 +247,7 @@ class TestRulesController:
         """
         query_string = [('action', 'disable')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'example-rule')
+            rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

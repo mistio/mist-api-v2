@@ -57,7 +57,7 @@ class TestImagesController:
 
         List images
         """
-        query_string = [('cloud', 'example-cloud'),
+        query_string = [('cloud', 'my-cloud'),
                         ('search', 'os_type:windows'),
                         ('sort', '-name'),
                         ('start', '50'),
