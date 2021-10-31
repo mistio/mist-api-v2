@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'SnapshotsController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,7 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(200)
+        time.sleep(240)
+    elif method_name == 'test_destroy_cluster':
+        time.sleep(120)
 
 
 class TestSnapshotsController:
@@ -36,11 +39,13 @@ class TestSnapshotsController:
 
         Create snapshot
         """
+        query_string = [('name', 'my-snapshot')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
-            machine=setup_data.get('machine') or 'example-machine')
+            machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
@@ -52,7 +57,7 @@ class TestSnapshotsController:
         List machine snapshots
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
-            machine=setup_data.get('machine') or 'example-machine')
+            machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -67,7 +72,7 @@ class TestSnapshotsController:
         Remove snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
-            machine=setup_data.get('machine') or 'example-machine', snapshot=setup_data.get('snapshot') or 'example-snapshot')
+            machine=setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -82,7 +87,7 @@ class TestSnapshotsController:
         Revert to snapshot
         """
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
-            machine=setup_data.get('machine') or 'example-machine', snapshot=setup_data.get('snapshot') or 'example-snapshot')
+            machine=setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -108,12 +113,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, dict):
-                global setup_data
-                setup_data = retval
+            global setup_data
+            setup_data = _setup_module.setup(owner_api_token) or {}
             yield
-            _setup_module.teardown(owner_api_token)
+            _setup_module.teardown(owner_api_token, setup_data)
             class_setup_done = True
     TestSnapshotsController = pytest.mark.usefixtures('setup')(
         TestSnapshotsController)

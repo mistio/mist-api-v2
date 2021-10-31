@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'NetworksController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,7 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(200)
+        time.sleep(240)
+    elif method_name == 'test_destroy_cluster':
+        time.sleep(120)
 
 
 class TestNetworksController:
@@ -37,9 +40,19 @@ class TestNetworksController:
         Create network
         """
         create_network_request = {
-  "name" : "example-network",
-  "cloud" : "example-cloud"
+  "cloud" : "my-cloud",
+  "template" : "{}",
+  "extra" : "{}",
+  "name" : "my-network",
+  "save" : true,
+  "dry" : true,
+  "tags" : "{}"
 }
+        for k in create_network_request:
+            if k in setup_data:
+                create_network_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                create_network_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(create_network_request)
         uri = mist_core.uri + '/api/v2/networks'
         request = MistRequests(
@@ -51,14 +64,31 @@ class TestNetworksController:
         assert_response_ok(response)
         print('Success!!!')
 
+    def test_delete_network(self, pretty_print, mist_core, owner_api_token):
+        """Test case for delete_network
+
+        Delete network
+        """
+        query_string = [('cloud', 'my-cloud')]
+        uri = mist_core.uri + '/api/v2/networks/{network}'.format(
+            network=setup_data.get('network') or 'my-network')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_edit_network(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_network
 
         Edit network
         """
-        query_string = [('name', 'renamed-example-network')]
+        query_string = [('name', 'my-renamed-network')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'example-network')
+            network=setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -76,7 +106,7 @@ class TestNetworksController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'example-network')
+            network=setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -125,12 +155,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, dict):
-                global setup_data
-                setup_data = retval
+            global setup_data
+            setup_data = _setup_module.setup(owner_api_token) or {}
             yield
-            _setup_module.teardown(owner_api_token)
+            _setup_module.teardown(owner_api_token, setup_data)
             class_setup_done = True
     TestNetworksController = pytest.mark.usefixtures('setup')(
         TestNetworksController)

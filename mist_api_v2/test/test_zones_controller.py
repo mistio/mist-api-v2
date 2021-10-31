@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'ZonesController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,7 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(200)
+        time.sleep(240)
+    elif method_name == 'test_destroy_cluster':
+        time.sleep(120)
 
 
 class TestZonesController:
@@ -37,9 +40,14 @@ class TestZonesController:
         Create zone
         """
         create_zone_request = {
-  "name" : "example-zone",
-  "cloud" : "example-cloud"
+  "name" : "my-zone",
+  "cloud" : "my-cloud"
 }
+        for k in create_zone_request:
+            if k in setup_data:
+                create_zone_request[k] = setup_data[k]
+            elif k == 'name' and resource_name_singular in setup_data:
+                create_zone_request[k] = setup_data[resource_name_singular]
         inject_vault_credentials(create_zone_request)
         uri = mist_core.uri + '/api/v2/zones'
         request = MistRequests(
@@ -51,14 +59,29 @@ class TestZonesController:
         assert_response_ok(response)
         print('Success!!!')
 
+    def test_delete_zone(self, pretty_print, mist_core, owner_api_token):
+        """Test case for delete_zone
+
+        Delete zone
+        """
+        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+            zone=setup_data.get('zone') or 'my-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        assert_response_ok(response)
+        print('Success!!!')
+
     def test_edit_zone(self, pretty_print, mist_core, owner_api_token):
         """Test case for edit_zone
 
         Edit zone
         """
-        query_string = [('name', 'renamed-example-zone')]
+        query_string = [('name', 'my-renamed-zone')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'example-zone')
+            zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -76,7 +99,7 @@ class TestZonesController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'example-zone')
+            zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -125,12 +148,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, dict):
-                global setup_data
-                setup_data = retval
+            global setup_data
+            setup_data = _setup_module.setup(owner_api_token) or {}
             yield
-            _setup_module.teardown(owner_api_token)
+            _setup_module.teardown(owner_api_token, setup_data)
             class_setup_done = True
     TestZonesController = pytest.mark.usefixtures('setup')(
         TestZonesController)

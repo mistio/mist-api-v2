@@ -29,7 +29,7 @@ class CreateVolumeRequest(Model):
         :param location: The location of this CreateVolumeRequest.  # noqa: E501
         :type location: str
         :param size: The size of this CreateVolumeRequest.  # noqa: E501
-        :type size: object
+        :type size: int
         :param tags: The tags of this CreateVolumeRequest.  # noqa: E501
         :type tags: object
         :param extra: The extra of this CreateVolumeRequest.  # noqa: E501
@@ -48,7 +48,7 @@ class CreateVolumeRequest(Model):
             'provider': SupportedProviders,
             'cloud': str,
             'location': str,
-            'size': object,
+            'size': int,
             'tags': object,
             'extra': object,
             'quantity': float,
@@ -160,6 +160,8 @@ class CreateVolumeRequest(Model):
         :param cloud: The cloud of this CreateVolumeRequest.
         :type cloud: str
         """
+        if cloud is None:
+            raise ValueError("Invalid value for `cloud`, must not be `None`")  # noqa: E501
 
         self._cloud = cloud
 
@@ -183,6 +185,8 @@ class CreateVolumeRequest(Model):
         :param location: The location of this CreateVolumeRequest.
         :type location: str
         """
+        if location is None:
+            raise ValueError("Invalid value for `location`, must not be `None`")  # noqa: E501
 
         self._location = location
 
@@ -193,7 +197,7 @@ class CreateVolumeRequest(Model):
         Volume sizing spec  # noqa: E501
 
         :return: The size of this CreateVolumeRequest.
-        :rtype: object
+        :rtype: int
         """
         return self._size
 
@@ -204,7 +208,7 @@ class CreateVolumeRequest(Model):
         Volume sizing spec  # noqa: E501
 
         :param size: The size of this CreateVolumeRequest.
-        :type size: object
+        :type size: int
         """
         if size is None:
             raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501

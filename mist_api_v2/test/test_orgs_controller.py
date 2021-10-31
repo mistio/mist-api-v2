@@ -10,6 +10,7 @@ from misttests.integration.api.mistrequests import MistRequests
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
 
 resource_name = 'OrgsController'.replace('Controller', '').lower()
+resource_name_singular = resource_name.strip('s')
 try:
     _setup_module = importlib.import_module(
         f'misttests.integration.api.main.v2.setup.{resource_name}')
@@ -25,7 +26,9 @@ def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
     if method_name == 'test_create_cluster':
-        time.sleep(200)
+        time.sleep(240)
+    elif method_name == 'test_destroy_cluster':
+        time.sleep(120)
 
 
 class TestOrgsController:
@@ -38,7 +41,7 @@ class TestOrgsController:
         """
         query_string = [('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
-            org=setup_data.get('org') or 'example-org', member=setup_data.get('member') or 'example-member')
+            org=setup_data.get('org') or 'my-org', member=setup_data.get('member') or 'my-member')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -56,7 +59,7 @@ class TestOrgsController:
         query_string = [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
-            org=setup_data.get('org') or 'example-org')
+            org=setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -77,7 +80,7 @@ class TestOrgsController:
                         ('limit', '56'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(
-            org=setup_data.get('org') or 'example-org')
+            org=setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -99,7 +102,7 @@ class TestOrgsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
-            org=setup_data.get('org') or 'example-org')
+            org=setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -148,12 +151,10 @@ if SETUP_MODULE_EXISTS:
         if class_setup_done:
             yield
         else:
-            retval = _setup_module.setup(owner_api_token)
-            if isinstance(retval, dict):
-                global setup_data
-                setup_data = retval
+            global setup_data
+            setup_data = _setup_module.setup(owner_api_token) or {}
             yield
-            _setup_module.teardown(owner_api_token)
+            _setup_module.teardown(owner_api_token, setup_data)
             class_setup_done = True
     TestOrgsController = pytest.mark.usefixtures('setup')(
         TestOrgsController)

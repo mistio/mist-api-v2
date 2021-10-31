@@ -1,6 +1,14 @@
 import uuid
+import urllib
 import connexion
 
+import mist.api.machines.methods as methods
+
+from pyramid.renderers import render_to_response
+
+from mist.api import config
+from mist.api.helpers import delete_none
+from mist.api.clouds.models import LibvirtCloud
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
@@ -8,12 +16,16 @@ from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import MachineUnauthorizedError
 from mist.api.exceptions import ServiceUnavailableError
+from mist.api.exceptions import MistNotImplementedError
+from mist.api.exceptions import MethodNotAllowedError
+from mist.api.exceptions import RedirectError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
+from mist_api_v2.models.edit_machine_request import EditMachineRequest  # noqa: E501
 from mist_api_v2.models.get_machine_response import GetMachineResponse  # noqa: E501
 from mist_api_v2.models.list_machines_response import ListMachinesResponse  # noqa: E501
 from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
@@ -60,7 +72,74 @@ def console(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine',
+            search=f'{machine} state!=terminated',
+            limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    cloud_id = machine.cloud.id
+    auth_context.check_perm("cloud", "read", cloud_id)
+    auth_context.check_perm("machine", "read", machine.id)
+    if machine.cloud.ctl.provider not in ['vsphere',
+                                          'openstack',
+                                          'libvirt',
+                                          'vexxhost']:
+        raise MistNotImplementedError(
+            "VNC console only supported for vSphere, "
+            "OpenStack, Vexxhost or KVM")
+    if machine.cloud.ctl.provider == 'libvirt':
+        import xml.etree.ElementTree as ET
+        from html import unescape
+        from datetime import datetime
+        import hmac
+        import hashlib
+        xml_desc = unescape(machine.extra.get('xml_description', ''))
+        root = ET.fromstring(xml_desc)
+        vnc_element = root.find('devices').find('graphics[@type="vnc"]')
+        if not vnc_element:
+            raise MethodNotAllowedError(
+                "VNC console not supported by this KVM domain")
+        vnc_port = vnc_element.attrib.get('port')
+        vnc_host = vnc_element.attrib.get('listen')
+        from mongoengine import Q
+        # Get key associations, prefer root or sudoer ones
+        key_associations = KeyMachineAssociation.objects(
+            Q(machine=machine.parent) & (Q(ssh_user='root') | Q(sudo=True))) \
+            or KeyMachineAssociation.objects(machine=machine.parent)
+        if not key_associations:
+            raise ForbiddenError()
+        key_id = key_associations[0].key.id
+        host = '%s@%s:%d' % (key_associations[0].ssh_user,
+                             machine.parent.hostname,
+                             key_associations[0].port)
+        expiry = int(datetime.now().timestamp()) + 100
+        msg = '%s,%s,%s,%s,%s' % (host, key_id, vnc_host, vnc_port, expiry)
+        mac = hmac.new(
+            config.SECRET.encode(),
+            msg=msg.encode(),
+            digestmod=hashlib.sha256).hexdigest()
+        base_ws_uri = config.CORE_URI.replace('http', 'ws')
+        proxy_uri = '%s/proxy/%s/%s/%s/%s/%s/%s' % (
+            base_ws_uri, host, key_id, vnc_host, vnc_port, expiry, mac)
+        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
+    if machine.cloud.ctl.provider == 'vsphere':
+        console_uri = machine.cloud.ctl.compute.connection.ex_open_console(
+            machine.machine_id
+        )
+        protocol, host = config.CORE_URI.split('://')
+        protocol = protocol.replace('http', 'ws')
+        params = urllib.parse.urlencode({'url': console_uri})
+        proxy_uri = f"{protocol}://{host}/wsproxy/?{params}"
+        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
+    else:
+        console_url = machine.cloud.ctl.compute.connection.ex_open_console(
+            machine.machine_id
+        )
+    raise RedirectError(console_url)
 
 
 def create_machine(create_machine_request=None):  # noqa: E501
@@ -195,32 +274,44 @@ def destroy_machine(machine):  # noqa: E501
     return 'Destroyed machine `%s`' % machine.name, 200
 
 
-def edit_machine(machine, name=None):  # noqa: E501
+def edit_machine(machine, edit_machine_request=None):  # noqa: E501
     """Edit machine
 
     Edit target machine # noqa: E501
 
     :param machine:
     :type machine: str
-    :param name: New machine name
-    :type name: str
+    :param edit_machine_request:
+    :type edit_machine_request: dict | bytes
 
     :rtype: None
     """
-    return 'do some magic!'
-
-
-def expose_machine(machine):  # noqa: E501
-    """Expose machine
-
-    Expose target machine # noqa: E501
-
-    :param machine:
-    :type machine: str
-
-    :rtype: None
-    """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    if connexion.request.is_json:
+        edit_machine_request = EditMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    params = delete_none(edit_machine_request.to_dict())
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    if machine.cloud.owner != auth_context.owner:
+        raise NotFoundError("Machine %s doesn't exist" % machine.id)
+    # VMs in libvirt can be started no matter if they are terminated
+    if machine.state == 'terminated' and not isinstance(machine.cloud,
+                                                        LibvirtCloud):
+        raise NotFoundError(
+            f'Machine {machine.id} has been terminated'
+        )
+    log_event(
+        auth_context.owner.id, 'request', 'edit_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    auth_context.check_perm('machine', 'edit', machine.id)
+    machine.ctl.update(auth_context, params)
+    return 'Machine successfully updated'
 
 
 def get_machine(machine, only=None, deref=None):  # noqa: E501
@@ -302,30 +393,87 @@ def reboot_machine(machine):  # noqa: E501
     return 'Rebooted machine `%s`' % machine.name, 200
 
 
-def rename_machine(machine):  # noqa: E501
+def rename_machine(machine, name):  # noqa: E501
     """Rename machine
 
     Rename target machine # noqa: E501
 
     :param machine:
     :type machine: str
+    :param name: New machine name
+    :type name: str
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    log_event(
+        auth_context.owner.id, 'request', 'rename_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    auth_context.check_perm('machine', 'rename', machine.id)
+    result = machine.ctl.rename(name)
+    methods.run_post_action_hooks(machine, 'rename', auth_context.user, result)
+    return 'Machine renamed successfully'
 
 
-def resize_machine(machine):  # noqa: E501
+def resize_machine(machine, size):  # noqa: E501
     """Resize machine
 
     Resize target machine # noqa: E501
 
     :param machine:
     :type machine: str
+    :param size:
+    :type size: str
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    try:
+        [size], total = list_resources(auth_context, 'size',
+                                       cloud=machine.cloud.id,
+                                       search=size, limit=1)
+    except ValueError:
+        return 'Size does not exist', 404
+    _, constraints = auth_context.check_perm(
+        'machine', 'resize', machine.id)
+    # check cost constraint
+    cost_constraint = constraints.get('cost', {})
+    if cost_constraint:
+        try:
+            from mist.rbac.methods import check_cost
+            check_cost(auth_context.org, cost_constraint)
+        except ImportError:
+            pass
+    # check size constraint
+    size_constraint = constraints.get('size', {})
+    if size_constraint:
+        try:
+            from mist.rbac.methods import check_size
+            check_size(machine.cloud.id, size_constraint, size)
+        except ImportError:
+            pass
+    log_event(
+        auth_context.owner.id, 'request', 'resize_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    result = machine.ctl.resize(size.id, {})
+    methods.run_post_action_hooks(machine, 'resize', auth_context.user, result)
+    return 'Machine resize issued successfully'
 
 
 def resume_machine(machine):  # noqa: E501
@@ -338,7 +486,22 @@ def resume_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    log_event(
+        auth_context.owner.id, 'request', 'resume_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    auth_context.check_perm('machine', 'resume', machine.id)
+    result = machine.ctl.resume()
+    methods.run_post_action_hooks(machine, 'resume', auth_context.user, result)
+    return 'Machine resume issued successfully'
 
 
 def ssh(machine):  # noqa: E501
@@ -434,7 +597,23 @@ def suspend_machine(machine):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    from mist.api.logs.methods import log_event
+    try:
+        [machine], total = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'suspend', machine.id)
+    log_event(
+        auth_context.owner.id, 'request', 'suspend_machine',
+        machine_id=machine.id, user_id=auth_context.user.id,
+    )
+    result = machine.ctl.suspend()
+    methods.run_post_action_hooks(
+        machine, 'suspend', auth_context.user, result)
+    return 'Machine suspend issued successfully'
 
 
 def undefine_machine(machine):  # noqa: E501
@@ -506,7 +685,7 @@ def associate_key(machine, key_machine_association=None):  # noqa: E501
         key.ctl.associate(machine, username=ssh_user, port=ssh_port)
     except (MachineUnauthorizedError, ServiceUnavailableError):
         return 'Could not connect to target machine', 503
-    except Exception as e:
+    except Exception:
         return 'Action not supported on target machine', 422
     return 'Association successful', 200
 
@@ -528,7 +707,7 @@ def disassociate_key(machine, key_machine_association=None):  # noqa: E501
     from mist.api.methods import list_resources
     try:
         auth_context = connexion.context['token_info']['auth_context']
-    except:
+    except Exception:
         return 'Authentication failed', 401
     try:
         [machine], _ = list_resources(auth_context, 'machine',
@@ -543,7 +722,7 @@ def disassociate_key(machine, key_machine_association=None):  # noqa: E501
     try:
         auth_context.check_perm("machine", "disassociate_key", machine.id)
         auth_context.check_perm("cloud", "read", machine.cloud.id)
-    except:
+    except Exception:
         return 'You are not authorized to perform this action', 403
     try:
         key.ctl.disassociate(machine)

@@ -1,18 +1,39 @@
-def create_snapshot(machine):  # noqa: E501
+import connexion
+
+
+import mist.api.machines.methods as methods
+
+
+def create_snapshot(machine, name):  # noqa: E501
     """Create snapshot
 
     Create snapshots of target machine # noqa: E501
 
     :param machine:
     :type machine: str
+    :param name:
+    :type name: str
 
     :rtype: object
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine', search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'read', machine.id)
+    auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    auth_context.check_perm('machine', 'create_snapshots', machine.id)
+    result = machine.ctl.create_snapshot(name)
+    methods.run_post_action_hooks(
+        machine, 'create_snapshot', auth_context.user, result)
+    return {'name': name}
 
 
 def list_snapshots(machine):  # noqa: E501
-    """Suspend machine
+    """List snapshots
 
     List snapshots of target machine # noqa: E501
 
@@ -21,7 +42,16 @@ def list_snapshots(machine):  # noqa: E501
 
     :rtype: ListSnapshotsResponse
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine', search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'read', machine.id)
+    auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    return machine.ctl.list_snapshots()
 
 
 def remove_snapshot(machine, snapshot):  # noqa: E501
@@ -36,7 +66,20 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine', search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'read', machine.id)
+    auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    auth_context.check_perm('machine', 'create_snapshots', machine.id)
+    result = machine.ctl.remove_snapshot(snapshot)
+    methods.run_post_action_hooks(
+        machine, 'remove_snapshot', auth_context.user, result)
+    return 'Snapshot removed successfully'
 
 
 def revert_to_snapshot(machine, snapshot):  # noqa: E501
@@ -51,4 +94,17 @@ def revert_to_snapshot(machine, snapshot):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    from mist.api.methods import list_resources
+    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        [machine], total = list_resources(
+            auth_context, 'machine', search=machine, limit=1)
+    except ValueError:
+        return 'Machine does not exist', 404
+    auth_context.check_perm('machine', 'read', machine.id)
+    auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    auth_context.check_perm('machine', 'revert_to_snapshots', machine.id)
+    result = machine.ctl.revert_to_snapshot(snapshot)
+    methods.run_post_action_hooks(
+        machine, 'revert_to_snapshot', auth_context.user, result)
+    return 'Revert machine to snapshot issued successfully'

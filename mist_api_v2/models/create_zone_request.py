@@ -76,7 +76,7 @@ class CreateZoneRequest(Model):
     def name(self):
         """Gets the name of this CreateZoneRequest.
 
-        Specify zone name  # noqa: E501
+        Specify zone name/domain (e.g. example.com)  # noqa: E501
 
         :return: The name of this CreateZoneRequest.
         :rtype: str
@@ -87,7 +87,7 @@ class CreateZoneRequest(Model):
     def name(self, name):
         """Sets the name of this CreateZoneRequest.
 
-        Specify zone name  # noqa: E501
+        Specify zone name/domain (e.g. example.com)  # noqa: E501
 
         :param name: The name of this CreateZoneRequest.
         :type name: str

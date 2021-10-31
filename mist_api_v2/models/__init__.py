@@ -10,6 +10,7 @@ from mist_api_v2.models.add_key_request_any_of import AddKeyRequestAnyOf
 from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
+from mist_api_v2.models.add_rule_request import AddRuleRequest
 from mist_api_v2.models.add_script_request import AddScriptRequest
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
@@ -41,6 +42,7 @@ from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.create_zone_request import CreateZoneRequest
 from mist_api_v2.models.create_zone_response import CreateZoneResponse
 from mist_api_v2.models.cron_schedule import CronSchedule
+from mist_api_v2.models.data_type import DataType
 from mist_api_v2.models.datapoints import Datapoints
 from mist_api_v2.models.datapoints_data import DatapointsData
 from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem
@@ -53,6 +55,9 @@ from mist_api_v2.models.docker_extra_limits import DockerExtraLimits
 from mist_api_v2.models.docker_net import DockerNet
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest
 from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
+from mist_api_v2.models.edit_machine_request import EditMachineRequest
+from mist_api_v2.models.edit_machine_request_expiration import EditMachineRequestExpiration
+from mist_api_v2.models.edit_rule_request import EditRuleRequest
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra
