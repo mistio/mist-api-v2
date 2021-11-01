@@ -71,6 +71,7 @@ def console(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
+    from mist.api.methods import cloud_has_feature
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [machine], total = list_resources(
@@ -82,10 +83,7 @@ def console(machine):  # noqa: E501
     cloud_id = machine.cloud.id
     auth_context.check_perm("cloud", "read", cloud_id)
     auth_context.check_perm("machine", "read", machine.id)
-    if machine.cloud.ctl.provider not in ['vsphere',
-                                          'openstack',
-                                          'libvirt',
-                                          'vexxhost']:
+    if cloud_has_feature(machine.cloud, 'console'):
         return 'Action not supported', 501
     if machine.cloud.ctl.provider == 'libvirt':
         import xml.etree.ElementTree as ET
