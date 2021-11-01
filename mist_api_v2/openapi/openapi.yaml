@@ -2583,6 +2583,8 @@ paths:
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
+        "501":
+          description: Network support is not available
       security:
       - ApiKeyAuth:
         - create:network
@@ -4426,6 +4428,8 @@ paths:
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
+        "501":
+          description: Network support is not available
       security:
       - ApiKeyAuth:
         - create:volume
