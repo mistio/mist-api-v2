@@ -14,7 +14,6 @@ from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import MachineUnauthorizedError
 from mist.api.exceptions import ServiceUnavailableError
-from mist.api.exceptions import RedirectError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
@@ -89,7 +88,8 @@ def console(machine):  # noqa: E501
         console_url = machine.cloud.ctl.compute.connection.ex_open_console(
             machine.machine_id
         )
-        raise RedirectError(console_url)
+        headers = {'Location': console_url}
+        return '', 302, headers
     return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
 
 
