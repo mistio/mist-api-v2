@@ -1,12 +1,10 @@
 import uuid
-import urllib
 import connexion
 
 import mist.api.machines.methods as methods
 
 from pyramid.renderers import render_to_response
 
-from mist.api import config
 from mist.api.helpers import delete_none
 from mist.api.clouds.models import LibvirtCloud
 from mist.api.exceptions import BadRequestError
