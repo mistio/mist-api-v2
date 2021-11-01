@@ -72,6 +72,7 @@ def console(machine):  # noqa: E501
     """
     from mist.api.methods import list_resources
     from mist.api.methods import cloud_has_feature
+    from mist.api.methods import get_console_proxy_uri
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [machine], total = list_resources(
@@ -85,54 +86,13 @@ def console(machine):  # noqa: E501
     auth_context.check_perm("machine", "read", machine.id)
     if cloud_has_feature(machine.cloud, 'console'):
         return 'Action not supported', 501
-    if machine.cloud.ctl.provider == 'libvirt':
-        import xml.etree.ElementTree as ET
-        from html import unescape
-        from datetime import datetime
-        import hmac
-        import hashlib
-        xml_desc = unescape(machine.extra.get('xml_description', ''))
-        root = ET.fromstring(xml_desc)
-        vnc_element = root.find('devices').find('graphics[@type="vnc"]')
-        if not vnc_element:
-            return 'Action not supported', 501
-        vnc_port = vnc_element.attrib.get('port')
-        vnc_host = vnc_element.attrib.get('listen')
-        from mongoengine import Q
-        # Get key associations, prefer root or sudoer ones
-        key_associations = KeyMachineAssociation.objects(
-            Q(machine=machine.parent) & (Q(ssh_user='root') | Q(sudo=True))) \
-            or KeyMachineAssociation.objects(machine=machine.parent)
-        if not key_associations:
-            return 'You are not authorized to perform this action', 403
-        key_id = key_associations[0].key.id
-        host = '%s@%s:%d' % (key_associations[0].ssh_user,
-                             machine.parent.hostname,
-                             key_associations[0].port)
-        expiry = int(datetime.now().timestamp()) + 100
-        msg = '%s,%s,%s,%s,%s' % (host, key_id, vnc_host, vnc_port, expiry)
-        mac = hmac.new(
-            config.SECRET.encode(),
-            msg=msg.encode(),
-            digestmod=hashlib.sha256).hexdigest()
-        base_ws_uri = config.CORE_URI.replace('http', 'ws')
-        proxy_uri = '%s/proxy/%s/%s/%s/%s/%s/%s' % (
-            base_ws_uri, host, key_id, vnc_host, vnc_port, expiry, mac)
-        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
-    if machine.cloud.ctl.provider == 'vsphere':
-        console_uri = machine.cloud.ctl.compute.connection.ex_open_console(
-            machine.machine_id
-        )
-        protocol, host = config.CORE_URI.split('://')
-        protocol = protocol.replace('http', 'ws')
-        params = urllib.parse.urlencode({'url': console_uri})
-        proxy_uri = f"{protocol}://{host}/wsproxy/?{params}"
-        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
-    else:
+    proxy_uri = get_console_proxy_uri()
+    if proxy_uri is None:
         console_url = machine.cloud.ctl.compute.connection.ex_open_console(
             machine.machine_id
         )
-    raise RedirectError(console_url)
+        raise RedirectError(console_url)
+    return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
 
 
 def create_machine(create_machine_request=None):  # noqa: E501
