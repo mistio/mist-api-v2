@@ -404,6 +404,8 @@ def rename_machine(machine, name):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'rename', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     log_event(
         auth_context.owner.id, 'request', 'rename_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
@@ -434,6 +436,8 @@ def resize_machine(machine, size):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'resize', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     try:
         [size], total = list_resources(auth_context, 'size',
                                        cloud=machine.cloud.id,
@@ -485,6 +489,8 @@ def resume_machine(machine):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'resume', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     log_event(
         auth_context.owner.id, 'request', 'resume_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
@@ -596,6 +602,8 @@ def suspend_machine(machine):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'suspend', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     auth_context.check_perm('machine', 'suspend', machine.id)
     log_event(
         auth_context.owner.id, 'request', 'suspend_machine',
