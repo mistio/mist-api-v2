@@ -88,9 +88,7 @@ def console(machine):  # noqa: E501
                                           'openstack',
                                           'libvirt',
                                           'vexxhost']:
-        raise MistNotImplementedError(
-            "VNC console only supported for vSphere, "
-            "OpenStack, Vexxhost or KVM")
+        return 'Action not supported', 501
     if machine.cloud.ctl.provider == 'libvirt':
         import xml.etree.ElementTree as ET
         from html import unescape
@@ -101,8 +99,7 @@ def console(machine):  # noqa: E501
         root = ET.fromstring(xml_desc)
         vnc_element = root.find('devices').find('graphics[@type="vnc"]')
         if not vnc_element:
-            raise MethodNotAllowedError(
-                "VNC console not supported by this KVM domain")
+            return 'Action not supported', 501
         vnc_port = vnc_element.attrib.get('port')
         vnc_host = vnc_element.attrib.get('listen')
         from mongoengine import Q
@@ -111,7 +108,7 @@ def console(machine):  # noqa: E501
             Q(machine=machine.parent) & (Q(ssh_user='root') | Q(sudo=True))) \
             or KeyMachineAssociation.objects(machine=machine.parent)
         if not key_associations:
-            raise ForbiddenError()
+            return 'You are not authorized to perform this action', 403
         key_id = key_associations[0].key.id
         host = '%s@%s:%d' % (key_associations[0].ssh_user,
                              machine.parent.hostname,
@@ -298,13 +295,11 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
     except ValueError:
         return 'Machine does not exist', 404
     if machine.cloud.owner != auth_context.owner:
-        raise NotFoundError("Machine %s doesn't exist" % machine.id)
+        return 'Machine does not exist', 404
     # VMs in libvirt can be started no matter if they are terminated
     if machine.state == 'terminated' and not isinstance(machine.cloud,
                                                         LibvirtCloud):
-        raise NotFoundError(
-            f'Machine {machine.id} has been terminated'
-        )
+        return 'Machine does not exist', 404
     log_event(
         auth_context.owner.id, 'request', 'edit_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
