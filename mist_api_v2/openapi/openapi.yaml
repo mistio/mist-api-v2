@@ -5751,7 +5751,6 @@ components:
           - $ref: '#/components/schemas/AzureVolumes'
           - $ref: '#/components/schemas/CloudSigmaVolumes'
           - $ref: '#/components/schemas/DigitalOceanVolumes'
-          - $ref: '#/components/schemas/EquinixMetalVolumes'
           - $ref: '#/components/schemas/GoogleVolumes'
           - $ref: '#/components/schemas/LinodeVolumes'
           - $ref: '#/components/schemas/LXDVolumes'
@@ -6351,31 +6350,6 @@ components:
           type: array
       title: Equnix Metal net parameter
       type: object
-    EquinixMetalVolumes:
-      items:
-        oneOf:
-        - properties:
-            volume:
-              description: Name or ID of the volume to attach
-              type: string
-          required:
-          - volume
-        - properties:
-            size:
-              description: Size of the volume to be created
-              minimum: 100
-              type: integer
-            plan:
-              description: Type of volume to create, defaults to standard
-              enum:
-              - standard
-              - performance
-              type: string
-          required:
-          - size
-        type: object
-      title: Equnix Metal volumes parameter
-      type: array
     Expiration:
       example:
         date: 2000-01-23T04:56:07.000+00:00
