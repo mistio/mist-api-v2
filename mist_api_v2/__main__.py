@@ -20,6 +20,17 @@ if config.HAS_RBAC:
 from mist_api_v2 import encoder
 
 
+
+if config.API_V2_SENTRY_URL:
+    import sentry_sdk
+    from sentry_sdk.integrations.flask import FlaskIntegration
+    sentry_sdk.init(
+        dsn=config.API_V2_SENTRY_URL,
+        integrations=[FlaskIntegration()],
+        traces_sample_rate=config.SENTRY_TRACING,
+        environment=config.SENTRY_ENVIRONMENT,
+    )
+
 app = connexion.App(__name__, specification_dir='./openapi/')
 app.app.json_encoder = encoder.JSONEncoder
 api_blueprint = app.add_api('openapi.yaml',
