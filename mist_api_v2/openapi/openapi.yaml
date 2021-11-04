@@ -4904,15 +4904,6 @@ paths:
         schema:
           type: string
         style: simple
-      - description: New zone name
-        example: my-renamed-zone
-        explode: true
-        in: query
-        name: name
-        required: false
-        schema:
-          type: string
-        style: form
       responses:
         "200":
           description: Zone successfully updated

@@ -79,13 +79,11 @@ class TestZonesController:
 
         Edit zone
         """
-        query_string = [('name', 'my-renamed-zone')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
+            uri=uri)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         assert_response_ok(response)
