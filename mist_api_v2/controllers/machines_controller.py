@@ -1,12 +1,10 @@
 import uuid
-import urllib
 import connexion
 
 import mist.api.machines.methods as methods
 
 from pyramid.renderers import render_to_response
 
-from mist.api import config
 from mist.api.helpers import delete_none
 from mist.api.clouds.models import LibvirtCloud
 from mist.api.exceptions import BadRequestError
@@ -16,9 +14,6 @@ from mist.api.exceptions import MachineNameValidationError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import MachineUnauthorizedError
 from mist.api.exceptions import ServiceUnavailableError
-from mist.api.exceptions import MistNotImplementedError
-from mist.api.exceptions import MethodNotAllowedError
-from mist.api.exceptions import RedirectError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
@@ -73,6 +68,8 @@ def console(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
+    from mist.api.methods import cloud_has_feature
+    from mist.api.methods import get_console_proxy_uri
     auth_context = connexion.context['token_info']['auth_context']
     try:
         [machine], total = list_resources(
@@ -84,62 +81,16 @@ def console(machine):  # noqa: E501
     cloud_id = machine.cloud.id
     auth_context.check_perm("cloud", "read", cloud_id)
     auth_context.check_perm("machine", "read", machine.id)
-    if machine.cloud.ctl.provider not in ['vsphere',
-                                          'openstack',
-                                          'libvirt',
-                                          'vexxhost']:
-        raise MistNotImplementedError(
-            "VNC console only supported for vSphere, "
-            "OpenStack, Vexxhost or KVM")
-    if machine.cloud.ctl.provider == 'libvirt':
-        import xml.etree.ElementTree as ET
-        from html import unescape
-        from datetime import datetime
-        import hmac
-        import hashlib
-        xml_desc = unescape(machine.extra.get('xml_description', ''))
-        root = ET.fromstring(xml_desc)
-        vnc_element = root.find('devices').find('graphics[@type="vnc"]')
-        if not vnc_element:
-            raise MethodNotAllowedError(
-                "VNC console not supported by this KVM domain")
-        vnc_port = vnc_element.attrib.get('port')
-        vnc_host = vnc_element.attrib.get('listen')
-        from mongoengine import Q
-        # Get key associations, prefer root or sudoer ones
-        key_associations = KeyMachineAssociation.objects(
-            Q(machine=machine.parent) & (Q(ssh_user='root') | Q(sudo=True))) \
-            or KeyMachineAssociation.objects(machine=machine.parent)
-        if not key_associations:
-            raise ForbiddenError()
-        key_id = key_associations[0].key.id
-        host = '%s@%s:%d' % (key_associations[0].ssh_user,
-                             machine.parent.hostname,
-                             key_associations[0].port)
-        expiry = int(datetime.now().timestamp()) + 100
-        msg = '%s,%s,%s,%s,%s' % (host, key_id, vnc_host, vnc_port, expiry)
-        mac = hmac.new(
-            config.SECRET.encode(),
-            msg=msg.encode(),
-            digestmod=hashlib.sha256).hexdigest()
-        base_ws_uri = config.CORE_URI.replace('http', 'ws')
-        proxy_uri = '%s/proxy/%s/%s/%s/%s/%s/%s' % (
-            base_ws_uri, host, key_id, vnc_host, vnc_port, expiry, mac)
-        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
-    if machine.cloud.ctl.provider == 'vsphere':
-        console_uri = machine.cloud.ctl.compute.connection.ex_open_console(
-            machine.machine_id
-        )
-        protocol, host = config.CORE_URI.split('://')
-        protocol = protocol.replace('http', 'ws')
-        params = urllib.parse.urlencode({'url': console_uri})
-        proxy_uri = f"{protocol}://{host}/wsproxy/?{params}"
-        return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
-    else:
+    if cloud_has_feature(machine.cloud, 'console'):
+        return 'Action not supported', 501
+    proxy_uri = get_console_proxy_uri()
+    if proxy_uri is None:
         console_url = machine.cloud.ctl.compute.connection.ex_open_console(
             machine.machine_id
         )
-    raise RedirectError(console_url)
+        headers = {'Location': console_url}
+        return '', 302, headers
+    return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
 
 
 def create_machine(create_machine_request=None):  # noqa: E501
@@ -298,13 +249,11 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
     except ValueError:
         return 'Machine does not exist', 404
     if machine.cloud.owner != auth_context.owner:
-        raise NotFoundError("Machine %s doesn't exist" % machine.id)
+        return 'Machine does not exist', 404
     # VMs in libvirt can be started no matter if they are terminated
     if machine.state == 'terminated' and not isinstance(machine.cloud,
                                                         LibvirtCloud):
-        raise NotFoundError(
-            f'Machine {machine.id} has been terminated'
-        )
+        return 'Machine does not exist', 404
     log_event(
         auth_context.owner.id, 'request', 'edit_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
@@ -413,6 +362,8 @@ def rename_machine(machine, name):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'rename', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     log_event(
         auth_context.owner.id, 'request', 'rename_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
@@ -443,6 +394,8 @@ def resize_machine(machine, size):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'resize', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     try:
         [size], total = list_resources(auth_context, 'size',
                                        cloud=machine.cloud.id,
@@ -494,6 +447,8 @@ def resume_machine(machine):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'resume', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     log_event(
         auth_context.owner.id, 'request', 'resume_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
@@ -605,6 +560,8 @@ def suspend_machine(machine):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
+    if not methods.run_pre_action_hooks(machine, 'suspend', auth_context.user):
+        return 'OK', 200  # webhook requires stopping action propagation
     auth_context.check_perm('machine', 'suspend', machine.id)
     log_event(
         auth_context.owner.id, 'request', 'suspend_machine',

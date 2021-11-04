@@ -35,7 +35,7 @@ def create_volume(create_volume_request=None):  # noqa: E501
     except ValueError:
         return 'Cloud does not exist', 404
     if not hasattr(cloud.ctl, 'storage'):
-        raise NotImplementedError()
+        return 'Volume support is not available', 501
     try:
         [location], total = list_resources(
             auth_context, 'location', search=params.pop('location'), limit=1)

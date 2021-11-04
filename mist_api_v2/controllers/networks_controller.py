@@ -34,9 +34,8 @@ def create_network(create_network_request=None):  # noqa: E501
         return 'Cloud does not exist', 404
     auth_context.check_perm('cloud', 'read', cloud.id)
     auth_context.check_perm('cloud', 'create_resources', cloud.id)
-    # Is network support available?
     if not hasattr(cloud.ctl, 'network'):
-        raise NotImplementedError()
+        return 'Network support is not available', 501
     # Create the new network
     network = NETWORKS[cloud.ctl.provider].add(cloud=cloud, **params)
     network.assign_to(auth_context.user)
