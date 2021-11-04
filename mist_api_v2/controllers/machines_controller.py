@@ -68,7 +68,6 @@ def console(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    from mist.api.methods import cloud_has_feature
     from mist.api.methods import get_console_proxy_uri
     auth_context = connexion.context['token_info']['auth_context']
     try:
@@ -81,7 +80,7 @@ def console(machine):  # noqa: E501
     cloud_id = machine.cloud.id
     auth_context.check_perm("cloud", "read", cloud_id)
     auth_context.check_perm("machine", "read", machine.id)
-    if cloud_has_feature(machine.cloud, 'console'):
+    if machine.cloud.ctl.has_feature('console'):
         return 'Action not supported', 501
     proxy_uri = get_console_proxy_uri()
     if proxy_uri is None:
