@@ -67,7 +67,7 @@ def delete_zone(zone):  # noqa: E501
     return 'Deleted zone `%s`' % zone.domain, 200
 
 
-def edit_zone(zone, name=None):  # noqa: E501
+def edit_zone(zone):  # noqa: E501
     """Edit zone
 
     Edit target zone # noqa: E501
@@ -87,7 +87,6 @@ def edit_zone(zone, name=None):  # noqa: E501
     except ValueError:
         return 'Zone does not exist', 404
     auth_context.check_perm("zone", "edit", zone.id)
-    # TODO: Implement zone.ctl.rename()
     return 'Zone successfully updated'
 
 

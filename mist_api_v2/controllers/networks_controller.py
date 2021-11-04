@@ -95,7 +95,7 @@ def edit_network(network, name=None):  # noqa: E501
     except ValueError:
         return 'Network does not exist', 404
     auth_context.check_perm('network', 'edit', network.id)
-    # TODO: Implement network.ctl.rename()
+    network.ctl.rename(name)
     return 'Network succesfully updated'
 
 
