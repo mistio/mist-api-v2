@@ -17,7 +17,7 @@ class CreateVolumeRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, provider=None, cloud=None, location=None, size=None, tags=None, extra=None, quantity=None, template=None, dry=None, save=None):  # noqa: E501
+    def __init__(self, name=None, provider=None, cloud=None, location=None, size=None, ex_disk_type=None, ex_volume_type=None, ex_iops=None, tags=None, extra=None, quantity=None, template=None, dry=None, save=None):  # noqa: E501
         """CreateVolumeRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateVolumeRequest.  # noqa: E501
@@ -30,12 +30,18 @@ class CreateVolumeRequest(Model):
         :type location: str
         :param size: The size of this CreateVolumeRequest.  # noqa: E501
         :type size: int
+        :param ex_disk_type: The ex_disk_type of this CreateVolumeRequest.  # noqa: E501
+        :type ex_disk_type: str
+        :param ex_volume_type: The ex_volume_type of this CreateVolumeRequest.  # noqa: E501
+        :type ex_volume_type: str
+        :param ex_iops: The ex_iops of this CreateVolumeRequest.  # noqa: E501
+        :type ex_iops: str
         :param tags: The tags of this CreateVolumeRequest.  # noqa: E501
         :type tags: object
         :param extra: The extra of this CreateVolumeRequest.  # noqa: E501
         :type extra: object
         :param quantity: The quantity of this CreateVolumeRequest.  # noqa: E501
-        :type quantity: float
+        :type quantity: int
         :param template: The template of this CreateVolumeRequest.  # noqa: E501
         :type template: object
         :param dry: The dry of this CreateVolumeRequest.  # noqa: E501
@@ -49,9 +55,12 @@ class CreateVolumeRequest(Model):
             'cloud': str,
             'location': str,
             'size': int,
+            'ex_disk_type': str,
+            'ex_volume_type': str,
+            'ex_iops': str,
             'tags': object,
             'extra': object,
-            'quantity': float,
+            'quantity': int,
             'template': object,
             'dry': bool,
             'save': bool
@@ -63,6 +72,9 @@ class CreateVolumeRequest(Model):
             'cloud': 'cloud',
             'location': 'location',
             'size': 'size',
+            'ex_disk_type': 'ex_disk_type',
+            'ex_volume_type': 'ex_volume_type',
+            'ex_iops': 'ex_iops',
             'tags': 'tags',
             'extra': 'extra',
             'quantity': 'quantity',
@@ -76,6 +88,9 @@ class CreateVolumeRequest(Model):
         self._cloud = cloud
         self._location = location
         self._size = size
+        self._ex_disk_type = ex_disk_type
+        self._ex_volume_type = ex_volume_type
+        self._ex_iops = ex_iops
         self._tags = tags
         self._extra = extra
         self._quantity = quantity
@@ -216,6 +231,87 @@ class CreateVolumeRequest(Model):
         self._size = size
 
     @property
+    def ex_disk_type(self):
+        """Gets the ex_disk_type of this CreateVolumeRequest.
+
+        GCE-specific  # noqa: E501
+
+        :return: The ex_disk_type of this CreateVolumeRequest.
+        :rtype: str
+        """
+        return self._ex_disk_type
+
+    @ex_disk_type.setter
+    def ex_disk_type(self, ex_disk_type):
+        """Sets the ex_disk_type of this CreateVolumeRequest.
+
+        GCE-specific  # noqa: E501
+
+        :param ex_disk_type: The ex_disk_type of this CreateVolumeRequest.
+        :type ex_disk_type: str
+        """
+        allowed_values = ["pd-standard", "pd-ssd"]  # noqa: E501
+        if ex_disk_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `ex_disk_type` ({0}), must be one of {1}"
+                .format(ex_disk_type, allowed_values)
+            )
+
+        self._ex_disk_type = ex_disk_type
+
+    @property
+    def ex_volume_type(self):
+        """Gets the ex_volume_type of this CreateVolumeRequest.
+
+        EC2-specific  # noqa: E501
+
+        :return: The ex_volume_type of this CreateVolumeRequest.
+        :rtype: str
+        """
+        return self._ex_volume_type
+
+    @ex_volume_type.setter
+    def ex_volume_type(self, ex_volume_type):
+        """Sets the ex_volume_type of this CreateVolumeRequest.
+
+        EC2-specific  # noqa: E501
+
+        :param ex_volume_type: The ex_volume_type of this CreateVolumeRequest.
+        :type ex_volume_type: str
+        """
+        allowed_values = ["standard", "io1", "gp2", "sc1", "st1"]  # noqa: E501
+        if ex_volume_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `ex_volume_type` ({0}), must be one of {1}"
+                .format(ex_volume_type, allowed_values)
+            )
+
+        self._ex_volume_type = ex_volume_type
+
+    @property
+    def ex_iops(self):
+        """Gets the ex_iops of this CreateVolumeRequest.
+
+        EC2-specific. Needs to be specified if volume_type='io1'  # noqa: E501
+
+        :return: The ex_iops of this CreateVolumeRequest.
+        :rtype: str
+        """
+        return self._ex_iops
+
+    @ex_iops.setter
+    def ex_iops(self, ex_iops):
+        """Sets the ex_iops of this CreateVolumeRequest.
+
+        EC2-specific. Needs to be specified if volume_type='io1'  # noqa: E501
+
+        :param ex_iops: The ex_iops of this CreateVolumeRequest.
+        :type ex_iops: str
+        """
+
+        self._ex_iops = ex_iops
+
+    @property
     def tags(self):
         """Gets the tags of this CreateVolumeRequest.
 
@@ -268,7 +364,7 @@ class CreateVolumeRequest(Model):
         Provision multiple volumes of this type  # noqa: E501
 
         :return: The quantity of this CreateVolumeRequest.
-        :rtype: float
+        :rtype: int
         """
         return self._quantity
 
@@ -279,7 +375,7 @@ class CreateVolumeRequest(Model):
         Provision multiple volumes of this type  # noqa: E501
 
         :param quantity: The quantity of this CreateVolumeRequest.
-        :type quantity: float
+        :type quantity: int
         """
 
         self._quantity = quantity

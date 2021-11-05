@@ -44,11 +44,15 @@ class TestMachinesController:
   "user" : "user",
   "key" : "key"
 }
-        for k in key_machine_association:
-            if k in setup_data:
-                key_machine_association[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                key_machine_association[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            key_machine_association = setup_data
+        else:
+            for k in key_machine_association:
+                if k in setup_data:
+                    key_machine_association[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    key_machine_association[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(key_machine_association)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/associate-key'.format(
             machine=setup_data.get('machine') or 'my-machine')
@@ -130,11 +134,15 @@ class TestMachinesController:
   "scripts" : [ "", "" ],
   "key" : ""
 }
-        for k in create_machine_request:
-            if k in setup_data:
-                create_machine_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                create_machine_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            create_machine_request = setup_data
+        else:
+            for k in create_machine_request:
+                if k in setup_data:
+                    create_machine_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    create_machine_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(create_machine_request)
         uri = mist_core.uri + '/api/v2/machines'
         request = MistRequests(
@@ -169,11 +177,15 @@ class TestMachinesController:
         key_machine_disassociation = {
   "key" : "key"
 }
-        for k in key_machine_disassociation:
-            if k in setup_data:
-                key_machine_disassociation[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                key_machine_disassociation[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            key_machine_disassociation = setup_data
+        else:
+            for k in key_machine_disassociation:
+                if k in setup_data:
+                    key_machine_disassociation[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    key_machine_disassociation[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(key_machine_disassociation)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/disassociate-key'.format(
             machine=setup_data.get('machine') or 'my-machine')
@@ -198,11 +210,15 @@ class TestMachinesController:
     "notify" : 0
   }
 }
-        for k in edit_machine_request:
-            if k in setup_data:
-                edit_machine_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                edit_machine_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            edit_machine_request = setup_data
+        else:
+            for k in edit_machine_request:
+                if k in setup_data:
+                    edit_machine_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    edit_machine_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(edit_machine_request)
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'my-machine')

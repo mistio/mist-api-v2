@@ -40,22 +40,29 @@ class TestVolumesController:
         Create volume
         """
         create_volume_request = {
-  "cloud" : "cloud",
   "template" : "{}",
-  "quantity" : 6.027456183070403,
-  "size" : 0,
-  "extra" : "{}",
-  "name" : "name",
+  "quantity" : 0,
+  "ex_disk_type" : "pd-standard",
+  "ex_volume_type" : "standard",
   "save" : true,
-  "location" : "location",
   "dry" : true,
-  "tags" : "{}"
+  "tags" : "{}",
+  "cloud" : "my-cloud",
+  "ex_iops" : "ex_iops",
+  "size" : 1,
+  "extra" : "{}",
+  "name" : "my-volume",
+  "location" : "us-central1-a"
 }
-        for k in create_volume_request:
-            if k in setup_data:
-                create_volume_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                create_volume_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            create_volume_request = setup_data
+        else:
+            for k in create_volume_request:
+                if k in setup_data:
+                    create_volume_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    create_volume_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(create_volume_request)
         uri = mist_core.uri + '/api/v2/volumes'
         request = MistRequests(

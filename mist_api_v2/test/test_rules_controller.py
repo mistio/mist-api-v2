@@ -86,11 +86,15 @@ class TestRulesController:
     "every" : 5
   }
 }
-        for k in add_rule_request:
-            if k in setup_data:
-                add_rule_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                add_rule_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            add_rule_request = setup_data
+        else:
+            for k in add_rule_request:
+                if k in setup_data:
+                    add_rule_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    add_rule_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(add_rule_request)
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
@@ -168,11 +172,15 @@ class TestRulesController:
     "every" : 5
   }
 }
-        for k in edit_rule_request:
-            if k in setup_data:
-                edit_rule_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                edit_rule_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            edit_rule_request = setup_data
+        else:
+            for k in edit_rule_request:
+                if k in setup_data:
+                    edit_rule_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    edit_rule_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(edit_rule_request)
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')

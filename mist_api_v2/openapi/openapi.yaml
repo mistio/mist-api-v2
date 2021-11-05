@@ -5884,31 +5884,58 @@ components:
       type: object
     CreateVolumeRequest:
       example:
-        cloud: cloud
         template: '{}'
-        quantity: 6.027456183070403
-        size: 0
-        extra: '{}'
-        name: name
+        quantity: 0
+        ex_disk_type: pd-standard
+        ex_volume_type: standard
         save: true
-        location: location
         dry: true
         tags: '{}'
+        cloud: my-cloud
+        ex_iops: ex_iops
+        size: 1
+        extra: '{}'
+        name: my-volume
+        location: us-central1-a
       properties:
         name:
           description: Specify volume name
+          example: my-volume
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
         cloud:
           description: Specify cloud to provision on
+          example: my-cloud
           type: string
         location:
           description: Where to provision e.g. region, datacenter, rack
+          example: us-central1-a
           type: string
         size:
           description: Volume sizing spec
+          example: 1
           type: integer
+        ex_disk_type:
+          description: GCE-specific
+          enum:
+          - pd-standard
+          - pd-ssd
+          example: pd-standard
+          type: string
+        ex_volume_type:
+          description: EC2-specific
+          enum:
+          - standard
+          - io1
+          - gp2
+          - sc1
+          - st1
+          example: standard
+          type: string
+        ex_iops:
+          description: EC2-specific. Needs to be specified if volume_type='io1'
+          type: string
         tags:
           description: Assign tags to provisioned volume
           type: object
@@ -5917,7 +5944,7 @@ components:
           type: object
         quantity:
           description: Provision multiple volumes of this type
-          type: number
+          type: integer
         template:
           type: object
         dry:

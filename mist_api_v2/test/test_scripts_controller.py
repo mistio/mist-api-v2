@@ -47,11 +47,15 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }
-        for k in add_script_request:
-            if k in setup_data:
-                add_script_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                add_script_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            add_script_request = setup_data
+        else:
+            for k in add_script_request:
+                if k in setup_data:
+                    add_script_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    add_script_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(add_script_request)
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
@@ -177,11 +181,15 @@ class TestScriptsController:
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }
-        for k in run_script_request:
-            if k in setup_data:
-                run_script_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                run_script_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            run_script_request = setup_data
+        else:
+            for k in run_script_request:
+                if k in setup_data:
+                    run_script_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    run_script_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')

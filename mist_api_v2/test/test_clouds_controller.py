@@ -48,11 +48,15 @@ class TestCloudsController:
     "email" : "email"
   }
 }
-        for k in add_cloud_request:
-            if k in setup_data:
-                add_cloud_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                add_cloud_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            add_cloud_request = setup_data
+        else:
+            for k in add_cloud_request:
+                if k in setup_data:
+                    add_cloud_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    add_cloud_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(add_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
@@ -72,11 +76,15 @@ class TestCloudsController:
         edit_cloud_request = {
   "name" : "my-renamed-cloud"
 }
-        for k in edit_cloud_request:
-            if k in setup_data:
-                edit_cloud_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                edit_cloud_request[k] = setup_data[resource_name_singular]
+        if setup_data.pop('overwrite_request', False):
+            edit_cloud_request = setup_data
+        else:
+            for k in edit_cloud_request:
+                if k in setup_data:
+                    edit_cloud_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    edit_cloud_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'my-cloud')
