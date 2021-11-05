@@ -43,8 +43,8 @@ class TestZonesController:
   "name" : "my-zone",
   "cloud" : "my-cloud"
 }
-        if setup_data.pop('overwrite_request', False):
-            create_zone_request = setup_data
+        if 'overwrite_request' in setup_data:
+            create_zone_request = setup_data['overwrite_request']
         else:
             for k in create_zone_request:
                 if k in setup_data:

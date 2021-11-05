@@ -45,9 +45,9 @@ class CreateVolumeRequest(Model):
         :param template: The template of this CreateVolumeRequest.  # noqa: E501
         :type template: object
         :param dry: The dry of this CreateVolumeRequest.  # noqa: E501
-        :type dry: bool
+        :type dry: str
         :param save: The save of this CreateVolumeRequest.  # noqa: E501
-        :type save: bool
+        :type save: str
         """
         self.openapi_types = {
             'name': str,
@@ -62,8 +62,8 @@ class CreateVolumeRequest(Model):
             'extra': object,
             'quantity': int,
             'template': object,
-            'dry': bool,
-            'save': bool
+            'dry': str,
+            'save': str
         }
 
         self.attribute_map = {
@@ -408,7 +408,7 @@ class CreateVolumeRequest(Model):
         Return provisioning plan and exit without executing it  # noqa: E501
 
         :return: The dry of this CreateVolumeRequest.
-        :rtype: bool
+        :rtype: str
         """
         return self._dry
 
@@ -419,8 +419,14 @@ class CreateVolumeRequest(Model):
         Return provisioning plan and exit without executing it  # noqa: E501
 
         :param dry: The dry of this CreateVolumeRequest.
-        :type dry: bool
+        :type dry: str
         """
+        allowed_values = ["true", "false"]  # noqa: E501
+        if dry not in allowed_values:
+            raise ValueError(
+                "Invalid value for `dry` ({0}), must be one of {1}"
+                .format(dry, allowed_values)
+            )
 
         self._dry = dry
 
@@ -431,7 +437,7 @@ class CreateVolumeRequest(Model):
         Save provisioning plan as template  # noqa: E501
 
         :return: The save of this CreateVolumeRequest.
-        :rtype: bool
+        :rtype: str
         """
         return self._save
 
@@ -442,7 +448,13 @@ class CreateVolumeRequest(Model):
         Save provisioning plan as template  # noqa: E501
 
         :param save: The save of this CreateVolumeRequest.
-        :type save: bool
+        :type save: str
         """
+        allowed_values = ["true", "false"]  # noqa: E501
+        if save not in allowed_values:
+            raise ValueError(
+                "Invalid value for `save` ({0}), must be one of {1}"
+                .format(save, allowed_values)
+            )
 
         self._save = save

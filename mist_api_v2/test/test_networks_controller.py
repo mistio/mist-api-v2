@@ -48,8 +48,8 @@ class TestNetworksController:
   "dry" : true,
   "tags" : "{}"
 }
-        if setup_data.pop('overwrite_request', False):
-            create_network_request = setup_data
+        if 'overwrite_request' in setup_data:
+            create_network_request = setup_data['overwrite_request']
         else:
             for k in create_network_request:
                 if k in setup_data:

@@ -44,8 +44,8 @@ class TestMachinesController:
   "user" : "user",
   "key" : "key"
 }
-        if setup_data.pop('overwrite_request', False):
-            key_machine_association = setup_data
+        if 'overwrite_request' in setup_data:
+            key_machine_association = setup_data['overwrite_request']
         else:
             for k in key_machine_association:
                 if k in setup_data:
@@ -134,8 +134,8 @@ class TestMachinesController:
   "scripts" : [ "", "" ],
   "key" : ""
 }
-        if setup_data.pop('overwrite_request', False):
-            create_machine_request = setup_data
+        if 'overwrite_request' in setup_data:
+            create_machine_request = setup_data['overwrite_request']
         else:
             for k in create_machine_request:
                 if k in setup_data:
@@ -177,8 +177,8 @@ class TestMachinesController:
         key_machine_disassociation = {
   "key" : "key"
 }
-        if setup_data.pop('overwrite_request', False):
-            key_machine_disassociation = setup_data
+        if 'overwrite_request' in setup_data:
+            key_machine_disassociation = setup_data['overwrite_request']
         else:
             for k in key_machine_disassociation:
                 if k in setup_data:
@@ -210,8 +210,8 @@ class TestMachinesController:
     "notify" : 0
   }
 }
-        if setup_data.pop('overwrite_request', False):
-            edit_machine_request = setup_data
+        if 'overwrite_request' in setup_data:
+            edit_machine_request = setup_data['overwrite_request']
         else:
             for k in edit_machine_request:
                 if k in setup_data:

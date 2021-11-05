@@ -45,8 +45,8 @@ class TestClustersController:
   "provider" : "google",
   "location" : "my-location"
 }
-        if setup_data.pop('overwrite_request', False):
-            create_cluster_request = setup_data
+        if 'overwrite_request' in setup_data:
+            create_cluster_request = setup_data['overwrite_request']
         else:
             for k in create_cluster_request:
                 if k in setup_data:

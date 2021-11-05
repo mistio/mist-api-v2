@@ -44,8 +44,8 @@ class TestVolumesController:
   "quantity" : 0,
   "ex_disk_type" : "pd-standard",
   "ex_volume_type" : "standard",
-  "save" : true,
-  "dry" : true,
+  "save" : "true",
+  "dry" : "true",
   "tags" : "{}",
   "cloud" : "my-cloud",
   "ex_iops" : "ex_iops",
@@ -54,8 +54,8 @@ class TestVolumesController:
   "name" : "my-volume",
   "location" : "us-central1-a"
 }
-        if setup_data.pop('overwrite_request', False):
-            create_volume_request = setup_data
+        if 'overwrite_request' in setup_data:
+            create_volume_request = setup_data['overwrite_request']
         else:
             for k in create_volume_request:
                 if k in setup_data:

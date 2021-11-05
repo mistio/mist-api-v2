@@ -47,8 +47,8 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }
-        if setup_data.pop('overwrite_request', False):
-            add_script_request = setup_data
+        if 'overwrite_request' in setup_data:
+            add_script_request = setup_data['overwrite_request']
         else:
             for k in add_script_request:
                 if k in setup_data:
@@ -181,8 +181,8 @@ class TestScriptsController:
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }
-        if setup_data.pop('overwrite_request', False):
-            run_script_request = setup_data
+        if 'overwrite_request' in setup_data:
+            run_script_request = setup_data['overwrite_request']
         else:
             for k in run_script_request:
                 if k in setup_data:
