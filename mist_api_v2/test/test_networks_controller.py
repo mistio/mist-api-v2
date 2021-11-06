@@ -44,8 +44,8 @@ class TestNetworksController:
   "template" : "{}",
   "extra" : "{}",
   "name" : "my-network",
-  "save" : true,
-  "dry" : true,
+  "save" : "true",
+  "dry" : "true",
   "tags" : "{}"
 }
         if 'overwrite_request' in setup_data:

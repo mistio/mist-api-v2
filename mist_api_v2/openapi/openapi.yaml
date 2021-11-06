@@ -5845,8 +5845,8 @@ components:
         template: '{}'
         extra: '{}'
         name: my-network
-        save: true
-        dry: true
+        save: "true"
+        dry: "true"
         tags: '{}'
       properties:
         name:
@@ -5867,10 +5867,16 @@ components:
           type: object
         dry:
           description: Return provisioning plan and exit without executing it
-          type: boolean
+          enum:
+          - "true"
+          - "false"
+          type: string
         save:
           description: Save provisioning plan as template
-          type: boolean
+          enum:
+          - "true"
+          - "false"
+          type: string
       required:
       - cloud
       - name
