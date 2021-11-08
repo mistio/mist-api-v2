@@ -57,6 +57,10 @@ class TestScriptsController:
                     add_script_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(add_script_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('add_script')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
@@ -72,6 +76,10 @@ class TestScriptsController:
 
         Delete script
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('delete_script')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -87,6 +95,10 @@ class TestScriptsController:
 
         Download script
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('download_script')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}/file'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -102,14 +114,12 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'edit_script')
-        if not query_string:
-            query_string = [('name', 'my-renamed-script'),
-        query_string = setup_data.get('query_string', {}).get(
-            'edit_script')
-        if not query_string:
-                            ('description', 'description')]
+        query_string = [('name', 'my-renamed-script'),
+                        ('description', 'description')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('edit_script')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -126,6 +136,10 @@ class TestScriptsController:
 
         Generate script url
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('generate_script_url')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}/url'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -141,14 +155,12 @@ class TestScriptsController:
 
         Get script
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_script')
-        if not query_string:
-            query_string = [('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_script')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_script')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -165,30 +177,16 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_scripts')
-        if not query_string:
-            query_string = [('search', 'my-script'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_scripts')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_scripts')
-        if not query_string:
-                            ('start', '3'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_scripts')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_scripts')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_scripts')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('search', 'my-script'),
+                        ('sort', '-name'),
+                        ('start', '3'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_scripts')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
@@ -221,6 +219,10 @@ class TestScriptsController:
                     run_script_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(run_script_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('run_script')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(

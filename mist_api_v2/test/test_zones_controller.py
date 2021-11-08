@@ -53,6 +53,10 @@ class TestZonesController:
                     create_zone_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(create_zone_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('create_zone')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,
@@ -68,6 +72,10 @@ class TestZonesController:
 
         Delete zone
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('delete_zone')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
@@ -83,6 +91,10 @@ class TestZonesController:
 
         Edit zone
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('edit_zone')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
@@ -98,14 +110,12 @@ class TestZonesController:
 
         Get zone
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_zone')
-        if not query_string:
-            query_string = [('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_zone')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_zone')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
@@ -122,34 +132,17 @@ class TestZonesController:
 
         List zones
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-            query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-                            ('search', 'cinet3'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_zones')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_zones')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,

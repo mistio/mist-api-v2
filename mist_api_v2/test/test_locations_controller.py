@@ -39,14 +39,12 @@ class TestLocationsController:
 
         Get location
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_location')
-        if not query_string:
-            query_string = [('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_location')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_location')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/locations/{location}'.format(
             location=setup_data.get('location') or 'us-central1-a')
         request = MistRequests(
@@ -63,34 +61,17 @@ class TestLocationsController:
 
         List locations
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-            query_string = [('cloud', 'my-cloud'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-                            ('search', 'cinet3'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_locations')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('cloud', 'my-cloud'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/locations'
         request = MistRequests(
             api_token=owner_api_token,

@@ -53,6 +53,10 @@ class TestKeysController:
                     add_key_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(add_key_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('add_key')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/keys'
         request = MistRequests(
             api_token=owner_api_token,
@@ -68,6 +72,10 @@ class TestKeysController:
 
         Delete key
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('delete_key')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
             key=setup_data.get('key') or 'my-key')
         request = MistRequests(
@@ -83,14 +91,12 @@ class TestKeysController:
 
         Edit key
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'edit_key')
-        if not query_string:
-            query_string = [('name', 'my-renamed-key'),
-        query_string = setup_data.get('query_string', {}).get(
-            'edit_key')
-        if not query_string:
-                            ('default', 'True')]
+        query_string = [('name', 'my-renamed-key'),
+                        ('default', 'True')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('edit_key')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
             key=setup_data.get('key') or 'my-key')
         request = MistRequests(
@@ -107,22 +113,14 @@ class TestKeysController:
 
         Get key
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_key')
-        if not query_string:
-            query_string = [('private', 'False'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_key')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_key')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_key')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('private', 'False'),
+                        ('sort', '-name'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_key')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
             key=setup_data.get('key') or 'my-key')
         request = MistRequests(
@@ -139,30 +137,16 @@ class TestKeysController:
 
         List keys
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_keys')
-        if not query_string:
-            query_string = [('search', 'owned_by:csk@mist.io'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_keys')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_keys')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_keys')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_keys')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_keys')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('search', 'owned_by:csk@mist.io'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_keys')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/keys'
         request = MistRequests(
             api_token=owner_api_token,

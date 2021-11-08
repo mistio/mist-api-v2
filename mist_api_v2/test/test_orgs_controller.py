@@ -39,10 +39,11 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_member')
-        if not query_string:
-            query_string = [('only', 'id')]
+        query_string = [('only', 'id')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_member')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
             org=setup_data.get('org') or 'my-org', member=setup_data.get('member') or 'my-member')
         request = MistRequests(
@@ -59,14 +60,12 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_org')
-        if not query_string:
-            query_string = [('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_org')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_org')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
             org=setup_data.get('org') or 'my-org')
         request = MistRequests(
@@ -83,26 +82,15 @@ class TestOrgsController:
 
         List org members
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_members')
-        if not query_string:
-            query_string = [('search', 'email:dev@mist.io'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_members')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_members')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_members')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_members')
-        if not query_string:
-                            ('only', 'id')]
+        query_string = [('search', 'email:dev@mist.io'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_members')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(
             org=setup_data.get('org') or 'my-org')
         request = MistRequests(
@@ -119,30 +107,16 @@ class TestOrgsController:
 
         List org teams
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_teams')
-        if not query_string:
-            query_string = [('search', 'name:finance'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_teams')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_teams')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_teams')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_teams')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_org_teams')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('search', 'name:finance'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_teams')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
             org=setup_data.get('org') or 'my-org')
         request = MistRequests(
@@ -159,34 +133,17 @@ class TestOrgsController:
 
         List orgs
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-            query_string = [('allorgs', 'true'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-                            ('search', 'name:Acme'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_orgs')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('allorgs', 'true'),
+                        ('search', 'name:Acme'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/orgs'
         request = MistRequests(
             api_token=owner_api_token,

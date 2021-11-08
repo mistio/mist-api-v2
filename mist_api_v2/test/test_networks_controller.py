@@ -58,6 +58,10 @@ class TestNetworksController:
                     create_network_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(create_network_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('create_network')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/networks'
         request = MistRequests(
             api_token=owner_api_token,
@@ -73,10 +77,11 @@ class TestNetworksController:
 
         Delete network
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'delete_network')
-        if not query_string:
-            query_string = [('cloud', 'my-cloud')]
+        query_string = [('cloud', 'my-cloud')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('delete_network')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
             network=setup_data.get('network') or 'my-network')
         request = MistRequests(
@@ -93,10 +98,11 @@ class TestNetworksController:
 
         Edit network
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'edit_network')
-        if not query_string:
-            query_string = [('name', 'my-renamed-network')]
+        query_string = [('name', 'my-renamed-network')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('edit_network')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
             network=setup_data.get('network') or 'my-network')
         request = MistRequests(
@@ -113,14 +119,12 @@ class TestNetworksController:
 
         Get network
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_network')
-        if not query_string:
-            query_string = [('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_network')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_network')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
             network=setup_data.get('network') or 'my-network')
         request = MistRequests(
@@ -137,34 +141,17 @@ class TestNetworksController:
 
         List networks
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-            query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-                            ('search', 'cinet3'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_networks')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_networks')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/networks'
         request = MistRequests(
             api_token=owner_api_token,

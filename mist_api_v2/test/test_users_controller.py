@@ -39,30 +39,16 @@ class TestUsersController:
 
         List users
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_users')
-        if not query_string:
-            query_string = [('search', 'email:dev@mist.io'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_users')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_users')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_users')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_users')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_users')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('search', 'email:dev@mist.io'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_users')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/users'
         request = MistRequests(
             api_token=owner_api_token,

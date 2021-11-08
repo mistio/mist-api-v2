@@ -64,6 +64,10 @@ class TestVolumesController:
                     create_volume_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(create_volume_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('create_volume')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes'
         request = MistRequests(
             api_token=owner_api_token,
@@ -79,6 +83,10 @@ class TestVolumesController:
 
         Delete volume
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('delete_volume')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
             volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
@@ -94,10 +102,11 @@ class TestVolumesController:
 
         Edit volume
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'edit_volume')
-        if not query_string:
-            query_string = [('name', 'my-renamed-volume')]
+        query_string = [('name', 'my-renamed-volume')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('edit_volume')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
             volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
@@ -114,14 +123,12 @@ class TestVolumesController:
 
         Get volume
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_volume')
-        if not query_string:
-            query_string = [('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_volume')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_volume')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
             volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
@@ -138,34 +145,17 @@ class TestVolumesController:
 
         List volumes
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-            query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-                            ('search', 'location:Amsterdam'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_volumes')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'location:Amsterdam'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes'
         request = MistRequests(
             api_token=owner_api_token,

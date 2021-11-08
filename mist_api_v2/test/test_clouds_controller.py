@@ -58,6 +58,10 @@ class TestCloudsController:
                     add_cloud_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(add_cloud_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('add_cloud')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
@@ -86,6 +90,10 @@ class TestCloudsController:
                     edit_cloud_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(edit_cloud_request)
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('edit_cloud')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
@@ -102,18 +110,13 @@ class TestCloudsController:
 
         Get cloud
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'get_cloud')
-        if not query_string:
-            query_string = [('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_cloud')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'get_cloud')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('sort', '-name'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_cloud')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
@@ -130,30 +133,16 @@ class TestCloudsController:
 
         List clouds
         """
-        query_string = setup_data.get('query_string', {}).get(
-            'list_clouds')
-        if not query_string:
-            query_string = [('search', 'provider:amazon'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_clouds')
-        if not query_string:
-                            ('sort', '-name'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_clouds')
-        if not query_string:
-                            ('start', '50'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_clouds')
-        if not query_string:
-                            ('limit', '56'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_clouds')
-        if not query_string:
-                            ('only', 'id'),
-        query_string = setup_data.get('query_string', {}).get(
-            'list_clouds')
-        if not query_string:
-                            ('deref', 'auto')]
+        query_string = [('search', 'provider:amazon'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clouds')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
@@ -169,6 +158,10 @@ class TestCloudsController:
 
         Remove cloud
         """
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('remove_cloud')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
