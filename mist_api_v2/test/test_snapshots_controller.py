@@ -60,10 +60,6 @@ class TestSnapshotsController:
 
         List machine snapshots
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_snapshots')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -79,10 +75,6 @@ class TestSnapshotsController:
 
         Remove snapshot
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('remove_snapshot')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
             machine=setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
@@ -98,10 +90,6 @@ class TestSnapshotsController:
 
         Revert to snapshot
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('revert_to_snapshot')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
             machine=setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(

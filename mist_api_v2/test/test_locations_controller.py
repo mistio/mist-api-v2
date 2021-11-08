@@ -40,6 +40,10 @@ class TestLocationsController:
         Get location
         """
         query_string = [('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_location')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('get_location')
@@ -62,11 +66,35 @@ class TestLocationsController:
         List locations
         """
         query_string = [('cloud', 'my-cloud'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('search', 'cinet3'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_locations')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_locations')

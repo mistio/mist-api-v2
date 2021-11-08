@@ -39,10 +39,6 @@ class TestJobsController:
 
         Get job
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_job')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(
             job_id=setup_data.get('job_id') or 'ab74e2f0b7ae4999b1e4013e20dac418')
         request = MistRequests(

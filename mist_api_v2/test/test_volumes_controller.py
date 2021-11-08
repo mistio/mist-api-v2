@@ -64,10 +64,6 @@ class TestVolumesController:
                     create_volume_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(create_volume_request)
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('create_volume')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes'
         request = MistRequests(
             api_token=owner_api_token,
@@ -83,10 +79,6 @@ class TestVolumesController:
 
         Delete volume
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('delete_volume')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
             volume=setup_data.get('volume') or 'my-volume')
         request = MistRequests(
@@ -124,6 +116,10 @@ class TestVolumesController:
         Get volume
         """
         query_string = [('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_volume')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('get_volume')
@@ -146,11 +142,35 @@ class TestVolumesController:
         List volumes
         """
         query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('search', 'location:Amsterdam'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_volumes')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_volumes')

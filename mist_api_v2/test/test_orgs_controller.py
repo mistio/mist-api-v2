@@ -61,6 +61,10 @@ class TestOrgsController:
         Get Org
         """
         query_string = [('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_org')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('get_org')
@@ -83,9 +87,25 @@ class TestOrgsController:
         List org members
         """
         query_string = [('search', 'email:dev@mist.io'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_members')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_members')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_members')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_members')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_org_members')
@@ -108,10 +128,30 @@ class TestOrgsController:
         List org teams
         """
         query_string = [('search', 'name:finance'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_teams')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_teams')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_teams')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_teams')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_org_teams')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_org_teams')
@@ -134,11 +174,35 @@ class TestOrgsController:
         List orgs
         """
         query_string = [('allorgs', 'true'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('search', 'name:Acme'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_orgs')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_orgs')

@@ -96,10 +96,6 @@ class TestRulesController:
                     add_rule_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(add_rule_request)
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('add_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
@@ -115,10 +111,6 @@ class TestRulesController:
 
         Delete rule
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('delete_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
@@ -190,10 +182,6 @@ class TestRulesController:
                     edit_rule_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(edit_rule_request)
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('edit_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
@@ -211,6 +199,10 @@ class TestRulesController:
         Get rule
         """
         query_string = [('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_rule')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('get_rule')
@@ -233,9 +225,25 @@ class TestRulesController:
         List rules
         """
         query_string = [('search', 'total_run_count:5'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_rules')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_rules')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_rules')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_rules')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_rules')

@@ -55,10 +55,6 @@ class TestClustersController:
                     create_cluster_request[k] = setup_data[
                         resource_name_singular]
         inject_vault_credentials(create_cluster_request)
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('create_cluster')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clusters'
         request = MistRequests(
             api_token=owner_api_token,
@@ -74,10 +70,6 @@ class TestClustersController:
 
         Destroy cluster
         """
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('destroy_cluster')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
             cluster=setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
@@ -94,6 +86,10 @@ class TestClustersController:
         Get cluster
         """
         query_string = [('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('get_cluster')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('get_cluster')
@@ -116,11 +112,35 @@ class TestClustersController:
         List clusters
         """
         query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clusters')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('search', 'created_by:csk'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clusters')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('sort', '-name'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clusters')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('start', '50'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clusters')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('limit', '56'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clusters')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('only', 'id'),
+        overwrite_query_string = setup_data.get(
+            'query_string', {}).get('list_clusters')
+        if overwrite_query_string:
+            query_string = overwrite_query_string
                         ('deref', 'auto')]
         overwrite_query_string = setup_data.get(
             'query_string', {}).get('list_clusters')
