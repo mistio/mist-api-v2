@@ -20,6 +20,19 @@ if config.HAS_RBAC:
 from mist_api_v2 import encoder
 
 
+if (config.SENTRY_CONFIG.get('API_V2_URL') and
+        os.getenv('DRAMATIQ_CONTEXT') is None):
+    import sentry_sdk
+    from sentry_sdk.integrations.flask import FlaskIntegration
+    from mist.api.helpers import get_version_string
+    sentry_sdk.init(
+        dsn=config.SENTRY_CONFIG['API_V2_URL'],
+        integrations=[FlaskIntegration()],
+        traces_sample_rate=config.SENTRY_CONFIG['TRACES_SAMPLE_RATE'],
+        environment=config.SENTRY_CONFIG['ENVIRONMENT'],
+        release=get_version_string(),
+    )
+
 app = connexion.App(__name__, specification_dir='./openapi/')
 app.app.json_encoder = encoder.JSONEncoder
 api_blueprint = app.add_api('openapi.yaml',
