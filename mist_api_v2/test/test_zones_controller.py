@@ -98,16 +98,8 @@ class TestZonesController:
 
         Get zone
         """
-        query_string = [('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_zone')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_zone') or [('only', 'id'),
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_zone')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('zone') or 'my-zone')
         request = MistRequests(
@@ -124,41 +116,13 @@ class TestZonesController:
 
         List zones
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_zones') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'cinet3'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_zones')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,

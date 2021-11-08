@@ -39,16 +39,8 @@ class TestImagesController:
 
         Get image
         """
-        query_string = [('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_image')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_image') or [('only', 'id'),
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_image')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/images/{image}'.format(
             image=setup_data.get('image') or 'ubuntu-1604-xenial-v20210928')
         request = MistRequests(
@@ -65,41 +57,13 @@ class TestImagesController:
 
         List images
         """
-        query_string = [('cloud', 'my-cloud'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_images') or [('cloud', 'my-cloud'),
                         ('search', 'os_type:windows'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_images')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/images'
         request = MistRequests(
             api_token=owner_api_token,

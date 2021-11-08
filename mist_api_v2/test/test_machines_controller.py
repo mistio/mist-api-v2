@@ -236,16 +236,8 @@ class TestMachinesController:
 
         Get machine
         """
-        query_string = [('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_machine')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_machine') or [('only', 'id'),
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_machine')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -262,41 +254,13 @@ class TestMachinesController:
 
         List machines
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_machines') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'state:running'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_machines')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/machines'
         request = MistRequests(
             api_token=owner_api_token,
@@ -327,11 +291,7 @@ class TestMachinesController:
 
         Rename machine
         """
-        query_string = [('name', 'my-renamed-machine')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('rename_machine')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('rename_machine') or [('name', 'my-renamed-machine')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -348,11 +308,7 @@ class TestMachinesController:
 
         Resize machine
         """
-        query_string = [('size', '9417745961a84bffbf6419e5of68faa5')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('resize_machine')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('resize_machine') or [('size', '9417745961a84bffbf6419e5of68faa5')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(

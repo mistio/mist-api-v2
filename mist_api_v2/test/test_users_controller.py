@@ -39,36 +39,12 @@ class TestUsersController:
 
         List users
         """
-        query_string = [('search', 'email:dev@mist.io'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_users')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_users') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_users')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_users')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_users')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_users')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_users')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/users'
         request = MistRequests(
             api_token=owner_api_token,

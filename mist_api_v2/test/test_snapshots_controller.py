@@ -39,11 +39,7 @@ class TestSnapshotsController:
 
         Create snapshot
         """
-        query_string = [('name', 'my-snapshot')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('create_snapshot')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('create_snapshot') or [('name', 'my-snapshot')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(

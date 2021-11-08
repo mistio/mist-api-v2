@@ -102,16 +102,8 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = [('name', 'my-renamed-script'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('edit_script')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('edit_script') or [('name', 'my-renamed-script'),
                         ('description', 'description')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('edit_script')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -143,16 +135,8 @@ class TestScriptsController:
 
         Get script
         """
-        query_string = [('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_script')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_script') or [('only', 'id'),
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_script')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -169,36 +153,12 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = [('search', 'my-script'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_scripts')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_scripts') or [('search', 'my-script'),
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_scripts')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '3'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_scripts')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_scripts')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_scripts')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_scripts')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,

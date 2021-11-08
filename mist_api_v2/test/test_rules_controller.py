@@ -198,16 +198,8 @@ class TestRulesController:
 
         Get rule
         """
-        query_string = [('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_rule') or [('sort', '-name'),
                         ('only', 'id')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
@@ -224,31 +216,11 @@ class TestRulesController:
 
         List rules
         """
-        query_string = [('search', 'total_run_count:5'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_rules')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_rules') or [('search', 'total_run_count:5'),
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_rules')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_rules')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_rules')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_rules')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
@@ -264,11 +236,7 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = [('name', 'my-renamed-rule')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('rename_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('rename_rule') or [('name', 'my-renamed-rule')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
@@ -285,11 +253,7 @@ class TestRulesController:
 
         Toggle rule
         """
-        query_string = [('action', 'disable')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('toggle_rule')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('toggle_rule') or [('action', 'disable')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(

@@ -39,41 +39,13 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = [('query', 'system_load1'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_datapoints') or [('query', 'system_load1'),
                         ('tags', 'cluster=east1,production'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('search', 'state:running'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '1633096171'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('end', '1633096171'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('step', '5.0'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('time', '1633096171')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_datapoints')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/datapoints'
         request = MistRequests(
             api_token=owner_api_token,

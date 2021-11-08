@@ -39,16 +39,8 @@ class TestSizesController:
 
         Get size
         """
-        query_string = [('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_size')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_size') or [('only', 'id'),
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_size')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/sizes/{size}'.format(
             size=setup_data.get('size') or 'n2-highcpu-2 (2 vCPUs 2 GB RAM)')
         request = MistRequests(
@@ -65,41 +57,13 @@ class TestSizesController:
 
         List sizes
         """
-        query_string = [('cloud', 'my-cloud'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_sizes') or [('cloud', 'my-cloud'),
                         ('search', 'cinet3'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_sizes')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/sizes'
         request = MistRequests(
             api_token=owner_api_token,

@@ -102,21 +102,9 @@ class TestCloudsController:
 
         Get cloud
         """
-        query_string = [('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_cloud')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('get_cloud') or [('sort', '-name'),
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_cloud')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('get_cloud')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
@@ -133,36 +121,12 @@ class TestCloudsController:
 
         List clouds
         """
-        query_string = [('search', 'provider:amazon'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_clouds')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
+        query_string = setup_data.get('query_string', {}).get('list_clouds') or [('search', 'provider:amazon'),
                         ('sort', '-name'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_clouds')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('start', '50'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_clouds')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('limit', '56'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_clouds')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('only', 'id'),
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_clouds')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
                         ('deref', 'auto')]
-        overwrite_query_string = setup_data.get(
-            'query_string', {}).get('list_clouds')
-        if overwrite_query_string:
-            query_string = overwrite_query_string
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
