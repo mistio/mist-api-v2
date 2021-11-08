@@ -85,8 +85,14 @@ class TestClustersController:
 
         Get cluster
         """
-        query_string = [('only', 'id'),
-                        ('deref', 'auto')]
+        query_string = setup_data.get('query_string', {}).get(
+            'get_cluster')
+        if not query_string:
+            query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get(
+            'get_cluster')
+        if not query_string:
+                            ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
             cluster=setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
@@ -103,13 +109,34 @@ class TestClustersController:
 
         List clusters
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-                        ('search', 'created_by:csk'),
-                        ('sort', '-name'),
-                        ('start', '50'),
-                        ('limit', '56'),
-                        ('only', 'id'),
-                        ('deref', 'auto')]
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+            query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+                            ('search', 'created_by:csk'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+                            ('sort', '-name'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+                            ('start', '50'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+                            ('limit', '56'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+                            ('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_clusters')
+        if not query_string:
+                            ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters'
         request = MistRequests(
             api_token=owner_api_token,

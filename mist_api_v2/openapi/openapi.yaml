@@ -5861,7 +5861,7 @@ components:
           description: Assign tags to provisioned network
           type: object
         extra:
-          description: Configure additional parameters
+          description: Configure additional parameters, e.g. cidr (EC2 network)
           type: object
         template:
           type: object

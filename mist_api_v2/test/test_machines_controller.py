@@ -236,8 +236,14 @@ class TestMachinesController:
 
         Get machine
         """
-        query_string = [('only', 'id'),
-                        ('deref', 'auto')]
+        query_string = setup_data.get('query_string', {}).get(
+            'get_machine')
+        if not query_string:
+            query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get(
+            'get_machine')
+        if not query_string:
+                            ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -254,13 +260,34 @@ class TestMachinesController:
 
         List machines
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
-                        ('search', 'state:running'),
-                        ('sort', '-name'),
-                        ('start', '50'),
-                        ('limit', '56'),
-                        ('only', 'id'),
-                        ('deref', 'auto')]
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+            query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+                            ('search', 'state:running'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+                            ('sort', '-name'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+                            ('start', '50'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+                            ('limit', '56'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+                            ('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_machines')
+        if not query_string:
+                            ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/machines'
         request = MistRequests(
             api_token=owner_api_token,
@@ -291,7 +318,10 @@ class TestMachinesController:
 
         Rename machine
         """
-        query_string = [('name', 'my-renamed-machine')]
+        query_string = setup_data.get('query_string', {}).get(
+            'rename_machine')
+        if not query_string:
+            query_string = [('name', 'my-renamed-machine')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -308,7 +338,10 @@ class TestMachinesController:
 
         Resize machine
         """
-        query_string = [('size', '9417745961a84bffbf6419e5of68faa5')]
+        query_string = setup_data.get('query_string', {}).get(
+            'resize_machine')
+        if not query_string:
+            query_string = [('size', '9417745961a84bffbf6419e5of68faa5')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(

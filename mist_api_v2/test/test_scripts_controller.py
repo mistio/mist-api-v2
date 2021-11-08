@@ -102,8 +102,14 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = [('name', 'my-renamed-script'),
-                        ('description', 'description')]
+        query_string = setup_data.get('query_string', {}).get(
+            'edit_script')
+        if not query_string:
+            query_string = [('name', 'my-renamed-script'),
+        query_string = setup_data.get('query_string', {}).get(
+            'edit_script')
+        if not query_string:
+                            ('description', 'description')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -135,8 +141,14 @@ class TestScriptsController:
 
         Get script
         """
-        query_string = [('only', 'id'),
-                        ('deref', 'auto')]
+        query_string = setup_data.get('query_string', {}).get(
+            'get_script')
+        if not query_string:
+            query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get(
+            'get_script')
+        if not query_string:
+                            ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
         request = MistRequests(
@@ -153,12 +165,30 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = [('search', 'my-script'),
-                        ('sort', '-name'),
-                        ('start', '3'),
-                        ('limit', '56'),
-                        ('only', 'id'),
-                        ('deref', 'auto')]
+        query_string = setup_data.get('query_string', {}).get(
+            'list_scripts')
+        if not query_string:
+            query_string = [('search', 'my-script'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_scripts')
+        if not query_string:
+                            ('sort', '-name'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_scripts')
+        if not query_string:
+                            ('start', '3'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_scripts')
+        if not query_string:
+                            ('limit', '56'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_scripts')
+        if not query_string:
+                            ('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get(
+            'list_scripts')
+        if not query_string:
+                            ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
