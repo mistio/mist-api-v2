@@ -48,8 +48,10 @@ class TestCloudsController:
     "email" : "email"
   }
 }
-        if 'overwrite_request' in setup_data:
-            add_cloud_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'add_cloud')
+        if request_body:
+            add_cloud_request = request_body
         else:
             for k in add_cloud_request:
                 if k in setup_data:
@@ -76,8 +78,10 @@ class TestCloudsController:
         edit_cloud_request = {
   "name" : "my-renamed-cloud"
 }
-        if 'overwrite_request' in setup_data:
-            edit_cloud_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'edit_cloud')
+        if request_body:
+            edit_cloud_request = request_body
         else:
             for k in edit_cloud_request:
                 if k in setup_data:

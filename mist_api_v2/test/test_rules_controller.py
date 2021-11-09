@@ -86,8 +86,10 @@ class TestRulesController:
     "every" : 5
   }
 }
-        if 'overwrite_request' in setup_data:
-            add_rule_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'add_rule')
+        if request_body:
+            add_rule_request = request_body
         else:
             for k in add_rule_request:
                 if k in setup_data:
@@ -172,8 +174,10 @@ class TestRulesController:
     "every" : 5
   }
 }
-        if 'overwrite_request' in setup_data:
-            edit_rule_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'edit_rule')
+        if request_body:
+            edit_rule_request = request_body
         else:
             for k in edit_rule_request:
                 if k in setup_data:

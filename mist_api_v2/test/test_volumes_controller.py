@@ -54,8 +54,10 @@ class TestVolumesController:
   "name" : "my-volume",
   "location" : "us-central1-a"
 }
-        if 'overwrite_request' in setup_data:
-            create_volume_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'create_volume')
+        if request_body:
+            create_volume_request = request_body
         else:
             for k in create_volume_request:
                 if k in setup_data:

@@ -44,8 +44,10 @@ class TestMachinesController:
   "user" : "user",
   "key" : "key"
 }
-        if 'overwrite_request' in setup_data:
-            key_machine_association = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'associate_key')
+        if request_body:
+            key_machine_association = request_body
         else:
             for k in key_machine_association:
                 if k in setup_data:
@@ -134,8 +136,10 @@ class TestMachinesController:
   "scripts" : [ "", "" ],
   "key" : ""
 }
-        if 'overwrite_request' in setup_data:
-            create_machine_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'create_machine')
+        if request_body:
+            create_machine_request = request_body
         else:
             for k in create_machine_request:
                 if k in setup_data:
@@ -177,8 +181,10 @@ class TestMachinesController:
         key_machine_disassociation = {
   "key" : "key"
 }
-        if 'overwrite_request' in setup_data:
-            key_machine_disassociation = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'disassociate_key')
+        if request_body:
+            key_machine_disassociation = request_body
         else:
             for k in key_machine_disassociation:
                 if k in setup_data:
@@ -210,8 +216,10 @@ class TestMachinesController:
     "notify" : 0
   }
 }
-        if 'overwrite_request' in setup_data:
-            edit_machine_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'edit_machine')
+        if request_body:
+            edit_machine_request = request_body
         else:
             for k in edit_machine_request:
                 if k in setup_data:

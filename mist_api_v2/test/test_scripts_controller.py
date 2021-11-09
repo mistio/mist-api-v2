@@ -47,8 +47,10 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }
-        if 'overwrite_request' in setup_data:
-            add_script_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'add_script')
+        if request_body:
+            add_script_request = request_body
         else:
             for k in add_script_request:
                 if k in setup_data:
@@ -181,8 +183,10 @@ class TestScriptsController:
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }
-        if 'overwrite_request' in setup_data:
-            run_script_request = setup_data['overwrite_request']
+        request_body = setup_data.get('request_body', {}).get(
+            'run_script')
+        if request_body:
+            run_script_request = request_body
         else:
             for k in run_script_request:
                 if k in setup_data:
