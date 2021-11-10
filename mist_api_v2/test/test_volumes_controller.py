@@ -54,7 +54,7 @@ class TestVolumesController:
   "extra" : "{}",
   "name" : "my-volume",
   "location" : "us-central1-a"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'create_volume')
         if request_body:

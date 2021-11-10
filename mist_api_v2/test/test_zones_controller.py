@@ -43,7 +43,7 @@ class TestZonesController:
         create_zone_request = json.loads("""{
   "name" : "my-zone",
   "cloud" : "my-cloud"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'create_zone')
         if request_body:

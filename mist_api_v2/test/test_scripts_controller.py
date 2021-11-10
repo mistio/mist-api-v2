@@ -47,7 +47,7 @@ class TestScriptsController:
   "exec_type" : "executable",
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'add_script')
         if request_body:
@@ -183,7 +183,7 @@ class TestScriptsController:
   "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'run_script')
         if request_body:

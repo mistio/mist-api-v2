@@ -45,7 +45,7 @@ class TestClustersController:
   "cloud" : "my-cloud",
   "provider" : "google",
   "location" : "my-location"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'create_cluster')
         if request_body:

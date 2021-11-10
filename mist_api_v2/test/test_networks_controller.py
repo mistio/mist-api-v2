@@ -48,7 +48,7 @@ class TestNetworksController:
   "save" : true,
   "dry" : true,
   "tags" : "{}"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'create_network')
         if request_body:

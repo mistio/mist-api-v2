@@ -48,7 +48,7 @@ class TestCloudsController:
     "privateKey" : "privateKey",
     "email" : "email"
   }
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'add_cloud')
         if request_body:
@@ -78,7 +78,7 @@ class TestCloudsController:
         """
         edit_cloud_request = json.loads("""{
   "name" : "my-renamed-cloud"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'edit_cloud')
         if request_body:

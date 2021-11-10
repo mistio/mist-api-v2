@@ -44,7 +44,7 @@ class TestMachinesController:
   "port" : 0,
   "user" : "user",
   "key" : "key"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'associate_key')
         if request_body:
@@ -136,7 +136,7 @@ class TestMachinesController:
   "net" : "",
   "scripts" : [ "", "" ],
   "key" : ""
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'create_machine')
         if request_body:
@@ -181,7 +181,7 @@ class TestMachinesController:
         """
         key_machine_disassociation = json.loads("""{
   "key" : "key"
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'disassociate_key')
         if request_body:
@@ -216,7 +216,7 @@ class TestMachinesController:
     "action" : "stop",
     "notify" : 0
   }
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'edit_machine')
         if request_body:

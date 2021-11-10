@@ -86,7 +86,7 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'add_rule')
         if request_body:
@@ -174,7 +174,7 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}""")
+}""", strict=False)
         request_body = setup_data.get('request_body', {}).get(
             'edit_rule')
         if request_body:
