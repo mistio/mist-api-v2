@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,15 +40,15 @@ class TestNetworksController:
 
         Create network
         """
-        create_network_request = {
+        create_network_request = json.loads("""{
   "cloud" : "my-cloud",
   "template" : "{}",
   "extra" : "{}",
   "name" : "my-network",
-  "save" : "true",
-  "dry" : "true",
+  "save" : true,
+  "dry" : true,
   "tags" : "{}"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'create_network')
         if request_body:

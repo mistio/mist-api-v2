@@ -5845,8 +5845,8 @@ components:
         template: '{}'
         extra: '{}'
         name: my-network
-        save: "true"
-        dry: "true"
+        save: true
+        dry: true
         tags: '{}'
       properties:
         name:
@@ -5867,16 +5867,10 @@ components:
           type: object
         dry:
           description: Return provisioning plan and exit without executing it
-          enum:
-          - "true"
-          - "false"
-          type: string
+          type: boolean
         save:
           description: Save provisioning plan as template
-          enum:
-          - "true"
-          - "false"
-          type: string
+          type: boolean
       required:
       - cloud
       - name
@@ -5894,8 +5888,8 @@ components:
         quantity: 0
         ex_disk_type: pd-standard
         ex_volume_type: standard
-        save: "true"
-        dry: "true"
+        save: true
+        dry: true
         tags: '{}'
         cloud: my-cloud
         ex_iops: ex_iops
@@ -5955,16 +5949,10 @@ components:
           type: object
         dry:
           description: Return provisioning plan and exit without executing it
-          enum:
-          - "true"
-          - "false"
-          type: string
+          type: boolean
         save:
           description: Save provisioning plan as template
-          enum:
-          - "true"
-          - "false"
-          type: string
+          type: boolean
       required:
       - cloud
       - location

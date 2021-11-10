@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestCloudsController:
 
         Add cloud
         """
-        add_cloud_request = {
+        add_cloud_request = json.loads("""{
   "name" : "my-cloud",
   "provider" : "google",
   "credentials" : {
@@ -47,7 +48,7 @@ class TestCloudsController:
     "privateKey" : "privateKey",
     "email" : "email"
   }
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'add_cloud')
         if request_body:
@@ -75,9 +76,9 @@ class TestCloudsController:
 
         Edit cloud
         """
-        edit_cloud_request = {
+        edit_cloud_request = json.loads("""{
   "name" : "my-renamed-cloud"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'edit_cloud')
         if request_body:

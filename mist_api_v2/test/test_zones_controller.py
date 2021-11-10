@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,10 +40,10 @@ class TestZonesController:
 
         Create zone
         """
-        create_zone_request = {
+        create_zone_request = json.loads("""{
   "name" : "my-zone",
   "cloud" : "my-cloud"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'create_zone')
         if request_body:

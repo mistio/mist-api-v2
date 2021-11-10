@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,13 +40,13 @@ class TestVolumesController:
 
         Create volume
         """
-        create_volume_request = {
+        create_volume_request = json.loads("""{
   "template" : "{}",
   "quantity" : 0,
   "ex_disk_type" : "pd-standard",
   "ex_volume_type" : "standard",
-  "save" : "true",
-  "dry" : "true",
+  "save" : true,
+  "dry" : true,
   "tags" : "{}",
   "cloud" : "my-cloud",
   "ex_iops" : "ex_iops",
@@ -53,7 +54,7 @@ class TestVolumesController:
   "extra" : "{}",
   "name" : "my-volume",
   "location" : "us-central1-a"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'create_volume')
         if request_body:

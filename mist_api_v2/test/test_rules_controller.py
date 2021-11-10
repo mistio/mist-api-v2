@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestRulesController:
 
         Add rule
         """
-        add_rule_request = {
+        add_rule_request = json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -85,7 +86,7 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'add_rule')
         if request_body:
@@ -128,7 +129,7 @@ class TestRulesController:
 
         Update rule
         """
-        edit_rule_request = {
+        edit_rule_request = json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -173,7 +174,7 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'edit_rule')
         if request_body:

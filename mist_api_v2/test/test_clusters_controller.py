@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,12 +40,12 @@ class TestClustersController:
 
         Create cluster
         """
-        create_cluster_request = {
+        create_cluster_request = json.loads("""{
   "name" : "my-cluster",
   "cloud" : "my-cloud",
   "provider" : "google",
   "location" : "my-location"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'create_cluster')
         if request_body:

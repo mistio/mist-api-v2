@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,11 +40,11 @@ class TestMachinesController:
 
         Associate a key with a machine
         """
-        key_machine_association = {
+        key_machine_association = json.loads("""{
   "port" : 0,
   "user" : "user",
   "key" : "key"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'associate_key')
         if request_body:
@@ -102,7 +103,7 @@ class TestMachinesController:
 
         Create machine
         """
-        create_machine_request = {
+        create_machine_request = json.loads("""{
   "template" : "{}",
   "image" : "Debian",
   "quantity" : 1.4658129805029452,
@@ -135,7 +136,7 @@ class TestMachinesController:
   "net" : "",
   "scripts" : [ "", "" ],
   "key" : ""
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'create_machine')
         if request_body:
@@ -178,9 +179,9 @@ class TestMachinesController:
 
         Disassociate a key from a machine
         """
-        key_machine_disassociation = {
+        key_machine_disassociation = json.loads("""{
   "key" : "key"
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'disassociate_key')
         if request_body:
@@ -209,13 +210,13 @@ class TestMachinesController:
 
         Edit machine
         """
-        edit_machine_request = {
+        edit_machine_request = json.loads("""{
   "expiration" : {
     "date" : "date",
     "action" : "stop",
     "notify" : 0
   }
-}
+}""")
         request_body = setup_data.get('request_body', {}).get(
             'edit_machine')
         if request_body:
