@@ -37,7 +37,10 @@ def create_network(create_network_request=None):  # noqa: E501
     if not hasattr(cloud.ctl, 'network'):
         return 'Network support is not available', 501
     # Create the new network
-    network = NETWORKS[cloud.ctl.provider].add(cloud=cloud, **params)
+    network_params = {'name': params['name']}
+    if 'extra' in params:
+        network_params.update(params['extra'])
+    network = NETWORKS[cloud.ctl.provider].add(cloud=cloud, **network_params)
     network.assign_to(auth_context.user)
     if tags:
         add_tags_to_resource(auth_context.owner, network, tags)

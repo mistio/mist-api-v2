@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = [('only', 'id')]
+        query_string = setup_data.get('query_string', {}).get('get_member') or [('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
             org=setup_data.get('org') or 'my-org', member=setup_data.get('member') or 'my-member')
         request = MistRequests(
@@ -56,7 +57,7 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get('get_org') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
             org=setup_data.get('org') or 'my-org')
@@ -74,7 +75,7 @@ class TestOrgsController:
 
         List org members
         """
-        query_string = [('search', 'email:dev@mist.io'),
+        query_string = setup_data.get('query_string', {}).get('list_org_members') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -95,7 +96,7 @@ class TestOrgsController:
 
         List org teams
         """
-        query_string = [('search', 'name:finance'),
+        query_string = setup_data.get('query_string', {}).get('list_org_teams') or [('search', 'name:finance'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -117,7 +118,7 @@ class TestOrgsController:
 
         List orgs
         """
-        query_string = [('allorgs', 'true'),
+        query_string = setup_data.get('query_string', {}).get('list_orgs') or [('allorgs', 'true'),
                         ('search', 'name:Acme'),
                         ('sort', '-name'),
                         ('start', '50'),

@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,16 +40,22 @@ class TestMachinesController:
 
         Associate a key with a machine
         """
-        key_machine_association = {
+        key_machine_association = json.loads("""{
   "port" : 0,
   "user" : "user",
   "key" : "key"
-}
-        for k in key_machine_association:
-            if k in setup_data:
-                key_machine_association[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                key_machine_association[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'associate_key')
+        if request_body:
+            key_machine_association = request_body
+        else:
+            for k in key_machine_association:
+                if k in setup_data:
+                    key_machine_association[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    key_machine_association[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(key_machine_association)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/associate-key'.format(
             machine=setup_data.get('machine') or 'my-machine')
@@ -96,7 +103,7 @@ class TestMachinesController:
 
         Create machine
         """
-        create_machine_request = {
+        create_machine_request = json.loads("""{
   "template" : "{}",
   "image" : "Debian",
   "quantity" : 1.4658129805029452,
@@ -129,12 +136,18 @@ class TestMachinesController:
   "net" : "",
   "scripts" : [ "", "" ],
   "key" : ""
-}
-        for k in create_machine_request:
-            if k in setup_data:
-                create_machine_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                create_machine_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'create_machine')
+        if request_body:
+            create_machine_request = request_body
+        else:
+            for k in create_machine_request:
+                if k in setup_data:
+                    create_machine_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    create_machine_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(create_machine_request)
         uri = mist_core.uri + '/api/v2/machines'
         request = MistRequests(
@@ -166,14 +179,20 @@ class TestMachinesController:
 
         Disassociate a key from a machine
         """
-        key_machine_disassociation = {
+        key_machine_disassociation = json.loads("""{
   "key" : "key"
-}
-        for k in key_machine_disassociation:
-            if k in setup_data:
-                key_machine_disassociation[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                key_machine_disassociation[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'disassociate_key')
+        if request_body:
+            key_machine_disassociation = request_body
+        else:
+            for k in key_machine_disassociation:
+                if k in setup_data:
+                    key_machine_disassociation[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    key_machine_disassociation[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(key_machine_disassociation)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/disassociate-key'.format(
             machine=setup_data.get('machine') or 'my-machine')
@@ -191,18 +210,24 @@ class TestMachinesController:
 
         Edit machine
         """
-        edit_machine_request = {
+        edit_machine_request = json.loads("""{
   "expiration" : {
     "date" : "date",
     "action" : "stop",
     "notify" : 0
   }
-}
-        for k in edit_machine_request:
-            if k in setup_data:
-                edit_machine_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                edit_machine_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'edit_machine')
+        if request_body:
+            edit_machine_request = request_body
+        else:
+            for k in edit_machine_request:
+                if k in setup_data:
+                    edit_machine_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    edit_machine_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(edit_machine_request)
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'my-machine')
@@ -220,7 +245,7 @@ class TestMachinesController:
 
         Get machine
         """
-        query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get('get_machine') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('machine') or 'my-machine')
@@ -238,7 +263,7 @@ class TestMachinesController:
 
         List machines
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('query_string', {}).get('list_machines') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'state:running'),
                         ('sort', '-name'),
                         ('start', '50'),
@@ -275,7 +300,7 @@ class TestMachinesController:
 
         Rename machine
         """
-        query_string = [('name', 'my-renamed-machine')]
+        query_string = setup_data.get('query_string', {}).get('rename_machine') or [('name', 'my-renamed-machine')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/rename'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -292,7 +317,7 @@ class TestMachinesController:
 
         Resize machine
         """
-        query_string = [('size', '9417745961a84bffbf6419e5of68faa5')]
+        query_string = setup_data.get('query_string', {}).get('resize_machine') or [('size', '9417745961a84bffbf6419e5of68faa5')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/resize'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(

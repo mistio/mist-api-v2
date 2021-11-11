@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,15 +40,21 @@ class TestZonesController:
 
         Create zone
         """
-        create_zone_request = {
+        create_zone_request = json.loads("""{
   "name" : "my-zone",
   "cloud" : "my-cloud"
-}
-        for k in create_zone_request:
-            if k in setup_data:
-                create_zone_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                create_zone_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'create_zone')
+        if request_body:
+            create_zone_request = request_body
+        else:
+            for k in create_zone_request:
+                if k in setup_data:
+                    create_zone_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    create_zone_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(create_zone_request)
         uri = mist_core.uri + '/api/v2/zones'
         request = MistRequests(
@@ -94,7 +101,7 @@ class TestZonesController:
 
         Get zone
         """
-        query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get('get_zone') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('zone') or 'my-zone')
@@ -112,7 +119,7 @@ class TestZonesController:
 
         List zones
         """
-        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('query_string', {}).get('list_zones') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

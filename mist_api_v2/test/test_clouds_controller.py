@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestCloudsController:
 
         Add cloud
         """
-        add_cloud_request = {
+        add_cloud_request = json.loads("""{
   "name" : "my-cloud",
   "provider" : "google",
   "credentials" : {
@@ -47,12 +48,18 @@ class TestCloudsController:
     "privateKey" : "privateKey",
     "email" : "email"
   }
-}
-        for k in add_cloud_request:
-            if k in setup_data:
-                add_cloud_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                add_cloud_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'add_cloud')
+        if request_body:
+            add_cloud_request = request_body
+        else:
+            for k in add_cloud_request:
+                if k in setup_data:
+                    add_cloud_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    add_cloud_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(add_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
@@ -69,14 +76,20 @@ class TestCloudsController:
 
         Edit cloud
         """
-        edit_cloud_request = {
+        edit_cloud_request = json.loads("""{
   "name" : "my-renamed-cloud"
-}
-        for k in edit_cloud_request:
-            if k in setup_data:
-                edit_cloud_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                edit_cloud_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'edit_cloud')
+        if request_body:
+            edit_cloud_request = request_body
+        else:
+            for k in edit_cloud_request:
+                if k in setup_data:
+                    edit_cloud_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    edit_cloud_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('cloud') or 'my-cloud')
@@ -94,7 +107,7 @@ class TestCloudsController:
 
         Get cloud
         """
-        query_string = [('sort', '-name'),
+        query_string = setup_data.get('query_string', {}).get('get_cloud') or [('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
@@ -113,7 +126,7 @@ class TestCloudsController:
 
         List clouds
         """
-        query_string = [('search', 'provider:amazon'),
+        query_string = setup_data.get('query_string', {}).get('list_clouds') or [('search', 'provider:amazon'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),

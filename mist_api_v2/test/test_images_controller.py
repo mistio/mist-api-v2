@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestImagesController:
 
         Get image
         """
-        query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get('get_image') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/images/{image}'.format(
             image=setup_data.get('image') or 'ubuntu-1604-xenial-v20210928')
@@ -57,7 +58,7 @@ class TestImagesController:
 
         List images
         """
-        query_string = [('cloud', 'my-cloud'),
+        query_string = setup_data.get('query_string', {}).get('list_images') or [('cloud', 'my-cloud'),
                         ('search', 'os_type:windows'),
                         ('sort', '-name'),
                         ('start', '50'),

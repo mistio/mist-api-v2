@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestUsersController:
 
         List users
         """
-        query_string = [('search', 'email:dev@mist.io'),
+        query_string = setup_data.get('query_string', {}).get('list_users') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),

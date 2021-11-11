@@ -149,7 +149,7 @@ class CreateNetworkRequest(Model):
     def extra(self):
         """Gets the extra of this CreateNetworkRequest.
 
-        Configure additional parameters  # noqa: E501
+        Configure additional parameters, e.g. cidr (EC2 network)  # noqa: E501
 
         :return: The extra of this CreateNetworkRequest.
         :rtype: object
@@ -160,7 +160,7 @@ class CreateNetworkRequest(Model):
     def extra(self, extra):
         """Sets the extra of this CreateNetworkRequest.
 
-        Configure additional parameters  # noqa: E501
+        Configure additional parameters, e.g. cidr (EC2 network)  # noqa: E501
 
         :param extra: The extra of this CreateNetworkRequest.
         :type extra: object

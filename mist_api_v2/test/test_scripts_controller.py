@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,19 +40,25 @@ class TestScriptsController:
 
         Add script
         """
-        add_script_request = {
+        add_script_request = json.loads("""{
   "entrypoint" : "entrypoint.sh",
   "name" : "my-script",
   "description" : "description",
   "exec_type" : "executable",
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
-}
-        for k in add_script_request:
-            if k in setup_data:
-                add_script_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                add_script_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'add_script')
+        if request_body:
+            add_script_request = request_body
+        else:
+            for k in add_script_request:
+                if k in setup_data:
+                    add_script_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    add_script_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(add_script_request)
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
@@ -98,7 +105,7 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = [('name', 'my-renamed-script'),
+        query_string = setup_data.get('query_string', {}).get('edit_script') or [('name', 'my-renamed-script'),
                         ('description', 'description')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
@@ -131,7 +138,7 @@ class TestScriptsController:
 
         Get script
         """
-        query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get('get_script') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')
@@ -149,7 +156,7 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = [('search', 'my-script'),
+        query_string = setup_data.get('query_string', {}).get('list_scripts') or [('search', 'my-script'),
                         ('sort', '-name'),
                         ('start', '3'),
                         ('limit', '56'),
@@ -170,18 +177,24 @@ class TestScriptsController:
 
         Run script
         """
-        run_script_request = {
+        run_script_request = json.loads("""{
   "su" : "false",
   "machine" : "my-machine",
   "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
-}
-        for k in run_script_request:
-            if k in setup_data:
-                run_script_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                run_script_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'run_script')
+        if request_body:
+            run_script_request = request_body
+        else:
+            for k in run_script_request:
+                if k in setup_data:
+                    run_script_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    run_script_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('script') or 'my-script')

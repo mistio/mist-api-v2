@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestSizesController:
 
         Get size
         """
-        query_string = [('only', 'id'),
+        query_string = setup_data.get('query_string', {}).get('get_size') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/sizes/{size}'.format(
             size=setup_data.get('size') or 'n2-highcpu-2 (2 vCPUs 2 GB RAM)')
@@ -57,7 +58,7 @@ class TestSizesController:
 
         List sizes
         """
-        query_string = [('cloud', 'my-cloud'),
+        query_string = setup_data.get('query_string', {}).get('list_sizes') or [('cloud', 'my-cloud'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

@@ -1,3 +1,4 @@
+import json
 import time
 import importlib
 
@@ -39,7 +40,7 @@ class TestRulesController:
 
         Add rule
         """
-        add_rule_request = {
+        add_rule_request = json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -85,12 +86,18 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}
-        for k in add_rule_request:
-            if k in setup_data:
-                add_rule_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                add_rule_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'add_rule')
+        if request_body:
+            add_rule_request = request_body
+        else:
+            for k in add_rule_request:
+                if k in setup_data:
+                    add_rule_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    add_rule_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(add_rule_request)
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
@@ -122,7 +129,7 @@ class TestRulesController:
 
         Update rule
         """
-        edit_rule_request = {
+        edit_rule_request = json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -167,12 +174,18 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}
-        for k in edit_rule_request:
-            if k in setup_data:
-                edit_rule_request[k] = setup_data[k]
-            elif k == 'name' and resource_name_singular in setup_data:
-                edit_rule_request[k] = setup_data[resource_name_singular]
+}""", strict=False)
+        request_body = setup_data.get('request_body', {}).get(
+            'edit_rule')
+        if request_body:
+            edit_rule_request = request_body
+        else:
+            for k in edit_rule_request:
+                if k in setup_data:
+                    edit_rule_request[k] = setup_data[k]
+                elif k == 'name' and resource_name_singular in setup_data:
+                    edit_rule_request[k] = setup_data[
+                        resource_name_singular]
         inject_vault_credentials(edit_rule_request)
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
@@ -190,7 +203,7 @@ class TestRulesController:
 
         Get rule
         """
-        query_string = [('sort', '-name'),
+        query_string = setup_data.get('query_string', {}).get('get_rule') or [('sort', '-name'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
@@ -208,7 +221,7 @@ class TestRulesController:
 
         List rules
         """
-        query_string = [('search', 'total_run_count:5'),
+        query_string = setup_data.get('query_string', {}).get('list_rules') or [('search', 'total_run_count:5'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -228,7 +241,7 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = [('name', 'my-renamed-rule')]
+        query_string = setup_data.get('query_string', {}).get('rename_rule') or [('name', 'my-renamed-rule')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
@@ -245,7 +258,7 @@ class TestRulesController:
 
         Toggle rule
         """
-        query_string = [('action', 'disable')]
+        query_string = setup_data.get('query_string', {}).get('toggle_rule') or [('action', 'disable')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('rule') or 'my-rule')
         request = MistRequests(
