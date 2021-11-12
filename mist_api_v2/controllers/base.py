@@ -9,9 +9,14 @@ def list_resources(auth_context, resource_type, cloud=None, tags='',
     from mist.api.methods import list_resources
     if not limit:
         limit = 100
+    try:
+        start = int(start)
+    except (ValueError, TypeError):
+        start=0
     items, total = list_resources(
         auth_context, resource_type, cloud=cloud, tags=tags,
-        search=search, only=only, sort=sort, limit=limit
+        search=search, only=only, sort=sort, limit=limit,
+        start=start
     )
     meta = {
         'total': total,
