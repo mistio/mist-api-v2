@@ -82,7 +82,7 @@ def console(machine):  # noqa: E501
     auth_context.check_perm("machine", "read", machine.id)
     if machine.cloud.ctl.has_feature('console'):
         return 'Action not supported', 501
-    proxy_uri = get_console_proxy_uri()
+    proxy_uri = get_console_proxy_uri(machine)
     if proxy_uri is None:
         console_url = machine.cloud.ctl.compute.connection.ex_open_console(
             machine.machine_id
