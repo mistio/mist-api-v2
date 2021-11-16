@@ -1811,6 +1811,22 @@ paths:
         schema:
           type: string
         style: simple
+      - example: my-machine-clone
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+        style: form
+      - example: false
+        explode: true
+        in: query
+        name: run_async
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           description: Machine clone issued successfully

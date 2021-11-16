@@ -15,6 +15,7 @@ from mist.api.exceptions import ServiceUnavailableError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
+from mist.api.tasks import clone_machine_async
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -27,13 +28,17 @@ from mist.api.keys.models import Key  # noqa: E501
 from .base import list_resources, get_resource
 
 
-def clone_machine(machine):  # noqa: E501
+def clone_machine(machine, name, run_async=True):  # noqa: E501
     """Clone machine
 
     Clone target machine # noqa: E501
 
     :param machine:
     :type machine: str
+    :param name:
+    :type name: str
+    :param run_async:
+    :type run_async: bool
 
     :rtype: None
     """
@@ -45,14 +50,21 @@ def clone_machine(machine):  # noqa: E501
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
     auth_context.check_perm('machine', 'clone', machine.id)
     log_event(
         auth_context.owner.id, 'request', 'clone_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.clone()
-    return 'Cloned machine `%s`' % machine.name, 200
+    job = 'clone_machine'
+    job_id = uuid.uuid4().hex
+    if run_async:  # noqa: W606
+        args = (auth_context.serialize(), machine.id, name)
+        kwargs = {'job': job, 'job_id': job_id}
+        clone_machine_async.send_with_options(
+            args=args, kwargs=kwargs, delay=1_000)
+    else:
+        machine.ctl.clone(name)
+    return 'Machine clone issued successfully'
 
 
 def console(machine):  # noqa: E501

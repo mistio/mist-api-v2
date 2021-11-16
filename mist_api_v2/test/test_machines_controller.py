@@ -73,11 +73,14 @@ class TestMachinesController:
 
         Clone machine
         """
+        query_string = setup_data.get('query_string', {}).get('clone_machine') or [('name', 'my-machine-clone'),
+                        ('run_async', 'false')]
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/clone'.format(
             machine=setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         assert_response_ok(response)
