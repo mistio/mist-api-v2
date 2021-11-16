@@ -3,8 +3,6 @@ import connexion
 
 import mist.api.machines.methods as methods
 
-from pyramid.renderers import render_to_response
-
 from mist.api.helpers import delete_none
 from mist.api.clouds.models import LibvirtCloud
 from mist.api.exceptions import BadRequestError
@@ -80,7 +78,7 @@ def console(machine):  # noqa: E501
     cloud_id = machine.cloud.id
     auth_context.check_perm("cloud", "read", cloud_id)
     auth_context.check_perm("machine", "read", machine.id)
-    if machine.cloud.ctl.has_feature('console'):
+    if not machine.cloud.ctl.has_feature('console'):
         return 'Action not supported', 501
     proxy_uri = get_console_proxy_uri(machine)
     if proxy_uri is None:
@@ -88,8 +86,9 @@ def console(machine):  # noqa: E501
             machine.machine_id
         )
         headers = {'Location': console_url}
-        return '', 302, headers
-    return render_to_response('../templates/novnc.pt', {'url': proxy_uri})
+    else:
+        headers = {'Location': proxy_uri}
+    return '', 302, headers
 
 
 def create_machine(create_machine_request=None):  # noqa: E501
