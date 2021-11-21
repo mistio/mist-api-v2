@@ -49,8 +49,8 @@ class TestNetworksController:
   "dry" : true,
   "tags" : "{}"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'create_network')
+        request_body = setup_data.get('create_network', {}).get(
+            'request_body')
         if request_body:
             create_network_request = request_body
         else:
@@ -76,9 +76,9 @@ class TestNetworksController:
 
         Delete network
         """
-        query_string = setup_data.get('query_string', {}).get('delete_network') or [('cloud', 'my-cloud')]
+        query_string = setup_data.get('delete_network', {}).get('query_string') or [('cloud', 'my-cloud')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'my-network')
+            network=setup_data.get('delete_network', {}).get('network') or setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -93,9 +93,9 @@ class TestNetworksController:
 
         Edit network
         """
-        query_string = setup_data.get('query_string', {}).get('edit_network') or [('name', 'my-renamed-network')]
+        query_string = setup_data.get('edit_network', {}).get('query_string') or [('name', 'my-renamed-network')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'my-network')
+            network=setup_data.get('edit_network', {}).get('network') or setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -110,10 +110,10 @@ class TestNetworksController:
 
         Get network
         """
-        query_string = setup_data.get('query_string', {}).get('get_network') or [('only', 'id'),
+        query_string = setup_data.get('get_network', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'my-network')
+            network=setup_data.get('get_network', {}).get('network') or setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -128,7 +128,7 @@ class TestNetworksController:
 
         List networks
         """
-        query_string = setup_data.get('query_string', {}).get('list_networks') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('list_networks', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

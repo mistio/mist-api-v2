@@ -49,8 +49,8 @@ class TestCloudsController:
     "email" : "email"
   }
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'add_cloud')
+        request_body = setup_data.get('add_cloud', {}).get(
+            'request_body')
         if request_body:
             add_cloud_request = request_body
         else:
@@ -79,8 +79,8 @@ class TestCloudsController:
         edit_cloud_request = json.loads("""{
   "name" : "my-renamed-cloud"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'edit_cloud')
+        request_body = setup_data.get('edit_cloud', {}).get(
+            'request_body')
         if request_body:
             edit_cloud_request = request_body
         else:
@@ -92,7 +92,7 @@ class TestCloudsController:
                         resource_name_singular]
         inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'my-cloud')
+            cloud=setup_data.get('edit_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -107,11 +107,11 @@ class TestCloudsController:
 
         Get cloud
         """
-        query_string = setup_data.get('query_string', {}).get('get_cloud') or [('sort', '-name'),
+        query_string = setup_data.get('get_cloud', {}).get('query_string') or [('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'my-cloud')
+            cloud=setup_data.get('get_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -126,7 +126,7 @@ class TestCloudsController:
 
         List clouds
         """
-        query_string = setup_data.get('query_string', {}).get('list_clouds') or [('search', 'provider:amazon'),
+        query_string = setup_data.get('list_clouds', {}).get('query_string') or [('search', 'provider:amazon'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -148,7 +148,7 @@ class TestCloudsController:
         Remove cloud
         """
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'my-cloud')
+            cloud=setup_data.get('remove_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)

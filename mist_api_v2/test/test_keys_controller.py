@@ -44,8 +44,8 @@ class TestKeysController:
   "name" : "my-key",
   "private" : "-----BEGIN RSA PRIVATE KEY-----\nMIICXAIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUp wmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ5 1s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQABAoGAFijko56+qGyN8M0RVyaRAXz++xTqHBLh 3tx4VgMtrQ+WEgCjhoTwo23KMBAuJGSYnRmoBZM3lMfTKevIkAidPExvYCdm5dYq3XToLkkLv5L2 pIIVOFMDG+KESnAFV7l2c+cnzRMW0+b6f8mR1CJzZuxVLL6Q02fvLi55/mbSYxECQQDeAw6fiIQX GukBI4eMZZt4nscy2o12KyYner3VpoeE+Np2q+Z3pvAMd/aNzQ/W9WaI+NRfcxUJrmfPwIGm63il AkEAxCL5HQb2bQr4ByorcMWm/hEP2MZzROV73yF41hPsRC9m66KrheO9HPTJuo3/9s5p+sqGxOlF L0NDt4SkosjgGwJAFklyR1uZ/wPJjj611cdBcztlPdqoxssQGnh85BzCj/u3WqBpE2vjvyyvyI5k X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ 37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0=\n-----END RSA PRIVATE KEY-----"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'add_key')
+        request_body = setup_data.get('add_key', {}).get(
+            'request_body')
         if request_body:
             add_key_request = request_body
         else:
@@ -72,7 +72,7 @@ class TestKeysController:
         Delete key
         """
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('key') or 'my-key')
+            key=setup_data.get('delete_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -86,10 +86,10 @@ class TestKeysController:
 
         Edit key
         """
-        query_string = setup_data.get('query_string', {}).get('edit_key') or [('name', 'my-renamed-key'),
+        query_string = setup_data.get('edit_key', {}).get('query_string') or [('name', 'my-renamed-key'),
                         ('default', 'True')]
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('key') or 'my-key')
+            key=setup_data.get('edit_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -104,12 +104,12 @@ class TestKeysController:
 
         Get key
         """
-        query_string = setup_data.get('query_string', {}).get('get_key') or [('private', 'False'),
+        query_string = setup_data.get('get_key', {}).get('query_string') or [('private', 'False'),
                         ('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('key') or 'my-key')
+            key=setup_data.get('get_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -124,7 +124,7 @@ class TestKeysController:
 
         List keys
         """
-        query_string = setup_data.get('query_string', {}).get('list_keys') or [('search', 'owned_by:csk@mist.io'),
+        query_string = setup_data.get('list_keys', {}).get('query_string') or [('search', 'owned_by:csk@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),

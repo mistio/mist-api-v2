@@ -55,8 +55,8 @@ class TestVolumesController:
   "name" : "my-volume",
   "location" : "us-central1-a"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'create_volume')
+        request_body = setup_data.get('create_volume', {}).get(
+            'request_body')
         if request_body:
             create_volume_request = request_body
         else:
@@ -83,7 +83,7 @@ class TestVolumesController:
         Delete volume
         """
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('volume') or 'my-volume')
+            volume=setup_data.get('delete_volume', {}).get('volume') or setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -97,9 +97,9 @@ class TestVolumesController:
 
         Edit volume
         """
-        query_string = setup_data.get('query_string', {}).get('edit_volume') or [('name', 'my-renamed-volume')]
+        query_string = setup_data.get('edit_volume', {}).get('query_string') or [('name', 'my-renamed-volume')]
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('volume') or 'my-volume')
+            volume=setup_data.get('edit_volume', {}).get('volume') or setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -114,10 +114,10 @@ class TestVolumesController:
 
         Get volume
         """
-        query_string = setup_data.get('query_string', {}).get('get_volume') or [('only', 'id'),
+        query_string = setup_data.get('get_volume', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('volume') or 'my-volume')
+            volume=setup_data.get('get_volume', {}).get('volume') or setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -132,7 +132,7 @@ class TestVolumesController:
 
         List volumes
         """
-        query_string = setup_data.get('query_string', {}).get('list_volumes') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('list_volumes', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'location:Amsterdam'),
                         ('sort', '-name'),
                         ('start', '50'),

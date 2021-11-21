@@ -40,7 +40,7 @@ class TestUsersController:
 
         List users
         """
-        query_string = setup_data.get('query_string', {}).get('list_users') or [('search', 'email:dev@mist.io'),
+        query_string = setup_data.get('list_users', {}).get('query_string') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),

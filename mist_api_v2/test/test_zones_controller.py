@@ -44,8 +44,8 @@ class TestZonesController:
   "name" : "my-zone",
   "cloud" : "my-cloud"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'create_zone')
+        request_body = setup_data.get('create_zone', {}).get(
+            'request_body')
         if request_body:
             create_zone_request = request_body
         else:
@@ -72,7 +72,7 @@ class TestZonesController:
         Delete zone
         """
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'my-zone')
+            zone=setup_data.get('delete_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -87,7 +87,7 @@ class TestZonesController:
         Edit zone
         """
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'my-zone')
+            zone=setup_data.get('edit_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -101,10 +101,10 @@ class TestZonesController:
 
         Get zone
         """
-        query_string = setup_data.get('query_string', {}).get('get_zone') or [('only', 'id'),
+        query_string = setup_data.get('get_zone', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('zone') or 'my-zone')
+            zone=setup_data.get('get_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -119,7 +119,7 @@ class TestZonesController:
 
         List zones
         """
-        query_string = setup_data.get('query_string', {}).get('list_zones') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('list_zones', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

@@ -46,8 +46,8 @@ class TestClustersController:
   "provider" : "google",
   "location" : "my-location"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'create_cluster')
+        request_body = setup_data.get('create_cluster', {}).get(
+            'request_body')
         if request_body:
             create_cluster_request = request_body
         else:
@@ -74,7 +74,7 @@ class TestClustersController:
         Destroy cluster
         """
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('cluster') or 'my-cluster')
+            cluster=setup_data.get('destroy_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -88,10 +88,10 @@ class TestClustersController:
 
         Get cluster
         """
-        query_string = setup_data.get('query_string', {}).get('get_cluster') or [('only', 'id'),
+        query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('cluster') or 'my-cluster')
+            cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -106,7 +106,7 @@ class TestClustersController:
 
         List clusters
         """
-        query_string = setup_data.get('query_string', {}).get('list_clusters') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('list_clusters', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'created_by:csk'),
                         ('sort', '-name'),
                         ('start', '50'),

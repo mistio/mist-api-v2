@@ -40,10 +40,10 @@ class TestImagesController:
 
         Get image
         """
-        query_string = setup_data.get('query_string', {}).get('get_image') or [('only', 'id'),
+        query_string = setup_data.get('get_image', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/images/{image}'.format(
-            image=setup_data.get('image') or 'ubuntu-1604-xenial-v20210928')
+            image=setup_data.get('get_image', {}).get('image') or setup_data.get('image') or 'ubuntu-1604-xenial-v20210928')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -58,7 +58,7 @@ class TestImagesController:
 
         List images
         """
-        query_string = setup_data.get('query_string', {}).get('list_images') or [('cloud', 'my-cloud'),
+        query_string = setup_data.get('list_images', {}).get('query_string') or [('cloud', 'my-cloud'),
                         ('search', 'os_type:windows'),
                         ('sort', '-name'),
                         ('start', '50'),

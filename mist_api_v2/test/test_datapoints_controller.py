@@ -40,7 +40,7 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = setup_data.get('query_string', {}).get('get_datapoints') or [('query', 'system_load1'),
+        query_string = setup_data.get('get_datapoints', {}).get('query_string') or [('query', 'system_load1'),
                         ('tags', 'cluster=east1,production'),
                         ('search', 'state:running'),
                         ('start', '1633096171'),

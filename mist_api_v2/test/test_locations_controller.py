@@ -40,10 +40,10 @@ class TestLocationsController:
 
         Get location
         """
-        query_string = setup_data.get('query_string', {}).get('get_location') or [('only', 'id'),
+        query_string = setup_data.get('get_location', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/locations/{location}'.format(
-            location=setup_data.get('location') or 'us-central1-a')
+            location=setup_data.get('get_location', {}).get('location') or setup_data.get('location') or 'us-central1-a')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -58,7 +58,7 @@ class TestLocationsController:
 
         List locations
         """
-        query_string = setup_data.get('query_string', {}).get('list_locations') or [('cloud', 'my-cloud'),
+        query_string = setup_data.get('list_locations', {}).get('query_string') or [('cloud', 'my-cloud'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),

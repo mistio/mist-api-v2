@@ -40,9 +40,9 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = setup_data.get('query_string', {}).get('get_member') or [('only', 'id')]
+        query_string = setup_data.get('get_member', {}).get('query_string') or [('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
-            org=setup_data.get('org') or 'my-org', member=setup_data.get('member') or 'my-member')
+            org=setup_data.get('get_member', {}).get('org') or setup_data.get('org') or 'my-org', member=setup_data.get('get_member', {}).get('member') or setup_data.get('member') or 'my-member')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -57,10 +57,10 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = setup_data.get('query_string', {}).get('get_org') or [('only', 'id'),
+        query_string = setup_data.get('get_org', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
-            org=setup_data.get('org') or 'my-org')
+            org=setup_data.get('get_org', {}).get('org') or setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -75,13 +75,13 @@ class TestOrgsController:
 
         List org members
         """
-        query_string = setup_data.get('query_string', {}).get('list_org_members') or [('search', 'email:dev@mist.io'),
+        query_string = setup_data.get('list_org_members', {}).get('query_string') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(
-            org=setup_data.get('org') or 'my-org')
+            org=setup_data.get('list_org_members', {}).get('org') or setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -96,14 +96,14 @@ class TestOrgsController:
 
         List org teams
         """
-        query_string = setup_data.get('query_string', {}).get('list_org_teams') or [('search', 'name:finance'),
+        query_string = setup_data.get('list_org_teams', {}).get('query_string') or [('search', 'name:finance'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
-            org=setup_data.get('org') or 'my-org')
+            org=setup_data.get('list_org_teams', {}).get('org') or setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -118,7 +118,7 @@ class TestOrgsController:
 
         List orgs
         """
-        query_string = setup_data.get('query_string', {}).get('list_orgs') or [('allorgs', 'true'),
+        query_string = setup_data.get('list_orgs', {}).get('query_string') or [('allorgs', 'true'),
                         ('search', 'name:Acme'),
                         ('sort', '-name'),
                         ('start', '50'),
