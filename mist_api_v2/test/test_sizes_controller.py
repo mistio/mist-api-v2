@@ -23,10 +23,10 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def sleep_after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    s = setup_data.get(method_name, {}).get('sleep')
+    s = setup_data.get(method_name.replace('test_', ''), {}).get('sleep')
     if s:
         time.sleep(s)
 
