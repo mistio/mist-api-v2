@@ -26,10 +26,9 @@ setup_data = {}
 def conditional_delay(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    s = setup_data.get(method_name, {}).get('sleep')
+    if s:
+        time.sleep(s)
 
 
 class TestImagesController:
