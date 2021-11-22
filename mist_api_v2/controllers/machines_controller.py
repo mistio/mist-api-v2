@@ -136,7 +136,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
         cloud_search = (f'provider={create_machine_request.provider} '
                         f'enabled=True')
     else:
-        cloud_search = ''
+        cloud_search = 'enabled=True'
 
     clouds, total = list_resources_v1(
         auth_context, 'cloud', search=cloud_search
