@@ -1,4 +1,7 @@
+import logging
 import uuid
+from operator import itemgetter
+
 import connexion
 
 import mist.api.machines.methods as methods
@@ -126,30 +129,20 @@ def create_machine(create_machine_request=None):  # noqa: E501
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     auth_context = connexion.context['token_info']['auth_context']
-    plan = {}
 
     if create_machine_request.cloud:
         cloud_search = create_machine_request.cloud
     elif create_machine_request.provider:
-        cloud_search = \
-            f'provider:{create_machine_request.provider} enabled:True'
+        cloud_search = (f'provider: {create_machine_request.provider}'
+                        f'enabled=True')
     else:
         cloud_search = ''
-    # TODO handle multiple clouds
-    # TODO add permissions constraint to list_resources
-    try:
-        # TODO use list_resources
-        [cloud], _ = list_resources_v1(
-            auth_context, 'cloud', search=cloud_search, limit=1
-        )
-    except ValueError:
-        return 'Cloud does not exist', 404
-    try:
-        auth_context.check_perm('cloud', 'create_resources', cloud.id)
-    except PolicyUnauthorizedError as exc:
-        return exc.args[0], 403
 
-    plan['cloud'] = {'id': cloud.id, 'name': cloud.name}
+    clouds, total = list_resources_v1(
+        auth_context, 'cloud', search=cloud_search
+    )
+    if not total:
+        return 'Cloud not found', 404
 
     kwargs = {
         'name': create_machine_request.name,
@@ -171,16 +164,56 @@ def create_machine(create_machine_request=None):  # noqa: E501
         'quantity': create_machine_request.quantity or 1
     }
 
-    try:
-        cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
-    except NotFoundError as exc:
-        return exc.args[0], 404
-    except (BadRequestError,
-            PolicyUnauthorizedError,
-            MachineNameValidationError) as exc:
-        return exc.args[0], 400
-    except ForbiddenError as err:
-        return err.args[0], 403
+    # If many clouds are found, we will attempt to generate a plan
+    # for each one of them. If plans cannot be generated for some clouds,
+    # these clouds will be skipped and only consider the rest. This means that
+    # some errors (no permission, resource not found etc.) will be handled
+    # and will never be seen by the user, something we don't want when
+    # we only have a single cloud.
+    one_cloud = (total == 1)
+    valid_plans = []
+    for cloud in clouds:
+        try:
+            auth_context.check_perm('cloud', 'create_resources', cloud.id)
+        except PolicyUnauthorizedError as exc:
+            if one_cloud:
+                return exc.args[0], 403
+            continue
+
+        plan = {
+            'cloud': {
+                'id': cloud.id,
+                'name': cloud.name,
+            }
+        }
+
+        try:
+            cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
+        except Exception as exc:
+            if not one_cloud:
+                logging.debug(
+                    'Failed to generate plan for cloud %s with exception %s',
+                    cloud.title, repr(exc))
+                continue
+            if isinstance(exc, NotFoundError):
+                return exc.args[0], 404
+            elif isinstance(exc, (BadRequestError,
+                                  MachineNameValidationError)):
+                return exc.args[0], 400
+            elif isinstance(exc, (ForbiddenError, PolicyUnauthorizedError)):
+                return exc.args[0], 403
+            else:
+                return 'Service Unavailable', 503
+
+        valid_plans.append(plan.copy())
+
+    if not valid_plans:
+        return 'No valid plan could be generated', 400
+
+    # Find the plan which costs less
+    # TODO move logic to a seperate function
+    plan = min(valid_plans, key=itemgetter('cost'))
+
     # TODO save
     # TODO template
 
