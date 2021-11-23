@@ -5,10 +5,12 @@ import importlib
 import pytest
 
 from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'MachinesController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -64,7 +66,10 @@ class TestMachinesController:
             json=key_machine_association)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'associate_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_clone_machine(self, pretty_print, mist_core, owner_api_token):
@@ -82,7 +87,10 @@ class TestMachinesController:
             params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'clone_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_console(self, pretty_print, mist_core, owner_api_token):
@@ -97,7 +105,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'console' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_create_machine(self, pretty_print, mist_core, owner_api_token):
@@ -158,7 +169,10 @@ class TestMachinesController:
             json=create_machine_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'create_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_destroy_machine(self, pretty_print, mist_core, owner_api_token):
@@ -173,7 +187,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'destroy_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_disassociate_key(self, pretty_print, mist_core, owner_api_token):
@@ -204,7 +221,10 @@ class TestMachinesController:
             json=key_machine_disassociation)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'disassociate_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_machine(self, pretty_print, mist_core, owner_api_token):
@@ -239,7 +259,10 @@ class TestMachinesController:
             json=edit_machine_request)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_machine(self, pretty_print, mist_core, owner_api_token):
@@ -257,7 +280,10 @@ class TestMachinesController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_machines(self, pretty_print, mist_core, owner_api_token):
@@ -279,7 +305,10 @@ class TestMachinesController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_machines' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_reboot_machine(self, pretty_print, mist_core, owner_api_token):
@@ -294,7 +323,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'reboot_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_rename_machine(self, pretty_print, mist_core, owner_api_token):
@@ -311,7 +343,10 @@ class TestMachinesController:
             params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'rename_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_resize_machine(self, pretty_print, mist_core, owner_api_token):
@@ -328,7 +363,10 @@ class TestMachinesController:
             params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'resize_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_resume_machine(self, pretty_print, mist_core, owner_api_token):
@@ -343,7 +381,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'resume_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_ssh(self, pretty_print, mist_core, owner_api_token):
@@ -358,7 +399,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'ssh' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_start_machine(self, pretty_print, mist_core, owner_api_token):
@@ -373,7 +417,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'start_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_stop_machine(self, pretty_print, mist_core, owner_api_token):
@@ -388,7 +435,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'stop_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_suspend_machine(self, pretty_print, mist_core, owner_api_token):
@@ -403,7 +453,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'suspend_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_undefine_machine(self, pretty_print, mist_core, owner_api_token):
@@ -418,7 +471,10 @@ class TestMachinesController:
             uri=uri)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'undefine_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 

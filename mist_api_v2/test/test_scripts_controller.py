@@ -5,10 +5,12 @@ import importlib
 import pytest
 
 from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'ScriptsController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -66,7 +68,10 @@ class TestScriptsController:
             json=add_script_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'add_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_delete_script(self, pretty_print, mist_core, owner_api_token):
@@ -81,7 +86,10 @@ class TestScriptsController:
             uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'delete_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_download_script(self, pretty_print, mist_core, owner_api_token):
@@ -96,7 +104,10 @@ class TestScriptsController:
             uri=uri)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'download_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_script(self, pretty_print, mist_core, owner_api_token):
@@ -114,7 +125,10 @@ class TestScriptsController:
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_generate_script_url(self, pretty_print, mist_core, owner_api_token):
@@ -129,7 +143,10 @@ class TestScriptsController:
             uri=uri)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'generate_script_url' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_script(self, pretty_print, mist_core, owner_api_token):
@@ -147,7 +164,10 @@ class TestScriptsController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_scripts(self, pretty_print, mist_core, owner_api_token):
@@ -168,7 +188,10 @@ class TestScriptsController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_scripts' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_run_script(self, pretty_print, mist_core, owner_api_token):
@@ -203,7 +226,10 @@ class TestScriptsController:
             json=run_script_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'run_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
