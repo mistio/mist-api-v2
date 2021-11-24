@@ -5688,9 +5688,25 @@ components:
           oneOf:
           - properties:
               cpus:
-                description: Number of cpu cores. Mutually exclusive with 'size'
-                minimum: 1
-                type: integer
+                oneOf:
+                - description: Number of cpu cores. Mutually exclusive with 'size'
+                  minimum: 1
+                  type: integer
+                - properties:
+                    limits:
+                      properties:
+                        cpu:
+                          description: The cpu quota. For example with a value of
+                            1 the container is guaranteed at most one CPU core
+                          type: number
+                        memory:
+                          description: The memory limit in MBs to apply
+                          type: integer
+                    shares:
+                      description: Docker specific parameter.An integer value representing
+                        this container's relative CPU weight versus other containers
+                      type: integer
+                  type: object
               ram:
                 description: Ram size in MBs. Mutually exclusive with 'size'
                 minimum: 256
@@ -6182,8 +6198,6 @@ components:
         command:
           description: Command to run specified as a string
           type: string
-        limits:
-          $ref: '#/components/schemas/DockerExtra_limits'
       title: Docker extra parameter
       type: object
     DockerNet:
@@ -7183,8 +7197,6 @@ components:
         ephemeral:
           description: Whether to destroy the container on shutdown, defaults to False
           type: boolean
-        limits:
-          $ref: '#/components/schemas/LXDExtra_limits'
       title: LXD extra parameter
       type: object
     LXDNet:
@@ -9021,16 +9033,6 @@ components:
             $ref: '#/components/schemas/Vector'
           type: array
       type: object
-    DockerExtra_limits:
-      properties:
-        cpu:
-          description: The cpu quota. For example with a value of 1.5 the container
-            is guaranteed at most one and a half of the CPUs
-          type: number
-        memory:
-          description: The memory limit in MBs to apply
-          type: integer
-      type: object
     EditMachineRequest_expiration:
       example:
         date: date
@@ -9110,15 +9112,6 @@ components:
           type: string
       required:
       - network
-      type: object
-    LXDExtra_limits:
-      properties:
-        cpu:
-          description: The cpu limit to apply
-          type: string
-        memory:
-          description: The memory limit to apply
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:
