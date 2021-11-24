@@ -5693,24 +5693,25 @@ components:
                   minimum: 1
                   type: integer
                 - properties:
-                    limits:
-                      properties:
-                        cpu:
-                          description: The cpu quota. For example with a value of
-                            1 the container is guaranteed at most one CPU core
-                          type: number
-                        memory:
-                          description: The memory limit in MBs to apply
-                          type: integer
+                    limit:
+                      description: The cpu quota. With a value of 1 the container
+                        is guaranteed at most one CPU core
+                      type: number
                     shares:
                       description: Docker specific parameter.An integer value representing
                         this container's relative CPU weight versus other containers
                       type: integer
                   type: object
               ram:
-                description: Ram size in MBs. Mutually exclusive with 'size'
-                minimum: 256
-                type: integer
+                oneOf:
+                - description: Ram size in MBs. Mutually exclusive with 'size'
+                  minimum: 256
+                  type: integer
+                - properties:
+                    limit:
+                      description: The memory limit in MBs to apply
+                      type: integer
+                  type: object
               size:
                 description: Name or ID of the size to select for this machine. Mutually
                   exclusive with 'cpus' and 'ram'
