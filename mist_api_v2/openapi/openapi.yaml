@@ -5682,40 +5682,34 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
-            LXD
+          description: Machine sizing spec e.g. cpu/ram/flavor
           example: m1.small
           oneOf:
           - properties:
               cpus:
-                oneOf:
-                - description: Number of cpu cores. Mutually exclusive with 'size'
-                  minimum: 1
-                  type: integer
-                - properties:
-                    limit:
-                      description: The cpu quota. With a value of 1 the container
-                        is guaranteed at most one CPU core
-                      type: number
-                    shares:
-                      description: Docker specific parameter.An integer value representing
-                        this container's relative CPU weight versus other containers
-                      type: integer
-                  type: object
+                description: Number of cpu cores. On container based providers this
+                  value will be used as the cpu limit. Mutually exclusive with 'size'
+                type: integer
               ram:
-                oneOf:
-                - description: Ram size in MBs. Mutually exclusive with 'size'
-                  minimum: 256
-                  type: integer
-                - properties:
-                    limit:
-                      description: The memory limit in MBs to apply
-                      type: integer
-                  type: object
-              size:
+                description: Ram size in MBs. On container based providers this value
+                  will be used as the memory limit. Mutually exclusive with 'size'
+                type: integer
+              search:
                 description: Name or ID of the size to select for this machine. Mutually
                   exclusive with 'cpus' and 'ram'
                 type: string
+              prefer:
+                description: Optional properties to be used if applicable.
+                properties:
+                  cpu_shares:
+                    description: Docker specific parameter. An integer value representing
+                      this container's relative CPU weight versus other containers
+                    type: integer
+                  prefix:
+                    description: A size name prefix. Used only on providers with standard
+                      sizes
+                    type: string
+                type: object
               accelerators:
                 description: Google specific parameter
                 properties:
@@ -5725,7 +5719,7 @@ components:
                     type: string
                   accelerator_count:
                     description: The number of the accelerator cards exposed to this
-                      instance
+                      machine
                     type: integer
                 type: object
             type: object
