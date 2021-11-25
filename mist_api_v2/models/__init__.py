@@ -51,7 +51,6 @@ from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.docker_extra import DockerExtra
-from mist_api_v2.models.docker_extra_limits import DockerExtraLimits
 from mist_api_v2.models.docker_net import DockerNet
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest
 from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
@@ -105,7 +104,6 @@ from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
 from mist_api_v2.models.lxd_extra import LXDExtra
-from mist_api_v2.models.lxd_extra_limits import LXDExtraLimits
 from mist_api_v2.models.lxd_net import LXDNet
 from mist_api_v2.models.linode_cloud_request import LinodeCloudRequest
 from mist_api_v2.models.linode_credentials import LinodeCredentials

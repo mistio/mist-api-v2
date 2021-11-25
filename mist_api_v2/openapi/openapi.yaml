@@ -5682,23 +5682,34 @@ components:
           description: Where to provision e.g. region, datacenter, rack
           type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
-            LXD
+          description: Machine sizing spec e.g. cpu/ram/flavor
           example: m1.small
           oneOf:
           - properties:
               cpus:
-                description: Number of cpu cores. Mutually exclusive with 'size'
-                minimum: 1
+                description: Number of cpu cores. On container based providers this
+                  value will be used as the cpu limit. Mutually exclusive with 'size'
                 type: integer
               ram:
-                description: Ram size in MBs. Mutually exclusive with 'size'
-                minimum: 256
+                description: Ram size in MBs. On container based providers this value
+                  will be used as the memory limit. Mutually exclusive with 'size'
                 type: integer
-              size:
+              search:
                 description: Name or ID of the size to select for this machine. Mutually
                   exclusive with 'cpus' and 'ram'
                 type: string
+              prefer:
+                description: Optional properties to be used if applicable.
+                properties:
+                  cpu_shares:
+                    description: Docker specific parameter. An integer value representing
+                      this container's relative CPU weight versus other containers
+                    type: integer
+                  prefix:
+                    description: A size name prefix. Used only on providers with standard
+                      sizes
+                    type: string
+                type: object
               accelerators:
                 description: Google specific parameter
                 properties:
@@ -5708,7 +5719,7 @@ components:
                     type: string
                   accelerator_count:
                     description: The number of the accelerator cards exposed to this
-                      instance
+                      machine
                     type: integer
                 type: object
             type: object
@@ -6182,8 +6193,6 @@ components:
         command:
           description: Command to run specified as a string
           type: string
-        limits:
-          $ref: '#/components/schemas/DockerExtra_limits'
       title: Docker extra parameter
       type: object
     DockerNet:
@@ -7183,8 +7192,6 @@ components:
         ephemeral:
           description: Whether to destroy the container on shutdown, defaults to False
           type: boolean
-        limits:
-          $ref: '#/components/schemas/LXDExtra_limits'
       title: LXD extra parameter
       type: object
     LXDNet:
@@ -9021,16 +9028,6 @@ components:
             $ref: '#/components/schemas/Vector'
           type: array
       type: object
-    DockerExtra_limits:
-      properties:
-        cpu:
-          description: The cpu quota. For example with a value of 1.5 the container
-            is guaranteed at most one and a half of the CPUs
-          type: number
-        memory:
-          description: The memory limit in MBs to apply
-          type: integer
-      type: object
     EditMachineRequest_expiration:
       example:
         date: date
@@ -9110,15 +9107,6 @@ components:
           type: string
       required:
       - network
-      type: object
-    LXDExtra_limits:
-      properties:
-        cpu:
-          description: The cpu limit to apply
-          type: string
-        memory:
-          description: The memory limit to apply
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:
