@@ -5686,17 +5686,18 @@ components:
           example: m1.small
           oneOf:
           - properties:
-              cpus:
+              cpu:
                 description: Number of cpu cores. On container based providers this
-                  value will be used as the cpu limit. Mutually exclusive with 'size'
+                  value will be used as the cpu limit. Mutually exclusive with 'search'
                 type: integer
-              ram:
-                description: Ram size in MBs. On container based providers this value
-                  will be used as the memory limit. Mutually exclusive with 'size'
+              memory:
+                description: Memory size in MBs. On container based providers this
+                  value will be used as the memory limit. Mutually exclusive with
+                  'search'
                 type: integer
               search:
                 description: Name or ID of the size to select for this machine. Mutually
-                  exclusive with 'cpus' and 'ram'
+                  exclusive with 'cpu' and 'memory'
                 type: string
               prefer:
                 description: Optional properties to be used if applicable.
