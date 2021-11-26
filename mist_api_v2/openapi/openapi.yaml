@@ -5650,12 +5650,13 @@ components:
         tags: '{}'
         cloud: cloud
         size: m1.small
+        optimize: optimize
         schedules:
         - ""
         - ""
         extra: ""
         name: DB mirror
-        location: location
+        location: ""
         expiration:
           date: 2000-01-23T04:56:07.000+00:00
           action: stop
@@ -5680,7 +5681,12 @@ components:
           type: string
         location:
           description: Where to provision e.g. region, datacenter, rack
-          type: string
+          oneOf:
+          - properties:
+              prefer:
+                type: string
+            type: object
+          - type: string
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
           example: m1.small
@@ -5858,6 +5864,9 @@ components:
         save:
           description: Save provisioning plan as template
           type: boolean
+        optimize:
+          description: Criteria optimization, e.g "cost"
+          type: string
       required:
       - image
       - name
