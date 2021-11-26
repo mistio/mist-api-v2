@@ -21,7 +21,7 @@ class CreateMachineRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cloud=None, cloudinit=None, disks=None, dry=None, expiration=None, extra=None, fqdn=None, image=None, key=None, location=None, monitoring=None, name=None, net=None, provider=None, quantity=None, save=None, schedules=None, scripts=None, size=None, tags=None, template=None, volumes=None):  # noqa: E501
+    def __init__(self, cloud=None, cloudinit=None, disks=None, dry=None, expiration=None, extra=None, fqdn=None, image=None, key=None, location=None, monitoring=None, name=None, net=None, optimize=None, provider=None, quantity=None, save=None, schedules=None, scripts=None, size=None, tags=None, template=None, volumes=None):  # noqa: E501
         """CreateMachineRequest - a model defined in OpenAPI
 
         :param cloud: The cloud of this CreateMachineRequest.  # noqa: E501
@@ -43,13 +43,15 @@ class CreateMachineRequest(Model):
         :param key: The key of this CreateMachineRequest.  # noqa: E501
         :type key: OneOfobjectstring
         :param location: The location of this CreateMachineRequest.  # noqa: E501
-        :type location: str
+        :type location: OneOfobjectstring
         :param monitoring: The monitoring of this CreateMachineRequest.  # noqa: E501
         :type monitoring: bool
         :param name: The name of this CreateMachineRequest.  # noqa: E501
         :type name: str
         :param net: The net of this CreateMachineRequest.  # noqa: E501
         :type net: object
+        :param optimize: The optimize of this CreateMachineRequest.  # noqa: E501
+        :type optimize: str
         :param provider: The provider of this CreateMachineRequest.  # noqa: E501
         :type provider: SupportedProviders
         :param quantity: The quantity of this CreateMachineRequest.  # noqa: E501
@@ -79,10 +81,11 @@ class CreateMachineRequest(Model):
             'fqdn': str,
             'image': OneOfobjectstring,
             'key': OneOfobjectstring,
-            'location': str,
+            'location': OneOfobjectstring,
             'monitoring': bool,
             'name': str,
             'net': object,
+            'optimize': str,
             'provider': SupportedProviders,
             'quantity': int,
             'save': bool,
@@ -108,6 +111,7 @@ class CreateMachineRequest(Model):
             'monitoring': 'monitoring',
             'name': 'name',
             'net': 'net',
+            'optimize': 'optimize',
             'provider': 'provider',
             'quantity': 'quantity',
             'save': 'save',
@@ -132,6 +136,7 @@ class CreateMachineRequest(Model):
         self._monitoring = monitoring
         self._name = name
         self._net = net
+        self._optimize = optimize
         self._provider = provider
         self._quantity = quantity
         self._save = save
@@ -367,7 +372,7 @@ class CreateMachineRequest(Model):
         Where to provision e.g. region, datacenter, rack  # noqa: E501
 
         :return: The location of this CreateMachineRequest.
-        :rtype: str
+        :rtype: OneOfobjectstring
         """
         return self._location
 
@@ -378,7 +383,7 @@ class CreateMachineRequest(Model):
         Where to provision e.g. region, datacenter, rack  # noqa: E501
 
         :param location: The location of this CreateMachineRequest.
-        :type location: str
+        :type location: OneOfobjectstring
         """
 
         self._location = location
@@ -453,6 +458,29 @@ class CreateMachineRequest(Model):
         """
 
         self._net = net
+
+    @property
+    def optimize(self):
+        """Gets the optimize of this CreateMachineRequest.
+
+        Criteria optimization, e.g \"cost\"  # noqa: E501
+
+        :return: The optimize of this CreateMachineRequest.
+        :rtype: str
+        """
+        return self._optimize
+
+    @optimize.setter
+    def optimize(self, optimize):
+        """Sets the optimize of this CreateMachineRequest.
+
+        Criteria optimization, e.g \"cost\"  # noqa: E501
+
+        :param optimize: The optimize of this CreateMachineRequest.
+        :type optimize: str
+        """
+
+        self._optimize = optimize
 
     @property
     def provider(self):
@@ -587,8 +615,6 @@ class CreateMachineRequest(Model):
         :param size: The size of this CreateMachineRequest.
         :type size: OneOfobjectstring
         """
-        if size is None:
-            raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501
 
         self._size = size
 

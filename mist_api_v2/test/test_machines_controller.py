@@ -123,11 +123,10 @@ class TestMachinesController:
   "tags" : "{}",
   "cloud" : "cloud",
   "size" : "m1.small",
-  "optimize" : "optimize",
   "schedules" : [ "", "" ],
   "extra" : "",
   "name" : "DB mirror",
-  "location" : "",
+  "location" : "location",
   "expiration" : {
     "date" : "2000-01-23T04:56:07.000+00:00",
     "action" : "stop",
