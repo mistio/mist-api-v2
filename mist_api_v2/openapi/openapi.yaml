@@ -5689,7 +5689,7 @@ components:
               cpu:
                 description: Number of cpu cores. On container based providers this
                   value will be used as the cpu limit. Mutually exclusive with 'search'
-                type: integer
+                type: number
               memory:
                 description: Memory size in MBs. On container based providers this
                   value will be used as the memory limit. Mutually exclusive with
