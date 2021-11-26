@@ -25,12 +25,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def sleep_after_test(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    s = setup_data.get(method_name.replace('test_', ''), {}).get('sleep')
-    if s:
-        time.sleep(s)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestNetworksController:
