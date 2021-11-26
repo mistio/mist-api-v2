@@ -5650,12 +5650,13 @@ components:
         tags: '{}'
         cloud: cloud
         size: m1.small
+        optimize: optimize
         schedules:
         - ""
         - ""
         extra: ""
         name: DB mirror
-        location: location
+        location: ""
         expiration:
           date: 2000-01-23T04:56:07.000+00:00
           action: stop
@@ -5680,23 +5681,29 @@ components:
           type: string
         location:
           description: Where to provision e.g. region, datacenter, rack
-          type: string
+          oneOf:
+          - properties:
+              prefer:
+                type: string
+            type: object
+          - type: string
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
           example: m1.small
           oneOf:
           - properties:
-              cpus:
+              cpu:
                 description: Number of cpu cores. On container based providers this
-                  value will be used as the cpu limit. Mutually exclusive with 'size'
-                type: integer
-              ram:
-                description: Ram size in MBs. On container based providers this value
-                  will be used as the memory limit. Mutually exclusive with 'size'
+                  value will be used as the cpu limit. Mutually exclusive with 'search'
+                type: number
+              memory:
+                description: Memory size in MBs. On container based providers this
+                  value will be used as the memory limit. Mutually exclusive with
+                  'search'
                 type: integer
               search:
                 description: Name or ID of the size to select for this machine. Mutually
-                  exclusive with 'cpus' and 'ram'
+                  exclusive with 'cpu' and 'memory'
                 type: string
               prefer:
                 description: Optional properties to be used if applicable.
@@ -5857,6 +5864,9 @@ components:
         save:
           description: Save provisioning plan as template
           type: boolean
+        optimize:
+          description: Criteria optimization, e.g "cost"
+          type: string
       required:
       - image
       - name
