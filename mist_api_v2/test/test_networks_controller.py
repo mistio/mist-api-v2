@@ -4,7 +4,6 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -46,7 +45,8 @@ class TestNetworksController:
 
         Create network
         """
-        create_network_request = json.loads("""{
+        create_network_request = setup_data.get('create_network', {}).get(
+            'request_body') or json.loads("""{
   "cloud" : "my-cloud",
   "template" : "{}",
   "extra" : "{}",
@@ -55,18 +55,6 @@ class TestNetworksController:
   "dry" : true,
   "tags" : "{}"
 }""", strict=False)
-        request_body = setup_data.get('create_network', {}).get(
-            'request_body')
-        if request_body:
-            create_network_request = request_body
-        else:
-            for k in create_network_request:
-                if k in setup_data:
-                    create_network_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    create_network_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(create_network_request)
         uri = mist_core.uri + '/api/v2/networks'
         request = MistRequests(
             api_token=owner_api_token,

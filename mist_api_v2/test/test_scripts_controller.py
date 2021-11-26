@@ -4,7 +4,6 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -46,7 +45,8 @@ class TestScriptsController:
 
         Add script
         """
-        add_script_request = json.loads("""{
+        add_script_request = setup_data.get('add_script', {}).get(
+            'request_body') or json.loads("""{
   "entrypoint" : "entrypoint.sh",
   "name" : "my-script",
   "description" : "description",
@@ -54,18 +54,6 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }""", strict=False)
-        request_body = setup_data.get('add_script', {}).get(
-            'request_body')
-        if request_body:
-            add_script_request = request_body
-        else:
-            for k in add_script_request:
-                if k in setup_data:
-                    add_script_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    add_script_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(add_script_request)
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
@@ -204,25 +192,14 @@ class TestScriptsController:
 
         Run script
         """
-        run_script_request = json.loads("""{
+        run_script_request = setup_data.get('run_script', {}).get(
+            'request_body') or json.loads("""{
   "su" : "false",
   "machine" : "my-machine",
   "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }""", strict=False)
-        request_body = setup_data.get('run_script', {}).get(
-            'request_body')
-        if request_body:
-            run_script_request = request_body
-        else:
-            for k in run_script_request:
-                if k in setup_data:
-                    run_script_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    run_script_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('run_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(

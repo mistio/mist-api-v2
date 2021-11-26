@@ -4,7 +4,6 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -46,7 +45,8 @@ class TestVolumesController:
 
         Create volume
         """
-        create_volume_request = json.loads("""{
+        create_volume_request = setup_data.get('create_volume', {}).get(
+            'request_body') or json.loads("""{
   "template" : "{}",
   "quantity" : 0,
   "ex_disk_type" : "pd-standard",
@@ -61,18 +61,6 @@ class TestVolumesController:
   "name" : "my-volume",
   "location" : "us-central1-a"
 }""", strict=False)
-        request_body = setup_data.get('create_volume', {}).get(
-            'request_body')
-        if request_body:
-            create_volume_request = request_body
-        else:
-            for k in create_volume_request:
-                if k in setup_data:
-                    create_volume_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    create_volume_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(create_volume_request)
         uri = mist_core.uri + '/api/v2/volumes'
         request = MistRequests(
             api_token=owner_api_token,

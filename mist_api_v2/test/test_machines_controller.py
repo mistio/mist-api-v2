@@ -4,7 +4,6 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -46,23 +45,12 @@ class TestMachinesController:
 
         Associate a key with a machine
         """
-        key_machine_association = json.loads("""{
+        key_machine_association = setup_data.get('associate_key', {}).get(
+            'request_body') or json.loads("""{
   "port" : 0,
   "user" : "user",
   "key" : "key"
 }""", strict=False)
-        request_body = setup_data.get('associate_key', {}).get(
-            'request_body')
-        if request_body:
-            key_machine_association = request_body
-        else:
-            for k in key_machine_association:
-                if k in setup_data:
-                    key_machine_association[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    key_machine_association[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(key_machine_association)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/associate-key'.format(
             machine=setup_data.get('associate_key', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -121,7 +109,8 @@ class TestMachinesController:
 
         Create machine
         """
-        create_machine_request = json.loads("""{
+        create_machine_request = setup_data.get('create_machine', {}).get(
+            'request_body') or json.loads("""{
   "template" : "{}",
   "image" : "Debian",
   "quantity" : 1.4658129805029452,
@@ -155,18 +144,6 @@ class TestMachinesController:
   "scripts" : [ "", "" ],
   "key" : ""
 }""", strict=False)
-        request_body = setup_data.get('create_machine', {}).get(
-            'request_body')
-        if request_body:
-            create_machine_request = request_body
-        else:
-            for k in create_machine_request:
-                if k in setup_data:
-                    create_machine_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    create_machine_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(create_machine_request)
         uri = mist_core.uri + '/api/v2/machines'
         request = MistRequests(
             api_token=owner_api_token,
@@ -203,21 +180,10 @@ class TestMachinesController:
 
         Disassociate a key from a machine
         """
-        key_machine_disassociation = json.loads("""{
+        key_machine_disassociation = setup_data.get('disassociate_key', {}).get(
+            'request_body') or json.loads("""{
   "key" : "key"
 }""", strict=False)
-        request_body = setup_data.get('disassociate_key', {}).get(
-            'request_body')
-        if request_body:
-            key_machine_disassociation = request_body
-        else:
-            for k in key_machine_disassociation:
-                if k in setup_data:
-                    key_machine_disassociation[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    key_machine_disassociation[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(key_machine_disassociation)
         uri = mist_core.uri + '/api/v2/machines/{machine}/actions/disassociate-key'.format(
             machine=setup_data.get('disassociate_key', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -237,25 +203,14 @@ class TestMachinesController:
 
         Edit machine
         """
-        edit_machine_request = json.loads("""{
+        edit_machine_request = setup_data.get('edit_machine', {}).get(
+            'request_body') or json.loads("""{
   "expiration" : {
     "date" : "date",
     "action" : "stop",
     "notify" : 0
   }
 }""", strict=False)
-        request_body = setup_data.get('edit_machine', {}).get(
-            'request_body')
-        if request_body:
-            edit_machine_request = request_body
-        else:
-            for k in edit_machine_request:
-                if k in setup_data:
-                    edit_machine_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    edit_machine_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(edit_machine_request)
         uri = mist_core.uri + '/api/v2/machines/{machine}'.format(
             machine=setup_data.get('edit_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(

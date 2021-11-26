@@ -4,7 +4,6 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -46,22 +45,11 @@ class TestZonesController:
 
         Create zone
         """
-        create_zone_request = json.loads("""{
+        create_zone_request = setup_data.get('create_zone', {}).get(
+            'request_body') or json.loads("""{
   "name" : "my-zone",
   "cloud" : "my-cloud"
 }""", strict=False)
-        request_body = setup_data.get('create_zone', {}).get(
-            'request_body')
-        if request_body:
-            create_zone_request = request_body
-        else:
-            for k in create_zone_request:
-                if k in setup_data:
-                    create_zone_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    create_zone_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(create_zone_request)
         uri = mist_core.uri + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,

@@ -4,7 +4,6 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -46,7 +45,8 @@ class TestRulesController:
 
         Add rule
         """
-        add_rule_request = json.loads("""{
+        add_rule_request = setup_data.get('add_rule', {}).get(
+            'request_body') or json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -93,18 +93,6 @@ class TestRulesController:
     "every" : 5
   }
 }""", strict=False)
-        request_body = setup_data.get('add_rule', {}).get(
-            'request_body')
-        if request_body:
-            add_rule_request = request_body
-        else:
-            for k in add_rule_request:
-                if k in setup_data:
-                    add_rule_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    add_rule_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(add_rule_request)
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
@@ -141,7 +129,8 @@ class TestRulesController:
 
         Update rule
         """
-        edit_rule_request = json.loads("""{
+        edit_rule_request = setup_data.get('edit_rule', {}).get(
+            'request_body') or json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -187,18 +176,6 @@ class TestRulesController:
     "every" : 5
   }
 }""", strict=False)
-        request_body = setup_data.get('edit_rule', {}).get(
-            'request_body')
-        if request_body:
-            edit_rule_request = request_body
-        else:
-            for k in edit_rule_request:
-                if k in setup_data:
-                    edit_rule_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    edit_rule_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(edit_rule_request)
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
