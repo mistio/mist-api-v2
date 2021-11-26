@@ -187,7 +187,7 @@ def log_request_to_elastic(exception):
         log_methods.log_event(**log_dict)
 
     # if a bad exception didn't occur then return, else log it to file
-    if g.exc_flag is False:
+    if g.exc_flag is False or exception is None:
         return
 
     # Publish traceback in rabbitmq, for heka to parse and forward to
@@ -196,7 +196,7 @@ def log_request_to_elastic(exception):
     es_dict = log_dict.copy()
     es_dict.pop('_exc_type')
     es_dict['time'] = time.time()
-    es_dict['traceback'] = es_dict.pop('_traceback')
+    es_dict['traceback'] = es_dict.pop('_traceback', '')
     es_dict['exception'] = es_dict.pop('_exc')
     es_dict['type'] = 'exception'
     routing_key = '%s.%s' % (es_dict['owner_id'], es_dict['action'])
@@ -226,7 +226,7 @@ def log_request_to_elastic(exception):
             except Exception as exc:
                 log.error('Error finding user in logged exc: %r', exc)
     lines.append('-' * 10)
-    lines.append(log_dict['_traceback'])
+    lines.append(log_dict.get('_traceback', ''))
     lines.append('=' * 10)
     msg = '\n'.join(lines) + '\n'
     directory = 'var/log/exceptions'
