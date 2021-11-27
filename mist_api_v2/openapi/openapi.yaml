@@ -1882,6 +1882,7 @@ paths:
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    x-cli-ignore: true
   /api/v2/machines/{machine}/actions/destroy:
     post:
       description: Destroy target machine
@@ -2899,6 +2900,7 @@ paths:
       - teams_count
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}:
     get:
       description: Get details about target org
@@ -2969,6 +2971,7 @@ paths:
       - total_machine_count
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}/members:
     get:
       description: List org members owned by the requester. The requester must be
@@ -3066,6 +3069,7 @@ paths:
       - last_login
       - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}/members/{member}:
     get:
       description: Get details about target member
@@ -3129,6 +3133,7 @@ paths:
       - last_login
       - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}/teams:
     get:
       description: List teams in org.
@@ -3245,6 +3250,7 @@ paths:
       - description
       - policy
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
