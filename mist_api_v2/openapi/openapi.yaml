@@ -1882,6 +1882,7 @@ paths:
       tags:
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    x-cli-ignore: true
   /api/v2/machines/{machine}/actions/destroy:
     post:
       description: Destroy target machine
@@ -2899,6 +2900,7 @@ paths:
       - teams_count
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}:
     get:
       description: Get details about target org
@@ -2969,6 +2971,7 @@ paths:
       - total_machine_count
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}/members:
     get:
       description: List org members owned by the requester. The requester must be
@@ -3066,6 +3069,7 @@ paths:
       - last_login
       - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}/members/{member}:
     get:
       description: Get details about target member
@@ -3129,6 +3133,7 @@ paths:
       - last_login
       - registration_date
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/orgs/{org}/teams:
     get:
       description: List teams in org.
@@ -3245,6 +3250,7 @@ paths:
       - description
       - policy
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    x-cli-ignore: true
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -5650,12 +5656,13 @@ components:
         tags: '{}'
         cloud: cloud
         size: m1.small
+        optimize: optimize
         schedules:
         - ""
         - ""
         extra: ""
         name: DB mirror
-        location: location
+        location: ""
         expiration:
           date: 2000-01-23T04:56:07.000+00:00
           action: stop
@@ -5680,25 +5687,42 @@ components:
           type: string
         location:
           description: Where to provision e.g. region, datacenter, rack
-          type: string
+          oneOf:
+          - properties:
+              prefer:
+                type: string
+            type: object
+          - type: string
         size:
-          description: Machine sizing spec e.g. cpu/ram/flavor, not used on Docker,
-            LXD
+          description: Machine sizing spec e.g. cpu/ram/flavor
           example: m1.small
           oneOf:
           - properties:
-              cpus:
-                description: Number of cpu cores. Mutually exclusive with 'size'
-                minimum: 1
+              cpu:
+                description: Number of cpu cores. On container based providers this
+                  value will be used as the cpu limit. Mutually exclusive with 'search'
+                type: number
+              memory:
+                description: Memory size in MBs. On container based providers this
+                  value will be used as the memory limit. Mutually exclusive with
+                  'search'
                 type: integer
-              ram:
-                description: Ram size in MBs. Mutually exclusive with 'size'
-                minimum: 256
-                type: integer
-              size:
+              search:
                 description: Name or ID of the size to select for this machine. Mutually
-                  exclusive with 'cpus' and 'ram'
+                  exclusive with 'cpu' and 'memory'
                 type: string
+              prefer:
+                description: Optional properties to be used if applicable.
+                properties:
+                  cpu_shares:
+                    description: Docker specific parameter. An integer value representing
+                      this container's relative CPU weight versus other containers
+                    type: integer
+                  prefix:
+                    description: A size name prefix. Used only on providers with standard
+                      sizes
+                    type: string
+                type: object
               accelerators:
                 description: Google specific parameter
                 properties:
@@ -5708,7 +5732,7 @@ components:
                     type: string
                   accelerator_count:
                     description: The number of the accelerator cards exposed to this
-                      instance
+                      machine
                     type: integer
                 type: object
             type: object
@@ -5846,6 +5870,9 @@ components:
         save:
           description: Save provisioning plan as template
           type: boolean
+        optimize:
+          description: Criteria optimization, e.g "cost"
+          type: string
       required:
       - image
       - name
@@ -6182,8 +6209,6 @@ components:
         command:
           description: Command to run specified as a string
           type: string
-        limits:
-          $ref: '#/components/schemas/DockerExtra_limits'
       title: Docker extra parameter
       type: object
     DockerNet:
@@ -7183,8 +7208,6 @@ components:
         ephemeral:
           description: Whether to destroy the container on shutdown, defaults to False
           type: boolean
-        limits:
-          $ref: '#/components/schemas/LXDExtra_limits'
       title: LXD extra parameter
       type: object
     LXDNet:
@@ -9021,16 +9044,6 @@ components:
             $ref: '#/components/schemas/Vector'
           type: array
       type: object
-    DockerExtra_limits:
-      properties:
-        cpu:
-          description: The cpu quota. For example with a value of 1.5 the container
-            is guaranteed at most one and a half of the CPUs
-          type: number
-        memory:
-          description: The memory limit in MBs to apply
-          type: integer
-      type: object
     EditMachineRequest_expiration:
       example:
         date: date
@@ -9110,15 +9123,6 @@ components:
           type: string
       required:
       - network
-      type: object
-    LXDExtra_limits:
-      properties:
-        cpu:
-          description: The cpu limit to apply
-          type: string
-        memory:
-          description: The memory limit to apply
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:
