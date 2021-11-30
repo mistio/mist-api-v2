@@ -1,6 +1,5 @@
 import logging
 import uuid
-from operator import itemgetter
 
 import connexion
 
@@ -19,6 +18,7 @@ from mist.api.exceptions import ServiceUnavailableError
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
 from mist.api.tasks import clone_machine_async
+from mist.api.helpers import select_plan
 
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
@@ -210,9 +210,11 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if not valid_plans:
         return 'No valid plan could be generated', 400
 
-    # Find the plan which costs less
-    # TODO move logic to a seperate function
-    plan = min(valid_plans, key=itemgetter('cost'))
+    optimize = create_machine_request.optimize or 'cost'
+
+    plan = select_plan(valid_plans, optimize, auth_context)
+    if not plan:
+        return f'Could not optimize for value: {optimize}', 400
 
     # TODO save
     # TODO template
