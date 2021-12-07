@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,13 +41,13 @@ def after_test(request):
 class TestOrgsController:
     """OrgsController integration test stubs"""
 
-    def test_get_member(self, pretty_print, mist_core, owner_api_token):
+    def test_get_member(self, pretty_print, owner_api_token):
         """Test case for get_member
 
         Get Org
         """
         query_string = setup_data.get('get_member', {}).get('query_string') or [('only', 'id')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/members/{member}'.format(
+        uri = MIST_URL + '/api/v2/orgs/{org}/members/{member}'.format(
             org=setup_data.get('get_member', {}).get('org') or setup_data.get('org') or 'my-org', member=setup_data.get('get_member', {}).get('member') or setup_data.get('member') or 'my-member')
         request = MistRequests(
             api_token=owner_api_token,
@@ -60,14 +61,14 @@ class TestOrgsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_get_org(self, pretty_print, mist_core, owner_api_token):
+    def test_get_org(self, pretty_print, owner_api_token):
         """Test case for get_org
 
         Get Org
         """
         query_string = setup_data.get('get_org', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}'.format(
+        uri = MIST_URL + '/api/v2/orgs/{org}'.format(
             org=setup_data.get('get_org', {}).get('org') or setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
@@ -81,7 +82,7 @@ class TestOrgsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_org_members(self, pretty_print, mist_core, owner_api_token):
+    def test_list_org_members(self, pretty_print, owner_api_token):
         """Test case for list_org_members
 
         List org members
@@ -91,7 +92,7 @@ class TestOrgsController:
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/members'.format(
+        uri = MIST_URL + '/api/v2/orgs/{org}/members'.format(
             org=setup_data.get('list_org_members', {}).get('org') or setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
@@ -105,7 +106,7 @@ class TestOrgsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_org_teams(self, pretty_print, mist_core, owner_api_token):
+    def test_list_org_teams(self, pretty_print, owner_api_token):
         """Test case for list_org_teams
 
         List org teams
@@ -116,7 +117,7 @@ class TestOrgsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs/{org}/teams'.format(
+        uri = MIST_URL + '/api/v2/orgs/{org}/teams'.format(
             org=setup_data.get('list_org_teams', {}).get('org') or setup_data.get('org') or 'my-org')
         request = MistRequests(
             api_token=owner_api_token,
@@ -130,7 +131,7 @@ class TestOrgsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_orgs(self, pretty_print, mist_core, owner_api_token):
+    def test_list_orgs(self, pretty_print, owner_api_token):
         """Test case for list_orgs
 
         List orgs
@@ -142,7 +143,7 @@ class TestOrgsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/orgs'
+        uri = MIST_URL + '/api/v2/orgs'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,7 +41,7 @@ def after_test(request):
 class TestCloudsController:
     """CloudsController integration test stubs"""
 
-    def test_add_cloud(self, pretty_print, mist_core, owner_api_token):
+    def test_add_cloud(self, pretty_print, owner_api_token):
         """Test case for add_cloud
 
         Add cloud
@@ -55,7 +56,7 @@ class TestCloudsController:
     "email" : "email"
   }
 }""", strict=False)
-        uri = mist_core.uri + '/api/v2/clouds'
+        uri = MIST_URL + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -68,7 +69,7 @@ class TestCloudsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_edit_cloud(self, pretty_print, mist_core, owner_api_token):
+    def test_edit_cloud(self, pretty_print, owner_api_token):
         """Test case for edit_cloud
 
         Edit cloud
@@ -77,7 +78,7 @@ class TestCloudsController:
             'request_body') or json.loads("""{
   "name" : "my-renamed-cloud"
 }""", strict=False)
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
+        uri = MIST_URL + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('edit_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
@@ -91,7 +92,7 @@ class TestCloudsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_get_cloud(self, pretty_print, mist_core, owner_api_token):
+    def test_get_cloud(self, pretty_print, owner_api_token):
         """Test case for get_cloud
 
         Get cloud
@@ -99,7 +100,7 @@ class TestCloudsController:
         query_string = setup_data.get('get_cloud', {}).get('query_string') or [('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
+        uri = MIST_URL + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('get_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
@@ -113,7 +114,7 @@ class TestCloudsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_clouds(self, pretty_print, mist_core, owner_api_token):
+    def test_list_clouds(self, pretty_print, owner_api_token):
         """Test case for list_clouds
 
         List clouds
@@ -124,7 +125,7 @@ class TestCloudsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clouds'
+        uri = MIST_URL + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -137,12 +138,12 @@ class TestCloudsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_remove_cloud(self, pretty_print, mist_core, owner_api_token):
+    def test_remove_cloud(self, pretty_print, owner_api_token):
         """Test case for remove_cloud
 
         Remove cloud
         """
-        uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
+        uri = MIST_URL + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('remove_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,

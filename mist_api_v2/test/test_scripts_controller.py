@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,7 +41,7 @@ def after_test(request):
 class TestScriptsController:
     """ScriptsController integration test stubs"""
 
-    def test_add_script(self, pretty_print, mist_core, owner_api_token):
+    def test_add_script(self, pretty_print, owner_api_token):
         """Test case for add_script
 
         Add script
@@ -54,7 +55,7 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }""", strict=False)
-        uri = mist_core.uri + '/api/v2/scripts'
+        uri = MIST_URL + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -67,12 +68,12 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_delete_script(self, pretty_print, mist_core, owner_api_token):
+    def test_delete_script(self, pretty_print, owner_api_token):
         """Test case for delete_script
 
         Delete script
         """
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+        uri = MIST_URL + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('delete_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
@@ -85,12 +86,12 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_download_script(self, pretty_print, mist_core, owner_api_token):
+    def test_download_script(self, pretty_print, owner_api_token):
         """Test case for download_script
 
         Download script
         """
-        uri = mist_core.uri + '/api/v2/scripts/{script}/file'.format(
+        uri = MIST_URL + '/api/v2/scripts/{script}/file'.format(
             script=setup_data.get('download_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
@@ -103,14 +104,14 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_edit_script(self, pretty_print, mist_core, owner_api_token):
+    def test_edit_script(self, pretty_print, owner_api_token):
         """Test case for edit_script
 
         Edit script
         """
         query_string = setup_data.get('edit_script', {}).get('query_string') or [('name', 'my-renamed-script'),
                         ('description', 'description')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+        uri = MIST_URL + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('edit_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
@@ -124,12 +125,12 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_generate_script_url(self, pretty_print, mist_core, owner_api_token):
+    def test_generate_script_url(self, pretty_print, owner_api_token):
         """Test case for generate_script_url
 
         Generate script url
         """
-        uri = mist_core.uri + '/api/v2/scripts/{script}/url'.format(
+        uri = MIST_URL + '/api/v2/scripts/{script}/url'.format(
             script=setup_data.get('generate_script_url', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
@@ -142,14 +143,14 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_get_script(self, pretty_print, mist_core, owner_api_token):
+    def test_get_script(self, pretty_print, owner_api_token):
         """Test case for get_script
 
         Get script
         """
         query_string = setup_data.get('get_script', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+        uri = MIST_URL + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('get_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
@@ -163,7 +164,7 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_scripts(self, pretty_print, mist_core, owner_api_token):
+    def test_list_scripts(self, pretty_print, owner_api_token):
         """Test case for list_scripts
 
         List scripts
@@ -174,7 +175,7 @@ class TestScriptsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/scripts'
+        uri = MIST_URL + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -187,7 +188,7 @@ class TestScriptsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_run_script(self, pretty_print, mist_core, owner_api_token):
+    def test_run_script(self, pretty_print, owner_api_token):
         """Test case for run_script
 
         Run script
@@ -200,7 +201,7 @@ class TestScriptsController:
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }""", strict=False)
-        uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
+        uri = MIST_URL + '/api/v2/scripts/{script}'.format(
             script=setup_data.get('run_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,

@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,14 +41,14 @@ def after_test(request):
 class TestSizesController:
     """SizesController integration test stubs"""
 
-    def test_get_size(self, pretty_print, mist_core, owner_api_token):
+    def test_get_size(self, pretty_print, owner_api_token):
         """Test case for get_size
 
         Get size
         """
         query_string = setup_data.get('get_size', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/sizes/{size}'.format(
+        uri = MIST_URL + '/api/v2/sizes/{size}'.format(
             size=setup_data.get('get_size', {}).get('size') or setup_data.get('size') or 'n2-highcpu-2 (2 vCPUs 2 GB RAM)')
         request = MistRequests(
             api_token=owner_api_token,
@@ -61,7 +62,7 @@ class TestSizesController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_sizes(self, pretty_print, mist_core, owner_api_token):
+    def test_list_sizes(self, pretty_print, owner_api_token):
         """Test case for list_sizes
 
         List sizes
@@ -73,7 +74,7 @@ class TestSizesController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/sizes'
+        uri = MIST_URL + '/api/v2/sizes'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

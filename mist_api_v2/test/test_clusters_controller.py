@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,7 +41,7 @@ def after_test(request):
 class TestClustersController:
     """ClustersController integration test stubs"""
 
-    def test_create_cluster(self, pretty_print, mist_core, owner_api_token):
+    def test_create_cluster(self, pretty_print, owner_api_token):
         """Test case for create_cluster
 
         Create cluster
@@ -52,7 +53,7 @@ class TestClustersController:
   "provider" : "google",
   "location" : "my-location"
 }""", strict=False)
-        uri = mist_core.uri + '/api/v2/clusters'
+        uri = MIST_URL + '/api/v2/clusters'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -65,12 +66,12 @@ class TestClustersController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_destroy_cluster(self, pretty_print, mist_core, owner_api_token):
+    def test_destroy_cluster(self, pretty_print, owner_api_token):
         """Test case for destroy_cluster
 
         Destroy cluster
         """
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
+        uri = MIST_URL + '/api/v2/clusters/{cluster}'.format(
             cluster=setup_data.get('destroy_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
@@ -83,14 +84,14 @@ class TestClustersController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_get_cluster(self, pretty_print, mist_core, owner_api_token):
+    def test_get_cluster(self, pretty_print, owner_api_token):
         """Test case for get_cluster
 
         Get cluster
         """
         query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
+        uri = MIST_URL + '/api/v2/clusters/{cluster}'.format(
             cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
@@ -104,7 +105,7 @@ class TestClustersController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_clusters(self, pretty_print, mist_core, owner_api_token):
+    def test_list_clusters(self, pretty_print, owner_api_token):
         """Test case for list_clusters
 
         List clusters
@@ -116,7 +117,7 @@ class TestClustersController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/clusters'
+        uri = MIST_URL + '/api/v2/clusters'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

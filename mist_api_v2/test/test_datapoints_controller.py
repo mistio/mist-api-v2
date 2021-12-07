@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,7 +41,7 @@ def after_test(request):
 class TestDatapointsController:
     """DatapointsController integration test stubs"""
 
-    def test_get_datapoints(self, pretty_print, mist_core, owner_api_token):
+    def test_get_datapoints(self, pretty_print, owner_api_token):
         """Test case for get_datapoints
 
         Get datapoints
@@ -52,7 +53,7 @@ class TestDatapointsController:
                         ('end', '1633096171'),
                         ('step', '5.0'),
                         ('time', '1633096171')]
-        uri = mist_core.uri + '/api/v2/datapoints'
+        uri = MIST_URL + '/api/v2/datapoints'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

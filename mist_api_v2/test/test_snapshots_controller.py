@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,13 +41,13 @@ def after_test(request):
 class TestSnapshotsController:
     """SnapshotsController integration test stubs"""
 
-    def test_create_snapshot(self, pretty_print, mist_core, owner_api_token):
+    def test_create_snapshot(self, pretty_print, owner_api_token):
         """Test case for create_snapshot
 
         Create snapshot
         """
         query_string = setup_data.get('create_snapshot', {}).get('query_string') or [('name', 'my-snapshot')]
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
+        uri = MIST_URL + '/api/v2/machines/{machine}/snapshots'.format(
             machine=setup_data.get('create_snapshot', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
@@ -60,12 +61,12 @@ class TestSnapshotsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_snapshots(self, pretty_print, mist_core, owner_api_token):
+    def test_list_snapshots(self, pretty_print, owner_api_token):
         """Test case for list_snapshots
 
         List machine snapshots
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots'.format(
+        uri = MIST_URL + '/api/v2/machines/{machine}/snapshots'.format(
             machine=setup_data.get('list_snapshots', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
@@ -78,12 +79,12 @@ class TestSnapshotsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_remove_snapshot(self, pretty_print, mist_core, owner_api_token):
+    def test_remove_snapshot(self, pretty_print, owner_api_token):
         """Test case for remove_snapshot
 
         Remove snapshot
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
+        uri = MIST_URL + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
             machine=setup_data.get('remove_snapshot', {}).get('machine') or setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('remove_snapshot', {}).get('snapshot') or setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
             api_token=owner_api_token,
@@ -96,12 +97,12 @@ class TestSnapshotsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_revert_to_snapshot(self, pretty_print, mist_core, owner_api_token):
+    def test_revert_to_snapshot(self, pretty_print, owner_api_token):
         """Test case for revert_to_snapshot
 
         Revert to snapshot
         """
-        uri = mist_core.uri + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
+        uri = MIST_URL + '/api/v2/machines/{machine}/snapshots/{snapshot}'.format(
             machine=setup_data.get('revert_to_snapshot', {}).get('machine') or setup_data.get('machine') or 'my-machine', snapshot=setup_data.get('revert_to_snapshot', {}).get('snapshot') or setup_data.get('snapshot') or 'my-snapshot')
         request = MistRequests(
             api_token=owner_api_token,

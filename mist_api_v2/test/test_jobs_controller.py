@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,12 +41,12 @@ def after_test(request):
 class TestJobsController:
     """JobsController integration test stubs"""
 
-    def test_get_job(self, pretty_print, mist_core, owner_api_token):
+    def test_get_job(self, pretty_print, owner_api_token):
         """Test case for get_job
 
         Get job
         """
-        uri = mist_core.uri + '/api/v2/jobs/{job_id}'.format(
+        uri = MIST_URL + '/api/v2/jobs/{job_id}'.format(
             job_id=setup_data.get('get_job', {}).get('job_id') or setup_data.get('job_id') or 'ab74e2f0b7ae4999b1e4013e20dac418')
         request = MistRequests(
             api_token=owner_api_token,

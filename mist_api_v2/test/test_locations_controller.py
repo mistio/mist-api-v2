@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,14 +41,14 @@ def after_test(request):
 class TestLocationsController:
     """LocationsController integration test stubs"""
 
-    def test_get_location(self, pretty_print, mist_core, owner_api_token):
+    def test_get_location(self, pretty_print, owner_api_token):
         """Test case for get_location
 
         Get location
         """
         query_string = setup_data.get('get_location', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/locations/{location}'.format(
+        uri = MIST_URL + '/api/v2/locations/{location}'.format(
             location=setup_data.get('get_location', {}).get('location') or setup_data.get('location') or 'us-central1-a')
         request = MistRequests(
             api_token=owner_api_token,
@@ -61,7 +62,7 @@ class TestLocationsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_locations(self, pretty_print, mist_core, owner_api_token):
+    def test_list_locations(self, pretty_print, owner_api_token):
         """Test case for list_locations
 
         List locations
@@ -73,7 +74,7 @@ class TestLocationsController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/locations'
+        uri = MIST_URL + '/api/v2/locations'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
