@@ -4,11 +4,12 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'RulesController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -23,13 +24,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestRulesController:
@@ -40,7 +45,8 @@ class TestRulesController:
 
         Add rule
         """
-        add_rule_request = json.loads("""{
+        add_rule_request = setup_data.get('add_rule', {}).get(
+            'request_body') or json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -87,18 +93,6 @@ class TestRulesController:
     "every" : 5
   }
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'add_rule')
-        if request_body:
-            add_rule_request = request_body
-        else:
-            for k in add_rule_request:
-                if k in setup_data:
-                    add_rule_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    add_rule_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(add_rule_request)
         uri = mist_core.uri + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
@@ -106,7 +100,10 @@ class TestRulesController:
             json=add_rule_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'add_rule' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_delete_rule(self, pretty_print, mist_core, owner_api_token):
@@ -115,13 +112,16 @@ class TestRulesController:
         Delete rule
         """
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'my-rule')
+            rule=setup_data.get('delete_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'delete_rule' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_rule(self, pretty_print, mist_core, owner_api_token):
@@ -129,7 +129,8 @@ class TestRulesController:
 
         Update rule
         """
-        edit_rule_request = json.loads("""{
+        edit_rule_request = setup_data.get('edit_rule', {}).get(
+            'request_body') or json.loads("""{
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -175,27 +176,18 @@ class TestRulesController:
     "every" : 5
   }
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'edit_rule')
-        if request_body:
-            edit_rule_request = request_body
-        else:
-            for k in edit_rule_request:
-                if k in setup_data:
-                    edit_rule_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    edit_rule_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(edit_rule_request)
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'my-rule')
+            rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             json=edit_rule_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_rule' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_rule(self, pretty_print, mist_core, owner_api_token):
@@ -203,17 +195,20 @@ class TestRulesController:
 
         Get rule
         """
-        query_string = setup_data.get('query_string', {}).get('get_rule') or [('sort', '-name'),
+        query_string = setup_data.get('get_rule', {}).get('query_string') or [('sort', '-name'),
                         ('only', 'id')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'my-rule')
+            rule=setup_data.get('get_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_rule' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_rules(self, pretty_print, mist_core, owner_api_token):
@@ -221,7 +216,7 @@ class TestRulesController:
 
         List rules
         """
-        query_string = setup_data.get('query_string', {}).get('list_rules') or [('search', 'total_run_count:5'),
+        query_string = setup_data.get('list_rules', {}).get('query_string') or [('search', 'total_run_count:5'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -233,7 +228,10 @@ class TestRulesController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_rules' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_rename_rule(self, pretty_print, mist_core, owner_api_token):
@@ -241,16 +239,19 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = setup_data.get('query_string', {}).get('rename_rule') or [('name', 'my-renamed-rule')]
+        query_string = setup_data.get('rename_rule', {}).get('query_string') or [('name', 'my-renamed-rule')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'my-rule')
+            rule=setup_data.get('rename_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PATCH'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'rename_rule' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_toggle_rule(self, pretty_print, mist_core, owner_api_token):
@@ -258,24 +259,35 @@ class TestRulesController:
 
         Toggle rule
         """
-        query_string = setup_data.get('query_string', {}).get('toggle_rule') or [('action', 'disable')]
+        query_string = setup_data.get('toggle_rule', {}).get('query_string') or [('action', 'disable')]
         uri = mist_core.uri + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rule') or 'my-rule')
+            rule=setup_data.get('toggle_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'toggle_rule' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
-# Mark delete-related test methods as last to be run
-for key in vars(TestRulesController):
-    attr = getattr(TestRulesController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestRulesController, key, pytest.mark.order('last')(attr))
+if resource_name == 'machines':
+    # Impose custom ordering of machines test methods
+    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
+        method_name = k if k.startswith('test_') else f'test_{k}'
+        method = getattr(TestRulesController, method_name)
+        setattr(TestRulesController, method_name,
+                pytest.mark.order(order + 1)(method))
+else:
+    # Mark delete-related test methods as last to be run
+    for key in vars(TestRulesController):
+        attr = getattr(TestRulesController, key)
+        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+            setattr(TestRulesController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class

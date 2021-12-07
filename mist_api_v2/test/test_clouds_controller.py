@@ -4,11 +4,12 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'CloudsController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -23,13 +24,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestCloudsController:
@@ -40,7 +45,8 @@ class TestCloudsController:
 
         Add cloud
         """
-        add_cloud_request = json.loads("""{
+        add_cloud_request = setup_data.get('add_cloud', {}).get(
+            'request_body') or json.loads("""{
   "name" : "my-cloud",
   "provider" : "google",
   "credentials" : {
@@ -49,18 +55,6 @@ class TestCloudsController:
     "email" : "email"
   }
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'add_cloud')
-        if request_body:
-            add_cloud_request = request_body
-        else:
-            for k in add_cloud_request:
-                if k in setup_data:
-                    add_cloud_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    add_cloud_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(add_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
@@ -68,7 +62,10 @@ class TestCloudsController:
             json=add_cloud_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'add_cloud' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_cloud(self, pretty_print, mist_core, owner_api_token):
@@ -76,30 +73,22 @@ class TestCloudsController:
 
         Edit cloud
         """
-        edit_cloud_request = json.loads("""{
+        edit_cloud_request = setup_data.get('edit_cloud', {}).get(
+            'request_body') or json.loads("""{
   "name" : "my-renamed-cloud"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'edit_cloud')
-        if request_body:
-            edit_cloud_request = request_body
-        else:
-            for k in edit_cloud_request:
-                if k in setup_data:
-                    edit_cloud_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    edit_cloud_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(edit_cloud_request)
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'my-cloud')
+            cloud=setup_data.get('edit_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             json=edit_cloud_request)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_cloud' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_cloud(self, pretty_print, mist_core, owner_api_token):
@@ -107,18 +96,21 @@ class TestCloudsController:
 
         Get cloud
         """
-        query_string = setup_data.get('query_string', {}).get('get_cloud') or [('sort', '-name'),
+        query_string = setup_data.get('get_cloud', {}).get('query_string') or [('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'my-cloud')
+            cloud=setup_data.get('get_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_cloud' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_clouds(self, pretty_print, mist_core, owner_api_token):
@@ -126,7 +118,7 @@ class TestCloudsController:
 
         List clouds
         """
-        query_string = setup_data.get('query_string', {}).get('list_clouds') or [('search', 'provider:amazon'),
+        query_string = setup_data.get('list_clouds', {}).get('query_string') or [('search', 'provider:amazon'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -139,7 +131,10 @@ class TestCloudsController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_clouds' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_remove_cloud(self, pretty_print, mist_core, owner_api_token):
@@ -148,21 +143,32 @@ class TestCloudsController:
         Remove cloud
         """
         uri = mist_core.uri + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('cloud') or 'my-cloud')
+            cloud=setup_data.get('remove_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'remove_cloud' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
-# Mark delete-related test methods as last to be run
-for key in vars(TestCloudsController):
-    attr = getattr(TestCloudsController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestCloudsController, key, pytest.mark.order('last')(attr))
+if resource_name == 'machines':
+    # Impose custom ordering of machines test methods
+    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
+        method_name = k if k.startswith('test_') else f'test_{k}'
+        method = getattr(TestCloudsController, method_name)
+        setattr(TestCloudsController, method_name,
+                pytest.mark.order(order + 1)(method))
+else:
+    # Mark delete-related test methods as last to be run
+    for key in vars(TestCloudsController):
+        attr = getattr(TestCloudsController, key)
+        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+            setattr(TestCloudsController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class

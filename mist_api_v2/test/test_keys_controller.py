@@ -4,11 +4,12 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'KeysController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -23,13 +24,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestKeysController:
@@ -40,22 +45,11 @@ class TestKeysController:
 
         Add key
         """
-        add_key_request = json.loads("""{
+        add_key_request = setup_data.get('add_key', {}).get(
+            'request_body') or json.loads("""{
   "name" : "my-key",
   "private" : "-----BEGIN RSA PRIVATE KEY-----\nMIICXAIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUp wmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ5 1s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQABAoGAFijko56+qGyN8M0RVyaRAXz++xTqHBLh 3tx4VgMtrQ+WEgCjhoTwo23KMBAuJGSYnRmoBZM3lMfTKevIkAidPExvYCdm5dYq3XToLkkLv5L2 pIIVOFMDG+KESnAFV7l2c+cnzRMW0+b6f8mR1CJzZuxVLL6Q02fvLi55/mbSYxECQQDeAw6fiIQX GukBI4eMZZt4nscy2o12KyYner3VpoeE+Np2q+Z3pvAMd/aNzQ/W9WaI+NRfcxUJrmfPwIGm63il AkEAxCL5HQb2bQr4ByorcMWm/hEP2MZzROV73yF41hPsRC9m66KrheO9HPTJuo3/9s5p+sqGxOlF L0NDt4SkosjgGwJAFklyR1uZ/wPJjj611cdBcztlPdqoxssQGnh85BzCj/u3WqBpE2vjvyyvyI5k X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ 37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0=\n-----END RSA PRIVATE KEY-----"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'add_key')
-        if request_body:
-            add_key_request = request_body
-        else:
-            for k in add_key_request:
-                if k in setup_data:
-                    add_key_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    add_key_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(add_key_request)
         uri = mist_core.uri + '/api/v2/keys'
         request = MistRequests(
             api_token=owner_api_token,
@@ -63,7 +57,10 @@ class TestKeysController:
             json=add_key_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'add_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_delete_key(self, pretty_print, mist_core, owner_api_token):
@@ -72,13 +69,16 @@ class TestKeysController:
         Delete key
         """
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('key') or 'my-key')
+            key=setup_data.get('delete_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'delete_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_key(self, pretty_print, mist_core, owner_api_token):
@@ -86,17 +86,20 @@ class TestKeysController:
 
         Edit key
         """
-        query_string = setup_data.get('query_string', {}).get('edit_key') or [('name', 'my-renamed-key'),
+        query_string = setup_data.get('edit_key', {}).get('query_string') or [('name', 'my-renamed-key'),
                         ('default', 'True')]
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('key') or 'my-key')
+            key=setup_data.get('edit_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_key(self, pretty_print, mist_core, owner_api_token):
@@ -104,19 +107,22 @@ class TestKeysController:
 
         Get key
         """
-        query_string = setup_data.get('query_string', {}).get('get_key') or [('private', 'False'),
+        query_string = setup_data.get('get_key', {}).get('query_string') or [('private', 'False'),
                         ('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('key') or 'my-key')
+            key=setup_data.get('get_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_key' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_keys(self, pretty_print, mist_core, owner_api_token):
@@ -124,7 +130,7 @@ class TestKeysController:
 
         List keys
         """
-        query_string = setup_data.get('query_string', {}).get('list_keys') or [('search', 'owned_by:csk@mist.io'),
+        query_string = setup_data.get('list_keys', {}).get('query_string') or [('search', 'owned_by:csk@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
@@ -137,15 +143,26 @@ class TestKeysController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_keys' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
-# Mark delete-related test methods as last to be run
-for key in vars(TestKeysController):
-    attr = getattr(TestKeysController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestKeysController, key, pytest.mark.order('last')(attr))
+if resource_name == 'machines':
+    # Impose custom ordering of machines test methods
+    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
+        method_name = k if k.startswith('test_') else f'test_{k}'
+        method = getattr(TestKeysController, method_name)
+        setattr(TestKeysController, method_name,
+                pytest.mark.order(order + 1)(method))
+else:
+    # Mark delete-related test methods as last to be run
+    for key in vars(TestKeysController):
+        attr = getattr(TestKeysController, key)
+        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+            setattr(TestKeysController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class

@@ -4,11 +4,12 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'ClustersController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -23,13 +24,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestClustersController:
@@ -40,24 +45,13 @@ class TestClustersController:
 
         Create cluster
         """
-        create_cluster_request = json.loads("""{
+        create_cluster_request = setup_data.get('create_cluster', {}).get(
+            'request_body') or json.loads("""{
   "name" : "my-cluster",
   "cloud" : "my-cloud",
   "provider" : "google",
   "location" : "my-location"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'create_cluster')
-        if request_body:
-            create_cluster_request = request_body
-        else:
-            for k in create_cluster_request:
-                if k in setup_data:
-                    create_cluster_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    create_cluster_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(create_cluster_request)
         uri = mist_core.uri + '/api/v2/clusters'
         request = MistRequests(
             api_token=owner_api_token,
@@ -65,7 +59,10 @@ class TestClustersController:
             json=create_cluster_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'create_cluster' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_destroy_cluster(self, pretty_print, mist_core, owner_api_token):
@@ -74,13 +71,16 @@ class TestClustersController:
         Destroy cluster
         """
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('cluster') or 'my-cluster')
+            cluster=setup_data.get('destroy_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'destroy_cluster' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_cluster(self, pretty_print, mist_core, owner_api_token):
@@ -88,17 +88,20 @@ class TestClustersController:
 
         Get cluster
         """
-        query_string = setup_data.get('query_string', {}).get('get_cluster') or [('only', 'id'),
+        query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('cluster') or 'my-cluster')
+            cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_cluster' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_clusters(self, pretty_print, mist_core, owner_api_token):
@@ -106,7 +109,7 @@ class TestClustersController:
 
         List clusters
         """
-        query_string = setup_data.get('query_string', {}).get('list_clusters') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('list_clusters', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'created_by:csk'),
                         ('sort', '-name'),
                         ('start', '50'),
@@ -120,15 +123,26 @@ class TestClustersController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_clusters' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
-# Mark delete-related test methods as last to be run
-for key in vars(TestClustersController):
-    attr = getattr(TestClustersController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestClustersController, key, pytest.mark.order('last')(attr))
+if resource_name == 'machines':
+    # Impose custom ordering of machines test methods
+    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
+        method_name = k if k.startswith('test_') else f'test_{k}'
+        method = getattr(TestClustersController, method_name)
+        setattr(TestClustersController, method_name,
+                pytest.mark.order(order + 1)(method))
+else:
+    # Mark delete-related test methods as last to be run
+    for key in vars(TestClustersController):
+        attr = getattr(TestClustersController, key)
+        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+            setattr(TestClustersController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class

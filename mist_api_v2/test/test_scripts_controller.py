@@ -4,11 +4,12 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'ScriptsController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -23,13 +24,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestScriptsController:
@@ -40,7 +45,8 @@ class TestScriptsController:
 
         Add script
         """
-        add_script_request = json.loads("""{
+        add_script_request = setup_data.get('add_script', {}).get(
+            'request_body') or json.loads("""{
   "entrypoint" : "entrypoint.sh",
   "name" : "my-script",
   "description" : "description",
@@ -48,18 +54,6 @@ class TestScriptsController:
   "script" : "#!/usr/bin/env bash\necho Hello, World!",
   "location_type" : "inline"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'add_script')
-        if request_body:
-            add_script_request = request_body
-        else:
-            for k in add_script_request:
-                if k in setup_data:
-                    add_script_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    add_script_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(add_script_request)
         uri = mist_core.uri + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
@@ -67,7 +61,10 @@ class TestScriptsController:
             json=add_script_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'add_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_delete_script(self, pretty_print, mist_core, owner_api_token):
@@ -76,13 +73,16 @@ class TestScriptsController:
         Delete script
         """
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'my-script')
+            script=setup_data.get('delete_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'delete_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_download_script(self, pretty_print, mist_core, owner_api_token):
@@ -91,13 +91,16 @@ class TestScriptsController:
         Download script
         """
         uri = mist_core.uri + '/api/v2/scripts/{script}/file'.format(
-            script=setup_data.get('script') or 'my-script')
+            script=setup_data.get('download_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'download_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_script(self, pretty_print, mist_core, owner_api_token):
@@ -105,17 +108,20 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = setup_data.get('query_string', {}).get('edit_script') or [('name', 'my-renamed-script'),
+        query_string = setup_data.get('edit_script', {}).get('query_string') or [('name', 'my-renamed-script'),
                         ('description', 'description')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'my-script')
+            script=setup_data.get('edit_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_generate_script_url(self, pretty_print, mist_core, owner_api_token):
@@ -124,13 +130,16 @@ class TestScriptsController:
         Generate script url
         """
         uri = mist_core.uri + '/api/v2/scripts/{script}/url'.format(
-            script=setup_data.get('script') or 'my-script')
+            script=setup_data.get('generate_script_url', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'generate_script_url' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_script(self, pretty_print, mist_core, owner_api_token):
@@ -138,17 +147,20 @@ class TestScriptsController:
 
         Get script
         """
-        query_string = setup_data.get('query_string', {}).get('get_script') or [('only', 'id'),
+        query_string = setup_data.get('get_script', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'my-script')
+            script=setup_data.get('get_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_scripts(self, pretty_print, mist_core, owner_api_token):
@@ -156,7 +168,7 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = setup_data.get('query_string', {}).get('list_scripts') or [('search', 'my-script'),
+        query_string = setup_data.get('list_scripts', {}).get('query_string') or [('search', 'my-script'),
                         ('sort', '-name'),
                         ('start', '3'),
                         ('limit', '56'),
@@ -169,7 +181,10 @@ class TestScriptsController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_scripts' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_run_script(self, pretty_print, mist_core, owner_api_token):
@@ -177,42 +192,42 @@ class TestScriptsController:
 
         Run script
         """
-        run_script_request = json.loads("""{
+        run_script_request = setup_data.get('run_script', {}).get(
+            'request_body') or json.loads("""{
   "su" : "false",
   "machine" : "my-machine",
   "job_id" : "ab74e2f0b7ae4999b1e4013e20dac418",
   "params" : "-v",
   "env" : "EXAMPLE_VAR=123"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'run_script')
-        if request_body:
-            run_script_request = request_body
-        else:
-            for k in run_script_request:
-                if k in setup_data:
-                    run_script_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    run_script_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(run_script_request)
         uri = mist_core.uri + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('script') or 'my-script')
+            script=setup_data.get('run_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             json=run_script_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'run_script' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
-# Mark delete-related test methods as last to be run
-for key in vars(TestScriptsController):
-    attr = getattr(TestScriptsController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestScriptsController, key, pytest.mark.order('last')(attr))
+if resource_name == 'machines':
+    # Impose custom ordering of machines test methods
+    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
+        method_name = k if k.startswith('test_') else f'test_{k}'
+        method = getattr(TestScriptsController, method_name)
+        setattr(TestScriptsController, method_name,
+                pytest.mark.order(order + 1)(method))
+else:
+    # Mark delete-related test methods as last to be run
+    for key in vars(TestScriptsController):
+        attr = getattr(TestScriptsController, key)
+        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+            setattr(TestScriptsController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class

@@ -4,11 +4,12 @@ import importlib
 
 import pytest
 
-from misttests.config import inject_vault_credentials
+from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 
 DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
+REDIRECT_OPERATIONS = ['ssh', 'console']
 
 resource_name = 'NetworksController'.replace('Controller', '').lower()
 resource_name_singular = resource_name.strip('s')
@@ -23,13 +24,17 @@ setup_data = {}
 
 
 @pytest.fixture(autouse=True)
-def conditional_delay(request):
+def after_test(request):
     yield
     method_name = request._pyfuncitem._obj.__name__
-    if method_name == 'test_create_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 240)
-    elif method_name == 'test_destroy_cluster':
-        time.sleep(setup_data.get(f'{method_name}_timeout') or 120)
+    test_operation = method_name.replace('test_', '')
+    callback = setup_data.get(test_operation, {}).get('callback')
+    if callable(callback):
+        assert callback()
+    else:
+        sleep = setup_data.get(test_operation, {}).get('sleep')
+        if sleep:
+            time.sleep(sleep)
 
 
 class TestNetworksController:
@@ -40,7 +45,8 @@ class TestNetworksController:
 
         Create network
         """
-        create_network_request = json.loads("""{
+        create_network_request = setup_data.get('create_network', {}).get(
+            'request_body') or json.loads("""{
   "cloud" : "my-cloud",
   "template" : "{}",
   "extra" : "{}",
@@ -49,18 +55,6 @@ class TestNetworksController:
   "dry" : true,
   "tags" : "{}"
 }""", strict=False)
-        request_body = setup_data.get('request_body', {}).get(
-            'create_network')
-        if request_body:
-            create_network_request = request_body
-        else:
-            for k in create_network_request:
-                if k in setup_data:
-                    create_network_request[k] = setup_data[k]
-                elif k == 'name' and resource_name_singular in setup_data:
-                    create_network_request[k] = setup_data[
-                        resource_name_singular]
-        inject_vault_credentials(create_network_request)
         uri = mist_core.uri + '/api/v2/networks'
         request = MistRequests(
             api_token=owner_api_token,
@@ -68,7 +62,10 @@ class TestNetworksController:
             json=create_network_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'create_network' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_delete_network(self, pretty_print, mist_core, owner_api_token):
@@ -76,16 +73,19 @@ class TestNetworksController:
 
         Delete network
         """
-        query_string = setup_data.get('query_string', {}).get('delete_network') or [('cloud', 'my-cloud')]
+        query_string = setup_data.get('delete_network', {}).get('query_string') or [('cloud', 'my-cloud')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'my-network')
+            network=setup_data.get('delete_network', {}).get('network') or setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'delete_network' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_edit_network(self, pretty_print, mist_core, owner_api_token):
@@ -93,16 +93,19 @@ class TestNetworksController:
 
         Edit network
         """
-        query_string = setup_data.get('query_string', {}).get('edit_network') or [('name', 'my-renamed-network')]
+        query_string = setup_data.get('edit_network', {}).get('query_string') or [('name', 'my-renamed-network')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'my-network')
+            network=setup_data.get('edit_network', {}).get('network') or setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'edit_network' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_get_network(self, pretty_print, mist_core, owner_api_token):
@@ -110,17 +113,20 @@ class TestNetworksController:
 
         Get network
         """
-        query_string = setup_data.get('query_string', {}).get('get_network') or [('only', 'id'),
+        query_string = setup_data.get('get_network', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = mist_core.uri + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('network') or 'my-network')
+            network=setup_data.get('get_network', {}).get('network') or setup_data.get('network') or 'my-network')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'get_network' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
     def test_list_networks(self, pretty_print, mist_core, owner_api_token):
@@ -128,7 +134,7 @@ class TestNetworksController:
 
         List networks
         """
-        query_string = setup_data.get('query_string', {}).get('list_networks') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = setup_data.get('list_networks', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),
@@ -142,15 +148,26 @@ class TestNetworksController:
             params=query_string)
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
-        assert_response_ok(response)
+        if 'list_networks' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
         print('Success!!!')
 
 
-# Mark delete-related test methods as last to be run
-for key in vars(TestNetworksController):
-    attr = getattr(TestNetworksController, key)
-    if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-        setattr(TestNetworksController, key, pytest.mark.order('last')(attr))
+if resource_name == 'machines':
+    # Impose custom ordering of machines test methods
+    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
+        method_name = k if k.startswith('test_') else f'test_{k}'
+        method = getattr(TestNetworksController, method_name)
+        setattr(TestNetworksController, method_name,
+                pytest.mark.order(order + 1)(method))
+else:
+    # Mark delete-related test methods as last to be run
+    for key in vars(TestNetworksController):
+        attr = getattr(TestNetworksController, key)
+        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
+            setattr(TestNetworksController, key, pytest.mark.order('last')(attr))
 
 if SETUP_MODULE_EXISTS:
     # Add setup and teardown methods to test class
