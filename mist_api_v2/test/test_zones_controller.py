@@ -4,6 +4,7 @@ import importlib
 
 import pytest
 
+from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_found
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
@@ -40,7 +41,7 @@ def after_test(request):
 class TestZonesController:
     """ZonesController integration test stubs"""
 
-    def test_create_zone(self, pretty_print, mist_core, owner_api_token):
+    def test_create_zone(self, pretty_print, owner_api_token):
         """Test case for create_zone
 
         Create zone
@@ -50,7 +51,7 @@ class TestZonesController:
   "name" : "my-zone",
   "cloud" : "my-cloud"
 }""", strict=False)
-        uri = mist_core.uri + '/api/v2/zones'
+        uri = MIST_URL + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -63,12 +64,12 @@ class TestZonesController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_delete_zone(self, pretty_print, mist_core, owner_api_token):
+    def test_delete_zone(self, pretty_print, owner_api_token):
         """Test case for delete_zone
 
         Delete zone
         """
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+        uri = MIST_URL + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('delete_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
@@ -81,12 +82,12 @@ class TestZonesController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_edit_zone(self, pretty_print, mist_core, owner_api_token):
+    def test_edit_zone(self, pretty_print, owner_api_token):
         """Test case for edit_zone
 
         Edit zone
         """
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+        uri = MIST_URL + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('edit_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
@@ -99,14 +100,14 @@ class TestZonesController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_get_zone(self, pretty_print, mist_core, owner_api_token):
+    def test_get_zone(self, pretty_print, owner_api_token):
         """Test case for get_zone
 
         Get zone
         """
         query_string = setup_data.get('get_zone', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/zones/{zone}'.format(
+        uri = MIST_URL + '/api/v2/zones/{zone}'.format(
             zone=setup_data.get('get_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
@@ -120,7 +121,7 @@ class TestZonesController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_list_zones(self, pretty_print, mist_core, owner_api_token):
+    def test_list_zones(self, pretty_print, owner_api_token):
         """Test case for list_zones
 
         List zones
@@ -132,7 +133,7 @@ class TestZonesController:
                         ('limit', '56'),
                         ('only', 'id'),
                         ('deref', 'auto')]
-        uri = mist_core.uri + '/api/v2/zones'
+        uri = MIST_URL + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
