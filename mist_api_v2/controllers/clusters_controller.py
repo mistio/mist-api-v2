@@ -79,13 +79,7 @@ def destroy_cluster(cluster):  # noqa: E501
         auth_context.check_perm('cluster', 'destroy', cluster.id)
     except Exception:
         return 'You are not authorized to perform this action', 403
-    kwargs = {
-        'name': cluster.name,
-    }
-    if cluster.provider == 'gce':
-        kwargs['zone'] = cluster.location.name or cluster.extra.get(
-            'location')
-    result = cluster.cloud.ctl.container.destroy_cluster(**kwargs)
+    result = cluster.ctl.destroy_cluster()
     if not result:
         return 'Cluster destruction failed', 404
     return 'Cluster destruction successful', 200
