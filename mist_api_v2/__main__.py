@@ -193,10 +193,10 @@ def log_request_to_elastic(exception):
     # elastic
     log.info('Bad exception occured, logging to rabbitmq')
     es_dict = log_dict.copy()
-    es_dict.pop('_exc_type')
+    es_dict.pop('_exc_type', '')
     es_dict['time'] = time.time()
     es_dict['traceback'] = es_dict.pop('_traceback', '')
-    es_dict['exception'] = es_dict.pop('_exc')
+    es_dict['exception'] = es_dict.pop('_exc', '')
     es_dict['type'] = 'exception'
     routing_key = '%s.%s' % (es_dict['owner_id'], es_dict['action'])
     pickler = jsonpickle.pickler.Pickler()
@@ -207,8 +207,8 @@ def log_request_to_elastic(exception):
     # log bad exception to file
     log.info('Bad exception occured, logging to file')
     lines = []
-    lines.append('Exception: %s' % log_dict.pop('_exc'))
-    lines.append('Exception type: %s' % log_dict.pop('_exc_type'))
+    lines.append('Exception: %s' % log_dict.pop('_exc', ''))
+    lines.append('Exception type: %s' % log_dict.pop('_exc_type', ''))
     lines.append('Time: %s' % time.strftime('%Y-%m-%d %H:%M %Z'))
     lines += (
         ['%s: %s' % (key, value) for key, value in list(log_dict.items())
