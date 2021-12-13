@@ -35,9 +35,9 @@ if (config.SENTRY_CONFIG.get('API_V2_URL') and
 
 app = connexion.App(__name__, specification_dir='./openapi/')
 app.app.json_encoder = encoder.JSONEncoder
-api_blueprint = app.add_api('openapi.yaml',
-                            arguments={'title': 'Mist API'},
-                            pythonic_params=True)
+app.add_api('openapi.yaml',
+            arguments={'title': 'Mist API'},
+            pythonic_params=True)
 application = app.app
 
 logging.basicConfig(level=config.PY_LOG_LEVEL,
@@ -62,18 +62,17 @@ def prepare_log(response):
             g.exc_flag is False):
         return response
 
+    # Find the action from flask's dict mapping endpoints to view functions.
     try:
-        operation = api_blueprint.specification.get_operation(
-            request.path, request.method.lower())
-        operation_id = operation['operationId']
+        action = application.view_functions[request.endpoint].__name__
     except KeyError:
-        log.error('Could not find operation id. Path:%s Method:%s',
+        log.error('Could not find action. Path:%s Method:%s',
                   request.path, request.method)
         return response
 
     log_dict = {
         'event_type': 'request',
-        'action': operation_id,
+        'action': action,
         'request_path': request.path,
         'request_method': request.method,
         'request_ip': request.environ['HTTP_X_REAL_IP'],
@@ -194,10 +193,10 @@ def log_request_to_elastic(exception):
     # elastic
     log.info('Bad exception occured, logging to rabbitmq')
     es_dict = log_dict.copy()
-    es_dict.pop('_exc_type')
+    es_dict.pop('_exc_type', '')
     es_dict['time'] = time.time()
     es_dict['traceback'] = es_dict.pop('_traceback', '')
-    es_dict['exception'] = es_dict.pop('_exc')
+    es_dict['exception'] = es_dict.pop('_exc', '')
     es_dict['type'] = 'exception'
     routing_key = '%s.%s' % (es_dict['owner_id'], es_dict['action'])
     pickler = jsonpickle.pickler.Pickler()
@@ -208,8 +207,8 @@ def log_request_to_elastic(exception):
     # log bad exception to file
     log.info('Bad exception occured, logging to file')
     lines = []
-    lines.append('Exception: %s' % log_dict.pop('_exc'))
-    lines.append('Exception type: %s' % log_dict.pop('_exc_type'))
+    lines.append('Exception: %s' % log_dict.pop('_exc', ''))
+    lines.append('Exception type: %s' % log_dict.pop('_exc_type', ''))
     lines.append('Time: %s' % time.strftime('%Y-%m-%d %H:%M %Z'))
     lines += (
         ['%s: %s' % (key, value) for key, value in list(log_dict.items())
