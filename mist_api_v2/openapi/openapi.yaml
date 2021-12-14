@@ -2255,6 +2255,13 @@ paths:
         schema:
           type: string
         style: simple
+      - explode: true
+        in: query
+        name: delete_domain_image
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           description: Machine undefine issued successfully
