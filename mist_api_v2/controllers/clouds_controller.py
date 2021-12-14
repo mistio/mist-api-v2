@@ -164,7 +164,7 @@ def remove_cloud(cloud):  # noqa: E501
     cloud_id = result_data.get('id')
     auth_context.check_perm('cloud', 'remove', cloud_id)
     remove_cloud(auth_context.owner, cloud_id)
-    return None, 200
+    return 'Cloud removed successfully', 200
 
 
 def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
@@ -226,7 +226,7 @@ def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
             cloud_obj.ctl.container_enable()
         else:
             cloud_obj.ctl.container_disable()
-    return None, 200
+    return 'Cloud updated successfully', 200
 
 
 def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
