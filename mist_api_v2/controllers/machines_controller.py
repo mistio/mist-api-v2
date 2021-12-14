@@ -618,7 +618,7 @@ def suspend_machine(machine):  # noqa: E501
     return 'Machine suspend issued successfully'
 
 
-def undefine_machine(machine):  # noqa: E501
+def undefine_machine(machine, delete_domain_image=True):  # noqa: E501
     """Undefine machine
 
     Undefine target machine # noqa: E501
@@ -642,7 +642,7 @@ def undefine_machine(machine):  # noqa: E501
         auth_context.owner.id, 'request', 'undefine_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.undefine()
+    machine.ctl.undefine(delete_domain_image=delete_domain_image)
     return 'Undefined machine `%s`' % machine.name, 200
 
 
