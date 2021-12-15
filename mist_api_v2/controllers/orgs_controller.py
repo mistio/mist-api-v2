@@ -23,7 +23,10 @@ def get_member(org, member, only=None):  # noqa: E501
 
     :rtype: GetOrgMemberResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     search = f'id:{org}'
 
     try:
@@ -62,7 +65,10 @@ def get_org(org, only=None, deref=None):  # noqa: E501
 
     :rtype: GetOrgResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     search = f'id={org}'
     result = get_resource(auth_context, 'orgs', search=search, only=only)
     return GetOrgResponse(data=result['data'], meta=result['meta'])
@@ -88,7 +94,10 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
 
     :rtype: ListOrgMembersResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         search = f'id={org}'
         org = get_resource(auth_context, 'orgs', search=search)['data']
@@ -141,7 +150,10 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
 
     :rtype: ListOrgTeamsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         search = f'id={org}'
         org = get_resource(auth_context, 'orgs', search=search)['data']
@@ -195,7 +207,10 @@ def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only
 
     :rtype: ListOrgsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(auth_context, 'orgs', search=search, only=only,
                             sort=sort, start=start, limit=limit, deref=deref)
     return ListOrgsResponse(data=result['data'], meta=result['meta'])
