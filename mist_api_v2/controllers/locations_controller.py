@@ -20,7 +20,10 @@ def get_location(location, only=None, deref=None):  # noqa: E501
 
     :rtype: GetLocationResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(
         auth_context, 'location', search=location, only=only, deref=deref)
     return GetLocationResponse(data=result['data'], meta=result['meta'])
@@ -48,7 +51,10 @@ def list_locations(cloud=None, search=None, sort=None, start=None, limit=None, o
 
     :rtype: ListLocationsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'location', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref)
