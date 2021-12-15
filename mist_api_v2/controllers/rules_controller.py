@@ -2,9 +2,14 @@ import logging
 
 import connexion
 
+from mongoengine import ValidationError
+
 from mist.api import config
 from mist.api.helpers import delete_none
 from mist.api.rules.models import RULES
+
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import PolicyUnauthorizedError
 
 from mist_api_v2.models.add_rule_request import AddRuleRequest  # noqa: E501
 from mist_api_v2.models.edit_rule_request import EditRuleRequest  # noqa: E501
@@ -29,8 +34,14 @@ def add_rule(add_rule_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         add_rule_request = AddRuleRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
-    auth_context.check_perm('rule', 'add', None)
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        auth_context.check_perm('rule', 'add', None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     kwargs = add_rule_request.to_dict()
     arbitrary = kwargs['selectors'] is None
     delete_none(kwargs)
@@ -39,7 +50,10 @@ def add_rule(add_rule_request=None):  # noqa: E501
     rule_key = f'{"arbitrary" if arbitrary else "resource"}-{data_type}'
     rule_cls = RULES[rule_key]
     # Add new rule.
-    rule = rule_cls.add(auth_context, **kwargs)
+    try:
+        rule = rule_cls.add(auth_context, **kwargs)
+    except BadRequestError as e:
+        return str(e), 400
     # Advance rule counter.
     auth_context.owner.rule_counter += 1
     auth_context.owner.save()
@@ -58,13 +72,19 @@ def delete_rule(rule):  # noqa: E501
     """
     from mist.api.methods import list_resources
     from mist.api.notifications.models import Notification
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [rule], total = list_resources(
             auth_context, 'rule', search=rule, limit=1)
     except ValueError:
         return 'Rule does not exist', 404
-    auth_context.check_perm('rule', 'delete', rule.id)
+    try:
+        auth_context.check_perm('rule', 'delete', rule.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     rule.ctl.set_auth_context(auth_context)
     rule.ctl.delete()
     Notification.objects(
@@ -89,16 +109,25 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
     from mist.api.notifications.models import Notification
     if connexion.request.is_json:
         edit_rule_request = EditRuleRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [rule], total = list_resources(
             auth_context, 'rule', search=rule, limit=1)
     except ValueError:
         return 'Rule does not exist', 404
-    auth_context.check_perm('rule', 'edit', rule.id)
+    try:
+        auth_context.check_perm('rule', 'edit', rule.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     rule.ctl.set_auth_context(auth_context)
     kwargs = delete_none(edit_rule_request.to_dict())
-    rule.ctl.update(**kwargs)
+    try:
+        rule.ctl.update(**kwargs)
+    except (BadRequestError, ValidationError) as e:
+        return str(e), 400
     Notification.objects(
         owner=auth_context.owner, rtype='rule', rid=rule.id
     ).delete()
@@ -118,7 +147,10 @@ def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
     :rtype: ListRulesResponse
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     rules, total = list_resources(auth_context, 'rule',
                                   search=search, sort=sort, limit=limit)
     meta = {
@@ -146,13 +178,19 @@ def rename_rule(rule, name):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [rule], total = list_resources(
             auth_context, 'rule', search=rule, limit=1)
     except ValueError:
         return 'Rule does not exist', 404
-    auth_context.check_perm('rule', 'write', rule.id)
+    try:
+        auth_context.check_perm('rule', 'write', rule.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     if not auth_context.is_owner():
         return 'You are not authorized to perform this action', 403
     rule.ctl.rename(name)
@@ -172,13 +210,19 @@ def toggle_rule(rule, action):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [rule], total = list_resources(
             auth_context, 'rule', search=rule, limit=1)
     except ValueError:
         return 'Rule does not exist', 404
-    auth_context.check_perm('rule', 'write', rule.id)
+    try:
+        auth_context.check_perm('rule', 'write', rule.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     if not auth_context.is_owner():
         return 'You are not authorized to perform this action', 403
     getattr(rule.ctl, action)()
@@ -196,7 +240,10 @@ def get_rule(rule):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [rule], total = list_resources(
             auth_context, 'rule', search=rule, limit=1)
