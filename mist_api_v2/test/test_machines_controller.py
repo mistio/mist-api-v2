@@ -426,11 +426,13 @@ class TestMachinesController:
 
         Undefine machine
         """
+        query_string = setup_data.get('undefine_machine', {}).get('query_string') or [('delete_domain_image', 'True')]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/undefine'.format(
             machine=setup_data.get('undefine_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
-            uri=uri)
+            uri=uri,
+            params=query_string)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         if 'undefine_machine' in REDIRECT_OPERATIONS:
