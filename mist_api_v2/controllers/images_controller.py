@@ -20,7 +20,10 @@ def get_image(image, only=None, deref=None):  # noqa: E501
 
     :rtype: GetImageResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(
         auth_context, 'image', search=image, only=only, deref=deref
     )
@@ -49,7 +52,10 @@ def list_images(cloud=None, search=None, sort=None, start=None, limit=None, only
 
     :rtype: ListImagesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'image', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref
