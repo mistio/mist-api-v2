@@ -1,5 +1,10 @@
 import connexion
 
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import ForbiddenError
+from mist.api.exceptions import MistError
+from mist.api.exceptions import InternalServerError
+from mist.api.exceptions import PolicyUnauthorizedError
 
 import mist.api.machines.methods as methods
 
@@ -17,16 +22,29 @@ def create_snapshot(machine, name):  # noqa: E501
     :rtype: object
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [machine], total = list_resources(
             auth_context, 'machine', search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    auth_context.check_perm('machine', 'read', machine.id)
-    auth_context.check_perm('machine', 'list_snapshots', machine.id)
-    auth_context.check_perm('machine', 'create_snapshots', machine.id)
-    result = machine.ctl.create_snapshot(name)
+    try:
+        auth_context.check_perm('machine', 'read', machine.id)
+        auth_context.check_perm('machine', 'list_snapshots', machine.id)
+        auth_context.check_perm('machine', 'create_snapshots', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        result = machine.ctl.create_snapshot(name)
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except BadRequestError as e:
+        return str(e), 400
+    except MistError as e:
+        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'create_snapshot', auth_context.user, result)
     return {'name': name}
@@ -43,15 +61,24 @@ def list_snapshots(machine):  # noqa: E501
     :rtype: ListSnapshotsResponse
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [machine], total = list_resources(
             auth_context, 'machine', search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    auth_context.check_perm('machine', 'read', machine.id)
-    auth_context.check_perm('machine', 'list_snapshots', machine.id)
-    return machine.ctl.list_snapshots()
+    try:
+        auth_context.check_perm('machine', 'read', machine.id)
+        auth_context.check_perm('machine', 'list_snapshots', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        return machine.ctl.list_snapshots()
+    except (MistError, InternalServerError) as e:
+        return str(e), 500
 
 
 def remove_snapshot(machine, snapshot):  # noqa: E501
@@ -67,16 +94,29 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [machine], total = list_resources(
             auth_context, 'machine', search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    auth_context.check_perm('machine', 'read', machine.id)
-    auth_context.check_perm('machine', 'list_snapshots', machine.id)
-    auth_context.check_perm('machine', 'create_snapshots', machine.id)
-    result = machine.ctl.remove_snapshot(snapshot)
+    try:
+        auth_context.check_perm('machine', 'read', machine.id)
+        auth_context.check_perm('machine', 'list_snapshots', machine.id)
+        auth_context.check_perm('machine', 'create_snapshots', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        result = machine.ctl.remove_snapshot(snapshot)
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except BadRequestError as e:
+        return str(e), 400
+    except MistError as e:
+        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'remove_snapshot', auth_context.user, result)
     return 'Snapshot removed successfully'
@@ -95,16 +135,27 @@ def revert_to_snapshot(machine, snapshot):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [machine], total = list_resources(
             auth_context, 'machine', search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    auth_context.check_perm('machine', 'read', machine.id)
-    auth_context.check_perm('machine', 'list_snapshots', machine.id)
-    auth_context.check_perm('machine', 'revert_to_snapshots', machine.id)
-    result = machine.ctl.revert_to_snapshot(snapshot)
+    try:
+        auth_context.check_perm('machine', 'read', machine.id)
+        auth_context.check_perm('machine', 'list_snapshots', machine.id)
+        auth_context.check_perm('machine', 'revert_to_snapshots', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        result = machine.ctl.revert_to_snapshot(snapshot)
+    except BadRequestError as e:
+        return str(e), 400
+    except MistError as e:
+        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'revert_to_snapshot', auth_context.user, result)
     return 'Revert machine to snapshot issued successfully'
