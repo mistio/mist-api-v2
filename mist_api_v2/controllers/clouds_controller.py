@@ -265,7 +265,7 @@ def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
             cloud_obj.ctl.container_enable()
         else:
             cloud_obj.ctl.container_disable()
-    return None, 200
+    return 'Cloud updated successfully', 200
 
 
 def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
