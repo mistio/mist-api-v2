@@ -28,7 +28,10 @@ def get_datapoints(query, search=None, tags=None, start=None, end=None, step=Non
 
     :rtype: GetDatapointsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
 
     def dictify_time_args(start, stop, step):
         time_args = {}
