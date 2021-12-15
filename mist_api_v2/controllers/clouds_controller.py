@@ -12,8 +12,13 @@ from mist_api_v2.models.edit_cloud_request import EditCloudRequest  # noqa: E501
 from mist_api_v2.models.get_cloud_response import GetCloudResponse  # noqa: E501
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
 
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import NotFoundError
+from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import CloudExistsError
+from mist.api.exceptions import CloudUnavailableError
 from mist.api.exceptions import CloudUnauthorizedError
+from mist.api.exceptions import InternalServerError
 
 from .base import list_resources, get_resource
 
@@ -84,9 +89,14 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     from mist.api.helpers import trigger_session_update
     from mist.api.tasks import async_session_update
     from mist.api.tag.methods import add_tags_to_resource
-
-    auth_context = connexion.context['token_info']['auth_context']
-    cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        cloud_tags, _ = auth_context.check_perm('cloud', 'add', None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     provider = add_cloud_request.provider
     provider = PROVIDER_ALIASES.get(provider, provider)
     params = add_cloud_request.to_dict()
@@ -156,15 +166,24 @@ def remove_cloud(cloud):  # noqa: E501
     :rtype: None
     """
     from mist.api.clouds.methods import remove_cloud
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'cloud', search=cloud)
     result_data = result.get('data')
     if not result_data:
         return 'Cloud does not exist', 404
     cloud_id = result_data.get('id')
-    auth_context.check_perm('cloud', 'remove', cloud_id)
-    remove_cloud(auth_context.owner, cloud_id)
-    return None, 200
+    try:
+        auth_context.check_perm('cloud', 'remove', cloud_id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        remove_cloud(auth_context.owner, cloud_id)
+    except NotFoundError:
+        return 'Cloud does not exist', 404
+    return 'Cloud removed successfully', 200
 
 
 def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
@@ -184,7 +203,10 @@ def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
 
     if connexion.request.is_json:
         edit_cloud_request = EditCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'cloud', search=cloud)
     result_data = result.get('data')
     if not result_data:
@@ -197,18 +219,35 @@ def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
     if rename:
         from mist.api.clouds.methods import rename_cloud
         new_name = edit_cloud_request.name
-        rename_cloud(auth_context.owner, cloud_id, new_name)
+        try:
+            rename_cloud(auth_context.owner, cloud_id, new_name)
+        except BadRequestError as e:
+            return str(e), 400
+        except CloudExistsError as e:
+            return str(e), 409
     credentials = edit_cloud_request.credentials
     update_credentials = credentials is not None
     if update_credentials:
-        auth_context.check_perm('cloud', 'edit', cloud_id)
+        try:
+            auth_context.check_perm('cloud', 'edit', cloud_id)
+        except PolicyUnauthorizedError:
+            return 'You are not authorized to perform this action', 403
         log.info(f'Updating cloud: {cloud_id}')
         new_credentials = {
             cred: value
             for cred, value in credentials.to_dict().items()
             if value is not None
         }
-        cloud_obj.ctl.update(**new_credentials)
+        try:
+            cloud_obj.ctl.update(**new_credentials)
+        except BadRequestError as e:
+            return str(e), 400
+        except CloudExistsError as e:
+            return str(e), 409
+        except InternalServerError as e:
+            return str(e), 500
+        except CloudUnavailableError as e:
+            return str(e), 503
         log.info(f'Cloud {cloud_id} updated successfully.')
         trigger_session_update(auth_context.owner, ['clouds'])
     features = edit_cloud_request.features
@@ -245,7 +284,10 @@ def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
 
     :rtype: GetCloudResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'cloud',
                           search=cloud, only=only, deref=deref)
     return GetCloudResponse(data=result['data'], meta=result['meta'])
@@ -271,7 +313,10 @@ def list_clouds(search=None, sort=None, start=0, limit=100, only=None, deref='au
 
     :rtype: ListCloudsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(auth_context, 'cloud', search=search,
                             only=only, sort=sort, limit=limit,
                             deref=deref)
