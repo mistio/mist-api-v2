@@ -11,9 +11,11 @@ from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import NotFoundError
 from mist.api.exceptions import ForbiddenError
 from mist.api.exceptions import MachineNameValidationError
+from mist.api.exceptions import MistError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import MachineUnauthorizedError
 from mist.api.exceptions import ServiceUnavailableError
+from mist.api.exceptions import InternalServerError
 
 from mist.api.methods import list_resources as list_resources_v1
 from mist.api.tasks import multicreate_async_v2
@@ -46,14 +48,20 @@ def clone_machine(machine, name, run_async=True):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-    auth_context.check_perm('machine', 'clone', machine.id)
+    try:
+        auth_context.check_perm('machine', 'clone', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'clone_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
@@ -66,7 +74,12 @@ def clone_machine(machine, name, run_async=True):  # noqa: E501
         clone_machine_async.send_with_options(
             args=args, kwargs=kwargs, delay=1_000)
     else:
-        machine.ctl.clone(name)
+        try:
+            machine.ctl.clone(name)
+        except ForbiddenError as e:
+            return str(e), 403
+        except InternalServerError as e:
+            return str(e), 500
     return 'Machine clone issued successfully'
 
 
@@ -82,7 +95,10 @@ def console(machine):  # noqa: E501
     """
     from mist.api.methods import list_resources
     from mist.api.methods import get_console_proxy_uri
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [machine], total = list_resources(
             auth_context, 'machine',
@@ -91,8 +107,11 @@ def console(machine):  # noqa: E501
     except ValueError:
         return 'Machine does not exist', 404
     cloud_id = machine.cloud.id
-    auth_context.check_perm("cloud", "read", cloud_id)
-    auth_context.check_perm("machine", "read", machine.id)
+    try:
+        auth_context.check_perm("cloud", "read", cloud_id)
+        auth_context.check_perm("machine", "read", machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     if not machine.cloud.ctl.has_feature('console'):
         return 'Action not supported', 501
     proxy_uri = get_console_proxy_uri(machine)
@@ -127,9 +146,10 @@ def create_machine(create_machine_request=None):  # noqa: E501
 
     if connexion.request.is_json:
         create_machine_request = CreateMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
-
-    auth_context = connexion.context['token_info']['auth_context']
-
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     if create_machine_request.cloud:
         cloud_search = create_machine_request.cloud
     elif create_machine_request.provider:
@@ -253,20 +273,30 @@ def destroy_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
-    auth_context.check_perm('machine', 'destroy', machine.id)
+    try:
+        auth_context.check_perm('machine', 'destroy', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'destroy_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.destroy()
+    try:
+        machine.ctl.destroy()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except (InternalServerError, MistError) as e:
+        return str(e), 500
     return 'Destroyed machine `%s`' % machine.name, 200
 
 
@@ -286,7 +316,10 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
     if connexion.request.is_json:
         edit_machine_request = EditMachineRequest.from_dict(connexion.request.get_json())  # noqa: E501
     params = delete_none(edit_machine_request.to_dict())
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
@@ -303,7 +336,10 @@ def edit_machine(machine, edit_machine_request=None):  # noqa: E501
         auth_context.owner.id, 'request', 'edit_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    auth_context.check_perm('machine', 'edit', machine.id)
+    try:
+        auth_context.check_perm('machine', 'edit', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     machine.ctl.update(auth_context, params)
     return 'Machine successfully updated'
 
@@ -322,7 +358,10 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
 
     :rtype: GetMachineResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'machine', search=machine, only=only,
                           deref=deref)
 
@@ -351,7 +390,10 @@ def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=N
 
     :rtype: ListMachinesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'machine', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref
@@ -370,20 +412,32 @@ def reboot_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
-    auth_context.check_perm('machine', 'reboot', machine.id)
+    try:
+        auth_context.check_perm('machine', 'reboot', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'reboot_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.reboot()
+    try:
+        machine.ctl.reboot()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except BadRequestError as e:
+        return str(e), 400
+    except MistError as e:
+        return str(e), 500
     return 'Rebooted machine `%s`' % machine.name, 200
 
 
@@ -400,7 +454,10 @@ def rename_machine(machine, name):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
@@ -413,8 +470,16 @@ def rename_machine(machine, name):  # noqa: E501
         auth_context.owner.id, 'request', 'rename_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    auth_context.check_perm('machine', 'rename', machine.id)
-    result = machine.ctl.rename(name)
+    try:
+        auth_context.check_perm('machine', 'rename', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        result = machine.ctl.rename(name)
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except (InternalServerError, MistError) as e:
+        return str(e), 500
     methods.run_post_action_hooks(machine, 'rename', auth_context.user, result)
     return 'Machine renamed successfully'
 
@@ -432,7 +497,10 @@ def resize_machine(machine, size):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
@@ -447,8 +515,11 @@ def resize_machine(machine, size):  # noqa: E501
                                        search=size, limit=1)
     except ValueError:
         return 'Size does not exist', 404
-    _, constraints = auth_context.check_perm(
-        'machine', 'resize', machine.id)
+    try:
+        _, constraints = auth_context.check_perm(
+            'machine', 'resize', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     # check cost constraint
     cost_constraint = constraints.get('cost', {})
     if cost_constraint:
@@ -469,7 +540,12 @@ def resize_machine(machine, size):  # noqa: E501
         auth_context.owner.id, 'request', 'resize_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    result = machine.ctl.resize(size.id, {})
+    try:
+        result = machine.ctl.resize(size.id, {})
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except BadRequestError as e:
+        return str(e), 400
     methods.run_post_action_hooks(machine, 'resize', auth_context.user, result)
     return 'Machine resize issued successfully'
 
@@ -485,7 +561,10 @@ def resume_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
@@ -498,8 +577,16 @@ def resume_machine(machine):  # noqa: E501
         auth_context.owner.id, 'request', 'resume_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    auth_context.check_perm('machine', 'resume', machine.id)
-    result = machine.ctl.resume()
+    try:
+        auth_context.check_perm('machine', 'resume', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        result = machine.ctl.resume()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except InternalServerError as e:
+        return str(e), 500
     methods.run_post_action_hooks(machine, 'resume', auth_context.user, result)
     return 'Machine resume issued successfully'
 
@@ -516,18 +603,24 @@ def ssh(machine):  # noqa: E501
     """
     from mist.api.methods import list_resources
     from mist.api.machines.methods import prepare_ssh_uri
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     search = f'{machine} state=running'
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=search, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
-    auth_context.check_perm("cloud", "read", machine.cloud.id)
-
-    ssh_uri = prepare_ssh_uri(auth_context, machine)
-
+    try:
+        auth_context.check_perm("cloud", "read", machine.cloud.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        ssh_uri = prepare_ssh_uri(auth_context, machine)
+    except ForbiddenError:
+        return 'You are not authorized to perform this action', 403
     return 'Found', 302, {'Location': ssh_uri}
 
 
@@ -542,20 +635,30 @@ def start_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
-    auth_context.check_perm('machine', 'start', machine.id)
+    try:
+        auth_context.check_perm('machine', 'start', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'start_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.start()
+    try:
+        machine.ctl.start()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except (InternalServerError, MistError) as e:
+        return str(e), 500
     return 'Started machine `%s`' % machine.name, 200
 
 
@@ -570,20 +673,30 @@ def stop_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
-    auth_context.check_perm('machine', 'stop', machine.id)
+    try:
+        auth_context.check_perm('machine', 'stop', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'stop_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.stop()
+    try:
+        machine.ctl.stop()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except (InternalServerError, MistError) as e:
+        return str(e), 500
     return 'Stopped machine `%s`' % machine.name, 200
 
 
@@ -598,7 +711,10 @@ def suspend_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
@@ -607,12 +723,20 @@ def suspend_machine(machine):  # noqa: E501
         return 'Machine does not exist', 404
     if not methods.run_pre_action_hooks(machine, 'suspend', auth_context.user):
         return 'OK', 200  # webhook requires stopping action propagation
-    auth_context.check_perm('machine', 'suspend', machine.id)
+    try:
+        auth_context.check_perm('machine', 'suspend', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'suspend_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    result = machine.ctl.suspend()
+    try:
+        result = machine.ctl.suspend()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except (InternalServerError, MistError) as e:
+        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'suspend', auth_context.user, result)
     return 'Machine suspend issued successfully'
@@ -629,20 +753,32 @@ def undefine_machine(machine):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [machine], total = list_resources(auth_context, 'machine',
                                           search=machine, limit=1)
     except ValueError:
         return 'Machine does not exist', 404
-
-    auth_context.check_perm('machine', 'undefine', machine.id)
+    try:
+        auth_context.check_perm('machine', 'undefine', machine.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'undefine_machine',
         machine_id=machine.id, user_id=auth_context.user.id,
     )
-    machine.ctl.undefine()
+    try:
+        machine.ctl.undefine()
+    except ForbiddenError:
+        return 'Action not supported on target machine', 422
+    except BadRequestError as e:
+        return str(e), 400
+    except MistError as e:
+        return str(e), 500
     return 'Undefined machine `%s`' % machine.name, 200
 
 
@@ -681,14 +817,14 @@ def associate_key(machine, key_machine_association=None):  # noqa: E501
         auth_context.check_perm('machine', 'associate_key', machine.id)
         auth_context.check_perm('cloud', 'read', machine.cloud.id)
         auth_context.check_perm('key', 'read', key.id)
-    except Exception:
+    except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     try:
         key.ctl.associate(machine, username=ssh_user, port=ssh_port)
+    except BadRequestError as e:
+        return str(e), 400
     except (MachineUnauthorizedError, ServiceUnavailableError):
         return 'Could not connect to target machine', 503
-    except Exception:
-        return 'Action not supported on target machine', 422
     return 'Association successful', 200
 
 
@@ -724,7 +860,7 @@ def disassociate_key(machine, key_machine_association=None):  # noqa: E501
     try:
         auth_context.check_perm("machine", "disassociate_key", machine.id)
         auth_context.check_perm("cloud", "read", machine.cloud.id)
-    except Exception:
+    except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     try:
         key.ctl.disassociate(machine)
