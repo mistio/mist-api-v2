@@ -18,7 +18,10 @@ def get_job(job_id):  # noqa: E501
     """
     from mist.api.logs.methods import get_story
     from mist.api.exceptions import NotFoundError
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         story = get_story(auth_context.owner.id, job_id)
     except NotFoundError:
