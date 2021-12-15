@@ -9,7 +9,7 @@ from mist.api.scripts.models import ExecutableScript
 from mist.api.scripts.models import AnsibleScript
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import ScriptNameExistsError
-from mist.api.exceptions import ForbiddenError
+from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tasks import async_session_update
 from mist.api.machines.models import Machine
@@ -38,8 +38,14 @@ def add_script(add_script_request=None):  # noqa: E501
     if connexion.request.is_json:
         add_script_request = AddScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
     params = add_script_request.to_dict()
-    auth_context = connexion.context['token_info']['auth_context']
-    script_tags, _ = auth_context.check_perm("script", "add", None)
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        script_tags, _ = auth_context.check_perm("script", "add", None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     kwargs = {}
     for key in params:
         if key is None:
@@ -53,11 +59,11 @@ def add_script(add_script_request=None):  # noqa: E501
     elif exec_type == 'ansible':
         script_cls = AnsibleScript
     else:
-        raise BadRequestError(
-            "Param 'exec_type' must be in ('executable', 'ansible')."
-        )
+        return "Param 'exec_type' must be in ('executable', 'ansible').", 400
     try:
         script = script_cls.add(auth_context.owner, name, **kwargs)
+    except BadRequestError as e:
+        return str(e), 400
     except ScriptNameExistsError as e:
         return str(e), 409
     # Set ownership.
@@ -82,14 +88,20 @@ def delete_script(script):  # noqa: E501
 
     :rtype: None
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'script', search=script)
     result_data = result.get('data')
     if not result_data:
         return 'Script does not exist', 404
     from mist.api.scripts.models import Script
     script_id = result_data.get('id')
-    auth_context.check_perm('script', 'remove', script_id)
+    try:
+        auth_context.check_perm('script', 'remove', script_id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     script = Script.objects.get(owner=auth_context.owner, id=script_id,
                                 deleted=None)
     script.ctl.delete()
@@ -127,8 +139,8 @@ def download_script(script):  # noqa: E501
         params = dict(connexion.request.args)
         try:
             mac_verify(params)
-        except Exception as exc:
-            raise ForbiddenError(exc.args)
+        except ValueError as e:
+            return str(e), 400
         script_id = params['object_id']
         script = Script.objects.get(id=script_id, deleted=None)
     else:
@@ -139,8 +151,14 @@ def download_script(script):  # noqa: E501
         script_id = result_data.get('id')
         script = Script.objects.get(owner=auth_context.owner,
                                     id=script_id, deleted=None)
-        auth_context.check_perm('script', 'read', script_id)
-    file_kwargs = script.ctl.get_file()
+        try:
+            auth_context.check_perm('script', 'read', script_id)
+        except PolicyUnauthorizedError:
+            return 'You are not authorized to perform this action', 403
+    try:
+        file_kwargs = script.ctl.get_file()
+    except BadRequestError as e:
+        return str(e), 400
     return file_kwargs['body']
 
 
@@ -159,14 +177,19 @@ def edit_script(script, name=None, description=None):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [script], total = list_resources(auth_context, 'script',
                                          search=script, limit=1)
     except ValueError:
         return 'Script does not exist', 404
-
-    auth_context.check_perm('script', 'edit', script.id)
+    try:
+        auth_context.check_perm('script', 'edit', script.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     script.ctl.edit(name, description)
     return 'Updated script `%s`' % script.name, 200
 
@@ -181,7 +204,10 @@ def generate_script_url(script):  # noqa: E501
 
     :rtype: InlineResponse2001
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'script', search=script)
     result_data = result.get('data')
     if not result_data:
@@ -190,7 +216,10 @@ def generate_script_url(script):  # noqa: E501
     script_id = result_data.get('id')
     script = Script.objects.get(owner=auth_context.owner,
                                 id=script_id, deleted=None)
-    return script.ctl.generate_signed_url_v2()
+    try:
+        return script.ctl.generate_signed_url_v2()
+    except ValueError as e:
+        return str(e), 400
 
 
 def get_script(script, only=None, deref='auto'):  # noqa: E501
@@ -207,7 +236,10 @@ def get_script(script, only=None, deref='auto'):  # noqa: E501
 
     :rtype: GetScriptResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'script',
                           search=script, only=only, deref=deref)
     return GetScriptResponse(data=result['data'], meta=result['meta'])
@@ -233,7 +265,10 @@ def list_scripts(search=None, sort=None, start=None, limit=None, only=None, dere
 
     :rtype: ListScriptsResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(auth_context, 'script', search=search,
                             only=only, sort=sort, limit=limit,
                             deref=deref)
@@ -252,7 +287,10 @@ def run_script(script, run_script_request=None):  # noqa: E501
 
     :rtype: RunScriptResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     if connexion.request.is_json:
         run_script_request = RunScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
     result = get_resource(auth_context, 'script', search=script)
@@ -284,9 +322,12 @@ def run_script(script, run_script_request=None):  # noqa: E501
     machine = Machine.objects.get(id=machine_id,
                                   state__ne='terminated')
     cloud_id = machine.cloud.id
-    auth_context.check_perm("cloud", "read", cloud_id)
-    auth_context.check_perm("machine", "run_script", machine.id)
-    auth_context.check_perm('script', 'run', script_id)
+    try:
+        auth_context.check_perm("cloud", "read", cloud_id)
+        auth_context.check_perm("machine", "run_script", machine.id)
+        auth_context.check_perm('script', 'run', script_id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     job_id = job_id or uuid.uuid4().hex
     tasks.run_script.send_with_options(
         args=(auth_context.serialize(), script.id, machine.id),
