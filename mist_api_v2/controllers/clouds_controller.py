@@ -244,8 +244,6 @@ def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
             return str(e), 400
         except CloudExistsError as e:
             return str(e), 409
-        except InternalServerError as e:
-            return str(e), 500
         except CloudUnavailableError as e:
             return str(e), 503
         log.info(f'Cloud {cloud_id} updated successfully.')
