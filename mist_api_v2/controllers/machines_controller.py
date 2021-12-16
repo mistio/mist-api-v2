@@ -78,8 +78,6 @@ def clone_machine(machine, name, run_async=True):  # noqa: E501
             machine.ctl.clone(name)
         except ForbiddenError as e:
             return str(e), 403
-        except InternalServerError as e:
-            return str(e), 500
     return 'Machine clone issued successfully'
 
 
@@ -295,8 +293,6 @@ def destroy_machine(machine):  # noqa: E501
         machine.ctl.destroy()
     except ForbiddenError:
         return 'Action not supported on target machine', 422
-    except (InternalServerError, MistError) as e:
-        return str(e), 500
     return 'Destroyed machine `%s`' % machine.name, 200
 
 
@@ -436,8 +432,6 @@ def reboot_machine(machine):  # noqa: E501
         return 'Action not supported on target machine', 422
     except BadRequestError as e:
         return str(e), 400
-    except MistError as e:
-        return str(e), 500
     return 'Rebooted machine `%s`' % machine.name, 200
 
 
@@ -478,8 +472,6 @@ def rename_machine(machine, name):  # noqa: E501
         result = machine.ctl.rename(name)
     except ForbiddenError:
         return 'Action not supported on target machine', 422
-    except (InternalServerError, MistError) as e:
-        return str(e), 500
     methods.run_post_action_hooks(machine, 'rename', auth_context.user, result)
     return 'Machine renamed successfully'
 
@@ -585,8 +577,6 @@ def resume_machine(machine):  # noqa: E501
         result = machine.ctl.resume()
     except ForbiddenError:
         return 'Action not supported on target machine', 422
-    except InternalServerError as e:
-        return str(e), 500
     methods.run_post_action_hooks(machine, 'resume', auth_context.user, result)
     return 'Machine resume issued successfully'
 
@@ -657,8 +647,6 @@ def start_machine(machine):  # noqa: E501
         machine.ctl.start()
     except ForbiddenError:
         return 'Action not supported on target machine', 422
-    except (InternalServerError, MistError) as e:
-        return str(e), 500
     return 'Started machine `%s`' % machine.name, 200
 
 
@@ -695,8 +683,6 @@ def stop_machine(machine):  # noqa: E501
         machine.ctl.stop()
     except ForbiddenError:
         return 'Action not supported on target machine', 422
-    except (InternalServerError, MistError) as e:
-        return str(e), 500
     return 'Stopped machine `%s`' % machine.name, 200
 
 
@@ -735,8 +721,6 @@ def suspend_machine(machine):  # noqa: E501
         result = machine.ctl.suspend()
     except ForbiddenError:
         return 'Action not supported on target machine', 422
-    except (InternalServerError, MistError) as e:
-        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'suspend', auth_context.user, result)
     return 'Machine suspend issued successfully'
@@ -777,8 +761,6 @@ def undefine_machine(machine):  # noqa: E501
         return 'Action not supported on target machine', 422
     except BadRequestError as e:
         return str(e), 400
-    except MistError as e:
-        return str(e), 500
     return 'Undefined machine `%s`' % machine.name, 200
 
 
