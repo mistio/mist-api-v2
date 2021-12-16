@@ -62,7 +62,7 @@ def create_volume(create_volume_request=None):  # noqa: E501
     try:
         volume = cloud.ctl.storage.create_volume(**params)
     except (VolumeCreationError, VolumeListingError) as e:
-        return str(e), 500
+        return str(e), 503
     owner = auth_context.owner
     if tags:
         add_tags_to_resource(owner, volume, tags)
