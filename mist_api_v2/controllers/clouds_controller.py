@@ -18,7 +18,6 @@ from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import CloudExistsError
 from mist.api.exceptions import CloudUnavailableError
 from mist.api.exceptions import CloudUnauthorizedError
-from mist.api.exceptions import InternalServerError
 
 from .base import list_resources, get_resource
 

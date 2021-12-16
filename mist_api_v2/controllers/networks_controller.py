@@ -6,7 +6,6 @@ from mist.api.tag.methods import add_tags_to_resource
 
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import PolicyUnauthorizedError
-from mist.api.exceptions import MistError
 from mist.api.exceptions import NetworkListingError
 
 from mist_api_v2.models.create_network_request import CreateNetworkRequest  # noqa: E501

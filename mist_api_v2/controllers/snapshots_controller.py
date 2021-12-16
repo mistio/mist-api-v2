@@ -2,8 +2,6 @@ import connexion
 
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import ForbiddenError
-from mist.api.exceptions import MistError
-from mist.api.exceptions import InternalServerError
 from mist.api.exceptions import PolicyUnauthorizedError
 
 import mist.api.machines.methods as methods
