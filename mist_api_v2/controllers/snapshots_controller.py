@@ -43,8 +43,6 @@ def create_snapshot(machine, name):  # noqa: E501
         return 'Action not supported on target machine', 422
     except BadRequestError as e:
         return str(e), 400
-    except MistError as e:
-        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'create_snapshot', auth_context.user, result)
     return {'name': name}
@@ -75,10 +73,7 @@ def list_snapshots(machine):  # noqa: E501
         auth_context.check_perm('machine', 'list_snapshots', machine.id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    try:
-        return machine.ctl.list_snapshots()
-    except (MistError, InternalServerError) as e:
-        return str(e), 500
+    return machine.ctl.list_snapshots()
 
 
 def remove_snapshot(machine, snapshot):  # noqa: E501
@@ -115,8 +110,6 @@ def remove_snapshot(machine, snapshot):  # noqa: E501
         return 'Action not supported on target machine', 422
     except BadRequestError as e:
         return str(e), 400
-    except MistError as e:
-        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'remove_snapshot', auth_context.user, result)
     return 'Snapshot removed successfully'
@@ -154,8 +147,6 @@ def revert_to_snapshot(machine, snapshot):  # noqa: E501
         result = machine.ctl.revert_to_snapshot(snapshot)
     except BadRequestError as e:
         return str(e), 400
-    except MistError as e:
-        return str(e), 500
     methods.run_post_action_hooks(
         machine, 'revert_to_snapshot', auth_context.user, result)
     return 'Revert machine to snapshot issued successfully'
