@@ -56,9 +56,9 @@ def create_zone(create_zone_request=None):  # noqa: E501
     except CloudUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     except ZoneCreationError as e:
-        return str(e), 500
+        return str(e), 503
     except ZoneListingError as e:
-        return str(e), 500
+        return str(e), 503
     except CloudUnavailableError as e:
         return str(e), 503
     new_zone.assign_to(auth_context.user)
