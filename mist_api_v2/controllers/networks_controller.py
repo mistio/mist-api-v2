@@ -100,10 +100,7 @@ def delete_network(network, cloud):  # noqa: E501
         auth_context.check_perm('network', 'remove', network.id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    try:
-        network.ctl.delete()
-    except MistError as e:
-        return str(e), 500
+    network.ctl.delete()
     return 'Network deleted succesfully', 200
 
 
