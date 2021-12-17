@@ -3,6 +3,7 @@ import connexion
 from mist.api.methods import list_resources as list_resources_v1
 
 from mist.api.exceptions import ServiceUnavailableError
+from mist.api.exceptions import PolicyUnauthorizedError
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
@@ -26,7 +27,7 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         create_cluster_request = CreateClusterRequest.from_dict(connexion.request.get_json())  # noqa: E501
     try:
         auth_context = connexion.context['token_info']['auth_context']
-    except Exception:
+    except KeyError:
         return 'Authentication failed', 401
     params = create_cluster_request.to_dict()
     try:
@@ -39,18 +40,16 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         auth_context.check_perm('cluster', 'create', cloud.id)
         auth_context.check_perm('cloud', 'read', cloud.id)
         auth_context.check_perm('cloud', 'create_resources', cloud.id)
-    except Exception:
+    except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     provider = params.pop('provider')
     kwargs = {k: v for k, v in params.items() if v is not None}
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
     try:
-        result = cloud.ctl.container.create_cluster(**kwargs)
+        cloud.ctl.container.create_cluster(**kwargs)
     except ServiceUnavailableError as e:
-        return e.msg, e.http_code
-    if not result:
-        return 'Cluster creation failed', 409
+        return e.msg, 503
     return 'Cluster creation successful', 200
 
 
@@ -66,7 +65,7 @@ def destroy_cluster(cluster):  # noqa: E501
     """
     try:
         auth_context = connexion.context['token_info']['auth_context']
-    except Exception:
+    except KeyError:
         return 'Authentication failed', 401
     cluster_name = cluster
     try:
@@ -77,11 +76,11 @@ def destroy_cluster(cluster):  # noqa: E501
         return 'Cluster not found', 404
     try:
         auth_context.check_perm('cluster', 'destroy', cluster.id)
-    except Exception:
+    except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     result = cluster.ctl.destroy()
     if not result:
-        return 'Cluster destruction failed', 404
+        return 'Cluster not found', 404
     return 'Cluster destruction successful', 200
 
 
@@ -99,7 +98,10 @@ def get_cluster(cluster, only=None, deref=None):  # noqa: E501
 
     :rtype: GetClusterResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'cluster', search=cluster, only=only,
                           deref=deref)
     return GetClusterResponse(data=result['data'], meta=result['meta'])
@@ -127,7 +129,10 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
 
     :rtype: ListClustersResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'cluster', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref

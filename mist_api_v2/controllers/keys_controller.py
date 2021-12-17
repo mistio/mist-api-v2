@@ -3,6 +3,8 @@ import logging
 import connexion
 
 from mist.api import config
+from mist.api.exceptions import KeyNotFoundError
+from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.logs.methods import log_event
 
 from mist_api_v2.models.add_key_request import AddKeyRequest  # noqa: E501
@@ -37,9 +39,14 @@ def add_key(add_key_request=None):  # noqa: E501
     from mist.api.exceptions import BadRequestError, KeyExistsError
     from mist.api.keys.models import SignedSSHKey, SSHKey
     from mist.api.tag.methods import add_tags_to_resource
-
-    auth_context = connexion.context['token_info']['auth_context']
-    key_tags, _ = auth_context.check_perm("key", "add", None)
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        key_tags, _ = auth_context.check_perm("key", "add", None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
 
     if add_key_request.generate:
         key = SSHKey()
@@ -96,14 +103,23 @@ def delete_key(key):  # noqa: E501
     :rtype: None
     """
     from mist.api.keys.methods import delete_key as m_delete_key
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(auth_context, 'key', search=key)
     result_data = result.get('data')
     if not result_data:
         return 'Cloud does not exist', 404
     key_id = result_data.get('id')
-    auth_context.check_perm('key', 'remove', key_id)
-    m_delete_key(auth_context.owner, key_id)
+    try:
+        auth_context.check_perm('key', 'remove', key_id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        m_delete_key(auth_context.owner, key_id)
+    except KeyNotFoundError:
+        return 'Key not found', 404
     log_event(
         auth_context.owner.id, 'request', 'delete_key',
         key_id=key_id, user_id=auth_context.user.id,
@@ -127,15 +143,20 @@ def edit_key(key, name=None, default=None):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [key], total = list_resources(auth_context, 'key',
                                       search=key, limit=1)
     except ValueError:
         return 'Key does not exist', 404
-
-    auth_context.check_perm('key', 'edit', key.id)
+    try:
+        auth_context.check_perm('key', 'edit', key.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     log_event(
         auth_context.owner.id, 'request', 'edit_key',
         key_id=key.id, user_id=auth_context.user.id,
@@ -173,7 +194,10 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
     :rtype: GetKeyResponse
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     from mist.api.logs.methods import log_event
     try:
         [key], total = list_resources(auth_context, 'key',
@@ -192,7 +216,10 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
     }
 
     if private:
-        auth_context.check_perm('key', 'read_private', key.id)
+        try:
+            auth_context.check_perm('key', 'read_private', key.id)
+        except PolicyUnauthorizedError:
+            return 'You are not authorized to perform this action', 403
         log_event(
             auth_context.owner.id, 'request', 'read_private',
             key_id=key.id, user_id=auth_context.user.id,
@@ -221,7 +248,10 @@ def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=No
 
     :rtype: ListKeysResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'key', search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref)

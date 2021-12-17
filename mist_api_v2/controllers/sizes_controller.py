@@ -20,7 +20,10 @@ def get_size(size, only=None, deref=None):  # noqa: E501
 
     :rtype: GetSizeResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(
         auth_context, 'size', search=size, only=only, deref=deref)
     return GetSizeResponse(data=result['data'], meta=result['meta'])
@@ -48,7 +51,10 @@ def list_sizes(cloud=None, search=None, sort=None, start=None, limit=None, only=
 
     :rtype: ListSizesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'size', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref)

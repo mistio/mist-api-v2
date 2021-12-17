@@ -35,7 +35,10 @@ def list_users(search=None, sort=None, start=None, limit=None, only=None, deref=
 
     :rtype: ListUsersResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     if auth_context.user.role == "Admin":
         result = list_resources(
             auth_context, 'users', search=search, only=only,

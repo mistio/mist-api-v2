@@ -5,6 +5,9 @@ from mist.api.helpers import delete_none
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.helpers import trigger_session_update
 from mist.api.tasks import async_session_update
+from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import VolumeCreationError
+from mist.api.exceptions import VolumeListingError
 
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest  # noqa: E501
 from mist_api_v2.models.get_volume_response import GetVolumeResponse  # noqa: E501
@@ -27,8 +30,14 @@ def create_volume(create_volume_request=None):  # noqa: E501
     if connexion.request.is_json:
         create_volume_request = CreateVolumeRequest.from_dict(connexion.request.get_json())  # noqa: E501
     params = delete_none(create_volume_request.to_dict())
-    auth_context = connexion.context['token_info']['auth_context']
-    tags, _ = auth_context.check_perm("network", "add", None)
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        tags, _ = auth_context.check_perm("network", "add", None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     try:
         [cloud], total = list_resources(
             auth_context, 'cloud', search=params.pop('cloud'), limit=1)
@@ -42,12 +51,18 @@ def create_volume(create_volume_request=None):  # noqa: E501
     except ValueError:
         return 'Location does not exist', 404
     params['location'] = location.id
-    auth_context.check_perm("cloud", "read", cloud.id)
-    auth_context.check_perm("cloud", "create_resources", cloud.id)
-    auth_context.check_perm("location", "read", location.id)
-    auth_context.check_perm("location", "create_resources", location.id)
-    tags, _ = auth_context.check_perm("volume", "create", None)
-    volume = cloud.ctl.storage.create_volume(**params)
+    try:
+        auth_context.check_perm("cloud", "read", cloud.id)
+        auth_context.check_perm("cloud", "create_resources", cloud.id)
+        auth_context.check_perm("location", "read", location.id)
+        auth_context.check_perm("location", "create_resources", location.id)
+        tags, _ = auth_context.check_perm("volume", "create", None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        volume = cloud.ctl.storage.create_volume(**params)
+    except (VolumeCreationError, VolumeListingError) as e:
+        return str(e), 503
     owner = auth_context.owner
     if tags:
         add_tags_to_resource(owner, volume, tags)
@@ -75,13 +90,19 @@ def edit_volume(volume, name=None):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [volume], total = list_resources(
             auth_context, 'volume', search=volume, limit=1)
     except ValueError:
         return 'Volume does not exist', 404
-    auth_context.check_perm('volume', 'edit', volume.id)
+    try:
+        auth_context.check_perm('volume', 'edit', volume.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     volume.ctl.rename(name)
     return 'Volume succesfully updated'
 
@@ -97,7 +118,10 @@ def delete_volume(volume):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [volume], _ = list_resources(auth_context, 'volume',
                                      search=volume, limit=1)
@@ -106,8 +130,11 @@ def delete_volume(volume):  # noqa: E501
 
     cloud = volume.cloud
     # SEC
-    auth_context.check_perm('cloud', 'read', cloud.id)
-    auth_context.check_perm('volume', 'remove', volume.id)
+    try:
+        auth_context.check_perm('cloud', 'read', cloud.id)
+        auth_context.check_perm('volume', 'remove', volume.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
 
     volume.ctl.delete()
 
@@ -128,7 +155,10 @@ def get_volume(volume, only=None, deref=None):  # noqa: E501
 
     :rtype: GetVolumeResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(
         auth_context, 'volume', search=volume, only=only, deref=deref)
     return GetVolumeResponse(data=result['data'], meta=result['meta'])
@@ -156,7 +186,10 @@ def list_volumes(cloud=None, search=None, sort=None, start=0, limit=100, only=No
 
     :rtype: ListVolumesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'volume', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref)

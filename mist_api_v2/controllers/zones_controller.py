@@ -3,6 +3,14 @@ import connexion
 from mist.api.helpers import delete_none
 from mist.api.dns.models import Zone
 from mist.api.tag.methods import resolve_id_and_set_tags
+from mist.api.exceptions import PolicyUnauthorizedError
+
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import CloudUnauthorizedError
+from mist.api.exceptions import ZoneCreationError
+from mist.api.exceptions import ZoneListingError
+from mist.api.exceptions import CloudUnavailableError
+from mist.api.exceptions import ZoneNotFoundError
 
 from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
 from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
@@ -24,18 +32,35 @@ def create_zone(create_zone_request=None):  # noqa: E501
     from mist.api.methods import list_resources
     if connexion.request.is_json:
         create_zone_request = CreateZoneRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     params = delete_none(create_zone_request.to_dict())
     try:
         [cloud], total = list_resources(
             auth_context, 'cloud', search=params.pop('cloud'), limit=1)
     except ValueError:
         return 'Cloud does not exist', 404
-    auth_context.check_perm("cloud", "read", cloud.id)
-    auth_context.check_perm("cloud", "create_resources", cloud.id)
-    tags, _ = auth_context.check_perm("zone", "add", None)
+    try:
+        auth_context.check_perm("cloud", "read", cloud.id)
+        auth_context.check_perm("cloud", "create_resources", cloud.id)
+        tags, _ = auth_context.check_perm("zone", "add", None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     params['domain'] = params.pop('name')
-    new_zone = Zone.add(owner=cloud.owner, cloud=cloud, **params)
+    try:
+        new_zone = Zone.add(owner=cloud.owner, cloud=cloud, **params)
+    except BadRequestError as e:
+        return str(e), 400
+    except CloudUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    except ZoneCreationError as e:
+        return str(e), 503
+    except ZoneListingError as e:
+        return str(e), 503
+    except CloudUnavailableError as e:
+        return str(e), 503
     new_zone.assign_to(auth_context.user)
     if tags:
         resolve_id_and_set_tags(auth_context.owner, 'zone', new_zone.id,
@@ -54,16 +79,27 @@ def delete_zone(zone):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [zone], _ = list_resources(auth_context, 'zone',
                                    search=zone, limit=1)
     except ValueError:
         return 'Zone does not exist', 404
-    # SEC
-    auth_context.check_perm('cloud', 'read', zone.cloud.id)
-    auth_context.check_perm('zone', 'read', zone.id)
-    zone.ctl.delete_zone()
+    try:
+        # SEC
+        auth_context.check_perm('cloud', 'read', zone.cloud.id)
+        auth_context.check_perm('zone', 'read', zone.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    try:
+        zone.ctl.delete_zone()
+    except ZoneNotFoundError:
+        return 'Zone not found', 404
+    except CloudUnavailableError as e:
+        return str(e), 503
     return 'Deleted zone `%s`' % zone.domain, 200
 
 
@@ -80,13 +116,19 @@ def edit_zone(zone):  # noqa: E501
     :rtype: None
     """
     from mist.api.methods import list_resources
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     try:
         [zone], total = list_resources(
             auth_context, 'zone', search=zone, limit=1)
     except ValueError:
         return 'Zone does not exist', 404
-    auth_context.check_perm("zone", "edit", zone.id)
+    try:
+        auth_context.check_perm("zone", "edit", zone.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
     return 'Zone successfully updated'
 
 
@@ -104,7 +146,10 @@ def get_zone(zone, only=None, deref=None):  # noqa: E501
 
     :rtype: GetZoneResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = get_resource(
         auth_context, 'zone', search=zone, only=only, deref=deref)
     return GetZoneResponse(data=result['data'], meta=result['meta'])
@@ -132,7 +177,10 @@ def list_zones(cloud=None, search=None, sort=None, start=None, limit=None, only=
 
     :rtype: ListZonesResponse
     """
-    auth_context = connexion.context['token_info']['auth_context']
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     result = list_resources(
         auth_context, 'zone', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref)
