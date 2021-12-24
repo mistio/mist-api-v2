@@ -56,8 +56,6 @@ mist_api_v2/models/cluster.py
 mist_api_v2/models/cluster_providers.py
 mist_api_v2/models/create_cluster_request.py
 mist_api_v2/models/create_cluster_request_all_of.py
-mist_api_v2/models/create_machine_request.py
-mist_api_v2/models/create_machine_request_disks.py
 mist_api_v2/models/create_machine_response.py
 mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
@@ -78,8 +76,6 @@ mist_api_v2/models/docker_cloud_request.py
 mist_api_v2/models/docker_credentials.py
 mist_api_v2/models/docker_extra.py
 mist_api_v2/models/docker_net.py
-mist_api_v2/models/edit_cloud_request.py
-mist_api_v2/models/edit_cloud_request_any_of.py
 mist_api_v2/models/edit_machine_request.py
 mist_api_v2/models/edit_machine_request_expiration.py
 mist_api_v2/models/edit_rule_request.py

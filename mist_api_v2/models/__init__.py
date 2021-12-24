@@ -31,7 +31,6 @@ from mist_api_v2.models.cluster import Cluster
 from mist_api_v2.models.cluster_providers import ClusterProviders
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest
 from mist_api_v2.models.create_cluster_request_all_of import CreateClusterRequestAllOf
-from mist_api_v2.models.create_machine_request import CreateMachineRequest
 from mist_api_v2.models.create_machine_response import CreateMachineResponse
 from mist_api_v2.models.create_machine_response_one_of import CreateMachineResponseOneOf
 from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResponseOneOf1
@@ -52,8 +51,6 @@ from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
 from mist_api_v2.models.docker_credentials import DockerCredentials
 from mist_api_v2.models.docker_extra import DockerExtra
 from mist_api_v2.models.docker_net import DockerNet
-from mist_api_v2.models.edit_cloud_request import EditCloudRequest
-from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
 from mist_api_v2.models.edit_machine_request import EditMachineRequest
 from mist_api_v2.models.edit_machine_request_expiration import EditMachineRequestExpiration
 from mist_api_v2.models.edit_rule_request import EditRuleRequest

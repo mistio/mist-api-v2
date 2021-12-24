@@ -69,29 +69,6 @@ class TestCloudsController:
             assert_response_ok(response)
         print('Success!!!')
 
-    def test_edit_cloud(self, pretty_print, owner_api_token):
-        """Test case for edit_cloud
-
-        Edit cloud
-        """
-        edit_cloud_request = setup_data.get('edit_cloud', {}).get(
-            'request_body') or json.loads("""{
-  "name" : "my-renamed-cloud"
-}""", strict=False)
-        uri = MIST_URL + '/api/v2/clouds/{cloud}'.format(
-            cloud=setup_data.get('edit_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            json=edit_cloud_request)
-        request_method = getattr(request, 'PUT'.lower())
-        response = request_method()
-        if 'edit_cloud' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
-
     def test_get_cloud(self, pretty_print, owner_api_token):
         """Test case for get_cloud
 
