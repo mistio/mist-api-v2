@@ -6,7 +6,7 @@ import jsonpickle
 import traceback
 
 import connexion
-from flask import g
+from flask import g, Response
 
 from mist.api import config
 from mist.api import helpers
@@ -14,6 +14,7 @@ from mist.api.exceptions import MistError
 from mist.api.auth import methods, models
 from mist.api.logs import methods as log_methods
 from mist.api.users.models import Owner
+from mist.api.renderers import json2csv
 if config.HAS_RBAC:
     from mist.rbac.tokens import SuperToken
 
@@ -47,9 +48,31 @@ log = logging.getLogger(__name__)
 
 
 @application.after_request
+def return_csv(response):
+    request = connexion.request
+    try:
+        accept = request.headers['Accept']
+        action = application.view_functions[request.endpoint].__name__
+    except KeyError:
+        return response
+
+    if (accept.endswith('csv') and
+        request.method.lower() == 'get' and
+        response.status_code == 200 and
+            'list_' in action):
+
+        columns = request.args.get('columns') or ''
+        columns = columns and columns.split(',') or []
+        csv = ',' + json2csv(response.json['data'], columns)
+        return Response(csv, mimetype=accept,
+                        headers={'Content-disposition':
+                                 f'attachment; filename={action}.csv'})
+    return response
+
+
+@application.after_request
 def prepare_log(response):
     request = connexion.request
-
     try:
         dry = request.json['dry']
     except (KeyError, TypeError):
