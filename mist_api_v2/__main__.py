@@ -56,7 +56,7 @@ def return_csv(response):
     except KeyError:
         return response
 
-    if (accept == 'text/csv' and
+    if (accept.endswith('csv') and
         request.method.lower() == 'get' and
         response.status_code == 200 and
             'list_' in action):
@@ -64,7 +64,7 @@ def return_csv(response):
         columns = request.args.get('columns') or ''
         columns = columns and columns.split(',') or []
         csv = ',' + json2csv(response.json['data'], columns)
-        return Response(csv, mimetype='text/csv',
+        return Response(csv, mimetype=accept,
                         headers={'Content-disposition':
                                  f'attachment; filename={action}.csv'})
     return response
