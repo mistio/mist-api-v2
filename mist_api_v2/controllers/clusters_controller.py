@@ -67,10 +67,9 @@ def destroy_cluster(cluster):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    cluster_name = cluster
     try:
         [cluster], total = list_resources_v1(auth_context, 'cluster',
-                                             search=f'"{cluster_name}"',
+                                             search=cluster,
                                              limit=1)
     except ValueError:
         return 'Cluster not found', 404
