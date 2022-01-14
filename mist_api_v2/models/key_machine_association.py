@@ -15,11 +15,15 @@ class KeyMachineAssociation(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, key=None, port=None, user=None):  # noqa: E501
+    def __init__(self, key=None, machine=None, last_used=None, port=None, user=None):  # noqa: E501
         """KeyMachineAssociation - a model defined in OpenAPI
 
         :param key: The key of this KeyMachineAssociation.  # noqa: E501
         :type key: str
+        :param machine: The machine of this KeyMachineAssociation.  # noqa: E501
+        :type machine: str
+        :param last_used: The last_used of this KeyMachineAssociation.  # noqa: E501
+        :type last_used: str
         :param port: The port of this KeyMachineAssociation.  # noqa: E501
         :type port: int
         :param user: The user of this KeyMachineAssociation.  # noqa: E501
@@ -27,17 +31,23 @@ class KeyMachineAssociation(Model):
         """
         self.openapi_types = {
             'key': str,
+            'machine': str,
+            'last_used': str,
             'port': int,
             'user': str
         }
 
         self.attribute_map = {
             'key': 'key',
+            'machine': 'machine',
+            'last_used': 'last_used',
             'port': 'port',
             'user': 'user'
         }
 
         self._key = key
+        self._machine = machine
+        self._last_used = last_used
         self._port = port
         self._user = user
 
@@ -56,7 +66,7 @@ class KeyMachineAssociation(Model):
     def key(self):
         """Gets the key of this KeyMachineAssociation.
 
-        Name or ID of the SSH key to associate  # noqa: E501
+        Name or ID of the SSH key  # noqa: E501
 
         :return: The key of this KeyMachineAssociation.
         :rtype: str
@@ -67,13 +77,59 @@ class KeyMachineAssociation(Model):
     def key(self, key):
         """Sets the key of this KeyMachineAssociation.
 
-        Name or ID of the SSH key to associate  # noqa: E501
+        Name or ID of the SSH key  # noqa: E501
 
         :param key: The key of this KeyMachineAssociation.
         :type key: str
         """
 
         self._key = key
+
+    @property
+    def machine(self):
+        """Gets the machine of this KeyMachineAssociation.
+
+        Name or ID of the machine  # noqa: E501
+
+        :return: The machine of this KeyMachineAssociation.
+        :rtype: str
+        """
+        return self._machine
+
+    @machine.setter
+    def machine(self, machine):
+        """Sets the machine of this KeyMachineAssociation.
+
+        Name or ID of the machine  # noqa: E501
+
+        :param machine: The machine of this KeyMachineAssociation.
+        :type machine: str
+        """
+
+        self._machine = machine
+
+    @property
+    def last_used(self):
+        """Gets the last_used of this KeyMachineAssociation.
+
+        Last used time  # noqa: E501
+
+        :return: The last_used of this KeyMachineAssociation.
+        :rtype: str
+        """
+        return self._last_used
+
+    @last_used.setter
+    def last_used(self, last_used):
+        """Sets the last_used of this KeyMachineAssociation.
+
+        Last used time  # noqa: E501
+
+        :param last_used: The last_used of this KeyMachineAssociation.
+        :type last_used: str
+        """
+
+        self._last_used = last_used
 
     @property
     def port(self):
