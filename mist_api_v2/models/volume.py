@@ -15,7 +15,7 @@ class Volume(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, external_id=None, name=None, cloud=None, location=None, size=None, tags=None, created_by=None, owned_by=None, default=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, location=None, size=None, tags=None, created_by=None, owned_by=None, default=None, actions=None, attached_to=None, extra=None, last_seen=None, missing_since=None):  # noqa: E501
         """Volume - a model defined in OpenAPI
 
         :param id: The id of this Volume.  # noqa: E501
@@ -29,7 +29,7 @@ class Volume(Model):
         :param location: The location of this Volume.  # noqa: E501
         :type location: str
         :param size: The size of this Volume.  # noqa: E501
-        :type size: int
+        :type size: str
         :param tags: The tags of this Volume.  # noqa: E501
         :type tags: object
         :param created_by: The created_by of this Volume.  # noqa: E501
@@ -38,6 +38,16 @@ class Volume(Model):
         :type owned_by: str
         :param default: The default of this Volume.  # noqa: E501
         :type default: bool
+        :param actions: The actions of this Volume.  # noqa: E501
+        :type actions: object
+        :param attached_to: The attached_to of this Volume.  # noqa: E501
+        :type attached_to: List[str]
+        :param extra: The extra of this Volume.  # noqa: E501
+        :type extra: object
+        :param last_seen: The last_seen of this Volume.  # noqa: E501
+        :type last_seen: str
+        :param missing_since: The missing_since of this Volume.  # noqa: E501
+        :type missing_since: str
         """
         self.openapi_types = {
             'id': str,
@@ -45,11 +55,16 @@ class Volume(Model):
             'name': str,
             'cloud': str,
             'location': str,
-            'size': int,
+            'size': str,
             'tags': object,
             'created_by': str,
             'owned_by': str,
-            'default': bool
+            'default': bool,
+            'actions': object,
+            'attached_to': List[str],
+            'extra': object,
+            'last_seen': str,
+            'missing_since': str
         }
 
         self.attribute_map = {
@@ -62,7 +77,12 @@ class Volume(Model):
             'tags': 'tags',
             'created_by': 'created_by',
             'owned_by': 'owned_by',
-            'default': 'default'
+            'default': 'default',
+            'actions': 'actions',
+            'attached_to': 'attached_to',
+            'extra': 'extra',
+            'last_seen': 'last_seen',
+            'missing_since': 'missing_since'
         }
 
         self._id = id
@@ -75,6 +95,11 @@ class Volume(Model):
         self._created_by = created_by
         self._owned_by = owned_by
         self._default = default
+        self._actions = actions
+        self._attached_to = attached_to
+        self._extra = extra
+        self._last_seen = last_seen
+        self._missing_since = missing_since
 
     @classmethod
     def from_dict(cls, dikt) -> 'Volume':
@@ -198,7 +223,7 @@ class Volume(Model):
 
 
         :return: The size of this Volume.
-        :rtype: int
+        :rtype: str
         """
         return self._size
 
@@ -208,7 +233,7 @@ class Volume(Model):
 
 
         :param size: The size of this Volume.
-        :type size: int
+        :type size: str
         """
 
         self._size = size
@@ -296,3 +321,108 @@ class Volume(Model):
         """
 
         self._default = default
+
+    @property
+    def actions(self):
+        """Gets the actions of this Volume.
+
+
+        :return: The actions of this Volume.
+        :rtype: object
+        """
+        return self._actions
+
+    @actions.setter
+    def actions(self, actions):
+        """Sets the actions of this Volume.
+
+
+        :param actions: The actions of this Volume.
+        :type actions: object
+        """
+
+        self._actions = actions
+
+    @property
+    def attached_to(self):
+        """Gets the attached_to of this Volume.
+
+
+        :return: The attached_to of this Volume.
+        :rtype: List[str]
+        """
+        return self._attached_to
+
+    @attached_to.setter
+    def attached_to(self, attached_to):
+        """Sets the attached_to of this Volume.
+
+
+        :param attached_to: The attached_to of this Volume.
+        :type attached_to: List[str]
+        """
+
+        self._attached_to = attached_to
+
+    @property
+    def extra(self):
+        """Gets the extra of this Volume.
+
+
+        :return: The extra of this Volume.
+        :rtype: object
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this Volume.
+
+
+        :param extra: The extra of this Volume.
+        :type extra: object
+        """
+
+        self._extra = extra
+
+    @property
+    def last_seen(self):
+        """Gets the last_seen of this Volume.
+
+
+        :return: The last_seen of this Volume.
+        :rtype: str
+        """
+        return self._last_seen
+
+    @last_seen.setter
+    def last_seen(self, last_seen):
+        """Sets the last_seen of this Volume.
+
+
+        :param last_seen: The last_seen of this Volume.
+        :type last_seen: str
+        """
+
+        self._last_seen = last_seen
+
+    @property
+    def missing_since(self):
+        """Gets the missing_since of this Volume.
+
+
+        :return: The missing_since of this Volume.
+        :rtype: str
+        """
+        return self._missing_since
+
+    @missing_since.setter
+    def missing_since(self, missing_since):
+        """Sets the missing_since of this Volume.
+
+
+        :param missing_since: The missing_since of this Volume.
+        :type missing_since: str
+        """
+
+        self._missing_since = missing_since

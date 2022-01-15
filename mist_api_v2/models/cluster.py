@@ -17,7 +17,7 @@ class Cluster(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, cloud=None, provider=None, total_nodes=None, total_cpus=None, total_memory=None, location=None, credentials=None, config=None, tags=None, created_by=None, owned_by=None, extra=None):  # noqa: E501
+    def __init__(self, id=None, name=None, cloud=None, provider=None, total_nodes=None, total_cpus=None, total_memory=None, location=None, credentials=None, config=None, tags=None, created_by=None, owned_by=None, extra=None, external_id=None, owner=None, state=None, last_seen=None, missing_since=None, created=None):  # noqa: E501
         """Cluster - a model defined in OpenAPI
 
         :param id: The id of this Cluster.  # noqa: E501
@@ -48,6 +48,18 @@ class Cluster(Model):
         :type owned_by: str
         :param extra: The extra of this Cluster.  # noqa: E501
         :type extra: object
+        :param external_id: The external_id of this Cluster.  # noqa: E501
+        :type external_id: str
+        :param owner: The owner of this Cluster.  # noqa: E501
+        :type owner: str
+        :param state: The state of this Cluster.  # noqa: E501
+        :type state: str
+        :param last_seen: The last_seen of this Cluster.  # noqa: E501
+        :type last_seen: str
+        :param missing_since: The missing_since of this Cluster.  # noqa: E501
+        :type missing_since: str
+        :param created: The created of this Cluster.  # noqa: E501
+        :type created: str
         """
         self.openapi_types = {
             'id': str,
@@ -63,7 +75,13 @@ class Cluster(Model):
             'tags': object,
             'created_by': str,
             'owned_by': str,
-            'extra': object
+            'extra': object,
+            'external_id': str,
+            'owner': str,
+            'state': str,
+            'last_seen': str,
+            'missing_since': str,
+            'created': str
         }
 
         self.attribute_map = {
@@ -80,7 +98,13 @@ class Cluster(Model):
             'tags': 'tags',
             'created_by': 'created_by',
             'owned_by': 'owned_by',
-            'extra': 'extra'
+            'extra': 'extra',
+            'external_id': 'external_id',
+            'owner': 'owner',
+            'state': 'state',
+            'last_seen': 'last_seen',
+            'missing_since': 'missing_since',
+            'created': 'created'
         }
 
         self._id = id
@@ -97,6 +121,12 @@ class Cluster(Model):
         self._created_by = created_by
         self._owned_by = owned_by
         self._extra = extra
+        self._external_id = external_id
+        self._owner = owner
+        self._state = state
+        self._last_seen = last_seen
+        self._missing_since = missing_since
+        self._created = created
 
     @classmethod
     def from_dict(cls, dikt) -> 'Cluster':
@@ -402,3 +432,129 @@ class Cluster(Model):
         """
 
         self._extra = extra
+
+    @property
+    def external_id(self):
+        """Gets the external_id of this Cluster.
+
+
+        :return: The external_id of this Cluster.
+        :rtype: str
+        """
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        """Sets the external_id of this Cluster.
+
+
+        :param external_id: The external_id of this Cluster.
+        :type external_id: str
+        """
+
+        self._external_id = external_id
+
+    @property
+    def owner(self):
+        """Gets the owner of this Cluster.
+
+
+        :return: The owner of this Cluster.
+        :rtype: str
+        """
+        return self._owner
+
+    @owner.setter
+    def owner(self, owner):
+        """Sets the owner of this Cluster.
+
+
+        :param owner: The owner of this Cluster.
+        :type owner: str
+        """
+
+        self._owner = owner
+
+    @property
+    def state(self):
+        """Gets the state of this Cluster.
+
+
+        :return: The state of this Cluster.
+        :rtype: str
+        """
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        """Sets the state of this Cluster.
+
+
+        :param state: The state of this Cluster.
+        :type state: str
+        """
+
+        self._state = state
+
+    @property
+    def last_seen(self):
+        """Gets the last_seen of this Cluster.
+
+
+        :return: The last_seen of this Cluster.
+        :rtype: str
+        """
+        return self._last_seen
+
+    @last_seen.setter
+    def last_seen(self, last_seen):
+        """Sets the last_seen of this Cluster.
+
+
+        :param last_seen: The last_seen of this Cluster.
+        :type last_seen: str
+        """
+
+        self._last_seen = last_seen
+
+    @property
+    def missing_since(self):
+        """Gets the missing_since of this Cluster.
+
+
+        :return: The missing_since of this Cluster.
+        :rtype: str
+        """
+        return self._missing_since
+
+    @missing_since.setter
+    def missing_since(self, missing_since):
+        """Sets the missing_since of this Cluster.
+
+
+        :param missing_since: The missing_since of this Cluster.
+        :type missing_since: str
+        """
+
+        self._missing_since = missing_since
+
+    @property
+    def created(self):
+        """Gets the created of this Cluster.
+
+
+        :return: The created of this Cluster.
+        :rtype: str
+        """
+        return self._created
+
+    @created.setter
+    def created(self, created):
+        """Sets the created of this Cluster.
+
+
+        :param created: The created of this Cluster.
+        :type created: str
+        """
+
+        self._created = created

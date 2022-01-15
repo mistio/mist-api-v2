@@ -5493,18 +5493,24 @@ components:
       type: array
     Cluster:
       example:
+        owner: owner
+        last_seen: last_seen
         credentials: '{}'
+        created: created
         total_cpus: 6
         owned_by: owned_by
+        external_id: external_id
         created_by: created_by
         tags: '{}'
         cloud: cloud
         total_memory: 1
+        missing_since: missing_since
         extra: '{}'
         name: name
         total_nodes: 0
         location: location
         id: id
+        state: state
         config: '{}'
       properties:
         id:
@@ -5535,6 +5541,18 @@ components:
           type: string
         extra:
           type: object
+        external_id:
+          type: string
+        owner:
+          type: string
+        state:
+          type: string
+        last_seen:
+          type: string
+        missing_since:
+          type: string
+        created:
+          type: string
       type: object
     ClusterProviders:
       description: The cloud provider of the cluster
@@ -6089,18 +6107,24 @@ components:
     GetClusterResponse:
       example:
         data:
+          owner: owner
+          last_seen: last_seen
           credentials: '{}'
+          created: created
           total_cpus: 6
           owned_by: owned_by
+          external_id: external_id
           created_by: created_by
           tags: '{}'
           cloud: cloud
           total_memory: 1
+          missing_since: missing_since
           extra: '{}'
           name: name
           total_nodes: 0
           location: location
           id: id
+          state: state
           config: '{}'
         meta:
           total: 0
@@ -6229,14 +6253,52 @@ components:
     GetMachineResponse:
       example:
         data:
+          parent: parent
+          subnet: subnet
+          last_seen: last_seen
+          external_id: external_id
+          ports: '{}'
+          type: type
+          unreachable_since: unreachable_since
+          network: network
           cloud: cloud
           default: true
-          name: name
-          external_id: external_id
-          owned_by: owned_by
+          hostname: hostname
+          cores: 0
+          missing_since: missing_since
+          extra: '{}'
           id: id
+          public_ips:
+          - public_ips
+          - public_ips
+          image: image
+          cost: '{}'
+          created: created
+          owned_by: owned_by
+          monitoring: monitoring
           created_by: created_by
           tags: '{}'
+          probe: '{}'
+          size: size
+          os_type: os_type
+          name: name
+          private_ips:
+          - private_ips
+          - private_ips
+          expiration: expiration
+          location: location
+          actions: '{}'
+          key_associations:
+          - port: 6
+            machine: machine
+            last_used: last_used
+            user: user
+            key: key
+          - port: 6
+            machine: machine
+            last_used: last_used
+            user: user
+            key: key
         meta:
           total: 0
           start: 1
@@ -6379,16 +6441,23 @@ components:
     GetVolumeResponse:
       example:
         data:
-          cloud: cloud
-          default: true
-          size: 0
-          name: name
+          last_seen: last_seen
           external_id: external_id
-          location: location
           owned_by: owned_by
-          id: id
           created_by: created_by
           tags: '{}'
+          cloud: cloud
+          default: true
+          size: size
+          attached_to:
+          - attached_to
+          - attached_to
+          missing_since: missing_since
+          extra: '{}'
+          name: name
+          location: location
+          id: id
+          actions: '{}'
         meta:
           total: 0
           start: 1
@@ -6715,12 +6784,20 @@ components:
       type: object
     KeyMachineAssociation:
       example:
-        port: 0
+        port: 6
+        machine: machine
+        last_used: last_used
         user: user
         key: key
       properties:
         key:
-          description: Name or ID of the SSH key to associate
+          description: Name or ID of the SSH key
+          type: string
+        machine:
+          description: Name or ID of the machine
+          type: string
+        last_used:
+          description: Last used time
           type: string
         port:
           description: SSH port
@@ -6978,31 +7055,43 @@ components:
     ListClustersResponse:
       example:
         data:
-        - credentials: '{}'
+        - owner: owner
+          last_seen: last_seen
+          credentials: '{}'
+          created: created
           total_cpus: 6
           owned_by: owned_by
+          external_id: external_id
           created_by: created_by
           tags: '{}'
           cloud: cloud
           total_memory: 1
+          missing_since: missing_since
           extra: '{}'
           name: name
           total_nodes: 0
           location: location
           id: id
+          state: state
           config: '{}'
-        - credentials: '{}'
+        - owner: owner
+          last_seen: last_seen
+          credentials: '{}'
+          created: created
           total_cpus: 6
           owned_by: owned_by
+          external_id: external_id
           created_by: created_by
           tags: '{}'
           cloud: cloud
           total_memory: 1
+          missing_since: missing_since
           extra: '{}'
           name: name
           total_nodes: 0
           location: location
           id: id
+          state: state
           config: '{}'
         meta:
           total: 0
@@ -7114,22 +7203,98 @@ components:
     ListMachinesResponse:
       example:
         data:
-        - cloud: cloud
-          default: true
-          name: name
+        - parent: parent
+          subnet: subnet
+          last_seen: last_seen
           external_id: external_id
-          owned_by: owned_by
+          ports: '{}'
+          type: type
+          unreachable_since: unreachable_since
+          network: network
+          cloud: cloud
+          default: true
+          hostname: hostname
+          cores: 0
+          missing_since: missing_since
+          extra: '{}'
           id: id
+          public_ips:
+          - public_ips
+          - public_ips
+          image: image
+          cost: '{}'
+          created: created
+          owned_by: owned_by
+          monitoring: monitoring
           created_by: created_by
           tags: '{}'
-        - cloud: cloud
-          default: true
+          probe: '{}'
+          size: size
+          os_type: os_type
           name: name
+          private_ips:
+          - private_ips
+          - private_ips
+          expiration: expiration
+          location: location
+          actions: '{}'
+          key_associations:
+          - port: 6
+            machine: machine
+            last_used: last_used
+            user: user
+            key: key
+          - port: 6
+            machine: machine
+            last_used: last_used
+            user: user
+            key: key
+        - parent: parent
+          subnet: subnet
+          last_seen: last_seen
           external_id: external_id
-          owned_by: owned_by
+          ports: '{}'
+          type: type
+          unreachable_since: unreachable_since
+          network: network
+          cloud: cloud
+          default: true
+          hostname: hostname
+          cores: 0
+          missing_since: missing_since
+          extra: '{}'
           id: id
+          public_ips:
+          - public_ips
+          - public_ips
+          image: image
+          cost: '{}'
+          created: created
+          owned_by: owned_by
+          monitoring: monitoring
           created_by: created_by
           tags: '{}'
+          probe: '{}'
+          size: size
+          os_type: os_type
+          name: name
+          private_ips:
+          - private_ips
+          - private_ips
+          expiration: expiration
+          location: location
+          actions: '{}'
+          key_associations:
+          - port: 6
+            machine: machine
+            last_used: last_used
+            user: user
+            key: key
+          - port: 6
+            machine: machine
+            last_used: last_used
+            user: user
+            key: key
         meta:
           total: 0
           start: 1
@@ -7438,26 +7603,40 @@ components:
     ListVolumesResponse:
       example:
         data:
-        - cloud: cloud
-          default: true
-          size: 0
-          name: name
+        - last_seen: last_seen
           external_id: external_id
-          location: location
           owned_by: owned_by
-          id: id
           created_by: created_by
           tags: '{}'
-        - cloud: cloud
+          cloud: cloud
           default: true
-          size: 0
+          size: size
+          attached_to:
+          - attached_to
+          - attached_to
+          missing_since: missing_since
+          extra: '{}'
           name: name
-          external_id: external_id
           location: location
-          owned_by: owned_by
           id: id
+          actions: '{}'
+        - last_seen: last_seen
+          external_id: external_id
+          owned_by: owned_by
           created_by: created_by
           tags: '{}'
+          cloud: cloud
+          default: true
+          size: size
+          attached_to:
+          - attached_to
+          - attached_to
+          missing_since: missing_since
+          extra: '{}'
+          name: name
+          location: location
+          id: id
+          actions: '{}'
         meta:
           total: 0
           start: 1
@@ -7579,14 +7758,52 @@ components:
       type: object
     Machine:
       example:
+        parent: parent
+        subnet: subnet
+        last_seen: last_seen
+        external_id: external_id
+        ports: '{}'
+        type: type
+        unreachable_since: unreachable_since
+        network: network
         cloud: cloud
         default: true
-        name: name
-        external_id: external_id
-        owned_by: owned_by
+        hostname: hostname
+        cores: 0
+        missing_since: missing_since
+        extra: '{}'
         id: id
+        public_ips:
+        - public_ips
+        - public_ips
+        image: image
+        cost: '{}'
+        created: created
+        owned_by: owned_by
+        monitoring: monitoring
         created_by: created_by
         tags: '{}'
+        probe: '{}'
+        size: size
+        os_type: os_type
+        name: name
+        private_ips:
+        - private_ips
+        - private_ips
+        expiration: expiration
+        location: location
+        actions: '{}'
+        key_associations:
+        - port: 6
+          machine: machine
+          last_used: last_used
+          user: user
+          key: key
+        - port: 6
+          machine: machine
+          last_used: last_used
+          user: user
+          key: key
       properties:
         id:
           type: string
@@ -7606,6 +7823,60 @@ components:
           type: boolean
         state:
           $ref: '#/components/schemas/MachineState'
+        actions:
+          type: object
+        cores:
+          type: integer
+        cost:
+          type: object
+        created:
+          type: string
+        expiration:
+          type: string
+        extra:
+          type: object
+        hostname:
+          type: string
+        image:
+          type: string
+        key_associations:
+          items:
+            $ref: '#/components/schemas/KeyMachineAssociation'
+          type: array
+        last_seen:
+          type: string
+        location:
+          type: string
+        missing_since:
+          type: string
+        monitoring:
+          type: string
+        network:
+          type: string
+        os_type:
+          type: string
+        parent:
+          type: string
+        ports:
+          type: object
+        private_ips:
+          items:
+            type: string
+          type: array
+        probe:
+          type: object
+        public_ips:
+          items:
+            type: string
+          type: array
+        size:
+          type: string
+        subnet:
+          type: string
+        type:
+          type: string
+        unreachable_since:
+          type: string
       type: object
     MachineState:
       enum:
@@ -8350,16 +8621,23 @@ components:
       type: object
     Volume:
       example:
-        cloud: cloud
-        default: true
-        size: 0
-        name: name
+        last_seen: last_seen
         external_id: external_id
-        location: location
         owned_by: owned_by
-        id: id
         created_by: created_by
         tags: '{}'
+        cloud: cloud
+        default: true
+        size: size
+        attached_to:
+        - attached_to
+        - attached_to
+        missing_since: missing_since
+        extra: '{}'
+        name: name
+        location: location
+        id: id
+        actions: '{}'
       properties:
         id:
           type: string
@@ -8372,7 +8650,7 @@ components:
         location:
           type: string
         size:
-          type: integer
+          type: string
         tags:
           type: object
         created_by:
@@ -8381,6 +8659,18 @@ components:
           type: string
         default:
           type: boolean
+        actions:
+          type: object
+        attached_to:
+          items:
+            type: string
+          type: array
+        extra:
+          type: object
+        last_seen:
+          type: string
+        missing_since:
+          type: string
       type: object
     VsphereCloudRequest:
       properties:
