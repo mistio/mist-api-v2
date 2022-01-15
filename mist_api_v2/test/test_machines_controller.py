@@ -48,9 +48,9 @@ class TestMachinesController:
         """
         key_machine_association = setup_data.get('associate_key', {}).get(
             'request_body') or json.loads("""{
-  "port" : 6,
+  "port" : 1,
   "machine" : "machine",
-  "last_used" : "last_used",
+  "last_used" : 6,
   "user" : "user",
   "key" : "key"
 }""", strict=False)
