@@ -23,7 +23,7 @@ class KeyMachineAssociation(Model):
         :param machine: The machine of this KeyMachineAssociation.  # noqa: E501
         :type machine: str
         :param last_used: The last_used of this KeyMachineAssociation.  # noqa: E501
-        :type last_used: str
+        :type last_used: int
         :param port: The port of this KeyMachineAssociation.  # noqa: E501
         :type port: int
         :param user: The user of this KeyMachineAssociation.  # noqa: E501
@@ -32,7 +32,7 @@ class KeyMachineAssociation(Model):
         self.openapi_types = {
             'key': str,
             'machine': str,
-            'last_used': str,
+            'last_used': int,
             'port': int,
             'user': str
         }
@@ -115,7 +115,7 @@ class KeyMachineAssociation(Model):
         Last used time  # noqa: E501
 
         :return: The last_used of this KeyMachineAssociation.
-        :rtype: str
+        :rtype: int
         """
         return self._last_used
 
@@ -126,7 +126,7 @@ class KeyMachineAssociation(Model):
         Last used time  # noqa: E501
 
         :param last_used: The last_used of this KeyMachineAssociation.
-        :type last_used: str
+        :type last_used: int
         """
 
         self._last_used = last_used

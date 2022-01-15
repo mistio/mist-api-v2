@@ -6289,14 +6289,14 @@ components:
           location: location
           actions: '{}'
           key_associations:
-          - port: 6
+          - port: 1
             machine: machine
-            last_used: last_used
+            last_used: 6
             user: user
             key: key
-          - port: 6
+          - port: 1
             machine: machine
-            last_used: last_used
+            last_used: 6
             user: user
             key: key
         meta:
@@ -6784,9 +6784,9 @@ components:
       type: object
     KeyMachineAssociation:
       example:
-        port: 6
+        port: 1
         machine: machine
-        last_used: last_used
+        last_used: 6
         user: user
         key: key
       properties:
@@ -6798,7 +6798,7 @@ components:
           type: string
         last_used:
           description: Last used time
-          type: string
+          type: integer
         port:
           description: SSH port
           type: integer
@@ -7239,14 +7239,14 @@ components:
           location: location
           actions: '{}'
           key_associations:
-          - port: 6
+          - port: 1
             machine: machine
-            last_used: last_used
+            last_used: 6
             user: user
             key: key
-          - port: 6
+          - port: 1
             machine: machine
-            last_used: last_used
+            last_used: 6
             user: user
             key: key
         - parent: parent
@@ -7285,14 +7285,14 @@ components:
           location: location
           actions: '{}'
           key_associations:
-          - port: 6
+          - port: 1
             machine: machine
-            last_used: last_used
+            last_used: 6
             user: user
             key: key
-          - port: 6
+          - port: 1
             machine: machine
-            last_used: last_used
+            last_used: 6
             user: user
             key: key
         meta:
@@ -7794,14 +7794,14 @@ components:
         location: location
         actions: '{}'
         key_associations:
-        - port: 6
+        - port: 1
           machine: machine
-          last_used: last_used
+          last_used: 6
           user: user
           key: key
-        - port: 6
+        - port: 1
           machine: machine
-          last_used: last_used
+          last_used: 6
           user: user
           key: key
       properties:
