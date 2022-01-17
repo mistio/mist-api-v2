@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
+from mist_api_v2.models.key_machine_association import KeyMachineAssociation
 from mist_api_v2.models.machine_state import MachineState
 from mist_api_v2 import util
 
+from mist_api_v2.models.key_machine_association import KeyMachineAssociation  # noqa: E501
 from mist_api_v2.models.machine_state import MachineState  # noqa: E501
 
 class Machine(Model):
@@ -17,7 +19,7 @@ class Machine(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None, actions=None, cores=None, cost=None, created=None, expiration=None, extra=None, hostname=None, image=None, key_associations=None, last_seen=None, location=None, missing_since=None, monitoring=None, network=None, os_type=None, parent=None, ports=None, private_ips=None, probe=None, public_ips=None, size=None, subnet=None, type=None, unreachable_since=None):  # noqa: E501
         """Machine - a model defined in OpenAPI
 
         :param id: The id of this Machine.  # noqa: E501
@@ -38,6 +40,54 @@ class Machine(Model):
         :type default: bool
         :param state: The state of this Machine.  # noqa: E501
         :type state: MachineState
+        :param actions: The actions of this Machine.  # noqa: E501
+        :type actions: object
+        :param cores: The cores of this Machine.  # noqa: E501
+        :type cores: int
+        :param cost: The cost of this Machine.  # noqa: E501
+        :type cost: object
+        :param created: The created of this Machine.  # noqa: E501
+        :type created: str
+        :param expiration: The expiration of this Machine.  # noqa: E501
+        :type expiration: str
+        :param extra: The extra of this Machine.  # noqa: E501
+        :type extra: object
+        :param hostname: The hostname of this Machine.  # noqa: E501
+        :type hostname: str
+        :param image: The image of this Machine.  # noqa: E501
+        :type image: str
+        :param key_associations: The key_associations of this Machine.  # noqa: E501
+        :type key_associations: List[KeyMachineAssociation]
+        :param last_seen: The last_seen of this Machine.  # noqa: E501
+        :type last_seen: str
+        :param location: The location of this Machine.  # noqa: E501
+        :type location: str
+        :param missing_since: The missing_since of this Machine.  # noqa: E501
+        :type missing_since: str
+        :param monitoring: The monitoring of this Machine.  # noqa: E501
+        :type monitoring: str
+        :param network: The network of this Machine.  # noqa: E501
+        :type network: str
+        :param os_type: The os_type of this Machine.  # noqa: E501
+        :type os_type: str
+        :param parent: The parent of this Machine.  # noqa: E501
+        :type parent: str
+        :param ports: The ports of this Machine.  # noqa: E501
+        :type ports: object
+        :param private_ips: The private_ips of this Machine.  # noqa: E501
+        :type private_ips: List[str]
+        :param probe: The probe of this Machine.  # noqa: E501
+        :type probe: object
+        :param public_ips: The public_ips of this Machine.  # noqa: E501
+        :type public_ips: List[str]
+        :param size: The size of this Machine.  # noqa: E501
+        :type size: str
+        :param subnet: The subnet of this Machine.  # noqa: E501
+        :type subnet: str
+        :param type: The type of this Machine.  # noqa: E501
+        :type type: str
+        :param unreachable_since: The unreachable_since of this Machine.  # noqa: E501
+        :type unreachable_since: str
         """
         self.openapi_types = {
             'id': str,
@@ -48,7 +98,31 @@ class Machine(Model):
             'created_by': str,
             'owned_by': str,
             'default': bool,
-            'state': MachineState
+            'state': MachineState,
+            'actions': object,
+            'cores': int,
+            'cost': object,
+            'created': str,
+            'expiration': str,
+            'extra': object,
+            'hostname': str,
+            'image': str,
+            'key_associations': List[KeyMachineAssociation],
+            'last_seen': str,
+            'location': str,
+            'missing_since': str,
+            'monitoring': str,
+            'network': str,
+            'os_type': str,
+            'parent': str,
+            'ports': object,
+            'private_ips': List[str],
+            'probe': object,
+            'public_ips': List[str],
+            'size': str,
+            'subnet': str,
+            'type': str,
+            'unreachable_since': str
         }
 
         self.attribute_map = {
@@ -60,7 +134,31 @@ class Machine(Model):
             'created_by': 'created_by',
             'owned_by': 'owned_by',
             'default': 'default',
-            'state': 'state'
+            'state': 'state',
+            'actions': 'actions',
+            'cores': 'cores',
+            'cost': 'cost',
+            'created': 'created',
+            'expiration': 'expiration',
+            'extra': 'extra',
+            'hostname': 'hostname',
+            'image': 'image',
+            'key_associations': 'key_associations',
+            'last_seen': 'last_seen',
+            'location': 'location',
+            'missing_since': 'missing_since',
+            'monitoring': 'monitoring',
+            'network': 'network',
+            'os_type': 'os_type',
+            'parent': 'parent',
+            'ports': 'ports',
+            'private_ips': 'private_ips',
+            'probe': 'probe',
+            'public_ips': 'public_ips',
+            'size': 'size',
+            'subnet': 'subnet',
+            'type': 'type',
+            'unreachable_since': 'unreachable_since'
         }
 
         self._id = id
@@ -72,6 +170,30 @@ class Machine(Model):
         self._owned_by = owned_by
         self._default = default
         self._state = state
+        self._actions = actions
+        self._cores = cores
+        self._cost = cost
+        self._created = created
+        self._expiration = expiration
+        self._extra = extra
+        self._hostname = hostname
+        self._image = image
+        self._key_associations = key_associations
+        self._last_seen = last_seen
+        self._location = location
+        self._missing_since = missing_since
+        self._monitoring = monitoring
+        self._network = network
+        self._os_type = os_type
+        self._parent = parent
+        self._ports = ports
+        self._private_ips = private_ips
+        self._probe = probe
+        self._public_ips = public_ips
+        self._size = size
+        self._subnet = subnet
+        self._type = type
+        self._unreachable_since = unreachable_since
 
     @classmethod
     def from_dict(cls, dikt) -> 'Machine':
@@ -272,3 +394,507 @@ class Machine(Model):
         """
 
         self._state = state
+
+    @property
+    def actions(self):
+        """Gets the actions of this Machine.
+
+
+        :return: The actions of this Machine.
+        :rtype: object
+        """
+        return self._actions
+
+    @actions.setter
+    def actions(self, actions):
+        """Sets the actions of this Machine.
+
+
+        :param actions: The actions of this Machine.
+        :type actions: object
+        """
+
+        self._actions = actions
+
+    @property
+    def cores(self):
+        """Gets the cores of this Machine.
+
+
+        :return: The cores of this Machine.
+        :rtype: int
+        """
+        return self._cores
+
+    @cores.setter
+    def cores(self, cores):
+        """Sets the cores of this Machine.
+
+
+        :param cores: The cores of this Machine.
+        :type cores: int
+        """
+
+        self._cores = cores
+
+    @property
+    def cost(self):
+        """Gets the cost of this Machine.
+
+
+        :return: The cost of this Machine.
+        :rtype: object
+        """
+        return self._cost
+
+    @cost.setter
+    def cost(self, cost):
+        """Sets the cost of this Machine.
+
+
+        :param cost: The cost of this Machine.
+        :type cost: object
+        """
+
+        self._cost = cost
+
+    @property
+    def created(self):
+        """Gets the created of this Machine.
+
+
+        :return: The created of this Machine.
+        :rtype: str
+        """
+        return self._created
+
+    @created.setter
+    def created(self, created):
+        """Sets the created of this Machine.
+
+
+        :param created: The created of this Machine.
+        :type created: str
+        """
+
+        self._created = created
+
+    @property
+    def expiration(self):
+        """Gets the expiration of this Machine.
+
+
+        :return: The expiration of this Machine.
+        :rtype: str
+        """
+        return self._expiration
+
+    @expiration.setter
+    def expiration(self, expiration):
+        """Sets the expiration of this Machine.
+
+
+        :param expiration: The expiration of this Machine.
+        :type expiration: str
+        """
+
+        self._expiration = expiration
+
+    @property
+    def extra(self):
+        """Gets the extra of this Machine.
+
+
+        :return: The extra of this Machine.
+        :rtype: object
+        """
+        return self._extra
+
+    @extra.setter
+    def extra(self, extra):
+        """Sets the extra of this Machine.
+
+
+        :param extra: The extra of this Machine.
+        :type extra: object
+        """
+
+        self._extra = extra
+
+    @property
+    def hostname(self):
+        """Gets the hostname of this Machine.
+
+
+        :return: The hostname of this Machine.
+        :rtype: str
+        """
+        return self._hostname
+
+    @hostname.setter
+    def hostname(self, hostname):
+        """Sets the hostname of this Machine.
+
+
+        :param hostname: The hostname of this Machine.
+        :type hostname: str
+        """
+
+        self._hostname = hostname
+
+    @property
+    def image(self):
+        """Gets the image of this Machine.
+
+
+        :return: The image of this Machine.
+        :rtype: str
+        """
+        return self._image
+
+    @image.setter
+    def image(self, image):
+        """Sets the image of this Machine.
+
+
+        :param image: The image of this Machine.
+        :type image: str
+        """
+
+        self._image = image
+
+    @property
+    def key_associations(self):
+        """Gets the key_associations of this Machine.
+
+
+        :return: The key_associations of this Machine.
+        :rtype: List[KeyMachineAssociation]
+        """
+        return self._key_associations
+
+    @key_associations.setter
+    def key_associations(self, key_associations):
+        """Sets the key_associations of this Machine.
+
+
+        :param key_associations: The key_associations of this Machine.
+        :type key_associations: List[KeyMachineAssociation]
+        """
+
+        self._key_associations = key_associations
+
+    @property
+    def last_seen(self):
+        """Gets the last_seen of this Machine.
+
+
+        :return: The last_seen of this Machine.
+        :rtype: str
+        """
+        return self._last_seen
+
+    @last_seen.setter
+    def last_seen(self, last_seen):
+        """Sets the last_seen of this Machine.
+
+
+        :param last_seen: The last_seen of this Machine.
+        :type last_seen: str
+        """
+
+        self._last_seen = last_seen
+
+    @property
+    def location(self):
+        """Gets the location of this Machine.
+
+
+        :return: The location of this Machine.
+        :rtype: str
+        """
+        return self._location
+
+    @location.setter
+    def location(self, location):
+        """Sets the location of this Machine.
+
+
+        :param location: The location of this Machine.
+        :type location: str
+        """
+
+        self._location = location
+
+    @property
+    def missing_since(self):
+        """Gets the missing_since of this Machine.
+
+
+        :return: The missing_since of this Machine.
+        :rtype: str
+        """
+        return self._missing_since
+
+    @missing_since.setter
+    def missing_since(self, missing_since):
+        """Sets the missing_since of this Machine.
+
+
+        :param missing_since: The missing_since of this Machine.
+        :type missing_since: str
+        """
+
+        self._missing_since = missing_since
+
+    @property
+    def monitoring(self):
+        """Gets the monitoring of this Machine.
+
+
+        :return: The monitoring of this Machine.
+        :rtype: str
+        """
+        return self._monitoring
+
+    @monitoring.setter
+    def monitoring(self, monitoring):
+        """Sets the monitoring of this Machine.
+
+
+        :param monitoring: The monitoring of this Machine.
+        :type monitoring: str
+        """
+
+        self._monitoring = monitoring
+
+    @property
+    def network(self):
+        """Gets the network of this Machine.
+
+
+        :return: The network of this Machine.
+        :rtype: str
+        """
+        return self._network
+
+    @network.setter
+    def network(self, network):
+        """Sets the network of this Machine.
+
+
+        :param network: The network of this Machine.
+        :type network: str
+        """
+
+        self._network = network
+
+    @property
+    def os_type(self):
+        """Gets the os_type of this Machine.
+
+
+        :return: The os_type of this Machine.
+        :rtype: str
+        """
+        return self._os_type
+
+    @os_type.setter
+    def os_type(self, os_type):
+        """Sets the os_type of this Machine.
+
+
+        :param os_type: The os_type of this Machine.
+        :type os_type: str
+        """
+
+        self._os_type = os_type
+
+    @property
+    def parent(self):
+        """Gets the parent of this Machine.
+
+
+        :return: The parent of this Machine.
+        :rtype: str
+        """
+        return self._parent
+
+    @parent.setter
+    def parent(self, parent):
+        """Sets the parent of this Machine.
+
+
+        :param parent: The parent of this Machine.
+        :type parent: str
+        """
+
+        self._parent = parent
+
+    @property
+    def ports(self):
+        """Gets the ports of this Machine.
+
+
+        :return: The ports of this Machine.
+        :rtype: object
+        """
+        return self._ports
+
+    @ports.setter
+    def ports(self, ports):
+        """Sets the ports of this Machine.
+
+
+        :param ports: The ports of this Machine.
+        :type ports: object
+        """
+
+        self._ports = ports
+
+    @property
+    def private_ips(self):
+        """Gets the private_ips of this Machine.
+
+
+        :return: The private_ips of this Machine.
+        :rtype: List[str]
+        """
+        return self._private_ips
+
+    @private_ips.setter
+    def private_ips(self, private_ips):
+        """Sets the private_ips of this Machine.
+
+
+        :param private_ips: The private_ips of this Machine.
+        :type private_ips: List[str]
+        """
+
+        self._private_ips = private_ips
+
+    @property
+    def probe(self):
+        """Gets the probe of this Machine.
+
+
+        :return: The probe of this Machine.
+        :rtype: object
+        """
+        return self._probe
+
+    @probe.setter
+    def probe(self, probe):
+        """Sets the probe of this Machine.
+
+
+        :param probe: The probe of this Machine.
+        :type probe: object
+        """
+
+        self._probe = probe
+
+    @property
+    def public_ips(self):
+        """Gets the public_ips of this Machine.
+
+
+        :return: The public_ips of this Machine.
+        :rtype: List[str]
+        """
+        return self._public_ips
+
+    @public_ips.setter
+    def public_ips(self, public_ips):
+        """Sets the public_ips of this Machine.
+
+
+        :param public_ips: The public_ips of this Machine.
+        :type public_ips: List[str]
+        """
+
+        self._public_ips = public_ips
+
+    @property
+    def size(self):
+        """Gets the size of this Machine.
+
+
+        :return: The size of this Machine.
+        :rtype: str
+        """
+        return self._size
+
+    @size.setter
+    def size(self, size):
+        """Sets the size of this Machine.
+
+
+        :param size: The size of this Machine.
+        :type size: str
+        """
+
+        self._size = size
+
+    @property
+    def subnet(self):
+        """Gets the subnet of this Machine.
+
+
+        :return: The subnet of this Machine.
+        :rtype: str
+        """
+        return self._subnet
+
+    @subnet.setter
+    def subnet(self, subnet):
+        """Sets the subnet of this Machine.
+
+
+        :param subnet: The subnet of this Machine.
+        :type subnet: str
+        """
+
+        self._subnet = subnet
+
+    @property
+    def type(self):
+        """Gets the type of this Machine.
+
+
+        :return: The type of this Machine.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Machine.
+
+
+        :param type: The type of this Machine.
+        :type type: str
+        """
+
+        self._type = type
+
+    @property
+    def unreachable_since(self):
+        """Gets the unreachable_since of this Machine.
+
+
+        :return: The unreachable_since of this Machine.
+        :rtype: str
+        """
+        return self._unreachable_since
+
+    @unreachable_since.setter
+    def unreachable_since(self, unreachable_since):
+        """Sets the unreachable_since of this Machine.
+
+
+        :param unreachable_since: The unreachable_since of this Machine.
+        :type unreachable_since: str
+        """
+
+        self._unreachable_since = unreachable_since
