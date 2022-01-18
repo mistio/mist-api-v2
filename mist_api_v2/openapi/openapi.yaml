@@ -5394,6 +5394,7 @@ components:
           compute: true
           container: false
           dns: false
+        provider: provider
         name: name
         owned_by: owned_by
         id: id
@@ -5406,7 +5407,7 @@ components:
         name:
           type: string
         provider:
-          $ref: '#/components/schemas/SupportedProviders'
+          type: string
         config:
           type: object
         features:
@@ -6087,6 +6088,7 @@ components:
             compute: true
             container: false
             dns: false
+          provider: provider
           name: name
           owned_by: owned_by
           id: id
@@ -7023,6 +7025,7 @@ components:
             compute: true
             container: false
             dns: false
+          provider: provider
           name: name
           owned_by: owned_by
           id: id
@@ -7033,6 +7036,7 @@ components:
             compute: true
             container: false
             dns: false
+          provider: provider
           name: name
           owned_by: owned_by
           id: id
