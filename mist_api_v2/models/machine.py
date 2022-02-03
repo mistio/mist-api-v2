@@ -19,7 +19,7 @@ class Machine(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None, actions=None, cores=None, cost=None, created=None, expiration=None, extra=None, hostname=None, image=None, key_associations=None, last_seen=None, location=None, missing_since=None, monitoring=None, network=None, os_type=None, parent=None, ports=None, private_ips=None, probe=None, public_ips=None, size=None, subnet=None, type=None, unreachable_since=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, tags=None, created_by=None, owned_by=None, default=None, state=None, actions=None, cluster=None, cores=None, cost=None, created=None, expiration=None, extra=None, hostname=None, image=None, key_associations=None, last_seen=None, location=None, missing_since=None, monitoring=None, network=None, os_type=None, parent=None, ports=None, private_ips=None, probe=None, public_ips=None, size=None, subnet=None, type=None, unreachable_since=None):  # noqa: E501
         """Machine - a model defined in OpenAPI
 
         :param id: The id of this Machine.  # noqa: E501
@@ -42,6 +42,8 @@ class Machine(Model):
         :type state: MachineState
         :param actions: The actions of this Machine.  # noqa: E501
         :type actions: object
+        :param cluster: The cluster of this Machine.  # noqa: E501
+        :type cluster: str
         :param cores: The cores of this Machine.  # noqa: E501
         :type cores: int
         :param cost: The cost of this Machine.  # noqa: E501
@@ -100,6 +102,7 @@ class Machine(Model):
             'default': bool,
             'state': MachineState,
             'actions': object,
+            'cluster': str,
             'cores': int,
             'cost': object,
             'created': str,
@@ -136,6 +139,7 @@ class Machine(Model):
             'default': 'default',
             'state': 'state',
             'actions': 'actions',
+            'cluster': 'cluster',
             'cores': 'cores',
             'cost': 'cost',
             'created': 'created',
@@ -171,6 +175,7 @@ class Machine(Model):
         self._default = default
         self._state = state
         self._actions = actions
+        self._cluster = cluster
         self._cores = cores
         self._cost = cost
         self._created = created
@@ -415,6 +420,27 @@ class Machine(Model):
         """
 
         self._actions = actions
+
+    @property
+    def cluster(self):
+        """Gets the cluster of this Machine.
+
+
+        :return: The cluster of this Machine.
+        :rtype: str
+        """
+        return self._cluster
+
+    @cluster.setter
+    def cluster(self, cluster):
+        """Sets the cluster of this Machine.
+
+
+        :param cluster: The cluster of this Machine.
+        :type cluster: str
+        """
+
+        self._cluster = cluster
 
     @property
     def cores(self):

@@ -6649,6 +6649,7 @@ components:
     GetMachineResponse:
       example:
         data:
+          cluster: cluster
           parent: parent
           subnet: subnet
           last_seen: last_seen
@@ -7599,7 +7600,8 @@ components:
     ListMachinesResponse:
       example:
         data:
-        - parent: parent
+        - cluster: cluster
+          parent: parent
           subnet: subnet
           last_seen: last_seen
           external_id: external_id
@@ -7645,7 +7647,8 @@ components:
             last_used: 6
             user: user
             key: key
-        - parent: parent
+        - cluster: cluster
+          parent: parent
           subnet: subnet
           last_seen: last_seen
           external_id: external_id
@@ -8154,6 +8157,7 @@ components:
       type: object
     Machine:
       example:
+        cluster: cluster
         parent: parent
         subnet: subnet
         last_seen: last_seen
@@ -8221,6 +8225,8 @@ components:
           $ref: '#/components/schemas/MachineState'
         actions:
           type: object
+        cluster:
+          type: string
         cores:
           type: integer
         cost:
