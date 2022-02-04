@@ -107,6 +107,60 @@ class TestMachinesController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_create_machine(self, pretty_print, owner_api_token):
+        """Test case for create_machine
+
+        Create machine
+        """
+        create_machine_request = setup_data.get('create_machine', {}).get(
+            'request_body') or json.loads("""{
+  "template" : "{}",
+  "image" : "{}",
+  "quantity" : 1.4658129805029452,
+  "disks" : {
+    "disk_size" : 0,
+    "disk_path" : "disk_path"
+  },
+  "fqdn" : "fqdn",
+  "cloudinit" : "cloudinit",
+  "volumes" : "{}",
+  "save" : true,
+  "dry" : true,
+  "monitoring" : true,
+  "tags" : "{}",
+  "cloud" : "cloud",
+  "size" : "{}",
+  "optimize" : "optimize",
+  "schedules" : [ "", "" ],
+  "extra" : "{}",
+  "name" : "DB mirror",
+  "location" : "{}",
+  "expiration" : {
+    "date" : "2000-01-23T04:56:07.000+00:00",
+    "action" : "stop",
+    "notify" : {
+      "period" : "minutes",
+      "value" : 1
+    },
+    "notify_msg" : "notify_msg"
+  },
+  "net" : "{}",
+  "scripts" : [ "", "" ],
+  "key" : "{}"
+}""", strict=False)
+        uri = MIST_URL + '/api/v2/machines'
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_machine_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        if 'create_machine' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
     def test_destroy_machine(self, pretty_print, owner_api_token):
         """Test case for destroy_machine
 

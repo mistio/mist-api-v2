@@ -1553,6 +1553,54 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
+    post:
+      description: Creates one or more machines on the specified cloud. If async is
+        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
+        permission required on cloud. READ permission required on location. CREATE_RESOURCES
+        permission required on location. CREATE permission required on machine. RUN
+        permission required on script. READ permission required on key.
+      operationId: create_machine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMachineRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMachineResponse'
+          description: Machine provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:machine
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+        - read:image
+        - create_resources:image
+        - read:script
+        - read:key
+      - CookieAuth:
+        - create:machine
+        - read:cloud
+        - create_resources:cloud
+        - read:location
+        - create_resources:location
+        - read:image
+        - create_resources:image
+        - read:script
+        - read:key
+      summary: Create machine
+      tags:
+      - machines
+      x-openapi-router-controller: mist_api_v2.controllers.machines_controller
   /api/v2/machines/{machine}:
     get:
       description: Get details about target machine
@@ -5582,6 +5630,154 @@ components:
         cloud: my-cloud
         provider: google
         location: my-location
+    CreateMachineRequest:
+      example:
+        template: '{}'
+        image: '{}'
+        quantity: 1.4658129805029452
+        disks:
+          disk_size: 0
+          disk_path: disk_path
+        fqdn: fqdn
+        cloudinit: cloudinit
+        volumes: '{}'
+        save: true
+        dry: true
+        monitoring: true
+        tags: '{}'
+        cloud: cloud
+        size: '{}'
+        optimize: optimize
+        schedules:
+        - ""
+        - ""
+        extra: '{}'
+        name: DB mirror
+        location: '{}'
+        expiration:
+          date: 2000-01-23T04:56:07.000+00:00
+          action: stop
+          notify:
+            period: minutes
+            value: 1
+          notify_msg: notify_msg
+        net: '{}'
+        scripts:
+        - ""
+        - ""
+        key: '{}'
+      properties:
+        name:
+          description: Specify machine name
+          example: DB mirror
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        cloud:
+          description: Specify cloud to provision on
+          type: string
+        location:
+          description: Where to provision e.g. region, datacenter, rack
+          type: object
+        size:
+          description: Machine sizing spec e.g. cpu/ram/flavor
+          type: object
+        image:
+          description: Operating System image to boot from
+          type: object
+        net:
+          description: Specify network configuration parameters
+          type: object
+        key:
+          description: Associate SSH key
+          type: object
+        disks:
+          $ref: '#/components/schemas/CreateMachineRequest_disks'
+        volumes:
+          description: Configure of attached storage volumes, e.g. cloud disks
+          type: object
+        fqdn:
+          description: Add DNS A Record that points machine's public IP to this Fully
+            Qualified Domain Name. Zone needs to be managed by a configured Cloud
+            DNS provider
+          type: string
+        cloudinit:
+          description: Run this Cloud Init script on first boot
+          type: string
+        scripts:
+          description: Run post deploy scripts over SSH
+          items:
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/InlineScript'
+              - $ref: '#/components/schemas/PostDeployScript'
+          type: array
+        schedules:
+          description: Configure scheduled actions for the provisioned machine
+          items:
+            allOf:
+            - properties:
+                schedule_type:
+                  enum:
+                  - one_off
+                  - crontab
+                  - interval
+                  type: string
+                script:
+                  $ref: '#/components/schemas/PostDeployScript'
+                action:
+                  enum:
+                  - start
+                  - stop
+                  - reboot
+                  - destroy
+                  type: string
+                description:
+                  type: string
+              required:
+              - schedule_type
+              type: object
+            - discriminator:
+                mapping:
+                  one_off: '#/components/schemas/OneOffSchedule'
+                  crontab: '#/components/schemas/CronSchedule'
+                  interval: '#/components/schemas/IntervalSchedule'
+                propertyName: schedule_type
+              oneOf:
+              - $ref: '#/components/schemas/OneOffSchedule'
+              - $ref: '#/components/schemas/CronSchedule'
+              - $ref: '#/components/schemas/IntervalSchedule'
+          type: array
+        tags:
+          description: Assign tags to provisioned machine
+          type: object
+        expiration:
+          $ref: '#/components/schemas/Expiration'
+        extra:
+          description: Configure additional parameters
+          type: object
+        monitoring:
+          description: Enable monitoring of this machine
+          type: boolean
+        quantity:
+          description: Provision multiple machines of this type
+          type: number
+        template:
+          type: object
+        dry:
+          description: Return provisioning plan and exit without executing it
+          type: boolean
+        save:
+          description: Save provisioning plan as template
+          type: boolean
+        optimize:
+          description: Criteria optimization, e.g "cost"
+          type: string
+      required:
+      - image
+      - name
+      type: object
     CreateMachineResponse:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
@@ -6047,6 +6243,13 @@ components:
       title: Equnix Metal net parameter
       type: object
     Expiration:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        action: stop
+        notify:
+          period: minutes
+          value: 1
+        notify_msg: notify_msg
       properties:
         action:
           enum:
@@ -8912,6 +9115,19 @@ components:
       - name
       - provider
       type: object
+    CreateMachineRequest_disks:
+      description: Configure local disks
+      example:
+        disk_size: 0
+        disk_path: disk_path
+      properties:
+        disk_size:
+          description: KVM, CloudSigma specific parameter
+          type: integer
+        disk_path:
+          description: KVM specific parameter. Where the VM disk file will be created
+          type: string
+      type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
@@ -8980,6 +9196,9 @@ components:
       type: object
     Expiration_notify:
       description: Notify user before machine expiration
+      example:
+        period: minutes
+        value: 1
       properties:
         value:
           minimum: 1
