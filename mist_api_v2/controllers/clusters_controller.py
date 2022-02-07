@@ -83,7 +83,7 @@ def destroy_cluster(cluster):  # noqa: E501
     return 'Cluster destruction successful', 200
 
 
-def get_cluster(cluster, only=None, deref=None):  # noqa: E501
+def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E501
     """Get cluster
 
     Get details about target cluster # noqa: E501
@@ -103,6 +103,19 @@ def get_cluster(cluster, only=None, deref=None):  # noqa: E501
         return 'Authentication failed', 401
     result = get_resource(auth_context, 'cluster', search=cluster, only=only,
                           deref=deref)
+
+    if not result['data']:
+        return 'Cluster not found', 404
+
+    if credentials:
+        try:
+            auth_context.check_perm(
+                'cluster', 'read_credentials', result['data']['id'])
+        except PolicyUnauthorizedError:
+            return 'You are not authorized to perform this action', 403
+    else:
+        result['data']['credentials']['token'] = '***CENSORED***'
+
     return GetClusterResponse(data=result['data'], meta=result['meta'])
 
 
@@ -136,4 +149,7 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
         auth_context, 'cluster', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref
     )
+
+    for item in result['data']:
+        item['credentials']['token'] = '***CENSORED***'
     return ListClustersResponse(data=result['data'], meta=result['meta'])
