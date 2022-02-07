@@ -537,6 +537,17 @@ paths:
           default: auto
           type: string
         style: form
+      - description: Return the cluster's credentials. Requires READ_CREDENTIALS permission
+          on cluster.
+        example: true
+        explode: true
+        in: query
+        name: credentials
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
       responses:
         "200":
           content:

@@ -90,7 +90,8 @@ class TestClustersController:
         Get cluster
         """
         query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', 'id'),
-                        ('deref', 'auto')]
+                        ('deref', 'auto'),
+                        ('credentials', 'true')]
         uri = MIST_URL + '/api/v2/clusters/{cluster}'.format(
             cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
