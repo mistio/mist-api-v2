@@ -74,7 +74,12 @@ def return_csv(response):
 def prepare_log(response):
     request = connexion.request
     try:
-        dry = request.json['dry']
+        request_body = request.json.copy()
+    except AttributeError:
+        request_body = {}
+
+    try:
+        dry = request_body['dry']
     except (KeyError, TypeError):
         dry = False
 
@@ -93,6 +98,20 @@ def prepare_log(response):
                   request.path, request.method)
         return response
 
+    if (action == 'add_cloud' and
+            isinstance(request_body.get('credentials'), dict)):
+        sensitive_fields = ['secret',
+                            'privateKey',
+                            'apisecret',
+                            'password',
+                            'apikey',
+                            'token',
+                            'tlsKey',
+                            'tlsCert',]
+        for field in sensitive_fields:
+            if request_body['credentials'].get(field):
+                request_body['credentials'][field] = '***CENSORED***'
+
     log_dict = {
         'event_type': 'request',
         'action': action,
@@ -102,6 +121,7 @@ def prepare_log(response):
         'user_agent': request.user_agent.string,
         'response_code': response.status_code,
         'error': response.status_code >= 400,
+        'request_body': request_body,
     }
 
     session = methods.session_from_request(request)
