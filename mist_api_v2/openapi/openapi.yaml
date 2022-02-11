@@ -5291,15 +5291,18 @@ components:
             permissions for the Kubernetes control plane to make calls to AWS API
             operations on your behalf
           type: string
-        vpc_id:
-          description: The VPC associated with the cluster
+        network:
+          description: Name or ID of the network to be associated with the cluster.
+            If not given the default network will be selected
           type: string
-        subnet_ids:
-          description: The subnets associated with the cluster
+        subnets:
+          description: IDs of the subnets to be associated with the cluster. At least
+            2 subnets in different availability zones are required, if not given the
+            default subnets will be used
           items:
             type: string
           type: array
-        security_group_ids:
+        security_groups:
           description: The security groups associated with the cross-account elastic
             network interfaces that are used to allow communication between your nodes
             and the Kubernetes control plane
@@ -5325,9 +5328,6 @@ components:
       - name
       - provider
       - role_arn
-      - security_group_ids
-      - subnet_ids
-      - vpc_id
       type: object
     AmazonCredentials:
       properties:
