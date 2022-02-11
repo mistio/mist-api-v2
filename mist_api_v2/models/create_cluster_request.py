@@ -17,7 +17,7 @@ class CreateClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, vpc_id=None, subnet_ids=None, security_group_ids=None, location=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, vpc_id=None, subnet_ids=None, security_group_ids=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None, location=None):  # noqa: E501
         """CreateClusterRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequest.  # noqa: E501
@@ -34,6 +34,14 @@ class CreateClusterRequest(Model):
         :type subnet_ids: List[str]
         :param security_group_ids: The security_group_ids of this CreateClusterRequest.  # noqa: E501
         :type security_group_ids: List[str]
+        :param desired_nodes: The desired_nodes of this CreateClusterRequest.  # noqa: E501
+        :type desired_nodes: float
+        :param nodegroup_role_arn: The nodegroup_role_arn of this CreateClusterRequest.  # noqa: E501
+        :type nodegroup_role_arn: str
+        :param nodegroup_size: The nodegroup_size of this CreateClusterRequest.  # noqa: E501
+        :type nodegroup_size: str
+        :param nodegroup_disk_size: The nodegroup_disk_size of this CreateClusterRequest.  # noqa: E501
+        :type nodegroup_disk_size: float
         :param location: The location of this CreateClusterRequest.  # noqa: E501
         :type location: str
         """
@@ -45,6 +53,10 @@ class CreateClusterRequest(Model):
             'vpc_id': str,
             'subnet_ids': List[str],
             'security_group_ids': List[str],
+            'desired_nodes': float,
+            'nodegroup_role_arn': str,
+            'nodegroup_size': str,
+            'nodegroup_disk_size': float,
             'location': str
         }
 
@@ -56,6 +68,10 @@ class CreateClusterRequest(Model):
             'vpc_id': 'vpc_id',
             'subnet_ids': 'subnet_ids',
             'security_group_ids': 'security_group_ids',
+            'desired_nodes': 'desired_nodes',
+            'nodegroup_role_arn': 'nodegroup_role_arn',
+            'nodegroup_size': 'nodegroup_size',
+            'nodegroup_disk_size': 'nodegroup_disk_size',
             'location': 'location'
         }
 
@@ -66,6 +82,10 @@ class CreateClusterRequest(Model):
         self._vpc_id = vpc_id
         self._subnet_ids = subnet_ids
         self._security_group_ids = security_group_ids
+        self._desired_nodes = desired_nodes
+        self._nodegroup_role_arn = nodegroup_role_arn
+        self._nodegroup_size = nodegroup_size
+        self._nodegroup_disk_size = nodegroup_disk_size
         self._location = location
 
     @classmethod
@@ -83,7 +103,7 @@ class CreateClusterRequest(Model):
     def name(self):
         """Gets the name of this CreateClusterRequest.
 
-        The name of the cluster to create  # noqa: E501
+        The cluster's name  # noqa: E501
 
         :return: The name of this CreateClusterRequest.
         :rtype: str
@@ -94,7 +114,7 @@ class CreateClusterRequest(Model):
     def name(self, name):
         """Sets the name of this CreateClusterRequest.
 
-        The name of the cluster to create  # noqa: E501
+        The cluster's name  # noqa: E501
 
         :param name: The name of this CreateClusterRequest.
         :type name: str
@@ -255,6 +275,98 @@ class CreateClusterRequest(Model):
             raise ValueError("Invalid value for `security_group_ids`, must not be `None`")  # noqa: E501
 
         self._security_group_ids = security_group_ids
+
+    @property
+    def desired_nodes(self):
+        """Gets the desired_nodes of this CreateClusterRequest.
+
+        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
+
+        :return: The desired_nodes of this CreateClusterRequest.
+        :rtype: float
+        """
+        return self._desired_nodes
+
+    @desired_nodes.setter
+    def desired_nodes(self, desired_nodes):
+        """Sets the desired_nodes of this CreateClusterRequest.
+
+        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
+
+        :param desired_nodes: The desired_nodes of this CreateClusterRequest.
+        :type desired_nodes: float
+        """
+
+        self._desired_nodes = desired_nodes
+
+    @property
+    def nodegroup_role_arn(self):
+        """Gets the nodegroup_role_arn of this CreateClusterRequest.
+
+        The Amazon Resource Name (ARN) of the IAM role to associate with the node group  # noqa: E501
+
+        :return: The nodegroup_role_arn of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._nodegroup_role_arn
+
+    @nodegroup_role_arn.setter
+    def nodegroup_role_arn(self, nodegroup_role_arn):
+        """Sets the nodegroup_role_arn of this CreateClusterRequest.
+
+        The Amazon Resource Name (ARN) of the IAM role to associate with the node group  # noqa: E501
+
+        :param nodegroup_role_arn: The nodegroup_role_arn of this CreateClusterRequest.
+        :type nodegroup_role_arn: str
+        """
+
+        self._nodegroup_role_arn = nodegroup_role_arn
+
+    @property
+    def nodegroup_size(self):
+        """Gets the nodegroup_size of this CreateClusterRequest.
+
+        Name or ID of size to use for the nodes. If not provided, the t3.medium size will be used  # noqa: E501
+
+        :return: The nodegroup_size of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._nodegroup_size
+
+    @nodegroup_size.setter
+    def nodegroup_size(self, nodegroup_size):
+        """Sets the nodegroup_size of this CreateClusterRequest.
+
+        Name or ID of size to use for the nodes. If not provided, the t3.medium size will be used  # noqa: E501
+
+        :param nodegroup_size: The nodegroup_size of this CreateClusterRequest.
+        :type nodegroup_size: str
+        """
+
+        self._nodegroup_size = nodegroup_size
+
+    @property
+    def nodegroup_disk_size(self):
+        """Gets the nodegroup_disk_size of this CreateClusterRequest.
+
+        The disk size for the nodegroup. Defaults to 20 GBs  # noqa: E501
+
+        :return: The nodegroup_disk_size of this CreateClusterRequest.
+        :rtype: float
+        """
+        return self._nodegroup_disk_size
+
+    @nodegroup_disk_size.setter
+    def nodegroup_disk_size(self, nodegroup_disk_size):
+        """Sets the nodegroup_disk_size of this CreateClusterRequest.
+
+        The disk size for the nodegroup. Defaults to 20 GBs  # noqa: E501
+
+        :param nodegroup_disk_size: The nodegroup_disk_size of this CreateClusterRequest.
+        :type nodegroup_disk_size: float
+        """
+
+        self._nodegroup_disk_size = nodegroup_disk_size
 
     @property
     def location(self):
