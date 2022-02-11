@@ -85,10 +85,6 @@ def add_key(add_key_request=None):  # noqa: E501
     if key_tags:
         add_tags_to_resource(auth_context.owner, key, list(key_tags.items()))
 
-    log_event(
-        auth_context.owner.id, 'request', 'add_key',
-        key_id=key.id, user_id=auth_context.user.id,
-    )
     return AddKeyResponse(key.id)
 
 
@@ -120,10 +116,7 @@ def delete_key(key):  # noqa: E501
         m_delete_key(auth_context.owner, key_id)
     except KeyNotFoundError:
         return 'Key not found', 404
-    log_event(
-        auth_context.owner.id, 'request', 'delete_key',
-        key_id=key_id, user_id=auth_context.user.id,
-    )
+
     key_name = result_data.get('name')
     return f'Deleted key `{key_name}`', 200
 
@@ -147,7 +140,6 @@ def edit_key(key, name=None, default=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    from mist.api.logs.methods import log_event
     try:
         [key], total = list_resources(auth_context, 'key',
                                       search=key, limit=1)
@@ -157,12 +149,7 @@ def edit_key(key, name=None, default=None):  # noqa: E501
         auth_context.check_perm('key', 'edit', key.id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    log_event(
-        auth_context.owner.id, 'request', 'edit_key',
-        key_id=key.id, user_id=auth_context.user.id,
-        key_name=key.name, key_default=key.default,
-        new_name=name, new_default=default
-    )
+
     key_updated = False
     if name:
         key.name = name
@@ -198,7 +185,6 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    from mist.api.logs.methods import log_event
     try:
         [key], total = list_resources(auth_context, 'key',
                                       search=key, limit=1)

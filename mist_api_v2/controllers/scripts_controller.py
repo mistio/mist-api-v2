@@ -4,7 +4,6 @@ import connexion
 
 from mist.api import tasks
 
-from mist.api.logs.methods import log_event
 from mist.api.scripts.models import ExecutableScript
 from mist.api.scripts.models import AnsibleScript
 from mist.api.exceptions import BadRequestError
@@ -105,10 +104,6 @@ def delete_script(script):  # noqa: E501
     script = Script.objects.get(owner=auth_context.owner, id=script_id,
                                 deleted=None)
     script.ctl.delete()
-    log_event(
-        auth_context.owner.id, 'request', 'delete_script',
-        script_id=script_id, user_id=auth_context.user.id,
-    )
     return 'Deleted script `%s`' % script.name, 200
 
 
