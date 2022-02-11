@@ -47,7 +47,7 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
     try:
-        cloud.ctl.container.create_cluster(**kwargs)
+        cloud.ctl.container.create_cluster(auth_context, **kwargs)
     except ServiceUnavailableError as e:
         return e.msg, 503
     return 'Cluster creation successful', 200
