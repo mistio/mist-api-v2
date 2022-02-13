@@ -17,7 +17,7 @@ class CreateClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, vpc_id=None, subnet_ids=None, security_group_ids=None, location=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, network=None, subnets=None, security_groups=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None, location=None):  # noqa: E501
         """CreateClusterRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequest.  # noqa: E501
@@ -28,12 +28,20 @@ class CreateClusterRequest(Model):
         :type provider: str
         :param role_arn: The role_arn of this CreateClusterRequest.  # noqa: E501
         :type role_arn: str
-        :param vpc_id: The vpc_id of this CreateClusterRequest.  # noqa: E501
-        :type vpc_id: str
-        :param subnet_ids: The subnet_ids of this CreateClusterRequest.  # noqa: E501
-        :type subnet_ids: List[str]
-        :param security_group_ids: The security_group_ids of this CreateClusterRequest.  # noqa: E501
-        :type security_group_ids: List[str]
+        :param network: The network of this CreateClusterRequest.  # noqa: E501
+        :type network: str
+        :param subnets: The subnets of this CreateClusterRequest.  # noqa: E501
+        :type subnets: List[str]
+        :param security_groups: The security_groups of this CreateClusterRequest.  # noqa: E501
+        :type security_groups: List[str]
+        :param desired_nodes: The desired_nodes of this CreateClusterRequest.  # noqa: E501
+        :type desired_nodes: float
+        :param nodegroup_role_arn: The nodegroup_role_arn of this CreateClusterRequest.  # noqa: E501
+        :type nodegroup_role_arn: str
+        :param nodegroup_size: The nodegroup_size of this CreateClusterRequest.  # noqa: E501
+        :type nodegroup_size: str
+        :param nodegroup_disk_size: The nodegroup_disk_size of this CreateClusterRequest.  # noqa: E501
+        :type nodegroup_disk_size: float
         :param location: The location of this CreateClusterRequest.  # noqa: E501
         :type location: str
         """
@@ -42,9 +50,13 @@ class CreateClusterRequest(Model):
             'cloud': str,
             'provider': str,
             'role_arn': str,
-            'vpc_id': str,
-            'subnet_ids': List[str],
-            'security_group_ids': List[str],
+            'network': str,
+            'subnets': List[str],
+            'security_groups': List[str],
+            'desired_nodes': float,
+            'nodegroup_role_arn': str,
+            'nodegroup_size': str,
+            'nodegroup_disk_size': float,
             'location': str
         }
 
@@ -53,9 +65,13 @@ class CreateClusterRequest(Model):
             'cloud': 'cloud',
             'provider': 'provider',
             'role_arn': 'role_arn',
-            'vpc_id': 'vpc_id',
-            'subnet_ids': 'subnet_ids',
-            'security_group_ids': 'security_group_ids',
+            'network': 'network',
+            'subnets': 'subnets',
+            'security_groups': 'security_groups',
+            'desired_nodes': 'desired_nodes',
+            'nodegroup_role_arn': 'nodegroup_role_arn',
+            'nodegroup_size': 'nodegroup_size',
+            'nodegroup_disk_size': 'nodegroup_disk_size',
             'location': 'location'
         }
 
@@ -63,9 +79,13 @@ class CreateClusterRequest(Model):
         self._cloud = cloud
         self._provider = provider
         self._role_arn = role_arn
-        self._vpc_id = vpc_id
-        self._subnet_ids = subnet_ids
-        self._security_group_ids = security_group_ids
+        self._network = network
+        self._subnets = subnets
+        self._security_groups = security_groups
+        self._desired_nodes = desired_nodes
+        self._nodegroup_role_arn = nodegroup_role_arn
+        self._nodegroup_size = nodegroup_size
+        self._nodegroup_disk_size = nodegroup_disk_size
         self._location = location
 
     @classmethod
@@ -182,79 +202,165 @@ class CreateClusterRequest(Model):
         self._role_arn = role_arn
 
     @property
-    def vpc_id(self):
-        """Gets the vpc_id of this CreateClusterRequest.
+    def network(self):
+        """Gets the network of this CreateClusterRequest.
 
-        The VPC associated with the cluster  # noqa: E501
+        Name or ID of the network to be associated with the cluster. If not given the default network will be selected  # noqa: E501
 
-        :return: The vpc_id of this CreateClusterRequest.
+        :return: The network of this CreateClusterRequest.
         :rtype: str
         """
-        return self._vpc_id
+        return self._network
 
-    @vpc_id.setter
-    def vpc_id(self, vpc_id):
-        """Sets the vpc_id of this CreateClusterRequest.
+    @network.setter
+    def network(self, network):
+        """Sets the network of this CreateClusterRequest.
 
-        The VPC associated with the cluster  # noqa: E501
+        Name or ID of the network to be associated with the cluster. If not given the default network will be selected  # noqa: E501
 
-        :param vpc_id: The vpc_id of this CreateClusterRequest.
-        :type vpc_id: str
+        :param network: The network of this CreateClusterRequest.
+        :type network: str
         """
-        if vpc_id is None:
-            raise ValueError("Invalid value for `vpc_id`, must not be `None`")  # noqa: E501
 
-        self._vpc_id = vpc_id
+        self._network = network
 
     @property
-    def subnet_ids(self):
-        """Gets the subnet_ids of this CreateClusterRequest.
+    def subnets(self):
+        """Gets the subnets of this CreateClusterRequest.
 
-        The subnets associated with the cluster  # noqa: E501
+        IDs of the subnets to be associated with the cluster. At least 2 subnets in different availability zones are required, if not given the default subnets will be used  # noqa: E501
 
-        :return: The subnet_ids of this CreateClusterRequest.
+        :return: The subnets of this CreateClusterRequest.
         :rtype: List[str]
         """
-        return self._subnet_ids
+        return self._subnets
 
-    @subnet_ids.setter
-    def subnet_ids(self, subnet_ids):
-        """Sets the subnet_ids of this CreateClusterRequest.
+    @subnets.setter
+    def subnets(self, subnets):
+        """Sets the subnets of this CreateClusterRequest.
 
-        The subnets associated with the cluster  # noqa: E501
+        IDs of the subnets to be associated with the cluster. At least 2 subnets in different availability zones are required, if not given the default subnets will be used  # noqa: E501
 
-        :param subnet_ids: The subnet_ids of this CreateClusterRequest.
-        :type subnet_ids: List[str]
+        :param subnets: The subnets of this CreateClusterRequest.
+        :type subnets: List[str]
         """
-        if subnet_ids is None:
-            raise ValueError("Invalid value for `subnet_ids`, must not be `None`")  # noqa: E501
 
-        self._subnet_ids = subnet_ids
+        self._subnets = subnets
 
     @property
-    def security_group_ids(self):
-        """Gets the security_group_ids of this CreateClusterRequest.
+    def security_groups(self):
+        """Gets the security_groups of this CreateClusterRequest.
 
         The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane  # noqa: E501
 
-        :return: The security_group_ids of this CreateClusterRequest.
+        :return: The security_groups of this CreateClusterRequest.
         :rtype: List[str]
         """
-        return self._security_group_ids
+        return self._security_groups
 
-    @security_group_ids.setter
-    def security_group_ids(self, security_group_ids):
-        """Sets the security_group_ids of this CreateClusterRequest.
+    @security_groups.setter
+    def security_groups(self, security_groups):
+        """Sets the security_groups of this CreateClusterRequest.
 
         The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane  # noqa: E501
 
-        :param security_group_ids: The security_group_ids of this CreateClusterRequest.
-        :type security_group_ids: List[str]
+        :param security_groups: The security_groups of this CreateClusterRequest.
+        :type security_groups: List[str]
         """
-        if security_group_ids is None:
-            raise ValueError("Invalid value for `security_group_ids`, must not be `None`")  # noqa: E501
 
-        self._security_group_ids = security_group_ids
+        self._security_groups = security_groups
+
+    @property
+    def desired_nodes(self):
+        """Gets the desired_nodes of this CreateClusterRequest.
+
+        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
+
+        :return: The desired_nodes of this CreateClusterRequest.
+        :rtype: float
+        """
+        return self._desired_nodes
+
+    @desired_nodes.setter
+    def desired_nodes(self, desired_nodes):
+        """Sets the desired_nodes of this CreateClusterRequest.
+
+        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
+
+        :param desired_nodes: The desired_nodes of this CreateClusterRequest.
+        :type desired_nodes: float
+        """
+
+        self._desired_nodes = desired_nodes
+
+    @property
+    def nodegroup_role_arn(self):
+        """Gets the nodegroup_role_arn of this CreateClusterRequest.
+
+        The Amazon Resource Name (ARN) of the IAM role to associate with the node group. Required in order to create a cluster nodegroup  # noqa: E501
+
+        :return: The nodegroup_role_arn of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._nodegroup_role_arn
+
+    @nodegroup_role_arn.setter
+    def nodegroup_role_arn(self, nodegroup_role_arn):
+        """Sets the nodegroup_role_arn of this CreateClusterRequest.
+
+        The Amazon Resource Name (ARN) of the IAM role to associate with the node group. Required in order to create a cluster nodegroup  # noqa: E501
+
+        :param nodegroup_role_arn: The nodegroup_role_arn of this CreateClusterRequest.
+        :type nodegroup_role_arn: str
+        """
+
+        self._nodegroup_role_arn = nodegroup_role_arn
+
+    @property
+    def nodegroup_size(self):
+        """Gets the nodegroup_size of this CreateClusterRequest.
+
+        Name or ID of size to use for the nodes. If not provided, the t3.medium size will be used  # noqa: E501
+
+        :return: The nodegroup_size of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._nodegroup_size
+
+    @nodegroup_size.setter
+    def nodegroup_size(self, nodegroup_size):
+        """Sets the nodegroup_size of this CreateClusterRequest.
+
+        Name or ID of size to use for the nodes. If not provided, the t3.medium size will be used  # noqa: E501
+
+        :param nodegroup_size: The nodegroup_size of this CreateClusterRequest.
+        :type nodegroup_size: str
+        """
+
+        self._nodegroup_size = nodegroup_size
+
+    @property
+    def nodegroup_disk_size(self):
+        """Gets the nodegroup_disk_size of this CreateClusterRequest.
+
+        The disk size for the nodegroup. Defaults to 20 GBs  # noqa: E501
+
+        :return: The nodegroup_disk_size of this CreateClusterRequest.
+        :rtype: float
+        """
+        return self._nodegroup_disk_size
+
+    @nodegroup_disk_size.setter
+    def nodegroup_disk_size(self, nodegroup_disk_size):
+        """Sets the nodegroup_disk_size of this CreateClusterRequest.
+
+        The disk size for the nodegroup. Defaults to 20 GBs  # noqa: E501
+
+        :param nodegroup_disk_size: The nodegroup_disk_size of this CreateClusterRequest.
+        :type nodegroup_disk_size: float
+        """
+
+        self._nodegroup_disk_size = nodegroup_disk_size
 
     @property
     def location(self):
