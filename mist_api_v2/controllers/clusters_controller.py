@@ -47,12 +47,12 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     kwargs = {k: v for k, v in params.items() if v is not None}
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
-    
+
     job_id = uuid.uuid4().hex
     job = 'create_cluster'
     create_cluster_async.send(
-            auth_context.serialize(), cloud.id, job_id=job_id, job=job, **kwargs
-        )
+        auth_context.serialize(), cloud.id, job_id=job_id, job=job, **kwargs
+    )
     return 'Cluster creation successful', 200
 
 
