@@ -5283,9 +5283,6 @@ components:
           enum:
           - amazon
           type: string
-        name:
-          description: The cluster's name
-          type: string
         role_arn:
           description: The Amazon Resource Name (ARN) of the IAM role that provides
             permissions for the Kubernetes control plane to make calls to AWS API
@@ -5325,7 +5322,6 @@ components:
           description: The disk size for the nodegroup. Defaults to 20 GBs
           type: number
       required:
-      - name
       - provider
       - role_arn
       type: object

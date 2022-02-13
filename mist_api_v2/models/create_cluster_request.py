@@ -103,7 +103,7 @@ class CreateClusterRequest(Model):
     def name(self):
         """Gets the name of this CreateClusterRequest.
 
-        The cluster's name  # noqa: E501
+        The name of the cluster to create  # noqa: E501
 
         :return: The name of this CreateClusterRequest.
         :rtype: str
@@ -114,7 +114,7 @@ class CreateClusterRequest(Model):
     def name(self, name):
         """Sets the name of this CreateClusterRequest.
 
-        The cluster's name  # noqa: E501
+        The name of the cluster to create  # noqa: E501
 
         :param name: The name of this CreateClusterRequest.
         :type name: str

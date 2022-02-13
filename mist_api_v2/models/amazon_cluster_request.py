@@ -15,13 +15,11 @@ class AmazonClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, name=None, role_arn=None, network=None, subnets=None, security_groups=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None):  # noqa: E501
+    def __init__(self, provider=None, role_arn=None, network=None, subnets=None, security_groups=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None):  # noqa: E501
         """AmazonClusterRequest - a model defined in OpenAPI
 
         :param provider: The provider of this AmazonClusterRequest.  # noqa: E501
         :type provider: str
-        :param name: The name of this AmazonClusterRequest.  # noqa: E501
-        :type name: str
         :param role_arn: The role_arn of this AmazonClusterRequest.  # noqa: E501
         :type role_arn: str
         :param network: The network of this AmazonClusterRequest.  # noqa: E501
@@ -41,7 +39,6 @@ class AmazonClusterRequest(Model):
         """
         self.openapi_types = {
             'provider': str,
-            'name': str,
             'role_arn': str,
             'network': str,
             'subnets': List[str],
@@ -54,7 +51,6 @@ class AmazonClusterRequest(Model):
 
         self.attribute_map = {
             'provider': 'provider',
-            'name': 'name',
             'role_arn': 'role_arn',
             'network': 'network',
             'subnets': 'subnets',
@@ -66,7 +62,6 @@ class AmazonClusterRequest(Model):
         }
 
         self._provider = provider
-        self._name = name
         self._role_arn = role_arn
         self._network = network
         self._subnets = subnets
@@ -113,31 +108,6 @@ class AmazonClusterRequest(Model):
             )
 
         self._provider = provider
-
-    @property
-    def name(self):
-        """Gets the name of this AmazonClusterRequest.
-
-        The cluster's name  # noqa: E501
-
-        :return: The name of this AmazonClusterRequest.
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this AmazonClusterRequest.
-
-        The cluster's name  # noqa: E501
-
-        :param name: The name of this AmazonClusterRequest.
-        :type name: str
-        """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
-
-        self._name = name
 
     @property
     def role_arn(self):
