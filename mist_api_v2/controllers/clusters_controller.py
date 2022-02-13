@@ -1,9 +1,10 @@
+import uuid
 import connexion
 
 from mist.api.methods import list_resources as list_resources_v1
 
-from mist.api.exceptions import ServiceUnavailableError
 from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.tasks import create_cluster_async
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
@@ -46,10 +47,12 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     kwargs = {k: v for k, v in params.items() if v is not None}
     if provider == 'google':
         kwargs['zone'] = kwargs.pop('location')
-    try:
-        cloud.ctl.container.create_cluster(auth_context, **kwargs)
-    except ServiceUnavailableError as e:
-        return e.msg, 503
+    
+    job_id = uuid.uuid4().hex
+    job = 'create_cluster'
+    create_cluster_async.send(
+            auth_context.serialize(), cloud.id, job_id=job_id, job=job, **kwargs
+        )
     return 'Cluster creation successful', 200
 
 
