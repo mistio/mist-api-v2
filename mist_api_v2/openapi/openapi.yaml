@@ -5312,7 +5312,7 @@ components:
           type: number
         nodegroup_role_arn:
           description: The Amazon Resource Name (ARN) of the IAM role to associate
-            with the node group
+            with the node group. Required in order to create a cluster nodegroup
           type: string
         nodegroup_size:
           description: Name or ID of size to use for the nodes. If not provided, the

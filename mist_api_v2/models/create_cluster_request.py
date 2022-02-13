@@ -297,7 +297,7 @@ class CreateClusterRequest(Model):
     def nodegroup_role_arn(self):
         """Gets the nodegroup_role_arn of this CreateClusterRequest.
 
-        The Amazon Resource Name (ARN) of the IAM role to associate with the node group  # noqa: E501
+        The Amazon Resource Name (ARN) of the IAM role to associate with the node group. Required in order to create a cluster nodegroup  # noqa: E501
 
         :return: The nodegroup_role_arn of this CreateClusterRequest.
         :rtype: str
@@ -308,7 +308,7 @@ class CreateClusterRequest(Model):
     def nodegroup_role_arn(self, nodegroup_role_arn):
         """Sets the nodegroup_role_arn of this CreateClusterRequest.
 
-        The Amazon Resource Name (ARN) of the IAM role to associate with the node group  # noqa: E501
+        The Amazon Resource Name (ARN) of the IAM role to associate with the node group. Required in order to create a cluster nodegroup  # noqa: E501
 
         :param nodegroup_role_arn: The nodegroup_role_arn of this CreateClusterRequest.
         :type nodegroup_role_arn: str
