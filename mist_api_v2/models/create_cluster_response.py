@@ -15,21 +15,21 @@ class CreateClusterResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None):  # noqa: E501
+    def __init__(self, job_id=None):  # noqa: E501
         """CreateClusterResponse - a model defined in OpenAPI
 
-        :param id: The id of this CreateClusterResponse.  # noqa: E501
-        :type id: str
+        :param job_id: The job_id of this CreateClusterResponse.  # noqa: E501
+        :type job_id: str
         """
         self.openapi_types = {
-            'id': str
+            'job_id': str
         }
 
         self.attribute_map = {
-            'id': 'id'
+            'job_id': 'jobId'
         }
 
-        self._id = id
+        self._job_id = job_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateClusterResponse':
@@ -43,22 +43,22 @@ class CreateClusterResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
-        """Gets the id of this CreateClusterResponse.
+    def job_id(self):
+        """Gets the job_id of this CreateClusterResponse.
 
 
-        :return: The id of this CreateClusterResponse.
+        :return: The job_id of this CreateClusterResponse.
         :rtype: str
         """
-        return self._id
+        return self._job_id
 
-    @id.setter
-    def id(self, id):
-        """Sets the id of this CreateClusterResponse.
+    @job_id.setter
+    def job_id(self, job_id):
+        """Sets the job_id of this CreateClusterResponse.
 
 
-        :param id: The id of this CreateClusterResponse.
-        :type id: str
+        :param job_id: The job_id of this CreateClusterResponse.
+        :type job_id: str
         """
 
-        self._id = id
+        self._job_id = job_id
