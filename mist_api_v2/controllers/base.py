@@ -45,3 +45,22 @@ def get_resource(auth_context, resource_type, cloud=None, search='', only='',
         result['data'] = {}
 
     return result
+
+def get_org_resources_count(auth_context, org_id):
+    from mist.api.users.models import Organization
+    org = Organization.objects.get(id=org_id)
+    # list_resources looks for resources in the auth_context.org org
+    # so here we set it to the org the api call is meant for
+    auth_context.org = org
+    limit = 1
+    start = 0
+    resources_count = {}
+    resource_types = {'cloud', 'cluster', 'machine', 'volume', 'bucket',
+                      'network', 'zone', 'key', 'image', 'schedule'}
+    from mist.api.methods import list_resources
+    for resource_type in resource_types:
+        _, total = list_resources(
+            auth_context, resource_type, limit=limit, start=start
+        )
+        resources_count[f'{resource_type}s_count'] = total
+    return resources_count
