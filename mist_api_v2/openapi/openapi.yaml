@@ -6788,6 +6788,21 @@ components:
           last_active: last_active
           clouds_count: clouds_count
           teams_count: teams_count
+        resources_count:
+          machines_count: 1
+          images_count: 3
+          rules_count: 1
+          tunnels_count: 4
+          volumes_count: 5
+          buckets_count: 5
+          templates_count: 2
+          zones_count: 7
+          keys_count: 9
+          clouds_count: 0
+          clusters_count: 6
+          networks_count: 2
+          schedules_count: 7
+          teams_count: 1
         meta:
           total: 0
           start: 1
@@ -6798,6 +6813,8 @@ components:
           $ref: '#/components/schemas/Org'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+        resources_count:
+          $ref: '#/components/schemas/OrgResourcesCount'
       type: object
     GetRuleResponse:
       example:
@@ -8597,6 +8614,52 @@ components:
           type: string
         last_active:
           type: string
+      type: object
+    OrgResourcesCount:
+      example:
+        machines_count: 1
+        images_count: 3
+        rules_count: 1
+        tunnels_count: 4
+        volumes_count: 5
+        buckets_count: 5
+        templates_count: 2
+        zones_count: 7
+        keys_count: 9
+        clouds_count: 0
+        clusters_count: 6
+        networks_count: 2
+        schedules_count: 7
+        teams_count: 1
+      properties:
+        clouds_count:
+          type: integer
+        clusters_count:
+          type: integer
+        machines_count:
+          type: integer
+        volumes_count:
+          type: integer
+        buckets_count:
+          type: integer
+        networks_count:
+          type: integer
+        zones_count:
+          type: integer
+        keys_count:
+          type: integer
+        images_count:
+          type: integer
+        templates_count:
+          type: integer
+        tunnels_count:
+          type: integer
+        schedules_count:
+          type: integer
+        rules_count:
+          type: integer
+        teams_count:
+          type: integer
       type: object
     OtherCloudRequest:
       properties:

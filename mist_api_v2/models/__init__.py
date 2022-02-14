@@ -145,6 +145,7 @@ from mist_api_v2.models.openstack_cloud_request import OpenstackCloudRequest
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
 from mist_api_v2.models.openstack_net import OpenstackNet
 from mist_api_v2.models.org import Org
+from mist_api_v2.models.org_resources_count import OrgResourcesCount
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
