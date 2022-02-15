@@ -45,7 +45,7 @@ class Machine(Model):
         :param cluster: The cluster of this Machine.  # noqa: E501
         :type cluster: str
         :param cores: The cores of this Machine.  # noqa: E501
-        :type cores: int
+        :type cores: float
         :param cost: The cost of this Machine.  # noqa: E501
         :type cost: object
         :param created: The created of this Machine.  # noqa: E501
@@ -103,7 +103,7 @@ class Machine(Model):
             'state': MachineState,
             'actions': object,
             'cluster': str,
-            'cores': int,
+            'cores': float,
             'cost': object,
             'created': str,
             'expiration': str,
@@ -448,7 +448,7 @@ class Machine(Model):
 
 
         :return: The cores of this Machine.
-        :rtype: int
+        :rtype: float
         """
         return self._cores
 
@@ -458,7 +458,7 @@ class Machine(Model):
 
 
         :param cores: The cores of this Machine.
-        :type cores: int
+        :type cores: float
         """
 
         self._cores = cores

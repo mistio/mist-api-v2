@@ -15,7 +15,7 @@ class KeyMachineAssociation(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, key=None, machine=None, last_used=None, port=None, user=None):  # noqa: E501
+    def __init__(self, key=None, machine=None, last_used=None, port=None, user=None, sudo=None):  # noqa: E501
         """KeyMachineAssociation - a model defined in OpenAPI
 
         :param key: The key of this KeyMachineAssociation.  # noqa: E501
@@ -28,13 +28,16 @@ class KeyMachineAssociation(Model):
         :type port: int
         :param user: The user of this KeyMachineAssociation.  # noqa: E501
         :type user: str
+        :param sudo: The sudo of this KeyMachineAssociation.  # noqa: E501
+        :type sudo: bool
         """
         self.openapi_types = {
             'key': str,
             'machine': str,
             'last_used': int,
             'port': int,
-            'user': str
+            'user': str,
+            'sudo': bool
         }
 
         self.attribute_map = {
@@ -42,7 +45,8 @@ class KeyMachineAssociation(Model):
             'machine': 'machine',
             'last_used': 'last_used',
             'port': 'port',
-            'user': 'user'
+            'user': 'user',
+            'sudo': 'sudo'
         }
 
         self._key = key
@@ -50,6 +54,7 @@ class KeyMachineAssociation(Model):
         self._last_used = last_used
         self._port = port
         self._user = user
+        self._sudo = sudo
 
     @classmethod
     def from_dict(cls, dikt) -> 'KeyMachineAssociation':
@@ -176,3 +181,26 @@ class KeyMachineAssociation(Model):
         """
 
         self._user = user
+
+    @property
+    def sudo(self):
+        """Gets the sudo of this KeyMachineAssociation.
+
+        Indicates if the SSH user has sudo privileges  # noqa: E501
+
+        :return: The sudo of this KeyMachineAssociation.
+        :rtype: bool
+        """
+        return self._sudo
+
+    @sudo.setter
+    def sudo(self, sudo):
+        """Sets the sudo of this KeyMachineAssociation.
+
+        Indicates if the SSH user has sudo privileges  # noqa: E501
+
+        :param sudo: The sudo of this KeyMachineAssociation.
+        :type sudo: bool
+        """
+
+        self._sudo = sudo
