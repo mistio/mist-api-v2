@@ -51,6 +51,7 @@ class TestMachinesController:
   "port" : 1,
   "machine" : "machine",
   "last_used" : 6,
+  "sudo" : true,
   "user" : "user",
   "key" : "key"
 }""", strict=False)
