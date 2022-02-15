@@ -30,6 +30,11 @@ class MachineState(Model):
     PAUSED = "paused"
     RECONFIGURING = "reconfiguring"
     UNKNOWN = "unknown"
+    UPDATING = "updating"
+    MIGRATING = "migrating"
+    NORMAL = "normal"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
     def __init__(self):  # noqa: E501
         """MachineState - a model defined in OpenAPI
 

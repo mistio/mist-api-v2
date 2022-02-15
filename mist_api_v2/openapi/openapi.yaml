@@ -8337,6 +8337,11 @@ components:
       - paused
       - reconfiguring
       - unknown
+      - updating
+      - migrating
+      - normal
+      - succeeded
+      - failed
       type: string
     MaxihostCloudRequest:
       properties:
