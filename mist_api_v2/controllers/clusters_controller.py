@@ -44,10 +44,8 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         auth_context.check_perm('cloud', 'create_resources', cloud.id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    provider = params.pop('provider')
+
     kwargs = {k: v for k, v in params.items() if v is not None}
-    if provider == 'google':
-        kwargs['zone'] = kwargs.pop('location')
 
     job_id = uuid.uuid4().hex
     job = 'create_cluster'
