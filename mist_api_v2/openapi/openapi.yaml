@@ -6947,8 +6947,27 @@ components:
           - google
           type: string
         location:
-          description: The name of the location to create the cluster in
+          description: Name or ID of the location to create the cluster in
           type: string
+        desired_nodes:
+          description: The number of nodes to provision for the nodepool. Defaults
+            to 3
+          type: number
+        nodepool_size:
+          description: Name or ID of size to use for the nodes. If not provided, the
+            e2-medium size will be used
+          type: string
+        nodepool_disk_size:
+          description: Size of the disk attached to each node, specified in GB. Defaults
+            to 100 GBs
+          type: number
+        nodepool_disk_type:
+          description: Type of the disk attached to each node. Defaults to pd-standard
+          type: string
+        preemptible:
+          description: Whether the nodes are created as preemptible machines. Defaults
+            to false
+          type: boolean
       required:
       - location
       - provider
