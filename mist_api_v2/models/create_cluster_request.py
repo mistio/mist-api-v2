@@ -17,7 +17,7 @@ class CreateClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, network=None, subnets=None, security_groups=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None, location=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, role_arn=None, network=None, subnets=None, security_groups=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None, location=None, nodepool_size=None, nodepool_disk_size=None, nodepool_disk_type=None, preemptible=None):  # noqa: E501
         """CreateClusterRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequest.  # noqa: E501
@@ -44,6 +44,14 @@ class CreateClusterRequest(Model):
         :type nodegroup_disk_size: float
         :param location: The location of this CreateClusterRequest.  # noqa: E501
         :type location: str
+        :param nodepool_size: The nodepool_size of this CreateClusterRequest.  # noqa: E501
+        :type nodepool_size: str
+        :param nodepool_disk_size: The nodepool_disk_size of this CreateClusterRequest.  # noqa: E501
+        :type nodepool_disk_size: float
+        :param nodepool_disk_type: The nodepool_disk_type of this CreateClusterRequest.  # noqa: E501
+        :type nodepool_disk_type: str
+        :param preemptible: The preemptible of this CreateClusterRequest.  # noqa: E501
+        :type preemptible: bool
         """
         self.openapi_types = {
             'name': str,
@@ -57,7 +65,11 @@ class CreateClusterRequest(Model):
             'nodegroup_role_arn': str,
             'nodegroup_size': str,
             'nodegroup_disk_size': float,
-            'location': str
+            'location': str,
+            'nodepool_size': str,
+            'nodepool_disk_size': float,
+            'nodepool_disk_type': str,
+            'preemptible': bool
         }
 
         self.attribute_map = {
@@ -72,7 +84,11 @@ class CreateClusterRequest(Model):
             'nodegroup_role_arn': 'nodegroup_role_arn',
             'nodegroup_size': 'nodegroup_size',
             'nodegroup_disk_size': 'nodegroup_disk_size',
-            'location': 'location'
+            'location': 'location',
+            'nodepool_size': 'nodepool_size',
+            'nodepool_disk_size': 'nodepool_disk_size',
+            'nodepool_disk_type': 'nodepool_disk_type',
+            'preemptible': 'preemptible'
         }
 
         self._name = name
@@ -87,6 +103,10 @@ class CreateClusterRequest(Model):
         self._nodegroup_size = nodegroup_size
         self._nodegroup_disk_size = nodegroup_disk_size
         self._location = location
+        self._nodepool_size = nodepool_size
+        self._nodepool_disk_size = nodepool_disk_size
+        self._nodepool_disk_type = nodepool_disk_type
+        self._preemptible = preemptible
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateClusterRequest':
@@ -274,7 +294,7 @@ class CreateClusterRequest(Model):
     def desired_nodes(self):
         """Gets the desired_nodes of this CreateClusterRequest.
 
-        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
+        The number of nodes to provision for the nodepool. Defaults to 3  # noqa: E501
 
         :return: The desired_nodes of this CreateClusterRequest.
         :rtype: float
@@ -285,7 +305,7 @@ class CreateClusterRequest(Model):
     def desired_nodes(self, desired_nodes):
         """Sets the desired_nodes of this CreateClusterRequest.
 
-        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
+        The number of nodes to provision for the nodepool. Defaults to 3  # noqa: E501
 
         :param desired_nodes: The desired_nodes of this CreateClusterRequest.
         :type desired_nodes: float
@@ -366,7 +386,7 @@ class CreateClusterRequest(Model):
     def location(self):
         """Gets the location of this CreateClusterRequest.
 
-        The name of the location to create the cluster in  # noqa: E501
+        Name or ID of the location to create the cluster in  # noqa: E501
 
         :return: The location of this CreateClusterRequest.
         :rtype: str
@@ -377,7 +397,7 @@ class CreateClusterRequest(Model):
     def location(self, location):
         """Sets the location of this CreateClusterRequest.
 
-        The name of the location to create the cluster in  # noqa: E501
+        Name or ID of the location to create the cluster in  # noqa: E501
 
         :param location: The location of this CreateClusterRequest.
         :type location: str
@@ -386,3 +406,95 @@ class CreateClusterRequest(Model):
             raise ValueError("Invalid value for `location`, must not be `None`")  # noqa: E501
 
         self._location = location
+
+    @property
+    def nodepool_size(self):
+        """Gets the nodepool_size of this CreateClusterRequest.
+
+        Name or ID of size to use for the nodes. If not provided, the e2-medium size will be used  # noqa: E501
+
+        :return: The nodepool_size of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._nodepool_size
+
+    @nodepool_size.setter
+    def nodepool_size(self, nodepool_size):
+        """Sets the nodepool_size of this CreateClusterRequest.
+
+        Name or ID of size to use for the nodes. If not provided, the e2-medium size will be used  # noqa: E501
+
+        :param nodepool_size: The nodepool_size of this CreateClusterRequest.
+        :type nodepool_size: str
+        """
+
+        self._nodepool_size = nodepool_size
+
+    @property
+    def nodepool_disk_size(self):
+        """Gets the nodepool_disk_size of this CreateClusterRequest.
+
+        Size of the disk attached to each node, specified in GB. Defaults to 100 GBs  # noqa: E501
+
+        :return: The nodepool_disk_size of this CreateClusterRequest.
+        :rtype: float
+        """
+        return self._nodepool_disk_size
+
+    @nodepool_disk_size.setter
+    def nodepool_disk_size(self, nodepool_disk_size):
+        """Sets the nodepool_disk_size of this CreateClusterRequest.
+
+        Size of the disk attached to each node, specified in GB. Defaults to 100 GBs  # noqa: E501
+
+        :param nodepool_disk_size: The nodepool_disk_size of this CreateClusterRequest.
+        :type nodepool_disk_size: float
+        """
+
+        self._nodepool_disk_size = nodepool_disk_size
+
+    @property
+    def nodepool_disk_type(self):
+        """Gets the nodepool_disk_type of this CreateClusterRequest.
+
+        Type of the disk attached to each node. Defaults to pd-standard  # noqa: E501
+
+        :return: The nodepool_disk_type of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._nodepool_disk_type
+
+    @nodepool_disk_type.setter
+    def nodepool_disk_type(self, nodepool_disk_type):
+        """Sets the nodepool_disk_type of this CreateClusterRequest.
+
+        Type of the disk attached to each node. Defaults to pd-standard  # noqa: E501
+
+        :param nodepool_disk_type: The nodepool_disk_type of this CreateClusterRequest.
+        :type nodepool_disk_type: str
+        """
+
+        self._nodepool_disk_type = nodepool_disk_type
+
+    @property
+    def preemptible(self):
+        """Gets the preemptible of this CreateClusterRequest.
+
+        Whether the nodes are created as preemptible machines. Defaults to false  # noqa: E501
+
+        :return: The preemptible of this CreateClusterRequest.
+        :rtype: bool
+        """
+        return self._preemptible
+
+    @preemptible.setter
+    def preemptible(self, preemptible):
+        """Sets the preemptible of this CreateClusterRequest.
+
+        Whether the nodes are created as preemptible machines. Defaults to false  # noqa: E501
+
+        :param preemptible: The preemptible of this CreateClusterRequest.
+        :type preemptible: bool
+        """
+
+        self._preemptible = preemptible
