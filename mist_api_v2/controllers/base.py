@@ -62,5 +62,5 @@ def get_org_resources_count(auth_context, org_id):
         _, total = list_resources(
             auth_context, resource_type, limit=limit, start=start
         )
-        resources_count[f'{resource_type}s_count'] = total
+        resources_count[f'{resource_type}s'] = total
     return resources_count
