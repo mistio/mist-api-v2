@@ -7,6 +7,7 @@ from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.tasks import create_cluster_async
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
+from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 
@@ -53,7 +54,7 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     create_cluster_async.send(
         auth_context.serialize(), cloud.id, job_id=job_id, job=job, **kwargs
     )
-    return 'Cluster creation successful', 200
+    return CreateClusterResponse(job_id=job_id)
 
 
 def destroy_cluster(cluster):  # noqa: E501
