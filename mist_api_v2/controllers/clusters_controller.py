@@ -31,27 +31,51 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    params = create_cluster_request.to_dict()
-    try:
-        [cloud], _ = list_resources_v1(auth_context, 'cloud',
-                                       search=params.pop('cloud'),
-                                       limit=1)
-    except ValueError:
+
+    if create_cluster_request.cloud:
+        cloud_search = create_cluster_request.cloud
+    elif create_cluster_request.provider:
+        cloud_search = (f'provider={create_cluster_request.provider}')
+    else:
+        cloud_search = ''
+
+    cloud_search = f'{cloud_search} container_enabled=True'
+
+    clouds, _ = list_resources_v1(auth_context,
+                                  'cloud',
+                                  search=cloud_search)
+    selected_cloud = None
+    for cloud in clouds:
+        try:
+            auth_context.check_perm('cluster', 'create', cloud.id)
+            auth_context.check_perm('cloud', 'read', cloud.id)
+            auth_context.check_perm('cloud', 'create_resources', cloud.id)
+            kwargs = cloud.validate_create_cluster_request(
+                auth_context,
+                create_cluster_request)
+        except Exception as exc:
+            if clouds.count() == 1:
+                if isinstance(exc, PolicyUnauthorizedError):
+                    return ('You are not authorized to perform this action',
+                            403)
+                else:
+                    return exc.args[0], 400
+            continue
+        else:
+            selected_cloud = cloud
+            break
+
+    if selected_cloud is None:
         return 'Cloud not found', 404
-    try:
-        auth_context.check_perm('cluster', 'create', cloud.id)
-        auth_context.check_perm('cloud', 'read', cloud.id)
-        auth_context.check_perm('cloud', 'create_resources', cloud.id)
-    except PolicyUnauthorizedError:
-        return 'You are not authorized to perform this action', 403
-    _ = params.pop('provider')
-    kwargs = {k: v for k, v in params.items() if v is not None}
 
     job_id = uuid.uuid4().hex
     job = 'create_cluster'
-    create_cluster_async.send(
-        auth_context.serialize(), cloud.id, job_id=job_id, job=job, **kwargs
-    )
+    create_cluster_async.send(auth_context.serialize(),
+                              selected_cloud.id,
+                              job_id=job_id,
+                              job=job,
+                              **kwargs
+                              )
     return CreateClusterResponse(job_id=job_id)
 
 
