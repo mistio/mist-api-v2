@@ -9327,7 +9327,7 @@ components:
           default: 2
           description: The number of nodes to provision for the cluster. Defaults
             to 2
-          type: number
+          type: integer
         size:
           description: Name or ID of size to use for the nodes. If not provided, the
             t3.medium(EKS) or e2-medium(GKE) size will be used
@@ -9335,7 +9335,7 @@ components:
         disk_size:
           default: 20
           description: Size of the disk attached to each node, specified in GB.
-          type: number
+          type: integer
         role_arn:
           description: Amazon specific parameter.The Amazon Resource Name (ARN) of
             the IAM role to associate with the nodes. Required in order to create

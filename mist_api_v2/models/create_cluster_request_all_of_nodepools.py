@@ -19,11 +19,11 @@ class CreateClusterRequestAllOfNodepools(Model):
         """CreateClusterRequestAllOfNodepools - a model defined in OpenAPI
 
         :param nodes: The nodes of this CreateClusterRequestAllOfNodepools.  # noqa: E501
-        :type nodes: float
+        :type nodes: int
         :param size: The size of this CreateClusterRequestAllOfNodepools.  # noqa: E501
         :type size: str
         :param disk_size: The disk_size of this CreateClusterRequestAllOfNodepools.  # noqa: E501
-        :type disk_size: float
+        :type disk_size: int
         :param role_arn: The role_arn of this CreateClusterRequestAllOfNodepools.  # noqa: E501
         :type role_arn: str
         :param disk_type: The disk_type of this CreateClusterRequestAllOfNodepools.  # noqa: E501
@@ -32,9 +32,9 @@ class CreateClusterRequestAllOfNodepools(Model):
         :type preemptible: bool
         """
         self.openapi_types = {
-            'nodes': float,
+            'nodes': int,
             'size': str,
-            'disk_size': float,
+            'disk_size': int,
             'role_arn': str,
             'disk_type': str,
             'preemptible': bool
@@ -74,7 +74,7 @@ class CreateClusterRequestAllOfNodepools(Model):
         The number of nodes to provision for the cluster. Defaults to 2  # noqa: E501
 
         :return: The nodes of this CreateClusterRequestAllOfNodepools.
-        :rtype: float
+        :rtype: int
         """
         return self._nodes
 
@@ -85,7 +85,7 @@ class CreateClusterRequestAllOfNodepools(Model):
         The number of nodes to provision for the cluster. Defaults to 2  # noqa: E501
 
         :param nodes: The nodes of this CreateClusterRequestAllOfNodepools.
-        :type nodes: float
+        :type nodes: int
         """
 
         self._nodes = nodes
@@ -120,7 +120,7 @@ class CreateClusterRequestAllOfNodepools(Model):
         Size of the disk attached to each node, specified in GB.  # noqa: E501
 
         :return: The disk_size of this CreateClusterRequestAllOfNodepools.
-        :rtype: float
+        :rtype: int
         """
         return self._disk_size
 
@@ -131,7 +131,7 @@ class CreateClusterRequestAllOfNodepools(Model):
         Size of the disk attached to each node, specified in GB.  # noqa: E501
 
         :param disk_size: The disk_size of this CreateClusterRequestAllOfNodepools.
-        :type disk_size: float
+        :type disk_size: int
         """
 
         self._disk_size = disk_size
