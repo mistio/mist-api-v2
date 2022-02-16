@@ -5283,10 +5283,6 @@ components:
       type: object
     AmazonClusterRequest:
       properties:
-        provider:
-          enum:
-          - amazon
-          type: string
         role_arn:
           description: The Amazon Resource Name (ARN) of the IAM role that provides
             permissions for the Kubernetes control plane to make calls to AWS API
@@ -5310,24 +5306,9 @@ components:
           items:
             type: string
           type: array
-        desired_nodes:
-          description: The initial number of nodes to provision for the nodegroup.
-            Defaults to 2
-          type: number
-        nodegroup_role_arn:
-          description: The Amazon Resource Name (ARN) of the IAM role to associate
-            with the node group. Required in order to create a cluster nodegroup
-          type: string
-        nodegroup_size:
-          description: Name or ID of size to use for the nodes. If not provided, the
-            t3.medium size will be used
-          type: string
-        nodegroup_disk_size:
-          description: The disk size for the nodegroup. Defaults to 20 GBs
-          type: number
       required:
-      - provider
       - role_arn
+      title: Amazon parameters
       type: object
     AmazonCredentials:
       properties:
@@ -5681,12 +5662,7 @@ components:
     CreateClusterRequest:
       allOf:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
-      - discriminator:
-          mapping:
-            amazon: '#/components/schemas/AmazonClusterRequest'
-            google: '#/components/schemas/GoogleClusterRequest'
-          propertyName: provider
-        oneOf:
+      - oneOf:
         - $ref: '#/components/schemas/AmazonClusterRequest'
         - $ref: '#/components/schemas/GoogleClusterRequest'
       example:
@@ -6942,35 +6918,12 @@ components:
       type: object
     GoogleClusterRequest:
       properties:
-        provider:
-          enum:
-          - google
-          type: string
         location:
           description: Name or ID of the location to create the cluster in
           type: string
-        desired_nodes:
-          description: The number of nodes to provision for the nodepool. Defaults
-            to 3
-          type: number
-        nodepool_size:
-          description: Name or ID of size to use for the nodes. If not provided, the
-            e2-medium size will be used
-          type: string
-        nodepool_disk_size:
-          description: Size of the disk attached to each node, specified in GB. Defaults
-            to 100 GBs
-          type: number
-        nodepool_disk_type:
-          description: Type of the disk attached to each node. Defaults to pd-standard
-          type: string
-        preemptible:
-          description: Whether the nodes are created as preemptible machines. Defaults
-            to false
-          type: boolean
       required:
       - location
-      - provider
+      title: Google parameters
       type: object
     GoogleCredentials:
       properties:
@@ -9368,6 +9321,35 @@ components:
       required:
       - dry
       - generate
+    CreateClusterRequest_allOf_nodepools:
+      properties:
+        nodes:
+          default: 2
+          description: The number of nodes to provision for the cluster. Defaults
+            to 2
+          type: number
+        size:
+          description: Name or ID of size to use for the nodes. If not provided, the
+            t3.medium(EKS) or e2-medium(GKE) size will be used
+          type: string
+        disk_size:
+          default: 20
+          description: Size of the disk attached to each node, specified in GB.
+          type: number
+        role_arn:
+          description: Amazon specific parameter.The Amazon Resource Name (ARN) of
+            the IAM role to associate with the nodes. Required in order to create
+            a cluster nodepool
+          type: string
+        disk_type:
+          description: Google specific parameter.Type of the disk attached to each
+            node. Defaults to pd-standard
+          type: string
+        preemptible:
+          description: Google specific parameter.Whether the nodes are created as
+            preemptible machines. Defaults to false
+          type: boolean
+      type: object
     CreateClusterRequest_allOf:
       properties:
         name:
@@ -9378,10 +9360,12 @@ components:
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
+        nodepools:
+          items:
+            $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
+          type: array
       required:
-      - cloud
       - name
-      - provider
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks
