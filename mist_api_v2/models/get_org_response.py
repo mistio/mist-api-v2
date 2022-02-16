@@ -7,12 +7,10 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.org import Org
-from mist_api_v2.models.org_resources_count import OrgResourcesCount
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2 import util
 
 from mist_api_v2.models.org import Org  # noqa: E501
-from mist_api_v2.models.org_resources_count import OrgResourcesCount  # noqa: E501
 from mist_api_v2.models.response_metadata import ResponseMetadata  # noqa: E501
 
 class GetOrgResponse(Model):
@@ -21,31 +19,26 @@ class GetOrgResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, data=None, meta=None, resources_count=None):  # noqa: E501
+    def __init__(self, data=None, meta=None):  # noqa: E501
         """GetOrgResponse - a model defined in OpenAPI
 
         :param data: The data of this GetOrgResponse.  # noqa: E501
         :type data: Org
         :param meta: The meta of this GetOrgResponse.  # noqa: E501
         :type meta: ResponseMetadata
-        :param resources_count: The resources_count of this GetOrgResponse.  # noqa: E501
-        :type resources_count: OrgResourcesCount
         """
         self.openapi_types = {
             'data': Org,
-            'meta': ResponseMetadata,
-            'resources_count': OrgResourcesCount
+            'meta': ResponseMetadata
         }
 
         self.attribute_map = {
             'data': 'data',
-            'meta': 'meta',
-            'resources_count': 'resources_count'
+            'meta': 'meta'
         }
 
         self._data = data
         self._meta = meta
-        self._resources_count = resources_count
 
     @classmethod
     def from_dict(cls, dikt) -> 'GetOrgResponse':
@@ -99,24 +92,3 @@ class GetOrgResponse(Model):
         """
 
         self._meta = meta
-
-    @property
-    def resources_count(self):
-        """Gets the resources_count of this GetOrgResponse.
-
-
-        :return: The resources_count of this GetOrgResponse.
-        :rtype: OrgResourcesCount
-        """
-        return self._resources_count
-
-    @resources_count.setter
-    def resources_count(self, resources_count):
-        """Sets the resources_count of this GetOrgResponse.
-
-
-        :param resources_count: The resources_count of this GetOrgResponse.
-        :type resources_count: OrgResourcesCount
-        """
-
-        self._resources_count = resources_count
