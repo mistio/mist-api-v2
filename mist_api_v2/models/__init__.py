@@ -31,6 +31,7 @@ from mist_api_v2.models.cluster import Cluster
 from mist_api_v2.models.cluster_providers import ClusterProviders
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest
 from mist_api_v2.models.create_cluster_request_all_of import CreateClusterRequestAllOf
+from mist_api_v2.models.create_cluster_request_all_of_nodepools import CreateClusterRequestAllOfNodepools
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse
 from mist_api_v2.models.create_machine_request import CreateMachineRequest
 from mist_api_v2.models.create_machine_response import CreateMachineResponse

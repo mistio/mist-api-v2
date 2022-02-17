@@ -15,51 +15,21 @@ class GoogleClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, location=None, desired_nodes=None, nodepool_size=None, nodepool_disk_size=None, nodepool_disk_type=None, preemptible=None):  # noqa: E501
+    def __init__(self, location=None):  # noqa: E501
         """GoogleClusterRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this GoogleClusterRequest.  # noqa: E501
-        :type provider: str
         :param location: The location of this GoogleClusterRequest.  # noqa: E501
         :type location: str
-        :param desired_nodes: The desired_nodes of this GoogleClusterRequest.  # noqa: E501
-        :type desired_nodes: float
-        :param nodepool_size: The nodepool_size of this GoogleClusterRequest.  # noqa: E501
-        :type nodepool_size: str
-        :param nodepool_disk_size: The nodepool_disk_size of this GoogleClusterRequest.  # noqa: E501
-        :type nodepool_disk_size: float
-        :param nodepool_disk_type: The nodepool_disk_type of this GoogleClusterRequest.  # noqa: E501
-        :type nodepool_disk_type: str
-        :param preemptible: The preemptible of this GoogleClusterRequest.  # noqa: E501
-        :type preemptible: bool
         """
         self.openapi_types = {
-            'provider': str,
-            'location': str,
-            'desired_nodes': float,
-            'nodepool_size': str,
-            'nodepool_disk_size': float,
-            'nodepool_disk_type': str,
-            'preemptible': bool
+            'location': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
-            'location': 'location',
-            'desired_nodes': 'desired_nodes',
-            'nodepool_size': 'nodepool_size',
-            'nodepool_disk_size': 'nodepool_disk_size',
-            'nodepool_disk_type': 'nodepool_disk_type',
-            'preemptible': 'preemptible'
+            'location': 'location'
         }
 
-        self._provider = provider
         self._location = location
-        self._desired_nodes = desired_nodes
-        self._nodepool_size = nodepool_size
-        self._nodepool_disk_size = nodepool_disk_size
-        self._nodepool_disk_type = nodepool_disk_type
-        self._preemptible = preemptible
 
     @classmethod
     def from_dict(cls, dikt) -> 'GoogleClusterRequest':
@@ -71,33 +41,6 @@ class GoogleClusterRequest(Model):
         :rtype: GoogleClusterRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def provider(self):
-        """Gets the provider of this GoogleClusterRequest.
-
-
-        :return: The provider of this GoogleClusterRequest.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this GoogleClusterRequest.
-
-
-        :param provider: The provider of this GoogleClusterRequest.
-        :type provider: str
-        """
-        allowed_values = ["google"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider
 
     @property
     def location(self):
@@ -123,118 +66,3 @@ class GoogleClusterRequest(Model):
             raise ValueError("Invalid value for `location`, must not be `None`")  # noqa: E501
 
         self._location = location
-
-    @property
-    def desired_nodes(self):
-        """Gets the desired_nodes of this GoogleClusterRequest.
-
-        The number of nodes to provision for the nodepool. Defaults to 3  # noqa: E501
-
-        :return: The desired_nodes of this GoogleClusterRequest.
-        :rtype: float
-        """
-        return self._desired_nodes
-
-    @desired_nodes.setter
-    def desired_nodes(self, desired_nodes):
-        """Sets the desired_nodes of this GoogleClusterRequest.
-
-        The number of nodes to provision for the nodepool. Defaults to 3  # noqa: E501
-
-        :param desired_nodes: The desired_nodes of this GoogleClusterRequest.
-        :type desired_nodes: float
-        """
-
-        self._desired_nodes = desired_nodes
-
-    @property
-    def nodepool_size(self):
-        """Gets the nodepool_size of this GoogleClusterRequest.
-
-        Name or ID of size to use for the nodes. If not provided, the e2-medium size will be used  # noqa: E501
-
-        :return: The nodepool_size of this GoogleClusterRequest.
-        :rtype: str
-        """
-        return self._nodepool_size
-
-    @nodepool_size.setter
-    def nodepool_size(self, nodepool_size):
-        """Sets the nodepool_size of this GoogleClusterRequest.
-
-        Name or ID of size to use for the nodes. If not provided, the e2-medium size will be used  # noqa: E501
-
-        :param nodepool_size: The nodepool_size of this GoogleClusterRequest.
-        :type nodepool_size: str
-        """
-
-        self._nodepool_size = nodepool_size
-
-    @property
-    def nodepool_disk_size(self):
-        """Gets the nodepool_disk_size of this GoogleClusterRequest.
-
-        Size of the disk attached to each node, specified in GB. Defaults to 100 GBs  # noqa: E501
-
-        :return: The nodepool_disk_size of this GoogleClusterRequest.
-        :rtype: float
-        """
-        return self._nodepool_disk_size
-
-    @nodepool_disk_size.setter
-    def nodepool_disk_size(self, nodepool_disk_size):
-        """Sets the nodepool_disk_size of this GoogleClusterRequest.
-
-        Size of the disk attached to each node, specified in GB. Defaults to 100 GBs  # noqa: E501
-
-        :param nodepool_disk_size: The nodepool_disk_size of this GoogleClusterRequest.
-        :type nodepool_disk_size: float
-        """
-
-        self._nodepool_disk_size = nodepool_disk_size
-
-    @property
-    def nodepool_disk_type(self):
-        """Gets the nodepool_disk_type of this GoogleClusterRequest.
-
-        Type of the disk attached to each node. Defaults to pd-standard  # noqa: E501
-
-        :return: The nodepool_disk_type of this GoogleClusterRequest.
-        :rtype: str
-        """
-        return self._nodepool_disk_type
-
-    @nodepool_disk_type.setter
-    def nodepool_disk_type(self, nodepool_disk_type):
-        """Sets the nodepool_disk_type of this GoogleClusterRequest.
-
-        Type of the disk attached to each node. Defaults to pd-standard  # noqa: E501
-
-        :param nodepool_disk_type: The nodepool_disk_type of this GoogleClusterRequest.
-        :type nodepool_disk_type: str
-        """
-
-        self._nodepool_disk_type = nodepool_disk_type
-
-    @property
-    def preemptible(self):
-        """Gets the preemptible of this GoogleClusterRequest.
-
-        Whether the nodes are created as preemptible machines. Defaults to false  # noqa: E501
-
-        :return: The preemptible of this GoogleClusterRequest.
-        :rtype: bool
-        """
-        return self._preemptible
-
-    @preemptible.setter
-    def preemptible(self, preemptible):
-        """Sets the preemptible of this GoogleClusterRequest.
-
-        Whether the nodes are created as preemptible machines. Defaults to false  # noqa: E501
-
-        :param preemptible: The preemptible of this GoogleClusterRequest.
-        :type preemptible: bool
-        """
-
-        self._preemptible = preemptible

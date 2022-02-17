@@ -15,11 +15,9 @@ class AmazonClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, role_arn=None, network=None, subnets=None, security_groups=None, desired_nodes=None, nodegroup_role_arn=None, nodegroup_size=None, nodegroup_disk_size=None):  # noqa: E501
+    def __init__(self, role_arn=None, network=None, subnets=None, security_groups=None):  # noqa: E501
         """AmazonClusterRequest - a model defined in OpenAPI
 
-        :param provider: The provider of this AmazonClusterRequest.  # noqa: E501
-        :type provider: str
         :param role_arn: The role_arn of this AmazonClusterRequest.  # noqa: E501
         :type role_arn: str
         :param network: The network of this AmazonClusterRequest.  # noqa: E501
@@ -28,48 +26,25 @@ class AmazonClusterRequest(Model):
         :type subnets: List[str]
         :param security_groups: The security_groups of this AmazonClusterRequest.  # noqa: E501
         :type security_groups: List[str]
-        :param desired_nodes: The desired_nodes of this AmazonClusterRequest.  # noqa: E501
-        :type desired_nodes: float
-        :param nodegroup_role_arn: The nodegroup_role_arn of this AmazonClusterRequest.  # noqa: E501
-        :type nodegroup_role_arn: str
-        :param nodegroup_size: The nodegroup_size of this AmazonClusterRequest.  # noqa: E501
-        :type nodegroup_size: str
-        :param nodegroup_disk_size: The nodegroup_disk_size of this AmazonClusterRequest.  # noqa: E501
-        :type nodegroup_disk_size: float
         """
         self.openapi_types = {
-            'provider': str,
             'role_arn': str,
             'network': str,
             'subnets': List[str],
-            'security_groups': List[str],
-            'desired_nodes': float,
-            'nodegroup_role_arn': str,
-            'nodegroup_size': str,
-            'nodegroup_disk_size': float
+            'security_groups': List[str]
         }
 
         self.attribute_map = {
-            'provider': 'provider',
             'role_arn': 'role_arn',
             'network': 'network',
             'subnets': 'subnets',
-            'security_groups': 'security_groups',
-            'desired_nodes': 'desired_nodes',
-            'nodegroup_role_arn': 'nodegroup_role_arn',
-            'nodegroup_size': 'nodegroup_size',
-            'nodegroup_disk_size': 'nodegroup_disk_size'
+            'security_groups': 'security_groups'
         }
 
-        self._provider = provider
         self._role_arn = role_arn
         self._network = network
         self._subnets = subnets
         self._security_groups = security_groups
-        self._desired_nodes = desired_nodes
-        self._nodegroup_role_arn = nodegroup_role_arn
-        self._nodegroup_size = nodegroup_size
-        self._nodegroup_disk_size = nodegroup_disk_size
 
     @classmethod
     def from_dict(cls, dikt) -> 'AmazonClusterRequest':
@@ -81,33 +56,6 @@ class AmazonClusterRequest(Model):
         :rtype: AmazonClusterRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def provider(self):
-        """Gets the provider of this AmazonClusterRequest.
-
-
-        :return: The provider of this AmazonClusterRequest.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this AmazonClusterRequest.
-
-
-        :param provider: The provider of this AmazonClusterRequest.
-        :type provider: str
-        """
-        allowed_values = ["amazon"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider
 
     @property
     def role_arn(self):
@@ -202,95 +150,3 @@ class AmazonClusterRequest(Model):
         """
 
         self._security_groups = security_groups
-
-    @property
-    def desired_nodes(self):
-        """Gets the desired_nodes of this AmazonClusterRequest.
-
-        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
-
-        :return: The desired_nodes of this AmazonClusterRequest.
-        :rtype: float
-        """
-        return self._desired_nodes
-
-    @desired_nodes.setter
-    def desired_nodes(self, desired_nodes):
-        """Sets the desired_nodes of this AmazonClusterRequest.
-
-        The initial number of nodes to provision for the nodegroup. Defaults to 2  # noqa: E501
-
-        :param desired_nodes: The desired_nodes of this AmazonClusterRequest.
-        :type desired_nodes: float
-        """
-
-        self._desired_nodes = desired_nodes
-
-    @property
-    def nodegroup_role_arn(self):
-        """Gets the nodegroup_role_arn of this AmazonClusterRequest.
-
-        The Amazon Resource Name (ARN) of the IAM role to associate with the node group. Required in order to create a cluster nodegroup  # noqa: E501
-
-        :return: The nodegroup_role_arn of this AmazonClusterRequest.
-        :rtype: str
-        """
-        return self._nodegroup_role_arn
-
-    @nodegroup_role_arn.setter
-    def nodegroup_role_arn(self, nodegroup_role_arn):
-        """Sets the nodegroup_role_arn of this AmazonClusterRequest.
-
-        The Amazon Resource Name (ARN) of the IAM role to associate with the node group. Required in order to create a cluster nodegroup  # noqa: E501
-
-        :param nodegroup_role_arn: The nodegroup_role_arn of this AmazonClusterRequest.
-        :type nodegroup_role_arn: str
-        """
-
-        self._nodegroup_role_arn = nodegroup_role_arn
-
-    @property
-    def nodegroup_size(self):
-        """Gets the nodegroup_size of this AmazonClusterRequest.
-
-        Name or ID of size to use for the nodes. If not provided, the t3.medium size will be used  # noqa: E501
-
-        :return: The nodegroup_size of this AmazonClusterRequest.
-        :rtype: str
-        """
-        return self._nodegroup_size
-
-    @nodegroup_size.setter
-    def nodegroup_size(self, nodegroup_size):
-        """Sets the nodegroup_size of this AmazonClusterRequest.
-
-        Name or ID of size to use for the nodes. If not provided, the t3.medium size will be used  # noqa: E501
-
-        :param nodegroup_size: The nodegroup_size of this AmazonClusterRequest.
-        :type nodegroup_size: str
-        """
-
-        self._nodegroup_size = nodegroup_size
-
-    @property
-    def nodegroup_disk_size(self):
-        """Gets the nodegroup_disk_size of this AmazonClusterRequest.
-
-        The disk size for the nodegroup. Defaults to 20 GBs  # noqa: E501
-
-        :return: The nodegroup_disk_size of this AmazonClusterRequest.
-        :rtype: float
-        """
-        return self._nodegroup_disk_size
-
-    @nodegroup_disk_size.setter
-    def nodegroup_disk_size(self, nodegroup_disk_size):
-        """Sets the nodegroup_disk_size of this AmazonClusterRequest.
-
-        The disk size for the nodegroup. Defaults to 20 GBs  # noqa: E501
-
-        :param nodegroup_disk_size: The nodegroup_disk_size of this AmazonClusterRequest.
-        :type nodegroup_disk_size: float
-        """
-
-        self._nodegroup_disk_size = nodegroup_disk_size
