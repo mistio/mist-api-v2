@@ -51,7 +51,7 @@ def get_member(org, member, only=None):  # noqa: E501
     return GetOrgMemberResponse(data=result['data'], meta=result['meta'])
 
 
-def get_org(org, resources_count=False, only=None, deref=None):  # noqa: E501
+def get_org(org, summary=False, only=None, deref=None):  # noqa: E501
     """Get Org
 
     Get details about target org # noqa: E501
@@ -72,7 +72,7 @@ def get_org(org, resources_count=False, only=None, deref=None):  # noqa: E501
     search = f'id={org}'
     result = get_resource(auth_context, 'orgs', search=search, only=only)
     # get resources count only if get_resource rbac checks pass
-    if resources_count and result['meta']['returned'] == 1:
+    if summary and result['meta']['returned'] == 1:
         r_count = get_org_resources_summary(auth_context, org_id=org)
         result['data']['resources_count'] = r_count
     return GetOrgResponse(data=result['data'], meta=result['meta'])
