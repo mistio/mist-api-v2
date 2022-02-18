@@ -46,21 +46,37 @@ def get_resource(auth_context, resource_type, cloud=None, search='', only='',
 
     return result
 
-def get_org_resources_count(auth_context, org_id):
+def get_org_resources_summary(auth_context, org_id):
     from mist.api.users.models import Organization
     org = Organization.objects.get(id=org_id)
-    # list_resources looks for resources in the auth_context.org org
-    # so here we set it to the org the api call is meant for
-    auth_context.org = org
     limit = 1
     start = 0
     resources_count = {}
-    resource_types = {'cloud', 'cluster', 'machine', 'volume', 'bucket',
-                      'network', 'zone', 'key', 'image', 'schedule'}
-    from mist.api.methods import list_resources
+    resource_types = {'key', 'script', 'template', 'tunnel', 'schedule', 'rule',
+                      'team'}
+    from mist.api.helpers import get_resource_model
     for resource_type in resource_types:
-        _, total = list_resources(
-            auth_context, resource_type, limit=limit, start=start
-        )
-        resources_count[f'{resource_type}s'] = total
+        try:
+            resource_model = get_resource_model(resource_type)
+        except KeyError:
+            # if tunnels are not present
+            continue
+        except Exception as exc:
+            raise
+        total_resources = 0
+        if resource_type == 'schedule':
+            # Schedules need to filter reminder types which is a reference
+            schedules = resource_model.objects(owner=org, deleted=None)
+            total_resources = len(schedules)
+            # remove reminders
+            for schedule in schedules:
+                if schedule.schedule_type.type == 'reminder':
+                    total_resources -= 1
+        elif resource_type == 'team':
+            total_resources = org.teams_count
+        elif resource_type == 'rule':
+            total_resources = resource_model.objects(owner_id=org.id).count()
+        else:
+            total_resources = resource_model.objects(owner=org, deleted=None).count()
+        resources_count[f'{resource_type}s'] = {'total': total_resources}
     return resources_count

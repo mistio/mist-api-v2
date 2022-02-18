@@ -6,7 +6,7 @@ from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse 
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse  # noqa: E501
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
 
-from .base import list_resources, get_resource, get_org_resources_count
+from .base import list_resources, get_resource, get_org_resources_summary
 
 
 def get_member(org, member, only=None):  # noqa: E501
@@ -51,7 +51,7 @@ def get_member(org, member, only=None):  # noqa: E501
     return GetOrgMemberResponse(data=result['data'], meta=result['meta'])
 
 
-def get_org(org, only=None, deref=None):  # noqa: E501
+def get_org(org, resources_count=False, only=None, deref=None):  # noqa: E501
     """Get Org
 
     Get details about target org # noqa: E501
@@ -71,12 +71,11 @@ def get_org(org, only=None, deref=None):  # noqa: E501
         return 'Authentication failed', 401
     search = f'id={org}'
     result = get_resource(auth_context, 'orgs', search=search, only=only)
-    resources_count = {}
     # get resources count only if get_resource rbac checks pass
-    if result['meta']['returned'] == 1:
-        resources_count = get_org_resources_count(auth_context, org_id=org)
-    return GetOrgResponse(data=result['data'], meta=result['meta'],
-                          resources_count=resources_count)
+    if resources_count and result['meta']['returned'] == 1:
+        r_count = get_org_resources_summary(auth_context, org_id=org)
+        result['data']['resources_count'] = r_count
+    return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 
 def list_org_members(org, search=None, sort=None, start=None, limit=None, only=None):  # noqa: E501
