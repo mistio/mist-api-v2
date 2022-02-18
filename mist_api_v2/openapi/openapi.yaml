@@ -2936,8 +2936,7 @@ paths:
         schema:
           type: string
         style: simple
-      - description: Return total number for each, visible to caller, not missing,
-          resource
+      - description: Return total number for each org specific resource
         explode: true
         in: query
         name: summary
