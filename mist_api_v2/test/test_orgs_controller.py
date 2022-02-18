@@ -66,7 +66,7 @@ class TestOrgsController:
 
         Get Org
         """
-        query_string = setup_data.get('get_org', {}).get('query_string') or [('resources_count', 'False'),
+        query_string = setup_data.get('get_org', {}).get('query_string') or [('summary', 'False'),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/orgs/{org}'.format(
