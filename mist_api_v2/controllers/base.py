@@ -46,13 +46,14 @@ def get_resource(auth_context, resource_type, cloud=None, search='', only='',
 
     return result
 
+
 def get_org_resources_summary(auth_context, org_id):
     from mist.api.users.models import Organization
     org = Organization.objects.get(id=org_id)
     resources_count = {}
     # get count for org resources
     org_r_types = {'key', 'script', 'template', 'tunnel', 'schedule', 'rule',
-                      'team'}
+                   'team'}
     from mist.api.helpers import get_resource_model
     for resource_type in org_r_types:
         try:
@@ -76,18 +77,20 @@ def get_org_resources_summary(auth_context, org_id):
         elif resource_type == 'rule':
             total_resources = resource_model.objects(owner_id=org.id).count()
         else:
-            total_resources = resource_model.objects(owner=org, deleted=None).count()
+            total_resources = resource_model.objects(
+                owner=org, deleted=None).count()
         resources_count[f'{resource_type}s'] = {'total': total_resources}
 
     # get count for cloud resources
     limit = 1
     start = 0
-    cloud_r_types = {'clouds', 'cluster', 'machine', 'image', 'volume', 'bucket', 'network', 'zone'}
+    cloud_r_types = {'cloud', 'cluster', 'machine', 'image', 'volume',
+                     'bucket', 'network', 'zone'}
     from mist.api.methods import list_resources
     for resource_type in cloud_r_types:
         _, total = list_resources(
             auth_context, resource_type, limit=limit, start=start
         )
         resources_count[f'{resource_type}s'] = {'total': total}
-    
+
     return resources_count
