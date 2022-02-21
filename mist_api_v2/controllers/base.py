@@ -49,13 +49,12 @@ def get_resource(auth_context, resource_type, cloud=None, search='', only='',
 def get_org_resources_summary(auth_context, org_id):
     from mist.api.users.models import Organization
     org = Organization.objects.get(id=org_id)
-    limit = 1
-    start = 0
     resources_count = {}
-    resource_types = {'key', 'script', 'template', 'tunnel', 'schedule', 'rule',
+    # get count for org resources
+    org_r_types = {'key', 'script', 'template', 'tunnel', 'schedule', 'rule',
                       'team'}
     from mist.api.helpers import get_resource_model
-    for resource_type in resource_types:
+    for resource_type in org_r_types:
         try:
             resource_model = get_resource_model(resource_type)
         except KeyError:
@@ -79,4 +78,16 @@ def get_org_resources_summary(auth_context, org_id):
         else:
             total_resources = resource_model.objects(owner=org, deleted=None).count()
         resources_count[f'{resource_type}s'] = {'total': total_resources}
+
+    # get count for cloud resources
+    limit = 1
+    start = 0
+    cloud_r_types = {'cluster', 'machine', 'image', 'volume', 'bucket', 'network', 'zone'}
+    from mist.api.methods import list_resources
+    for resource_type in cloud_r_types:
+        _, total = list_resources(
+            auth_context, resource_type, limit=limit, start=start
+        )
+        resources_count[f'{resource_type}s'] = {'total': total}
+    
     return resources_count
