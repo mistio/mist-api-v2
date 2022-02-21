@@ -82,7 +82,7 @@ def get_org_resources_summary(auth_context, org_id):
     # get count for cloud resources
     limit = 1
     start = 0
-    cloud_r_types = {'cluster', 'machine', 'image', 'volume', 'bucket', 'network', 'zone'}
+    cloud_r_types = {'clouds', 'cluster', 'machine', 'image', 'volume', 'bucket', 'network', 'zone'}
     from mist.api.methods import list_resources
     for resource_type in cloud_r_types:
         _, total = list_resources(
