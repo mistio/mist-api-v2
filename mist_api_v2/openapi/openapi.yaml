@@ -5281,35 +5281,6 @@ components:
       - credentials
       - provider
       type: object
-    AmazonClusterRequest:
-      properties:
-        role_arn:
-          description: The Amazon Resource Name (ARN) of the IAM role that provides
-            permissions for the Kubernetes control plane to make calls to AWS API
-            operations on your behalf
-          type: string
-        network:
-          description: Name or ID of the network to be associated with the cluster.
-            If not given the default network will be selected
-          type: string
-        subnets:
-          description: IDs of the subnets to be associated with the cluster. At least
-            2 subnets in different availability zones are required, if not given the
-            default subnets will be used
-          items:
-            type: string
-          type: array
-        security_groups:
-          description: The security groups associated with the cross-account elastic
-            network interfaces that are used to allow communication between your nodes
-            and the Kubernetes control plane
-          items:
-            type: string
-          type: array
-      required:
-      - role_arn
-      title: Amazon parameters
-      type: object
     AmazonCredentials:
       properties:
         apikey:
@@ -5662,9 +5633,6 @@ components:
     CreateClusterRequest:
       allOf:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
-      - oneOf:
-        - $ref: '#/components/schemas/AmazonClusterRequest'
-        - $ref: '#/components/schemas/GoogleClusterRequest'
       example:
         name: my-cluster
         cloud: my-cloud
@@ -6915,15 +6883,6 @@ components:
       required:
       - credentials
       - provider
-      type: object
-    GoogleClusterRequest:
-      properties:
-        location:
-          description: Name or ID of the location to create the cluster in
-          type: string
-      required:
-      - location
-      title: Google parameters
       type: object
     GoogleCredentials:
       properties:
@@ -9330,20 +9289,15 @@ components:
           type: integer
         size:
           description: Name or ID of size to use for the nodes. If not provided, the
-            t3.medium(EKS) or e2-medium(GKE) size will be used
+            t3.medium(EKS), e2-medium(GKE) size will be used
           type: string
         disk_size:
           default: 20
           description: Size of the disk attached to each node, specified in GB.
           type: integer
-        role_arn:
-          description: Amazon specific parameter.The Amazon Resource Name (ARN) of
-            the IAM role to associate with the nodes. Required in order to create
-            a cluster nodepool
-          type: string
         disk_type:
-          description: Google specific parameter.Type of the disk attached to each
-            node. Defaults to pd-standard
+          description: Type of the disk attached to each node. Defaults to pd-standard(GKE),
+            gp3(EKS)
           type: string
         preemptible:
           description: Google specific parameter.Whether the nodes are created as
@@ -9360,6 +9314,10 @@ components:
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
+        location:
+          description: Google specific parameter(Required).Name or ID of the location
+            to create the cluster in
+          type: string
         nodepools:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
