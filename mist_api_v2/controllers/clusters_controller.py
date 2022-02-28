@@ -3,7 +3,8 @@ import connexion
 
 from mist.api.methods import list_resources as list_resources_v1
 
-from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import BadRequestError, PolicyUnauthorizedError
+from mist.api.exceptions import MistError
 from mist.api.tasks import create_cluster_async
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
@@ -78,13 +79,13 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     return CreateClusterResponse(job_id=job_id)
 
 
-def destroy_cluster(cluster):  # noqa: E501
+def destroy_cluster(cluster_search):  # noqa: E501
     """Destroy cluster
 
     Destroy target clusters # noqa: E501
 
-    :param cluster:
-    :type cluster: str
+    :param cluster_search:
+    :type cluster_search: str
 
     :rtype: None
     """
@@ -92,19 +93,33 @@ def destroy_cluster(cluster):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    try:
-        [cluster], total = list_resources_v1(auth_context, 'cluster',
-                                             search=cluster,
-                                             limit=1)
-    except ValueError:
+
+    clusters, total = list_resources_v1(auth_context,
+                                        'cluster',
+                                        search=cluster_search)
+    if total == 0:
         return 'Cluster not found', 404
+
+    try:
+        cluster = next(
+            cluster for cluster in clusters if cluster.name == cluster_search)
+    except StopIteration:
+        cluster = clusters[0]
+
     try:
         auth_context.check_perm('cluster', 'destroy', cluster.id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    result = cluster.ctl.destroy()
-    if not result:
-        return 'Cluster not found', 404
+
+    try:
+        cluster.ctl.destroy()
+    except BadRequestError as exc:
+        return exc.args[0], 400
+    except MistError as exc:
+        return exc.args[0], exc.http_code
+    except Exception as exc:
+        return exc.args[0], 503
+
     return 'Cluster destruction successful', 200
 
 
