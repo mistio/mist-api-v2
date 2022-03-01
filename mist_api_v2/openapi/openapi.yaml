@@ -5889,6 +5889,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/DockerExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
+          - $ref: '#/components/schemas/GoogleExtra'
           - $ref: '#/components/schemas/LinodeExtra'
           - $ref: '#/components/schemas/LXDExtra'
           - $ref: '#/components/schemas/VSphereExtra'
@@ -6940,6 +6941,12 @@ components:
       - email
       - privateKey
       - projectId
+      type: object
+    GoogleExtra:
+      properties:
+        service_account:
+          $ref: '#/components/schemas/GoogleExtra_service_account'
+      title: Google extra parameter
       type: object
     GoogleNet:
       properties:
@@ -9464,6 +9471,17 @@ components:
       required:
       - period
       - value
+      type: object
+    GoogleExtra_service_account:
+      properties:
+        email:
+          description: The email address of the service account.
+          type: string
+        scopes:
+          description: A list of scopes to be made available for this machine.
+          items:
+            type: string
+          type: array
       type: object
     KVMNet_networks:
       properties:

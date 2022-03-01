@@ -112,6 +112,8 @@ mist_api_v2/models/get_zone_response.py
 mist_api_v2/models/google_cloud_request.py
 mist_api_v2/models/google_cluster_request.py
 mist_api_v2/models/google_credentials.py
+mist_api_v2/models/google_extra.py
+mist_api_v2/models/google_extra_service_account.py
 mist_api_v2/models/google_net.py
 mist_api_v2/models/ibm_cloud_request.py
 mist_api_v2/models/ibm_credentials.py
