@@ -9505,15 +9505,17 @@ x-cli-waiters:
     - 404
     operationId: get-job
     matchers:
-    - select: response.body#data.finished_at
-      test: notEqual
-      expected: 0
-      state: success
     - select: response.body#data.error
       test: notEqual
       expected: false
       state: failure
+    - select: response.body#data.finished_at
+      test: notEqual
+      expected: 0
+      state: success
     updates: response.body#data.logs[:].action
     after:
       create-machine:
         job_id: response.body#jobId
+      run-script:
+        job_id: response.body#job_id
