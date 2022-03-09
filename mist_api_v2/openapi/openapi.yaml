@@ -4216,6 +4216,136 @@ paths:
       - external_id
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/tags:
+    get:
+      description: List tags on resources owned by the active org. READ permission
+        required on each resource.
+      operationId: list_tags
+      parameters:
+      - description: Toggle displaying resource types and ids associated with each
+          key value pair
+        examples:
+          (default) Display only {key, value} pairs:
+            value: "False"
+          Also dispalay resource types and ids:
+            value: "True"
+        explode: true
+        in: query
+        name: verbose
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Display tags on a single resource
+        explode: true
+        in: query
+        name: resource
+        required: false
+        schema:
+          $ref: '#/components/schemas/ResourceType'
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by cluster created_by attribute:
+            value: created_by:csk
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTagsResponse'
+          description: List clusters response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+      summary: List tags
+      tags:
+      - tags
+      x-cli-table-default:
+      - key
+      - value
+      x-cli-table-extended:
+      - key
+      - value
+      x-openapi-router-controller: mist_api_v2.controllers.tags_controller
   /api/v2/users:
     get:
       description: Return current user if requester is not admin. Return all users
@@ -7988,6 +8118,26 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListTagsResponse:
+      example:
+        data:
+        - ""
+        - ""
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/TagName'
+            - $ref: '#/components/schemas/TagFull'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListUsersResponse:
       example:
         data:
@@ -8700,6 +8850,27 @@ components:
             $ref: '#/components/schemas/DatapointsValuesTuple'
           type: array
       type: object
+    ResourceIds:
+      properties:
+        resource_type:
+          $ref: '#/components/schemas/ResourceType'
+        resource_ids:
+          items:
+            type: string
+          type: array
+      type: object
+    ResourceType:
+      enum:
+      - cloud
+      - cluster
+      - image
+      - key
+      - machine
+      - network
+      - script
+      - volumes
+      - zones
+      type: string
     ResponseMetadata:
       example:
         total: 0
@@ -8944,6 +9115,26 @@ components:
       - openshift
       - other
       type: string
+    TagFull:
+      properties:
+        id:
+          type: string
+        tag:
+          $ref: '#/components/schemas/TagName'
+        resources:
+          items:
+            $ref: '#/components/schemas/ResourceIds'
+          type: array
+      type: object
+    TagName:
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        value:
+          type: string
+      type: object
     Team:
       example:
         members:
