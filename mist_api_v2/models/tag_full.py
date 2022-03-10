@@ -19,29 +19,24 @@ class TagFull(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, tag=None, resources=None):  # noqa: E501
+    def __init__(self, tag=None, resources=None):  # noqa: E501
         """TagFull - a model defined in OpenAPI
 
-        :param id: The id of this TagFull.  # noqa: E501
-        :type id: str
         :param tag: The tag of this TagFull.  # noqa: E501
         :type tag: TagName
         :param resources: The resources of this TagFull.  # noqa: E501
         :type resources: List[ResourceIds]
         """
         self.openapi_types = {
-            'id': str,
             'tag': TagName,
             'resources': List[ResourceIds]
         }
 
         self.attribute_map = {
-            'id': 'id',
             'tag': 'tag',
             'resources': 'resources'
         }
 
-        self._id = id
         self._tag = tag
         self._resources = resources
 
@@ -55,27 +50,6 @@ class TagFull(Model):
         :rtype: TagFull
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def id(self):
-        """Gets the id of this TagFull.
-
-
-        :return: The id of this TagFull.
-        :rtype: str
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):
-        """Sets the id of this TagFull.
-
-
-        :param id: The id of this TagFull.
-        :type id: str
-        """
-
-        self._id = id
 
     @property
     def tag(self):

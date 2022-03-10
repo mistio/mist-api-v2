@@ -165,6 +165,7 @@ from mist_api_v2.models.script import Script
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
+from mist_api_v2.models.tag import Tag
 from mist_api_v2.models.tag_full import TagFull
 from mist_api_v2.models.tag_name import TagName
 from mist_api_v2.models.team import Team

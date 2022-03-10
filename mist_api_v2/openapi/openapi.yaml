@@ -4333,9 +4333,23 @@ paths:
       - ApiKeyAuth:
         - read:cluster
         - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
       - CookieAuth:
         - read:cluster
         - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
       summary: List tags
       tags:
       - tags
@@ -8121,8 +8135,8 @@ components:
     ListTagsResponse:
       example:
         data:
-        - ""
-        - ""
+        - null
+        - null
         meta:
           total: 0
           start: 1
@@ -8131,9 +8145,7 @@ components:
       properties:
         data:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/TagName'
-            - $ref: '#/components/schemas/TagFull'
+            $ref: '#/components/schemas/Tag'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -8861,13 +8873,13 @@ components:
       type: object
     ResourceType:
       enum:
-      - cloud
-      - cluster
-      - image
-      - key
-      - machine
-      - network
-      - script
+      - clouds
+      - clusters
+      - images
+      - keys
+      - machines
+      - networks
+      - scripts
       - volumes
       - zones
       type: string
@@ -9115,10 +9127,13 @@ components:
       - openshift
       - other
       type: string
+    Tag:
+      oneOf:
+      - $ref: '#/components/schemas/TagName'
+      - $ref: '#/components/schemas/TagFull'
+      type: "null"
     TagFull:
       properties:
-        id:
-          type: string
         tag:
           $ref: '#/components/schemas/TagName'
         resources:
@@ -9128,8 +9143,6 @@ components:
       type: object
     TagName:
       properties:
-        id:
-          type: string
         key:
           type: string
         value:

@@ -15,29 +15,24 @@ class TagName(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, key=None, value=None):  # noqa: E501
+    def __init__(self, key=None, value=None):  # noqa: E501
         """TagName - a model defined in OpenAPI
 
-        :param id: The id of this TagName.  # noqa: E501
-        :type id: str
         :param key: The key of this TagName.  # noqa: E501
         :type key: str
         :param value: The value of this TagName.  # noqa: E501
         :type value: str
         """
         self.openapi_types = {
-            'id': str,
             'key': str,
             'value': str
         }
 
         self.attribute_map = {
-            'id': 'id',
             'key': 'key',
             'value': 'value'
         }
 
-        self._id = id
         self._key = key
         self._value = value
 
@@ -51,27 +46,6 @@ class TagName(Model):
         :rtype: TagName
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def id(self):
-        """Gets the id of this TagName.
-
-
-        :return: The id of this TagName.
-        :rtype: str
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):
-        """Sets the id of this TagName.
-
-
-        :param id: The id of this TagName.
-        :type id: str
-        """
-
-        self._id = id
 
     @property
     def key(self):
