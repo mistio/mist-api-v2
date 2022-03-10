@@ -9131,7 +9131,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/TagName'
       - $ref: '#/components/schemas/TagFull'
-      type: "null"
     TagFull:
       properties:
         tag:
