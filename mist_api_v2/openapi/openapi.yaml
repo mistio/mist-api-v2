@@ -6644,10 +6644,17 @@ components:
       example:
         data:
           cloud: cloud
+          parent: parent
+          country: country
+          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
+          owned_by: owned_by
           id: id
+          available_images: '{}'
+          created_by: created_by
+          location_type: location_type
         meta:
           total: 0
           start: 1
@@ -7590,15 +7597,29 @@ components:
       example:
         data:
         - cloud: cloud
+          parent: parent
+          country: country
+          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
+          owned_by: owned_by
           id: id
+          available_images: '{}'
+          created_by: created_by
+          location_type: location_type
         - cloud: cloud
+          parent: parent
+          country: country
+          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
+          owned_by: owned_by
           id: id
+          available_images: '{}'
+          created_by: created_by
+          location_type: location_type
         meta:
           total: 0
           start: 1
@@ -8101,10 +8122,17 @@ components:
     Location:
       example:
         cloud: cloud
+        parent: parent
+        country: country
+        available_sizes: '{}'
         extra: '{}'
         name: name
         external_id: external_id
+        owned_by: owned_by
         id: id
+        available_images: '{}'
+        created_by: created_by
+        location_type: location_type
       properties:
         id:
           type: string
@@ -8116,6 +8144,20 @@ components:
           type: string
         extra:
           type: object
+        parent:
+          type: string
+        location_type:
+          type: string
+        country:
+          type: string
+        available_sizes:
+          type: object
+        available_images:
+          type: object
+        owned_by:
+          type: string
+        created_by:
+          type: string
       type: object
     Log:
       example:
