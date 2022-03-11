@@ -11,6 +11,7 @@ from mist.api.rules.models import RULES
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import PolicyUnauthorizedError
 
+from mist_api_v2 import util
 from mist_api_v2.models.add_rule_request import AddRuleRequest  # noqa: E501
 from mist_api_v2.models.edit_rule_request import EditRuleRequest  # noqa: E501
 
@@ -134,7 +135,7 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
     return rule.as_dict()
 
 
-def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
+def list_rules(search=None, sort=None, start=0, limit=100, at=None):  # noqa: E501
     """Get rules
 
     Return a filtered list of rules # noqa: E501
@@ -143,6 +144,8 @@ def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
     :type search: str
     :param sort: Order results by
     :type sort: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListRulesResponse
     """
@@ -151,8 +154,10 @@ def list_rules(search=None, sort=None, start=0, limit=100):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     rules, total = list_resources(auth_context, 'rule',
-                                  search=search, sort=sort, limit=limit)
+                                  search=search, sort=sort, limit=limit, at=at)
     meta = {
         'total_matching': total,
         'total_returned': rules.count(),

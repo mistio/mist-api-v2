@@ -2,7 +2,7 @@
 
 def list_resources(auth_context, resource_type, cloud=None, tags='',
                    search='', only='', sort='', start=0, limit=100,
-                   deref='auto'):
+                   deref='auto', at=None):
     """
         List resources of any type and prepare the HTTP response
     """
@@ -16,7 +16,7 @@ def list_resources(auth_context, resource_type, cloud=None, tags='',
     items, total = list_resources(
         auth_context, resource_type, cloud=cloud, tags=tags,
         search=search, only=only, sort=sort, limit=limit,
-        start=start
+        start=start, at=at
     )
     meta = {
         'total': total,
@@ -31,13 +31,13 @@ def list_resources(auth_context, resource_type, cloud=None, tags='',
 
 
 def get_resource(auth_context, resource_type, cloud=None, search='', only='',
-                 sort='', deref='auto'):
+                 sort='', deref='auto', at=None):
     """
         Get a single resource of any type and prepare the HTTP response
     """
     result = list_resources(auth_context, resource_type, cloud=cloud,
                             search=search, only=only, sort=sort, limit=1,
-                            deref=deref)
+                            deref=deref, at=at)
 
     if result['data']:
         result['data'] = result['data'][0]
