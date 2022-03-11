@@ -85,6 +85,8 @@ from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.get_zone_response import GetZoneResponse
 from mist_api_v2.models.google_cloud_request import GoogleCloudRequest
 from mist_api_v2.models.google_credentials import GoogleCredentials
+from mist_api_v2.models.google_extra import GoogleExtra
+from mist_api_v2.models.google_extra_service_account import GoogleExtraServiceAccount
 from mist_api_v2.models.google_net import GoogleNet
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
 from mist_api_v2.models.ibm_credentials import IbmCredentials
