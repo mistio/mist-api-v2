@@ -1,12 +1,9 @@
-from re import L
-from unittest import result
 import connexion
-import six
+
 
 from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
-from mist_api_v2.models.resource_type import ResourceType  # noqa: E501
-from mist_api_v2 import util
 from mist.api.tag.models import Tag
+
 
 def list_tags(verbose=None, resource=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
     """List tags
@@ -38,10 +35,9 @@ def list_tags(verbose=None, resource=None, search=None, sort=None, start=None, l
     except KeyError:
         return 'Authentication failed', 401
 
-    tags=Tag.objects(owner=auth_context.owner)
-    
-    data = [{'key':k, 'value':v} for k,v in 
-                set( ( t.key, t.value ) for t in tags )]
+    tags = Tag.objects(owner=auth_context.owner)
+    data = [{'key': k, 'value': v} for k, v in
+            set((t.key, t.value) for t in tags)]
     meta = {
         'total': len(data),
         'returned': len(data),
@@ -49,7 +45,4 @@ def list_tags(verbose=None, resource=None, search=None, sort=None, start=None, l
         'start': start
     }
 
-
-    # if connexion.request.is_json:
-    #     resource =  ResourceType.from_dict(connexion.request.get_json())  # noqa: E501
-    return ListTagsResponse(data,meta) 
+    return ListTagsResponse(data, meta)
