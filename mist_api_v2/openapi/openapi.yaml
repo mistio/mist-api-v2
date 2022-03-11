@@ -1617,6 +1617,80 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              NoCloudSpecifiedMachine:
+                summary: Provision a machine without defining a specific cloud
+                value:
+                  name: TestMachine
+                  image: Ubuntu
+                  size:
+                    cpu: 1
+                    memory: 1024
+                  key: TestKey
+                  monitoring: true
+                  dry: false
+              SelectedCloudMachine:
+                summary: Provision a machine in a specific cloud
+                value:
+                  cloud: 6a760c7690dc4ac9913ce9b109aa900c
+                  name: testmachine
+                  image: Ubuntu
+                  size:
+                    cpu: 2
+                    memory: 2048
+                  dry: false
+              AmazonExampleMachine:
+                summary: Provision a machine in one of your Amazon clouds
+                value:
+                  provider: amazon
+                  name: awsmachine
+                  image: Ubuntu
+                  size: t3.micro
+                  dry: false
+              GoogleExampleMachine:
+                summary: Provision a machine in one of your Google clouds
+                value:
+                  provider: google
+                  name: gcemachine
+                  image: Ubuntu
+                  size: e2-medium
+                  dry: false
+              AzureExampleMachine:
+                summary: Provision a machine in one of your Azure clouds
+                value:
+                  provider: azure
+                  name: azuremachine
+                  image: Ubuntu
+                  size: Standard_D4s_v5
+                  dry: false
+              FullExample:
+                summary: Provision 2 machines with monitoring, schedules, expiration
+                  and provisioning scripts
+                value:
+                  cloud: GCE
+                  name: testmachine
+                  image: Ubuntu
+                  size:
+                    cpu: 2
+                    memory: 2048
+                  location: us-east1-b
+                  key: TestKey
+                  monitoring: true
+                  quantity: 2
+                  expiration:
+                    action: destroy
+                    date: 2025-08-30T18:24:15Z
+                  scripts:
+                  - inline: |-
+                      #!/bin/bash
+                       touch ~/inline.txt
+                  - script: test123
+                  schedules:
+                  - schedule_type: one_off
+                    datetime: 2023-09-22T18:19:28Z
+                    script:
+                      script: test123
+                  dry: false
             schema:
               $ref: '#/components/schemas/CreateMachineRequest'
       responses:
