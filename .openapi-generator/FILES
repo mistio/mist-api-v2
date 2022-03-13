@@ -18,6 +18,7 @@ mist_api_v2/controllers/machines_controller.py
 mist_api_v2/controllers/networks_controller.py
 mist_api_v2/controllers/orgs_controller.py
 mist_api_v2/controllers/rules_controller.py
+mist_api_v2/controllers/schedules_controller.py
 mist_api_v2/controllers/scripts_controller.py
 mist_api_v2/controllers/security_controller_.py
 mist_api_v2/controllers/sizes_controller.py
@@ -35,11 +36,13 @@ mist_api_v2/models/add_key_request_any_of1.py
 mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
 mist_api_v2/models/add_rule_request.py
+mist_api_v2/models/add_schedule_request.py
 mist_api_v2/models/add_script_request.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/alibaba_net.py
 mist_api_v2/models/amazon_cloud_request.py
+mist_api_v2/models/amazon_cluster_request.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/amazon_net.py
 mist_api_v2/models/azure_cloud_request.py
@@ -73,7 +76,6 @@ mist_api_v2/models/data_type.py
 mist_api_v2/models/datapoints.py
 mist_api_v2/models/datapoints_data.py
 mist_api_v2/models/datapoints_values_item.py
-mist_api_v2/models/destroy_cluster_response.py
 mist_api_v2/models/digitalocean_cloud_request.py
 mist_api_v2/models/digitalocean_credentials.py
 mist_api_v2/models/docker_cloud_request.py
@@ -105,14 +107,14 @@ mist_api_v2/models/get_network_response.py
 mist_api_v2/models/get_org_member_response.py
 mist_api_v2/models/get_org_response.py
 mist_api_v2/models/get_rule_response.py
+mist_api_v2/models/get_schedule_response.py
 mist_api_v2/models/get_script_response.py
 mist_api_v2/models/get_size_response.py
 mist_api_v2/models/get_volume_response.py
 mist_api_v2/models/get_zone_response.py
 mist_api_v2/models/google_cloud_request.py
+mist_api_v2/models/google_cluster_request.py
 mist_api_v2/models/google_credentials.py
-mist_api_v2/models/google_extra.py
-mist_api_v2/models/google_extra_service_account.py
 mist_api_v2/models/google_net.py
 mist_api_v2/models/ibm_cloud_request.py
 mist_api_v2/models/ibm_credentials.py
@@ -147,6 +149,7 @@ mist_api_v2/models/list_org_members_response.py
 mist_api_v2/models/list_org_teams_response.py
 mist_api_v2/models/list_orgs_response.py
 mist_api_v2/models/list_rules_response.py
+mist_api_v2/models/list_schedules_response.py
 mist_api_v2/models/list_scripts_response.py
 mist_api_v2/models/list_sizes_response.py
 mist_api_v2/models/list_snapshots_response.py
@@ -185,6 +188,7 @@ mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
 mist_api_v2/models/run_script_request.py
 mist_api_v2/models/run_script_response.py
+mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
@@ -217,6 +221,7 @@ mist_api_v2/test/test_machines_controller.py
 mist_api_v2/test/test_networks_controller.py
 mist_api_v2/test/test_orgs_controller.py
 mist_api_v2/test/test_rules_controller.py
+mist_api_v2/test/test_schedules_controller.py
 mist_api_v2/test/test_scripts_controller.py
 mist_api_v2/test/test_sizes_controller.py
 mist_api_v2/test/test_snapshots_controller.py
