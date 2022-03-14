@@ -1,13 +1,13 @@
 import connexion
-import six
+# import six
 
 from mist.api.exceptions import PolicyUnauthorizedError
 
-from mist_api_v2.models.add_schedule_request import AddScheduleRequest  # noqa: E501
+# from mist_api_v2.models.add_schedule_request import AddScheduleRequest  # noqa: E501
 from mist_api_v2.models.get_schedule_response import GetScheduleResponse  # noqa: E501
-from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
+# from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
 from mist_api_v2.models.list_schedules_response import ListSchedulesResponse  # noqa: E501
-from mist_api_v2 import util
+# from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -22,8 +22,8 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
 
     :rtype: InlineResponse200
     """
-    if connexion.request.is_json:
-        add_schedule_request = AddScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    # if connexion.request.is_json:
+    # add_schedule_request = AddScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -52,7 +52,7 @@ def delete_schedule(schedule):  # noqa: E501
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
-                                deleted=None)
+                                    deleted=None)
     schedule.ctl.delete()
     return 'Deleted schedule `%s`' % schedule.name, 200
 
