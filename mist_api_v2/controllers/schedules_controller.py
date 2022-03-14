@@ -17,7 +17,7 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
 
     Add schedule to user schedules # noqa: E501
 
-    :param add_schedule_request: 
+    :param add_schedule_request:
     :type add_schedule_request: dict | bytes
 
     :rtype: InlineResponse200
@@ -32,7 +32,7 @@ def delete_schedule(schedule):  # noqa: E501
 
     Delete target schedule # noqa: E501
 
-    :param schedule: 
+    :param schedule:
     :type schedule: str
 
     :rtype: None
@@ -62,7 +62,7 @@ def edit_schedule(schedule, name=None, description=None):  # noqa: E501
 
     Edit target schedule # noqa: E501
 
-    :param schedule: 
+    :param schedule:
     :type schedule: str
     :param name: New schedule name
     :type name: str
@@ -79,7 +79,7 @@ def get_schedule(schedule, only=None, deref=None):  # noqa: E501
 
     Get details about target schedule # noqa: E501
 
-    :param schedule: 
+    :param schedule:
     :type schedule: str
     :param only: Only return these fields
     :type only: str
