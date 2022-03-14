@@ -3,6 +3,7 @@ import connexion
 
 from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
 from mist.api.tag.models import Tag
+from mongoengine import Q
 
 
 def list_tags(verbose=None, resource=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
@@ -35,7 +36,11 @@ def list_tags(verbose=None, resource=None, search=None, sort=None, start=None, l
     except KeyError:
         return 'Authentication failed', 401
 
-    tags = Tag.objects(owner=auth_context.owner)
+    query = Q(owner=auth_context.owner)
+    if resource:
+        query &= Q(resource_type=resource.rstrip('s'))
+
+    tags = Tag.objects(query)
     data = [{'key': k, 'value': v} for k, v in
             set((t.key, t.value) for t in tags)]
     if verbose:
