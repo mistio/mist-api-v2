@@ -42,8 +42,8 @@ def list_tags(verbose=None, resource=None, search=None, sort=None, start=None, l
         for kv in data:
             kv_temp = kv.copy()
             for resource_type in tags.filter(**kv_temp).distinct('resource_type'):  # noqa: E501
-                kv[resource_type+'s'] = [tag.resource_id for tag in
-                                         Tag.objects(**kv_temp, resource_type=resource_type)]  # noqa: E501
+                kv[resource_type + 's'] = [tag.resource_id for tag in
+                                           Tag.objects(**kv_temp, resource_type=resource_type)]  # noqa: E501
 
     meta = {
         'total': len(data),
