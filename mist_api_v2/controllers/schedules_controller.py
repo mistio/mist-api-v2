@@ -72,23 +72,25 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         edit_schedule_request = EditScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    from mist.api.methods import list_resources
     try:
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    result = get_resource(auth_context, 'schedule', search=schedule)
+    result_data = result.get('data')
+    if not result_data:
+        return 'Schedule does not exist', 404
+    from mist.api.schedules.models import Schedule
+    schedule_id = result_data.get('id')
     try:
-        [schedule], total = list_resources(auth_context, 'schedule',
-                                           search=schedule, limit=1)
-    except ValueError:
-        return 'Script does not exist', 404
-    try:
-        auth_context.check_perm('schedule', 'edit', schedule.id)
+        auth_context.check_perm('schedule', 'edit', schedule_id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
+    schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
+                                    deleted=None)
     schedule.ctl.edit(edit_schedule_request.name,
                       edit_schedule_request.description)
-    return 'Updated script `%s`' % schedule.name, 200
+    return 'Updated schedule `%s`' % schedule.name, 200
 
 
 def get_schedule(schedule, only=None, deref=None):  # noqa: E501
