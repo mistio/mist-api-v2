@@ -4,6 +4,7 @@ import connexion
 from mist.api.exceptions import PolicyUnauthorizedError
 
 # from mist_api_v2.models.add_schedule_request import AddScheduleRequest  # noqa: E501
+from mist_api_v2.models.edit_schedule_request import EditScheduleRequest  # noqa: E501
 from mist_api_v2.models.get_schedule_response import GetScheduleResponse  # noqa: E501
 # from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
 from mist_api_v2.models.list_schedules_response import ListSchedulesResponse  # noqa: E501
@@ -57,21 +58,37 @@ def delete_schedule(schedule):  # noqa: E501
     return 'Deleted schedule `%s`' % schedule.name, 200
 
 
-def edit_schedule(schedule, name=None, description=None):  # noqa: E501
+def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
     """Edit schedule
 
     Edit target schedule # noqa: E501
 
     :param schedule:
     :type schedule: str
-    :param name: New schedule name
-    :type name: str
-    :param description: New schedule description
-    :type description: str
+    :param edit_schedule_request:
+    :type edit_schedule_request: dict | bytes
 
     :rtype: None
     """
-    return 'do some magic!'
+    if connexion.request.is_json:
+        edit_schedule_request = EditScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        [schedule], total = list_resources(auth_context, 'schedule',
+                                           search=schedule, limit=1)
+    except ValueError:
+        return 'Script does not exist', 404
+    try:
+        auth_context.check_perm('schedule', 'edit', schedule.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    schedule.ctl.edit(edit_schedule_request.name,
+                      edit_schedule_request.description)
+    return 'Updated script `%s`' % schedule.name, 200
 
 
 def get_schedule(schedule, only=None, deref=None):  # noqa: E501
