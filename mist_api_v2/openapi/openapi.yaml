@@ -3893,7 +3893,7 @@ paths:
       - description: Only return results matching search filter
         examples:
           Filter by schedule name:
-            value: my-schedule
+            value: schedule-name
         explode: true
         in: query
         name: search
@@ -4025,7 +4025,7 @@ paths:
       description: Delete target schedule
       operationId: delete_schedule
       parameters:
-      - example: my-schedule
+      - example: deleted-schedule
         explode: false
         in: path
         name: schedule
@@ -4055,7 +4055,7 @@ paths:
       description: Get details about target schedule
       operationId: get_schedule
       parameters:
-      - example: my-schedule
+      - example: retrieved-schedule
         explode: false
         in: path
         name: schedule
@@ -4128,7 +4128,7 @@ paths:
       description: Edit target schedule
       operationId: edit_schedule
       parameters:
-      - example: my-schedule
+      - example: edited-schedule
         explode: false
         in: path
         name: schedule
@@ -4136,24 +4136,11 @@ paths:
         schema:
           type: string
         style: simple
-      - description: New schedule name
-        example: my-renamed-schedule
-        explode: true
-        in: query
-        name: name
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: New schedule description
-        example: description
-        explode: true
-        in: query
-        name: description
-        required: false
-        schema:
-          type: string
-        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditScheduleRequest'
       responses:
         "200":
           description: Schedule successfully updated
@@ -6005,13 +5992,13 @@ components:
           #!/usr/bin/env bash
           echo Hello, World!
         entrypoint: entrypoint.sh
-        name: my-schedule
+        name: backup-schedule
         description: description
         exec_type: executable
         location_type: inline
       properties:
         name:
-          example: my-schedule
+          example: backup-schedule
           type: string
         schedule:
           example: |-
@@ -7331,6 +7318,16 @@ components:
           type: object
       required:
       - secret
+    EditScheduleRequest:
+      example:
+        name: edited-schedule
+        description: description
+      properties:
+        name:
+          example: edited-schedule
+          type: string
+        description:
+          type: string
       type: object
     EquinixCloudRequest:
       properties:

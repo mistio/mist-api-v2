@@ -63,6 +63,7 @@ from mist_api_v2.models.edit_machine_request import EditMachineRequest
 from mist_api_v2.models.edit_machine_request_expiration import EditMachineRequestExpiration
 from mist_api_v2.models.edit_rule_request import EditRuleRequest
 from mist_api_v2.models.edit_secret_request import EditSecretRequest
+from mist_api_v2.models.edit_schedule_request import EditScheduleRequest
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra

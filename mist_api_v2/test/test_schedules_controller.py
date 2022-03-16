@@ -50,7 +50,7 @@ class TestSchedulesController:
             'request_body') or json.loads("""{
   "schedule" : "#!/usr/bin/env bash\necho Hello, World!",
   "entrypoint" : "entrypoint.sh",
-  "name" : "my-schedule",
+  "name" : "backup-schedule",
   "description" : "description",
   "exec_type" : "executable",
   "location_type" : "inline"
@@ -74,7 +74,7 @@ class TestSchedulesController:
         Delete schedule
         """
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
-            schedule=setup_data.get('delete_schedule', {}).get('schedule') or setup_data.get('schedule') or 'my-schedule')
+            schedule=setup_data.get('delete_schedule', {}).get('schedule') or setup_data.get('schedule') or 'deleted-schedule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -91,14 +91,17 @@ class TestSchedulesController:
 
         Edit schedule
         """
-        query_string = setup_data.get('edit_schedule', {}).get('query_string') or [('name', 'my-renamed-schedule'),
-                        ('description', 'description')]
+        edit_schedule_request = setup_data.get('edit_schedule', {}).get(
+            'request_body') or json.loads("""{
+  "name" : "edited-schedule",
+  "description" : "description"
+}""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
-            schedule=setup_data.get('edit_schedule', {}).get('schedule') or setup_data.get('schedule') or 'my-schedule')
+            schedule=setup_data.get('edit_schedule', {}).get('schedule') or setup_data.get('schedule') or 'edited-schedule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            params=query_string)
+            json=edit_schedule_request)
         request_method = getattr(request, 'PATCH'.lower())
         response = request_method()
         if 'edit_schedule' in REDIRECT_OPERATIONS:
@@ -115,7 +118,7 @@ class TestSchedulesController:
         query_string = setup_data.get('get_schedule', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
-            schedule=setup_data.get('get_schedule', {}).get('schedule') or setup_data.get('schedule') or 'my-schedule')
+            schedule=setup_data.get('get_schedule', {}).get('schedule') or setup_data.get('schedule') or 'retrieved-schedule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -133,7 +136,7 @@ class TestSchedulesController:
 
         List schedules
         """
-        query_string = setup_data.get('list_schedules', {}).get('query_string') or [('search', 'my-schedule'),
+        query_string = setup_data.get('list_schedules', {}).get('query_string') or [('search', 'schedule-name'),
                         ('sort', '-name'),
                         ('start', '3'),
                         ('limit', '56'),

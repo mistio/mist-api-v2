@@ -91,6 +91,7 @@ mist_api_v2/models/edit_machine_request.py
 mist_api_v2/models/edit_machine_request_expiration.py
 mist_api_v2/models/edit_rule_request.py
 mist_api_v2/models/edit_secret_request.py
+mist_api_v2/models/edit_schedule_request.py
 mist_api_v2/models/equinix_cloud_request.py
 mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/equinix_metal_extra.py
