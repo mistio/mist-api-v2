@@ -21,7 +21,7 @@ class CreateClusterRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, nodepools=None, role_arn=None, network=None, subnets=None, security_groups=None, location=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, location=None, nodepools=None):  # noqa: E501
         """CreateClusterRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequest.  # noqa: E501
@@ -30,52 +30,32 @@ class CreateClusterRequest(Model):
         :type cloud: str
         :param provider: The provider of this CreateClusterRequest.  # noqa: E501
         :type provider: ClusterProviders
-        :param nodepools: The nodepools of this CreateClusterRequest.  # noqa: E501
-        :type nodepools: List[CreateClusterRequestAllOfNodepools]
-        :param role_arn: The role_arn of this CreateClusterRequest.  # noqa: E501
-        :type role_arn: str
-        :param network: The network of this CreateClusterRequest.  # noqa: E501
-        :type network: str
-        :param subnets: The subnets of this CreateClusterRequest.  # noqa: E501
-        :type subnets: List[str]
-        :param security_groups: The security_groups of this CreateClusterRequest.  # noqa: E501
-        :type security_groups: List[str]
         :param location: The location of this CreateClusterRequest.  # noqa: E501
         :type location: str
+        :param nodepools: The nodepools of this CreateClusterRequest.  # noqa: E501
+        :type nodepools: List[CreateClusterRequestAllOfNodepools]
         """
         self.openapi_types = {
             'name': str,
             'cloud': str,
             'provider': ClusterProviders,
-            'nodepools': List[CreateClusterRequestAllOfNodepools],
-            'role_arn': str,
-            'network': str,
-            'subnets': List[str],
-            'security_groups': List[str],
-            'location': str
+            'location': str,
+            'nodepools': List[CreateClusterRequestAllOfNodepools]
         }
 
         self.attribute_map = {
             'name': 'name',
             'cloud': 'cloud',
             'provider': 'provider',
-            'nodepools': 'nodepools',
-            'role_arn': 'role_arn',
-            'network': 'network',
-            'subnets': 'subnets',
-            'security_groups': 'security_groups',
-            'location': 'location'
+            'location': 'location',
+            'nodepools': 'nodepools'
         }
 
         self._name = name
         self._cloud = cloud
         self._provider = provider
-        self._nodepools = nodepools
-        self._role_arn = role_arn
-        self._network = network
-        self._subnets = subnets
-        self._security_groups = security_groups
         self._location = location
+        self._nodepools = nodepools
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateClusterRequest':
@@ -158,6 +138,29 @@ class CreateClusterRequest(Model):
         self._provider = provider
 
     @property
+    def location(self):
+        """Gets the location of this CreateClusterRequest.
+
+        Google specific parameter(Required).Name or ID of the location to create the cluster in  # noqa: E501
+
+        :return: The location of this CreateClusterRequest.
+        :rtype: str
+        """
+        return self._location
+
+    @location.setter
+    def location(self, location):
+        """Sets the location of this CreateClusterRequest.
+
+        Google specific parameter(Required).Name or ID of the location to create the cluster in  # noqa: E501
+
+        :param location: The location of this CreateClusterRequest.
+        :type location: str
+        """
+
+        self._location = location
+
+    @property
     def nodepools(self):
         """Gets the nodepools of this CreateClusterRequest.
 
@@ -177,122 +180,3 @@ class CreateClusterRequest(Model):
         """
 
         self._nodepools = nodepools
-
-    @property
-    def role_arn(self):
-        """Gets the role_arn of this CreateClusterRequest.
-
-        The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf  # noqa: E501
-
-        :return: The role_arn of this CreateClusterRequest.
-        :rtype: str
-        """
-        return self._role_arn
-
-    @role_arn.setter
-    def role_arn(self, role_arn):
-        """Sets the role_arn of this CreateClusterRequest.
-
-        The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf  # noqa: E501
-
-        :param role_arn: The role_arn of this CreateClusterRequest.
-        :type role_arn: str
-        """
-        if role_arn is None:
-            raise ValueError("Invalid value for `role_arn`, must not be `None`")  # noqa: E501
-
-        self._role_arn = role_arn
-
-    @property
-    def network(self):
-        """Gets the network of this CreateClusterRequest.
-
-        Name or ID of the network to be associated with the cluster. If not given the default network will be selected  # noqa: E501
-
-        :return: The network of this CreateClusterRequest.
-        :rtype: str
-        """
-        return self._network
-
-    @network.setter
-    def network(self, network):
-        """Sets the network of this CreateClusterRequest.
-
-        Name or ID of the network to be associated with the cluster. If not given the default network will be selected  # noqa: E501
-
-        :param network: The network of this CreateClusterRequest.
-        :type network: str
-        """
-
-        self._network = network
-
-    @property
-    def subnets(self):
-        """Gets the subnets of this CreateClusterRequest.
-
-        IDs of the subnets to be associated with the cluster. At least 2 subnets in different availability zones are required, if not given the default subnets will be used  # noqa: E501
-
-        :return: The subnets of this CreateClusterRequest.
-        :rtype: List[str]
-        """
-        return self._subnets
-
-    @subnets.setter
-    def subnets(self, subnets):
-        """Sets the subnets of this CreateClusterRequest.
-
-        IDs of the subnets to be associated with the cluster. At least 2 subnets in different availability zones are required, if not given the default subnets will be used  # noqa: E501
-
-        :param subnets: The subnets of this CreateClusterRequest.
-        :type subnets: List[str]
-        """
-
-        self._subnets = subnets
-
-    @property
-    def security_groups(self):
-        """Gets the security_groups of this CreateClusterRequest.
-
-        The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane  # noqa: E501
-
-        :return: The security_groups of this CreateClusterRequest.
-        :rtype: List[str]
-        """
-        return self._security_groups
-
-    @security_groups.setter
-    def security_groups(self, security_groups):
-        """Sets the security_groups of this CreateClusterRequest.
-
-        The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane  # noqa: E501
-
-        :param security_groups: The security_groups of this CreateClusterRequest.
-        :type security_groups: List[str]
-        """
-
-        self._security_groups = security_groups
-
-    @property
-    def location(self):
-        """Gets the location of this CreateClusterRequest.
-
-        Name or ID of the location to create the cluster in  # noqa: E501
-
-        :return: The location of this CreateClusterRequest.
-        :rtype: str
-        """
-        return self._location
-
-    @location.setter
-    def location(self, location):
-        """Sets the location of this CreateClusterRequest.
-
-        Name or ID of the location to create the cluster in  # noqa: E501
-
-        :param location: The location of this CreateClusterRequest.
-        :type location: str
-        """
-        if location is None:
-            raise ValueError("Invalid value for `location`, must not be `None`")  # noqa: E501
-
-        self._location = location
