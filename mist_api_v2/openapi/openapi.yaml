@@ -5416,46 +5416,70 @@ components:
       type: object
     AddScheduleRequest:
       example:
-        schedule: |-
-          #!/usr/bin/env bash
-          echo Hello, World!
-        entrypoint: entrypoint.sh
+        start_after: start_after
+        schedule_type: one_off
+        schedule_entry: schedule_entry
         name: backup-schedule
+        resource_type: machines
         description: description
-        exec_type: executable
-        location_type: inline
+        task_enabled: true
+        action: start
+        run_immediately: true
+        params: params
+        selectors:
+        - selectors
+        - selectors
       properties:
         name:
           example: backup-schedule
           type: string
-        schedule:
-          example: |-
-            #!/usr/bin/env bash
-            echo Hello, World!
-          type: string
-        location_type:
-          enum:
-          - inline
-          - github
-          - url
-          example: inline
-          type: string
-        entrypoint:
-          example: entrypoint.sh
-          type: string
-        exec_type:
-          enum:
-          - executable
-          - ansible
-          example: executable
-          type: string
         description:
           type: string
+        task_enabled:
+          type: boolean
+        action:
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          - run script
+          example: start
+          type: string
+        params:
+          type: string
+        resource_type:
+          enum:
+          - machines
+          - volumes
+          - clusters
+          - networks
+          example: machines
+          type: string
+        selectors:
+          description: IDs of resources related to schedule
+          items:
+            type: string
+          type: array
+        schedule_type:
+          enum:
+          - crontab
+          - interval
+          - one_off
+          example: one_off
+          type: string
+        schedule_entry:
+          description: format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          type: string
+        start_after:
+          description: format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          type: string
+        run_immediately:
+          type: boolean
       required:
-      - exec_type
-      - location_type
+      - action
       - name
-      - schedule
+      - selectors
       type: object
     AddScriptRequest:
       example:
@@ -6726,11 +6750,11 @@ components:
       type: object
     EditScheduleRequest:
       example:
-        name: edited-schedule
+        name: schedule-name
         description: description
       properties:
         name:
-          example: edited-schedule
+          example: schedule-name
           type: string
         description:
           type: string
