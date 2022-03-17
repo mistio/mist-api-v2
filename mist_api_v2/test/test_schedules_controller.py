@@ -48,12 +48,17 @@ class TestSchedulesController:
         """
         add_schedule_request = setup_data.get('add_schedule', {}).get(
             'request_body') or json.loads("""{
-  "schedule" : "#!/usr/bin/env bash\necho Hello, World!",
-  "entrypoint" : "entrypoint.sh",
+  "start_after" : "start_after",
+  "schedule_type" : "one_off",
+  "schedule_entry" : "schedule_entry",
   "name" : "backup-schedule",
+  "resource_type" : "machines",
   "description" : "description",
-  "exec_type" : "executable",
-  "location_type" : "inline"
+  "task_enabled" : true,
+  "action" : "start",
+  "run_immediately" : true,
+  "params" : "params",
+  "selectors" : [ "selectors", "selectors" ]
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
         request = MistRequests(
@@ -93,7 +98,7 @@ class TestSchedulesController:
         """
         edit_schedule_request = setup_data.get('edit_schedule', {}).get(
             'request_body') or json.loads("""{
-  "name" : "edited-schedule",
+  "name" : "schedule-name",
   "description" : "description"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
