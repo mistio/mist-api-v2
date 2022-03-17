@@ -5992,15 +5992,19 @@ components:
         schedule_type: one_off
         schedule_entry: schedule_entry
         name: backup-schedule
-        resource_type: machines
         description: description
         task_enabled: true
         action: start
         run_immediately: true
         params: params
         selectors:
-        - selectors
-        - selectors
+          include:
+          - include
+          - include
+          ids:
+          - ids
+          - ids
+          type: machines
       properties:
         name:
           example: backup-schedule
@@ -6020,19 +6024,8 @@ components:
           type: string
         params:
           type: string
-        resource_type:
-          enum:
-          - machines
-          - volumes
-          - clusters
-          - networks
-          example: machines
-          type: string
         selectors:
-          description: IDs of resources related to schedule
-          items:
-            type: string
-          type: array
+          $ref: '#/components/schemas/Selector'
         schedule_type:
           enum:
           - crontab
@@ -6051,7 +6044,6 @@ components:
       required:
       - action
       - name
-      - selectors
       type: object
     AddScriptRequest:
       example:
