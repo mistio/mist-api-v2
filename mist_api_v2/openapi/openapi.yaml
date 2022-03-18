@@ -4360,6 +4360,66 @@ paths:
       - key
       - value
       x-openapi-router-controller: mist_api_v2.controllers.tags_controller
+    post:
+      description: Batch operation for adding/removing tags from a list of resources.
+      operationId: tag_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagResourcesRequest'
+      responses:
+        "200":
+          description: Tags successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Resource not found
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+        - read:cluster
+        - edit:cloud
+        - edit:image
+        - edit:key
+        - edit:machine
+        - edit:network
+        - edit:script
+        - edit:volumes
+        - edit:zones
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+        - read:cluster
+        - edit:cloud
+        - edit:image
+        - edit:key
+        - edit:machine
+        - edit:network
+        - edit:script
+        - edit:volumes
+        - edit:zones
+      summary: Tag Resources
+      tags:
+      - tags
+      x-openapi-router-controller: mist_api_v2.controllers.tags_controller
   /api/v2/users:
     get:
       description: Return current user if requester is not admin. Return all users
@@ -8863,6 +8923,10 @@ components:
           type: array
       type: object
     ResourceIds:
+      example:
+        resource_ids:
+        - resource_ids
+        - resource_ids
       properties:
         resource_type:
           $ref: '#/components/schemas/ResourceType'
@@ -9146,6 +9210,39 @@ components:
           type: string
         value:
           type: string
+      type: object
+    TagResourcesRequest:
+      example:
+        request:
+        - resource:
+            resource_ids:
+            - resource_ids
+            - resource_ids
+          tag:
+          - op: +
+            value: value
+            key: key
+          - op: +
+            value: value
+            key: key
+        - resource:
+            resource_ids:
+            - resource_ids
+            - resource_ids
+          tag:
+          - op: +
+            value: value
+            key: key
+          - op: +
+            value: value
+            key: key
+      properties:
+        request:
+          items:
+            $ref: '#/components/schemas/TagResourcesRequest_request'
+          type: array
+      required:
+      - tagFull
       type: object
     Team:
       example:
@@ -9686,6 +9783,43 @@ components:
           type: string
       required:
       - network
+      type: object
+    TagResourcesRequest_tag:
+      example:
+        op: +
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        op:
+          enum:
+          - +
+          - '-'
+          type: string
+      type: object
+    TagResourcesRequest_request:
+      example:
+        resource:
+          resource_ids:
+          - resource_ids
+          - resource_ids
+        tag:
+        - op: +
+          value: value
+          key: key
+        - op: +
+          value: value
+          key: key
+      properties:
+        resource:
+          $ref: '#/components/schemas/ResourceIds'
+        tag:
+          items:
+            $ref: '#/components/schemas/TagResourcesRequest_tag'
+          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:

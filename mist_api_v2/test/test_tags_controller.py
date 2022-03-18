@@ -67,6 +67,54 @@ class TestTagsController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_tag_resources(self, pretty_print, owner_api_token):
+        """Test case for tag_resources
+
+        Tag Resources
+        """
+        tag_resources_request = setup_data.get('tag_resources', {}).get(
+            'request_body') or json.loads("""{
+  "request" : [ {
+    "resource" : {
+      "resource_ids" : [ "resource_ids", "resource_ids" ]
+    },
+    "tag" : [ {
+      "op" : "+",
+      "value" : "value",
+      "key" : "key"
+    }, {
+      "op" : "+",
+      "value" : "value",
+      "key" : "key"
+    } ]
+  }, {
+    "resource" : {
+      "resource_ids" : [ "resource_ids", "resource_ids" ]
+    },
+    "tag" : [ {
+      "op" : "+",
+      "value" : "value",
+      "key" : "key"
+    }, {
+      "op" : "+",
+      "value" : "value",
+      "key" : "key"
+    } ]
+  } ]
+}""", strict=False)
+        uri = MIST_URL + '/api/v2/tags'
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=tag_resources_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        if 'tag_resources' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
 
 if resource_name == 'machines':
     # Impose custom ordering of machines test methods

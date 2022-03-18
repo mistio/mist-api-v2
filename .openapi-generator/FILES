@@ -195,6 +195,9 @@ mist_api_v2/models/supported_providers.py
 mist_api_v2/models/tag.py
 mist_api_v2/models/tag_full.py
 mist_api_v2/models/tag_name.py
+mist_api_v2/models/tag_resources_request.py
+mist_api_v2/models/tag_resources_request_request.py
+mist_api_v2/models/tag_resources_request_tag.py
 mist_api_v2/models/team.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/user.py
