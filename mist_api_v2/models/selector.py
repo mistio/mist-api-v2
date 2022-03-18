@@ -56,7 +56,7 @@ class Selector(Model):
     def type(self):
         """Gets the type of this Selector.
 
-        one of \"machines\" or \"tags\"  # noqa: E501
+        one of \"machines\", \"volumes\", \"clusters\", \"networks\" or \"tags\"  # noqa: E501
 
         :return: The type of this Selector.
         :rtype: str
@@ -67,12 +67,12 @@ class Selector(Model):
     def type(self, type):
         """Sets the type of this Selector.
 
-        one of \"machines\" or \"tags\"  # noqa: E501
+        one of \"machines\", \"volumes\", \"clusters\", \"networks\" or \"tags\"  # noqa: E501
 
         :param type: The type of this Selector.
         :type type: str
         """
-        allowed_values = ["machines", "tags"]  # noqa: E501
+        allowed_values = ["machines", "volumes", "clusters", "networks", "tags"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
@@ -85,7 +85,7 @@ class Selector(Model):
     def ids(self):
         """Gets the ids of this Selector.
 
-        a list of UUIDs in case type is \"machines\"  # noqa: E501
+        a list of UUIDs in case type is resource like \"machines\", \"volumes\", \"clusters\" or \"networks\"  # noqa: E501
 
         :return: The ids of this Selector.
         :rtype: List[str]
@@ -96,7 +96,7 @@ class Selector(Model):
     def ids(self, ids):
         """Sets the ids of this Selector.
 
-        a list of UUIDs in case type is \"machines\"  # noqa: E501
+        a list of UUIDs in case type is resource like \"machines\", \"volumes\", \"clusters\" or \"networks\"  # noqa: E501
 
         :param ids: The ids of this Selector.
         :type ids: List[str]

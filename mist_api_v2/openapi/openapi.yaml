@@ -9299,13 +9299,17 @@ components:
         type: machines
       properties:
         type:
-          description: one of "machines" or "tags"
+          description: one of "machines", "volumes", "clusters", "networks" or "tags"
           enum:
           - machines
+          - volumes
+          - clusters
+          - networks
           - tags
           type: string
         ids:
-          description: a list of UUIDs in case type is "machines"
+          description: a list of UUIDs in case type is resource like "machines", "volumes",
+            "clusters" or "networks"
           items:
             type: string
           type: array
