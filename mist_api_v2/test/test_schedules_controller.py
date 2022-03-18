@@ -57,11 +57,15 @@ class TestSchedulesController:
   "action" : "start",
   "run_immediately" : true,
   "params" : "params",
-  "selectors" : {
+  "selectors" : [ {
     "include" : [ "include", "include" ],
     "ids" : [ "ids", "ids" ],
     "type" : "machines"
-  }
+  }, {
+    "include" : [ "include", "include" ],
+    "ids" : [ "ids", "ids" ],
+    "type" : "machines"
+  } ]
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
         request = MistRequests(

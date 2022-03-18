@@ -31,7 +31,7 @@ class AddScheduleRequest(Model):
         :param params: The params of this AddScheduleRequest.  # noqa: E501
         :type params: str
         :param selectors: The selectors of this AddScheduleRequest.  # noqa: E501
-        :type selectors: Selector
+        :type selectors: List[Selector]
         :param schedule_type: The schedule_type of this AddScheduleRequest.  # noqa: E501
         :type schedule_type: str
         :param schedule_entry: The schedule_entry of this AddScheduleRequest.  # noqa: E501
@@ -47,7 +47,7 @@ class AddScheduleRequest(Model):
             'task_enabled': bool,
             'action': str,
             'params': str,
-            'selectors': Selector,
+            'selectors': List[Selector],
             'schedule_type': str,
             'schedule_entry': str,
             'start_after': str,
@@ -208,7 +208,7 @@ class AddScheduleRequest(Model):
 
 
         :return: The selectors of this AddScheduleRequest.
-        :rtype: Selector
+        :rtype: List[Selector]
         """
         return self._selectors
 
@@ -218,7 +218,7 @@ class AddScheduleRequest(Model):
 
 
         :param selectors: The selectors of this AddScheduleRequest.
-        :type selectors: Selector
+        :type selectors: List[Selector]
         """
 
         self._selectors = selectors

@@ -5998,7 +5998,14 @@ components:
         run_immediately: true
         params: params
         selectors:
-          include:
+        - include:
+          - include
+          - include
+          ids:
+          - ids
+          - ids
+          type: machines
+        - include:
           - include
           - include
           ids:
@@ -6025,7 +6032,9 @@ components:
         params:
           type: string
         selectors:
-          $ref: '#/components/schemas/Selector'
+          items:
+            $ref: '#/components/schemas/Selector'
+          type: array
         schedule_type:
           enum:
           - crontab
