@@ -9241,9 +9241,6 @@ components:
           items:
             $ref: '#/components/schemas/TagResourcesRequest_request'
           type: array
-      required:
-      - resource
-      - tag
       type: object
     Team:
       example:
@@ -9821,6 +9818,9 @@ components:
           items:
             $ref: '#/components/schemas/TagResourcesRequest_tag'
           type: array
+      required:
+      - resource
+      - tag
       type: object
   securitySchemes:
     ApiKeyAuth:

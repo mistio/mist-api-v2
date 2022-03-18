@@ -69,6 +69,8 @@ class TagResourcesRequestRequest(Model):
         :param resource: The resource of this TagResourcesRequestRequest.
         :type resource: ResourceIds
         """
+        if resource is None:
+            raise ValueError("Invalid value for `resource`, must not be `None`")  # noqa: E501
 
         self._resource = resource
 
@@ -90,5 +92,7 @@ class TagResourcesRequestRequest(Model):
         :param tag: The tag of this TagResourcesRequestRequest.
         :type tag: List[TagResourcesRequestTag]
         """
+        if tag is None:
+            raise ValueError("Invalid value for `tag`, must not be `None`")  # noqa: E501
 
         self._tag = tag
