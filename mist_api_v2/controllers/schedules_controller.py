@@ -2,13 +2,16 @@ import connexion
 # import six
 
 from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import ScheduleNameExistsError
+from mist.api.schedules.models import Schedule
+from mist.api.tag.methods import resolve_id_and_set_tags
+from mist.api.tasks import async_session_update
 
-# from mist_api_v2.models.add_schedule_request import AddScheduleRequest  # noqa: E501
+from mist_api_v2.models.add_schedule_request import AddScheduleRequest  # noqa: E501
 from mist_api_v2.models.edit_schedule_request import EditScheduleRequest  # noqa: E501
 from mist_api_v2.models.get_schedule_response import GetScheduleResponse  # noqa: E501
-# from mist_api_v2.models.inline_response200 import InlineResponse200  # noqa: E501
 from mist_api_v2.models.list_schedules_response import ListSchedulesResponse  # noqa: E501
-# from mist_api_v2 import util
 
 from .base import list_resources, get_resource
 
@@ -23,9 +26,36 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
 
     :rtype: InlineResponse200
     """
-    # if connexion.request.is_json:
-    # add_schedule_request = AddScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    if connexion.request.is_json:
+        add_schedule_request = AddScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    params = add_schedule_request.to_dict()
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        schedule_tags, _ = auth_context.check_perm("schedule", "add", None)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    kwargs = {}
+    for key in params:
+        if key is None:
+            kwargs[key] = {}
+        else:
+            kwargs[key] = params[key]
+    name = kwargs.pop('name')
+    try:
+        schedule = Schedule.add(auth_context, name, **kwargs)
+    except BadRequestError as e:
+        return str(e), 400
+    except ScheduleNameExistsError as e:
+        return str(e), 409
+    if schedule_tags:
+        resolve_id_and_set_tags(auth_context.owner, 'schedule', schedule.id,
+                                list(schedule_tags.items()))
+    schedule = schedule.as_dict_v2()
+    async_session_update(auth_context.owner, ['schedules'])
+    return schedule, 200
 
 
 def delete_schedule(schedule):  # noqa: E501
@@ -46,7 +76,6 @@ def delete_schedule(schedule):  # noqa: E501
     result_data = result.get('data')
     if not result_data:
         return 'Schedule does not exist', 404
-    from mist.api.schedules.models import Schedule
     schedule_id = result_data.get('id')
     try:
         auth_context.check_perm('schedule', 'remove', schedule_id)
@@ -80,7 +109,6 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
     result_data = result.get('data')
     if not result_data:
         return 'Schedule does not exist', 404
-    from mist.api.schedules.models import Schedule
     schedule_id = result_data.get('id')
     try:
         auth_context.check_perm('schedule', 'edit', schedule_id)
