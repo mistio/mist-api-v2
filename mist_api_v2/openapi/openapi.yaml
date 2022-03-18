@@ -9242,7 +9242,8 @@ components:
             $ref: '#/components/schemas/TagResourcesRequest_request'
           type: array
       required:
-      - tagFull
+      - resource
+      - tag
       type: object
     Team:
       example:
