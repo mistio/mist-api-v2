@@ -52,6 +52,7 @@ class TestSchedulesController:
   "schedule_type" : "one_off",
   "schedule_entry" : "schedule_entry",
   "name" : "backup-schedule",
+  "resource_type" : "machines",
   "description" : "description",
   "task_enabled" : true,
   "action" : "start",

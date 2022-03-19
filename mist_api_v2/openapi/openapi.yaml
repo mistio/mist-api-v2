@@ -3989,6 +3989,15 @@ paths:
       - name
       - description
       - tags
+      - task_enabled
+      - action
+      - params
+      - resource_type
+      - selectors
+      - schedule_type
+      - schedule_entry
+      - start_after
+      - run_immediately
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
@@ -4121,6 +4130,15 @@ paths:
       - name
       - description
       - tags
+      - task_enabled
+      - action
+      - params
+      - resource_type
+      - selectors
+      - schedule_type
+      - schedule_entry
+      - start_after
+      - run_immediately
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
@@ -5992,6 +6010,7 @@ components:
         schedule_type: one_off
         schedule_entry: schedule_entry
         name: backup-schedule
+        resource_type: machines
         description: description
         task_enabled: true
         action: start
@@ -6022,14 +6041,23 @@ components:
           type: boolean
         action:
           enum:
-          - start
-          - stop
           - reboot
           - destroy
-          - run script
+          - notify
+          - start
+          - stop
+          - delete
           example: start
           type: string
         params:
+          type: string
+        resource_type:
+          enum:
+          - machines
+          - volumes
+          - clusters
+          - networks
+          example: machines
           type: string
         selectors:
           items:
@@ -7762,12 +7790,35 @@ components:
     GetScheduleResponse:
       example:
         data:
-          name: name
+          schedule_type: schedule_type
+          resource_type: resource_type
           description: description
           owned_by: owned_by
-          id: id
+          run_immediately: true
+          params: params
+          selectors:
+          - include:
+            - include
+            - include
+            ids:
+            - ids
+            - ids
+            type: machines
+          - include:
+            - include
+            - include
+            ids:
+            - ids
+            - ids
+            type: machines
           created_by: created_by
           tags: '{}'
+          start_after: start_after
+          schedule_entry: schedule_entry
+          name: name
+          task_enabled: true
+          action: action
+          id: id
         meta:
           total: 0
           start: 1
@@ -8943,18 +8994,64 @@ components:
     ListSchedulesResponse:
       example:
         data:
-        - name: name
+        - schedule_type: schedule_type
+          resource_type: resource_type
           description: description
           owned_by: owned_by
-          id: id
+          run_immediately: true
+          params: params
+          selectors:
+          - include:
+            - include
+            - include
+            ids:
+            - ids
+            - ids
+            type: machines
+          - include:
+            - include
+            - include
+            ids:
+            - ids
+            - ids
+            type: machines
           created_by: created_by
           tags: '{}'
-        - name: name
+          start_after: start_after
+          schedule_entry: schedule_entry
+          name: name
+          task_enabled: true
+          action: action
+          id: id
+        - schedule_type: schedule_type
+          resource_type: resource_type
           description: description
           owned_by: owned_by
-          id: id
+          run_immediately: true
+          params: params
+          selectors:
+          - include:
+            - include
+            - include
+            ids:
+            - ids
+            - ids
+            type: machines
+          - include:
+            - include
+            - include
+            ids:
+            - ids
+            - ids
+            type: machines
           created_by: created_by
           tags: '{}'
+          start_after: start_after
+          schedule_entry: schedule_entry
+          name: name
+          task_enabled: true
+          action: action
+          id: id
         meta:
           total: 0
           start: 1
@@ -9946,12 +10043,35 @@ components:
           type: integer
     Schedule:
       example:
-        name: name
+        schedule_type: schedule_type
+        resource_type: resource_type
         description: description
         owned_by: owned_by
-        id: id
+        run_immediately: true
+        params: params
+        selectors:
+        - include:
+          - include
+          - include
+          ids:
+          - ids
+          - ids
+          type: machines
+        - include:
+          - include
+          - include
+          ids:
+          - ids
+          - ids
+          type: machines
         created_by: created_by
         tags: '{}'
+        start_after: start_after
+        schedule_entry: schedule_entry
+        name: name
+        task_enabled: true
+        action: action
+        id: id
       properties:
         id:
           type: string
@@ -9961,6 +10081,26 @@ components:
           type: string
         tags:
           type: object
+        task_enabled:
+          type: boolean
+        action:
+          type: string
+        params:
+          type: string
+        resource_type:
+          type: string
+        selectors:
+          items:
+            $ref: '#/components/schemas/Selector'
+          type: array
+        schedule_type:
+          type: string
+        schedule_entry:
+          type: string
+        start_after:
+          type: string
+        run_immediately:
+          type: boolean
         created_by:
           type: string
         owned_by:

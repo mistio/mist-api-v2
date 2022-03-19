@@ -17,7 +17,7 @@ class AddScheduleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, task_enabled=None, action=None, params=None, selectors=None, schedule_type=None, schedule_entry=None, start_after=None, run_immediately=None):  # noqa: E501
+    def __init__(self, name=None, description=None, task_enabled=None, action=None, params=None, resource_type=None, selectors=None, schedule_type=None, schedule_entry=None, start_after=None, run_immediately=None):  # noqa: E501
         """AddScheduleRequest - a model defined in OpenAPI
 
         :param name: The name of this AddScheduleRequest.  # noqa: E501
@@ -30,6 +30,8 @@ class AddScheduleRequest(Model):
         :type action: str
         :param params: The params of this AddScheduleRequest.  # noqa: E501
         :type params: str
+        :param resource_type: The resource_type of this AddScheduleRequest.  # noqa: E501
+        :type resource_type: str
         :param selectors: The selectors of this AddScheduleRequest.  # noqa: E501
         :type selectors: List[Selector]
         :param schedule_type: The schedule_type of this AddScheduleRequest.  # noqa: E501
@@ -47,6 +49,7 @@ class AddScheduleRequest(Model):
             'task_enabled': bool,
             'action': str,
             'params': str,
+            'resource_type': str,
             'selectors': List[Selector],
             'schedule_type': str,
             'schedule_entry': str,
@@ -60,6 +63,7 @@ class AddScheduleRequest(Model):
             'task_enabled': 'task_enabled',
             'action': 'action',
             'params': 'params',
+            'resource_type': 'resource_type',
             'selectors': 'selectors',
             'schedule_type': 'schedule_type',
             'schedule_entry': 'schedule_entry',
@@ -72,6 +76,7 @@ class AddScheduleRequest(Model):
         self._task_enabled = task_enabled
         self._action = action
         self._params = params
+        self._resource_type = resource_type
         self._selectors = selectors
         self._schedule_type = schedule_type
         self._schedule_entry = schedule_entry
@@ -172,7 +177,7 @@ class AddScheduleRequest(Model):
         :param action: The action of this AddScheduleRequest.
         :type action: str
         """
-        allowed_values = ["start", "stop", "reboot", "destroy", "run script"]  # noqa: E501
+        allowed_values = ["reboot", "destroy", "notify", "start", "stop", "delete"]  # noqa: E501
         if action not in allowed_values:
             raise ValueError(
                 "Invalid value for `action` ({0}), must be one of {1}"
@@ -201,6 +206,33 @@ class AddScheduleRequest(Model):
         """
 
         self._params = params
+
+    @property
+    def resource_type(self):
+        """Gets the resource_type of this AddScheduleRequest.
+
+
+        :return: The resource_type of this AddScheduleRequest.
+        :rtype: str
+        """
+        return self._resource_type
+
+    @resource_type.setter
+    def resource_type(self, resource_type):
+        """Sets the resource_type of this AddScheduleRequest.
+
+
+        :param resource_type: The resource_type of this AddScheduleRequest.
+        :type resource_type: str
+        """
+        allowed_values = ["machines", "volumes", "clusters", "networks"]  # noqa: E501
+        if resource_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `resource_type` ({0}), must be one of {1}"
+                .format(resource_type, allowed_values)
+            )
+
+        self._resource_type = resource_type
 
     @property
     def selectors(self):
