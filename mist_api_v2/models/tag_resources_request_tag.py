@@ -70,6 +70,8 @@ class TagResourcesRequestTag(Model):
         :param key: The key of this TagResourcesRequestTag.
         :type key: str
         """
+        if key is None:
+            raise ValueError("Invalid value for `key`, must not be `None`")  # noqa: E501
 
         self._key = key
 
@@ -91,6 +93,8 @@ class TagResourcesRequestTag(Model):
         :param value: The value of this TagResourcesRequestTag.
         :type value: str
         """
+        if value is None:
+            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
 
         self._value = value
 

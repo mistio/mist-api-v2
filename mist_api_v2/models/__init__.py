@@ -169,7 +169,7 @@ from mist_api_v2.models.tag import Tag
 from mist_api_v2.models.tag_full import TagFull
 from mist_api_v2.models.tag_name import TagName
 from mist_api_v2.models.tag_resources_request import TagResourcesRequest
-from mist_api_v2.models.tag_resources_request_request import TagResourcesRequestRequest
+from mist_api_v2.models.tag_resources_request_resources import TagResourcesRequestResources
 from mist_api_v2.models.tag_resources_request_tag import TagResourcesRequestTag
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter

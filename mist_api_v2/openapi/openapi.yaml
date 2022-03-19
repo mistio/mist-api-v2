@@ -8923,10 +8923,6 @@ components:
           type: array
       type: object
     ResourceIds:
-      example:
-        resource_ids:
-        - resource_ids
-        - resource_ids
       properties:
         resource_type:
           $ref: '#/components/schemas/ResourceType'
@@ -9213,11 +9209,8 @@ components:
       type: object
     TagResourcesRequest:
       example:
-        request:
-        - resource:
-            resource_ids:
-            - resource_ids
-            - resource_ids
+        resources:
+        - resource_id: resource_id
           tag:
           - op: +
             value: value
@@ -9225,10 +9218,7 @@ components:
           - op: +
             value: value
             key: key
-        - resource:
-            resource_ids:
-            - resource_ids
-            - resource_ids
+        - resource_id: resource_id
           tag:
           - op: +
             value: value
@@ -9237,9 +9227,9 @@ components:
             value: value
             key: key
       properties:
-        request:
+        resources:
           items:
-            $ref: '#/components/schemas/TagResourcesRequest_request'
+            $ref: '#/components/schemas/TagResourcesRequest_resources'
           type: array
       type: object
     Team:
@@ -9797,13 +9787,13 @@ components:
           - +
           - '-'
           type: string
+      required:
+      - key
+      - value
       type: object
-    TagResourcesRequest_request:
+    TagResourcesRequest_resources:
       example:
-        resource:
-          resource_ids:
-          - resource_ids
-          - resource_ids
+        resource_id: resource_id
         tag:
         - op: +
           value: value
@@ -9812,14 +9802,17 @@ components:
           value: value
           key: key
       properties:
-        resource:
-          $ref: '#/components/schemas/ResourceIds'
+        resource_id:
+          type: string
+        resource_type:
+          $ref: '#/components/schemas/ResourceType'
         tag:
           items:
             $ref: '#/components/schemas/TagResourcesRequest_tag'
           type: array
       required:
-      - resource
+      - resource_id
+      - resource_type
       - tag
       type: object
   securitySchemes:

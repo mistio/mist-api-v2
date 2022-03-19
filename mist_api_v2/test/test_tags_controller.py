@@ -74,10 +74,8 @@ class TestTagsController:
         """
         tag_resources_request = setup_data.get('tag_resources', {}).get(
             'request_body') or json.loads("""{
-  "request" : [ {
-    "resource" : {
-      "resource_ids" : [ "resource_ids", "resource_ids" ]
-    },
+  "resources" : [ {
+    "resource_id" : "resource_id",
     "tag" : [ {
       "op" : "+",
       "value" : "value",
@@ -88,9 +86,7 @@ class TestTagsController:
       "key" : "key"
     } ]
   }, {
-    "resource" : {
-      "resource_ids" : [ "resource_ids", "resource_ids" ]
-    },
+    "resource_id" : "resource_id",
     "tag" : [ {
       "op" : "+",
       "value" : "value",
