@@ -53,7 +53,6 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
     if schedule_tags:
         resolve_id_and_set_tags(auth_context.owner, 'schedule', schedule.id,
                                 list(schedule_tags.items()))
-    schedule = schedule.as_dict_v2()
     async_session_update(auth_context.owner, ['schedules'])
     result = get_resource(auth_context, 'schedule',
                           search=schedule['id'], only=None, deref=None)
