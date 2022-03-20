@@ -102,6 +102,7 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         edit_schedule_request = EditScheduleRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    params = edit_schedule_request.to_dict()
     try:
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
@@ -115,10 +116,17 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
         auth_context.check_perm('schedule', 'edit', schedule_id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
+    kwargs = {}
+    for key in params:
+        if key is None:
+            kwargs[key] = {}
+        else:
+            kwargs[key] = params[key]
     schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
                                     deleted=None)
-    schedule.ctl.edit(edit_schedule_request.name,
-                      edit_schedule_request.description)
+
+    schedule.ctl.set_auth_context(auth_context)
+    schedule.ctl.update(**kwargs)
     return 'Updated schedule `%s`' % schedule.name, 200
 
 
