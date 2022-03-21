@@ -2,14 +2,15 @@ import logging
 import connexion
 import mongoengine as me
 
-from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
-
-from mist_api_v2.models.tag_resources_request import TagResourcesRequest  # noqa: E501
 from mist.api.helpers import get_resource_model
 from mist.api.tag.methods import get_tags
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tag.methods import remove_tags_from_resource
+from mist.api.tag.methods import modify_security_tags
+from mist.api.exceptions import PolicyUnauthorizedError
 
+from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
+from mist_api_v2.models.tag_resources_request import TagResourcesRequest  # noqa: E501
 
 log = logging.getLogger(__name__)
 
@@ -72,6 +73,7 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         resource_type = resource.resource_type
         resource_id = resource.resource_id
         resource_tags = resource.tag
+
         try:
             resource_model = get_resource_model(resource_type)
         except KeyError:
@@ -79,23 +81,31 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         try:
             resource_obj = resource_model.objects.get(
                 owner=auth_context.owner, id=resource_id)
-
-            # split the tags into two lists: those that will be added
-            # and those that will be removed
-            tags_to_add = [(tag.key, tag.value) for tag in [
-                tag for tag in resource_tags if (tag.op or '+') == '+']]
-            # also extract the keys from all the tags to be deleted
-            tags_to_remove = [tag.key for tag in [
-                tag for tag in resource_tags if (tag.op or '+') == '-']]
-
-            if tags_to_add:
-                add_tags_to_resource(auth_context.owner, resource_obj,
-                                     tags_to_add)
-            if tags_to_remove:
-                remove_tags_from_resource(auth_context.owner, resource_obj,
-                                          tags_to_remove)
         except me.DoesNotExist:
             log.error('%s with id %s does not exist', resource_type,
                       resource_id)
+            continue
+        try:
+            auth_context.check_perm(resource_type, 'edit_tags', resource_obj.id)
+        except PolicyUnauthorizedError:
+            return 'You are not authorized to perform this action', 403
+
+        # split the tags into two lists: those that will be added
+        # and those that will be removed
+        tags_to_add = [(tag.key, tag.value) for tag in [
+            tag for tag in resource_tags if (tag.op or '+') == '+']]
+        # also extract the keys from all the tags to be deleted
+        tags_to_remove = [tag.key for tag in [
+            tag for tag in resource_tags if (tag.op or '+') == '-']]
+
+        if not modify_security_tags(auth_context, tags_to_add, resource_obj):
+            auth_context._raise(resource_type, 'edit_security_tags')
+
+        if tags_to_add:
+            add_tags_to_resource(auth_context.owner, resource_obj,
+                                 tags_to_add)
+        if tags_to_remove:
+            remove_tags_from_resource(auth_context.owner, resource_obj,
+                                      tags_to_remove)
 
     return 'Tags succesfully updated', 200
