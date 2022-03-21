@@ -86,7 +86,8 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
                       resource_id)
             continue
         try:
-            auth_context.check_perm(resource_type, 'edit_tags', resource_obj.id)
+            auth_context.check_perm(resource_type, 'edit_tags',
+                                    resource_obj.id)
         except PolicyUnauthorizedError:
             return 'You are not authorized to perform this action', 403
 
