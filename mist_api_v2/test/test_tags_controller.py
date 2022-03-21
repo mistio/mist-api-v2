@@ -48,12 +48,12 @@ class TestTagsController:
         """
         query_string = setup_data.get('list_tags', {}).get('query_string') or [('verbose', 'False'),
                         ('resource', '{}'),
-                        ('search', 'created_by:csk'),
+                        ('search', 'key:key1'),
                         ('sort', '-name'),
                         ('start', '50'),
                         ('limit', '56'),
-                        ('only', 'id'),
-                        ('deref', 'auto')]
+                        ('only', 'key'),
+                        ('deref', 'id')]
         uri = MIST_URL + '/api/v2/tags'
         request = MistRequests(
             api_token=owner_api_token,

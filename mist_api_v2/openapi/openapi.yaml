@@ -4246,8 +4246,10 @@ paths:
         style: form
       - description: Only return results matching search filter
         examples:
-          Filter by cluster created_by attribute:
-            value: created_by:csk
+          Filter by key:
+            value: key:key1
+          Filter by key and value:
+            value: key:key1 value:value1
         explode: true
         in: query
         name: search
@@ -4270,8 +4272,6 @@ paths:
         examples:
           Start from the 50th result:
             value: "50"
-          Start from item with id xyz:
-            value: xyz
         explode: true
         in: query
         name: start
@@ -4289,10 +4289,10 @@ paths:
         style: form
       - description: Only return these fields
         examples:
-          Only return id:
-            value: id
-          Return id, name & owned_by:
-            value: id,name,owned_by
+          Only return key:
+            value: key
+          Return key, resources:
+            value: key,resources
         explode: true
         in: query
         name: only
@@ -4302,14 +4302,10 @@ paths:
         style: form
       - description: Dereference foreign keys
         examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name ':
-            value: auto
-          Do not dereference anything, just return ids:
-            value: none
-          Dereference cloud id to cloud provider:
-            value: cloud:provider
-          Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+          (default) Do not dereference anything, just return ids:
+            value: id
+          ' Automatically replace all foreign key ids with referenced resource name ':
+            value: name
         explode: true
         in: query
         name: deref
@@ -4324,7 +4320,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListTagsResponse'
-          description: List clusters response
+          description: List tags response
         "401":
           description: Authentication failed
         "403":
@@ -8195,8 +8191,26 @@ components:
     ListTagsResponse:
       example:
         data:
-        - null
-        - null
+        - resources:
+          - resource_ids:
+            - resource_ids
+            - resource_ids
+          - resource_ids:
+            - resource_ids
+            - resource_ids
+          tag:
+            value: value
+            key: key
+        - resources:
+          - resource_ids:
+            - resource_ids
+            - resource_ids
+          - resource_ids:
+            - resource_ids
+            - resource_ids
+          tag:
+            value: value
+            key: key
         meta:
           total: 0
           start: 1
@@ -8205,7 +8219,7 @@ components:
       properties:
         data:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: '#/components/schemas/TagFull'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -8923,6 +8937,10 @@ components:
           type: array
       type: object
     ResourceIds:
+      example:
+        resource_ids:
+        - resource_ids
+        - resource_ids
       properties:
         resource_type:
           $ref: '#/components/schemas/ResourceType'
@@ -9187,11 +9205,18 @@ components:
       - openshift
       - other
       type: string
-    Tag:
-      oneOf:
-      - $ref: '#/components/schemas/TagName'
-      - $ref: '#/components/schemas/TagFull'
     TagFull:
+      example:
+        resources:
+        - resource_ids:
+          - resource_ids
+          - resource_ids
+        - resource_ids:
+          - resource_ids
+          - resource_ids
+        tag:
+          value: value
+          key: key
       properties:
         tag:
           $ref: '#/components/schemas/TagName'
@@ -9201,6 +9226,9 @@ components:
           type: array
       type: object
     TagName:
+      example:
+        value: value
+        key: key
       properties:
         key:
           type: string

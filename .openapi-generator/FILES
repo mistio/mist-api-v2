@@ -192,7 +192,6 @@ mist_api_v2/models/script.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
-mist_api_v2/models/tag.py
 mist_api_v2/models/tag_full.py
 mist_api_v2/models/tag_name.py
 mist_api_v2/models/tag_resources_request.py
