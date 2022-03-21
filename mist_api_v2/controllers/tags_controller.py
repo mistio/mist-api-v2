@@ -74,28 +74,28 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         resource_tags = resource.tag
         try:
             resource_model = get_resource_model(resource_type)
-            try:
-                resource_obj = resource_model.objects.get(
-                    owner=auth_context.owner, id=resource_id)
-
-                # split the tags into two lists: those that will be added
-                # and those that will be removed
-                tags_to_add = [(tag.key, tag.value) for tag in [
-                    tag for tag in resource_tags if (tag.op or '+') == '+']]
-                # also extract the keys from all the tags to be deleted
-                tags_to_remove = [tag.key for tag in [
-                    tag for tag in resource_tags if (tag.op or '+') == '-']]
-
-                if tags_to_add:
-                    add_tags_to_resource(auth_context.owner, resource_obj,
-                                         tags_to_add)
-                if tags_to_remove:
-                    remove_tags_from_resource(auth_context.owner, resource_obj,
-                                              tags_to_remove)
-            except me.DoesNotExist:
-                log.error('%s with id %s does not exist', resource_type,
-                          resource_id)
         except KeyError:
-            log.error('Failed to resolve classpath for %s', resource_type)
+            continue
+        try:
+            resource_obj = resource_model.objects.get(
+                owner=auth_context.owner, id=resource_id)
+
+            # split the tags into two lists: those that will be added
+            # and those that will be removed
+            tags_to_add = [(tag.key, tag.value) for tag in [
+                tag for tag in resource_tags if (tag.op or '+') == '+']]
+            # also extract the keys from all the tags to be deleted
+            tags_to_remove = [tag.key for tag in [
+                tag for tag in resource_tags if (tag.op or '+') == '-']]
+
+            if tags_to_add:
+                add_tags_to_resource(auth_context.owner, resource_obj,
+                                     tags_to_add)
+            if tags_to_remove:
+                remove_tags_from_resource(auth_context.owner, resource_obj,
+                                          tags_to_remove)
+        except me.DoesNotExist:
+            log.error('%s with id %s does not exist', resource_type,
+                      resource_id)
 
     return 'Tags succesfully updated', 200
