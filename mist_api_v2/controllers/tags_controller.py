@@ -1,8 +1,17 @@
+import logging
 import connexion
-
+import mongoengine as me
 
 from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
+
+from mist_api_v2.models.tag_resources_request import TagResourcesRequest  # noqa: E501
+from mist.api.helpers import get_resource_model
 from mist.api.tag.methods import get_tags
+from mist.api.tag.methods import add_tags_to_resource
+from mist.api.tag.methods import remove_tags_from_resource
+
+
+log = logging.getLogger(__name__)
 
 
 def list_tags(verbose=None, resource=None, search='', sort='key', start=0, limit=100, only='', deref=None):  # noqa: E501
@@ -35,9 +44,58 @@ def list_tags(verbose=None, resource=None, search='', sort='key', start=0, limit
     except KeyError:
         return 'Authentication failed', 401
 
-    #  import ipdb; ipdb.set_trace()
     data, meta = get_tags(auth_context, verbose=verbose, resource=resource,
                           search=search, sort=sort, start=start, limit=limit,
                           only=only, deref=deref)
 
     return ListTagsResponse(data, meta)
+
+
+def tag_resources(tag_resources_request=None):  # noqa: E501
+    """Tag Resources
+
+    Batch operation for adding/removing tags from a list of resources. # noqa: E501
+
+    :param tag_resources_request:
+    :type tag_resources_request: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        tag_resources_request = TagResourcesRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+
+    for resource in tag_resources_request.resources:
+        resource_type = resource.resource_type
+        resource_id = resource.resource_id
+        resource_tags = resource.tag
+        try:
+            resource_model = get_resource_model(resource_type)
+            try:
+                resource_obj = resource_model.objects.get(
+                               owner=auth_context.owner, id=resource_id)
+
+                # split the tags into two lists: those that will be added
+                # and those that will be removed
+                tags_to_add = [(tag.key, tag.value) for tag in [
+                    tag for tag in resource_tags if (tag.op or '+') == '+']]
+                # also extract the keys from all the tags to be deleted
+                tags_to_remove = [tag.key for tag in [
+                    tag for tag in resource_tags if (tag.op or '+') == '-']]
+
+                if tags_to_add:
+                    add_tags_to_resource(auth_context.owner, resource_obj,
+                                         tags_to_add)
+                if tags_to_remove:
+                    remove_tags_from_resource(auth_context.owner, resource_obj,
+                                              tags_to_remove)
+            except me.DoesNotExist:
+                log.error('%s with id %s does not exist', resource_type,
+                          resource_id)
+        except KeyError:
+            log.error('Failed to resolve classpath for %s', resource_type)
+
+    return 'Tags succesfully updated', 200
