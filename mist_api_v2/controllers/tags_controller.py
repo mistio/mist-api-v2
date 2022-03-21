@@ -76,7 +76,7 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
             resource_model = get_resource_model(resource_type)
             try:
                 resource_obj = resource_model.objects.get(
-                               owner=auth_context.owner, id=resource_id)
+                    owner=auth_context.owner, id=resource_id)
 
                 # split the tags into two lists: those that will be added
                 # and those that will be removed
