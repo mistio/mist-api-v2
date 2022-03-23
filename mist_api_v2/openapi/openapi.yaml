@@ -1608,11 +1608,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
     post:
-      description: Creates one or more machines on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. READ permission required on location. CREATE_RESOURCES
-        permission required on location. CREATE permission required on machine. RUN
-        permission required on script. READ permission required on key.
+      description: |
+        Creates one or more machines on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
+        CREATE_RESOURCES permission required on location. CREATE permission required on machine. RUN permission required on script. READ permission required on key.
       operationId: create_machine
       requestBody:
         content:
@@ -2682,9 +2681,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
     post:
-      description: Creates one or more networks on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. CREATE permission required on network.
+      description: |
+        Creates one or more networks on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on network.
       operationId: create_network
       requestBody:
         content:
@@ -4531,10 +4530,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     post:
-      description: Creates one or more volumes on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. READ permission required on location. CREATE_RESOURCES
-        permission required on location. CREATE permission required on volume.
+      description: |
+        Creates one or more volumes on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
+        CREATE_RESOURCES permission required on location. CREATE permission required on volume.
       operationId: create_volume
       requestBody:
         content:
@@ -4863,9 +4862,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
     post:
-      description: Creates one or more zones on the specified cloud. If async is true,
-        a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. CREATE permission required on zone.
+      description: |
+        Creates one or more zones on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on zone.
       operationId: create_zone
       requestBody:
         content:
