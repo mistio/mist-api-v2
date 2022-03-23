@@ -36,6 +36,8 @@ class Cluster(Model):
         :type total_memory: int
         :param location: The location of this Cluster.  # noqa: E501
         :type location: str
+        :param credentials: The credentials of this Cluster.  # noqa: E501
+        :type credentials: object
         :param config: The config of this Cluster.  # noqa: E501
         :type config: object
         :param tags: The tags of this Cluster.  # noqa: E501
@@ -68,6 +70,7 @@ class Cluster(Model):
             'total_cpus': int,
             'total_memory': int,
             'location': str,
+            'credentials': object,
             'config': object,
             'tags': object,
             'created_by': str,
@@ -90,6 +93,7 @@ class Cluster(Model):
             'total_cpus': 'total_cpus',
             'total_memory': 'total_memory',
             'location': 'location',
+            'credentials': 'credentials',
             'config': 'config',
             'tags': 'tags',
             'created_by': 'created_by',
@@ -111,6 +115,7 @@ class Cluster(Model):
         self._total_cpus = total_cpus
         self._total_memory = total_memory
         self._location = location
+        self._credentials = credentials
         self._config = config
         self._tags = tags
         self._created_by = created_by
@@ -301,6 +306,27 @@ class Cluster(Model):
         """
 
         self._location = location
+
+    @property
+    def credentials(self):
+        """Gets the credentials of this Cluster.
+
+
+        :return: The credentials of this Cluster.
+        :rtype: object
+        """
+        return self._credentials
+
+    @credentials.setter
+    def credentials(self, credentials):
+        """Sets the credentials of this Cluster.
+
+
+        :param credentials: The credentials of this Cluster.
+        :type credentials: object
+        """
+
+        self._credentials = credentials
 
     @property
     def config(self):
