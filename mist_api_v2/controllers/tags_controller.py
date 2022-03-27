@@ -68,9 +68,10 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    # import ipdb; ipdb.set_trace()
 
     for resource in tag_resources_request.resources:
-        resource_type = resource.resource_type
+        resource_type = resource.resource_type.rstrip('s')
         resource_id = resource.resource_id
         resource_tags = resource.tag
 
@@ -81,6 +82,9 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         try:
             resource_obj = resource_model.objects.get(
                 owner=auth_context.owner, id=resource_id)
+        except me.errors.InvalidQueryError:
+            resource_obj = resource_model.objects.get(
+                'Cloud.owner' == auth_context.owner, id=resource_id)
         except me.DoesNotExist:
             log.error('%s with id %s does not exist', resource_type,
                       resource_id)
