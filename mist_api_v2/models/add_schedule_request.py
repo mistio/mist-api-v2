@@ -98,6 +98,7 @@ class AddScheduleRequest(Model):
     def name(self):
         """Gets the name of this AddScheduleRequest.
 
+        The name of the schedule  # noqa: E501
 
         :return: The name of this AddScheduleRequest.
         :rtype: str
@@ -108,6 +109,7 @@ class AddScheduleRequest(Model):
     def name(self, name):
         """Sets the name of this AddScheduleRequest.
 
+        The name of the schedule  # noqa: E501
 
         :param name: The name of this AddScheduleRequest.
         :type name: str
@@ -121,6 +123,7 @@ class AddScheduleRequest(Model):
     def description(self):
         """Gets the description of this AddScheduleRequest.
 
+        The description of the schedule  # noqa: E501
 
         :return: The description of this AddScheduleRequest.
         :rtype: str
@@ -131,6 +134,7 @@ class AddScheduleRequest(Model):
     def description(self, description):
         """Sets the description of this AddScheduleRequest.
 
+        The description of the schedule  # noqa: E501
 
         :param description: The description of this AddScheduleRequest.
         :type description: str
@@ -142,6 +146,7 @@ class AddScheduleRequest(Model):
     def task_enabled(self):
         """Gets the task_enabled of this AddScheduleRequest.
 
+        Schedule status (enabled, disabled)  # noqa: E501
 
         :return: The task_enabled of this AddScheduleRequest.
         :rtype: bool
@@ -152,6 +157,7 @@ class AddScheduleRequest(Model):
     def task_enabled(self, task_enabled):
         """Sets the task_enabled of this AddScheduleRequest.
 
+        Schedule status (enabled, disabled)  # noqa: E501
 
         :param task_enabled: The task_enabled of this AddScheduleRequest.
         :type task_enabled: bool
@@ -163,6 +169,7 @@ class AddScheduleRequest(Model):
     def action(self):
         """Gets the action of this AddScheduleRequest.
 
+        The action that a schedule performs on a resource  # noqa: E501
 
         :return: The action of this AddScheduleRequest.
         :rtype: str
@@ -173,6 +180,7 @@ class AddScheduleRequest(Model):
     def action(self, action):
         """Sets the action of this AddScheduleRequest.
 
+        The action that a schedule performs on a resource  # noqa: E501
 
         :param action: The action of this AddScheduleRequest.
         :type action: str
@@ -190,6 +198,7 @@ class AddScheduleRequest(Model):
     def params(self):
         """Gets the params of this AddScheduleRequest.
 
+        Schedule parameters  # noqa: E501
 
         :return: The params of this AddScheduleRequest.
         :rtype: str
@@ -200,6 +209,7 @@ class AddScheduleRequest(Model):
     def params(self, params):
         """Sets the params of this AddScheduleRequest.
 
+        Schedule parameters  # noqa: E501
 
         :param params: The params of this AddScheduleRequest.
         :type params: str
@@ -211,6 +221,7 @@ class AddScheduleRequest(Model):
     def resource_type(self):
         """Gets the resource_type of this AddScheduleRequest.
 
+        The type of the resource that schedule is applied on  # noqa: E501
 
         :return: The resource_type of this AddScheduleRequest.
         :rtype: str
@@ -221,6 +232,7 @@ class AddScheduleRequest(Model):
     def resource_type(self, resource_type):
         """Sets the resource_type of this AddScheduleRequest.
 
+        The type of the resource that schedule is applied on  # noqa: E501
 
         :param resource_type: The resource_type of this AddScheduleRequest.
         :type resource_type: str
@@ -259,6 +271,7 @@ class AddScheduleRequest(Model):
     def schedule_type(self):
         """Gets the schedule_type of this AddScheduleRequest.
 
+        The type of the schedule  # noqa: E501
 
         :return: The schedule_type of this AddScheduleRequest.
         :rtype: str
@@ -269,6 +282,7 @@ class AddScheduleRequest(Model):
     def schedule_type(self, schedule_type):
         """Sets the schedule_type of this AddScheduleRequest.
 
+        The type of the schedule  # noqa: E501
 
         :param schedule_type: The schedule_type of this AddScheduleRequest.
         :type schedule_type: str
@@ -286,7 +300,7 @@ class AddScheduleRequest(Model):
     def schedule_entry(self):
         """Gets the schedule_entry of this AddScheduleRequest.
 
-        format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
+        The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :return: The schedule_entry of this AddScheduleRequest.
         :rtype: str
@@ -297,7 +311,7 @@ class AddScheduleRequest(Model):
     def schedule_entry(self, schedule_entry):
         """Sets the schedule_entry of this AddScheduleRequest.
 
-        format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
+        The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :param schedule_entry: The schedule_entry of this AddScheduleRequest.
         :type schedule_entry: str
@@ -309,7 +323,7 @@ class AddScheduleRequest(Model):
     def start_after(self):
         """Gets the start_after of this AddScheduleRequest.
 
-        format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
+        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :return: The start_after of this AddScheduleRequest.
         :rtype: str
@@ -320,7 +334,7 @@ class AddScheduleRequest(Model):
     def start_after(self, start_after):
         """Sets the start_after of this AddScheduleRequest.
 
-        format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
+        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :param start_after: The start_after of this AddScheduleRequest.
         :type start_after: str
@@ -332,6 +346,7 @@ class AddScheduleRequest(Model):
     def run_immediately(self):
         """Gets the run_immediately of this AddScheduleRequest.
 
+        Decides if the schedule runs immediately of not  # noqa: E501
 
         :return: The run_immediately of this AddScheduleRequest.
         :rtype: bool
@@ -342,6 +357,7 @@ class AddScheduleRequest(Model):
     def run_immediately(self, run_immediately):
         """Sets the run_immediately of this AddScheduleRequest.
 
+        Decides if the schedule runs immediately of not  # noqa: E501
 
         :param run_immediately: The run_immediately of this AddScheduleRequest.
         :type run_immediately: bool

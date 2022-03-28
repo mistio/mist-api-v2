@@ -118,6 +118,7 @@ class Schedule(Model):
     def id(self):
         """Gets the id of this Schedule.
 
+        The id of the schedule  # noqa: E501
 
         :return: The id of this Schedule.
         :rtype: str
@@ -128,6 +129,7 @@ class Schedule(Model):
     def id(self, id):
         """Sets the id of this Schedule.
 
+        The id of the schedule  # noqa: E501
 
         :param id: The id of this Schedule.
         :type id: str
@@ -139,6 +141,7 @@ class Schedule(Model):
     def name(self):
         """Gets the name of this Schedule.
 
+        The name of the schedule  # noqa: E501
 
         :return: The name of this Schedule.
         :rtype: str
@@ -149,6 +152,7 @@ class Schedule(Model):
     def name(self, name):
         """Sets the name of this Schedule.
 
+        The name of the schedule  # noqa: E501
 
         :param name: The name of this Schedule.
         :type name: str
@@ -160,6 +164,7 @@ class Schedule(Model):
     def description(self):
         """Gets the description of this Schedule.
 
+        The description of the schedule  # noqa: E501
 
         :return: The description of this Schedule.
         :rtype: str
@@ -170,6 +175,7 @@ class Schedule(Model):
     def description(self, description):
         """Sets the description of this Schedule.
 
+        The description of the schedule  # noqa: E501
 
         :param description: The description of this Schedule.
         :type description: str
@@ -181,6 +187,7 @@ class Schedule(Model):
     def tags(self):
         """Gets the tags of this Schedule.
 
+        The tags related to the schedule  # noqa: E501
 
         :return: The tags of this Schedule.
         :rtype: object
@@ -191,6 +198,7 @@ class Schedule(Model):
     def tags(self, tags):
         """Sets the tags of this Schedule.
 
+        The tags related to the schedule  # noqa: E501
 
         :param tags: The tags of this Schedule.
         :type tags: object
@@ -202,6 +210,7 @@ class Schedule(Model):
     def task_enabled(self):
         """Gets the task_enabled of this Schedule.
 
+        Schedule status (enabled, disabled)  # noqa: E501
 
         :return: The task_enabled of this Schedule.
         :rtype: bool
@@ -212,6 +221,7 @@ class Schedule(Model):
     def task_enabled(self, task_enabled):
         """Sets the task_enabled of this Schedule.
 
+        Schedule status (enabled, disabled)  # noqa: E501
 
         :param task_enabled: The task_enabled of this Schedule.
         :type task_enabled: bool
@@ -223,6 +233,7 @@ class Schedule(Model):
     def action(self):
         """Gets the action of this Schedule.
 
+        The action that a schedule performs on a resource  # noqa: E501
 
         :return: The action of this Schedule.
         :rtype: str
@@ -233,6 +244,7 @@ class Schedule(Model):
     def action(self, action):
         """Sets the action of this Schedule.
 
+        The action that a schedule performs on a resource  # noqa: E501
 
         :param action: The action of this Schedule.
         :type action: str
@@ -244,6 +256,7 @@ class Schedule(Model):
     def params(self):
         """Gets the params of this Schedule.
 
+        Schedule parameters  # noqa: E501
 
         :return: The params of this Schedule.
         :rtype: str
@@ -254,6 +267,7 @@ class Schedule(Model):
     def params(self, params):
         """Sets the params of this Schedule.
 
+        Schedule parameters  # noqa: E501
 
         :param params: The params of this Schedule.
         :type params: str
@@ -265,6 +279,7 @@ class Schedule(Model):
     def resource_type(self):
         """Gets the resource_type of this Schedule.
 
+        The type of the resource that schedule is applied on  # noqa: E501
 
         :return: The resource_type of this Schedule.
         :rtype: str
@@ -275,6 +290,7 @@ class Schedule(Model):
     def resource_type(self, resource_type):
         """Sets the resource_type of this Schedule.
 
+        The type of the resource that schedule is applied on  # noqa: E501
 
         :param resource_type: The resource_type of this Schedule.
         :type resource_type: str
@@ -307,6 +323,7 @@ class Schedule(Model):
     def schedule_type(self):
         """Gets the schedule_type of this Schedule.
 
+        The type of the schedule  # noqa: E501
 
         :return: The schedule_type of this Schedule.
         :rtype: str
@@ -317,6 +334,7 @@ class Schedule(Model):
     def schedule_type(self, schedule_type):
         """Sets the schedule_type of this Schedule.
 
+        The type of the schedule  # noqa: E501
 
         :param schedule_type: The schedule_type of this Schedule.
         :type schedule_type: str
@@ -328,6 +346,7 @@ class Schedule(Model):
     def schedule_entry(self):
         """Gets the schedule_entry of this Schedule.
 
+        The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :return: The schedule_entry of this Schedule.
         :rtype: str
@@ -338,6 +357,7 @@ class Schedule(Model):
     def schedule_entry(self, schedule_entry):
         """Sets the schedule_entry of this Schedule.
 
+        The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :param schedule_entry: The schedule_entry of this Schedule.
         :type schedule_entry: str
@@ -349,6 +369,7 @@ class Schedule(Model):
     def start_after(self):
         """Gets the start_after of this Schedule.
 
+        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :return: The start_after of this Schedule.
         :rtype: str
@@ -359,6 +380,7 @@ class Schedule(Model):
     def start_after(self, start_after):
         """Sets the start_after of this Schedule.
 
+        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
 
         :param start_after: The start_after of this Schedule.
         :type start_after: str
@@ -370,6 +392,7 @@ class Schedule(Model):
     def run_immediately(self):
         """Gets the run_immediately of this Schedule.
 
+        Decides if the schedule runs immediately of not  # noqa: E501
 
         :return: The run_immediately of this Schedule.
         :rtype: bool
@@ -380,6 +403,7 @@ class Schedule(Model):
     def run_immediately(self, run_immediately):
         """Sets the run_immediately of this Schedule.
 
+        Decides if the schedule runs immediately of not  # noqa: E501
 
         :param run_immediately: The run_immediately of this Schedule.
         :type run_immediately: bool
@@ -391,6 +415,7 @@ class Schedule(Model):
     def created_by(self):
         """Gets the created_by of this Schedule.
 
+        The name of user that created the schedule  # noqa: E501
 
         :return: The created_by of this Schedule.
         :rtype: str
@@ -401,6 +426,7 @@ class Schedule(Model):
     def created_by(self, created_by):
         """Sets the created_by of this Schedule.
 
+        The name of user that created the schedule  # noqa: E501
 
         :param created_by: The created_by of this Schedule.
         :type created_by: str
@@ -412,6 +438,7 @@ class Schedule(Model):
     def owned_by(self):
         """Gets the owned_by of this Schedule.
 
+        The name of user that owns the schedule  # noqa: E501
 
         :return: The owned_by of this Schedule.
         :rtype: str
@@ -422,6 +449,7 @@ class Schedule(Model):
     def owned_by(self, owned_by):
         """Sets the owned_by of this Schedule.
 
+        The name of user that owns the schedule  # noqa: E501
 
         :param owned_by: The owned_by of this Schedule.
         :type owned_by: str

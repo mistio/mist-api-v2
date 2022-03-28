@@ -51,6 +51,7 @@ class EditScheduleRequest(Model):
     def name(self):
         """Gets the name of this EditScheduleRequest.
 
+        The name of the schedule that is about to be edited  # noqa: E501
 
         :return: The name of this EditScheduleRequest.
         :rtype: str
@@ -61,6 +62,7 @@ class EditScheduleRequest(Model):
     def name(self, name):
         """Sets the name of this EditScheduleRequest.
 
+        The name of the schedule that is about to be edited  # noqa: E501
 
         :param name: The name of this EditScheduleRequest.
         :type name: str
@@ -72,6 +74,7 @@ class EditScheduleRequest(Model):
     def description(self):
         """Gets the description of this EditScheduleRequest.
 
+        The description of the schedule that is about to be edited  # noqa: E501
 
         :return: The description of this EditScheduleRequest.
         :rtype: str
@@ -82,6 +85,7 @@ class EditScheduleRequest(Model):
     def description(self, description):
         """Sets the description of this EditScheduleRequest.
 
+        The description of the schedule that is about to be edited  # noqa: E501
 
         :param description: The description of this EditScheduleRequest.
         :type description: str
