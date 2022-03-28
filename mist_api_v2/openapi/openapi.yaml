@@ -6006,16 +6006,16 @@ components:
       type: object
     AddScheduleRequest:
       example:
-        start_after: start_after
+        start_after: 2022-04-01 T00:00:00
         schedule_type: one_off
-        schedule_entry: schedule_entry
+        schedule_entry: 2022-03-28 T00:00:00
         name: backup-schedule
         resource_type: machines
-        description: description
+        description: This is a schedule
         task_enabled: true
         action: start
-        run_immediately: true
-        params: params
+        run_immediately: false
+        params: Parameters string
         selectors:
         - include:
           - include
@@ -6033,13 +6033,19 @@ components:
           type: machines
       properties:
         name:
+          description: The name of the schedule
           example: backup-schedule
           type: string
         description:
+          description: The description of the schedule
+          example: This is a schedule
           type: string
         task_enabled:
+          description: Schedule status (enabled, disabled)
+          example: true
           type: boolean
         action:
+          description: The action that a schedule performs on a resource
           enum:
           - reboot
           - destroy
@@ -6050,8 +6056,11 @@ components:
           example: start
           type: string
         params:
+          description: Schedule parameters
+          example: Parameters string
           type: string
         resource_type:
+          description: The type of the resource that schedule is applied on
           enum:
           - machines
           - volumes
@@ -6064,6 +6073,7 @@ components:
             $ref: '#/components/schemas/Selector'
           type: array
         schedule_type:
+          description: The type of the schedule
           enum:
           - crontab
           - interval
@@ -6071,12 +6081,18 @@ components:
           example: one_off
           type: string
         schedule_entry:
-          description: format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          description: The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
+            HH:MM:SS
+          example: 2022-03-28 T00:00:00
           type: string
         start_after:
-          description: format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
+            HH:MM:SS
+          example: 2022-04-01 T00:00:00
           type: string
         run_immediately:
+          description: Decides if the schedule runs immediately of not
+          example: false
           type: boolean
       required:
       - action
@@ -7374,12 +7390,15 @@ components:
     EditScheduleRequest:
       example:
         name: schedule-name
-        description: description
+        description: This is a schedule that is about to be edited
       properties:
         name:
+          description: The name of the schedule that is about to be edited
           example: schedule-name
           type: string
         description:
+          description: The description of the schedule that is about to be edited
+          example: This is a schedule that is about to be edited
           type: string
       type: object
     EquinixCloudRequest:
@@ -7790,12 +7809,12 @@ components:
     GetScheduleResponse:
       example:
         data:
-          schedule_type: schedule_type
-          resource_type: resource_type
-          description: description
-          owned_by: owned_by
+          schedule_type: crontab
+          resource_type: machines
+          description: This is an test schedule
+          owned_by: Officer B
           run_immediately: true
-          params: params
+          params: Test parameters
           selectors:
           - include:
             - include
@@ -7811,13 +7830,13 @@ components:
             - ids
             - ids
             type: machines
-          created_by: created_by
+          created_by: Manager A
           tags: '{}'
-          start_after: start_after
-          schedule_entry: schedule_entry
-          name: name
+          start_after: 2022-03-28 T00:00:00
+          schedule_entry: 2022-03-28 T00:00:00
+          name: reboot-schedule
           task_enabled: true
-          action: action
+          action: stop
           id: id
         meta:
           total: 0
@@ -8994,12 +9013,12 @@ components:
     ListSchedulesResponse:
       example:
         data:
-        - schedule_type: schedule_type
-          resource_type: resource_type
-          description: description
-          owned_by: owned_by
+        - schedule_type: crontab
+          resource_type: machines
+          description: This is an test schedule
+          owned_by: Officer B
           run_immediately: true
-          params: params
+          params: Test parameters
           selectors:
           - include:
             - include
@@ -9015,20 +9034,20 @@ components:
             - ids
             - ids
             type: machines
-          created_by: created_by
+          created_by: Manager A
           tags: '{}'
-          start_after: start_after
-          schedule_entry: schedule_entry
-          name: name
+          start_after: 2022-03-28 T00:00:00
+          schedule_entry: 2022-03-28 T00:00:00
+          name: reboot-schedule
           task_enabled: true
-          action: action
+          action: stop
           id: id
-        - schedule_type: schedule_type
-          resource_type: resource_type
-          description: description
-          owned_by: owned_by
+        - schedule_type: crontab
+          resource_type: machines
+          description: This is an test schedule
+          owned_by: Officer B
           run_immediately: true
-          params: params
+          params: Test parameters
           selectors:
           - include:
             - include
@@ -9044,13 +9063,13 @@ components:
             - ids
             - ids
             type: machines
-          created_by: created_by
+          created_by: Manager A
           tags: '{}'
-          start_after: start_after
-          schedule_entry: schedule_entry
-          name: name
+          start_after: 2022-03-28 T00:00:00
+          schedule_entry: 2022-03-28 T00:00:00
+          name: reboot-schedule
           task_enabled: true
-          action: action
+          action: stop
           id: id
         meta:
           total: 0
@@ -10043,12 +10062,12 @@ components:
           type: integer
     Schedule:
       example:
-        schedule_type: schedule_type
-        resource_type: resource_type
-        description: description
-        owned_by: owned_by
+        schedule_type: crontab
+        resource_type: machines
+        description: This is an test schedule
+        owned_by: Officer B
         run_immediately: true
-        params: params
+        params: Test parameters
         selectors:
         - include:
           - include
@@ -10064,46 +10083,74 @@ components:
           - ids
           - ids
           type: machines
-        created_by: created_by
+        created_by: Manager A
         tags: '{}'
-        start_after: start_after
-        schedule_entry: schedule_entry
-        name: name
+        start_after: 2022-03-28 T00:00:00
+        schedule_entry: 2022-03-28 T00:00:00
+        name: reboot-schedule
         task_enabled: true
-        action: action
+        action: stop
         id: id
       properties:
         id:
+          description: The id of the schedule
           type: string
         name:
+          description: The name of the schedule
+          example: reboot-schedule
           type: string
         description:
+          description: The description of the schedule
+          example: This is an test schedule
           type: string
         tags:
+          description: The tags related to the schedule
           type: object
         task_enabled:
+          description: Schedule status (enabled, disabled)
+          example: true
           type: boolean
         action:
+          description: The action that a schedule performs on a resource
+          example: stop
           type: string
         params:
+          description: Schedule parameters
+          example: Test parameters
           type: string
         resource_type:
+          description: The type of the resource that schedule is applied on
+          example: machines
           type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           type: array
         schedule_type:
+          description: The type of the schedule
+          example: crontab
           type: string
         schedule_entry:
+          description: The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
+            HH:MM:SS
+          example: 2022-03-28 T00:00:00
           type: string
         start_after:
+          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
+            HH:MM:SS
+          example: 2022-03-28 T00:00:00
           type: string
         run_immediately:
+          description: Decides if the schedule runs immediately of not
+          example: true
           type: boolean
         created_by:
+          description: The name of user that created the schedule
+          example: Manager A
           type: string
         owned_by:
+          description: The name of user that owns the schedule
+          example: Officer B
           type: string
       type: object
     Script:

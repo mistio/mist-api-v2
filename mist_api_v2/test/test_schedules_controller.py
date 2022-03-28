@@ -48,16 +48,16 @@ class TestSchedulesController:
         """
         add_schedule_request = setup_data.get('add_schedule', {}).get(
             'request_body') or json.loads("""{
-  "start_after" : "start_after",
+  "start_after" : "2022-04-01 T00:00:00",
   "schedule_type" : "one_off",
-  "schedule_entry" : "schedule_entry",
+  "schedule_entry" : "2022-03-28 T00:00:00",
   "name" : "backup-schedule",
   "resource_type" : "machines",
-  "description" : "description",
+  "description" : "This is a schedule",
   "task_enabled" : true,
   "action" : "start",
-  "run_immediately" : true,
-  "params" : "params",
+  "run_immediately" : false,
+  "params" : "Parameters string",
   "selectors" : [ {
     "include" : [ "include", "include" ],
     "ids" : [ "ids", "ids" ],
@@ -107,7 +107,7 @@ class TestSchedulesController:
         edit_schedule_request = setup_data.get('edit_schedule', {}).get(
             'request_body') or json.loads("""{
   "name" : "schedule-name",
-  "description" : "description"
+  "description" : "This is a schedule that is about to be edited"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
             schedule=setup_data.get('edit_schedule', {}).get('schedule') or setup_data.get('schedule') or 'edited-schedule')
