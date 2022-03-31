@@ -1608,11 +1608,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
     post:
-      description: Creates one or more machines on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. READ permission required on location. CREATE_RESOURCES
-        permission required on location. CREATE permission required on machine. RUN
-        permission required on script. READ permission required on key.
+      description: |
+        Creates one or more machines on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
+        CREATE_RESOURCES permission required on location. CREATE permission required on machine. RUN permission required on script. READ permission required on key.
       operationId: create_machine
       requestBody:
         content:
@@ -1628,7 +1627,6 @@ paths:
                     memory: 1024
                   key: TestKey
                   monitoring: true
-                  dry: false
               SelectedCloudMachine:
                 summary: Provision a machine in a specific cloud
                 value:
@@ -1638,7 +1636,6 @@ paths:
                   size:
                     cpu: 2
                     memory: 2048
-                  dry: false
               AmazonExampleMachine:
                 summary: Provision a machine in one of your Amazon clouds
                 value:
@@ -1646,7 +1643,6 @@ paths:
                   name: awsmachine
                   image: Ubuntu
                   size: t3.micro
-                  dry: false
               GoogleExampleMachine:
                 summary: Provision a machine in one of your Google clouds
                 value:
@@ -1654,7 +1650,6 @@ paths:
                   name: gcemachine
                   image: Ubuntu
                   size: e2-medium
-                  dry: false
               AzureExampleMachine:
                 summary: Provision a machine in one of your Azure clouds
                 value:
@@ -1662,7 +1657,6 @@ paths:
                   name: azuremachine
                   image: Ubuntu
                   size: Standard_D4s_v5
-                  dry: false
               FullExample:
                 summary: Provision 2 machines with monitoring, schedules, expiration
                   and provisioning scripts
@@ -1690,7 +1684,6 @@ paths:
                     datetime: 2023-09-22T18:19:28Z
                     script:
                       script: test123
-                  dry: false
             schema:
               $ref: '#/components/schemas/CreateMachineRequest'
       responses:
@@ -2682,9 +2675,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
     post:
-      description: Creates one or more networks on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. CREATE permission required on network.
+      description: |
+        Creates one or more networks on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on network.
       operationId: create_network
       requestBody:
         content:
@@ -4531,10 +4524,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     post:
-      description: Creates one or more volumes on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. READ permission required on location. CREATE_RESOURCES
-        permission required on location. CREATE permission required on volume.
+      description: |
+        Creates one or more volumes on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
+        CREATE_RESOURCES permission required on location. CREATE permission required on volume.
       operationId: create_volume
       requestBody:
         content:
@@ -4863,9 +4856,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
     post:
-      description: Creates one or more zones on the specified cloud. If async is true,
-        a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. CREATE permission required on zone.
+      description: |
+        Creates one or more zones on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on zone.
       operationId: create_zone
       requestBody:
         content:
@@ -9444,6 +9437,29 @@ components:
             preemptible machines. Defaults to false
           type: boolean
       type: object
+    CreateClusterRequest_allOf_helm_charts:
+      properties:
+        repo_url:
+          description: The url of the Helm repository
+          type: string
+        chart_name:
+          type: string
+        release_name:
+          type: string
+        namespace:
+          description: The namespace to install the release on
+          type: string
+        values:
+          description: The contents of a Helm values.yaml file
+          type: string
+        version:
+          description: A version constraint for the chart
+          type: string
+      required:
+      - chart_name
+      - release_name
+      - repo_url
+      type: object
     CreateClusterRequest_allOf:
       properties:
         name:
@@ -9461,6 +9477,10 @@ components:
         nodepools:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
+          type: array
+        helm_charts:
+          items:
+            $ref: '#/components/schemas/CreateClusterRequest_allOf_helm_charts'
           type: array
       required:
       - name

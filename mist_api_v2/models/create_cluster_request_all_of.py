@@ -7,10 +7,12 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.cluster_providers import ClusterProviders
+from mist_api_v2.models.create_cluster_request_all_of_helm_charts import CreateClusterRequestAllOfHelmCharts
 from mist_api_v2.models.create_cluster_request_all_of_nodepools import CreateClusterRequestAllOfNodepools
 from mist_api_v2 import util
 
 from mist_api_v2.models.cluster_providers import ClusterProviders  # noqa: E501
+from mist_api_v2.models.create_cluster_request_all_of_helm_charts import CreateClusterRequestAllOfHelmCharts  # noqa: E501
 from mist_api_v2.models.create_cluster_request_all_of_nodepools import CreateClusterRequestAllOfNodepools  # noqa: E501
 
 class CreateClusterRequestAllOf(Model):
@@ -19,7 +21,7 @@ class CreateClusterRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, location=None, nodepools=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, location=None, nodepools=None, helm_charts=None):  # noqa: E501
         """CreateClusterRequestAllOf - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequestAllOf.  # noqa: E501
@@ -32,13 +34,16 @@ class CreateClusterRequestAllOf(Model):
         :type location: str
         :param nodepools: The nodepools of this CreateClusterRequestAllOf.  # noqa: E501
         :type nodepools: List[CreateClusterRequestAllOfNodepools]
+        :param helm_charts: The helm_charts of this CreateClusterRequestAllOf.  # noqa: E501
+        :type helm_charts: List[CreateClusterRequestAllOfHelmCharts]
         """
         self.openapi_types = {
             'name': str,
             'cloud': str,
             'provider': ClusterProviders,
             'location': str,
-            'nodepools': List[CreateClusterRequestAllOfNodepools]
+            'nodepools': List[CreateClusterRequestAllOfNodepools],
+            'helm_charts': List[CreateClusterRequestAllOfHelmCharts]
         }
 
         self.attribute_map = {
@@ -46,7 +51,8 @@ class CreateClusterRequestAllOf(Model):
             'cloud': 'cloud',
             'provider': 'provider',
             'location': 'location',
-            'nodepools': 'nodepools'
+            'nodepools': 'nodepools',
+            'helm_charts': 'helm_charts'
         }
 
         self._name = name
@@ -54,6 +60,7 @@ class CreateClusterRequestAllOf(Model):
         self._provider = provider
         self._location = location
         self._nodepools = nodepools
+        self._helm_charts = helm_charts
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateClusterRequestAllOf':
@@ -178,3 +185,24 @@ class CreateClusterRequestAllOf(Model):
         """
 
         self._nodepools = nodepools
+
+    @property
+    def helm_charts(self):
+        """Gets the helm_charts of this CreateClusterRequestAllOf.
+
+
+        :return: The helm_charts of this CreateClusterRequestAllOf.
+        :rtype: List[CreateClusterRequestAllOfHelmCharts]
+        """
+        return self._helm_charts
+
+    @helm_charts.setter
+    def helm_charts(self, helm_charts):
+        """Sets the helm_charts of this CreateClusterRequestAllOf.
+
+
+        :param helm_charts: The helm_charts of this CreateClusterRequestAllOf.
+        :type helm_charts: List[CreateClusterRequestAllOfHelmCharts]
+        """
+
+        self._helm_charts = helm_charts
