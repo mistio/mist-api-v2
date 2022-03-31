@@ -3,6 +3,7 @@ import connexion
 import mongoengine as me
 
 from mist.api.helpers import get_resource_model
+from mist.api.methods import list_resources
 from mist.api.tag.methods import get_tags
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tag.methods import remove_tags_from_resource
@@ -68,20 +69,19 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    # import ipdb; ipdb.set_trace()
 
     for resource in tag_resources_request.resources:
         resource_type = resource.resource_type.rstrip('s')
         resource_id = resource.resource_id
         resource_tags = resource.tag
-
+        # import ipdb; ipdb.set_trace()
         try:
             resource_model = get_resource_model(resource_type)
         except KeyError:
             continue
         try:
-            resource_obj = resource_model.objects.get(
-                owner=auth_context.owner, id=resource_id)
+            resource_obj = list_resources(auth_context, resource_type,
+                                          search=resource_id)[0][0]
         except me.errors.InvalidQueryError:
             resource_obj = resource_model.objects.get(
                 'Cloud.owner' == auth_context.owner, id=resource_id)
