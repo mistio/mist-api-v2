@@ -30,7 +30,6 @@ from mist_api_v2.models.cluster import Cluster
 from mist_api_v2.models.cluster_providers import ClusterProviders
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest
 from mist_api_v2.models.create_cluster_request_all_of import CreateClusterRequestAllOf
-from mist_api_v2.models.create_cluster_request_all_of_helm_charts import CreateClusterRequestAllOfHelmCharts
 from mist_api_v2.models.create_cluster_request_all_of_nodepools import CreateClusterRequestAllOfNodepools
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse
 from mist_api_v2.models.create_machine_request import CreateMachineRequest
@@ -89,6 +88,7 @@ from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.google_extra import GoogleExtra
 from mist_api_v2.models.google_extra_service_account import GoogleExtraServiceAccount
 from mist_api_v2.models.google_net import GoogleNet
+from mist_api_v2.models.helm_chart import HelmChart
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
@@ -105,6 +105,7 @@ from mist_api_v2.models.key_machine_association import KeyMachineAssociation
 from mist_api_v2.models.key_machine_disassociation import KeyMachineDisassociation
 from mist_api_v2.models.kubernetes_cloud_request import KubernetesCloudRequest
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
+from mist_api_v2.models.kubernetes_manifest import KubernetesManifest
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
 from mist_api_v2.models.lxd_extra import LXDExtra
