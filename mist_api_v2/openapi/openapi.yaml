@@ -1686,11 +1686,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
     post:
-      description: Creates one or more machines on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. READ permission required on location. CREATE_RESOURCES
-        permission required on location. CREATE permission required on machine. RUN
-        permission required on script. READ permission required on key.
+      description: |
+        Creates one or more machines on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
+        CREATE_RESOURCES permission required on location. CREATE permission required on machine. RUN permission required on script. READ permission required on key.
       operationId: create_machine
       requestBody:
         content:
@@ -1706,7 +1705,6 @@ paths:
                     memory: 1024
                   key: TestKey
                   monitoring: true
-                  dry: false
               SelectedCloudMachine:
                 summary: Provision a machine in a specific cloud
                 value:
@@ -1716,7 +1714,6 @@ paths:
                   size:
                     cpu: 2
                     memory: 2048
-                  dry: false
               AmazonExampleMachine:
                 summary: Provision a machine in one of your Amazon clouds
                 value:
@@ -1724,7 +1721,6 @@ paths:
                   name: awsmachine
                   image: Ubuntu
                   size: t3.micro
-                  dry: false
               GoogleExampleMachine:
                 summary: Provision a machine in one of your Google clouds
                 value:
@@ -1732,7 +1728,6 @@ paths:
                   name: gcemachine
                   image: Ubuntu
                   size: e2-medium
-                  dry: false
               AzureExampleMachine:
                 summary: Provision a machine in one of your Azure clouds
                 value:
@@ -1740,7 +1735,6 @@ paths:
                   name: azuremachine
                   image: Ubuntu
                   size: Standard_D4s_v5
-                  dry: false
               FullExample:
                 summary: Provision 2 machines with monitoring, schedules, expiration
                   and provisioning scripts
@@ -1768,7 +1762,6 @@ paths:
                     datetime: 2023-09-22T18:19:28Z
                     script:
                       script: test123
-                  dry: false
             schema:
               $ref: '#/components/schemas/CreateMachineRequest'
       responses:
@@ -2773,9 +2766,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
     post:
-      description: Creates one or more networks on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. CREATE permission required on network.
+      description: |
+        Creates one or more networks on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on network.
       operationId: create_network
       requestBody:
         content:
@@ -4257,6 +4250,241 @@ paths:
       tags:
       - scripts
       x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
+  /api/v2/secrets:
+    get:
+      description: List secrets owned by the active org. READ permission required
+        on secret.
+      operationId: list_secrets
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by name:
+            value: name:clouds/EC2-Tokyo
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & created_by:
+            value: id,title,created_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSecretsResponse'
+          description: List secrets response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:secret
+      - CookieAuth:
+        - read:secret
+      summary: List secrets
+      tags:
+      - secrets
+      x-cli-table-default:
+      - id
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
+    post:
+      description: Creates a new secret and returns the secret's id. CREATE permission
+        required on secret.
+      operationId: create_secret
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSecretRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Secret'
+          description: Secret added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "409":
+          description: Path already exists. Change name of key
+      security:
+      - ApiKeyAuth:
+        - create:secret
+      - CookieAuth:
+        - create:secret
+      summary: Create secret
+      tags:
+      - secrets
+      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
+  /api/v2/secrets/{secret}:
+    delete:
+      description: Delete target secret
+      operationId: delete_secret
+      parameters:
+      - explode: false
+        in: path
+        name: secret
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Secret deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Secret not found
+      security:
+      - ApiKeyAuth:
+        - delete:secret
+      - CookieAuth:
+        - delete:secret
+      summary: Delete secret
+      tags:
+      - secrets
+      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
+    get:
+      description: Read target secret
+      operationId: get_secret
+      parameters:
+      - explode: false
+        in: path
+        name: secret
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Return the secret's value. Requires READ_VALUE permission on
+          secret.
+        explode: true
+        in: query
+        name: value
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSecretResponse'
+          description: Secret returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Secret not found
+      security:
+      - ApiKeyAuth:
+        - read:secret
+      - CookieAuth:
+        - read:secret
+      summary: Get secret
+      tags:
+      - secrets
+      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
+    put:
+      description: Edit/update target secret
+      operationId: edit_secret
+      parameters:
+      - explode: false
+        in: path
+        name: secret
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditSecretRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Secret'
+          description: Secret edited successfully
+        "400":
+          description: Missing `secret` required parameter
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Secret not found
+      security:
+      - ApiKeyAuth:
+        - edit:secret
+      - CookieAuth:
+        - edit:secret
+      summary: Edit secret
+      tags:
+      - secrets
+      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
   /api/v2/sizes:
     get:
       description: List sizes owned by the active org. READ permission required on
@@ -4726,10 +4954,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     post:
-      description: Creates one or more volumes on the specified cloud. If async is
-        true, a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. READ permission required on location. CREATE_RESOURCES
-        permission required on location. CREATE permission required on volume.
+      description: |
+        Creates one or more volumes on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
+        CREATE_RESOURCES permission required on location. CREATE permission required on volume.
       operationId: create_volume
       requestBody:
         content:
@@ -5071,9 +5299,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
     post:
-      description: Creates one or more zones on the specified cloud. If async is true,
-        a jobId will be returned. READ permission required on cloud. CREATE_RESOURCES
-        permission required on cloud. CREATE permission required on zone.
+      description: |
+        Creates one or more zones on the specified cloud. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on zone.
       operationId: create_zone
       requestBody:
         content:
@@ -6230,6 +6458,21 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
+    CreateSecretRequest:
+      example:
+        name: name
+        secret: '{}'
+      properties:
+        name:
+          description: The name of the secret. This is equivalent to the path the
+            secret will be stored in Vault
+          type: string
+        secret:
+          type: object
+      required:
+      - name
+      - secret
+      type: object
     CreateSnapshotResponse:
       type: object
     CreateVolumeRequest:
@@ -6688,6 +6931,15 @@ components:
         selectors:
           $ref: '#/components/schemas/Selector'
       type: object
+    EditSecretRequest:
+      example:
+        secret: '{}'
+      properties:
+        secret:
+          type: object
+      required:
+      - secret
+      type: object
     EquinixCloudRequest:
       properties:
         provider:
@@ -7117,6 +7369,25 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Script'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetSecretResponse:
+      example:
+        data:
+          name: name
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Secret'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -8244,6 +8515,32 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListSecretsResponse:
+      example:
+        data:
+        - name: name
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - name: name
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Secret'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListSizesResponse:
       example:
         data:
@@ -9177,6 +9474,25 @@ components:
         name:
           type: string
         description:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
+    Secret:
+      example:
+        name: name
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
           type: string
         tags:
           type: object

@@ -38,6 +38,7 @@ from mist_api_v2.models.create_machine_response_one_of import CreateMachineRespo
 from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResponseOneOf1
 from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
+from mist_api_v2.models.create_secret_request import CreateSecretRequest
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.create_zone_request import CreateZoneRequest
@@ -59,6 +60,7 @@ from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
 from mist_api_v2.models.edit_machine_request import EditMachineRequest
 from mist_api_v2.models.edit_machine_request_expiration import EditMachineRequestExpiration
 from mist_api_v2.models.edit_rule_request import EditRuleRequest
+from mist_api_v2.models.edit_secret_request import EditSecretRequest
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra
@@ -80,6 +82,7 @@ from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse
 from mist_api_v2.models.get_org_response import GetOrgResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
 from mist_api_v2.models.get_script_response import GetScriptResponse
+from mist_api_v2.models.get_secret_response import GetSecretResponse
 from mist_api_v2.models.get_size_response import GetSizeResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.get_zone_response import GetZoneResponse
@@ -124,6 +127,7 @@ from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
+from mist_api_v2.models.list_secrets_response import ListSecretsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
 from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
 from mist_api_v2.models.list_users_response import ListUsersResponse
@@ -160,6 +164,7 @@ from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.run_script_request import RunScriptRequest
 from mist_api_v2.models.run_script_response import RunScriptResponse
 from mist_api_v2.models.script import Script
+from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
