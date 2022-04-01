@@ -235,7 +235,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
     if create_machine_request.dry is not None:
         dry = create_machine_request.dry
     else:
-        dry = True
+        dry = False
 
     # sensitive fields that shouldn't be returned in plan
     sensitive_fields = ['root_pass', ]

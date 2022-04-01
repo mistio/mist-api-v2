@@ -4,13 +4,14 @@ import connexion
 from mist.api.methods import list_resources as list_resources_v1
 
 from mist.api.exceptions import PolicyUnauthorizedError
-from mist.api.tasks import create_cluster_async
+from mist.api.tasks import create_cluster_async, destroy_cluster_async
 
 from mist_api_v2 import util
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
+from mist_api_v2.models.destroy_cluster_response import DestroyClusterResponse  # noqa: E501
 
 from .base import list_resources
 from .base import get_resource
@@ -103,10 +104,23 @@ def destroy_cluster(cluster):  # noqa: E501
         auth_context.check_perm('cluster', 'destroy', cluster.id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    result = cluster.ctl.destroy()
-    if not result:
-        return 'Cluster not found', 404
-    return 'Cluster destruction successful', 200
+
+    args = (auth_context.serialize(), cluster.id)
+    job_id = uuid.uuid4().hex
+    job = 'destroy_cluster'
+    kwargs = {
+        'job_id': job_id,
+        'job': job
+    }
+    destroy_cluster_async.send_with_options(
+        args=args,
+        kwargs=kwargs,
+        delay=3_000,
+    )
+
+    return DestroyClusterResponse(job_id=job_id,
+                                  cloud=cluster.cloud.id,
+                                  cluster=cluster.id), 200
 
 
 def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E501

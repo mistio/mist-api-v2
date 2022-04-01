@@ -210,7 +210,7 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
             auth_context.owner.id, 'request', 'read_private',
             key_id=key.id, user_id=auth_context.user.id,
         )
-        result['data']['private'] = key.private
+        result['data']['private'] = key.private.value
     return GetKeyResponse(data=result['data'], meta=result['meta'])
 
 

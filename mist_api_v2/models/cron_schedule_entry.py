@@ -57,7 +57,7 @@ class CronScheduleEntry(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The CronScheduleEntry of this CronScheduleEntry.  # noqa: E501
+        :return: The CronSchedule_entry of this CronScheduleEntry.  # noqa: E501
         :rtype: CronScheduleEntry
         """
         return util.deserialize_model(dikt, cls)
