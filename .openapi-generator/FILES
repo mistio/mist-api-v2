@@ -55,7 +55,6 @@ mist_api_v2/models/cluster.py
 mist_api_v2/models/cluster_providers.py
 mist_api_v2/models/create_cluster_request.py
 mist_api_v2/models/create_cluster_request_all_of.py
-mist_api_v2/models/create_cluster_request_all_of_helm_charts.py
 mist_api_v2/models/create_cluster_request_all_of_nodepools.py
 mist_api_v2/models/create_cluster_response.py
 mist_api_v2/models/create_machine_request.py
@@ -115,6 +114,7 @@ mist_api_v2/models/google_credentials.py
 mist_api_v2/models/google_extra.py
 mist_api_v2/models/google_extra_service_account.py
 mist_api_v2/models/google_net.py
+mist_api_v2/models/helm_chart.py
 mist_api_v2/models/ibm_cloud_request.py
 mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
@@ -129,6 +129,7 @@ mist_api_v2/models/key_machine_association.py
 mist_api_v2/models/key_machine_disassociation.py
 mist_api_v2/models/kubernetes_cloud_request.py
 mist_api_v2/models/kubernetes_credentials.py
+mist_api_v2/models/kubernetes_manifest.py
 mist_api_v2/models/kubevirt_cloud_request.py
 mist_api_v2/models/kvm_cloud_request.py
 mist_api_v2/models/kvm_net.py
