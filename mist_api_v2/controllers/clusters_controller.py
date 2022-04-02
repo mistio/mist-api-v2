@@ -68,14 +68,19 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
 
     if selected_cloud is None:
         return 'Cloud not found', 404
+
+    charts = [chart for chart in create_cluster_request.templates or []
+              if chart['type'] == 'helm']
+    kwargs['helm_charts'] = charts
     job_id = uuid.uuid4().hex
-    job = 'create_cluster'
-    create_cluster_async.send(auth_context.serialize(),
-                              selected_cloud.id,
-                              job_id=job_id,
-                              job=job,
-                              **kwargs
-                              )
+    kwargs['job_id'] = job_id
+    kwargs['job'] = 'create_cluster'
+    args = (auth_context.serialize(), selected_cloud.id,)
+    create_cluster_async.send_with_options(
+        args=args,
+        kwargs=kwargs,
+        delay=3_000,
+    )
     return CreateClusterResponse(job_id=job_id)
 
 
