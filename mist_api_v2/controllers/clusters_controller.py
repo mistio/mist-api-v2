@@ -6,6 +6,7 @@ from mist.api.methods import list_resources as list_resources_v1
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.tasks import create_cluster_async, destroy_cluster_async
 
+from mist_api_v2 import util
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # noqa: E501
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
@@ -158,7 +159,7 @@ def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E50
     return GetClusterResponse(data=result['data'], meta=result['meta'])
 
 
-def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref=None):  # noqa: E501
+def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref=None, at=None):  # noqa: E501
     """List clusters
 
     List clusters # noqa: E501
@@ -177,6 +178,8 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListClustersResponse
     """
@@ -184,9 +187,11 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     result = list_resources(
         auth_context, 'cluster', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref
+        sort=sort, start=start, limit=limit, deref=deref, at=at
     )
 
     for item in result['data']:

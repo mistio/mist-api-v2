@@ -14,6 +14,7 @@ from mist.api.tasks import async_session_update
 from mist.api.machines.models import Machine
 from mist.api.helpers import mac_verify
 
+from mist_api_v2 import util
 from mist_api_v2.controllers.security_controller_ import info_from_ApiKeyAuth
 from mist_api_v2.controllers.security_controller_ import info_from_CookieAuth
 from mist_api_v2.models.add_script_request import AddScriptRequest  # noqa: E501
@@ -240,7 +241,7 @@ def get_script(script, only=None, deref='auto'):  # noqa: E501
     return GetScriptResponse(data=result['data'], meta=result['meta'])
 
 
-def list_scripts(search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_scripts(search=None, sort=None, start=None, limit=None, only=None, deref=None, at=None):  # noqa: E501
     """List scripts
 
     List scripts owned by the active org. READ permission required on script. # noqa: E501
@@ -257,6 +258,8 @@ def list_scripts(search=None, sort=None, start=None, limit=None, only=None, dere
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListScriptsResponse
     """
@@ -264,9 +267,11 @@ def list_scripts(search=None, sort=None, start=None, limit=None, only=None, dere
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     result = list_resources(auth_context, 'script', search=search,
                             only=only, sort=sort, limit=limit,
-                            deref=deref)
+                            deref=deref, at=at)
     return ListScriptsResponse(data=result['data'], meta=result['meta'])
 
 
