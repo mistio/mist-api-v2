@@ -4007,6 +4007,24 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              RebootMachineOneOffSchedule:
+                summary: Create a reboot machine schedule that runs once
+                value:
+                  name: TestMachineRebootSchedule
+                  description: This is a reboot machine schedule that runs once
+                  task_enabled: true
+                  action: reboot
+                  params: None
+                  resource_type: machines
+                  selectors:
+                    ids:
+                    - d5775984772949de820fa8279c306b30
+                    type: machines
+                  schedule_type: one_off
+                  schedule_entry: 2022-04-05 T00:00:00
+                  start_after: 2022-04-08 T00:00:00
+                  run_immediately: false
             schema:
               $ref: '#/components/schemas/AddScheduleRequest'
       responses:
