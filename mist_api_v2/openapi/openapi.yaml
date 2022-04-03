@@ -7545,6 +7545,34 @@ components:
         type: object
       title: Google volumes parameter
       type: array
+    HelmChart:
+      properties:
+        type:
+          enum:
+          - helm
+          type: string
+        repo_url:
+          description: The url of the Helm repository
+          type: string
+        chart_name:
+          type: string
+        release_name:
+          type: string
+        namespace:
+          description: The namespace to install the release on
+          type: string
+        values:
+          description: The contents of a Helm values.yaml file
+          type: string
+        version:
+          description: A version constraint for the chart
+          type: string
+      required:
+      - chart_name
+      - release_name
+      - repo_url
+      - type
+      type: object
     IbmCloudRequest:
       properties:
         provider:
@@ -7829,6 +7857,15 @@ components:
       required:
       - host
       - port
+      type: object
+    KubernetesManifest:
+      properties:
+        type:
+          enum:
+          - manifest
+          type: string
+      required:
+      - type
       type: object
     KubevirtCloudRequest:
       properties:
@@ -9999,6 +10036,27 @@ components:
         nodepools:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
+          type: array
+        templates:
+          items:
+            allOf:
+            - properties:
+                type:
+                  enum:
+                  - helm
+                  - manifest
+                  type: string
+              required:
+              - type
+              type: object
+            - discriminator:
+                mapping:
+                  helm: '#/components/schemas/HelmChart'
+                  manifest: '#/components/schemas/KubernetesManifest'
+                propertyName: type
+              oneOf:
+              - $ref: '#/components/schemas/HelmChart'
+              - $ref: '#/components/schemas/KubernetesManifest'
           type: array
       required:
       - name

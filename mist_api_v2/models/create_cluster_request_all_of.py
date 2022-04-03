@@ -19,7 +19,7 @@ class CreateClusterRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, provider=None, location=None, nodepools=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, provider=None, location=None, nodepools=None, templates=None):  # noqa: E501
         """CreateClusterRequestAllOf - a model defined in OpenAPI
 
         :param name: The name of this CreateClusterRequestAllOf.  # noqa: E501
@@ -32,13 +32,16 @@ class CreateClusterRequestAllOf(Model):
         :type location: str
         :param nodepools: The nodepools of this CreateClusterRequestAllOf.  # noqa: E501
         :type nodepools: List[CreateClusterRequestAllOfNodepools]
+        :param templates: The templates of this CreateClusterRequestAllOf.  # noqa: E501
+        :type templates: List[object]
         """
         self.openapi_types = {
             'name': str,
             'cloud': str,
             'provider': ClusterProviders,
             'location': str,
-            'nodepools': List[CreateClusterRequestAllOfNodepools]
+            'nodepools': List[CreateClusterRequestAllOfNodepools],
+            'templates': List[object]
         }
 
         self.attribute_map = {
@@ -46,7 +49,8 @@ class CreateClusterRequestAllOf(Model):
             'cloud': 'cloud',
             'provider': 'provider',
             'location': 'location',
-            'nodepools': 'nodepools'
+            'nodepools': 'nodepools',
+            'templates': 'templates'
         }
 
         self._name = name
@@ -54,6 +58,7 @@ class CreateClusterRequestAllOf(Model):
         self._provider = provider
         self._location = location
         self._nodepools = nodepools
+        self._templates = templates
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateClusterRequestAllOf':
@@ -178,3 +183,24 @@ class CreateClusterRequestAllOf(Model):
         """
 
         self._nodepools = nodepools
+
+    @property
+    def templates(self):
+        """Gets the templates of this CreateClusterRequestAllOf.
+
+
+        :return: The templates of this CreateClusterRequestAllOf.
+        :rtype: List[object]
+        """
+        return self._templates
+
+    @templates.setter
+    def templates(self, templates):
+        """Sets the templates of this CreateClusterRequestAllOf.
+
+
+        :param templates: The templates of this CreateClusterRequestAllOf.
+        :type templates: List[object]
+        """
+
+        self._templates = templates
