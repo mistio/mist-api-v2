@@ -5706,9 +5706,8 @@ components:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
       example:
         name: my-cluster
-        cloud: my-cloud
         provider: google
-        location: my-location
+        location: europe-west2-b
     CreateClusterResponse:
       example:
         jobId: jobId
