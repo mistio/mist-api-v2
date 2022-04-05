@@ -112,6 +112,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
             auth_context.owner,
             name,
             provider,
+            auth_context.user,
             params
         )
     except CloudExistsError as exc:
