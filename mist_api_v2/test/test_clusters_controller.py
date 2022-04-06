@@ -49,9 +49,8 @@ class TestClustersController:
         create_cluster_request = setup_data.get('create_cluster', {}).get(
             'request_body') or json.loads("""{
   "name" : "my-cluster",
-  "cloud" : "my-cloud",
   "provider" : "google",
-  "location" : "my-location"
+  "location" : "europe-west2-b"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/clusters'
         request = MistRequests(
