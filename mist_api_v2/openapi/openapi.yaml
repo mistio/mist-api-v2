@@ -3734,7 +3734,6 @@ paths:
       - task_enabled
       - action
       - params
-      - resource_type
       - selectors
       - schedule_type
       - schedule_entry
@@ -3758,7 +3757,6 @@ paths:
                   task_enabled: true
                   action: reboot
                   params: None
-                  resource_type: machines
                   selectors:
                     ids:
                     - d5775984772949de820fa8279c306b30
@@ -3893,7 +3891,6 @@ paths:
       - task_enabled
       - action
       - params
-      - resource_type
       - selectors
       - schedule_type
       - schedule_entry
@@ -5391,13 +5388,8 @@ components:
           stop: 1
           start: 6
         selectors:
-          include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
+        - ""
+        - ""
         queries:
         - threshold: 0.8008281904610115
           aggregation: aggregation
@@ -5451,7 +5443,13 @@ components:
             $ref: '#/components/schemas/RuleAction'
           type: array
         selectors:
-          $ref: '#/components/schemas/Selector'
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
+          type: array
         data_type:
           $ref: '#/components/schemas/DataType'
       required:
@@ -5468,27 +5466,14 @@ components:
         schedule_type: one_off
         schedule_entry: 2022-03-28 T00:00:00
         name: backup-schedule
-        resource_type: machines
         description: This is a schedule
         task_enabled: true
         action: start
         run_immediately: false
         params: Parameters string
         selectors:
-        - include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
-        - include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
+        - ""
+        - ""
       properties:
         name:
           description: The name of the schedule
@@ -5517,18 +5502,13 @@ components:
           description: Schedule parameters
           example: Parameters string
           type: string
-        resource_type:
-          description: The type of the resource that schedule is applied on
-          enum:
-          - machines
-          - volumes
-          - clusters
-          - networks
-          example: machines
-          type: string
         selectors:
           items:
-            $ref: '#/components/schemas/Selector'
+            oneOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
           type: array
         schedule_type:
           description: The type of the schedule
@@ -5598,6 +5578,19 @@ components:
       - location_type
       - name
       - script
+      type: object
+    AgeSelector:
+      properties:
+        type:
+          description: age type
+          enum:
+          - age
+          type: string
+        minutes:
+          description: an integer value that represents the minutes passed from the
+            creation of the resource
+          example: 6000
+          type: int
       type: object
     AlibabaCloudRequest:
       properties:
@@ -6761,13 +6754,8 @@ components:
           stop: 1
           start: 6
         selectors:
-          include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
+        - ""
+        - ""
         queries:
         - threshold: 0.8008281904610115
           aggregation: aggregation
@@ -6821,7 +6809,13 @@ components:
             $ref: '#/components/schemas/RuleAction'
           type: array
         selectors:
-          $ref: '#/components/schemas/Selector'
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
+          type: array
       type: object
     EditScheduleRequest:
       example:
@@ -6829,27 +6823,14 @@ components:
         schedule_type: one_off
         schedule_entry: 2022-04-28 T00:00:00
         name: schedule-name
-        resource_type: machines
         description: This is a schedule that is about to be edited
         task_enabled: true
         action: start
         run_immediately: false
         params: Parameters string
         selectors:
-        - include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
-        - include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
+        - ""
+        - ""
       properties:
         name:
           description: The name of the schedule that is about to be edited
@@ -6878,18 +6859,13 @@ components:
           description: Edit schedule parameters
           example: Parameters string
           type: string
-        resource_type:
-          description: Edit the type of the resource that schedule is applied on
-          enum:
-          - machines
-          - volumes
-          - clusters
-          - networks
-          example: machines
-          type: string
         selectors:
           items:
-            $ref: '#/components/schemas/Selector'
+            oneOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
           type: array
         schedule_type:
           description: Edit the type of the schedule
@@ -6980,6 +6956,30 @@ components:
       required:
       - action
       - date
+      type: object
+    FieldSelector:
+      properties:
+        type:
+          description: field type
+          enum:
+          - field
+          type: string
+        field:
+          description: the name of the field
+          example: count
+          type: string
+        value:
+          description: the value of the field
+          example: 0
+          type: object
+        operator:
+          description: one of equal (eq) and regular expression (regex) operators
+            type
+          enum:
+          - eq
+          - regex
+          example: eq
+          type: string
       type: object
     Frequency:
       example:
@@ -7323,26 +7323,13 @@ components:
       example:
         data:
           schedule_type: crontab
-          resource_type: machines
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
-          - include:
-            - include
-            - include
-            ids:
-            - ids
-            - ids
-            type: machines
-          - include:
-            - include
-            - include
-            ids:
-            - ids
-            - ids
-            type: machines
+          - ""
+          - ""
           created_by: Manager A
           tags: '{}'
           start_after: 2022-03-28 T00:00:00
@@ -8471,26 +8458,13 @@ components:
       example:
         data:
         - schedule_type: crontab
-          resource_type: machines
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
-          - include:
-            - include
-            - include
-            ids:
-            - ids
-            - ids
-            type: machines
-          - include:
-            - include
-            - include
-            ids:
-            - ids
-            - ids
-            type: machines
+          - ""
+          - ""
           created_by: Manager A
           tags: '{}'
           start_after: 2022-03-28 T00:00:00
@@ -8500,26 +8474,13 @@ components:
           action: stop
           id: id
         - schedule_type: crontab
-          resource_type: machines
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
-          - include:
-            - include
-            - include
-            ids:
-            - ids
-            - ids
-            type: machines
-          - include:
-            - include
-            - include
-            ids:
-            - ids
-            - ids
-            type: machines
+          - ""
+          - ""
           created_by: Manager A
           tags: '{}'
           start_after: 2022-03-28 T00:00:00
@@ -9325,6 +9286,24 @@ components:
             $ref: '#/components/schemas/DatapointsValuesTuple'
           type: array
       type: object
+    ResourceSelector:
+      properties:
+        type:
+          description: one of "machines", "volumes", "clusters" or "networks" resource
+            types
+          enum:
+          - machines
+          - volumes
+          - clusters
+          - networks
+          type: string
+        ids:
+          description: a list of UUIDs in case type is resource like "machines", "volumes",
+            "clusters" or "networks"
+          items:
+            type: string
+          type: array
+      type: object
     ResponseMetadata:
       example:
         total: 0
@@ -9470,26 +9449,13 @@ components:
     Schedule:
       example:
         schedule_type: crontab
-        resource_type: machines
         description: This is an test schedule
         owned_by: Officer B
         run_immediately: true
         params: Test parameters
         selectors:
-        - include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
-        - include:
-          - include
-          - include
-          ids:
-          - ids
-          - ids
-          type: machines
+        - ""
+        - ""
         created_by: Manager A
         tags: '{}'
         start_after: 2022-03-28 T00:00:00
@@ -9525,13 +9491,13 @@ components:
           description: Schedule parameters
           example: Test parameters
           type: string
-        resource_type:
-          description: The type of the resource that schedule is applied on
-          example: machines
-          type: string
         selectors:
           items:
-            $ref: '#/components/schemas/Selector'
+            oneOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
           type: array
         schedule_type:
           description: The type of the schedule
@@ -9582,42 +9548,13 @@ components:
         owned_by:
           type: string
       type: object
-    Selector:
-      example:
-        include:
-        - include
-        - include
-        ids:
-        - ids
-        - ids
-        type: machines
-      properties:
-        type:
-          description: one of "machines", "volumes", "clusters", "networks" or "tags"
-          enum:
-          - machines
-          - volumes
-          - clusters
-          - networks
-          - tags
-          type: string
-        ids:
-          description: a list of UUIDs in case type is resource like "machines", "volumes",
-            "clusters" or "networks"
-          items:
-            type: string
-          type: array
-        include:
-          description: a list of tags in case type is "tags"
-          items:
-            type: string
-          type: array
-      required:
-      - type
-      type: object
     Selectors:
       items:
-        $ref: '#/components/schemas/Selector'
+        oneOf:
+        - $ref: '#/components/schemas/ResourceSelector'
+        - $ref: '#/components/schemas/FieldSelector'
+        - $ref: '#/components/schemas/TaggingSelector'
+        - $ref: '#/components/schemas/AgeSelector'
       type: array
     Size:
       example:
@@ -9666,6 +9603,19 @@ components:
       - openshift
       - other
       type: string
+    TaggingSelector:
+      properties:
+        type:
+          description: tag type
+          enum:
+          - tags
+          type: string
+        include:
+          description: a list of tags in case type is "tags"
+          items:
+            type: string
+          type: array
+      type: object
     Team:
       example:
         members:

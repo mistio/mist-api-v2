@@ -7,17 +7,17 @@ from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.frequency import Frequency
+from mist_api_v2.models.one_of_resource_selector_field_selector_tagging_selector_age_selector import OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rule_action import RuleAction
-from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.window import Window
 from mist_api_v2 import util
 
 from mist_api_v2.models.frequency import Frequency  # noqa: E501
+from mist_api_v2.models.one_of_resource_selector_field_selector_tagging_selector_age_selector import OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector  # noqa: E501
 from mist_api_v2.models.query import Query  # noqa: E501
 from mist_api_v2.models.rule_action import RuleAction  # noqa: E501
-from mist_api_v2.models.selector import Selector  # noqa: E501
 from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
 from mist_api_v2.models.window import Window  # noqa: E501
 
@@ -41,7 +41,7 @@ class EditRuleRequest(Model):
         :param actions: The actions of this EditRuleRequest.  # noqa: E501
         :type actions: List[RuleAction]
         :param selectors: The selectors of this EditRuleRequest.  # noqa: E501
-        :type selectors: Selector
+        :type selectors: List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
         """
         self.openapi_types = {
             'queries': List[Query],
@@ -49,7 +49,7 @@ class EditRuleRequest(Model):
             'frequency': Frequency,
             'trigger_after': TriggerAfter,
             'actions': List[RuleAction],
-            'selectors': Selector
+            'selectors': List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
         }
 
         self.attribute_map = {
@@ -190,7 +190,7 @@ class EditRuleRequest(Model):
 
 
         :return: The selectors of this EditRuleRequest.
-        :rtype: Selector
+        :rtype: List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
         """
         return self._selectors
 
@@ -200,7 +200,7 @@ class EditRuleRequest(Model):
 
 
         :param selectors: The selectors of this EditRuleRequest.
-        :type selectors: Selector
+        :type selectors: List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
         """
 
         self._selectors = selectors

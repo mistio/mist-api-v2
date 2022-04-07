@@ -52,21 +52,12 @@ class TestSchedulesController:
   "schedule_type" : "one_off",
   "schedule_entry" : "2022-03-28 T00:00:00",
   "name" : "backup-schedule",
-  "resource_type" : "machines",
   "description" : "This is a schedule",
   "task_enabled" : true,
   "action" : "start",
   "run_immediately" : false,
   "params" : "Parameters string",
-  "selectors" : [ {
-    "include" : [ "include", "include" ],
-    "ids" : [ "ids", "ids" ],
-    "type" : "machines"
-  }, {
-    "include" : [ "include", "include" ],
-    "ids" : [ "ids", "ids" ],
-    "type" : "machines"
-  } ]
+  "selectors" : [ "", "" ]
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
         request = MistRequests(
@@ -110,21 +101,12 @@ class TestSchedulesController:
   "schedule_type" : "one_off",
   "schedule_entry" : "2022-04-28 T00:00:00",
   "name" : "schedule-name",
-  "resource_type" : "machines",
   "description" : "This is a schedule that is about to be edited",
   "task_enabled" : true,
   "action" : "start",
   "run_immediately" : false,
   "params" : "Parameters string",
-  "selectors" : [ {
-    "include" : [ "include", "include" ],
-    "ids" : [ "ids", "ids" ],
-    "type" : "machines"
-  }, {
-    "include" : [ "include", "include" ],
-    "ids" : [ "ids", "ids" ],
-    "type" : "machines"
-  } ]
+  "selectors" : [ "", "" ]
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
             schedule=setup_data.get('edit_schedule', {}).get('schedule') or setup_data.get('schedule') or 'edited-schedule')
