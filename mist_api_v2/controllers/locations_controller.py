@@ -1,4 +1,5 @@
 import connexion
+from mist.api.exceptions import NotFoundError
 
 from mist_api_v2 import util
 from mist_api_v2.models.get_location_response import GetLocationResponse  # noqa: E501
@@ -25,8 +26,11 @@ def get_location(location, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(
-        auth_context, 'location', search=location, only=only, deref=deref)
+    try:
+        result = get_resource(
+            auth_context, 'location', search=location, only=only, deref=deref)
+    except NotFoundError:
+        return 'Location does not exist', 404
     return GetLocationResponse(data=result['data'], meta=result['meta'])
 
 

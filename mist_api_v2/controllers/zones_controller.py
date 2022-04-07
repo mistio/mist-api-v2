@@ -3,7 +3,7 @@ import connexion
 from mist.api.helpers import delete_none
 from mist.api.dns.models import Zone
 from mist.api.tag.methods import resolve_id_and_set_tags
-from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
 
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import CloudUnauthorizedError
@@ -151,8 +151,11 @@ def get_zone(zone, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(
-        auth_context, 'zone', search=zone, only=only, deref=deref)
+    try:
+        result = get_resource(
+            auth_context, 'zone', search=zone, only=only, deref=deref)
+    except NotFoundError:
+        return 'Zone does not exist', 404
     return GetZoneResponse(data=result['data'], meta=result['meta'])
 
 

@@ -2,7 +2,7 @@ import logging
 import connexion
 
 from mist.api import config
-from mist.api.exceptions import KeyNotFoundError
+from mist.api.exceptions import KeyNotFoundError, NotFoundError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.logs.methods import log_event
 
@@ -103,10 +103,11 @@ def delete_key(key):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'key', search=key)
+    try:
+        result = get_resource(auth_context, 'key', search=key)
+    except NotFoundError:
+        return 'Key does not exist', 404
     result_data = result.get('data')
-    if not result_data:
-        return 'Cloud does not exist', 404
     key_id = result_data.get('id')
     try:
         auth_context.check_perm('key', 'remove', key_id)

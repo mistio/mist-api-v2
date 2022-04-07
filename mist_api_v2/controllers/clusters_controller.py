@@ -3,7 +3,7 @@ import connexion
 
 from mist.api.methods import list_resources as list_resources_v1
 
-from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
 from mist.api.tasks import create_cluster_async, destroy_cluster_async
 
 from mist_api_v2 import util
@@ -146,11 +146,13 @@ def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E50
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'cluster', search=cluster, only=only,
-                          deref=deref)
 
-    if not result['data']:
-        return 'Cluster not found', 404
+    try:
+        result = get_resource(auth_context, 'cluster', search=cluster,
+                              only=only,
+                              deref=deref)
+    except NotFoundError:
+        return 'Cluster does not exist', 404
 
     if credentials:
         try:

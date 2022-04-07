@@ -171,10 +171,11 @@ def remove_cloud(cloud):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'cloud', search=cloud)
-    result_data = result.get('data')
-    if not result_data:
+    try:
+        result = get_resource(auth_context, 'cloud', search=cloud)
+    except NotFoundError:
         return 'Cloud does not exist', 404
+    result_data = result.get('data')
     cloud_id = result_data.get('id')
     try:
         auth_context.check_perm('cloud', 'remove', cloud_id)
@@ -208,10 +209,11 @@ def edit_cloud(cloud, edit_cloud_request=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'cloud', search=cloud)
-    result_data = result.get('data')
-    if not result_data:
+    try:
+        result = get_resource(auth_context, 'cloud', search=cloud)
+    except NotFoundError:
         return 'Cloud does not exist', 404
+    result_data = result.get('data')
     cloud_id = result_data.get('id')
     cloud_obj = Cloud.objects.get(owner=auth_context.owner, id=cloud_id,
                                   deleted=None)
@@ -287,8 +289,11 @@ def get_cloud(cloud, sort=None, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'cloud',
-                          search=cloud, only=only, deref=deref)
+    try:
+        result = get_resource(auth_context, 'cloud',
+                              search=cloud, only=only, deref=deref)
+    except NotFoundError:
+        return 'Cloud does not exist', 404
     return GetCloudResponse(data=result['data'], meta=result['meta'])
 
 

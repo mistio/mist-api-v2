@@ -6,7 +6,7 @@ from mist.api import tasks
 
 from mist.api.scripts.models import ExecutableScript
 from mist.api.scripts.models import AnsibleScript
-from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import BadRequestError, NotFoundError
 from mist.api.exceptions import ScriptNameExistsError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.tag.methods import add_tags_to_resource
@@ -92,10 +92,11 @@ def delete_script(script):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'script', search=script)
-    result_data = result.get('data')
-    if not result_data:
+    try:
+        result = get_resource(auth_context, 'script', search=script)
+    except NotFoundError:
         return 'Script does not exist', 404
+    result_data = result.get('data')
     from mist.api.scripts.models import Script
     script_id = result_data.get('id')
     try:
@@ -140,10 +141,11 @@ def download_script(script):  # noqa: E501
         script_id = params['object_id']
         script = Script.objects.get(id=script_id, deleted=None)
     else:
-        result = get_resource(auth_context, 'script', search=script)
-        result_data = result.get('data')
-        if not result_data:
+        try:
+            result = get_resource(auth_context, 'script', search=script)
+        except NotFoundError:
             return 'Script does not exist', 404
+        result_data = result.get('data')
         script_id = result_data.get('id')
         script = Script.objects.get(owner=auth_context.owner,
                                     id=script_id, deleted=None)
@@ -204,10 +206,11 @@ def generate_script_url(script):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'script', search=script)
-    result_data = result.get('data')
-    if not result_data:
+    try:
+        result = get_resource(auth_context, 'script', search=script)
+    except NotFoundError:
         return 'Script does not exist', 404
+    result_data = result.get('data')
     from mist.api.scripts.models import Script
     script_id = result_data.get('id')
     script = Script.objects.get(owner=auth_context.owner,
@@ -236,8 +239,11 @@ def get_script(script, only=None, deref='auto'):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(auth_context, 'script',
-                          search=script, only=only, deref=deref)
+    try:
+        result = get_resource(auth_context, 'script',
+                              search=script, only=only, deref=deref)
+    except NotFoundError:
+        return 'Script does not exist', 404
     return GetScriptResponse(data=result['data'], meta=result['meta'])
 
 
@@ -293,10 +299,11 @@ def run_script(script, run_script_request=None):  # noqa: E501
         return 'Authentication failed', 401
     if connexion.request.is_json:
         run_script_request = RunScriptRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    result = get_resource(auth_context, 'script', search=script)
-    result_data = result.get('data')
-    if not result_data:
+    try:
+        result = get_resource(auth_context, 'script', search=script)
+    except NotFoundError:
         return 'Script does not exist', 404
+    result_data = result.get('data')
     from mist.api.scripts.models import Script
     script_id = result_data.get('id')
     script = Script.objects.get(owner=auth_context.owner,
@@ -314,10 +321,12 @@ def run_script(script, run_script_request=None):  # noqa: E501
     if isinstance(env, dict):
         env = json.dumps(env)
     machine = params.get('machine')
-    result = get_resource(auth_context, 'machine', search=machine)
+    try:
+        result = get_resource(auth_context, 'machine', search=machine)
+    except NotFoundError:
+        return "Machine does not exist", 404
+
     result_data = result.get('data')
-    if not result_data:
-        return f"Machine {machine} doesn't exist", 404
     machine_id = result_data.get('id')
     machine = Machine.objects.get(id=machine_id,
                                   state__ne='terminated')
