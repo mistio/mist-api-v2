@@ -3989,11 +3989,11 @@ paths:
       - name
       - description
       - tags
-      - task_enabled
+      - enabled
       - action
       - params
       - selectors
-      - schedule_type
+      - type
       - schedule_entry
       - start_after
       - run_immediately
@@ -4012,14 +4012,14 @@ paths:
                 value:
                   name: TestMachineRebootSchedule
                   description: This is a reboot machine schedule that runs once
-                  task_enabled: true
+                  enabled: true
                   action: reboot
                   params: None
                   selectors:
                     ids:
                     - d5775984772949de820fa8279c306b30
                     type: machines
-                  schedule_type: one_off
+                  type: one_off
                   schedule_entry: 2022-04-05 T00:00:00
                   start_after: 2022-04-08 T00:00:00
                   run_immediately: false
@@ -4146,11 +4146,11 @@ paths:
       - name
       - description
       - tags
-      - task_enabled
+      - enabled
       - action
       - params
       - selectors
-      - schedule_type
+      - type
       - schedule_entry
       - start_after
       - run_immediately
@@ -4183,7 +4183,7 @@ paths:
                 value:
                   name: DeactivatedSchedule
                   description: This is a deactivated schedule
-                  task_enabled: false
+                  enabled: false
             schema:
               $ref: '#/components/schemas/EditScheduleRequest'
       responses:
@@ -6037,17 +6037,17 @@ components:
     AddScheduleRequest:
       example:
         start_after: 2022-04-01 T00:00:00
-        schedule_type: one_off
         schedule_entry: 2022-03-28 T00:00:00
         name: backup-schedule
         description: This is a schedule
-        task_enabled: true
         action: start
         run_immediately: false
         params: Parameters string
         selectors:
         - ""
         - ""
+        type: one_off
+        enabled: true
       properties:
         name:
           description: The name of the schedule
@@ -6057,7 +6057,7 @@ components:
           description: The description of the schedule
           example: This is a schedule
           type: string
-        task_enabled:
+        enabled:
           description: Schedule status (enabled, disabled)
           example: true
           type: boolean
@@ -6086,7 +6086,7 @@ components:
               - $ref: '#/components/schemas/TaggingSelector'
               - $ref: '#/components/schemas/AgeSelector'
           type: array
-        schedule_type:
+        type:
           description: The type of the schedule
           enum:
           - crontab
@@ -7420,17 +7420,17 @@ components:
     EditScheduleRequest:
       example:
         start_after: 2022-05-01 T00:00:00
-        schedule_type: one_off
         schedule_entry: 2022-04-28 T00:00:00
         name: schedule-name
         description: This is a schedule that is about to be edited
-        task_enabled: true
         action: start
         run_immediately: false
         params: Parameters string
         selectors:
         - ""
         - ""
+        type: one_off
+        enabled: true
       properties:
         name:
           description: The name of the schedule that is about to be edited
@@ -7440,7 +7440,7 @@ components:
           description: The description of the schedule that is about to be edited
           example: This is a schedule that is about to be edited
           type: string
-        task_enabled:
+        enabled:
           description: Schedule status (enabled, disabled)
           example: true
           type: boolean
@@ -7469,7 +7469,7 @@ components:
               - $ref: '#/components/schemas/TaggingSelector'
               - $ref: '#/components/schemas/AgeSelector'
           type: array
-        schedule_type:
+        type:
           description: Edit the type of the schedule
           enum:
           - crontab
@@ -7923,7 +7923,6 @@ components:
     GetScheduleResponse:
       example:
         data:
-          schedule_type: crontab
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: true
@@ -7931,12 +7930,13 @@ components:
           selectors:
           - ""
           - ""
+          type: crontab
           created_by: Manager A
+          enabled: true
           tags: '{}'
           start_after: 2022-03-28 T00:00:00
           schedule_entry: 2022-03-28 T00:00:00
           name: reboot-schedule
-          task_enabled: true
           action: stop
           id: id
         meta:
@@ -9114,36 +9114,36 @@ components:
     ListSchedulesResponse:
       example:
         data:
-        - schedule_type: crontab
-          description: This is an test schedule
+        - description: This is an test schedule
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
           - ""
           - ""
+          type: crontab
           created_by: Manager A
+          enabled: true
           tags: '{}'
           start_after: 2022-03-28 T00:00:00
           schedule_entry: 2022-03-28 T00:00:00
           name: reboot-schedule
-          task_enabled: true
           action: stop
           id: id
-        - schedule_type: crontab
-          description: This is an test schedule
+        - description: This is an test schedule
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
           - ""
           - ""
+          type: crontab
           created_by: Manager A
+          enabled: true
           tags: '{}'
           start_after: 2022-03-28 T00:00:00
           schedule_entry: 2022-03-28 T00:00:00
           name: reboot-schedule
-          task_enabled: true
           action: stop
           id: id
         meta:
@@ -10155,7 +10155,6 @@ components:
           type: integer
     Schedule:
       example:
-        schedule_type: crontab
         description: This is an test schedule
         owned_by: Officer B
         run_immediately: true
@@ -10163,12 +10162,13 @@ components:
         selectors:
         - ""
         - ""
+        type: crontab
         created_by: Manager A
+        enabled: true
         tags: '{}'
         start_after: 2022-03-28 T00:00:00
         schedule_entry: 2022-03-28 T00:00:00
         name: reboot-schedule
-        task_enabled: true
         action: stop
         id: id
       properties:
@@ -10186,7 +10186,7 @@ components:
         tags:
           description: The tags related to the schedule
           type: object
-        task_enabled:
+        enabled:
           description: Schedule status (enabled, disabled)
           example: true
           type: boolean
@@ -10208,7 +10208,7 @@ components:
               - $ref: '#/components/schemas/TaggingSelector'
               - $ref: '#/components/schemas/AgeSelector'
           type: array
-        schedule_type:
+        type:
           description: The type of the schedule
           example: crontab
           type: string
