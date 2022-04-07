@@ -80,7 +80,7 @@ class AgeSelector(Model):
     def minutes(self):
         """Gets the minutes of this AgeSelector.
 
-        an integer value that represents the minutes passed from the creation of the resource  # noqa: E501
+        an integer that represents the minutes passed from the creation of the resource  # noqa: E501
 
         :return: The minutes of this AgeSelector.
         :rtype: int
@@ -91,7 +91,7 @@ class AgeSelector(Model):
     def minutes(self, minutes):
         """Sets the minutes of this AgeSelector.
 
-        an integer value that represents the minutes passed from the creation of the resource  # noqa: E501
+        an integer that represents the minutes passed from the creation of the resource  # noqa: E501
 
         :param minutes: The minutes of this AgeSelector.
         :type minutes: int

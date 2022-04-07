@@ -6163,8 +6163,8 @@ components:
           - age
           type: string
         minutes:
-          description: an integer value that represents the minutes passed from the
-            creation of the resource
+          description: an integer that represents the minutes passed from the creation
+            of the resource
           example: 6000
           type: integer
       type: object
@@ -7572,7 +7572,6 @@ components:
           type: string
         value:
           description: the value of the field
-          example: 0
           type: object
         operator:
           description: one of equal (eq) and regular expression (regex) operators
