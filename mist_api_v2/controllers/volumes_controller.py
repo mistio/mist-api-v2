@@ -5,7 +5,7 @@ from mist.api.helpers import delete_none
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.helpers import trigger_session_update
 from mist.api.tasks import async_session_update
-from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
 from mist.api.exceptions import VolumeCreationError
 from mist.api.exceptions import VolumeListingError
 
@@ -159,8 +159,11 @@ def get_volume(volume, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(
-        auth_context, 'volume', search=volume, only=only, deref=deref)
+    try:
+        result = get_resource(
+            auth_context, 'volume', search=volume, only=only, deref=deref)
+    except NotFoundError:
+        return 'Volume does not exist', 404
     return GetVolumeResponse(data=result['data'], meta=result['meta'])
 
 

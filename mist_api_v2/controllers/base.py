@@ -1,4 +1,4 @@
-
+from mist.api.exceptions import NotFoundError
 
 def list_resources(auth_context, resource_type, cloud=None, tags='',
                    search='', only='', sort='', start=0, limit=100,
@@ -42,6 +42,6 @@ def get_resource(auth_context, resource_type, cloud=None, search='', only='',
     if result['data']:
         result['data'] = result['data'][0]
     else:
-        result['data'] = {}
+        raise NotFoundError(f'Resource {search} not found')
 
     return result
