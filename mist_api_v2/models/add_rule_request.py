@@ -8,7 +8,6 @@ from typing import List, Dict  # noqa: F401
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.data_type import DataType
 from mist_api_v2.models.frequency import Frequency
-from mist_api_v2.models.one_of_resource_selector_field_selector_tagging_selector_age_selector import OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.trigger_after import TriggerAfter
@@ -17,7 +16,6 @@ from mist_api_v2 import util
 
 from mist_api_v2.models.data_type import DataType  # noqa: E501
 from mist_api_v2.models.frequency import Frequency  # noqa: E501
-from mist_api_v2.models.one_of_resource_selector_field_selector_tagging_selector_age_selector import OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector  # noqa: E501
 from mist_api_v2.models.query import Query  # noqa: E501
 from mist_api_v2.models.rule_action import RuleAction  # noqa: E501
 from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
@@ -43,7 +41,7 @@ class AddRuleRequest(Model):
         :param actions: The actions of this AddRuleRequest.  # noqa: E501
         :type actions: List[RuleAction]
         :param selectors: The selectors of this AddRuleRequest.  # noqa: E501
-        :type selectors: List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
+        :type selectors: List[object]
         :param data_type: The data_type of this AddRuleRequest.  # noqa: E501
         :type data_type: DataType
         """
@@ -53,7 +51,7 @@ class AddRuleRequest(Model):
             'frequency': Frequency,
             'trigger_after': TriggerAfter,
             'actions': List[RuleAction],
-            'selectors': List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector],
+            'selectors': List[object],
             'data_type': DataType
         }
 
@@ -207,7 +205,7 @@ class AddRuleRequest(Model):
 
 
         :return: The selectors of this AddRuleRequest.
-        :rtype: List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
+        :rtype: List[object]
         """
         return self._selectors
 
@@ -217,7 +215,7 @@ class AddRuleRequest(Model):
 
 
         :param selectors: The selectors of this AddRuleRequest.
-        :type selectors: List[OneOfResourceSelectorFieldSelectorTaggingSelectorAgeSelector]
+        :type selectors: List[object]
         """
 
         self._selectors = selectors
