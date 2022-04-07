@@ -2,6 +2,7 @@ import connexion
 import logging
 
 from mist.api import config
+from mist.api.exceptions import NotFoundError
 
 from mist_api_v2.models.list_users_response import ListUsersResponse  # noqa: E501
 
@@ -45,7 +46,11 @@ def list_users(search=None, sort=None, start=None, limit=None, only=None, deref=
             sort=sort, start=start, limit=limit, deref=deref)
     else:
         search = "id={}".format(auth_context.user.id)
-        result = get_resource(auth_context, 'users', search=search)
+        try:
+            result = get_resource(auth_context, 'users', search=search)
+        except NotFoundError:
+            return 'User does not exist', 404
+
         result['meta'] = {
             'total': 1,
             'returned': 1

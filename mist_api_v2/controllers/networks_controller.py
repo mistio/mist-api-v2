@@ -4,7 +4,7 @@ from mist.api.networks.models import NETWORKS
 from mist.api.helpers import delete_none
 from mist.api.tag.methods import add_tags_to_resource
 
-from mist.api.exceptions import BadRequestError
+from mist.api.exceptions import BadRequestError, NotFoundError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import NetworkListingError
 
@@ -151,8 +151,11 @@ def get_network(network, only=None, deref='auto'):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(
-        auth_context, 'network', search=network, only=only, deref=deref)
+    try:
+        result = get_resource(
+            auth_context, 'network', search=network, only=only, deref=deref)
+    except NotFoundError:
+        return 'Network does not exist', 404
     return GetNetworkResponse(data=result['data'], meta=result['meta'])
 
 

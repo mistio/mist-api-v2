@@ -1,4 +1,5 @@
 import connexion
+from mist.api.exceptions import NotFoundError
 
 from mist_api_v2.models.get_image_response import GetImageResponse  # noqa: E501
 from mist_api_v2.models.list_images_response import ListImagesResponse  # noqa: E501
@@ -24,9 +25,12 @@ def get_image(image, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    result = get_resource(
-        auth_context, 'image', search=image, only=only, deref=deref
-    )
+    try:
+        result = get_resource(
+            auth_context, 'image', search=image, only=only, deref=deref
+        )
+    except NotFoundError:
+        return 'Image does not exist', 404
     return GetImageResponse(data=result['data'], meta=result['meta'])
 
 

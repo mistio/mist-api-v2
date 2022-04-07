@@ -1,4 +1,5 @@
 import connexion
+from mist.api.exceptions import NotFoundError
 
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse  # noqa: E501
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
@@ -27,13 +28,12 @@ def get_member(org, member, only=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    search = f'id:{org}'
 
+    search = f'id={org}'
     try:
-        search = f'id={org}'
         org = get_resource(auth_context, 'orgs', search=search)['data']
-    except ValueError:
-        return 'Org does not exist', 404
+    except NotFoundError:
+        return 'Organization does not exist', 404
     try:
         [member] = filter(lambda user: user['id'] == member,
                           org.get('members', []))
@@ -70,7 +70,10 @@ def get_org(org, only=None, deref=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     search = f'id={org}'
-    result = get_resource(auth_context, 'orgs', search=search, only=only)
+    try:
+        result = get_resource(auth_context, 'orgs', search=search, only=only)
+    except NotFoundError:
+        return 'Organization does not exist', 404
     return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 
@@ -98,11 +101,11 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    search = f'id={org}'
     try:
-        search = f'id={org}'
         org = get_resource(auth_context, 'orgs', search=search)['data']
-    except ValueError:
-        return 'Org does not exist', 404
+    except NotFoundError:
+        return 'Organization does not exist', 404
     org_members = org.get('members', [])
     total = len(org_members)
     if not limit:
@@ -154,11 +157,11 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    search = f'id={org}'
     try:
-        search = f'id={org}'
         org = get_resource(auth_context, 'orgs', search=search)['data']
-    except ValueError:
-        return 'Org does not exist', 404
+    except NotFoundError:
+        return 'Organization does not exist', 404
     org_teams = org.get('teams', [])
     total = len(org_teams)
     if not limit:
