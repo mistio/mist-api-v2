@@ -15,7 +15,7 @@ class Schedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, tags=None, task_enabled=None, action=None, params=None, selectors=None, schedule_type=None, schedule_entry=None, start_after=None, run_immediately=None, created_by=None, owned_by=None):  # noqa: E501
+    def __init__(self, id=None, name=None, description=None, tags=None, enabled=None, action=None, params=None, selectors=None, type=None, schedule_entry=None, start_after=None, run_immediately=None, created_by=None, owned_by=None):  # noqa: E501
         """Schedule - a model defined in OpenAPI
 
         :param id: The id of this Schedule.  # noqa: E501
@@ -26,16 +26,16 @@ class Schedule(Model):
         :type description: str
         :param tags: The tags of this Schedule.  # noqa: E501
         :type tags: object
-        :param task_enabled: The task_enabled of this Schedule.  # noqa: E501
-        :type task_enabled: bool
+        :param enabled: The enabled of this Schedule.  # noqa: E501
+        :type enabled: bool
         :param action: The action of this Schedule.  # noqa: E501
         :type action: str
         :param params: The params of this Schedule.  # noqa: E501
         :type params: str
         :param selectors: The selectors of this Schedule.  # noqa: E501
         :type selectors: List[object]
-        :param schedule_type: The schedule_type of this Schedule.  # noqa: E501
-        :type schedule_type: str
+        :param type: The type of this Schedule.  # noqa: E501
+        :type type: str
         :param schedule_entry: The schedule_entry of this Schedule.  # noqa: E501
         :type schedule_entry: str
         :param start_after: The start_after of this Schedule.  # noqa: E501
@@ -52,11 +52,11 @@ class Schedule(Model):
             'name': str,
             'description': str,
             'tags': object,
-            'task_enabled': bool,
+            'enabled': bool,
             'action': str,
             'params': str,
             'selectors': List[object],
-            'schedule_type': str,
+            'type': str,
             'schedule_entry': str,
             'start_after': str,
             'run_immediately': bool,
@@ -69,11 +69,11 @@ class Schedule(Model):
             'name': 'name',
             'description': 'description',
             'tags': 'tags',
-            'task_enabled': 'task_enabled',
+            'enabled': 'enabled',
             'action': 'action',
             'params': 'params',
             'selectors': 'selectors',
-            'schedule_type': 'schedule_type',
+            'type': 'type',
             'schedule_entry': 'schedule_entry',
             'start_after': 'start_after',
             'run_immediately': 'run_immediately',
@@ -85,11 +85,11 @@ class Schedule(Model):
         self._name = name
         self._description = description
         self._tags = tags
-        self._task_enabled = task_enabled
+        self._enabled = enabled
         self._action = action
         self._params = params
         self._selectors = selectors
-        self._schedule_type = schedule_type
+        self._type = type
         self._schedule_entry = schedule_entry
         self._start_after = start_after
         self._run_immediately = run_immediately
@@ -200,27 +200,27 @@ class Schedule(Model):
         self._tags = tags
 
     @property
-    def task_enabled(self):
-        """Gets the task_enabled of this Schedule.
+    def enabled(self):
+        """Gets the enabled of this Schedule.
 
         Schedule status (enabled, disabled)  # noqa: E501
 
-        :return: The task_enabled of this Schedule.
+        :return: The enabled of this Schedule.
         :rtype: bool
         """
-        return self._task_enabled
+        return self._enabled
 
-    @task_enabled.setter
-    def task_enabled(self, task_enabled):
-        """Sets the task_enabled of this Schedule.
+    @enabled.setter
+    def enabled(self, enabled):
+        """Sets the enabled of this Schedule.
 
         Schedule status (enabled, disabled)  # noqa: E501
 
-        :param task_enabled: The task_enabled of this Schedule.
-        :type task_enabled: bool
+        :param enabled: The enabled of this Schedule.
+        :type enabled: bool
         """
 
-        self._task_enabled = task_enabled
+        self._enabled = enabled
 
     @property
     def action(self):
@@ -290,27 +290,27 @@ class Schedule(Model):
         self._selectors = selectors
 
     @property
-    def schedule_type(self):
-        """Gets the schedule_type of this Schedule.
+    def type(self):
+        """Gets the type of this Schedule.
 
         The type of the schedule  # noqa: E501
 
-        :return: The schedule_type of this Schedule.
+        :return: The type of this Schedule.
         :rtype: str
         """
-        return self._schedule_type
+        return self._type
 
-    @schedule_type.setter
-    def schedule_type(self, schedule_type):
-        """Sets the schedule_type of this Schedule.
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Schedule.
 
         The type of the schedule  # noqa: E501
 
-        :param schedule_type: The schedule_type of this Schedule.
-        :type schedule_type: str
+        :param type: The type of this Schedule.
+        :type type: str
         """
 
-        self._schedule_type = schedule_type
+        self._type = type
 
     @property
     def schedule_entry(self):
