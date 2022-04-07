@@ -6016,11 +6016,13 @@ components:
           type: array
         selectors:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/ResourceSelector'
-            - $ref: '#/components/schemas/FieldSelector'
-            - $ref: '#/components/schemas/TaggingSelector'
-            - $ref: '#/components/schemas/AgeSelector'
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/ResourceSelector'
+              - $ref: '#/components/schemas/FieldSelector'
+              - $ref: '#/components/schemas/TaggingSelector'
+              - $ref: '#/components/schemas/AgeSelector'
           type: array
         data_type:
           $ref: '#/components/schemas/DataType'
@@ -6076,11 +6078,13 @@ components:
           type: string
         selectors:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/ResourceSelector'
-            - $ref: '#/components/schemas/FieldSelector'
-            - $ref: '#/components/schemas/TaggingSelector'
-            - $ref: '#/components/schemas/AgeSelector'
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/ResourceSelector'
+              - $ref: '#/components/schemas/FieldSelector'
+              - $ref: '#/components/schemas/TaggingSelector'
+              - $ref: '#/components/schemas/AgeSelector'
           type: array
         schedule_type:
           description: The type of the schedule
@@ -7396,11 +7400,13 @@ components:
           type: array
         selectors:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/ResourceSelector'
-            - $ref: '#/components/schemas/FieldSelector'
-            - $ref: '#/components/schemas/TaggingSelector'
-            - $ref: '#/components/schemas/AgeSelector'
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/ResourceSelector'
+              - $ref: '#/components/schemas/FieldSelector'
+              - $ref: '#/components/schemas/TaggingSelector'
+              - $ref: '#/components/schemas/AgeSelector'
           type: array
       type: object
     EditSecretRequest:
@@ -7455,11 +7461,13 @@ components:
           type: string
         selectors:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/ResourceSelector'
-            - $ref: '#/components/schemas/FieldSelector'
-            - $ref: '#/components/schemas/TaggingSelector'
-            - $ref: '#/components/schemas/AgeSelector'
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/ResourceSelector'
+              - $ref: '#/components/schemas/FieldSelector'
+              - $ref: '#/components/schemas/TaggingSelector'
+              - $ref: '#/components/schemas/AgeSelector'
           type: array
         schedule_type:
           description: Edit the type of the schedule
@@ -10193,11 +10201,13 @@ components:
           type: string
         selectors:
           items:
-            oneOf:
-            - $ref: '#/components/schemas/ResourceSelector'
-            - $ref: '#/components/schemas/FieldSelector'
-            - $ref: '#/components/schemas/TaggingSelector'
-            - $ref: '#/components/schemas/AgeSelector'
+            allOf:
+            - type: object
+            - oneOf:
+              - $ref: '#/components/schemas/ResourceSelector'
+              - $ref: '#/components/schemas/FieldSelector'
+              - $ref: '#/components/schemas/TaggingSelector'
+              - $ref: '#/components/schemas/AgeSelector'
           type: array
         schedule_type:
           description: The type of the schedule
@@ -10269,11 +10279,13 @@ components:
       type: object
     Selectors:
       items:
-        oneOf:
-        - $ref: '#/components/schemas/ResourceSelector'
-        - $ref: '#/components/schemas/FieldSelector'
-        - $ref: '#/components/schemas/TaggingSelector'
-        - $ref: '#/components/schemas/AgeSelector'
+        allOf:
+        - type: object
+        - oneOf:
+          - $ref: '#/components/schemas/ResourceSelector'
+          - $ref: '#/components/schemas/FieldSelector'
+          - $ref: '#/components/schemas/TaggingSelector'
+          - $ref: '#/components/schemas/AgeSelector'
       type: array
     Size:
       example:
