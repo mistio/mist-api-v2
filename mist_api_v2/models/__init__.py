@@ -13,6 +13,7 @@ from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.add_rule_request import AddRuleRequest
 from mist_api_v2.models.add_schedule_request import AddScheduleRequest
 from mist_api_v2.models.add_script_request import AddScriptRequest
+from mist_api_v2.models.age_selector import AgeSelector
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.alibaba_net import AlibabaNet
@@ -71,6 +72,7 @@ from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
 from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
+from mist_api_v2.models.field_selector import FieldSelector
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_cluster_response import GetClusterResponse
@@ -164,6 +166,7 @@ from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
@@ -173,9 +176,9 @@ from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
 from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.secret import Secret
-from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
+from mist_api_v2.models.tagging_selector import TaggingSelector
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.user import User

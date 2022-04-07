@@ -39,6 +39,7 @@ mist_api_v2/models/add_key_response.py
 mist_api_v2/models/add_rule_request.py
 mist_api_v2/models/add_schedule_request.py
 mist_api_v2/models/add_script_request.py
+mist_api_v2/models/age_selector.py
 mist_api_v2/models/alibaba_cloud_request.py
 mist_api_v2/models/alibaba_credentials.py
 mist_api_v2/models/alibaba_net.py
@@ -99,6 +100,7 @@ mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
+mist_api_v2/models/field_selector.py
 mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_cluster_response.py
@@ -192,6 +194,7 @@ mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
+mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
@@ -201,9 +204,9 @@ mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/secret.py
-mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
+mist_api_v2/models/tagging_selector.py
 mist_api_v2/models/team.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/user.py
