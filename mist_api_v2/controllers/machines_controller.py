@@ -206,7 +206,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
             if not one_cloud:
                 logging.debug(
                     'Failed to generate plan for cloud %s with exception %s',
-                    cloud.title, repr(exc))
+                    cloud.name, repr(exc))
                 continue
             if isinstance(exc, NotFoundError):
                 return exc.args[0], 404
