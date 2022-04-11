@@ -45,7 +45,7 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
             kwargs[key] = params[key]
     name = kwargs.pop('name')
     try:
-        schedule = Schedule.add(auth_context, name, **kwargs)
+        schedule = Schedule.add_v2(auth_context, name, **kwargs)
     except BadRequestError as e:
         return str(e), 400
     except ScheduleNameExistsError as e:
