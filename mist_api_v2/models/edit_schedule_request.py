@@ -15,7 +15,7 @@ class EditScheduleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, enabled=None, action=None, params=None, selectors=None, type=None, schedule_entry=None, start_after=None, run_immediately=None):  # noqa: E501
+    def __init__(self, name=None, description=None, enabled=None, action=None, script_id=None, params=None, selectors=None, schedule_type=None, schedule_entry=None, start_after=None, run_immediately=None):  # noqa: E501
         """EditScheduleRequest - a model defined in OpenAPI
 
         :param name: The name of this EditScheduleRequest.  # noqa: E501
@@ -26,12 +26,14 @@ class EditScheduleRequest(Model):
         :type enabled: bool
         :param action: The action of this EditScheduleRequest.  # noqa: E501
         :type action: str
+        :param script_id: The script_id of this EditScheduleRequest.  # noqa: E501
+        :type script_id: str
         :param params: The params of this EditScheduleRequest.  # noqa: E501
         :type params: str
         :param selectors: The selectors of this EditScheduleRequest.  # noqa: E501
         :type selectors: List[object]
-        :param type: The type of this EditScheduleRequest.  # noqa: E501
-        :type type: str
+        :param schedule_type: The schedule_type of this EditScheduleRequest.  # noqa: E501
+        :type schedule_type: str
         :param schedule_entry: The schedule_entry of this EditScheduleRequest.  # noqa: E501
         :type schedule_entry: str
         :param start_after: The start_after of this EditScheduleRequest.  # noqa: E501
@@ -44,9 +46,10 @@ class EditScheduleRequest(Model):
             'description': str,
             'enabled': bool,
             'action': str,
+            'script_id': str,
             'params': str,
             'selectors': List[object],
-            'type': str,
+            'schedule_type': str,
             'schedule_entry': str,
             'start_after': str,
             'run_immediately': bool
@@ -57,9 +60,10 @@ class EditScheduleRequest(Model):
             'description': 'description',
             'enabled': 'enabled',
             'action': 'action',
+            'script_id': 'script_id',
             'params': 'params',
             'selectors': 'selectors',
-            'type': 'type',
+            'schedule_type': 'schedule_type',
             'schedule_entry': 'schedule_entry',
             'start_after': 'start_after',
             'run_immediately': 'run_immediately'
@@ -69,9 +73,10 @@ class EditScheduleRequest(Model):
         self._description = description
         self._enabled = enabled
         self._action = action
+        self._script_id = script_id
         self._params = params
         self._selectors = selectors
-        self._type = type
+        self._schedule_type = schedule_type
         self._schedule_entry = schedule_entry
         self._start_after = start_after
         self._run_immediately = run_immediately
@@ -186,6 +191,29 @@ class EditScheduleRequest(Model):
         self._action = action
 
     @property
+    def script_id(self):
+        """Gets the script_id of this EditScheduleRequest.
+
+        The id of the script that schedule is about to run  # noqa: E501
+
+        :return: The script_id of this EditScheduleRequest.
+        :rtype: str
+        """
+        return self._script_id
+
+    @script_id.setter
+    def script_id(self, script_id):
+        """Sets the script_id of this EditScheduleRequest.
+
+        The id of the script that schedule is about to run  # noqa: E501
+
+        :param script_id: The script_id of this EditScheduleRequest.
+        :type script_id: str
+        """
+
+        self._script_id = script_id
+
+    @property
     def params(self):
         """Gets the params of this EditScheduleRequest.
 
@@ -230,33 +258,33 @@ class EditScheduleRequest(Model):
         self._selectors = selectors
 
     @property
-    def type(self):
-        """Gets the type of this EditScheduleRequest.
+    def schedule_type(self):
+        """Gets the schedule_type of this EditScheduleRequest.
 
         Edit the type of the schedule  # noqa: E501
 
-        :return: The type of this EditScheduleRequest.
+        :return: The schedule_type of this EditScheduleRequest.
         :rtype: str
         """
-        return self._type
+        return self._schedule_type
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this EditScheduleRequest.
+    @schedule_type.setter
+    def schedule_type(self, schedule_type):
+        """Sets the schedule_type of this EditScheduleRequest.
 
         Edit the type of the schedule  # noqa: E501
 
-        :param type: The type of this EditScheduleRequest.
-        :type type: str
+        :param schedule_type: The schedule_type of this EditScheduleRequest.
+        :type schedule_type: str
         """
         allowed_values = ["crontab", "interval", "one_off"]  # noqa: E501
-        if type not in allowed_values:
+        if schedule_type not in allowed_values:
             raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"
-                .format(type, allowed_values)
+                "Invalid value for `schedule_type` ({0}), must be one of {1}"
+                .format(schedule_type, allowed_values)
             )
 
-        self._type = type
+        self._schedule_type = schedule_type
 
     @property
     def schedule_entry(self):
