@@ -8,6 +8,7 @@ from mist.api.exceptions import BadRequestError, NotFoundError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import NetworkListingError
 
+from mist_api_v2 import util
 from mist_api_v2.models.create_network_request import CreateNetworkRequest  # noqa: E501
 from mist_api_v2.models.get_network_response import GetNetworkResponse  # noqa: E501
 from mist_api_v2.models.list_networks_response import ListNetworksResponse  # noqa: E501
@@ -159,7 +160,7 @@ def get_network(network, only=None, deref='auto'):  # noqa: E501
     return GetNetworkResponse(data=result['data'], meta=result['meta'])
 
 
-def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref='auto'):  # noqa: E501
+def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, only=None, deref='auto', at=None):  # noqa: E501
     """List networks
 
     List networks owned by the active org. READ permission required on network &amp; cloud. # noqa: E501
@@ -178,6 +179,8 @@ def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, on
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListNetworksResponse
     """
@@ -185,7 +188,9 @@ def list_networks(cloud=None, search=None, sort=None, start=None, limit=None, on
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     result = list_resources(
         auth_context, 'network', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
+        sort=sort, start=start, limit=limit, deref=deref, at=at)
     return ListNetworksResponse(data=result['data'], meta=result['meta'])

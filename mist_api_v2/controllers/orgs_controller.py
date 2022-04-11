@@ -1,6 +1,7 @@
 import connexion
 from mist.api.exceptions import NotFoundError
 
+from mist_api_v2 import util
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse  # noqa: E501
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
 from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse  # noqa: E501
@@ -77,7 +78,7 @@ def get_org(org, only=None, deref=None):  # noqa: E501
     return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 
-def list_org_members(org, search=None, sort=None, start=None, limit=None, only=None):  # noqa: E501
+def list_org_members(org, search=None, sort=None, start=None, limit=None, only=None, at=None):  # noqa: E501
     """List org members
 
     List org members owned by the requester. The requester must be a member of the org. # noqa: E501
@@ -94,6 +95,8 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     :type limit: int
     :param only: Only return these fields
     :type only: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListOrgMembersResponse
     """
@@ -102,8 +105,10 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     except KeyError:
         return 'Authentication failed', 401
     search = f'id={org}'
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     try:
-        org = get_resource(auth_context, 'orgs', search=search)['data']
+        org = get_resource(auth_context, 'orgs', search=search, at=at)['data']
     except NotFoundError:
         return 'Organization does not exist', 404
     org_members = org.get('members', [])
@@ -131,7 +136,7 @@ def list_org_members(org, search=None, sort=None, start=None, limit=None, only=N
     return ListOrgMembersResponse(data=result['data'], meta=result['meta'])
 
 
-def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=None, deref=None, at=None):  # noqa: E501
     """List org teams
 
     List teams in org. # noqa: E501
@@ -150,6 +155,8 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListOrgTeamsResponse
     """
@@ -157,9 +164,11 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     search = f'id={org}'
     try:
-        org = get_resource(auth_context, 'orgs', search=search)['data']
+        org = get_resource(auth_context, 'orgs', search=search, at=at)['data']
     except NotFoundError:
         return 'Organization does not exist', 404
     org_teams = org.get('teams', [])
@@ -188,7 +197,7 @@ def list_org_teams(org, search=None, sort=None, start=None, limit=None, only=Non
     return ListOrgTeamsResponse(data=result['data'], meta=result['meta'])
 
 
-def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only=None, deref=None):  # noqa: E501
+def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only=None, deref=None, at=None):  # noqa: E501
     """List orgs
 
     List orgs owned by the requester. If parameter allorgs is true and requester is an admin then all orgs will be listed. # noqa: E501
@@ -207,6 +216,8 @@ def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListOrgsResponse
     """
@@ -214,6 +225,9 @@ def list_orgs(allorgs=None, search=None, sort=None, start=None, limit=None, only
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     result = list_resources(auth_context, 'orgs', search=search, only=only,
-                            sort=sort, start=start, limit=limit, deref=deref)
+                            sort=sort, start=start, limit=limit, deref=deref,
+                            at=at)
     return ListOrgsResponse(data=result['data'], meta=result['meta'])

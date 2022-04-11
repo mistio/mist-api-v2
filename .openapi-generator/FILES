@@ -19,6 +19,7 @@ mist_api_v2/controllers/networks_controller.py
 mist_api_v2/controllers/orgs_controller.py
 mist_api_v2/controllers/rules_controller.py
 mist_api_v2/controllers/scripts_controller.py
+mist_api_v2/controllers/secrets_controller.py
 mist_api_v2/controllers/security_controller_.py
 mist_api_v2/controllers/sizes_controller.py
 mist_api_v2/controllers/snapshots_controller.py
@@ -64,6 +65,7 @@ mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
 mist_api_v2/models/create_network_request.py
 mist_api_v2/models/create_network_response.py
+mist_api_v2/models/create_secret_request.py
 mist_api_v2/models/create_volume_request.py
 mist_api_v2/models/create_volume_response.py
 mist_api_v2/models/create_zone_request.py
@@ -85,6 +87,7 @@ mist_api_v2/models/edit_cloud_request_any_of.py
 mist_api_v2/models/edit_machine_request.py
 mist_api_v2/models/edit_machine_request_expiration.py
 mist_api_v2/models/edit_rule_request.py
+mist_api_v2/models/edit_secret_request.py
 mist_api_v2/models/equinix_cloud_request.py
 mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/equinix_metal_extra.py
@@ -106,6 +109,7 @@ mist_api_v2/models/get_org_member_response.py
 mist_api_v2/models/get_org_response.py
 mist_api_v2/models/get_rule_response.py
 mist_api_v2/models/get_script_response.py
+mist_api_v2/models/get_secret_response.py
 mist_api_v2/models/get_size_response.py
 mist_api_v2/models/get_volume_response.py
 mist_api_v2/models/get_zone_response.py
@@ -150,6 +154,7 @@ mist_api_v2/models/list_org_teams_response.py
 mist_api_v2/models/list_orgs_response.py
 mist_api_v2/models/list_rules_response.py
 mist_api_v2/models/list_scripts_response.py
+mist_api_v2/models/list_secrets_response.py
 mist_api_v2/models/list_sizes_response.py
 mist_api_v2/models/list_snapshots_response.py
 mist_api_v2/models/list_users_response.py
@@ -188,6 +193,7 @@ mist_api_v2/models/rule_action.py
 mist_api_v2/models/run_script_request.py
 mist_api_v2/models/run_script_response.py
 mist_api_v2/models/script.py
+mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
@@ -220,6 +226,7 @@ mist_api_v2/test/test_networks_controller.py
 mist_api_v2/test/test_orgs_controller.py
 mist_api_v2/test/test_rules_controller.py
 mist_api_v2/test/test_scripts_controller.py
+mist_api_v2/test/test_secrets_controller.py
 mist_api_v2/test/test_sizes_controller.py
 mist_api_v2/test/test_snapshots_controller.py
 mist_api_v2/test/test_users_controller.py

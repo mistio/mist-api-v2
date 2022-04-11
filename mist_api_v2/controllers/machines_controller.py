@@ -20,6 +20,7 @@ from mist.api.tasks import multicreate_async_v2
 from mist.api.tasks import clone_machine_async
 from mist.api.helpers import select_plan
 
+from mist_api_v2 import util
 from mist_api_v2.models.create_machine_request import CreateMachineRequest  # noqa: E501
 from mist_api_v2.models.create_machine_response import CreateMachineResponse  # noqa: E501
 from mist_api_v2.models.edit_machine_request import EditMachineRequest  # noqa: E501
@@ -205,7 +206,7 @@ def create_machine(create_machine_request=None):  # noqa: E501
             if not one_cloud:
                 logging.debug(
                     'Failed to generate plan for cloud %s with exception %s',
-                    cloud.title, repr(exc))
+                    cloud.name, repr(exc))
                 continue
             if isinstance(exc, NotFoundError):
                 return exc.args[0], 404
@@ -353,7 +354,7 @@ def get_machine(machine, only=None, deref=None):  # noqa: E501
     return GetMachineResponse(data=result['data'], meta=result['meta'])
 
 
-def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
+def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=None, deref='auto', at=None):  # noqa: E501
     """List machines
 
     List machines owned by the active org. READ permission required on machine &amp; cloud. # noqa: E501
@@ -372,6 +373,8 @@ def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListMachinesResponse
     """
@@ -379,9 +382,11 @@ def list_machines(cloud=None, search=None, sort=None, start=0, limit=100, only=N
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     result = list_resources(
         auth_context, 'machine', cloud=cloud, search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref
+        sort=sort, start=start, limit=limit, deref=deref, at=at
     )
     return ListMachinesResponse(data=result['data'], meta=result['meta'])
 

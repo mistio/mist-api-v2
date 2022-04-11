@@ -1,5 +1,4 @@
 import logging
-
 import connexion
 
 from mist.api import config
@@ -7,6 +6,7 @@ from mist.api.exceptions import KeyNotFoundError, NotFoundError
 from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.logs.methods import log_event
 
+from mist_api_v2 import util
 from mist_api_v2.models.add_key_request import AddKeyRequest  # noqa: E501
 from mist_api_v2.models.add_key_response import AddKeyResponse  # noqa: E501
 from mist_api_v2.models.get_key_response import GetKeyResponse  # noqa: E501
@@ -211,11 +211,11 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
             auth_context.owner.id, 'request', 'read_private',
             key_id=key.id, user_id=auth_context.user.id,
         )
-        result['data']['private'] = key.private
+        result['data']['private'] = key.private.value
     return GetKeyResponse(data=result['data'], meta=result['meta'])
 
 
-def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=None):  # noqa: E501
+def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=None, at=None):  # noqa: E501
     """List keys
 
     List keys owned by the active org. READ permission required on key. # noqa: E501
@@ -232,6 +232,8 @@ def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=No
     :type only: str
     :param deref: Dereference foreign keys
     :type deref: str
+    :param at: Limit results by specific datetime.
+    :type at: str
 
     :rtype: ListKeysResponse
     """
@@ -239,7 +241,9 @@ def list_keys(search=None, sort=None, start=None, limit=100, only=None, deref=No
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    if at is not None:
+        at = util.deserialize_datetime(at.strip('"')).isoformat()
     result = list_resources(
         auth_context, 'key', search=search, only=only,
-        sort=sort, start=start, limit=limit, deref=deref)
+        sort=sort, start=start, limit=limit, deref=deref, at=at)
     return ListKeysResponse(data=result['data'], meta=result['meta'])
