@@ -7,6 +7,7 @@ import traceback
 
 import connexion
 from flask import g, Response
+from werkzeug.exceptions import BadRequest
 
 from mist.api import config
 from mist.api import helpers
@@ -75,7 +76,7 @@ def prepare_log(response):
     request = connexion.request
     try:
         request_body = request.json.copy()
-    except AttributeError:
+    except (AttributeError, BadRequest):
         request_body = {}
 
     try:
@@ -107,7 +108,7 @@ def prepare_log(response):
                             'apikey',
                             'token',
                             'tlsKey',
-                            'tlsCert',]
+                            'tlsCert', ]
         for field in sensitive_fields:
             if request_body['credentials'].get(field):
                 request_body['credentials'][field] = '***CENSORED***'
