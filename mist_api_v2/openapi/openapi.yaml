@@ -3991,9 +3991,10 @@ paths:
       - tags
       - enabled
       - action
+      - script_id
       - params
       - selectors
-      - type
+      - schedule_type
       - schedule_entry
       - start_after
       - run_immediately
@@ -4019,7 +4020,7 @@ paths:
                     ids:
                     - d5775984772949de820fa8279c306b30
                     type: machines
-                  type: one_off
+                  schedule_type: one_off
                   schedule_entry: 2022-04-05 T00:00:00
                   start_after: 2022-04-08 T00:00:00
                   run_immediately: false
@@ -4148,9 +4149,10 @@ paths:
       - tags
       - enabled
       - action
+      - script_id
       - params
       - selectors
-      - type
+      - schedule_type
       - schedule_entry
       - start_after
       - run_immediately
@@ -6037,16 +6039,17 @@ components:
     AddScheduleRequest:
       example:
         start_after: 2022-04-01 T00:00:00
+        schedule_type: one_off
         schedule_entry: 2022-03-28 T00:00:00
         name: backup-schedule
         description: This is a schedule
         action: start
+        script_id: d5775984772949de820fa8279c306b30
         run_immediately: false
         params: Parameters string
         selectors:
         - ""
         - ""
-        type: one_off
         enabled: true
       properties:
         name:
@@ -6072,6 +6075,10 @@ components:
           - delete
           example: start
           type: string
+        script_id:
+          description: The id of the script that schedule is about to run
+          example: d5775984772949de820fa8279c306b30
+          type: string
         params:
           description: Schedule parameters
           example: Parameters string
@@ -6086,7 +6093,7 @@ components:
               - $ref: '#/components/schemas/TaggingSelector'
               - $ref: '#/components/schemas/AgeSelector'
           type: array
-        type:
+        schedule_type:
           description: The type of the schedule
           enum:
           - crontab
@@ -7420,16 +7427,17 @@ components:
     EditScheduleRequest:
       example:
         start_after: 2022-05-01 T00:00:00
+        schedule_type: one_off
         schedule_entry: 2022-04-28 T00:00:00
         name: schedule-name
         description: This is a schedule that is about to be edited
         action: start
+        script_id: d5775984772949de820fa8279c306b30
         run_immediately: false
         params: Parameters string
         selectors:
         - ""
         - ""
-        type: one_off
         enabled: true
       properties:
         name:
@@ -7455,6 +7463,10 @@ components:
           - delete
           example: start
           type: string
+        script_id:
+          description: The id of the script that schedule is about to run
+          example: d5775984772949de820fa8279c306b30
+          type: string
         params:
           description: Edit schedule parameters
           example: Parameters string
@@ -7469,7 +7481,7 @@ components:
               - $ref: '#/components/schemas/TaggingSelector'
               - $ref: '#/components/schemas/AgeSelector'
           type: array
-        type:
+        schedule_type:
           description: Edit the type of the schedule
           enum:
           - crontab
@@ -7923,14 +7935,15 @@ components:
     GetScheduleResponse:
       example:
         data:
+          schedule_type: crontab
           description: This is an test schedule
+          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
           - ""
           - ""
-          type: crontab
           created_by: Manager A
           enabled: true
           tags: '{}'
@@ -9114,14 +9127,15 @@ components:
     ListSchedulesResponse:
       example:
         data:
-        - description: This is an test schedule
+        - schedule_type: crontab
+          description: This is an test schedule
+          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
           - ""
           - ""
-          type: crontab
           created_by: Manager A
           enabled: true
           tags: '{}'
@@ -9130,14 +9144,15 @@ components:
           name: reboot-schedule
           action: stop
           id: id
-        - description: This is an test schedule
+        - schedule_type: crontab
+          description: This is an test schedule
+          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
           run_immediately: true
           params: Test parameters
           selectors:
           - ""
           - ""
-          type: crontab
           created_by: Manager A
           enabled: true
           tags: '{}'
@@ -10155,14 +10170,15 @@ components:
           type: integer
     Schedule:
       example:
+        schedule_type: crontab
         description: This is an test schedule
+        script_id: d5775984772949de820fa8279c306b30
         owned_by: Officer B
         run_immediately: true
         params: Test parameters
         selectors:
         - ""
         - ""
-        type: crontab
         created_by: Manager A
         enabled: true
         tags: '{}'
@@ -10194,6 +10210,10 @@ components:
           description: The action that a schedule performs on a resource
           example: stop
           type: string
+        script_id:
+          description: The id of the script that schedule is about to run
+          example: d5775984772949de820fa8279c306b30
+          type: string
         params:
           description: Schedule parameters
           example: Test parameters
@@ -10208,7 +10228,7 @@ components:
               - $ref: '#/components/schemas/TaggingSelector'
               - $ref: '#/components/schemas/AgeSelector'
           type: array
-        type:
+        schedule_type:
           description: The type of the schedule
           example: crontab
           type: string
