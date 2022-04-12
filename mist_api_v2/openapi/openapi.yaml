@@ -506,10 +506,6 @@ paths:
         style: simple
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DestroyClusterResponse'
           description: Cluster destruction successful
         "401":
           description: Authentication failed
@@ -3888,6 +3884,294 @@ paths:
       tags:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
+  /api/v2/schedules:
+    get:
+      description: List schedules owned by the active org. READ permission required
+        on schedules.
+      operationId: list_schedules
+      parameters:
+      - description: Only return results matching search filter
+        examples:
+          Filter by schedule name:
+            value: my-schedule
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 3rd result:
+            value: "3"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & created_by:
+            value: id,name,created_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name'
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSchedulesResponse'
+          description: List schedules response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:schedule
+      - CookieAuth:
+        - read:schedule
+      summary: List schedules
+      tags:
+      - schedules
+      x-cli-table-default:
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - description
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
+    post:
+      description: Add schedule to user schedules
+      operationId: add_schedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddScheduleRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Schedule added succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - add:schedule
+      - CookieAuth:
+        - add:schedule
+      summary: Add schedule
+      tags:
+      - schedules
+      x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
+  /api/v2/schedules/{schedule}:
+    delete:
+      description: Delete target schedule
+      operationId: delete_schedule
+      parameters:
+      - example: my-schedule
+        explode: false
+        in: path
+        name: schedule
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Schedule deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Schedule not found
+      security:
+      - ApiKeyAuth:
+        - delete:schedule
+      - CookieAuth:
+        - delete:schedule
+      summary: Delete schedule
+      tags:
+      - schedules
+      x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
+    get:
+      description: Get details about target schedule
+      operationId: get_schedule
+      parameters:
+      - example: my-schedule
+        explode: false
+        in: path
+        name: schedule
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference creator by email, owner by name:
+            value: creator:email, owned_by:name'
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetScheduleResponse'
+          description: Schedule returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Schedule not found
+      security:
+      - ApiKeyAuth:
+        - read:schedule
+      - CookieAuth:
+        - read:schedule
+      summary: Get schedule
+      tags:
+      - schedules
+      x-cli-table-default:
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - description
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
+    patch:
+      description: Edit target schedule
+      operationId: edit_schedule
+      parameters:
+      - example: my-schedule
+        explode: false
+        in: path
+        name: schedule
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: New schedule name
+        example: my-renamed-schedule
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: New schedule description
+        example: description
+        explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Schedule successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Schedule not found
+      security:
+      - ApiKeyAuth:
+        - edit:schedule
+      - CookieAuth:
+        - edit:schedule
+      summary: Edit schedule
+      tags:
+      - schedules
+      x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
   /api/v2/scripts:
     get:
       description: List scripts owned by the active org. READ permission required
@@ -5715,6 +5999,49 @@ components:
       - trigger_after
       - window
       type: object
+    AddScheduleRequest:
+      example:
+        schedule: |-
+          #!/usr/bin/env bash
+          echo Hello, World!
+        entrypoint: entrypoint.sh
+        name: my-schedule
+        description: description
+        exec_type: executable
+        location_type: inline
+      properties:
+        name:
+          example: my-schedule
+          type: string
+        schedule:
+          example: |-
+            #!/usr/bin/env bash
+            echo Hello, World!
+          type: string
+        location_type:
+          enum:
+          - inline
+          - github
+          - url
+          example: inline
+          type: string
+        entrypoint:
+          example: entrypoint.sh
+          type: string
+        exec_type:
+          enum:
+          - executable
+          - ansible
+          example: executable
+          type: string
+        description:
+          type: string
+      required:
+      - exec_type
+      - location_type
+      - name
+      - schedule
+      type: object
     AddScriptRequest:
       example:
         entrypoint: entrypoint.sh
@@ -5856,6 +6183,35 @@ components:
       required:
       - credentials
       - provider
+      type: object
+    AmazonClusterRequest:
+      properties:
+        role_arn:
+          description: The Amazon Resource Name (ARN) of the IAM role that provides
+            permissions for the Kubernetes control plane to make calls to AWS API
+            operations on your behalf
+          type: string
+        network:
+          description: Name or ID of the network to be associated with the cluster.
+            If not given the default network will be selected
+          type: string
+        subnets:
+          description: IDs of the subnets to be associated with the cluster. At least
+            2 subnets in different availability zones are required, if not given the
+            default subnets will be used
+          items:
+            type: string
+          type: array
+        security_groups:
+          description: The security groups associated with the cross-account elastic
+            network interfaces that are used to allow communication between your nodes
+            and the Kubernetes control plane
+          items:
+            type: string
+          type: array
+      required:
+      - role_arn
+      title: Amazon parameters
       type: object
     AmazonCredentials:
       properties:
@@ -6209,6 +6565,9 @@ components:
     CreateClusterRequest:
       allOf:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/AmazonClusterRequest'
+        - $ref: '#/components/schemas/GoogleClusterRequest'
       example:
         name: my-cluster
         provider: google
@@ -6432,7 +6791,6 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/DockerExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
-          - $ref: '#/components/schemas/GoogleExtra'
           - $ref: '#/components/schemas/LinodeExtra'
           - $ref: '#/components/schemas/LXDExtra'
           - $ref: '#/components/schemas/VSphereExtra'
@@ -6703,19 +7061,6 @@ components:
       items:
         $ref: '#/components/schemas/DatapointsValuesItem'
       type: array
-    DestroyClusterResponse:
-      example:
-        cloud: cloud
-        jobId: jobId
-        cluster: cluster
-      properties:
-        jobId:
-          type: string
-        cloud:
-          type: string
-        cluster:
-          type: string
-      type: object
     DigitalOceanVolumes:
       items:
         oneOf:
@@ -7225,17 +7570,10 @@ components:
       example:
         data:
           cloud: cloud
-          parent: parent
-          country: country
-          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
-          owned_by: owned_by
           id: id
-          available_images: '{}'
-          created_by: created_by
-          location_type: location_type
         meta:
           total: 0
           start: 1
@@ -7399,6 +7737,26 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    GetScheduleResponse:
+      example:
+        data:
+          name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Schedule'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     GetScriptResponse:
       example:
         data:
@@ -7523,6 +7881,15 @@ components:
       - credentials
       - provider
       type: object
+    GoogleClusterRequest:
+      properties:
+        location:
+          description: Name or ID of the location to create the cluster in
+          type: string
+      required:
+      - location
+      title: Google parameters
+      type: object
     GoogleCredentials:
       properties:
         projectId:
@@ -7538,12 +7905,6 @@ components:
       - email
       - privateKey
       - projectId
-      type: object
-    GoogleExtra:
-      properties:
-        service_account:
-          $ref: '#/components/schemas/GoogleExtra_service_account'
-      title: Google extra parameter
       type: object
     GoogleNet:
       properties:
@@ -8231,29 +8592,15 @@ components:
       example:
         data:
         - cloud: cloud
-          parent: parent
-          country: country
-          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
-          owned_by: owned_by
           id: id
-          available_images: '{}'
-          created_by: created_by
-          location_type: location_type
         - cloud: cloud
-          parent: parent
-          country: country
-          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
-          owned_by: owned_by
           id: id
-          available_images: '{}'
-          created_by: created_by
-          location_type: location_type
         meta:
           total: 0
           start: 1
@@ -8571,6 +8918,34 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
+    ListSchedulesResponse:
+      example:
+        data:
+        - name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        - name: name
+          description: description
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Schedule'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
     ListScriptsResponse:
       example:
         data:
@@ -8782,17 +9157,10 @@ components:
     Location:
       example:
         cloud: cloud
-        parent: parent
-        country: country
-        available_sizes: '{}'
         extra: '{}'
         name: name
         external_id: external_id
-        owned_by: owned_by
         id: id
-        available_images: '{}'
-        created_by: created_by
-        location_type: location_type
       properties:
         id:
           type: string
@@ -8804,20 +9172,6 @@ components:
           type: string
         extra:
           type: object
-        parent:
-          type: string
-        location_type:
-          type: string
-        country:
-          type: string
-        available_sizes:
-          type: object
-        available_images:
-          type: object
-        owned_by:
-          type: string
-        created_by:
-          type: string
       type: object
     Log:
       example:
@@ -9568,6 +9922,27 @@ components:
         max_nodes:
           description: Maximum number of nodes for the specified nodepool
           type: integer
+    Schedule:
+      example:
+        name: name
+        description: description
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
       type: object
     Script:
       example:
@@ -10089,15 +10464,20 @@ components:
           type: integer
         size:
           description: Name or ID of size to use for the nodes. If not provided, the
-            t3.medium(EKS), e2-medium(GKE) size will be used
+            t3.medium(EKS) or e2-medium(GKE) size will be used
           type: string
         disk_size:
           default: 20
           description: Size of the disk attached to each node, specified in GB.
           type: integer
+        role_arn:
+          description: Amazon specific parameter.The Amazon Resource Name (ARN) of
+            the IAM role to associate with the nodes. Required in order to create
+            a cluster nodepool
+          type: string
         disk_type:
-          description: Type of the disk attached to each node. Defaults to pd-standard(GKE),
-            gp3(EKS)
+          description: Google specific parameter.Type of the disk attached to each
+            node. Defaults to pd-standard
           type: string
         preemptible:
           description: Google specific parameter.Whether the nodes are created as
@@ -10132,10 +10512,6 @@ components:
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
-        location:
-          description: Google specific parameter(Required).Name or ID of the location
-            to create the cluster in
-          type: string
         nodepools:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
@@ -10265,17 +10641,6 @@ components:
       required:
       - period
       - value
-      type: object
-    GoogleExtra_service_account:
-      properties:
-        email:
-          description: The email address of the service account.
-          type: string
-        scopes:
-          description: A list of scopes to be made available for this machine.
-          items:
-            type: string
-          type: array
       type: object
     KVMNet_networks:
       properties:

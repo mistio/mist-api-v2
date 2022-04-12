@@ -11,11 +11,13 @@ from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.add_rule_request import AddRuleRequest
+from mist_api_v2.models.add_schedule_request import AddScheduleRequest
 from mist_api_v2.models.add_script_request import AddScriptRequest
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.alibaba_net import AlibabaNet
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
+from mist_api_v2.models.amazon_cluster_request import AmazonClusterRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
@@ -49,7 +51,6 @@ from mist_api_v2.models.data_type import DataType
 from mist_api_v2.models.datapoints import Datapoints
 from mist_api_v2.models.datapoints_data import DatapointsData
 from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem
-from mist_api_v2.models.destroy_cluster_response import DestroyClusterResponse
 from mist_api_v2.models.digitalocean_cloud_request import DigitaloceanCloudRequest
 from mist_api_v2.models.digitalocean_credentials import DigitaloceanCredentials
 from mist_api_v2.models.docker_cloud_request import DockerCloudRequest
@@ -82,15 +83,15 @@ from mist_api_v2.models.get_network_response import GetNetworkResponse
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse
 from mist_api_v2.models.get_org_response import GetOrgResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
+from mist_api_v2.models.get_schedule_response import GetScheduleResponse
 from mist_api_v2.models.get_script_response import GetScriptResponse
 from mist_api_v2.models.get_secret_response import GetSecretResponse
 from mist_api_v2.models.get_size_response import GetSizeResponse
 from mist_api_v2.models.get_volume_response import GetVolumeResponse
 from mist_api_v2.models.get_zone_response import GetZoneResponse
 from mist_api_v2.models.google_cloud_request import GoogleCloudRequest
+from mist_api_v2.models.google_cluster_request import GoogleClusterRequest
 from mist_api_v2.models.google_credentials import GoogleCredentials
-from mist_api_v2.models.google_extra import GoogleExtra
-from mist_api_v2.models.google_extra_service_account import GoogleExtraServiceAccount
 from mist_api_v2.models.google_net import GoogleNet
 from mist_api_v2.models.helm_chart import HelmChart
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
@@ -129,6 +130,7 @@ from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
+from mist_api_v2.models.list_schedules_response import ListSchedulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_secrets_response import ListSecretsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
@@ -167,6 +169,7 @@ from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.run_script_request import RunScriptRequest
 from mist_api_v2.models.run_script_response import RunScriptResponse
 from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
+from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector

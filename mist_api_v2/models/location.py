@@ -15,7 +15,7 @@ class Location(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, external_id=None, name=None, cloud=None, extra=None, parent=None, location_type=None, country=None, available_sizes=None, available_images=None, owned_by=None, created_by=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, name=None, cloud=None, extra=None):  # noqa: E501
         """Location - a model defined in OpenAPI
 
         :param id: The id of this Location.  # noqa: E501
@@ -28,34 +28,13 @@ class Location(Model):
         :type cloud: str
         :param extra: The extra of this Location.  # noqa: E501
         :type extra: object
-        :param parent: The parent of this Location.  # noqa: E501
-        :type parent: str
-        :param location_type: The location_type of this Location.  # noqa: E501
-        :type location_type: str
-        :param country: The country of this Location.  # noqa: E501
-        :type country: str
-        :param available_sizes: The available_sizes of this Location.  # noqa: E501
-        :type available_sizes: object
-        :param available_images: The available_images of this Location.  # noqa: E501
-        :type available_images: object
-        :param owned_by: The owned_by of this Location.  # noqa: E501
-        :type owned_by: str
-        :param created_by: The created_by of this Location.  # noqa: E501
-        :type created_by: str
         """
         self.openapi_types = {
             'id': str,
             'external_id': str,
             'name': str,
             'cloud': str,
-            'extra': object,
-            'parent': str,
-            'location_type': str,
-            'country': str,
-            'available_sizes': object,
-            'available_images': object,
-            'owned_by': str,
-            'created_by': str
+            'extra': object
         }
 
         self.attribute_map = {
@@ -63,14 +42,7 @@ class Location(Model):
             'external_id': 'external_id',
             'name': 'name',
             'cloud': 'cloud',
-            'extra': 'extra',
-            'parent': 'parent',
-            'location_type': 'location_type',
-            'country': 'country',
-            'available_sizes': 'available_sizes',
-            'available_images': 'available_images',
-            'owned_by': 'owned_by',
-            'created_by': 'created_by'
+            'extra': 'extra'
         }
 
         self._id = id
@@ -78,13 +50,6 @@ class Location(Model):
         self._name = name
         self._cloud = cloud
         self._extra = extra
-        self._parent = parent
-        self._location_type = location_type
-        self._country = country
-        self._available_sizes = available_sizes
-        self._available_images = available_images
-        self._owned_by = owned_by
-        self._created_by = created_by
 
     @classmethod
     def from_dict(cls, dikt) -> 'Location':
@@ -201,150 +166,3 @@ class Location(Model):
         """
 
         self._extra = extra
-
-    @property
-    def parent(self):
-        """Gets the parent of this Location.
-
-
-        :return: The parent of this Location.
-        :rtype: str
-        """
-        return self._parent
-
-    @parent.setter
-    def parent(self, parent):
-        """Sets the parent of this Location.
-
-
-        :param parent: The parent of this Location.
-        :type parent: str
-        """
-
-        self._parent = parent
-
-    @property
-    def location_type(self):
-        """Gets the location_type of this Location.
-
-
-        :return: The location_type of this Location.
-        :rtype: str
-        """
-        return self._location_type
-
-    @location_type.setter
-    def location_type(self, location_type):
-        """Sets the location_type of this Location.
-
-
-        :param location_type: The location_type of this Location.
-        :type location_type: str
-        """
-
-        self._location_type = location_type
-
-    @property
-    def country(self):
-        """Gets the country of this Location.
-
-
-        :return: The country of this Location.
-        :rtype: str
-        """
-        return self._country
-
-    @country.setter
-    def country(self, country):
-        """Sets the country of this Location.
-
-
-        :param country: The country of this Location.
-        :type country: str
-        """
-
-        self._country = country
-
-    @property
-    def available_sizes(self):
-        """Gets the available_sizes of this Location.
-
-
-        :return: The available_sizes of this Location.
-        :rtype: object
-        """
-        return self._available_sizes
-
-    @available_sizes.setter
-    def available_sizes(self, available_sizes):
-        """Sets the available_sizes of this Location.
-
-
-        :param available_sizes: The available_sizes of this Location.
-        :type available_sizes: object
-        """
-
-        self._available_sizes = available_sizes
-
-    @property
-    def available_images(self):
-        """Gets the available_images of this Location.
-
-
-        :return: The available_images of this Location.
-        :rtype: object
-        """
-        return self._available_images
-
-    @available_images.setter
-    def available_images(self, available_images):
-        """Sets the available_images of this Location.
-
-
-        :param available_images: The available_images of this Location.
-        :type available_images: object
-        """
-
-        self._available_images = available_images
-
-    @property
-    def owned_by(self):
-        """Gets the owned_by of this Location.
-
-
-        :return: The owned_by of this Location.
-        :rtype: str
-        """
-        return self._owned_by
-
-    @owned_by.setter
-    def owned_by(self, owned_by):
-        """Sets the owned_by of this Location.
-
-
-        :param owned_by: The owned_by of this Location.
-        :type owned_by: str
-        """
-
-        self._owned_by = owned_by
-
-    @property
-    def created_by(self):
-        """Gets the created_by of this Location.
-
-
-        :return: The created_by of this Location.
-        :rtype: str
-        """
-        return self._created_by
-
-    @created_by.setter
-    def created_by(self, created_by):
-        """Sets the created_by of this Location.
-
-
-        :param created_by: The created_by of this Location.
-        :type created_by: str
-        """
-
-        self._created_by = created_by
