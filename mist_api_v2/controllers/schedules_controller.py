@@ -126,7 +126,7 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
                                     deleted=None)
 
     schedule.ctl.set_auth_context(auth_context)
-    schedule.ctl.update(**kwargs)
+    schedule.ctl.update_v2(**kwargs)
     return 'Updated schedule `%s`' % schedule.name, 200
 
 
