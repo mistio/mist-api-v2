@@ -69,6 +69,27 @@ class TestNetworksController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_create_subnet(self, pretty_print, owner_api_token):
+        """Test case for create_subnet
+
+        Create subnet
+        """
+        create_subnet_request = setup_data.get('create_subnet', {}).get(
+            'request_body') or json.loads("""null""", strict=False)
+        uri = MIST_URL + '/api/v2/networks/{network}/subnets'.format(
+            network=setup_data.get('create_subnet', {}).get('network') or setup_data.get('network') or 'my-network')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_subnet_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        if 'create_subnet' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
     def test_delete_network(self, pretty_print, owner_api_token):
         """Test case for delete_network
 
@@ -84,6 +105,26 @@ class TestNetworksController:
         request_method = getattr(request, 'DELETE'.lower())
         response = request_method()
         if 'delete_network' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_delete_subnet(self, pretty_print, owner_api_token):
+        """Test case for delete_subnet
+
+        Delete subnet
+        """
+        query_string = setup_data.get('delete_subnet', {}).get('query_string') or [('cloud', 'my-cloud')]
+        uri = MIST_URL + '/api/v2/networks/{network}/subnets/{subnet}'.format(
+            network=setup_data.get('delete_subnet', {}).get('network') or setup_data.get('network') or 'my-network', subnet=setup_data.get('delete_subnet', {}).get('subnet') or setup_data.get('subnet') or 'my-subnet')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        if 'delete_subnet' in REDIRECT_OPERATIONS:
             assert_response_found(response)
         else:
             assert_response_ok(response)

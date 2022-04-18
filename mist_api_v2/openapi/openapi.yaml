@@ -3106,7 +3106,103 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+    post:
+      description: |
+        Creates one or more subnets on the specified network. If async is true, a jobId will be returned.
+        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on network.
+      operationId: create_subnet
+      parameters:
+      - example: my-network
+        explode: false
+        in: path
+        name: network
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubnetRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNetworkResponse'
+          description: Network provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "501":
+          description: subnet support is not available
+      security:
+      - ApiKeyAuth:
+        - create:network
+        - read:cloud
+        - create_resources:cloud
+      - CookieAuth:
+        - create:network
+        - read:cloud
+        - create_resources:cloud
+      summary: Create subnet
+      tags:
+      - networks
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
   /api/v2/networks/{network}/subnets/{subnet}:
+    delete:
+      description: Delete target subnet
+      operationId: delete_subnet
+      parameters:
+      - example: my-network
+        explode: false
+        in: path
+        name: network
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-subnet
+        explode: false
+        in: path
+        name: subnet
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Cloud the target network belongs to
+        example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: subnet deleted successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Subnet not found
+      security:
+      - ApiKeyAuth:
+        - read:cloud
+        - read:network
+        - remove:network
+      - CookieAuth:
+        - read:cloud
+        - read:network
+        - remove:network
+      summary: Delete subnet
+      tags:
+      - networks
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
     get:
       description: Get details about target subnet
       operationId: get_subnet
@@ -5988,6 +6084,18 @@ components:
           type: string
       title: Alibaba net parameter
       type: object
+    AlibabaSubnetRequest:
+      properties:
+        provider:
+          enum:
+          - alibaba
+          type: string
+        availability_zone:
+          type: string
+      required:
+      - availability_zone
+      - provider
+      type: object
     AlibabaVolumes:
       items:
         oneOf:
@@ -6066,6 +6174,18 @@ components:
           description: Name or ID of the subnet to launch the machine into
           type: string
       title: Amazon net parameter
+      type: object
+    AmazonSubnetRequest:
+      properties:
+        provider:
+          enum:
+          - amazon
+          type: string
+        availability_zone:
+          type: string
+      required:
+      - availability_zone
+      - provider
       type: object
     AmazonVolumes:
       items:
@@ -6172,6 +6292,15 @@ components:
             network will be used.
           type: string
       title: Azure net parameter
+      type: object
+    AzureSubnetRequest:
+      properties:
+        provider:
+          enum:
+          - azure
+          type: string
+      required:
+      - provider
       type: object
     AzureVolumes:
       items:
@@ -6706,6 +6835,25 @@ components:
       type: object
     CreateSnapshotResponse:
       type: object
+    CreateSubnetRequest:
+      allOf:
+      - $ref: '#/components/schemas/CreateSubnetRequest_allOf'
+      - discriminator:
+          mapping:
+            amazon: '#/components/schemas/AmazonSubnetRequest'
+            azure: '#/components/schemas/AzureSubnetRequest'
+            google: '#/components/schemas/GoogleSubnetRequest'
+            openstack: '#/components/schemas/OpenStackSubnetRequest'
+            vexxhost: '#/components/schemas/VexxhostSubnetRequest'
+            alibaba: '#/components/schemas/AlibabaSubnetRequest'
+          propertyName: provider
+        oneOf:
+        - $ref: '#/components/schemas/AlibabaSubnetRequest'
+        - $ref: '#/components/schemas/AmazonSubnetRequest'
+        - $ref: '#/components/schemas/AzureSubnetRequest'
+        - $ref: '#/components/schemas/GoogleSubnetRequest'
+        - $ref: '#/components/schemas/OpenStackSubnetRequest'
+        - $ref: '#/components/schemas/VexxhostSubnetRequest'
     CreateVolumeRequest:
       example:
         template: '{}'
@@ -7761,6 +7909,18 @@ components:
           description: The subnetwork resource for this machine
           type: string
       title: Google net parameter
+      type: object
+    GoogleSubnetRequest:
+      properties:
+        provider:
+          enum:
+          - google
+          type: string
+        region:
+          type: string
+      required:
+      - provider
+      - region
       type: object
     GoogleVolumes:
       items:
@@ -9386,6 +9546,27 @@ components:
       - schedule_type
       title: OneOff
       type: object
+    OpenStackSubnetRequest:
+      properties:
+        provider:
+          enum:
+          - openstack
+          type: string
+        gateway_ip:
+          type: string
+        ip_version:
+          enum:
+          - IPv4
+          - IPv6
+          type: string
+        enable_dhcp:
+          type: boolean
+        allocation_pools:
+          type: object
+      required:
+      - availability_zone
+      - provider
+      type: object
     OpenshiftCloudRequest:
       properties:
         provider:
@@ -9937,6 +10118,15 @@ components:
       - openshift
       - other
       type: string
+    SupportedSubnetProviders:
+      enum:
+      - amazon
+      - azure
+      - google
+      - alibaba
+      - openstack
+      - vexxhost
+      type: string
     Team:
       example:
         members:
@@ -10039,6 +10229,27 @@ components:
       oneOf:
       - $ref: '#/components/schemas/InstantVector'
       - $ref: '#/components/schemas/RangeVector'
+      type: object
+    VexxhostSubnetRequest:
+      properties:
+        provider:
+          enum:
+          - vexxhost
+          type: string
+        gateway_ip:
+          type: string
+        ip_version:
+          enum:
+          - IPv4
+          - IPv6
+          type: string
+        enable_dhcp:
+          type: boolean
+        allocation_pools:
+          type: object
+      required:
+      - availability_zone
+      - provider
       type: object
     Volume:
       example:
@@ -10403,6 +10614,29 @@ components:
       properties:
         plan:
           type: object
+    CreateSubnetRequest_allOf:
+      properties:
+        name:
+          description: Specify subnet name
+          example: my-subnet
+          type: string
+        cloud:
+          description: Specify cloud to provision on
+          example: my-cloud
+          type: string
+        tags:
+          description: Assign tags to provisioned network
+          type: object
+        cidr:
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedSubnetProviders'
+      required:
+      - cidr
+      - cloud
+      - name
+      - provider
+      type: object
     Datapoints_data:
       example:
         result:

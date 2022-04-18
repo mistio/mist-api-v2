@@ -15,13 +15,16 @@ from mist_api_v2.models.add_script_request import AddScriptRequest
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.alibaba_net import AlibabaNet
+from mist_api_v2.models.alibaba_subnet_request import AlibabaSubnetRequest
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
+from mist_api_v2.models.amazon_subnet_request import AmazonSubnetRequest
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.azure_extra import AzureExtra
 from mist_api_v2.models.azure_net import AzureNet
+from mist_api_v2.models.azure_subnet_request import AzureSubnetRequest
 from mist_api_v2.models.cloud import Cloud
 from mist_api_v2.models.cloud_features import CloudFeatures
 from mist_api_v2.models.cloud_sigma_cloud_request import CloudSigmaCloudRequest
@@ -39,6 +42,8 @@ from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResp
 from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
 from mist_api_v2.models.create_secret_request import CreateSecretRequest
+from mist_api_v2.models.create_subnet_request import CreateSubnetRequest
+from mist_api_v2.models.create_subnet_request_all_of import CreateSubnetRequestAllOf
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
 from mist_api_v2.models.create_zone_request import CreateZoneRequest
@@ -92,6 +97,7 @@ from mist_api_v2.models.google_credentials import GoogleCredentials
 from mist_api_v2.models.google_extra import GoogleExtra
 from mist_api_v2.models.google_extra_service_account import GoogleExtraServiceAccount
 from mist_api_v2.models.google_net import GoogleNet
+from mist_api_v2.models.google_subnet_request import GoogleSubnetRequest
 from mist_api_v2.models.helm_chart import HelmChart
 from mist_api_v2.models.ibm_cloud_request import IbmCloudRequest
 from mist_api_v2.models.ibm_credentials import IbmCredentials
@@ -150,6 +156,7 @@ from mist_api_v2.models.network import Network
 from mist_api_v2.models.onapp_cloud_request import OnappCloudRequest
 from mist_api_v2.models.onapp_credentials import OnappCredentials
 from mist_api_v2.models.one_off_schedule import OneOffSchedule
+from mist_api_v2.models.open_stack_subnet_request import OpenStackSubnetRequest
 from mist_api_v2.models.openshift_cloud_request import OpenshiftCloudRequest
 from mist_api_v2.models.openshift_credentials import OpenshiftCredentials
 from mist_api_v2.models.openstack_cloud_request import OpenstackCloudRequest
@@ -173,12 +180,14 @@ from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.subnet import Subnet
 from mist_api_v2.models.supported_providers import SupportedProviders
+from mist_api_v2.models.supported_subnet_providers import SupportedSubnetProviders
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.user import User
 from mist_api_v2.models.v_sphere_extra import VSphereExtra
 from mist_api_v2.models.v_sphere_net import VSphereNet
 from mist_api_v2.models.vector import Vector
+from mist_api_v2.models.vexxhost_subnet_request import VexxhostSubnetRequest
 from mist_api_v2.models.volume import Volume
 from mist_api_v2.models.vsphere_cloud_request import VsphereCloudRequest
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
