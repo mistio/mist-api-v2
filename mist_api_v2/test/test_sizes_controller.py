@@ -73,7 +73,8 @@ class TestSizesController:
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id'),
-                        ('deref', 'auto')]
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/sizes'
         request = MistRequests(
             api_token=owner_api_token,
