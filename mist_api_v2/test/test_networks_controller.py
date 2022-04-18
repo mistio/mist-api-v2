@@ -130,6 +130,27 @@ class TestNetworksController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_get_subnet(self, pretty_print, owner_api_token):
+        """Test case for get_subnet
+
+        Get subnet
+        """
+        query_string = setup_data.get('get_subnet', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
+        uri = MIST_URL + '/api/v2/networks/{network}/subnets/{subnet}'.format(
+            network=setup_data.get('get_subnet', {}).get('network') or setup_data.get('network') or 'my-network', subnet=setup_data.get('get_subnet', {}).get('subnet') or setup_data.get('subnet') or 'my-subnet')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        if 'get_subnet' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
     def test_list_networks(self, pretty_print, owner_api_token):
         """Test case for list_networks
 
@@ -141,8 +162,7 @@ class TestNetworksController:
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id'),
-                        ('deref', 'auto'),
-                        ('at', '2021-07-21T17:32:28Z')]
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/networks'
         request = MistRequests(
             api_token=owner_api_token,
@@ -151,6 +171,32 @@ class TestNetworksController:
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         if 'list_networks' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_list_subnets(self, pretty_print, owner_api_token):
+        """Test case for list_subnets
+
+        List subnets
+        """
+        query_string = setup_data.get('list_subnets', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', '56'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = MIST_URL + '/api/v2/networks/{network}/subnets'.format(
+            network=setup_data.get('list_subnets', {}).get('network') or setup_data.get('network') or 'my-network')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        if 'list_subnets' in REDIRECT_OPERATIONS:
             assert_response_found(response)
         else:
             assert_response_ok(response)

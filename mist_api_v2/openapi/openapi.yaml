@@ -92,19 +92,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -407,19 +394,6 @@ paths:
         required: false
         schema:
           default: auto
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -842,19 +816,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -1088,19 +1049,6 @@ paths:
         required: false
         schema:
           default: auto
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -1427,19 +1375,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -1633,19 +1568,6 @@ paths:
         required: false
         schema:
           default: auto
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -2716,19 +2638,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -2967,6 +2876,238 @@ paths:
       tags:
       - networks
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+  /api/v2/networks/{network}/subnets:
+    get:
+      description: List subnets owned by the active org. READ permission required
+        on network & cloud.
+      operationId: list_subnets
+      parameters:
+      - example: my-network
+        explode: false
+        in: path
+        name: network
+        required: true
+        schema:
+          type: string
+        style: simple
+      - examples:
+          Filter by cloud id:
+            value: 0194030499e74b02bdf68fa7130fb0b2
+          Filter by cloud name:
+            value: OSP10-new
+          Filter by cloud provider:
+            value: provider:digitalocean
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by network name:
+            value: cinet3
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSubnetsResponse'
+          description: List subnets response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:network
+        - read:cloud
+      - CookieAuth:
+        - read:network
+        - read:cloud
+      summary: List subnets
+      tags:
+      - networks
+      x-cli-table-default:
+      - name
+      - cloud
+      - network
+      - machines
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - machines
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
+  /api/v2/networks/{network}/subnets/{subnet}:
+    get:
+      description: Get details about target subnet
+      operationId: get_subnet
+      parameters:
+      - example: my-network
+        explode: false
+        in: path
+        name: network
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-subnet
+        explode: false
+        in: path
+        name: subnet
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: id,name,owned_by
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: cloud:provider, creator:email, owned_by:name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSubnetResponse'
+          description: Subnet returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Subnet not found
+      security:
+      - ApiKeyAuth:
+        - read:network
+        - read:cloud
+      - CookieAuth:
+        - read:network
+        - read:cloud
+      summary: Get subnet
+      tags:
+      - networks
+      x-cli-table-default:
+      - name
+      - cloud
+      - network
+      - machines
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - location
+      - external_id
+      - subnets
+      - machines
+      - tags
+      - owned_by
+      - created_by
+      x-openapi-router-controller: mist_api_v2.controllers.networks_controller
   /api/v2/orgs:
     get:
       description: List orgs owned by the requester. If parameter allorgs is true
@@ -3052,19 +3193,6 @@ paths:
         required: false
         schema:
           default: auto
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -3237,19 +3365,6 @@ paths:
         name: only
         required: false
         schema:
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -3430,19 +3545,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -3537,19 +3639,6 @@ paths:
         name: only
         required: false
         schema:
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -3918,19 +4007,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -4250,241 +4326,6 @@ paths:
       tags:
       - scripts
       x-openapi-router-controller: mist_api_v2.controllers.scripts_controller
-  /api/v2/secrets:
-    get:
-      description: List secrets owned by the active org. READ permission required
-        on secret.
-      operationId: list_secrets
-      parameters:
-      - description: Only return results matching search filter
-        examples:
-          Filter by name:
-            value: name:clouds/EC2-Tokyo
-        explode: true
-        in: query
-        name: search
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Order results by
-        examples:
-          Sort by name, descending:
-            value: -name
-        explode: true
-        in: query
-        name: sort
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Start results from index or id
-        examples:
-          Start from the 50th result:
-            value: "50"
-          Start from item with id xyz:
-            value: xyz
-        explode: true
-        in: query
-        name: start
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Limit number of results, 1000 max
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          type: integer
-        style: form
-      - description: Only return these fields
-        examples:
-          Only return id:
-            value: id
-          Return id, name & created_by:
-            value: id,title,created_by
-        explode: true
-        in: query
-        name: only
-        required: false
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListSecretsResponse'
-          description: List secrets response
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - read:secret
-      - CookieAuth:
-        - read:secret
-      summary: List secrets
-      tags:
-      - secrets
-      x-cli-table-default:
-      - id
-      - name
-      - tags
-      x-cli-table-extended:
-      - id
-      - name
-      - tags
-      - owned_by
-      - created_by
-      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
-    post:
-      description: Creates a new secret and returns the secret's id. CREATE permission
-        required on secret.
-      operationId: create_secret
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateSecretRequest'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Secret'
-          description: Secret added succesfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "409":
-          description: Path already exists. Change name of key
-      security:
-      - ApiKeyAuth:
-        - create:secret
-      - CookieAuth:
-        - create:secret
-      summary: Create secret
-      tags:
-      - secrets
-      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
-  /api/v2/secrets/{secret}:
-    delete:
-      description: Delete target secret
-      operationId: delete_secret
-      parameters:
-      - explode: false
-        in: path
-        name: secret
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          description: Secret deleted successfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Secret not found
-      security:
-      - ApiKeyAuth:
-        - delete:secret
-      - CookieAuth:
-        - delete:secret
-      summary: Delete secret
-      tags:
-      - secrets
-      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
-    get:
-      description: Read target secret
-      operationId: get_secret
-      parameters:
-      - explode: false
-        in: path
-        name: secret
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: Return the secret's value. Requires READ_VALUE permission on
-          secret.
-        explode: true
-        in: query
-        name: value
-        required: false
-        schema:
-          type: boolean
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetSecretResponse'
-          description: Secret returned successfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Secret not found
-      security:
-      - ApiKeyAuth:
-        - read:secret
-      - CookieAuth:
-        - read:secret
-      summary: Get secret
-      tags:
-      - secrets
-      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
-    put:
-      description: Edit/update target secret
-      operationId: edit_secret
-      parameters:
-      - explode: false
-        in: path
-        name: secret
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EditSecretRequest'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Secret'
-          description: Secret edited successfully
-        "400":
-          description: Missing `secret` required parameter
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Secret not found
-      security:
-      - ApiKeyAuth:
-        - edit:secret
-      - CookieAuth:
-        - edit:secret
-      summary: Edit secret
-      tags:
-      - secrets
-      x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
   /api/v2/sizes:
     get:
       description: List sizes owned by the active org. READ permission required on
@@ -4575,19 +4416,6 @@ paths:
         required: false
         schema:
           default: auto
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -4691,6 +4519,206 @@ paths:
       - external_id
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/tags:
+    get:
+      description: List tags on resources owned by the active org. READ permission
+        required on each resource.
+      operationId: list_tags
+      parameters:
+      - description: Toggle displaying resource types and ids associated with each
+          key value pair
+        examples:
+          (default) Display only {key, value} pairs:
+            value: "False"
+          Also dispalay resource types and ids:
+            value: "True"
+        explode: true
+        in: query
+        name: verbose
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Display tags on a single resource
+        explode: true
+        in: query
+        name: resource
+        required: false
+        schema:
+          $ref: '#/components/schemas/ResourceType'
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by key:
+            value: key:key1
+          Filter by key and value:
+            value: key:key1 value:value1
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Limit number of results, 1000 max
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return key:
+            value: key
+          Return key, resources:
+            value: key,resources
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          (default) Do not dereference anything, just return ids:
+            value: id
+          ' Automatically replace all foreign key ids with referenced resource name ':
+            value: name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTagsResponse'
+          description: List tags response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+      summary: List tags
+      tags:
+      - tags
+      x-cli-table-default:
+      - key
+      - value
+      x-cli-table-extended:
+      - key
+      - value
+      x-openapi-router-controller: mist_api_v2.controllers.tags_controller
+    post:
+      description: Batch operation for adding/removing tags from a list of resources.
+      operationId: tag_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagResourcesRequest'
+      responses:
+        "200":
+          description: Tags successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Resource not found
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+        - read:cluster
+        - edit:cloud
+        - edit:image
+        - edit:key
+        - edit:machine
+        - edit:network
+        - edit:script
+        - edit:volumes
+        - edit:zones
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+        - read:cluster
+        - edit:cloud
+        - edit:image
+        - edit:key
+        - edit:machine
+        - edit:network
+        - edit:script
+        - edit:volumes
+        - edit:zones
+      summary: Tag Resources
+      tags:
+      - tags
+      x-openapi-router-controller: mist_api_v2.controllers.tags_controller
   /api/v2/users:
     get:
       description: Return current user if requester is not admin. Return all users
@@ -4765,19 +4793,6 @@ paths:
         required: false
         schema:
           default: auto
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -4898,19 +4913,6 @@ paths:
         name: deref
         required: false
         schema:
-          type: string
-        style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
           type: string
         style: form
       responses:
@@ -5249,19 +5251,6 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -5485,21 +5474,7 @@ components:
   examples: {}
   headers: {}
   links: {}
-  parameters:
-    atParam:
-      description: Limit results by specific datetime. Return resources created before
-        or at, or deleted after or at, given datetime.
-      examples:
-        Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-          value: 2021-07-21T17:32:28Z
-      explode: true
-      in: query
-      name: at
-      required: false
-      schema:
-        format: date-time
-        type: string
-      style: form
+  parameters: {}
   requestBodies: {}
   responses: {}
   schemas:
@@ -6457,21 +6432,6 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       type: object
-    CreateSecretRequest:
-      example:
-        name: name
-        secret: '{}'
-      properties:
-        name:
-          description: The name of the secret. This is equivalent to the path the
-            secret will be stored in Vault
-          type: string
-        secret:
-          type: object
-      required:
-      - name
-      - secret
-      type: object
     CreateSnapshotResponse:
       type: object
     CreateVolumeRequest:
@@ -6930,15 +6890,6 @@ components:
         selectors:
           $ref: '#/components/schemas/Selector'
       type: object
-    EditSecretRequest:
-      example:
-        secret: '{}'
-      properties:
-        secret:
-          type: object
-      required:
-      - secret
-      type: object
     EquinixCloudRequest:
       properties:
         provider:
@@ -7371,25 +7322,6 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
-    GetSecretResponse:
-      example:
-        data:
-          name: name
-          owned_by: owned_by
-          id: id
-          created_by: created_by
-          tags: '{}'
-        meta:
-          total: 0
-          start: 1
-          sort: sort
-          returned: 6
-      properties:
-        data:
-          $ref: '#/components/schemas/Secret'
-        meta:
-          $ref: '#/components/schemas/ResponseMetadata'
-      type: object
     GetSizeResponse:
       example:
         data:
@@ -7406,6 +7338,29 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Size'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    GetSubnetResponse:
+      example:
+        data:
+          cloud: cloud
+          name: name
+          external_id: external_id
+          cidr: cidr
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          network: network
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Subnet'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
@@ -8551,32 +8506,6 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
       type: object
-    ListSecretsResponse:
-      example:
-        data:
-        - name: name
-          owned_by: owned_by
-          id: id
-          created_by: created_by
-          tags: '{}'
-        - name: name
-          owned_by: owned_by
-          id: id
-          created_by: created_by
-          tags: '{}'
-        meta:
-          total: 0
-          start: 1
-          sort: sort
-          returned: 6
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Secret'
-          type: array
-        meta:
-          $ref: '#/components/schemas/ResponseMetadata'
-      type: object
     ListSizesResponse:
       example:
         data:
@@ -8617,6 +8546,62 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Snapshot'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListSubnetsResponse:
+      example:
+        data:
+        - cloud: cloud
+          name: name
+          external_id: external_id
+          cidr: cidr
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          network: network
+          tags: '{}'
+        - cloud: cloud
+          name: name
+          external_id: external_id
+          cidr: cidr
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+          network: network
+          tags: '{}'
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Subnet'
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      type: object
+    ListTagsResponse:
+      example:
+        data:
+        - resources: '{}'
+          value: value
+          key: key
+        - resources: '{}'
+          value: value
+          key: key
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Tag'
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
@@ -9354,6 +9339,27 @@ components:
             $ref: '#/components/schemas/DatapointsValuesTuple'
           type: array
       type: object
+    ResourceType:
+      enum:
+      - buckets
+      - clouds
+      - clusters
+      - images
+      - keys
+      - machines
+      - networks
+      - records
+      - rules
+      - schedules
+      - scripts
+      - stacks
+      - subnets
+      - teams
+      - templates
+      - tunnels
+      - volumes
+      - zones
+      type: string
     ResponseMetadata:
       example:
         total: 0
@@ -9518,25 +9524,6 @@ components:
         owned_by:
           type: string
       type: object
-    Secret:
-      example:
-        name: name
-        owned_by: owned_by
-        id: id
-        created_by: created_by
-        tags: '{}'
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        tags:
-          type: object
-        created_by:
-          type: string
-        owned_by:
-          type: string
-      type: object
     Selector:
       example:
         include:
@@ -9591,6 +9578,37 @@ components:
       type: object
     Snapshot:
       type: object
+    Subnet:
+      example:
+        cloud: cloud
+        name: name
+        external_id: external_id
+        cidr: cidr
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+        network: network
+        tags: '{}'
+      properties:
+        id:
+          type: string
+        cloud:
+          type: string
+        network:
+          type: string
+        external_id:
+          type: string
+        name:
+          type: string
+        cidr:
+          type: string
+        tags:
+          type: object
+        created_by:
+          type: string
+        owned_by:
+          type: string
+      type: object
     SupportedProviders:
       enum:
       - amazon
@@ -9617,6 +9635,44 @@ components:
       - openshift
       - other
       type: string
+    Tag:
+      example:
+        resources: '{}'
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        resources:
+          type: object
+      type: object
+    TagResourcesRequest:
+      example:
+        resources:
+        - resource_id: resource_id
+          tag:
+          - op: +
+            value: value
+            key: key
+          - op: +
+            value: value
+            key: key
+        - resource_id: resource_id
+          tag:
+          - op: +
+            value: value
+            key: key
+          - op: +
+            value: value
+            key: key
+      properties:
+        resources:
+          items:
+            $ref: '#/components/schemas/TagResourcesRequest_resources'
+          type: array
+      type: object
     Team:
       example:
         members:
@@ -10187,6 +10243,49 @@ components:
           type: string
       required:
       - network
+      type: object
+    TagResourcesRequest_tag:
+      example:
+        op: +
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        op:
+          enum:
+          - +
+          - '-'
+          type: string
+      required:
+      - key
+      - value
+      type: object
+    TagResourcesRequest_resources:
+      example:
+        resource_id: resource_id
+        tag:
+        - op: +
+          value: value
+          key: key
+        - op: +
+          value: value
+          key: key
+      properties:
+        resource_id:
+          type: string
+        resource_type:
+          $ref: '#/components/schemas/ResourceType'
+        tag:
+          items:
+            $ref: '#/components/schemas/TagResourcesRequest_tag'
+          type: array
+      required:
+      - resource_id
+      - resource_type
+      - tag
       type: object
   securitySchemes:
     ApiKeyAuth:
