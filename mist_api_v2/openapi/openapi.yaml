@@ -9546,8 +9546,8 @@ components:
       type: object
     ScaleNodepoolRequest:
       description: On GKE nodepools without autoscaling only the desired_nodes parameter
-        should be specified. On GKE nodepools with autoscaling, specifying desired_nodes
-        is equivalent to setting min_nodes=desired_nodes, max_nodes=desired_nodes
+        should be specified. On GKE nodepools with autoscaling, desired_nodes parameter
+        is mutually exclusive with min_nodes,max_nodes
       example:
         desired_nodes: 0
         max_nodes: 1
