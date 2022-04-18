@@ -1,9 +1,12 @@
 import uuid
 import connexion
+import mongoengine as me
+import libcloud
 
 from mist.api.methods import list_resources as list_resources_v1
 
 from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
+from mist.api.exceptions import BadRequestError
 from mist.api.tasks import create_cluster_async, destroy_cluster_async
 
 from mist_api_v2 import util
@@ -12,6 +15,7 @@ from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # 
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 from mist_api_v2.models.destroy_cluster_response import DestroyClusterResponse  # noqa: E501
+from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest  # noqa: E501
 
 from .base import list_resources
 from .base import get_resource
@@ -204,3 +208,63 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     for item in result['data']:
         item['credentials']['token'] = '***CENSORED***'
     return ListClustersResponse(data=result['data'], meta=result['meta'])
+
+
+def scale_nodepool(cluster, nodepool, scale_nodepool_request=None):  # noqa: E501
+    """Scale cluster nodepool
+
+    Scale the nodes of the specified nodepool # noqa: E501
+
+    :param cluster: 
+    :type cluster: str
+    :param nodepool: 
+    :type nodepool: str
+    :param scale_nodepool_request: 
+    :type scale_nodepool_request: dict | bytes
+
+    :rtype: None
+    """
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+
+    if connexion.request.is_json:
+        scale_nodepool_request = ScaleNodepoolRequest.from_dict(connexion.request.get_json())  # noqa: E501
+
+    clusters, total = list_resources_v1(
+        auth_context, 'cluster', search=cluster)
+    if total == 0:
+        return 'Cluster does not exist', 404
+
+    cluster = clusters[0]
+
+    try:
+        nodepool = cluster.nodepools.get(name=nodepool)
+    except me.DoesNotExist:
+        return 'Nodepool does not exist', 404
+
+    try:
+        cluster.cloud.ctl.container.validate_scale_nodepool_request(
+            auth_context=auth_context,
+            cluster=cluster,
+            nodepool=nodepool,
+            desired_nodes=scale_nodepool_request.desired_nodes,
+            min_nodes=scale_nodepool_request.min_nodes,
+            max_nodes=scale_nodepool_request.max_nodes)
+    except BadRequestError as exc:
+        return exc.args[0], 400
+
+    try:
+        cluster.cloud.ctl.container.scale_nodepool(
+            auth_context=auth_context,
+            cluster=cluster,
+            nodepool=nodepool,
+            desired_nodes=scale_nodepool_request.desired_nodes,
+            min_nodes=scale_nodepool_request.min_nodes,
+            max_nodes=scale_nodepool_request.max_nodes)
+    except (libcloud.common.exceptions.BaseHTTPError,
+            libcloud.common.types.LibcloudError) as exc:
+        return exc.args[0], 400
+
+    return 'Nodepool scaling started', 200
