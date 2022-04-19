@@ -15,7 +15,7 @@ class EditScheduleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, enabled=None, action=None, script_id=None, params=None, selectors=None, schedule_type=None, schedule_entry=None, start_after=None, run_immediately=None):  # noqa: E501
+    def __init__(self, name=None, description=None, enabled=None, action=None, script_id=None, params=None, selectors=None, schedule_type=None, schedule_entry=None, start_after=None):  # noqa: E501
         """EditScheduleRequest - a model defined in OpenAPI
 
         :param name: The name of this EditScheduleRequest.  # noqa: E501
@@ -38,8 +38,6 @@ class EditScheduleRequest(Model):
         :type schedule_entry: str
         :param start_after: The start_after of this EditScheduleRequest.  # noqa: E501
         :type start_after: str
-        :param run_immediately: The run_immediately of this EditScheduleRequest.  # noqa: E501
-        :type run_immediately: bool
         """
         self.openapi_types = {
             'name': str,
@@ -51,8 +49,7 @@ class EditScheduleRequest(Model):
             'selectors': List[object],
             'schedule_type': str,
             'schedule_entry': str,
-            'start_after': str,
-            'run_immediately': bool
+            'start_after': str
         }
 
         self.attribute_map = {
@@ -65,8 +62,7 @@ class EditScheduleRequest(Model):
             'selectors': 'selectors',
             'schedule_type': 'schedule_type',
             'schedule_entry': 'schedule_entry',
-            'start_after': 'start_after',
-            'run_immediately': 'run_immediately'
+            'start_after': 'start_after'
         }
 
         self._name = name
@@ -79,7 +75,6 @@ class EditScheduleRequest(Model):
         self._schedule_type = schedule_type
         self._schedule_entry = schedule_entry
         self._start_after = start_after
-        self._run_immediately = run_immediately
 
     @classmethod
     def from_dict(cls, dikt) -> 'EditScheduleRequest':
@@ -331,26 +326,3 @@ class EditScheduleRequest(Model):
         """
 
         self._start_after = start_after
-
-    @property
-    def run_immediately(self):
-        """Gets the run_immediately of this EditScheduleRequest.
-
-        Decides if the schedule runs immediately of not  # noqa: E501
-
-        :return: The run_immediately of this EditScheduleRequest.
-        :rtype: bool
-        """
-        return self._run_immediately
-
-    @run_immediately.setter
-    def run_immediately(self, run_immediately):
-        """Sets the run_immediately of this EditScheduleRequest.
-
-        Decides if the schedule runs immediately of not  # noqa: E501
-
-        :param run_immediately: The run_immediately of this EditScheduleRequest.
-        :type run_immediately: bool
-        """
-
-        self._run_immediately = run_immediately

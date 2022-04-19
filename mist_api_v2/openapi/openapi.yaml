@@ -7411,7 +7411,6 @@ components:
         description: This is a schedule that is about to be edited
         action: start
         script_id: d5775984772949de820fa8279c306b30
-        run_immediately: false
         params: Parameters string
         selectors:
         - ""
@@ -7477,10 +7476,6 @@ components:
             be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
           example: 2022-05-01 T00:00:00
           type: string
-        run_immediately:
-          description: Decides if the schedule runs immediately of not
-          example: false
-          type: boolean
       type: object
     EditSecretRequest:
       example:

@@ -105,7 +105,6 @@ class TestSchedulesController:
   "description" : "This is a schedule that is about to be edited",
   "action" : "start",
   "script_id" : "d5775984772949de820fa8279c306b30",
-  "run_immediately" : false,
   "params" : "Parameters string",
   "selectors" : [ "", "" ],
   "enabled" : true
