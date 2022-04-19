@@ -30,6 +30,8 @@ class CreateClusterRequestAllOf(Model):
         :type cloud: str
         :param provider: The provider of this CreateClusterRequestAllOf.  # noqa: E501
         :type provider: ClusterProviders
+        :param location: The location of this CreateClusterRequestAllOf.  # noqa: E501
+        :type location: str
         :param nodepools: The nodepools of this CreateClusterRequestAllOf.  # noqa: E501
         :type nodepools: List[CreateClusterRequestAllOfNodepools]
         :param templates: The templates of this CreateClusterRequestAllOf.  # noqa: E501
@@ -60,6 +62,7 @@ class CreateClusterRequestAllOf(Model):
         self._name = name
         self._cloud = cloud
         self._provider = provider
+        self._location = location
         self._nodepools = nodepools
         self._templates = templates
         self._waiters = waiters
@@ -143,6 +146,29 @@ class CreateClusterRequestAllOf(Model):
         """
 
         self._provider = provider
+
+    @property
+    def location(self):
+        """Gets the location of this CreateClusterRequestAllOf.
+
+        Google specific parameter(Required).Name or ID of the location to create the cluster in  # noqa: E501
+
+        :return: The location of this CreateClusterRequestAllOf.
+        :rtype: str
+        """
+        return self._location
+
+    @location.setter
+    def location(self, location):
+        """Sets the location of this CreateClusterRequestAllOf.
+
+        Google specific parameter(Required).Name or ID of the location to create the cluster in  # noqa: E501
+
+        :param location: The location of this CreateClusterRequestAllOf.
+        :type location: str
+        """
+
+        self._location = location
 
     @property
     def nodepools(self):

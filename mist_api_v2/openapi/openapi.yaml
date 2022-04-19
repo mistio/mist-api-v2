@@ -506,6 +506,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DestroyClusterResponse'
           description: Cluster destruction successful
         "401":
           description: Authentication failed
@@ -6087,7 +6091,7 @@ components:
           items:
             allOf:
             - type: object
-            - oneOf:
+            - anyOf:
               - $ref: '#/components/schemas/ResourceSelector'
               - $ref: '#/components/schemas/FieldSelector'
               - $ref: '#/components/schemas/TaggingSelector'
@@ -6273,35 +6277,6 @@ components:
       required:
       - credentials
       - provider
-      type: object
-    AmazonClusterRequest:
-      properties:
-        role_arn:
-          description: The Amazon Resource Name (ARN) of the IAM role that provides
-            permissions for the Kubernetes control plane to make calls to AWS API
-            operations on your behalf
-          type: string
-        network:
-          description: Name or ID of the network to be associated with the cluster.
-            If not given the default network will be selected
-          type: string
-        subnets:
-          description: IDs of the subnets to be associated with the cluster. At least
-            2 subnets in different availability zones are required, if not given the
-            default subnets will be used
-          items:
-            type: string
-          type: array
-        security_groups:
-          description: The security groups associated with the cross-account elastic
-            network interfaces that are used to allow communication between your nodes
-            and the Kubernetes control plane
-          items:
-            type: string
-          type: array
-      required:
-      - role_arn
-      title: Amazon parameters
       type: object
     AmazonCredentials:
       properties:
@@ -6655,9 +6630,6 @@ components:
     CreateClusterRequest:
       allOf:
       - $ref: '#/components/schemas/CreateClusterRequest_allOf'
-      - oneOf:
-        - $ref: '#/components/schemas/AmazonClusterRequest'
-        - $ref: '#/components/schemas/GoogleClusterRequest'
       example:
         name: my-cluster
         provider: google
@@ -6881,6 +6853,7 @@ components:
           - $ref: '#/components/schemas/AzureExtra'
           - $ref: '#/components/schemas/DockerExtra'
           - $ref: '#/components/schemas/EquinixMetalExtra'
+          - $ref: '#/components/schemas/GoogleExtra'
           - $ref: '#/components/schemas/LinodeExtra'
           - $ref: '#/components/schemas/LXDExtra'
           - $ref: '#/components/schemas/VSphereExtra'
@@ -7151,6 +7124,19 @@ components:
       items:
         $ref: '#/components/schemas/DatapointsValuesItem'
       type: array
+    DestroyClusterResponse:
+      example:
+        cloud: cloud
+        jobId: jobId
+        cluster: cluster
+      properties:
+        jobId:
+          type: string
+        cloud:
+          type: string
+        cluster:
+          type: string
+      type: object
     DigitalOceanVolumes:
       items:
         oneOf:
@@ -7416,14 +7402,6 @@ components:
               - $ref: '#/components/schemas/AgeSelector'
           type: array
       type: object
-    EditSecretRequest:
-      example:
-        secret: '{}'
-      properties:
-        secret:
-          type: object
-      required:
-      - secret
     EditScheduleRequest:
       example:
         start_after: 2022-05-01 T00:00:00
@@ -7475,7 +7453,7 @@ components:
           items:
             allOf:
             - type: object
-            - oneOf:
+            - anyOf:
               - $ref: '#/components/schemas/ResourceSelector'
               - $ref: '#/components/schemas/FieldSelector'
               - $ref: '#/components/schemas/TaggingSelector'
@@ -7503,6 +7481,15 @@ components:
           description: Decides if the schedule runs immediately of not
           example: false
           type: boolean
+      type: object
+    EditSecretRequest:
+      example:
+        secret: '{}'
+      properties:
+        secret:
+          type: object
+      required:
+      - secret
       type: object
     EquinixCloudRequest:
       properties:
@@ -7765,10 +7752,17 @@ components:
       example:
         data:
           cloud: cloud
+          parent: parent
+          country: country
+          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
+          owned_by: owned_by
           id: id
+          available_images: '{}'
+          created_by: created_by
+          location_type: location_type
         meta:
           total: 0
           start: 1
@@ -8087,15 +8081,6 @@ components:
       - credentials
       - provider
       type: object
-    GoogleClusterRequest:
-      properties:
-        location:
-          description: Name or ID of the location to create the cluster in
-          type: string
-      required:
-      - location
-      title: Google parameters
-      type: object
     GoogleCredentials:
       properties:
         projectId:
@@ -8111,6 +8096,12 @@ components:
       - email
       - privateKey
       - projectId
+      type: object
+    GoogleExtra:
+      properties:
+        service_account:
+          $ref: '#/components/schemas/GoogleExtra_service_account'
+      title: Google extra parameter
       type: object
     GoogleNet:
       properties:
@@ -8798,15 +8789,29 @@ components:
       example:
         data:
         - cloud: cloud
+          parent: parent
+          country: country
+          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
+          owned_by: owned_by
           id: id
+          available_images: '{}'
+          created_by: created_by
+          location_type: location_type
         - cloud: cloud
+          parent: parent
+          country: country
+          available_sizes: '{}'
           extra: '{}'
           name: name
           external_id: external_id
+          owned_by: owned_by
           id: id
+          available_images: '{}'
+          created_by: created_by
+          location_type: location_type
         meta:
           total: 0
           start: 1
@@ -9385,10 +9390,17 @@ components:
     Location:
       example:
         cloud: cloud
+        parent: parent
+        country: country
+        available_sizes: '{}'
         extra: '{}'
         name: name
         external_id: external_id
+        owned_by: owned_by
         id: id
+        available_images: '{}'
+        created_by: created_by
+        location_type: location_type
       properties:
         id:
           type: string
@@ -9400,6 +9412,20 @@ components:
           type: string
         extra:
           type: object
+        parent:
+          type: string
+        location_type:
+          type: string
+        country:
+          type: string
+        available_sizes:
+          type: object
+        available_images:
+          type: object
+        owned_by:
+          type: string
+        created_by:
+          type: string
       type: object
     Log:
       example:
@@ -10222,7 +10248,7 @@ components:
           items:
             allOf:
             - type: object
-            - oneOf:
+            - anyOf:
               - $ref: '#/components/schemas/ResourceSelector'
               - $ref: '#/components/schemas/FieldSelector'
               - $ref: '#/components/schemas/TaggingSelector'
@@ -10765,20 +10791,15 @@ components:
           type: integer
         size:
           description: Name or ID of size to use for the nodes. If not provided, the
-            t3.medium(EKS) or e2-medium(GKE) size will be used
+            t3.medium(EKS), e2-medium(GKE) size will be used
           type: string
         disk_size:
           default: 20
           description: Size of the disk attached to each node, specified in GB.
           type: integer
-        role_arn:
-          description: Amazon specific parameter.The Amazon Resource Name (ARN) of
-            the IAM role to associate with the nodes. Required in order to create
-            a cluster nodepool
-          type: string
         disk_type:
-          description: Google specific parameter.Type of the disk attached to each
-            node. Defaults to pd-standard
+          description: Type of the disk attached to each node. Defaults to pd-standard(GKE),
+            gp3(EKS)
           type: string
         preemptible:
           description: Google specific parameter.Whether the nodes are created as
@@ -10813,6 +10834,10 @@ components:
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
+        location:
+          description: Google specific parameter(Required).Name or ID of the location
+            to create the cluster in
+          type: string
         nodepools:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
@@ -10942,6 +10967,17 @@ components:
       required:
       - period
       - value
+      type: object
+    GoogleExtra_service_account:
+      properties:
+        email:
+          description: The email address of the service account.
+          type: string
+        scopes:
+          description: A list of scopes to be made available for this machine.
+          items:
+            type: string
+          type: array
       type: object
     KVMNet_networks:
       properties:

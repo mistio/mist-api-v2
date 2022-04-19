@@ -30,8 +30,6 @@ class CreateClusterRequestAllOfNodepools(Model):
         :type size: str
         :param disk_size: The disk_size of this CreateClusterRequestAllOfNodepools.  # noqa: E501
         :type disk_size: int
-        :param role_arn: The role_arn of this CreateClusterRequestAllOfNodepools.  # noqa: E501
-        :type role_arn: str
         :param disk_type: The disk_type of this CreateClusterRequestAllOfNodepools.  # noqa: E501
         :type disk_type: str
         :param preemptible: The preemptible of this CreateClusterRequestAllOfNodepools.  # noqa: E501
@@ -44,7 +42,6 @@ class CreateClusterRequestAllOfNodepools(Model):
             'nodes': int,
             'size': str,
             'disk_size': int,
-            'role_arn': str,
             'disk_type': str,
             'preemptible': bool
         }
@@ -56,7 +53,6 @@ class CreateClusterRequestAllOfNodepools(Model):
             'nodes': 'nodes',
             'size': 'size',
             'disk_size': 'disk_size',
-            'role_arn': 'role_arn',
             'disk_type': 'disk_type',
             'preemptible': 'preemptible'
         }
@@ -67,7 +63,6 @@ class CreateClusterRequestAllOfNodepools(Model):
         self._nodes = nodes
         self._size = size
         self._disk_size = disk_size
-        self._role_arn = role_arn
         self._disk_type = disk_type
         self._preemptible = preemptible
 
@@ -180,7 +175,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def size(self):
         """Gets the size of this CreateClusterRequestAllOfNodepools.
 
-        Name or ID of size to use for the nodes. If not provided, the t3.medium(EKS) or e2-medium(GKE) size will be used  # noqa: E501
+        Name or ID of size to use for the nodes. If not provided, the t3.medium(EKS), e2-medium(GKE) size will be used  # noqa: E501
 
         :return: The size of this CreateClusterRequestAllOfNodepools.
         :rtype: str
@@ -191,7 +186,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def size(self, size):
         """Sets the size of this CreateClusterRequestAllOfNodepools.
 
-        Name or ID of size to use for the nodes. If not provided, the t3.medium(EKS) or e2-medium(GKE) size will be used  # noqa: E501
+        Name or ID of size to use for the nodes. If not provided, the t3.medium(EKS), e2-medium(GKE) size will be used  # noqa: E501
 
         :param size: The size of this CreateClusterRequestAllOfNodepools.
         :type size: str
@@ -223,33 +218,10 @@ class CreateClusterRequestAllOfNodepools(Model):
         self._disk_size = disk_size
 
     @property
-    def role_arn(self):
-        """Gets the role_arn of this CreateClusterRequestAllOfNodepools.
-
-        Amazon specific parameter.The Amazon Resource Name (ARN) of the IAM role to associate with the nodes. Required in order to create a cluster nodepool  # noqa: E501
-
-        :return: The role_arn of this CreateClusterRequestAllOfNodepools.
-        :rtype: str
-        """
-        return self._role_arn
-
-    @role_arn.setter
-    def role_arn(self, role_arn):
-        """Sets the role_arn of this CreateClusterRequestAllOfNodepools.
-
-        Amazon specific parameter.The Amazon Resource Name (ARN) of the IAM role to associate with the nodes. Required in order to create a cluster nodepool  # noqa: E501
-
-        :param role_arn: The role_arn of this CreateClusterRequestAllOfNodepools.
-        :type role_arn: str
-        """
-
-        self._role_arn = role_arn
-
-    @property
     def disk_type(self):
         """Gets the disk_type of this CreateClusterRequestAllOfNodepools.
 
-        Google specific parameter.Type of the disk attached to each node. Defaults to pd-standard  # noqa: E501
+        Type of the disk attached to each node. Defaults to pd-standard(GKE), gp3(EKS)  # noqa: E501
 
         :return: The disk_type of this CreateClusterRequestAllOfNodepools.
         :rtype: str
@@ -260,7 +232,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def disk_type(self, disk_type):
         """Sets the disk_type of this CreateClusterRequestAllOfNodepools.
 
-        Google specific parameter.Type of the disk attached to each node. Defaults to pd-standard  # noqa: E501
+        Type of the disk attached to each node. Defaults to pd-standard(GKE), gp3(EKS)  # noqa: E501
 
         :param disk_type: The disk_type of this CreateClusterRequestAllOfNodepools.
         :type disk_type: str
