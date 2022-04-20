@@ -16,7 +16,7 @@ def list_resources(auth_context, resource_type, cloud=None, tags='',
         start = 0
     items, total = list_resources(
         auth_context, resource_type, cloud=cloud, tags=tags,
-        search=search, only=only, sort=sort, limit=limit,
+        search=search, only='', sort=sort, limit=limit,
         start=start, at=at
     )
     meta = {
