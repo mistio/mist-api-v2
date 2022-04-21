@@ -44,6 +44,8 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
         else:
             kwargs[key] = params[key]
     name = kwargs.pop('name')
+    enabled = kwargs.pop('enabled')
+    kwargs['task_enabled'] = enabled
     try:
         schedule = Schedule.add_v2(auth_context, name, **kwargs)
     except BadRequestError as e:
@@ -122,6 +124,8 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
             kwargs[key] = {}
         else:
             kwargs[key] = params[key]
+    enabled = kwargs.pop('enabled')
+    kwargs['task_enabled'] = enabled
     schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
                                     deleted=None)
 
