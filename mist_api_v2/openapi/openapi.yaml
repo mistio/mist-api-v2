@@ -3111,6 +3111,15 @@ paths:
         schema:
           type: string
         style: simple
+      - description: Return total number for each org specific resource
+        explode: true
+        in: query
+        name: summary
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
       - description: Only return these fields
         examples:
           Only return id:
@@ -7313,6 +7322,21 @@ components:
           selected_plan: selected_plan
           created: true
           name: name
+          resources:
+            tunnels:
+              total: 0
+            teams:
+              total: 0
+            keys:
+              total: 0
+            templates:
+              total: 0
+            schedules:
+              total: 0
+            rules:
+              total: 0
+            scripts:
+              total: 0
           id: id
           last_active: last_active
           clouds_count: clouds_count
@@ -8463,6 +8487,21 @@ components:
           selected_plan: selected_plan
           created: true
           name: name
+          resources:
+            tunnels:
+              total: 0
+            teams:
+              total: 0
+            keys:
+              total: 0
+            templates:
+              total: 0
+            schedules:
+              total: 0
+            rules:
+              total: 0
+            scripts:
+              total: 0
           id: id
           last_active: last_active
           clouds_count: clouds_count
@@ -8472,6 +8511,21 @@ components:
           selected_plan: selected_plan
           created: true
           name: name
+          resources:
+            tunnels:
+              total: 0
+            teams:
+              total: 0
+            keys:
+              total: 0
+            templates:
+              total: 0
+            schedules:
+              total: 0
+            rules:
+              total: 0
+            scripts:
+              total: 0
           id: id
           last_active: last_active
           clouds_count: clouds_count
@@ -9228,6 +9282,21 @@ components:
         selected_plan: selected_plan
         created: true
         name: name
+        resources:
+          tunnels:
+            total: 0
+          teams:
+            total: 0
+          keys:
+            total: 0
+          templates:
+            total: 0
+          schedules:
+            total: 0
+          rules:
+            total: 0
+          scripts:
+            total: 0
         id: id
         last_active: last_active
         clouds_count: clouds_count
@@ -9251,6 +9320,40 @@ components:
           type: string
         last_active:
           type: string
+        resources:
+          $ref: '#/components/schemas/OrgResourcesSummary'
+      type: object
+    OrgResourcesSummary:
+      example:
+        tunnels:
+          total: 0
+        teams:
+          total: 0
+        keys:
+          total: 0
+        templates:
+          total: 0
+        schedules:
+          total: 0
+        rules:
+          total: 0
+        scripts:
+          total: 0
+      properties:
+        keys:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
+        scripts:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
+        templates:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
+        tunnels:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
+        schedules:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
+        rules:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
+        teams:
+          $ref: '#/components/schemas/OrgResourcesSummary_keys'
       type: object
     OtherCloudRequest:
       properties:
@@ -10187,6 +10290,13 @@ components:
           type: string
       required:
       - network
+      type: object
+    OrgResourcesSummary_keys:
+      example:
+        total: 0
+      properties:
+        total:
+          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:
