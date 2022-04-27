@@ -344,7 +344,7 @@ class Schedule(Model):
     def schedule_entry(self):
         """Gets the schedule_entry of this Schedule.
 
-        The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
+        In case of One Off schedule type the date string that schedule runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and Crontab schedule types a JSON string with need time unit values. For Interval schedule type interval integer value and period string value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year string values needed.  # noqa: E501
 
         :return: The schedule_entry of this Schedule.
         :rtype: str
@@ -355,7 +355,7 @@ class Schedule(Model):
     def schedule_entry(self, schedule_entry):
         """Sets the schedule_entry of this Schedule.
 
-        The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
+        In case of One Off schedule type the date string that schedule runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and Crontab schedule types a JSON string with need time unit values. For Interval schedule type interval integer value and period string value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year string values needed.  # noqa: E501
 
         :param schedule_entry: The schedule_entry of this Schedule.
         :type schedule_entry: str

@@ -4025,8 +4025,8 @@ paths:
                     - d5775984772949de820fa8279c306b30
                     type: machines
                   schedule_type: one_off
-                  schedule_entry: 2022-04-05 T00:00:00
-                  start_after: 2022-04-08 T00:00:00
+                  schedule_entry: 2022-06-05 00:00:00
+                  start_after: 2022-06-08 00:00:00
                   run_immediately: false
             schema:
               $ref: '#/components/schemas/AddScheduleRequest'
@@ -6042,9 +6042,9 @@ components:
       type: object
     AddScheduleRequest:
       example:
-        start_after: 2022-04-01 T00:00:00
+        start_after: 2022-06-01 T00:00:00
         schedule_type: one_off
-        schedule_entry: 2022-03-28 T00:00:00
+        schedule_entry: 2022-05-28 00:00:00
         name: backup-schedule
         description: This is a schedule
         action: start
@@ -6106,14 +6106,18 @@ components:
           example: one_off
           type: string
         schedule_entry:
-          description: The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-03-28 T00:00:00
+          description: In case of One Off schedule type the date string that schedule
+            runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and
+            Crontab schedule types a JSON string with need time unit values. For Interval
+            schedule type interval integer value and period string value needed. For
+            Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year
+            string values needed.
+          example: 2022-05-28 00:00:00
           type: string
         start_after:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
             HH:MM:SS
-          example: 2022-04-01 T00:00:00
+          example: 2022-06-01 T00:00:00
           type: string
         run_immediately:
           description: Decides if the schedule runs immediately of not
@@ -7404,9 +7408,9 @@ components:
       type: object
     EditScheduleRequest:
       example:
-        start_after: 2022-05-01 T00:00:00
+        start_after: 2022-06-01 00:00:00
         schedule_type: one_off
-        schedule_entry: 2022-04-28 T00:00:00
+        schedule_entry: 2022-05-28 00:00:00
         name: schedule-name
         description: This is a schedule that is about to be edited
         action: start
@@ -7467,14 +7471,18 @@ components:
           example: one_off
           type: string
         schedule_entry:
-          description: Edit the date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-04-28 T00:00:00
+          description: In case of One Off schedule type the date string that schedule
+            runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and
+            Crontab schedule types a JSON string with need time unit values. For Interval
+            schedule type interval integer value and period string value needed. For
+            Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year
+            string values needed.
+          example: 2022-05-28 00:00:00
           type: string
         start_after:
           description: Edit the date after that schedule starts. The format should
             be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
-          example: 2022-05-01 T00:00:00
+          example: 2022-06-01 00:00:00
           type: string
       type: object
     EditSecretRequest:
@@ -7936,8 +7944,9 @@ components:
           created_by: Manager A
           enabled: true
           tags: '{}'
-          start_after: 2022-03-28 T00:00:00
-          schedule_entry: 2022-03-28 T00:00:00
+          start_after: 2022-05-28 00:00:00
+          schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
+            \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
           name: reboot-schedule
           action: stop
           id: id
@@ -9139,8 +9148,9 @@ components:
           created_by: Manager A
           enabled: true
           tags: '{}'
-          start_after: 2022-03-28 T00:00:00
-          schedule_entry: 2022-03-28 T00:00:00
+          start_after: 2022-05-28 00:00:00
+          schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
+            \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
           name: reboot-schedule
           action: stop
           id: id
@@ -9156,8 +9166,9 @@ components:
           created_by: Manager A
           enabled: true
           tags: '{}'
-          start_after: 2022-03-28 T00:00:00
-          schedule_entry: 2022-03-28 T00:00:00
+          start_after: 2022-05-28 00:00:00
+          schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
+            \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
           name: reboot-schedule
           action: stop
           id: id
@@ -10203,8 +10214,9 @@ components:
         created_by: Manager A
         enabled: true
         tags: '{}'
-        start_after: 2022-03-28 T00:00:00
-        schedule_entry: 2022-03-28 T00:00:00
+        start_after: 2022-05-28 00:00:00
+        schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
+          \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
         name: reboot-schedule
         action: stop
         id: id
@@ -10254,14 +10266,19 @@ components:
           example: crontab
           type: string
         schedule_entry:
-          description: The date that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-03-28 T00:00:00
+          description: In case of One Off schedule type the date string that schedule
+            runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and
+            Crontab schedule types a JSON string with need time unit values. For Interval
+            schedule type interval integer value and period string value needed. For
+            Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year
+            string values needed.
+          example: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\", \"day_of_month\":\"*\",
+            \"month_of_year\":\"*\"}'
           type: string
         start_after:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
             HH:MM:SS
-          example: 2022-03-28 T00:00:00
+          example: 2022-05-28 00:00:00
           type: string
         run_immediately:
           description: Decides if the schedule runs immediately of not

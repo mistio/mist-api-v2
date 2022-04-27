@@ -48,9 +48,9 @@ class TestSchedulesController:
         """
         add_schedule_request = setup_data.get('add_schedule', {}).get(
             'request_body') or json.loads("""{
-  "start_after" : "2022-04-01 T00:00:00",
+  "start_after" : "2022-06-01 T00:00:00",
   "schedule_type" : "one_off",
-  "schedule_entry" : "2022-03-28 T00:00:00",
+  "schedule_entry" : "2022-05-28 00:00:00",
   "name" : "backup-schedule",
   "description" : "This is a schedule",
   "action" : "start",
@@ -98,9 +98,9 @@ class TestSchedulesController:
         """
         edit_schedule_request = setup_data.get('edit_schedule', {}).get(
             'request_body') or json.loads("""{
-  "start_after" : "2022-05-01 T00:00:00",
+  "start_after" : "2022-06-01 00:00:00",
   "schedule_type" : "one_off",
-  "schedule_entry" : "2022-04-28 T00:00:00",
+  "schedule_entry" : "2022-05-28 00:00:00",
   "name" : "schedule-name",
   "description" : "This is a schedule that is about to be edited",
   "action" : "start",
