@@ -10018,6 +10018,22 @@ components:
             preemptible machines. Defaults to false
           type: boolean
       type: object
+    CreateClusterRequest_allOf_waiters:
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        namespace:
+          default: default
+          type: string
+        timeout:
+          default: 1800
+          type: integer
+      required:
+      - name
+      - type
+      type: object
     CreateClusterRequest_allOf:
       properties:
         name:
@@ -10056,6 +10072,10 @@ components:
               oneOf:
               - $ref: '#/components/schemas/HelmChart'
               - $ref: '#/components/schemas/KubernetesManifest'
+          type: array
+        waiters:
+          items:
+            $ref: '#/components/schemas/CreateClusterRequest_allOf_waiters'
           type: array
       required:
       - name

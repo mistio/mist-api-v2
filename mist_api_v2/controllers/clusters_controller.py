@@ -27,8 +27,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
 
     :rtype: CreateClusterResponse
     """
+    request_json = {}
     if connexion.request.is_json:
-        create_cluster_request = CreateClusterRequest.from_dict(connexion.request.get_json())  # noqa: E501
+        request_json = connexion.request.get_json()
+        create_cluster_request = CreateClusterRequest.from_dict(request_json)  # noqa: E501
     try:
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
@@ -73,6 +75,7 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     charts = [chart for chart in create_cluster_request.templates or []
               if chart['type'] == 'helm']
     kwargs['helm_charts'] = charts
+    kwargs['waiters'] = request_json.get("waiters")
     job_id = uuid.uuid4().hex
     kwargs['job_id'] = job_id
     kwargs['job'] = 'create_cluster'
@@ -161,7 +164,10 @@ def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E50
         except PolicyUnauthorizedError:
             return 'You are not authorized to perform this action', 403
     else:
-        result['data']['credentials']['token'] = '***CENSORED***'
+        try:
+            result['data']['credentials']['token'] = '***CENSORED***'
+        except KeyError:
+            pass
 
     return GetClusterResponse(data=result['data'], meta=result['meta'])
 
@@ -202,5 +208,8 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     )
 
     for item in result['data']:
-        item['credentials']['token'] = '***CENSORED***'
+        try:
+            item['credentials']['token'] = '***CENSORED***'
+        except KeyError:
+            pass
     return ListClustersResponse(data=result['data'], meta=result['meta'])
