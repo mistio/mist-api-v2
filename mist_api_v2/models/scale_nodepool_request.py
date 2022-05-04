@@ -61,7 +61,7 @@ class ScaleNodepoolRequest(Model):
     def enable_autoscaling(self):
         """Gets the enable_autoscaling of this ScaleNodepoolRequest.
 
-        Enable/Disable autoscaling for the specified GKE nodepool. Must be set with desired_nodes param for enable_autoscaling=false, min_nodes & max_nodes for enable_autoscaling=true  # noqa: E501
+        Enable/Disable autoscaling for the specified GKE nodepool.  # noqa: E501
 
         :return: The enable_autoscaling of this ScaleNodepoolRequest.
         :rtype: bool
@@ -72,7 +72,7 @@ class ScaleNodepoolRequest(Model):
     def enable_autoscaling(self, enable_autoscaling):
         """Sets the enable_autoscaling of this ScaleNodepoolRequest.
 
-        Enable/Disable autoscaling for the specified GKE nodepool. Must be set with desired_nodes param for enable_autoscaling=false, min_nodes & max_nodes for enable_autoscaling=true  # noqa: E501
+        Enable/Disable autoscaling for the specified GKE nodepool.  # noqa: E501
 
         :param enable_autoscaling: The enable_autoscaling of this ScaleNodepoolRequest.
         :type enable_autoscaling: bool
