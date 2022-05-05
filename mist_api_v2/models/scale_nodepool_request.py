@@ -15,11 +15,11 @@ class ScaleNodepoolRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, enable_autoscaling=None, desired_nodes=None, min_nodes=None, max_nodes=None):  # noqa: E501
+    def __init__(self, autoscaling=None, desired_nodes=None, min_nodes=None, max_nodes=None):  # noqa: E501
         """ScaleNodepoolRequest - a model defined in OpenAPI
 
-        :param enable_autoscaling: The enable_autoscaling of this ScaleNodepoolRequest.  # noqa: E501
-        :type enable_autoscaling: bool
+        :param autoscaling: The autoscaling of this ScaleNodepoolRequest.  # noqa: E501
+        :type autoscaling: bool
         :param desired_nodes: The desired_nodes of this ScaleNodepoolRequest.  # noqa: E501
         :type desired_nodes: int
         :param min_nodes: The min_nodes of this ScaleNodepoolRequest.  # noqa: E501
@@ -28,20 +28,20 @@ class ScaleNodepoolRequest(Model):
         :type max_nodes: int
         """
         self.openapi_types = {
-            'enable_autoscaling': bool,
+            'autoscaling': bool,
             'desired_nodes': int,
             'min_nodes': int,
             'max_nodes': int
         }
 
         self.attribute_map = {
-            'enable_autoscaling': 'enable_autoscaling',
+            'autoscaling': 'autoscaling',
             'desired_nodes': 'desired_nodes',
             'min_nodes': 'min_nodes',
             'max_nodes': 'max_nodes'
         }
 
-        self._enable_autoscaling = enable_autoscaling
+        self._autoscaling = autoscaling
         self._desired_nodes = desired_nodes
         self._min_nodes = min_nodes
         self._max_nodes = max_nodes
@@ -58,27 +58,27 @@ class ScaleNodepoolRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def enable_autoscaling(self):
-        """Gets the enable_autoscaling of this ScaleNodepoolRequest.
+    def autoscaling(self):
+        """Gets the autoscaling of this ScaleNodepoolRequest.
 
         Enable/Disable autoscaling for the specified GKE nodepool.  # noqa: E501
 
-        :return: The enable_autoscaling of this ScaleNodepoolRequest.
+        :return: The autoscaling of this ScaleNodepoolRequest.
         :rtype: bool
         """
-        return self._enable_autoscaling
+        return self._autoscaling
 
-    @enable_autoscaling.setter
-    def enable_autoscaling(self, enable_autoscaling):
-        """Sets the enable_autoscaling of this ScaleNodepoolRequest.
+    @autoscaling.setter
+    def autoscaling(self, autoscaling):
+        """Sets the autoscaling of this ScaleNodepoolRequest.
 
         Enable/Disable autoscaling for the specified GKE nodepool.  # noqa: E501
 
-        :param enable_autoscaling: The enable_autoscaling of this ScaleNodepoolRequest.
-        :type enable_autoscaling: bool
+        :param autoscaling: The autoscaling of this ScaleNodepoolRequest.
+        :type autoscaling: bool
         """
 
-        self._enable_autoscaling = enable_autoscaling
+        self._autoscaling = autoscaling
 
     @property
     def desired_nodes(self):
