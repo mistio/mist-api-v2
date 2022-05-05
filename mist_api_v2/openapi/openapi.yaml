@@ -9553,10 +9553,10 @@ components:
       example:
         desired_nodes: 0
         max_nodes: 1
-        enable_autoscaling: true
+        autoscaling: true
         min_nodes: 6
       properties:
-        enable_autoscaling:
+        autoscaling:
           description: Enable/Disable autoscaling for the specified GKE nodepool.
           type: boolean
         desired_nodes:

@@ -140,7 +140,7 @@ class TestClustersController:
             'request_body') or json.loads("""{
   "desired_nodes" : 0,
   "max_nodes" : 1,
-  "enable_autoscaling" : true,
+  "autoscaling" : true,
   "min_nodes" : 6
 }""", strict=False)
         uri = MIST_URL + '/api/v2/clusters/{cluster}/nodepools/{nodepool}'.format(
