@@ -6052,8 +6052,8 @@ components:
         run_immediately: false
         params: Parameters string
         selectors:
-        - ""
-        - ""
+        - '{}'
+        - '{}'
         enabled: true
       properties:
         name:
@@ -6089,13 +6089,12 @@ components:
           type: string
         selectors:
           items:
-            allOf:
-            - type: object
-            - anyOf:
-              - $ref: '#/components/schemas/ResourceSelector'
-              - $ref: '#/components/schemas/FieldSelector'
-              - $ref: '#/components/schemas/TaggingSelector'
-              - $ref: '#/components/schemas/AgeSelector'
+            anyOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
+            type: object
           type: array
         schedule_type:
           description: The type of the schedule
@@ -7417,8 +7416,8 @@ components:
         script_id: d5775984772949de820fa8279c306b30
         params: Parameters string
         selectors:
-        - ""
-        - ""
+        - '{}'
+        - '{}'
         enabled: true
       properties:
         name:
@@ -7454,13 +7453,12 @@ components:
           type: string
         selectors:
           items:
-            allOf:
-            - type: object
-            - anyOf:
-              - $ref: '#/components/schemas/ResourceSelector'
-              - $ref: '#/components/schemas/FieldSelector'
-              - $ref: '#/components/schemas/TaggingSelector'
-              - $ref: '#/components/schemas/AgeSelector'
+            anyOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
+            type: object
           type: array
         schedule_type:
           description: Edit the type of the schedule
@@ -7939,8 +7937,8 @@ components:
           run_immediately: true
           params: Test parameters
           selectors:
-          - ""
-          - ""
+          - '{}'
+          - '{}'
           created_by: Manager A
           enabled: true
           tags: '{}'
@@ -9143,8 +9141,8 @@ components:
           run_immediately: true
           params: Test parameters
           selectors:
-          - ""
-          - ""
+          - '{}'
+          - '{}'
           created_by: Manager A
           enabled: true
           tags: '{}'
@@ -9161,8 +9159,8 @@ components:
           run_immediately: true
           params: Test parameters
           selectors:
-          - ""
-          - ""
+          - '{}'
+          - '{}'
           created_by: Manager A
           enabled: true
           tags: '{}'
@@ -10209,8 +10207,8 @@ components:
         run_immediately: true
         params: Test parameters
         selectors:
-        - ""
-        - ""
+        - '{}'
+        - '{}'
         created_by: Manager A
         enabled: true
         tags: '{}'
@@ -10253,13 +10251,12 @@ components:
           type: string
         selectors:
           items:
-            allOf:
-            - type: object
-            - anyOf:
-              - $ref: '#/components/schemas/ResourceSelector'
-              - $ref: '#/components/schemas/FieldSelector'
-              - $ref: '#/components/schemas/TaggingSelector'
-              - $ref: '#/components/schemas/AgeSelector'
+            anyOf:
+            - $ref: '#/components/schemas/ResourceSelector'
+            - $ref: '#/components/schemas/FieldSelector'
+            - $ref: '#/components/schemas/TaggingSelector'
+            - $ref: '#/components/schemas/AgeSelector'
+            type: object
           type: array
         schedule_type:
           description: The type of the schedule
