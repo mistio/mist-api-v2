@@ -81,7 +81,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def autoscaling(self):
         """Gets the autoscaling of this CreateClusterRequestAllOfNodepools.
 
-        GKE only, set to true to enable autoscaling  # noqa: E501
+        GKE only, set to true to enable autoscaling, requires min_nodes and max_nodes to be set.  # noqa: E501
 
         :return: The autoscaling of this CreateClusterRequestAllOfNodepools.
         :rtype: bool
@@ -92,7 +92,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def autoscaling(self, autoscaling):
         """Sets the autoscaling of this CreateClusterRequestAllOfNodepools.
 
-        GKE only, set to true to enable autoscaling  # noqa: E501
+        GKE only, set to true to enable autoscaling, requires min_nodes and max_nodes to be set.  # noqa: E501
 
         :param autoscaling: The autoscaling of this CreateClusterRequestAllOfNodepools.
         :type autoscaling: bool
@@ -104,7 +104,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def min_nodes(self):
         """Gets the min_nodes of this CreateClusterRequestAllOfNodepools.
 
-        The minimum number of nodes the autoscaler should maintain. On GKE nodepools this is only valid when autoscaling is set to true. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
+        The minimum number of nodes the autoscaler should maintain. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
 
         :return: The min_nodes of this CreateClusterRequestAllOfNodepools.
         :rtype: int
@@ -115,7 +115,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def min_nodes(self, min_nodes):
         """Sets the min_nodes of this CreateClusterRequestAllOfNodepools.
 
-        The minimum number of nodes the autoscaler should maintain. On GKE nodepools this is only valid when autoscaling is set to true. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
+        The minimum number of nodes the autoscaler should maintain. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
 
         :param min_nodes: The min_nodes of this CreateClusterRequestAllOfNodepools.
         :type min_nodes: int
@@ -127,7 +127,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def max_nodes(self):
         """Gets the max_nodes of this CreateClusterRequestAllOfNodepools.
 
-        The maximum number of nodes the autoscaler should maintain. On GKE nodepools this is only valid when autoscaling is set to true. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
+        The maximum number of nodes the autoscaler should maintain. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
 
         :return: The max_nodes of this CreateClusterRequestAllOfNodepools.
         :rtype: int
@@ -138,7 +138,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def max_nodes(self, max_nodes):
         """Sets the max_nodes of this CreateClusterRequestAllOfNodepools.
 
-        The maximum number of nodes the autoscaler should maintain. On GKE nodepools this is only valid when autoscaling is set to true. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
+        The maximum number of nodes the autoscaler should maintain. On EKS nodepools if this value is not provided it will implicitly be set equal to nodes value  # noqa: E501
 
         :param max_nodes: The max_nodes of this CreateClusterRequestAllOfNodepools.
         :type max_nodes: int
@@ -150,7 +150,7 @@ class CreateClusterRequestAllOfNodepools(Model):
     def nodes(self):
         """Gets the nodes of this CreateClusterRequestAllOfNodepools.
 
-        The number of nodes to provision for the cluster. Only valid for GKE nodepools when autoscaling is set to false  # noqa: E501
+        The number of nodes to provision for the cluster  # noqa: E501
 
         :return: The nodes of this CreateClusterRequestAllOfNodepools.
         :rtype: int
@@ -161,11 +161,13 @@ class CreateClusterRequestAllOfNodepools(Model):
     def nodes(self, nodes):
         """Sets the nodes of this CreateClusterRequestAllOfNodepools.
 
-        The number of nodes to provision for the cluster. Only valid for GKE nodepools when autoscaling is set to false  # noqa: E501
+        The number of nodes to provision for the cluster  # noqa: E501
 
         :param nodes: The nodes of this CreateClusterRequestAllOfNodepools.
         :type nodes: int
         """
+        if nodes is None:
+            raise ValueError("Invalid value for `nodes`, must not be `None`")  # noqa: E501
 
         self._nodes = nodes
 

@@ -9526,23 +9526,21 @@ components:
       properties:
         autoscaling:
           default: false
-          description: GKE only, set to true to enable autoscaling
+          description: GKE only, set to true to enable autoscaling, requires min_nodes
+            and max_nodes to be set.
           type: boolean
         min_nodes:
           description: The minimum number of nodes the autoscaler should maintain.
-            On GKE nodepools this is only valid when autoscaling is set to true. On
-            EKS nodepools if this value is not provided it will implicitly be set
+            On EKS nodepools if this value is not provided it will implicitly be set
             equal to nodes value
           type: integer
         max_nodes:
           description: The maximum number of nodes the autoscaler should maintain.
-            On GKE nodepools this is only valid when autoscaling is set to true. On
-            EKS nodepools if this value is not provided it will implicitly be set
+            On EKS nodepools if this value is not provided it will implicitly be set
             equal to nodes value
           type: integer
         nodes:
-          description: The number of nodes to provision for the cluster. Only valid
-            for GKE nodepools when autoscaling is set to false
+          description: The number of nodes to provision for the cluster
           type: integer
         size:
           description: Name or ID of size to use for the nodes. If not provided, the
@@ -9560,6 +9558,8 @@ components:
           description: Google specific parameter.Whether the nodes are created as
             preemptible machines. Defaults to false
           type: boolean
+      required:
+      - nodes
       type: object
     CreateClusterRequest_allOf_waiters:
       properties:
