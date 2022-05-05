@@ -9,6 +9,7 @@ from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rule_action import RuleAction
+from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.window import Window
 from mist_api_v2 import util
@@ -16,6 +17,7 @@ from mist_api_v2 import util
 from mist_api_v2.models.frequency import Frequency  # noqa: E501
 from mist_api_v2.models.query import Query  # noqa: E501
 from mist_api_v2.models.rule_action import RuleAction  # noqa: E501
+from mist_api_v2.models.selector import Selector  # noqa: E501
 from mist_api_v2.models.trigger_after import TriggerAfter  # noqa: E501
 from mist_api_v2.models.window import Window  # noqa: E501
 
@@ -39,7 +41,7 @@ class EditRuleRequest(Model):
         :param actions: The actions of this EditRuleRequest.  # noqa: E501
         :type actions: List[RuleAction]
         :param selectors: The selectors of this EditRuleRequest.  # noqa: E501
-        :type selectors: List[object]
+        :type selectors: Selector
         """
         self.openapi_types = {
             'queries': List[Query],
@@ -47,7 +49,7 @@ class EditRuleRequest(Model):
             'frequency': Frequency,
             'trigger_after': TriggerAfter,
             'actions': List[RuleAction],
-            'selectors': List[object]
+            'selectors': Selector
         }
 
         self.attribute_map = {
@@ -188,7 +190,7 @@ class EditRuleRequest(Model):
 
 
         :return: The selectors of this EditRuleRequest.
-        :rtype: List[object]
+        :rtype: Selector
         """
         return self._selectors
 
@@ -198,7 +200,7 @@ class EditRuleRequest(Model):
 
 
         :param selectors: The selectors of this EditRuleRequest.
-        :type selectors: List[object]
+        :type selectors: Selector
         """
 
         self._selectors = selectors

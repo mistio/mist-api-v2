@@ -205,6 +205,7 @@ mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/secret.py
+mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
 mist_api_v2/models/tagging_selector.py

@@ -57,7 +57,7 @@ class TestSchedulesController:
   "script_id" : "d5775984772949de820fa8279c306b30",
   "run_immediately" : false,
   "params" : "Parameters string",
-  "selectors" : [ "{}", "{}" ],
+  "selectors" : [ null, null ],
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
@@ -106,7 +106,7 @@ class TestSchedulesController:
   "action" : "start",
   "script_id" : "d5775984772949de820fa8279c306b30",
   "params" : "Parameters string",
-  "selectors" : [ "{}", "{}" ],
+  "selectors" : [ null, null ],
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
