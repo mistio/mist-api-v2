@@ -166,6 +166,7 @@ from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.run_script_request import RunScriptRequest
 from mist_api_v2.models.run_script_response import RunScriptResponse
+from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
