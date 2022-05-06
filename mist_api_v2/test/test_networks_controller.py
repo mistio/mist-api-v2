@@ -141,8 +141,7 @@ class TestNetworksController:
                         ('start', '50'),
                         ('limit', '56'),
                         ('only', 'id'),
-                        ('deref', 'auto'),
-                        ('at', '2021-07-21T17:32:28Z')]
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/networks'
         request = MistRequests(
             api_token=owner_api_token,
