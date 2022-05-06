@@ -1,9 +1,12 @@
 import uuid
 import connexion
+import mongoengine as me
+import libcloud
 
 from mist.api.methods import list_resources as list_resources_v1
 
 from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
+from mist.api.exceptions import BadRequestError
 from mist.api.tasks import create_cluster_async, destroy_cluster_async
 
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest  # noqa: E501
@@ -11,6 +14,7 @@ from mist_api_v2.models.create_cluster_response import CreateClusterResponse  # 
 from mist_api_v2.models.get_cluster_response import GetClusterResponse  # noqa: E501
 from mist_api_v2.models.list_clusters_response import ListClustersResponse  # noqa: E501
 from mist_api_v2.models.destroy_cluster_response import DestroyClusterResponse  # noqa: E501
+from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest  # noqa: E501
 
 from .base import list_resources
 from .base import get_resource
@@ -26,8 +30,10 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
 
     :rtype: CreateClusterResponse
     """
+    request_json = {}
     if connexion.request.is_json:
-        create_cluster_request = CreateClusterRequest.from_dict(connexion.request.get_json())  # noqa: E501
+        request_json = connexion.request.get_json()
+        create_cluster_request = CreateClusterRequest.from_dict(request_json)  # noqa: E501
     try:
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
@@ -72,6 +78,7 @@ def create_cluster(create_cluster_request=None):  # noqa: E501
     charts = [chart for chart in create_cluster_request.templates or []
               if chart['type'] == 'helm']
     kwargs['helm_charts'] = charts
+    kwargs['waiters'] = request_json.get("waiters")
     job_id = uuid.uuid4().hex
     kwargs['job_id'] = job_id
     kwargs['job'] = 'create_cluster'
@@ -160,7 +167,10 @@ def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E50
         except PolicyUnauthorizedError:
             return 'You are not authorized to perform this action', 403
     else:
-        result['data']['credentials']['token'] = '***CENSORED***'
+        try:
+            result['data']['credentials']['token'] = '***CENSORED***'
+        except KeyError:
+            pass
 
     return GetClusterResponse(data=result['data'], meta=result['meta'])
 
@@ -197,5 +207,76 @@ def list_clusters(cloud=None, search=None, sort=None, start=0, limit=100, only=N
     )
 
     for item in result['data']:
-        item['credentials']['token'] = '***CENSORED***'
+        try:
+            item['credentials']['token'] = '***CENSORED***'
+        except KeyError:
+            pass
     return ListClustersResponse(data=result['data'], meta=result['meta'])
+
+
+def scale_nodepool(cluster, nodepool, scale_nodepool_request=None):  # noqa: E501
+    """Scale cluster nodepool
+
+    Scale the nodes of the specified nodepool # noqa: E501
+
+    :param cluster:
+    :type cluster: str
+    :param nodepool:
+    :type nodepool: str
+    :param scale_nodepool_request:
+    :type scale_nodepool_request: dict | bytes
+
+    :rtype: None
+    """
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+
+    if connexion.request.is_json:
+        scale_nodepool_request = ScaleNodepoolRequest.from_dict(connexion.request.get_json())  # noqa: E501
+
+    clusters, total = list_resources_v1(
+        auth_context, 'cluster', search=cluster)
+    if total == 0:
+        return 'Cluster does not exist', 404
+
+    cluster = clusters[0]
+
+    try:
+        nodepool = cluster.nodepools.get(name=nodepool)
+    except me.DoesNotExist:
+        return 'Nodepool does not exist', 404
+
+    try:
+        auth_context.check_perm('cloud', 'read', cluster.cloud.id)
+        auth_context.check_perm('cloud', 'create_resources', cluster.cloud.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+
+    try:
+        cluster.cloud.ctl.container.validate_scale_nodepool_request(
+            auth_context=auth_context,
+            cluster=cluster,
+            nodepool=nodepool,
+            desired_nodes=scale_nodepool_request.desired_nodes,
+            min_nodes=scale_nodepool_request.min_nodes,
+            max_nodes=scale_nodepool_request.max_nodes,
+            autoscaling=scale_nodepool_request.autoscaling)
+    except BadRequestError as exc:
+        return exc.args[0], 400
+
+    try:
+        cluster.cloud.ctl.container.scale_nodepool(
+            auth_context=auth_context,
+            cluster=cluster,
+            nodepool=nodepool,
+            desired_nodes=scale_nodepool_request.desired_nodes,
+            min_nodes=scale_nodepool_request.min_nodes,
+            max_nodes=scale_nodepool_request.max_nodes,
+            autoscaling=scale_nodepool_request.autoscaling)
+    except (libcloud.common.exceptions.BaseHTTPError,
+            libcloud.common.types.LibcloudError) as exc:
+        return exc.args[0], 400
+
+    return 'Nodepool scaling started', 200
