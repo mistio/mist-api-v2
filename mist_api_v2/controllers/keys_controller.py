@@ -198,7 +198,7 @@ def get_key(key, private=False, sort=None, only=None, deref=None):  # noqa: E501
     }
 
     result = {
-        'data': key.as_dict(),
+        'data': key.as_dict_v2(),
         'meta': meta
     }
 
