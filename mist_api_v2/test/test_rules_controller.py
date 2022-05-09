@@ -58,11 +58,6 @@ class TestRulesController:
     "stop" : 1,
     "start" : 6
   },
-  "selectors" : {
-    "include" : [ "include", "include" ],
-    "ids" : [ "ids", "ids" ],
-    "type" : "machines"
-  },
   "queries" : [ {
     "threshold" : 0.8008281904610115,
     "aggregation" : "aggregation",
@@ -140,11 +135,6 @@ class TestRulesController:
     "period" : "period",
     "stop" : 1,
     "start" : 6
-  },
-  "selectors" : {
-    "include" : [ "include", "include" ],
-    "ids" : [ "ids", "ids" ],
-    "type" : "machines"
   },
   "queries" : [ {
     "threshold" : 0.8008281904610115,
