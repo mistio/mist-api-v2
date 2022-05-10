@@ -29,9 +29,11 @@ class AddRuleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, queries=None, window=None, frequency=None, trigger_after=None, actions=None, selectors=None, data_type=None):  # noqa: E501
+    def __init__(self, name=None, queries=None, window=None, frequency=None, trigger_after=None, actions=None, selectors=None, data_type=None):  # noqa: E501
         """AddRuleRequest - a model defined in OpenAPI
 
+        :param name: The name of this AddRuleRequest.  # noqa: E501
+        :type name: str
         :param queries: The queries of this AddRuleRequest.  # noqa: E501
         :type queries: List[Query]
         :param window: The window of this AddRuleRequest.  # noqa: E501
@@ -48,6 +50,7 @@ class AddRuleRequest(Model):
         :type data_type: DataType
         """
         self.openapi_types = {
+            'name': str,
             'queries': List[Query],
             'window': Window,
             'frequency': Frequency,
@@ -58,6 +61,7 @@ class AddRuleRequest(Model):
         }
 
         self.attribute_map = {
+            'name': 'name',
             'queries': 'queries',
             'window': 'window',
             'frequency': 'frequency',
@@ -67,6 +71,7 @@ class AddRuleRequest(Model):
             'data_type': 'data_type'
         }
 
+        self._name = name
         self._queries = queries
         self._window = window
         self._frequency = frequency
@@ -85,6 +90,31 @@ class AddRuleRequest(Model):
         :rtype: AddRuleRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def name(self):
+        """Gets the name of this AddRuleRequest.
+
+        The name of the rule  # noqa: E501
+
+        :return: The name of this AddRuleRequest.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this AddRuleRequest.
+
+        The name of the rule  # noqa: E501
+
+        :param name: The name of this AddRuleRequest.
+        :type name: str
+        """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+
+        self._name = name
 
     @property
     def queries(self):

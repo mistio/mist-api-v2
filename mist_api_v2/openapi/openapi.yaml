@@ -5957,6 +5957,7 @@ components:
       type: object
     AddRuleRequest:
       example:
+        name: new-rule
         trigger_after:
           period: period
           offset: 5
@@ -6006,6 +6007,10 @@ components:
           period: period
           every: 5
       properties:
+        name:
+          description: The name of the rule
+          example: new-rule
+          type: string
         queries:
           items:
             $ref: '#/components/schemas/Query'
@@ -6030,6 +6035,7 @@ components:
       - actions
       - data_type
       - frequency
+      - name
       - queries
       - trigger_after
       - window
@@ -7321,6 +7327,7 @@ components:
       type: object
     EditRuleRequest:
       example:
+        name: edited-rule
         trigger_after:
           period: period
           offset: 5
@@ -7369,6 +7376,10 @@ components:
           period: period
           every: 5
       properties:
+        name:
+          description: The name of the rule
+          example: edited-rule
+          type: string
         queries:
           items:
             $ref: '#/components/schemas/Query'

@@ -27,9 +27,11 @@ class EditRuleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, queries=None, window=None, frequency=None, trigger_after=None, actions=None, selectors=None):  # noqa: E501
+    def __init__(self, name=None, queries=None, window=None, frequency=None, trigger_after=None, actions=None, selectors=None):  # noqa: E501
         """EditRuleRequest - a model defined in OpenAPI
 
+        :param name: The name of this EditRuleRequest.  # noqa: E501
+        :type name: str
         :param queries: The queries of this EditRuleRequest.  # noqa: E501
         :type queries: List[Query]
         :param window: The window of this EditRuleRequest.  # noqa: E501
@@ -44,6 +46,7 @@ class EditRuleRequest(Model):
         :type selectors: List[Selector]
         """
         self.openapi_types = {
+            'name': str,
             'queries': List[Query],
             'window': Window,
             'frequency': Frequency,
@@ -53,6 +56,7 @@ class EditRuleRequest(Model):
         }
 
         self.attribute_map = {
+            'name': 'name',
             'queries': 'queries',
             'window': 'window',
             'frequency': 'frequency',
@@ -61,6 +65,7 @@ class EditRuleRequest(Model):
             'selectors': 'selectors'
         }
 
+        self._name = name
         self._queries = queries
         self._window = window
         self._frequency = frequency
@@ -78,6 +83,29 @@ class EditRuleRequest(Model):
         :rtype: EditRuleRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def name(self):
+        """Gets the name of this EditRuleRequest.
+
+        The name of the rule  # noqa: E501
+
+        :return: The name of this EditRuleRequest.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this EditRuleRequest.
+
+        The name of the rule  # noqa: E501
+
+        :param name: The name of this EditRuleRequest.
+        :type name: str
+        """
+
+        self._name = name
 
     @property
     def queries(self):
