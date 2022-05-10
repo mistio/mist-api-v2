@@ -43,7 +43,7 @@ class AddRuleRequest(Model):
         :param actions: The actions of this AddRuleRequest.  # noqa: E501
         :type actions: List[RuleAction]
         :param selectors: The selectors of this AddRuleRequest.  # noqa: E501
-        :type selectors: Selector
+        :type selectors: List[Selector]
         :param data_type: The data_type of this AddRuleRequest.  # noqa: E501
         :type data_type: DataType
         """
@@ -53,7 +53,7 @@ class AddRuleRequest(Model):
             'frequency': Frequency,
             'trigger_after': TriggerAfter,
             'actions': List[RuleAction],
-            'selectors': Selector,
+            'selectors': List[Selector],
             'data_type': DataType
         }
 
@@ -207,7 +207,7 @@ class AddRuleRequest(Model):
 
 
         :return: The selectors of this AddRuleRequest.
-        :rtype: Selector
+        :rtype: List[Selector]
         """
         return self._selectors
 
@@ -217,7 +217,7 @@ class AddRuleRequest(Model):
 
 
         :param selectors: The selectors of this AddRuleRequest.
-        :type selectors: Selector
+        :type selectors: List[Selector]
         """
 
         self._selectors = selectors

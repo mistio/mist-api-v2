@@ -58,6 +58,7 @@ class TestRulesController:
     "stop" : 1,
     "start" : 6
   },
+  "selectors" : [ null, null ],
   "queries" : [ {
     "threshold" : 0.8008281904610115,
     "aggregation" : "aggregation",
@@ -136,6 +137,7 @@ class TestRulesController:
     "stop" : 1,
     "start" : 6
   },
+  "selectors" : [ null, null ],
   "queries" : [ {
     "threshold" : 0.8008281904610115,
     "aggregation" : "aggregation",

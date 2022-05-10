@@ -621,6 +621,54 @@ paths:
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
+  /api/v2/clusters/{cluster}/nodepools/{nodepool}:
+    post:
+      description: Scale the nodes of the specified nodepool
+      operationId: scale_nodepool
+      parameters:
+      - example: my-cluster
+        explode: false
+        in: path
+        name: cluster
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-nodepool-name
+        explode: false
+        in: path
+        name: nodepool
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScaleNodepoolRequest'
+      responses:
+        "200":
+          description: Nodepool scaling started
+        "400":
+          description: Bad Request
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - create:cluster
+        - read:cloud
+        - create_resources:cloud
+      - CookieAuth:
+        - create:cluster
+        - read:cloud
+        - create_resources:cloud
+      summary: Scale cluster nodepool
+      tags:
+      - clusters
+      x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
   /api/v2/datapoints:
     get:
       description: Get datapoints for a specific query
@@ -5917,6 +5965,9 @@ components:
           period: period
           stop: 1
           start: 6
+        selectors:
+        - null
+        - null
         queries:
         - threshold: 0.8008281904610115
           aggregation: aggregation
@@ -5970,7 +6021,9 @@ components:
             $ref: '#/components/schemas/RuleAction'
           type: array
         selectors:
-          $ref: '#/components/schemas/Selector'
+          items:
+            $ref: '#/components/schemas/Selector'
+          type: array
         data_type:
           $ref: '#/components/schemas/DataType'
       required:
@@ -7275,6 +7328,9 @@ components:
           period: period
           stop: 1
           start: 6
+        selectors:
+        - null
+        - null
         queries:
         - threshold: 0.8008281904610115
           aggregation: aggregation
@@ -7328,7 +7384,9 @@ components:
             $ref: '#/components/schemas/RuleAction'
           type: array
         selectors:
-          $ref: '#/components/schemas/Selector'
+          items:
+            $ref: '#/components/schemas/Selector'
+          type: array
       type: object
     EditScheduleRequest:
       example:
@@ -10094,6 +10152,31 @@ components:
         job_id:
           type: string
       type: object
+    ScaleNodepoolRequest:
+      description: To scale a GKE nodepool without autoscaling set only the desired_nodes
+        parameter. On GKE nodepools with autoscaling, set min_nodes,max_nodes. Enabling/Disabling
+        autoscaling is only supported on GKE nodepools. min_nodes, max_nodes parameters
+        are required to enable autoscaling. To disable autoscaling set only enable_autoscaling
+        to false. For EKS nodepools set the min_nodes, desired_nodes, max_nodes parameters.
+      example:
+        desired_nodes: 0
+        max_nodes: 1
+        autoscaling: true
+        min_nodes: 6
+      properties:
+        autoscaling:
+          description: Enable/Disable autoscaling for the specified GKE nodepool.
+          type: boolean
+        desired_nodes:
+          description: The number of nodes that the nodepool should maintain
+          type: integer
+        min_nodes:
+          description: Minimum number of nodes for the specified nodepool
+          type: integer
+        max_nodes:
+          description: Maximum number of nodes for the specified nodepool
+          type: integer
+      type: object
     Schedule:
       example:
         schedule_type: crontab
@@ -10672,10 +10755,23 @@ components:
       - generate
     CreateClusterRequest_allOf_nodepools:
       properties:
+        autoscaling:
+          default: false
+          description: GKE only, set to true to enable autoscaling, requires min_nodes
+            and max_nodes to be set.
+          type: boolean
+        min_nodes:
+          description: The minimum number of nodes the autoscaler should maintain.
+            On EKS nodepools if this value is not provided it will implicitly be set
+            equal to nodes value
+          type: integer
+        max_nodes:
+          description: The maximum number of nodes the autoscaler should maintain.
+            On EKS nodepools if this value is not provided it will implicitly be set
+            equal to nodes value
+          type: integer
         nodes:
-          default: 2
-          description: The number of nodes to provision for the cluster. Defaults
-            to 2
+          description: The number of nodes to provision for the cluster
           type: integer
         size:
           description: Name or ID of size to use for the nodes. If not provided, the
@@ -10693,6 +10789,8 @@ components:
           description: Google specific parameter.Whether the nodes are created as
             preemptible machines. Defaults to false
           type: boolean
+      required:
+      - nodes
       type: object
     CreateClusterRequest_allOf_waiters:
       properties:

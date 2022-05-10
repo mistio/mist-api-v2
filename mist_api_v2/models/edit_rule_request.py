@@ -41,7 +41,7 @@ class EditRuleRequest(Model):
         :param actions: The actions of this EditRuleRequest.  # noqa: E501
         :type actions: List[RuleAction]
         :param selectors: The selectors of this EditRuleRequest.  # noqa: E501
-        :type selectors: Selector
+        :type selectors: List[Selector]
         """
         self.openapi_types = {
             'queries': List[Query],
@@ -49,7 +49,7 @@ class EditRuleRequest(Model):
             'frequency': Frequency,
             'trigger_after': TriggerAfter,
             'actions': List[RuleAction],
-            'selectors': Selector
+            'selectors': List[Selector]
         }
 
         self.attribute_map = {
@@ -190,7 +190,7 @@ class EditRuleRequest(Model):
 
 
         :return: The selectors of this EditRuleRequest.
-        :rtype: Selector
+        :rtype: List[Selector]
         """
         return self._selectors
 
@@ -200,7 +200,7 @@ class EditRuleRequest(Model):
 
 
         :param selectors: The selectors of this EditRuleRequest.
-        :type selectors: Selector
+        :type selectors: List[Selector]
         """
 
         self._selectors = selectors

@@ -131,6 +131,32 @@ class TestClustersController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_scale_nodepool(self, pretty_print, owner_api_token):
+        """Test case for scale_nodepool
+
+        Scale cluster nodepool
+        """
+        scale_nodepool_request = setup_data.get('scale_nodepool', {}).get(
+            'request_body') or json.loads("""{
+  "desired_nodes" : 0,
+  "max_nodes" : 1,
+  "autoscaling" : true,
+  "min_nodes" : 6
+}""", strict=False)
+        uri = MIST_URL + '/api/v2/clusters/{cluster}/nodepools/{nodepool}'.format(
+            cluster=setup_data.get('scale_nodepool', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster', nodepool=setup_data.get('scale_nodepool', {}).get('nodepool') or setup_data.get('nodepool') or 'my-nodepool-name')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=scale_nodepool_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        if 'scale_nodepool' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
 
 if resource_name == 'machines':
     # Impose custom ordering of machines test methods

@@ -201,6 +201,7 @@ mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
 mist_api_v2/models/run_script_request.py
 mist_api_v2/models/run_script_response.py
+mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/secret.py
