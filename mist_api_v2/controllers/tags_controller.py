@@ -69,7 +69,7 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         return 'Authentication failed', 401
 
     for op in tag_resources_request.operations:
-        tag = {op.tag.key: op.tag.value}
+        tags = {tag.key: tag.value for tag in op.tags}
 
         for resource in op.resources:
             resource_type = resource.resource_type.rstrip('s')
@@ -88,14 +88,14 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
             except PolicyUnauthorizedError:
                 return 'You are not authorized to perform this action', 403
 
-            if not modify_security_tags(auth_context, tag, resource_obj):
+            if not modify_security_tags(auth_context, tags, resource_obj):
                 auth_context._raise(resource_type, 'edit_security_tags')
 
             if not op.operation or op.operation == 'add':
                 add_tags_to_resource(auth_context.owner, resource_obj,
-                                     tag)
+                                     tags)
             if op.operation == 'remove':
                 remove_tags_from_resource(auth_context.owner, resource_obj,
-                                          tag)
+                                          tags)
 
     return 'Tags succesfully updated', 200
