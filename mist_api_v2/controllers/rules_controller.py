@@ -47,6 +47,8 @@ def add_rule(add_rule_request=None):  # noqa: E501
     arbitrary = kwargs['selectors'] is None
     delete_none(kwargs)
     data_type = kwargs.pop('data_type')
+    title = kwargs.pop('name')
+    kwargs['title'] = title
     # Get the proper Rule subclass.
     rule_key = f'{"arbitrary" if arbitrary else "resource"}-{data_type}'
     rule_cls = RULES[rule_key]
@@ -125,6 +127,8 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     rule.ctl.set_auth_context(auth_context)
     kwargs = delete_none(edit_rule_request.to_dict())
+    title = kwargs.pop('name')
+    kwargs['title'] = title
     try:
         rule.ctl.update(**kwargs)
     except (BadRequestError, ValidationError) as e:
