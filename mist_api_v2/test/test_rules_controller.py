@@ -1,53 +1,28 @@
-import json
-import time
-import importlib
+# coding: utf-8
 
-import pytest
+from __future__ import absolute_import
+import unittest
 
-from misttests.config import MIST_URL
-from misttests.integration.api.helpers import assert_response_found
-from misttests.integration.api.helpers import assert_response_ok
-from misttests.integration.api.mistrequests import MistRequests
+from flask import json
+from six import BytesIO
 
-DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
-REDIRECT_OPERATIONS = ['ssh', 'console']
-
-resource_name = 'RulesController'.replace('Controller', '').lower()
-resource_name_singular = resource_name.strip('s')
-try:
-    _setup_module = importlib.import_module(
-        f'misttests.integration.api.main.v2.setup.{resource_name}')
-except ImportError:
-    SETUP_MODULE_EXISTS = False
-else:
-    SETUP_MODULE_EXISTS = True
-setup_data = {}
+from mist_api_v2.models.add_rule_request import AddRuleRequest  # noqa: E501
+from mist_api_v2.models.edit_rule_request import EditRuleRequest  # noqa: E501
+from mist_api_v2.models.get_rule_response import GetRuleResponse  # noqa: E501
+from mist_api_v2.models.list_rules_response import ListRulesResponse  # noqa: E501
+from mist_api_v2.models.rule import Rule  # noqa: E501
+from mist_api_v2.test import BaseTestCase
 
 
-@pytest.fixture(autouse=True)
-def after_test(request):
-    yield
-    method_name = request._pyfuncitem._obj.__name__
-    test_operation = method_name.replace('test_', '')
-    callback = setup_data.get(test_operation, {}).get('callback')
-    if callable(callback):
-        assert callback()
-    else:
-        sleep = setup_data.get(test_operation, {}).get('sleep')
-        if sleep:
-            time.sleep(sleep)
-
-
-class TestRulesController:
+class TestRulesController(BaseTestCase):
     """RulesController integration test stubs"""
 
-    def test_add_rule(self, pretty_print, owner_api_token):
+    def test_add_rule(self):
         """Test case for add_rule
 
         Add rule
         """
-        add_rule_request = setup_data.get('add_rule', {}).get(
-            'request_body') or json.loads("""{
+        add_rule_request = {
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -88,45 +63,44 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}""", strict=False)
-        uri = MIST_URL + '/api/v2/rules'
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            json=add_rule_request)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'add_rule' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+}
+        headers = { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules',
+            method='POST',
+            headers=headers,
+            data=json.dumps(add_rule_request),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_delete_rule(self, pretty_print, owner_api_token):
+    def test_delete_rule(self):
         """Test case for delete_rule
 
         Delete rule
         """
-        uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('delete_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri)
-        request_method = getattr(request, 'DELETE'.lower())
-        response = request_method()
-        if 'delete_rule' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        headers = { 
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules/{rule}'.format(rule='my-rule'),
+            method='DELETE',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_edit_rule(self, pretty_print, owner_api_token):
+    def test_edit_rule(self):
         """Test case for edit_rule
 
         Update rule
         """
-        edit_rule_request = setup_data.get('edit_rule', {}).get(
-            'request_body') or json.loads("""{
+        edit_rule_request = {
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
@@ -166,135 +140,102 @@ class TestRulesController:
     "period" : "period",
     "every" : 5
   }
-}""", strict=False)
-        uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            json=edit_rule_request)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'edit_rule' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+}
+        headers = { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules/{rule}'.format(rule='my-rule'),
+            method='POST',
+            headers=headers,
+            data=json.dumps(edit_rule_request),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_rule(self, pretty_print, owner_api_token):
+    def test_get_rule(self):
         """Test case for get_rule
 
         Get rule
         """
-        query_string = setup_data.get('get_rule', {}).get('query_string') or [('sort', '-name'),
+        query_string = [('sort', '-name'),
                         ('only', 'id')]
-        uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('get_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'GET'.lower())
-        response = request_method()
-        if 'get_rule' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        headers = { 
+            'Accept': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules/{rule}'.format(rule='my-rule'),
+            method='GET',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_list_rules(self, pretty_print, owner_api_token):
+    def test_list_rules(self):
         """Test case for list_rules
 
         List rules
         """
-        query_string = setup_data.get('list_rules', {}).get('query_string') or [('search', 'total_run_count:5'),
+        query_string = [('search', 'total_run_count:5'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('at', '2021-07-21T17:32:28Z')]
-        uri = MIST_URL + '/api/v2/rules'
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'GET'.lower())
-        response = request_method()
-        if 'list_rules' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        headers = { 
+            'Accept': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules',
+            method='GET',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_rename_rule(self, pretty_print, owner_api_token):
+    def test_rename_rule(self):
         """Test case for rename_rule
 
         Rename rule
         """
-        query_string = setup_data.get('rename_rule', {}).get('query_string') or [('name', 'my-renamed-rule')]
-        uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rename_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'PATCH'.lower())
-        response = request_method()
-        if 'rename_rule' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        query_string = [('name', 'my-renamed-rule')]
+        headers = { 
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules/{rule}'.format(rule='my-rule'),
+            method='PATCH',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_toggle_rule(self, pretty_print, owner_api_token):
+    def test_toggle_rule(self):
         """Test case for toggle_rule
 
         Toggle rule
         """
-        query_string = setup_data.get('toggle_rule', {}).get('query_string') or [('action', 'disable')]
-        uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('toggle_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'PUT'.lower())
-        response = request_method()
-        if 'toggle_rule' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        query_string = [('action', 'disable')]
+        headers = { 
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/rules/{rule}'.format(rule='my-rule'),
+            method='PUT',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
 
-if resource_name == 'machines':
-    # Impose custom ordering of machines test methods
-    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
-        method_name = k if k.startswith('test_') else f'test_{k}'
-        method = getattr(TestRulesController, method_name)
-        setattr(TestRulesController, method_name,
-                pytest.mark.order(order + 1)(method))
-else:
-    # Mark delete-related test methods as last to be run
-    for key in vars(TestRulesController):
-        attr = getattr(TestRulesController, key)
-        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-            setattr(TestRulesController, key, pytest.mark.order('last')(attr))
-
-if SETUP_MODULE_EXISTS:
-    # Add setup and teardown methods to test class
-    class_setup_done = False
-
-    @pytest.fixture(scope='class')
-    def setup(owner_api_token):
-        global class_setup_done
-        if class_setup_done:
-            yield
-        else:
-            global setup_data
-            setup_data = _setup_module.setup(owner_api_token) or {}
-            yield
-            _setup_module.teardown(owner_api_token, setup_data)
-            class_setup_done = True
-    TestRulesController = pytest.mark.usefixtures('setup')(
-        TestRulesController)
+if __name__ == '__main__':
+    unittest.main()

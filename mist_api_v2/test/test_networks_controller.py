@@ -1,53 +1,27 @@
-import json
-import time
-import importlib
+# coding: utf-8
 
-import pytest
+from __future__ import absolute_import
+import unittest
 
-from misttests.config import MIST_URL
-from misttests.integration.api.helpers import assert_response_found
-from misttests.integration.api.helpers import assert_response_ok
-from misttests.integration.api.mistrequests import MistRequests
+from flask import json
+from six import BytesIO
 
-DELETE_KEYWORDS = ['delete', 'destroy', 'remove']
-REDIRECT_OPERATIONS = ['ssh', 'console']
-
-resource_name = 'NetworksController'.replace('Controller', '').lower()
-resource_name_singular = resource_name.strip('s')
-try:
-    _setup_module = importlib.import_module(
-        f'misttests.integration.api.main.v2.setup.{resource_name}')
-except ImportError:
-    SETUP_MODULE_EXISTS = False
-else:
-    SETUP_MODULE_EXISTS = True
-setup_data = {}
+from mist_api_v2.models.create_network_request import CreateNetworkRequest  # noqa: E501
+from mist_api_v2.models.create_network_response import CreateNetworkResponse  # noqa: E501
+from mist_api_v2.models.get_network_response import GetNetworkResponse  # noqa: E501
+from mist_api_v2.models.list_networks_response import ListNetworksResponse  # noqa: E501
+from mist_api_v2.test import BaseTestCase
 
 
-@pytest.fixture(autouse=True)
-def after_test(request):
-    yield
-    method_name = request._pyfuncitem._obj.__name__
-    test_operation = method_name.replace('test_', '')
-    callback = setup_data.get(test_operation, {}).get('callback')
-    if callable(callback):
-        assert callback()
-    else:
-        sleep = setup_data.get(test_operation, {}).get('sleep')
-        if sleep:
-            time.sleep(sleep)
-
-
-class TestNetworksController:
+class TestNetworksController(BaseTestCase):
     """NetworksController integration test stubs"""
 
-    def test_create_network(self, pretty_print, owner_api_token):
+    def test_create_network(self):
         """Test case for create_network
 
         Create network
         """
-        create_network_request = setup_data.get('create_network', {}).get(
-            'request_body') or json.loads("""{
+        create_network_request = {
   "cloud" : "my-cloud",
   "template" : "{}",
   "extra" : "{}",
@@ -55,136 +29,104 @@ class TestNetworksController:
   "save" : true,
   "dry" : true,
   "tags" : "{}"
-}""", strict=False)
-        uri = MIST_URL + '/api/v2/networks'
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            json=create_network_request)
-        request_method = getattr(request, 'POST'.lower())
-        response = request_method()
-        if 'create_network' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+}
+        headers = { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/networks',
+            method='POST',
+            headers=headers,
+            data=json.dumps(create_network_request),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_delete_network(self, pretty_print, owner_api_token):
+    def test_delete_network(self):
         """Test case for delete_network
 
         Delete network
         """
-        query_string = setup_data.get('delete_network', {}).get('query_string') or [('cloud', 'my-cloud')]
-        uri = MIST_URL + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('delete_network', {}).get('network') or setup_data.get('network') or 'my-network')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'DELETE'.lower())
-        response = request_method()
-        if 'delete_network' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        query_string = [('cloud', 'my-cloud')]
+        headers = { 
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/networks/{network}'.format(network='my-network'),
+            method='DELETE',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_edit_network(self, pretty_print, owner_api_token):
+    def test_edit_network(self):
         """Test case for edit_network
 
         Edit network
         """
-        query_string = setup_data.get('edit_network', {}).get('query_string') or [('name', 'my-renamed-network')]
-        uri = MIST_URL + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('edit_network', {}).get('network') or setup_data.get('network') or 'my-network')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'PUT'.lower())
-        response = request_method()
-        if 'edit_network' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        query_string = [('name', 'my-renamed-network')]
+        headers = { 
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/networks/{network}'.format(network='my-network'),
+            method='PUT',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_network(self, pretty_print, owner_api_token):
+    def test_get_network(self):
         """Test case for get_network
 
         Get network
         """
-        query_string = setup_data.get('get_network', {}).get('query_string') or [('only', 'id'),
+        query_string = [('only', 'id'),
                         ('deref', 'auto')]
-        uri = MIST_URL + '/api/v2/networks/{network}'.format(
-            network=setup_data.get('get_network', {}).get('network') or setup_data.get('network') or 'my-network')
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'GET'.lower())
-        response = request_method()
-        if 'get_network' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        headers = { 
+            'Accept': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/networks/{network}'.format(network='my-network'),
+            method='GET',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_list_networks(self, pretty_print, owner_api_token):
+    def test_list_networks(self):
         """Test case for list_networks
 
         List networks
         """
-        query_string = setup_data.get('list_networks', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+        query_string = [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
-        uri = MIST_URL + '/api/v2/networks'
-        request = MistRequests(
-            api_token=owner_api_token,
-            uri=uri,
-            params=query_string)
-        request_method = getattr(request, 'GET'.lower())
-        response = request_method()
-        if 'list_networks' in REDIRECT_OPERATIONS:
-            assert_response_found(response)
-        else:
-            assert_response_ok(response)
-        print('Success!!!')
+        headers = { 
+            'Accept': 'application/json',
+            'ApiKeyAuth': 'special-key',
+            'CookieAuth': 'special-key',
+        }
+        response = self.client.open(
+            '/api/v2/networks',
+            method='GET',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
 
-if resource_name == 'machines':
-    # Impose custom ordering of machines test methods
-    for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
-        method_name = k if k.startswith('test_') else f'test_{k}'
-        method = getattr(TestNetworksController, method_name)
-        setattr(TestNetworksController, method_name,
-                pytest.mark.order(order + 1)(method))
-else:
-    # Mark delete-related test methods as last to be run
-    for key in vars(TestNetworksController):
-        attr = getattr(TestNetworksController, key)
-        if callable(attr) and any(k in key for k in DELETE_KEYWORDS):
-            setattr(TestNetworksController, key, pytest.mark.order('last')(attr))
-
-if SETUP_MODULE_EXISTS:
-    # Add setup and teardown methods to test class
-    class_setup_done = False
-
-    @pytest.fixture(scope='class')
-    def setup(owner_api_token):
-        global class_setup_done
-        if class_setup_done:
-            yield
-        else:
-            global setup_data
-            setup_data = _setup_module.setup(owner_api_token) or {}
-            yield
-            _setup_module.teardown(owner_api_token, setup_data)
-            class_setup_done = True
-    TestNetworksController = pytest.mark.usefixtures('setup')(
-        TestNetworksController)
+if __name__ == '__main__':
+    unittest.main()
