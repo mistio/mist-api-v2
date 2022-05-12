@@ -75,7 +75,7 @@ class TestMachinesController:
         Clone machine
         """
         query_string = setup_data.get('clone_machine', {}).get('query_string') or [('name', 'my-machine-clone'),
-                        ('run_async', 'false')]
+                        ('run_async', false)]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/clone'.format(
             machine=setup_data.get('clone_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
@@ -260,7 +260,7 @@ class TestMachinesController:
                         ('search', 'state:running'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
@@ -430,7 +430,7 @@ class TestMachinesController:
 
         Undefine machine
         """
-        query_string = setup_data.get('undefine_machine', {}).get('query_string') or [('delete_domain_image', 'True')]
+        query_string = setup_data.get('undefine_machine', {}).get('query_string') or [('delete_domain_image', True)]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/undefine'.format(
             machine=setup_data.get('undefine_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(

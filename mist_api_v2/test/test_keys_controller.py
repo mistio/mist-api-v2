@@ -88,7 +88,7 @@ class TestKeysController:
         Edit key
         """
         query_string = setup_data.get('edit_key', {}).get('query_string') or [('name', 'my-renamed-key'),
-                        ('default', 'True')]
+                        ('default', True)]
         uri = MIST_URL + '/api/v2/keys/{key}'.format(
             key=setup_data.get('edit_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
@@ -108,7 +108,7 @@ class TestKeysController:
 
         Get key
         """
-        query_string = setup_data.get('get_key', {}).get('query_string') or [('private', 'False'),
+        query_string = setup_data.get('get_key', {}).get('query_string') or [('private', False),
                         ('sort', '-name'),
                         ('only', 'id'),
                         ('deref', 'auto')]
@@ -134,7 +134,7 @@ class TestKeysController:
         query_string = setup_data.get('list_keys', {}).get('query_string') or [('search', 'owned_by:csk@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
