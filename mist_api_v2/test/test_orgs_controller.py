@@ -90,7 +90,7 @@ class TestOrgsController:
         query_string = setup_data.get('list_org_members', {}).get('query_string') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/orgs/{org}/members'.format(
@@ -115,7 +115,7 @@ class TestOrgsController:
         query_string = setup_data.get('list_org_teams', {}).get('query_string') or [('search', 'name:finance'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
@@ -142,7 +142,7 @@ class TestOrgsController:
                         ('search', 'name:Acme'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]

@@ -46,6 +46,7 @@ mist_api_v2/models/alibaba_net.py
 mist_api_v2/models/amazon_cloud_request.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/amazon_net.py
+mist_api_v2/models/amazon_regions.py
 mist_api_v2/models/azure_cloud_request.py
 mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/azure_extra.py
@@ -201,6 +202,7 @@ mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
 mist_api_v2/models/run_script_request.py
 mist_api_v2/models/run_script_response.py
+mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/secret.py

@@ -172,7 +172,7 @@ class TestScriptsController:
         query_string = setup_data.get('list_scripts', {}).get('query_string') or [('search', 'my-script'),
                         ('sort', '-name'),
                         ('start', '3'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
