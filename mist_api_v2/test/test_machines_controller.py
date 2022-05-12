@@ -56,7 +56,7 @@ class TestMachinesController:
   "key" : "key"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/associate-key'.format(
-            machine=setup_data.get('associate_key', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('associate_key', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -74,10 +74,10 @@ class TestMachinesController:
 
         Clone machine
         """
-        query_string = setup_data.get('clone_machine', {}).get('query_string') or [('name', ''my-machine-clone''),
-                        ('run_async', 'false')]
+        query_string = setup_data.get('clone_machine', {}).get('query_string') or [('name', 'my-machine-clone'),
+                        ('run_async', false)]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/clone'.format(
-            machine=setup_data.get('clone_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('clone_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -96,7 +96,7 @@ class TestMachinesController:
         Open console
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/console'.format(
-            machine=setup_data.get('console', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('console', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -168,7 +168,7 @@ class TestMachinesController:
         Destroy machine
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/destroy'.format(
-            machine=setup_data.get('destroy_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('destroy_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -190,7 +190,7 @@ class TestMachinesController:
   "key" : "key"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/disassociate-key'.format(
-            machine=setup_data.get('disassociate_key', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('disassociate_key', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -217,7 +217,7 @@ class TestMachinesController:
   }
 }""", strict=False)
         uri = MIST_URL + '/api/v2/machines/{machine}'.format(
-            machine=setup_data.get('edit_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('edit_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -235,10 +235,10 @@ class TestMachinesController:
 
         Get machine
         """
-        query_string = setup_data.get('get_machine', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_machine', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/machines/{machine}'.format(
-            machine=setup_data.get('get_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('get_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -256,14 +256,14 @@ class TestMachinesController:
 
         List machines
         """
-        query_string = setup_data.get('list_machines', {}).get('query_string') or [('cloud', ''0194030499e74b02bdf68fa7130fb0b2''),
-                        ('search', ''state:running''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_machines', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'state:running'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/machines'
         request = MistRequests(
             api_token=owner_api_token,
@@ -283,7 +283,7 @@ class TestMachinesController:
         Reboot machine
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/reboot'.format(
-            machine=setup_data.get('reboot_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('reboot_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -300,9 +300,9 @@ class TestMachinesController:
 
         Rename machine
         """
-        query_string = setup_data.get('rename_machine', {}).get('query_string') or [('name', ''my-renamed-machine'')]
+        query_string = setup_data.get('rename_machine', {}).get('query_string') or [('name', 'my-renamed-machine')]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/rename'.format(
-            machine=setup_data.get('rename_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('rename_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -320,9 +320,9 @@ class TestMachinesController:
 
         Resize machine
         """
-        query_string = setup_data.get('resize_machine', {}).get('query_string') or [('size', ''9417745961a84bffbf6419e5of68faa5'')]
+        query_string = setup_data.get('resize_machine', {}).get('query_string') or [('size', '9417745961a84bffbf6419e5of68faa5')]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/resize'.format(
-            machine=setup_data.get('resize_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('resize_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -341,7 +341,7 @@ class TestMachinesController:
         Resume machine
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/resume'.format(
-            machine=setup_data.get('resume_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('resume_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -359,7 +359,7 @@ class TestMachinesController:
         Open secure shell
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/ssh'.format(
-            machine=setup_data.get('ssh', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('ssh', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -377,7 +377,7 @@ class TestMachinesController:
         Start machine
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/start'.format(
-            machine=setup_data.get('start_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('start_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -395,7 +395,7 @@ class TestMachinesController:
         Stop machine
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/stop'.format(
-            machine=setup_data.get('stop_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('stop_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -413,7 +413,7 @@ class TestMachinesController:
         Suspend machine
         """
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/suspend'.format(
-            machine=setup_data.get('suspend_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('suspend_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -430,9 +430,9 @@ class TestMachinesController:
 
         Undefine machine
         """
-        query_string = setup_data.get('undefine_machine', {}).get('query_string') or [('delete_domain_image', 'True')]
+        query_string = setup_data.get('undefine_machine', {}).get('query_string') or [('delete_domain_image', True)]
         uri = MIST_URL + '/api/v2/machines/{machine}/actions/undefine'.format(
-            machine=setup_data.get('undefine_machine', {}).get('machine') or setup_data.get('machine') or ''my-machine'')
+            machine=setup_data.get('undefine_machine', {}).get('machine') or setup_data.get('machine') or 'my-machine')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

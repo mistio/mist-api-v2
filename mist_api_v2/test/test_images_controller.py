@@ -46,10 +46,10 @@ class TestImagesController:
 
         Get image
         """
-        query_string = setup_data.get('get_image', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_image', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/images/{image}'.format(
-            image=setup_data.get('get_image', {}).get('image') or setup_data.get('image') or ''ubuntu-1604-xenial-v20210928'')
+            image=setup_data.get('get_image', {}).get('image') or setup_data.get('image') or 'ubuntu-1604-xenial-v20210928')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -67,14 +67,14 @@ class TestImagesController:
 
         List images
         """
-        query_string = setup_data.get('list_images', {}).get('query_string') or [('cloud', ''my-cloud''),
-                        ('search', ''os_type:windows''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_images', {}).get('query_string') or [('cloud', 'my-cloud'),
+                        ('search', 'os_type:windows'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/images'
         request = MistRequests(
             api_token=owner_api_token,

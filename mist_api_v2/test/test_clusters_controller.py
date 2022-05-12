@@ -71,7 +71,7 @@ class TestClustersController:
         Destroy cluster
         """
         uri = MIST_URL + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('destroy_cluster', {}).get('cluster') or setup_data.get('cluster') or ''my-cluster'')
+            cluster=setup_data.get('destroy_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -88,11 +88,11 @@ class TestClustersController:
 
         Get cluster
         """
-        query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto''),
-                        ('credentials', 'False')]
+        query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto'),
+                        ('credentials', False)]
         uri = MIST_URL + '/api/v2/clusters/{cluster}'.format(
-            cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or ''my-cluster'')
+            cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -110,14 +110,14 @@ class TestClustersController:
 
         List clusters
         """
-        query_string = setup_data.get('list_clusters', {}).get('query_string') or [('cloud', ''0194030499e74b02bdf68fa7130fb0b2''),
-                        ('search', ''created_by:csk''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_clusters', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'created_by:csk'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/clusters'
         request = MistRequests(
             api_token=owner_api_token,
@@ -144,7 +144,7 @@ class TestClustersController:
   "min_nodes" : 6
 }""", strict=False)
         uri = MIST_URL + '/api/v2/clusters/{cluster}/nodepools/{nodepool}'.format(
-            cluster=setup_data.get('scale_nodepool', {}).get('cluster') or setup_data.get('cluster') or ''my-cluster'', nodepool=setup_data.get('scale_nodepool', {}).get('nodepool') or setup_data.get('nodepool') or ''my-nodepool-name'')
+            cluster=setup_data.get('scale_nodepool', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster', nodepool=setup_data.get('scale_nodepool', {}).get('nodepool') or setup_data.get('nodepool') or 'my-nodepool-name')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

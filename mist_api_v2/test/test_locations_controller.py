@@ -46,10 +46,10 @@ class TestLocationsController:
 
         Get location
         """
-        query_string = setup_data.get('get_location', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_location', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/locations/{location}'.format(
-            location=setup_data.get('get_location', {}).get('location') or setup_data.get('location') or ''us-central1-a'')
+            location=setup_data.get('get_location', {}).get('location') or setup_data.get('location') or 'us-central1-a')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -67,14 +67,14 @@ class TestLocationsController:
 
         List locations
         """
-        query_string = setup_data.get('list_locations', {}).get('query_string') or [('cloud', ''my-cloud''),
-                        ('search', ''cinet3''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_locations', {}).get('query_string') or [('cloud', 'my-cloud'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/locations'
         request = MistRequests(
             api_token=owner_api_token,

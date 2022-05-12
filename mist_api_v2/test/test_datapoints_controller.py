@@ -46,13 +46,13 @@ class TestDatapointsController:
 
         Get datapoints
         """
-        query_string = setup_data.get('get_datapoints', {}).get('query_string') or [('query', ''system_load1''),
-                        ('tags', ''cluster=east1,production''),
-                        ('search', ''state:running''),
-                        ('start', ''1633096171''),
-                        ('end', ''1633096171''),
-                        ('step', ''5.0''),
-                        ('time', ''1633096171'')]
+        query_string = setup_data.get('get_datapoints', {}).get('query_string') or [('query', 'system_load1'),
+                        ('tags', 'cluster=east1,production'),
+                        ('search', 'state:running'),
+                        ('start', '1633096171'),
+                        ('end', '1633096171'),
+                        ('step', '5.0'),
+                        ('time', '1633096171')]
         uri = MIST_URL + '/api/v2/datapoints'
         request = MistRequests(
             api_token=owner_api_token,

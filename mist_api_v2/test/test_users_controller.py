@@ -46,13 +46,13 @@ class TestUsersController:
 
         List users
         """
-        query_string = setup_data.get('list_users', {}).get('query_string') or [('search', ''email:dev@mist.io''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_users', {}).get('query_string') or [('search', 'email:dev@mist.io'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/users'
         request = MistRequests(
             api_token=owner_api_token,

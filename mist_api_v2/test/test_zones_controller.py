@@ -70,7 +70,7 @@ class TestZonesController:
         Delete zone
         """
         uri = MIST_URL + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('delete_zone', {}).get('zone') or setup_data.get('zone') or ''my-zone'')
+            zone=setup_data.get('delete_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -88,7 +88,7 @@ class TestZonesController:
         Edit zone
         """
         uri = MIST_URL + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('edit_zone', {}).get('zone') or setup_data.get('zone') or ''my-zone'')
+            zone=setup_data.get('edit_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -105,10 +105,10 @@ class TestZonesController:
 
         Get zone
         """
-        query_string = setup_data.get('get_zone', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_zone', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/zones/{zone}'.format(
-            zone=setup_data.get('get_zone', {}).get('zone') or setup_data.get('zone') or ''my-zone'')
+            zone=setup_data.get('get_zone', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -126,14 +126,14 @@ class TestZonesController:
 
         List zones
         """
-        query_string = setup_data.get('list_zones', {}).get('query_string') or [('cloud', ''0194030499e74b02bdf68fa7130fb0b2''),
-                        ('search', ''cinet3''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_zones', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/zones'
         request = MistRequests(
             api_token=owner_api_token,

@@ -74,7 +74,7 @@ class TestScriptsController:
         Delete script
         """
         uri = MIST_URL + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('delete_script', {}).get('script') or setup_data.get('script') or ''my-script'')
+            script=setup_data.get('delete_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -92,7 +92,7 @@ class TestScriptsController:
         Download script
         """
         uri = MIST_URL + '/api/v2/scripts/{script}/file'.format(
-            script=setup_data.get('download_script', {}).get('script') or setup_data.get('script') or ''my-script'')
+            script=setup_data.get('download_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -109,10 +109,10 @@ class TestScriptsController:
 
         Edit script
         """
-        query_string = setup_data.get('edit_script', {}).get('query_string') or [('name', ''my-renamed-script''),
-                        ('description', ''description'')]
+        query_string = setup_data.get('edit_script', {}).get('query_string') or [('name', 'my-renamed-script'),
+                        ('description', 'description')]
         uri = MIST_URL + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('edit_script', {}).get('script') or setup_data.get('script') or ''my-script'')
+            script=setup_data.get('edit_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -131,7 +131,7 @@ class TestScriptsController:
         Generate script url
         """
         uri = MIST_URL + '/api/v2/scripts/{script}/url'.format(
-            script=setup_data.get('generate_script_url', {}).get('script') or setup_data.get('script') or ''my-script'')
+            script=setup_data.get('generate_script_url', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -148,10 +148,10 @@ class TestScriptsController:
 
         Get script
         """
-        query_string = setup_data.get('get_script', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_script', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('get_script', {}).get('script') or setup_data.get('script') or ''my-script'')
+            script=setup_data.get('get_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -169,13 +169,13 @@ class TestScriptsController:
 
         List scripts
         """
-        query_string = setup_data.get('list_scripts', {}).get('query_string') or [('search', ''my-script''),
-                        ('sort', ''-name''),
-                        ('start', ''3''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_scripts', {}).get('query_string') or [('search', 'my-script'),
+                        ('sort', '-name'),
+                        ('start', '3'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/scripts'
         request = MistRequests(
             api_token=owner_api_token,
@@ -203,7 +203,7 @@ class TestScriptsController:
   "env" : "EXAMPLE_VAR=123"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/scripts/{script}'.format(
-            script=setup_data.get('run_script', {}).get('script') or setup_data.get('script') or ''my-script'')
+            script=setup_data.get('run_script', {}).get('script') or setup_data.get('script') or 'my-script')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

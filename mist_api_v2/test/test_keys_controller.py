@@ -70,7 +70,7 @@ class TestKeysController:
         Delete key
         """
         uri = MIST_URL + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('delete_key', {}).get('key') or setup_data.get('key') or ''my-key'')
+            key=setup_data.get('delete_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -87,10 +87,10 @@ class TestKeysController:
 
         Edit key
         """
-        query_string = setup_data.get('edit_key', {}).get('query_string') or [('name', ''my-renamed-key''),
-                        ('default', 'True')]
+        query_string = setup_data.get('edit_key', {}).get('query_string') or [('name', 'my-renamed-key'),
+                        ('default', True)]
         uri = MIST_URL + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('edit_key', {}).get('key') or setup_data.get('key') or ''my-key'')
+            key=setup_data.get('edit_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -108,12 +108,12 @@ class TestKeysController:
 
         Get key
         """
-        query_string = setup_data.get('get_key', {}).get('query_string') or [('private', 'False'),
-                        ('sort', ''-name''),
-                        ('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_key', {}).get('query_string') or [('private', False),
+                        ('sort', '-name'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/keys/{key}'.format(
-            key=setup_data.get('get_key', {}).get('key') or setup_data.get('key') or ''my-key'')
+            key=setup_data.get('get_key', {}).get('key') or setup_data.get('key') or 'my-key')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -131,13 +131,13 @@ class TestKeysController:
 
         List keys
         """
-        query_string = setup_data.get('list_keys', {}).get('query_string') or [('search', ''owned_by:csk@mist.io''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_keys', {}).get('query_string') or [('search', 'owned_by:csk@mist.io'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/keys'
         request = MistRequests(
             api_token=owner_api_token,

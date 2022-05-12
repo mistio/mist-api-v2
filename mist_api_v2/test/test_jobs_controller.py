@@ -47,7 +47,7 @@ class TestJobsController:
         Get job
         """
         uri = MIST_URL + '/api/v2/jobs/{job_id}'.format(
-            job_id=setup_data.get('get_job', {}).get('job_id') or setup_data.get('job_id') or ''ab74e2f0b7ae4999b1e4013e20dac418'')
+            job_id=setup_data.get('get_job', {}).get('job_id') or setup_data.get('job_id') or 'ab74e2f0b7ae4999b1e4013e20dac418')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)

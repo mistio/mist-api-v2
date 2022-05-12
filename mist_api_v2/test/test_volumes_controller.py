@@ -81,7 +81,7 @@ class TestVolumesController:
         Delete volume
         """
         uri = MIST_URL + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('delete_volume', {}).get('volume') or setup_data.get('volume') or ''my-volume'')
+            volume=setup_data.get('delete_volume', {}).get('volume') or setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -98,9 +98,9 @@ class TestVolumesController:
 
         Edit volume
         """
-        query_string = setup_data.get('edit_volume', {}).get('query_string') or [('name', ''my-renamed-volume'')]
+        query_string = setup_data.get('edit_volume', {}).get('query_string') or [('name', 'my-renamed-volume')]
         uri = MIST_URL + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('edit_volume', {}).get('volume') or setup_data.get('volume') or ''my-volume'')
+            volume=setup_data.get('edit_volume', {}).get('volume') or setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -118,10 +118,10 @@ class TestVolumesController:
 
         Get volume
         """
-        query_string = setup_data.get('get_volume', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_volume', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/volumes/{volume}'.format(
-            volume=setup_data.get('get_volume', {}).get('volume') or setup_data.get('volume') or ''my-volume'')
+            volume=setup_data.get('get_volume', {}).get('volume') or setup_data.get('volume') or 'my-volume')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -139,14 +139,14 @@ class TestVolumesController:
 
         List volumes
         """
-        query_string = setup_data.get('list_volumes', {}).get('query_string') or [('cloud', ''0194030499e74b02bdf68fa7130fb0b2''),
-                        ('search', ''location:Amsterdam''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_volumes', {}).get('query_string') or [('cloud', '0194030499e74b02bdf68fa7130fb0b2'),
+                        ('search', 'location:Amsterdam'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/volumes'
         request = MistRequests(
             api_token=owner_api_token,

@@ -108,7 +108,7 @@ class TestRulesController:
         Delete rule
         """
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('delete_rule', {}).get('rule') or setup_data.get('rule') or ''my-rule'')
+            rule=setup_data.get('delete_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -168,7 +168,7 @@ class TestRulesController:
   }
 }""", strict=False)
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or ''my-rule'')
+            rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -186,10 +186,10 @@ class TestRulesController:
 
         Get rule
         """
-        query_string = setup_data.get('get_rule', {}).get('query_string') or [('sort', ''-name''),
-                        ('only', ''id'')]
+        query_string = setup_data.get('get_rule', {}).get('query_string') or [('sort', '-name'),
+                        ('only', 'id')]
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('get_rule', {}).get('rule') or setup_data.get('rule') or ''my-rule'')
+            rule=setup_data.get('get_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -207,12 +207,12 @@ class TestRulesController:
 
         List rules
         """
-        query_string = setup_data.get('list_rules', {}).get('query_string') or [('search', ''total_run_count:5''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_rules', {}).get('query_string') or [('search', 'total_run_count:5'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/rules'
         request = MistRequests(
             api_token=owner_api_token,
@@ -231,9 +231,9 @@ class TestRulesController:
 
         Rename rule
         """
-        query_string = setup_data.get('rename_rule', {}).get('query_string') or [('name', ''my-renamed-rule'')]
+        query_string = setup_data.get('rename_rule', {}).get('query_string') or [('name', 'my-renamed-rule')]
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('rename_rule', {}).get('rule') or setup_data.get('rule') or ''my-rule'')
+            rule=setup_data.get('rename_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -251,9 +251,9 @@ class TestRulesController:
 
         Toggle rule
         """
-        query_string = setup_data.get('toggle_rule', {}).get('query_string') or [('action', ''disable'')]
+        query_string = setup_data.get('toggle_rule', {}).get('query_string') or [('action', 'disable')]
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
-            rule=setup_data.get('toggle_rule', {}).get('rule') or setup_data.get('rule') or ''my-rule'')
+            rule=setup_data.get('toggle_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

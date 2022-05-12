@@ -46,10 +46,10 @@ class TestSizesController:
 
         Get size
         """
-        query_string = setup_data.get('get_size', {}).get('query_string') or [('only', ''id''),
-                        ('deref', ''auto'')]
+        query_string = setup_data.get('get_size', {}).get('query_string') or [('only', 'id'),
+                        ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/sizes/{size}'.format(
-            size=setup_data.get('get_size', {}).get('size') or setup_data.get('size') or ''n2-highcpu-2 (2 vCPUs 2 GB RAM)'')
+            size=setup_data.get('get_size', {}).get('size') or setup_data.get('size') or 'n2-highcpu-2 (2 vCPUs 2 GB RAM)')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -67,14 +67,14 @@ class TestSizesController:
 
         List sizes
         """
-        query_string = setup_data.get('list_sizes', {}).get('query_string') or [('cloud', ''my-cloud''),
-                        ('search', ''cinet3''),
-                        ('sort', ''-name''),
-                        ('start', ''50''),
-                        ('limit', '56'),
-                        ('only', ''id''),
-                        ('deref', ''auto''),
-                        ('at', ''2021-07-21T17:32:28Z'')]
+        query_string = setup_data.get('list_sizes', {}).get('query_string') or [('cloud', 'my-cloud'),
+                        ('search', 'cinet3'),
+                        ('sort', '-name'),
+                        ('start', '50'),
+                        ('limit', 56),
+                        ('only', 'id'),
+                        ('deref', 'auto'),
+                        ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/sizes'
         request = MistRequests(
             api_token=owner_api_token,
