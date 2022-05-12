@@ -38,7 +38,7 @@ def create_secret(create_secret_request=None):  # noqa: E501
         return exc.args[0], 409
 
     try:
-        _secret.ctl.create_or_update_secret(secret)
+        auth_context.owner.secret_ctl.create_or_update_secret(name, secret)
     except Exception as exc:
         _secret.delete()
         # FIXME: (probably) throws 500 -- include exceptions in spec
@@ -77,7 +77,7 @@ def delete_secret(secret):  # noqa: E501
     except VaultSecret.DoesNotExist:
         return 'VaultSecret does not exist', 404
     auth_context.check_perm('secret', 'delete', secret_id)
-    secret.ctl.delete_secret()
+    auth_context.owner.secret_ctl.delete_secret(secret.name)
     secret.delete()
 
     return 'Deleted secret `%s`' % secret.name, 200
@@ -107,7 +107,8 @@ def edit_secret(secret, edit_secret_request=None):  # noqa: E501
         return 'VaultSecret does not exist', 404
 
     auth_context.check_perm("secret", "edit", secret_id)
-    _secret.ctl.create_or_update_secret(updated_secret)
+    auth_context.owner.secret_ctl.create_or_update_secret(
+        _secret.name, updated_secret)
 
     return _secret.as_dict()
 
@@ -148,7 +149,8 @@ def get_secret(secret, value=False):  # noqa: E501
             auth_context.owner.id, 'request', 'read_value',
             secret_id=secret.id, user_id=auth_context.user.id,
         )
-        secret_dict.update({'value': secret.ctl.read_secret()})
+        secret_dict.update(
+            {'value': auth_context.owner.secret_ctl.read_secret()})
 
     return GetSecretResponse(secret_dict, meta)
 
