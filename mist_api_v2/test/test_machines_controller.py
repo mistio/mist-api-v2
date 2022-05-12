@@ -113,47 +113,13 @@ class TestMachinesController:
 
         Create machine
         """
-        create_machine_request = setup_data.get('create_machine', {}).get(
-            'request_body') or json.loads("""{
-  "template" : "{}",
-  "image" : "Debian",
-  "quantity" : 1.4658129805029452,
-  "disks" : {
-    "disk_size" : 0,
-    "disk_path" : "disk_path"
-  },
-  "fqdn" : "fqdn",
-  "cloudinit" : "cloudinit",
-  "volumes" : "",
-  "save" : true,
-  "dry" : true,
-  "monitoring" : true,
-  "tags" : "{}",
-  "cloud" : "cloud",
-  "size" : "m1.small",
-  "optimize" : "optimize",
-  "schedules" : [ "", "" ],
-  "extra" : "",
-  "name" : "DB mirror",
-  "location" : "",
-  "expiration" : {
-    "date" : "2000-01-23T04:56:07.000+00:00",
-    "action" : "stop",
-    "notify" : {
-      "period" : "minutes",
-      "value" : 1
-    },
-    "notify_msg" : "notify_msg"
-  },
-  "net" : "",
-  "scripts" : [ "", "" ],
-  "key" : ""
-}""", strict=False)
+        body = setup_data.get('create_machine', {}).get(
+            'request_body') or json.loads("""{"name":"TestMachine","image":"Ubuntu","size":{"cpu":1,"memory":1024},"key":"TestKey","monitoring":true}""", strict=False)
         uri = MIST_URL + '/api/v2/machines'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            json=create_machine_request)
+            json=body)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         if 'create_machine' in REDIRECT_OPERATIONS:

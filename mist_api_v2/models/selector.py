@@ -100,7 +100,7 @@ class Selector(Model):
         :param type: The type of this Selector.
         :type type: str
         """
-        allowed_values = ["machines", "volumes", "clusters", "networks", "field", "tags", "age"]  # noqa: E501
+        allowed_values = ["age"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"

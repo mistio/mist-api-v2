@@ -5895,30 +5895,6 @@ components:
       title: MachineState
       type: string
     SupportedProviders:
-      enum:
-      - amazon
-      - azure
-      - google
-      - alibaba
-      - cloudsigma
-      - equinix
-      - ibm
-      - digitalocean
-      - linode
-      - rackspace
-      - maxihost
-      - vultr
-      - openstack
-      - onapp
-      - vsphere
-      - vexxhost
-      - kvm
-      - lxd
-      - docker
-      - kubevirt
-      - kubernetes
-      - openshift
-      - other
       title: SupportedProviders
       type: string
     Selector:
@@ -6042,7 +6018,7 @@ components:
             compute: true
             container: false
             dns: false
-          provider: null
+          provider: provider
           name: name
           owned_by: owned_by
           id: id
@@ -6053,7 +6029,7 @@ components:
             compute: true
             container: false
             dns: false
-          provider: null
+          provider: provider
           name: name
           owned_by: owned_by
           id: id
@@ -6082,7 +6058,7 @@ components:
             compute: true
             container: false
             dns: false
-          provider: null
+          provider: provider
           name: name
           owned_by: owned_by
           id: id
@@ -6107,7 +6083,7 @@ components:
           compute: true
           container: false
           dns: false
-        provider: null
+        provider: provider
         name: name
         owned_by: owned_by
         id: id
@@ -6122,7 +6098,8 @@ components:
           title: name
           type: string
         provider:
-          $ref: '#/components/schemas/SupportedProviders'
+          title: SupportedProviders
+          type: string
         config:
           title: config
           type: object
@@ -6140,134 +6117,9 @@ components:
       title: Cloud
       type: object
     AddCloudRequest:
-      allOf:
-      - $ref: '#/components/schemas/AddCloudRequest_allOf'
-      - discriminator:
-          mapping:
-            amazon: '#/components/schemas/AmazonCloudRequest'
-            azure: '#/components/schemas/AzureCloudRequest'
-            google: '#/components/schemas/GoogleCloudRequest'
-            cloudsigma: '#/components/schemas/CloudSigmaCloudRequest'
-            alibaba: '#/components/schemas/AlibabaCloudRequest'
-            equinix: '#/components/schemas/EquinixCloudRequest'
-            ibm: '#/components/schemas/IbmCloudRequest'
-            linode: '#/components/schemas/LinodeCloudRequest'
-            rackspace: '#/components/schemas/RackspaceCloudRequest'
-            maxihost: '#/components/schemas/MaxihostCloudRequest'
-            vultr: '#/components/schemas/VultrCloudRequest'
-            openstack: '#/components/schemas/OpenstackCloudRequest'
-            onapp: '#/components/schemas/OnappCloudRequest'
-            vsphere: '#/components/schemas/VsphereCloudRequest'
-            kvm: '#/components/schemas/KvmCloudRequest'
-            lxd: '#/components/schemas/LxdCloudRequest'
-            docker: '#/components/schemas/DockerCloudRequest'
-            kubernetes: '#/components/schemas/KubernetesCloudRequest'
-            kubevirt: '#/components/schemas/KubevirtCloudRequest'
-            openshift: '#/components/schemas/OpenshiftCloudRequest'
-            other: '#/components/schemas/OtherCloudRequest'
-          propertyName: provider
-        oneOf:
-        - $ref: '#/components/schemas/AmazonCloudRequest'
-        - $ref: '#/components/schemas/AzureCloudRequest'
-        - $ref: '#/components/schemas/GoogleCloudRequest'
-        - $ref: '#/components/schemas/AlibabaCloudRequest'
-        - $ref: '#/components/schemas/CloudSigmaCloudRequest'
-        - $ref: '#/components/schemas/EquinixCloudRequest'
-        - $ref: '#/components/schemas/IbmCloudRequest'
-        - $ref: '#/components/schemas/DigitaloceanCloudRequest'
-        - $ref: '#/components/schemas/LinodeCloudRequest'
-        - $ref: '#/components/schemas/RackspaceCloudRequest'
-        - $ref: '#/components/schemas/MaxihostCloudRequest'
-        - $ref: '#/components/schemas/VultrCloudRequest'
-        - $ref: '#/components/schemas/OpenstackCloudRequest'
-        - $ref: '#/components/schemas/OnappCloudRequest'
-        - $ref: '#/components/schemas/VsphereCloudRequest'
-        - $ref: '#/components/schemas/KvmCloudRequest'
-        - $ref: '#/components/schemas/LxdCloudRequest'
-        - $ref: '#/components/schemas/DockerCloudRequest'
-        - $ref: '#/components/schemas/KubernetesCloudRequest'
-        - $ref: '#/components/schemas/KubevirtCloudRequest'
-        - $ref: '#/components/schemas/OpenshiftCloudRequest'
-        - $ref: '#/components/schemas/OtherCloudRequest'
-      example:
-        name: my-cloud
-        provider: google
-        credentials:
-          projectId: projectId
-          privateKey: privateKey
-          email: email
-      title: AddCloudRequest
-    EditCloudRequest_anyOf:
-      additionalProperties: false
-      properties:
-        name:
-          description: Updated name
-          title: name
-          type: string
-      required:
-      - name
-      title: EditCloudRequest_anyOf
       type: object
     EditCloudRequest:
-      anyOf:
-      - $ref: '#/components/schemas/EditCloudRequest_anyOf'
-      - allOf:
-        - properties:
-            provider:
-              $ref: '#/components/schemas/SupportedProviders'
-          required:
-          - provider
-          type: object
-        - discriminator:
-            mapping:
-              amazon: '#/components/schemas/AmazonCloudRequest'
-              azure: '#/components/schemas/AzureCloudRequest'
-              google: '#/components/schemas/GoogleCloudRequest'
-              cloudsigma: '#/components/schemas/CloudSigmaCloudRequest'
-              alibaba: '#/components/schemas/AlibabaCloudRequest'
-              equinix: '#/components/schemas/EquinixCloudRequest'
-              ibm: '#/components/schemas/IbmCloudRequest'
-              linode: '#/components/schemas/LinodeCloudRequest'
-              rackspace: '#/components/schemas/RackspaceCloudRequest'
-              maxihost: '#/components/schemas/MaxihostCloudRequest'
-              vultr: '#/components/schemas/VultrCloudRequest'
-              openstack: '#/components/schemas/OpenstackCloudRequest'
-              onapp: '#/components/schemas/OnappCloudRequest'
-              vsphere: '#/components/schemas/VsphereCloudRequest'
-              kvm: '#/components/schemas/KvmCloudRequest'
-              lxd: '#/components/schemas/LxdCloudRequest'
-              docker: '#/components/schemas/DockerCloudRequest'
-              kubernetes: '#/components/schemas/KubernetesCloudRequest'
-              kubevirt: '#/components/schemas/KubevirtCloudRequest'
-              openshift: '#/components/schemas/OpenshiftCloudRequest'
-              other: '#/components/schemas/OtherCloudRequest'
-            propertyName: provider
-          oneOf:
-          - $ref: '#/components/schemas/AmazonCloudRequest'
-          - $ref: '#/components/schemas/AzureCloudRequest'
-          - $ref: '#/components/schemas/GoogleCloudRequest'
-          - $ref: '#/components/schemas/AlibabaCloudRequest'
-          - $ref: '#/components/schemas/CloudSigmaCloudRequest'
-          - $ref: '#/components/schemas/EquinixCloudRequest'
-          - $ref: '#/components/schemas/IbmCloudRequest'
-          - $ref: '#/components/schemas/DigitaloceanCloudRequest'
-          - $ref: '#/components/schemas/LinodeCloudRequest'
-          - $ref: '#/components/schemas/RackspaceCloudRequest'
-          - $ref: '#/components/schemas/MaxihostCloudRequest'
-          - $ref: '#/components/schemas/VultrCloudRequest'
-          - $ref: '#/components/schemas/OpenstackCloudRequest'
-          - $ref: '#/components/schemas/OnappCloudRequest'
-          - $ref: '#/components/schemas/VsphereCloudRequest'
-          - $ref: '#/components/schemas/KvmCloudRequest'
-          - $ref: '#/components/schemas/LxdCloudRequest'
-          - $ref: '#/components/schemas/DockerCloudRequest'
-          - $ref: '#/components/schemas/KubernetesCloudRequest'
-          - $ref: '#/components/schemas/KubevirtCloudRequest'
-          - $ref: '#/components/schemas/OpenshiftCloudRequest'
-          - $ref: '#/components/schemas/OtherCloudRequest'
-      example:
-        name: my-renamed-cloud
-      title: EditCloudRequest
+      type: object
     CloudFeatures:
       description: The cloud features that should be enabled
       example:
@@ -6297,7 +6149,6 @@ components:
         provider:
           enum:
           - amazon
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/AmazonCredentials'
@@ -6306,7 +6157,6 @@ components:
       required:
       - credentials
       - provider
-      title: AmazonCloudRequest
       type: object
     AmazonCredentials:
       properties:
@@ -6380,7 +6230,6 @@ components:
         provider:
           enum:
           - azure
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/AzureCredentials'
@@ -6389,7 +6238,6 @@ components:
       required:
       - credentials
       - provider
-      title: AzureCloudRequest
       type: object
     AzureCredentials:
       properties:
@@ -6421,7 +6269,6 @@ components:
         provider:
           enum:
           - google
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/GoogleCredentials'
@@ -6430,7 +6277,6 @@ components:
       required:
       - credentials
       - provider
-      title: GoogleCloudRequest
       type: object
     GoogleCredentials:
       properties:
@@ -6457,7 +6303,6 @@ components:
         provider:
           enum:
           - alibaba
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/AlibabaCredentials'
@@ -6466,7 +6311,6 @@ components:
       required:
       - credentials
       - provider
-      title: AlibabaCloudRequest
       type: object
     AlibabaCredentials:
       properties:
@@ -6493,7 +6337,6 @@ components:
         provider:
           enum:
           - cloudsigma
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/CloudSigmaCredentials'
@@ -6502,7 +6345,6 @@ components:
       required:
       - credentials
       - provider
-      title: CloudSigmaCloudRequest
       type: object
     CloudSigmaCredentials:
       properties:
@@ -6529,7 +6371,6 @@ components:
         provider:
           enum:
           - equinix
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/EquinixCredentials'
@@ -6538,7 +6379,6 @@ components:
       required:
       - credentials
       - provider
-      title: EquinixCloudRequest
       type: object
     EquinixCredentials:
       additionalProperties: false
@@ -6556,7 +6396,6 @@ components:
         provider:
           enum:
           - ibm
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/IbmCredentials'
@@ -6565,7 +6404,6 @@ components:
       required:
       - credentials
       - provider
-      title: IbmCloudRequest
       type: object
     IbmCredentials:
       properties:
@@ -6591,7 +6429,6 @@ components:
         provider:
           enum:
           - digitalocean
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/DigitaloceanCredentials'
@@ -6600,7 +6437,6 @@ components:
       required:
       - credentials
       - provider
-      title: DigitaloceanCloudRequest
       type: object
     DigitaloceanCredentials:
       properties:
@@ -6617,7 +6453,6 @@ components:
         provider:
           enum:
           - linode
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/LinodeCredentials'
@@ -6626,7 +6461,6 @@ components:
       required:
       - credentials
       - provider
-      title: LinodeCloudRequest
       type: object
     LinodeCredentials:
       properties:
@@ -6643,7 +6477,6 @@ components:
         provider:
           enum:
           - rackspace
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/RackspaceCredentials'
@@ -6652,7 +6485,6 @@ components:
       required:
       - credentials
       - provider
-      title: RackspaceCloudRequest
       type: object
     RackspaceCredentials:
       properties:
@@ -6684,7 +6516,6 @@ components:
         provider:
           enum:
           - maxihost
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/MaxihostCredentials'
@@ -6693,7 +6524,6 @@ components:
       required:
       - credentials
       - provider
-      title: MaxihostCloudRequest
       type: object
     MaxihostCredentials:
       properties:
@@ -6710,7 +6540,6 @@ components:
         provider:
           enum:
           - vultr
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/VultrCredentials'
@@ -6719,7 +6548,6 @@ components:
       required:
       - credentials
       - provider
-      title: VultrCloudRequest
       type: object
     VultrCredentials:
       properties:
@@ -6736,7 +6564,6 @@ components:
         provider:
           enum:
           - openstack
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/OpenstackCredentials'
@@ -6745,7 +6572,6 @@ components:
       required:
       - credentials
       - provider
-      title: OpenstackCloudRequest
       type: object
     OpenstackCredentials:
       properties:
@@ -6781,7 +6607,6 @@ components:
         provider:
           enum:
           - onapp
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/OnappCredentials'
@@ -6790,7 +6615,6 @@ components:
       required:
       - credentials
       - provider
-      title: OnappCloudRequest
       type: object
     OnappCredentials:
       properties:
@@ -6820,7 +6644,6 @@ components:
         provider:
           enum:
           - vsphere
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/VsphereCredentials'
@@ -6829,7 +6652,6 @@ components:
       required:
       - credentials
       - provider
-      title: VsphereCloudRequest
       type: object
     VsphereCredentials:
       properties:
@@ -6860,27 +6682,22 @@ components:
         provider:
           enum:
           - kvm
-          title: provider
           type: string
         credentials:
-          title: KvmCredentials
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
-      title: KvmCloudRequest
       type: object
     KvmCredentials:
-      title: KvmCredentials
       type: object
     LxdCloudRequest:
       properties:
         provider:
           enum:
           - lxd
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/LxdCredentials'
@@ -6889,7 +6706,6 @@ components:
       required:
       - credentials
       - provider
-      title: LxdCloudRequest
       type: object
     LxdCredentials:
       properties:
@@ -6935,7 +6751,6 @@ components:
         provider:
           enum:
           - docker
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/DockerCredentials'
@@ -6944,7 +6759,6 @@ components:
       required:
       - credentials
       - provider
-      title: DockerCloudRequest
       type: object
     DockerCredentials:
       properties:
@@ -6990,7 +6804,6 @@ components:
         provider:
           enum:
           - kubevirt
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/KubernetesCredentials'
@@ -6999,14 +6812,12 @@ components:
       required:
       - credentials
       - provider
-      title: KubevirtCloudRequest
       type: object
     KubernetesCloudRequest:
       properties:
         provider:
           enum:
           - kubernetes
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/KubernetesCredentials'
@@ -7015,14 +6826,12 @@ components:
       required:
       - credentials
       - provider
-      title: KubernetesCloudRequest
       type: object
     OpenshiftCloudRequest:
       properties:
         provider:
           enum:
           - openshift
-          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/OpenshiftCredentials'
@@ -7031,7 +6840,6 @@ components:
       required:
       - credentials
       - provider
-      title: OpenshiftCloudRequest
       type: object
     KubernetesCredentials:
       properties:
@@ -7106,20 +6914,16 @@ components:
         provider:
           enum:
           - other
-          title: provider
           type: string
         credentials:
-          title: OtherCredentials
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
-      title: OtherCloudRequest
       type: object
     OtherCredentials:
-      title: OtherCredentials
       type: object
     ListClustersResponse:
       example:
@@ -7531,265 +7335,6 @@ components:
       title: Image
       type: object
     CreateMachineRequest:
-      example:
-        template: "{}"
-        image: Debian
-        quantity: 1.4658129805029452
-        disks:
-          disk_size: 0
-          disk_path: disk_path
-        fqdn: fqdn
-        cloudinit: cloudinit
-        volumes: ""
-        save: true
-        dry: true
-        monitoring: true
-        tags: "{}"
-        cloud: cloud
-        size: m1.small
-        optimize: optimize
-        provider: null
-        schedules:
-        - ""
-        - ""
-        extra: ""
-        name: DB mirror
-        location: ""
-        expiration:
-          date: 2000-01-23T04:56:07.000+00:00
-          action: stop
-          notify:
-            period: minutes
-            value: 1
-          notify_msg: notify_msg
-        net: ""
-        scripts:
-        - ""
-        - ""
-        key: ""
-      properties:
-        name:
-          description: Specify machine name
-          example: DB mirror
-          title: name
-          type: string
-        provider:
-          $ref: '#/components/schemas/SupportedProviders'
-        cloud:
-          description: Specify cloud to provision on
-          title: cloud
-          type: string
-        location:
-          description: "Where to provision e.g. region, datacenter, rack"
-          oneOf:
-          - properties:
-              prefer:
-                type: string
-            type: object
-          - type: string
-          title: location
-        size:
-          description: Machine sizing spec e.g. cpu/ram/flavor
-          example: m1.small
-          oneOf:
-          - properties:
-              cpu:
-                description: Number of cpu cores. On container based providers this
-                  value will be used as the cpu limit. Mutually exclusive with 'search'
-                type: number
-              memory:
-                description: Memory size in MBs. On container based providers this
-                  value will be used as the memory limit. Mutually exclusive with
-                  'search'
-                type: integer
-              search:
-                description: Name or ID of the size to select for this machine. Mutually
-                  exclusive with 'cpu' and 'memory'
-                type: string
-              prefer:
-                description: Optional properties to be used if applicable.
-                properties:
-                  cpu_shares:
-                    description: Docker specific parameter. An integer value representing
-                      this container's relative CPU weight versus other containers
-                    type: integer
-                  prefix:
-                    description: A size name prefix. Used only on providers with standard
-                      sizes
-                    type: string
-                type: object
-              accelerators:
-                description: Google specific parameter
-                properties:
-                  accelerator_type:
-                    description: Accelerator type to attach to this machine. e.g.
-                      'nvidia-tesla-p100'
-                    type: string
-                  accelerator_count:
-                    description: The number of the accelerator cards exposed to this
-                      machine
-                    type: integer
-                type: object
-            type: object
-          - description: Name or ID of the size to select for this machine
-            type: string
-          title: size
-        image:
-          description: Operating System image to boot from
-          example: Debian
-          oneOf:
-          - type: object
-          - description: Name or ID of the image to boot from
-            type: string
-          title: image
-        net:
-          anyOf:
-          - $ref: '#/components/schemas/AlibabaNet'
-          - $ref: '#/components/schemas/AmazonNet'
-          - $ref: '#/components/schemas/AzureNet'
-          - $ref: '#/components/schemas/DockerNet'
-          - $ref: '#/components/schemas/EquinixMetalNet'
-          - $ref: '#/components/schemas/GoogleNet'
-          - $ref: '#/components/schemas/KVMNet'
-          - $ref: '#/components/schemas/LinodeNet'
-          - $ref: '#/components/schemas/LXDNet'
-          - $ref: '#/components/schemas/OpenstackNet'
-          - $ref: '#/components/schemas/VSphereNet'
-          - $ref: '#/components/schemas/VultrNet'
-          description: Specify network configuration parameters
-          title: net
-        key:
-          description: Associate SSH key
-          oneOf:
-          - properties:
-              key:
-                description: Name or ID of the SSH key to deploy
-                type: string
-              user:
-                description: "SSH user, supported on Google"
-                type: string
-            type: object
-          - description: Name or ID of the SSH key to deploy
-            type: string
-          title: key
-        disks:
-          $ref: '#/components/schemas/CreateMachineRequest_disks'
-        volumes:
-          anyOf:
-          - $ref: '#/components/schemas/AlibabaVolumes'
-          - $ref: '#/components/schemas/AmazonVolumes'
-          - $ref: '#/components/schemas/AzureVolumes'
-          - $ref: '#/components/schemas/CloudSigmaVolumes'
-          - $ref: '#/components/schemas/DigitalOceanVolumes'
-          - $ref: '#/components/schemas/GoogleVolumes'
-          - $ref: '#/components/schemas/LinodeVolumes'
-          - $ref: '#/components/schemas/LXDVolumes'
-          - $ref: '#/components/schemas/OpenstackVolumes'
-          - $ref: '#/components/schemas/VultrVolumes'
-          description: "Configure of attached storage volumes, e.g. cloud disks"
-          title: volumes
-        fqdn:
-          description: Add DNS A Record that points machine's public IP to this Fully
-            Qualified Domain Name. Zone needs to be managed by a configured Cloud
-            DNS provider
-          title: fqdn
-          type: string
-        cloudinit:
-          description: Run this Cloud Init script on first boot
-          title: cloudinit
-          type: string
-        scripts:
-          description: Run post deploy scripts over SSH
-          items:
-            allOf:
-            - type: object
-            - oneOf:
-              - $ref: '#/components/schemas/InlineScript'
-              - $ref: '#/components/schemas/PostDeployScript'
-          title: scripts
-          type: array
-        schedules:
-          description: Configure scheduled actions for the provisioned machine
-          items:
-            allOf:
-            - properties:
-                schedule_type:
-                  enum:
-                  - one_off
-                  - crontab
-                  - interval
-                  type: string
-                script:
-                  $ref: '#/components/schemas/PostDeployScript'
-                action:
-                  enum:
-                  - start
-                  - stop
-                  - reboot
-                  - destroy
-                  type: string
-                description:
-                  type: string
-              required:
-              - schedule_type
-              type: object
-            - discriminator:
-                mapping:
-                  one_off: '#/components/schemas/OneOffSchedule'
-                  crontab: '#/components/schemas/CronSchedule'
-                  interval: '#/components/schemas/IntervalSchedule'
-                propertyName: schedule_type
-              oneOf:
-              - $ref: '#/components/schemas/OneOffSchedule'
-              - $ref: '#/components/schemas/CronSchedule'
-              - $ref: '#/components/schemas/IntervalSchedule'
-          title: schedules
-          type: array
-        tags:
-          description: Assign tags to provisioned machine
-          title: tags
-          type: object
-        expiration:
-          $ref: '#/components/schemas/Expiration'
-        extra:
-          anyOf:
-          - $ref: '#/components/schemas/AzureExtra'
-          - $ref: '#/components/schemas/DockerExtra'
-          - $ref: '#/components/schemas/EquinixMetalExtra'
-          - $ref: '#/components/schemas/GoogleExtra'
-          - $ref: '#/components/schemas/LinodeExtra'
-          - $ref: '#/components/schemas/LXDExtra'
-          - $ref: '#/components/schemas/VSphereExtra'
-          - $ref: '#/components/schemas/VultrExtra'
-          description: Configure additional parameters
-          title: extra
-        monitoring:
-          description: Enable monitoring of this machine
-          title: monitoring
-          type: boolean
-        quantity:
-          description: Provision multiple machines of this type
-          title: quantity
-          type: number
-        template:
-          title: template
-          type: object
-        dry:
-          description: Return provisioning plan and exit without executing it
-          title: dry
-          type: boolean
-        save:
-          description: Save provisioning plan as template
-          title: save
-          type: boolean
-        optimize:
-          description: "Criteria optimization, e.g \"cost\""
-          title: optimize
-          type: string
-      required:
-      - image
-      - name
-      title: CreateMachineRequest
       type: object
     EditMachineRequest:
       example:
@@ -7807,7 +7352,6 @@ components:
         port_bindings:
           description: "ContainerPort,HostPort pairs. For example \"80\"/\"80\", \"\
             123/udp\"/\"123\""
-          title: port_bindings
           type: object
       title: Docker net parameter
       type: object
@@ -7816,11 +7360,9 @@ components:
         environment:
           description: "Key, value pairs of environment variables to set inside the\
             \ container"
-          title: environment
           type: object
         command:
           description: Command to run specified as a string
-          title: command
           type: string
       title: Docker extra parameter
       type: object
@@ -7829,7 +7371,6 @@ components:
         ephemeral:
           description: "Whether to destroy the container on shutdown, defaults to\
             \ False"
-          title: ephemeral
           type: boolean
       title: LXD extra parameter
       type: object
@@ -7839,7 +7380,6 @@ components:
           description: An array of network names or IDs to launch the container into
           items:
             type: string
-          title: networks
           type: array
       title: LXD net parameter
       type: object
@@ -7918,11 +7458,9 @@ components:
         folder:
           description: Name or ID of the Vsphere folder to place the machine into.
             Required for Vsphere 6.7
-          title: folder
           type: string
         datastore:
           description: Name or ID of a VSphere datastore
-          title: datastore
           type: string
       title: VSphere extra parameter
       type: object
@@ -7930,7 +7468,6 @@ components:
       properties:
         network:
           description: Name or ID of the network to launch the machine into
-          title: network
           type: string
       title: VSphere net parameter
       type: object
@@ -7964,16 +7501,13 @@ components:
             \ invalid for \"Bare Metal\" machines"
           items:
             type: string
-          title: networks
           type: array
         ipv6:
           description: "Enable IPv6, defaults to false"
-          title: ipv6
           type: boolean
         hostname:
           description: "The hostname to use when deploying this machine, defaults\
             \ to machine name"
-          title: hostname
           type: string
       title: Vultr net parameter
       type: object
@@ -7983,12 +7517,10 @@ components:
           description: "Enable automatic backups for the machine, invalid for \"Bare\
             \ Metal\" & \"Dedicated Cloud\" size types. There is an additional charge\
             \ depending on the size selected"
-          title: backups
           type: boolean
         ddos_protection:
           description: "Enable DDoS protection, invalid for \"Bare Metal\" size type.\
             \ There is an additional charge depending on the type of the size selected"
-          title: ddos_protection
           type: boolean
       title: Vultr extra parameter
       type: object
@@ -7997,17 +7529,14 @@ components:
         network:
           description: "Name or ID of an existing network to associate the machine\
             \ with. If not provided, one existing network will be selected."
-          title: network
           type: string
         subnet:
           description: Name or ID of an existing or new subnet(switch) to launch the
             machine into. If not provided a default 'mistio' subnet will be created.
-          title: subnet
           type: string
         security_group:
           description: Name of the security group to assign to the machine. If not
             provided a default 'mistio' security group will be created.
-          title: security_group
           type: string
       title: Alibaba net parameter
       type: object
@@ -8092,19 +7621,16 @@ components:
             the machine
           items:
             type: string
-          title: security_groups
           type: array
         networks:
           description: Name or ID of the networks to launch the machine into. Required
             parameter when there are multiple networks defined for the tenant
           items:
             type: string
-          title: networks
           type: array
         associate_floating_ip:
           description: "Assign a floating IP to the machine, defaults to True for\
             \ Openstack and False for Vexxhost"
-          title: associate_floating_ip
           type: boolean
       title: Openstack & Vexxhost net parameter
       type: object
@@ -8153,7 +7679,6 @@ components:
         network:
           description: A new or existing network If not provided a `mist-resource_group-location`
             network will be used.
-          title: network
           type: string
       title: Azure net parameter
       type: object
@@ -8162,7 +7687,6 @@ components:
         resource_group:
           description: A new or existing resource group. If not provided a `mist`
             resource group will be used.
-          title: resource_group
           type: string
         storage_account_type:
           description: Specifies the storage account type for the OS disk. Defaults
@@ -8173,15 +7697,12 @@ components:
           - StandardSSD_LRS
           - StandardSSD_ZRS
           - Standard_LRS
-          title: storage_account_type
           type: string
         user:
           description: The machine username. Defaults to azureuser
-          title: user
           type: string
         password:
           description: The machine password. Only used on Microsoft images
-          title: password
           type: string
       title: Azure extra parameter
       type: object
@@ -8189,7 +7710,6 @@ components:
       properties:
         root_pass:
           description: Set root password. If not given a secure password will be generated
-          title: root_pass
           type: string
       title: Linode extra parameter
       type: object
@@ -8223,7 +7743,6 @@ components:
       properties:
         private_ip:
           description: "Assign a private IPv4 address, defaults to True"
-          title: private_ip
           type: boolean
       title: Linode net parameter
       type: object
@@ -8268,11 +7787,9 @@ components:
       properties:
         network:
           description: The network to associate with the machine
-          title: network
           type: string
         subnetwork:
           description: The subnetwork resource for this machine
-          title: subnetwork
           type: string
       title: Google net parameter
       type: object
@@ -8289,7 +7806,6 @@ components:
             \ Equinix configures public IPv4, public IPv6, and private IPv4"
           items:
             $ref: '#/components/schemas/EquinixMetalNet_ip_addresses'
-          title: ip_addresses
           type: array
       title: Equnix Metal net parameter
       type: object
@@ -8298,7 +7814,6 @@ components:
         project_id:
           description: "Project UUID, if not given the first one available will be\
             \ selected"
-          title: project_id
           type: string
       title: Equnix Metal extra parameter
       type: object
@@ -8334,11 +7849,9 @@ components:
       properties:
         security_group:
           description: Security group to assign to the machine
-          title: security_group
           type: string
         subnet:
           description: Name or ID of the subnet to launch the machine into
-          title: subnet
           type: string
       title: Amazon net parameter
       type: object
@@ -8387,12 +7900,10 @@ components:
         networks:
           items:
             $ref: '#/components/schemas/KVMNet_networks'
-          title: networks
           type: array
         vnfs:
           items:
             type: string
-          title: vnfs
           type: array
       title: KVM net parameter
       type: object
@@ -8778,12 +8289,10 @@ components:
         schedule_type:
           enum:
           - one_off
-          title: schedule_type
           type: string
         datetime:
           description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
           format: date-time
-          title: datetime
           type: string
       required:
       - datetime
@@ -8796,36 +8305,27 @@ components:
         schedule_type:
           enum:
           - crontab
-          title: schedule_type
           type: string
         minute:
-          title: minute
           type: string
         hour:
-          title: hour
           type: string
         day_of_month:
-          title: day_of_month
           type: string
         month_of_year:
-          title: month_of_year
           type: string
         day_of_week:
-          title: day_of_week
           type: string
         start_after:
           description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
           format: date-time
-          title: start_after
           type: string
         expires:
           description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
           format: date-time
-          title: expires
           type: string
         max_run_count:
           minimum: 1
-          title: max_run_count
           type: integer
       required:
       - day_of_month
@@ -8842,31 +8342,25 @@ components:
         schedule_type:
           enum:
           - interval
-          title: schedule_type
           type: string
         every:
-          title: every
           type: integer
         period:
           enum:
           - minutes
           - hours
           - days
-          title: period
           type: string
         start_after:
           description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
           format: date-time
-          title: start_after
           type: string
         expires:
           description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
           format: date-time
-          title: expires
           type: string
         max_run_count:
           minimum: 1
-          title: max_run_count
           type: integer
       required:
       - every
@@ -8877,54 +8371,38 @@ components:
     InlineScript:
       properties:
         inline:
-          title: inline
           type: string
       required:
       - inline
-      title: InlineScript
       type: object
     PostDeployScript:
       properties:
         script:
           description: Name or ID of the script to run
-          title: script
           type: string
         params:
-          title: params
           type: string
       required:
       - script
-      title: PostDeployScript
       type: object
     Expiration:
-      example:
-        date: 2000-01-23T04:56:07.000+00:00
-        action: stop
-        notify:
-          period: minutes
-          value: 1
-        notify_msg: notify_msg
       properties:
         action:
           enum:
           - stop
           - destroy
-          title: action
           type: string
         date:
           description: "When machine should expire, e.g 2021-09-22T18:19:28Z"
           format: date-time
-          title: date
           type: string
         notify:
           $ref: '#/components/schemas/Expiration_notify'
         notify_msg:
-          title: notify_msg
           type: string
       required:
       - action
       - date
-      title: Expiration
       type: object
     KeyMachineAssociation:
       example:
@@ -9315,7 +8793,7 @@ components:
         cloud: my-cloud
         ex_iops: ex_iops
         size: 1
-        provider: null
+        provider: provider
         extra: "{}"
         name: my-volume
         location: us-central1-a
@@ -9326,7 +8804,8 @@ components:
           title: name
           type: string
         provider:
-          $ref: '#/components/schemas/SupportedProviders'
+          title: SupportedProviders
+          type: string
         cloud:
           description: Specify cloud to provision on
           example: my-cloud
@@ -11436,19 +10915,6 @@ components:
           type: string
       title: inline_response_200_1
       type: object
-    AddCloudRequest_allOf:
-      properties:
-        name:
-          description: The name of the cloud to add
-          title: name
-          type: string
-        provider:
-          $ref: '#/components/schemas/SupportedProviders'
-      required:
-      - name
-      - provider
-      title: AddCloudRequest_allOf
-      type: object
     CreateClusterRequest_allOf_nodepools:
       properties:
         autoscaling:
@@ -11571,22 +11037,6 @@ components:
       - name
       title: CreateClusterRequest_allOf
       type: object
-    CreateMachineRequest_disks:
-      description: Configure local disks
-      example:
-        disk_size: 0
-        disk_path: disk_path
-      properties:
-        disk_size:
-          description: "KVM, CloudSigma specific parameter"
-          title: disk_size
-          type: integer
-        disk_path:
-          description: KVM specific parameter. Where the VM disk file will be created
-          title: disk_path
-          type: string
-      title: CreateMachineRequest_disks
-      type: object
     EditMachineRequest_expiration:
       example:
         date: date
@@ -11692,9 +11142,6 @@ components:
       title: CreateMachineResponse_oneOf_1
     Expiration_notify:
       description: Notify user before machine expiration
-      example:
-        period: minutes
-        value: 1
       properties:
         value:
           minimum: 1

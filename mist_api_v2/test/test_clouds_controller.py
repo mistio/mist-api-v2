@@ -46,21 +46,13 @@ class TestCloudsController:
 
         Add cloud
         """
-        add_cloud_request = setup_data.get('add_cloud', {}).get(
-            'request_body') or json.loads("""{
-  "name" : "my-cloud",
-  "provider" : "google",
-  "credentials" : {
-    "projectId" : "projectId",
-    "privateKey" : "privateKey",
-    "email" : "email"
-  }
-}""", strict=False)
+        body = setup_data.get('add_cloud', {}).get(
+            'request_body') or json.loads("""None""", strict=False)
         uri = MIST_URL + '/api/v2/clouds'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            json=add_cloud_request)
+            json=body)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         if 'add_cloud' in REDIRECT_OPERATIONS:
@@ -74,16 +66,14 @@ class TestCloudsController:
 
         Edit cloud
         """
-        edit_cloud_request = setup_data.get('edit_cloud', {}).get(
-            'request_body') or json.loads("""{
-  "name" : "my-renamed-cloud"
-}""", strict=False)
+        body = setup_data.get('edit_cloud', {}).get(
+            'request_body') or json.loads("""None""", strict=False)
         uri = MIST_URL + '/api/v2/clouds/{cloud}'.format(
             cloud=setup_data.get('edit_cloud', {}).get('cloud') or setup_data.get('cloud') or 'my-cloud')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            json=edit_cloud_request)
+            json=body)
         request_method = getattr(request, 'PUT'.lower())
         response = request_method()
         if 'edit_cloud' in REDIRECT_OPERATIONS:

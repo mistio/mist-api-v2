@@ -58,6 +58,7 @@ class TestVolumesController:
   "cloud" : "my-cloud",
   "ex_iops" : "ex_iops",
   "size" : 1,
+  "provider" : "provider",
   "extra" : "{}",
   "name" : "my-volume",
   "location" : "us-central1-a"
