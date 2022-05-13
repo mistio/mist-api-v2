@@ -10638,15 +10638,14 @@ components:
       title: Job
       type: object
     Log:
+      additionalProperties: true
       example:
         org: org
         job_id: job_id
       properties:
         job_id:
-          title: job_id
           type: string
         org:
-          title: org
           type: string
       required:
       - job_id
