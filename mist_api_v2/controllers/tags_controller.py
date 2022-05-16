@@ -74,14 +74,12 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         for resource in op.resources:
             resource_type = resource.resource_type.rstrip('s')
             resource_id = resource.resource_id
-
+            # import ipdb; ipdb.set_trace()
             try:
                 resource_obj = list_resources(auth_context, resource_type,
                                               search=resource_id)[0][0]
             except IndexError:
-                log.error('%s with id %s does not exist', resource_type,
-                          resource_id)
-                continue
+                return f"{resource_type} ({resource_id}) doesn't exist", 400
             try:
                 auth_context.check_perm(resource_type, 'edit_tags',
                                         resource_obj.id)
@@ -89,7 +87,7 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
                 return 'You are not authorized to perform this action', 403
 
             if not modify_security_tags(auth_context, tags, resource_obj):
-                auth_context._raise(resource_type, 'edit_security_tags')
+                return 'You are not authorized to perform this action', 403
 
             if not op.operation or op.operation == 'add':
                 add_tags_to_resource(auth_context.owner, resource_obj,
