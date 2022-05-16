@@ -74,7 +74,6 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
         for resource in op.resources:
             resource_type = resource.resource_type.rstrip('s')
             resource_id = resource.resource_id
-            # import ipdb; ipdb.set_trace()
             try:
                 resource_obj = list_resources(auth_context, resource_type,
                                               search=resource_id)[0][0]
