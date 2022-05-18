@@ -5948,7 +5948,7 @@ components:
             type: string
           title: ids
           type: array
-      title: ResourceSelector
+      title: Resource
       type: object
     FieldSelector:
       properties:
@@ -5976,7 +5976,7 @@ components:
           example: eq
           title: operator
           type: string
-      title: FieldSelector
+      title: Field
       type: object
     TaggingSelector:
       properties:
@@ -5992,7 +5992,7 @@ components:
             type: string
           title: include
           type: array
-      title: TaggingSelector
+      title: Tag
       type: object
     AgeSelector:
       properties:
@@ -6008,7 +6008,7 @@ components:
           example: 6000
           title: minutes
           type: integer
-      title: AgeSelector
+      title: Age
       type: object
     ResponseMetadata:
       example:
