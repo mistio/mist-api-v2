@@ -9823,17 +9823,17 @@ components:
         name:
           description: The name of the schedule
           example: backup-schedule
-          title: name
+          title: Name
           type: string
         description:
           description: The description of the schedule
           example: This is a schedule
-          title: description
+          title: Description
           type: string
         enabled:
           description: "Schedule status (enabled, disabled)"
           example: true
-          title: enabled
+          title: Enabled
           type: boolean
         action:
           description: The action that a schedule performs on a resource
@@ -9845,7 +9845,7 @@ components:
           - stop
           - delete
           example: start
-          title: action
+          title: Action
           type: string
         script_id:
           description: The id of the script that schedule is about to run
@@ -9855,12 +9855,12 @@ components:
         params:
           description: Schedule parameters
           example: Parameters string
-          title: params
+          title: Parameters
           type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
-          title: selectors
+          title: Resources
           type: array
         schedule_type:
           description: The type of the schedule
@@ -9885,12 +9885,12 @@ components:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
             HH:MM:SS
           example: 2022-06-01 T00:00:00
-          title: start_after
+          title: Start After
           type: string
         run_immediately:
           description: Decides if the schedule runs immediately of not
           example: false
-          title: run_immediately
+          title: Run Immediately
           type: boolean
       required:
       - action
@@ -9915,17 +9915,17 @@ components:
         name:
           description: The name of the schedule that is about to be edited
           example: schedule-name
-          title: name
+          title: Name
           type: string
         description:
           description: The description of the schedule that is about to be edited
           example: This is a schedule that is about to be edited
-          title: description
+          title: Description
           type: string
         enabled:
           description: "Schedule status (enabled, disabled)"
           example: true
-          title: enabled
+          title: Enabled
           type: boolean
         action:
           description: Edit the action that a schedule performs on a resource
@@ -9937,7 +9937,7 @@ components:
           - stop
           - delete
           example: start
-          title: action
+          title: Action
           type: string
         script_id:
           description: The id of the script that schedule is about to run
@@ -9947,12 +9947,12 @@ components:
         params:
           description: Edit schedule parameters
           example: Parameters string
-          title: params
+          title: Parameters
           type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
-          title: selectors
+          title: Resources
           type: array
         schedule_type:
           description: Edit the type of the schedule
@@ -9977,7 +9977,7 @@ components:
           description: Edit the date after that schedule starts. The format should
             be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
           example: 2022-06-01 00:00:00
-          title: start_after
+          title: Start After
           type: string
       title: EditScheduleRequest
       type: object
