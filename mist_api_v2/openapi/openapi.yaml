@@ -5922,6 +5922,13 @@ components:
       title: SupportedProviders
       type: string
     Selector:
+      discriminator:
+        mapping:
+          resource: '#/components/schemas/ResourceSelector'
+          field: '#/components/schemas/FieldSelector'
+          tag: '#/components/schemas/TaggingSelector'
+          age: '#/components/schemas/AgeSelector'
+        propertyName: type
       oneOf:
       - $ref: '#/components/schemas/ResourceSelector'
       - $ref: '#/components/schemas/FieldSelector'
