@@ -5922,20 +5922,21 @@ components:
       title: SupportedProviders
       type: string
     Selector:
-      discriminator:
-        mapping:
-          resource: '#/components/schemas/ResourceSelector'
-          field: '#/components/schemas/FieldSelector'
-          tag: '#/components/schemas/TaggingSelector'
-          age: '#/components/schemas/AgeSelector'
-        propertyName: type
-      oneOf:
-      - $ref: '#/components/schemas/ResourceSelector'
-      - $ref: '#/components/schemas/FieldSelector'
-      - $ref: '#/components/schemas/TaggingSelector'
-      - $ref: '#/components/schemas/AgeSelector'
+      allOf:
+      - $ref: '#/components/schemas/Selector_allOf'
+      - discriminator:
+          mapping:
+            resource: '#/components/schemas/ResourceSelector'
+            field: '#/components/schemas/FieldSelector'
+            tag: '#/components/schemas/TaggingSelector'
+            age: '#/components/schemas/AgeSelector'
+          propertyName: type
+        oneOf:
+        - $ref: '#/components/schemas/ResourceSelector'
+        - $ref: '#/components/schemas/FieldSelector'
+        - $ref: '#/components/schemas/TaggingSelector'
+        - $ref: '#/components/schemas/AgeSelector'
       title: Selector
-      type: object
     ResourceSelector:
       properties:
         type:
@@ -11441,6 +11442,20 @@ components:
           title: url
           type: string
       title: inline_response_200_1
+      type: object
+    Selector_allOf:
+      properties:
+        type:
+          enum:
+          - resource
+          - field
+          - tag
+          - age
+          title: type
+          type: string
+      required:
+      - type
+      title: Selector_allOf
       type: object
     AddCloudRequest_allOf:
       properties:

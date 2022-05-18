@@ -179,6 +179,7 @@ from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
+from mist_api_v2.models.selector_all_of import SelectorAllOf
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.tagging_selector import TaggingSelector
