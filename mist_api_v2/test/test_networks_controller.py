@@ -139,7 +139,7 @@ class TestNetworksController:
                         ('search', 'cinet3'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]

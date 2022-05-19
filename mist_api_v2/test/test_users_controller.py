@@ -49,7 +49,7 @@ class TestUsersController:
         query_string = setup_data.get('list_users', {}).get('query_string') or [('search', 'email:dev@mist.io'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]

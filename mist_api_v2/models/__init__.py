@@ -11,13 +11,16 @@ from mist_api_v2.models.add_key_request_any_of1 import AddKeyRequestAnyOf1
 from mist_api_v2.models.add_key_request_any_of2 import AddKeyRequestAnyOf2
 from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.add_rule_request import AddRuleRequest
+from mist_api_v2.models.add_schedule_request import AddScheduleRequest
 from mist_api_v2.models.add_script_request import AddScriptRequest
+from mist_api_v2.models.age_selector import AgeSelector
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest
 from mist_api_v2.models.alibaba_credentials import AlibabaCredentials
 from mist_api_v2.models.alibaba_net import AlibabaNet
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
+from mist_api_v2.models.amazon_regions import AmazonRegions
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.azure_extra import AzureExtra
@@ -31,6 +34,7 @@ from mist_api_v2.models.cluster_providers import ClusterProviders
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest
 from mist_api_v2.models.create_cluster_request_all_of import CreateClusterRequestAllOf
 from mist_api_v2.models.create_cluster_request_all_of_nodepools import CreateClusterRequestAllOfNodepools
+from mist_api_v2.models.create_cluster_request_all_of_waiters import CreateClusterRequestAllOfWaiters
 from mist_api_v2.models.create_cluster_response import CreateClusterResponse
 from mist_api_v2.models.create_machine_request import CreateMachineRequest
 from mist_api_v2.models.create_machine_response import CreateMachineResponse
@@ -60,6 +64,7 @@ from mist_api_v2.models.edit_cloud_request_any_of import EditCloudRequestAnyOf
 from mist_api_v2.models.edit_machine_request import EditMachineRequest
 from mist_api_v2.models.edit_machine_request_expiration import EditMachineRequestExpiration
 from mist_api_v2.models.edit_rule_request import EditRuleRequest
+from mist_api_v2.models.edit_schedule_request import EditScheduleRequest
 from mist_api_v2.models.edit_secret_request import EditSecretRequest
 from mist_api_v2.models.equinix_cloud_request import EquinixCloudRequest
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
@@ -68,6 +73,7 @@ from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
 from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
+from mist_api_v2.models.field_selector import FieldSelector
 from mist_api_v2.models.frequency import Frequency
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_cluster_response import GetClusterResponse
@@ -81,6 +87,7 @@ from mist_api_v2.models.get_network_response import GetNetworkResponse
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse
 from mist_api_v2.models.get_org_response import GetOrgResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
+from mist_api_v2.models.get_schedule_response import GetScheduleResponse
 from mist_api_v2.models.get_script_response import GetScriptResponse
 from mist_api_v2.models.get_secret_response import GetSecretResponse
 from mist_api_v2.models.get_size_response import GetSizeResponse
@@ -128,6 +135,7 @@ from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
+from mist_api_v2.models.list_schedules_response import ListSchedulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_secrets_response import ListSecretsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
@@ -162,16 +170,20 @@ from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
 from mist_api_v2.models.run_script_request import RunScriptRequest
 from mist_api_v2.models.run_script_response import RunScriptResponse
+from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
+from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
+from mist_api_v2.models.tagging_selector import TaggingSelector
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.user import User
