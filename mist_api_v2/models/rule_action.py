@@ -6,11 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.enum import Enum
 from mist_api_v2.models.rule_action_all_of import RuleActionAllOf
 from mist_api_v2 import util
 
-from mist_api_v2.models.enum import Enum  # noqa: E501
 from mist_api_v2.models.rule_action_all_of import RuleActionAllOf  # noqa: E501
 
 class RuleAction(Model):
@@ -23,7 +21,7 @@ class RuleAction(Model):
         """RuleAction - a model defined in OpenAPI
 
         :param type: The type of this RuleAction.  # noqa: E501
-        :type type: Enum
+        :type type: str
         :param users: The users of this RuleAction.  # noqa: E501
         :type users: List[str]
         :param teams: The teams of this RuleAction.  # noqa: E501
@@ -36,7 +34,7 @@ class RuleAction(Model):
         :type command: str
         """
         self.openapi_types = {
-            'type': Enum,
+            'type': str,
             'users': List[str],
             'teams': List[str],
             'emails': List[str],
@@ -78,7 +76,7 @@ class RuleAction(Model):
         the action's type: notification, machine_action, command   # noqa: E501
 
         :return: The type of this RuleAction.
-        :rtype: Enum
+        :rtype: str
         """
         return self._type
 
@@ -89,9 +87,9 @@ class RuleAction(Model):
         the action's type: notification, machine_action, command   # noqa: E501
 
         :param type: The type of this RuleAction.
-        :type type: Enum
+        :type type: str
         """
-        allowed_values = [notification, machine_action, command]  # noqa: E501
+        allowed_values = ["notification", "machine_action", "command"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
