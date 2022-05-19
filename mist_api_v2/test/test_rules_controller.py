@@ -71,21 +71,7 @@ class TestRulesController:
     "operator" : "operator",
     "target" : "target"
   } ],
-  "actions" : [ {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  }, {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  } ],
+  "actions" : [ null, null ],
   "frequency" : {
     "period" : "period",
     "every" : 5
@@ -151,21 +137,7 @@ class TestRulesController:
     "operator" : "operator",
     "target" : "target"
   } ],
-  "actions" : [ {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  }, {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  } ],
+  "actions" : [ null, null ],
   "frequency" : {
     "period" : "period",
     "every" : 5

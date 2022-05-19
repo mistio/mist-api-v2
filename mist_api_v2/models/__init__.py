@@ -30,6 +30,7 @@ from mist_api_v2.models.cloud_sigma_cloud_request import CloudSigmaCloudRequest
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials
 from mist_api_v2.models.cluster import Cluster
 from mist_api_v2.models.cluster_providers import ClusterProviders
+from mist_api_v2.models.command import Command
 from mist_api_v2.models.create_cluster_request import CreateClusterRequest
 from mist_api_v2.models.create_cluster_request_all_of import CreateClusterRequestAllOf
 from mist_api_v2.models.create_cluster_request_all_of_nodepools import CreateClusterRequestAllOfNodepools
@@ -147,11 +148,13 @@ from mist_api_v2.models.log import Log
 from mist_api_v2.models.lxd_cloud_request import LxdCloudRequest
 from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2.models.machine import Machine
+from mist_api_v2.models.machine_action import MachineAction
 from mist_api_v2.models.machine_state import MachineState
 from mist_api_v2.models.maxihost_cloud_request import MaxihostCloudRequest
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
 from mist_api_v2.models.member import Member
 from mist_api_v2.models.network import Network
+from mist_api_v2.models.notification import Notification
 from mist_api_v2.models.onapp_cloud_request import OnappCloudRequest
 from mist_api_v2.models.onapp_credentials import OnappCredentials
 from mist_api_v2.models.one_off_schedule import OneOffSchedule
@@ -171,6 +174,7 @@ from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
 from mist_api_v2.models.rule_action import RuleAction
+from mist_api_v2.models.rule_action_all_of import RuleActionAllOf
 from mist_api_v2.models.run_script_request import RunScriptRequest
 from mist_api_v2.models.run_script_response import RunScriptResponse
 from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest

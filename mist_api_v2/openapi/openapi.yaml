@@ -9814,30 +9814,8 @@ components:
           operator: operator
           target: target
         actions:
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
+        - null
+        - null
         frequency:
           period: period
           every: 5
@@ -9898,30 +9876,8 @@ components:
           operator: operator
           target: target
         actions:
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
+        - null
+        - null
         frequency:
           period: period
           every: 5
@@ -10009,6 +9965,46 @@ components:
       - target
       - threshold
       type: object
+    Notification:
+      properties:
+        users:
+          description: |
+            a list of user to be notified, denoted by their UUIDs
+          items:
+            type: string
+          type: array
+        teams:
+          description: |
+            a list of teams, denoted by their UUIDs, whose users will be
+            notified
+          items:
+            type: string
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to
+          items:
+            type: string
+          type: array
+      type: object
+    MachineAction:
+      properties:
+        action:
+          description: |
+            the action to be performed
+          type: string
+      required:
+      - action
+      type: object
+    Command:
+      properties:
+        command:
+          description: |
+            the command to be executed
+          type: string
+      required:
+      - command
+      type: object
     Queries:
       items:
         $ref: '#/components/schemas/Query'
@@ -10069,56 +10065,18 @@ components:
       - period
       type: object
     RuleAction:
-      example:
-        emails:
-        - emails
-        - emails
-        teams:
-        - teams
-        - teams
-        action: action
-        type: type
-        users:
-        - users
-        - users
-        command: command
-      properties:
-        type:
-          description: |
-            the action's type: notification, machine_action, command
-          type: string
-        users:
-          description: |
-            a list of user to be notified, denoted by their UUIDs. Can be
-            used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        teams:
-          description: |
-            a list of teams, denoted by their UUIDs, whose users will be
-            notified. Can be used by a notification action (optional)
-          items:
-            type: string
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to. Can be used by a
-            notification action (optional)
-          items:
-            type: string
-          type: array
-        action:
-          description: |
-            the action to be performed. Required by machine_action type
-          type: string
-        command:
-          description: |
-            the command to be executed. Required by the command type
-          type: string
-      required:
-      - type
-      type: object
+      allOf:
+      - $ref: '#/components/schemas/RuleAction_allOf'
+      - discriminator:
+          mapping:
+            notification: '#/components/schemas/Notification'
+            machine_action: '#/components/schemas/MachineAction'
+            command: '#/components/schemas/Command'
+          propertyName: type
+        oneOf:
+        - $ref: '#/components/schemas/Notification'
+        - $ref: '#/components/schemas/MachineAction'
+        - $ref: '#/components/schemas/Command'
     RuleActions:
       items:
         $ref: '#/components/schemas/RuleAction'
@@ -10979,6 +10937,19 @@ components:
       required:
       - dry
       - generate
+    RuleAction_allOf:
+      properties:
+        type:
+          description: |
+            the action's type: notification, machine_action, command
+          enum:
+          - notification
+          - machine_action
+          - command
+          type: enum
+      required:
+      - type
+      type: object
     Datapoints_data:
       example:
         result:
