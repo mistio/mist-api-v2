@@ -55,7 +55,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -68,7 +68,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -83,7 +83,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name
+            value: "creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -92,8 +92,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -224,7 +224,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -239,7 +239,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name
+            value: "creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -370,7 +370,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -383,7 +383,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -400,7 +400,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -409,8 +409,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -545,7 +545,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -562,7 +562,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -678,7 +678,7 @@ paths:
           Query system_load1:
             value: system_load1
           Query net_bytes_sent:
-            value: rate(net_bytes_sent{interface="eth0", machine_id="1234"})
+            value: "rate(net_bytes_sent{interface=\"eth0\", machine_id=\"1234\"})"
         explode: true
         in: query
         name: query
@@ -688,7 +688,7 @@ paths:
         style: form
       - examples:
           Example string:
-            value: cluster=east1,production
+            value: "cluster=east1,production"
           Example dictionary:
             value:
               cluster: east1
@@ -851,7 +851,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -864,7 +864,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -881,7 +881,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -890,8 +890,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -959,7 +959,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -976,7 +976,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -1027,7 +1027,6 @@ paths:
       x-openapi-router-controller: mist_api_v2.controllers.images_controller
   /api/v2/jobs/{job_id}:
     get:
-      description: "null"
       operationId: get_job
       parameters:
       - example: ab74e2f0b7ae4999b1e4013e20dac418
@@ -1101,7 +1100,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -1114,7 +1113,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -1129,7 +1128,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name
+            value: "creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -1138,8 +1137,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -1279,7 +1278,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -1294,7 +1293,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name
+            value: "creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -1438,7 +1437,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -1451,7 +1450,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -1475,8 +1474,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -1644,7 +1643,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -1657,7 +1656,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -1674,7 +1673,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -1683,8 +1682,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -1734,10 +1733,11 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.machines_controller
     post:
-      description: |
-        Creates one or more machines on the specified cloud. If async is true, a jobId will be returned.
-        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
-        CREATE_RESOURCES permission required on location. CREATE permission required on machine. RUN permission required on script. READ permission required on key.
+      description: "Creates one or more machines on the specified cloud. If async\
+        \ is true, a jobId will be returned.\nREAD permission required on cloud. CREATE_RESOURCES\
+        \ permission required on cloud. READ permission required on location.\nCREATE_RESOURCES\
+        \ permission required on location. CREATE permission required on machine.\
+        \ RUN permission required on script. READ permission required on key.\n"
       operationId: create_machine
       requestBody:
         content:
@@ -1784,8 +1784,8 @@ paths:
                   image: Ubuntu
                   size: Standard_D4s_v5
               FullExample:
-                summary: Provision 2 machines with monitoring, schedules, expiration
-                  and provisioning scripts
+                summary: "Provision 2 machines with monitoring, schedules, expiration\
+                  \ and provisioning scripts"
                 value:
                   cloud: GCE
                   name: testmachine
@@ -1866,7 +1866,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -1883,7 +1883,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -2725,7 +2725,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -2738,7 +2738,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -2755,7 +2755,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -2764,8 +2764,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -2814,9 +2814,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.networks_controller
     post:
-      description: |
-        Creates one or more networks on the specified cloud. If async is true, a jobId will be returned.
-        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on network.
+      description: "Creates one or more networks on the specified cloud. If async\
+        \ is true, a jobId will be returned.\nREAD permission required on cloud. CREATE_RESOURCES\
+        \ permission required on cloud. CREATE permission required on network.\n"
       operationId: create_network
       requestBody:
         content:
@@ -2910,7 +2910,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -2927,7 +2927,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -3065,7 +3065,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 100 max
+      - description: "Limit number of results, 100 max"
         explode: true
         in: query
         name: limit
@@ -3078,7 +3078,7 @@ paths:
           Only return id:
             value: id
           Return name, id, teams:
-            value: name,id,teams
+            value: "name,id,teams"
         explode: true
         in: query
         name: only
@@ -3102,8 +3102,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -3164,7 +3164,7 @@ paths:
           Only return id:
             value: id
           Return name, id, teams:
-            value: name,id,teams
+            value: "name,id,teams"
         explode: true
         in: query
         name: only
@@ -3266,7 +3266,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -3279,7 +3279,7 @@ paths:
           Only return id:
             value: id
           Return email, last name, registration date:
-            value: email,last_name,registration_date
+            value: "email,last_name,registration_date"
         explode: true
         in: query
         name: only
@@ -3287,8 +3287,8 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -3354,7 +3354,7 @@ paths:
           Only return id:
             value: id
           Return email, last_name:
-            value: email,last_name
+            value: "email,last_name"
         explode: true
         in: query
         name: only
@@ -3441,7 +3441,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -3454,7 +3454,7 @@ paths:
           Only return id:
             value: id
           Return name, members:
-            value: name,members
+            value: "name,members"
         explode: true
         in: query
         name: only
@@ -3478,8 +3478,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -3566,7 +3566,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -3579,7 +3579,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -3587,8 +3587,8 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -3636,8 +3636,8 @@ paths:
       - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
-      description: Add a new rule, READ permission required on target resource, ADD
-        permission required on Rule
+      description: "Add a new rule, READ permission required on target resource, ADD\
+        \ permission required on Rule"
       operationId: add_rule
       requestBody:
         content:
@@ -3723,7 +3723,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -3807,7 +3807,7 @@ paths:
       - rules
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
-      description: Edit a rule given its UUID, EDIT permission required on rule
+      description: "Edit a rule given its UUID, EDIT permission required on rule"
       operationId: edit_rule
       parameters:
       - example: my-rule
@@ -3929,7 +3929,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -3942,7 +3942,7 @@ paths:
           Only return id:
             value: id
           Return id, name & created_by:
-            value: id,name,created_by
+            value: "id,name,created_by"
         explode: true
         in: query
         name: only
@@ -3957,7 +3957,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name'
+            value: "creator:email, owned_by:name'"
         explode: true
         in: query
         name: deref
@@ -4098,7 +4098,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -4113,7 +4113,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name'
+            value: "creator:email, owned_by:name'"
         explode: true
         in: query
         name: deref
@@ -4251,7 +4251,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -4264,7 +4264,7 @@ paths:
           Only return id:
             value: id
           Return id, name & created_by:
-            value: id,name,created_by
+            value: "id,name,created_by"
         explode: true
         in: query
         name: only
@@ -4279,7 +4279,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name'
+            value: "creator:email, owned_by:name'"
         explode: true
         in: query
         name: deref
@@ -4288,8 +4288,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -4407,7 +4407,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -4422,7 +4422,7 @@ paths:
           Do not dereference anything, just return ids:
             value: none
           Dereference creator by email, owner by name:
-            value: creator:email, owned_by:name'
+            value: "creator:email, owned_by:name'"
         explode: true
         in: query
         name: deref
@@ -4661,7 +4661,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -4674,7 +4674,7 @@ paths:
           Only return id:
             value: id
           Return id, name & created_by:
-            value: id,title,created_by
+            value: "id,title,created_by"
         explode: true
         in: query
         name: only
@@ -4910,7 +4910,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -4923,7 +4923,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -4947,8 +4947,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -5102,7 +5102,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -5115,7 +5115,7 @@ paths:
           Only return id:
             value: id
           Return email, last_login & registration_date:
-            value: email,last_login,registration_date
+            value: "email,last_login,registration_date"
         explode: true
         in: query
         name: only
@@ -5137,8 +5137,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -5232,7 +5232,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -5245,7 +5245,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -5262,7 +5262,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -5270,8 +5270,8 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -5324,10 +5324,10 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.volumes_controller
     post:
-      description: |
-        Creates one or more volumes on the specified cloud. If async is true, a jobId will be returned.
-        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. READ permission required on location.
-        CREATE_RESOURCES permission required on location. CREATE permission required on volume.
+      description: "Creates one or more volumes on the specified cloud. If async is\
+        \ true, a jobId will be returned.\nREAD permission required on cloud. CREATE_RESOURCES\
+        \ permission required on cloud. READ permission required on location.\nCREATE_RESOURCES\
+        \ permission required on location. CREATE permission required on volume.\n"
       operationId: create_volume
       requestBody:
         content:
@@ -5416,7 +5416,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -5433,7 +5433,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -5580,7 +5580,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: Limit number of results, 1000 max
+      - description: "Limit number of results, 1000 max"
         explode: true
         in: query
         name: limit
@@ -5593,7 +5593,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -5610,7 +5610,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -5619,8 +5619,8 @@ paths:
           default: auto
           type: string
         style: form
-      - description: Limit results by specific datetime. Return resources created
-          before or at, or deleted after or at, given datetime.
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
         examples:
           Return resources created before or deleted after `2021-07-21T17:32:28Z`:
             value: 2021-07-21T17:32:28Z
@@ -5669,9 +5669,9 @@ paths:
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
     post:
-      description: |
-        Creates one or more zones on the specified cloud. If async is true, a jobId will be returned.
-        READ permission required on cloud. CREATE_RESOURCES permission required on cloud. CREATE permission required on zone.
+      description: "Creates one or more zones on the specified cloud. If async is\
+        \ true, a jobId will be returned.\nREAD permission required on cloud. CREATE_RESOURCES\
+        \ permission required on cloud. CREATE permission required on zone.\n"
       operationId: create_zone
       requestBody:
         content:
@@ -5754,7 +5754,7 @@ paths:
           Only return id:
             value: id
           Return id, name & owned_by:
-            value: id,name,owned_by
+            value: "id,name,owned_by"
         explode: true
         in: query
         name: only
@@ -5771,7 +5771,7 @@ paths:
           Dereference cloud id to cloud provider:
             value: cloud:provider
           Dereference cloud by provider, creator by email, owner by name:
-            value: cloud:provider, creator:email, owned_by:name
+            value: "cloud:provider, creator:email, owned_by:name"
         explode: true
         in: query
         name: deref
@@ -5857,8 +5857,8 @@ components:
   links: {}
   parameters:
     atParam:
-      description: Limit results by specific datetime. Return resources created before
-        or at, or deleted after or at, given datetime.
+      description: "Limit results by specific datetime. Return resources created before\
+        \ or at, or deleted after or at, given datetime."
       examples:
         Return resources created before or deleted after `2021-07-21T17:32:28Z`:
           value: 2021-07-21T17:32:28Z
@@ -5892,6 +5892,7 @@ components:
       - normal
       - succeeded
       - failed
+      title: MachineState
       type: string
     SupportedProviders:
       enum:
@@ -5918,6 +5919,7 @@ components:
       - kubernetes
       - openshift
       - other
+      title: SupportedProviders
       type: string
     Selector:
       oneOf:
@@ -5925,24 +5927,28 @@ components:
       - $ref: '#/components/schemas/FieldSelector'
       - $ref: '#/components/schemas/TaggingSelector'
       - $ref: '#/components/schemas/AgeSelector'
+      title: Selector
       type: object
     ResourceSelector:
       properties:
         type:
-          description: one of "machines", "volumes", "clusters" or "networks" resource
-            types
+          description: "one of \"machines\", \"volumes\", \"clusters\" or \"networks\"\
+            \ resource types"
           enum:
           - machines
           - volumes
           - clusters
           - networks
+          title: type
           type: string
         ids:
-          description: a list of UUIDs in case type is resource like "machines", "volumes",
-            "clusters" or "networks"
+          description: "a list of UUIDs in case type is resource like \"machines\"\
+            , \"volumes\", \"clusters\" or \"networks\""
           items:
             type: string
+          title: ids
           type: array
+      title: ResourceSelector
       type: object
     FieldSelector:
       properties:
@@ -5950,13 +5956,16 @@ components:
           description: field type
           enum:
           - field
+          title: type
           type: string
         field:
           description: the name of the field
           example: count
+          title: field
           type: string
         value:
           description: the value of the field
+          title: value
           type: object
         operator:
           description: one of equal (eq) and regular expression (regex) operators
@@ -5965,7 +5974,9 @@ components:
           - eq
           - regex
           example: eq
+          title: operator
           type: string
+      title: FieldSelector
       type: object
     TaggingSelector:
       properties:
@@ -5973,12 +5984,15 @@ components:
           description: tag type
           enum:
           - tags
+          title: type
           type: string
         include:
           description: a list of tags in case type is "tags"
           items:
             type: string
+          title: include
           type: array
+      title: TaggingSelector
       type: object
     AgeSelector:
       properties:
@@ -5986,12 +6000,15 @@ components:
           description: age type
           enum:
           - age
+          title: type
           type: string
         minutes:
           description: an integer that represents the minutes passed from the creation
             of the resource
           example: 6000
+          title: minutes
           type: integer
+      title: AgeSelector
       type: object
     ResponseMetadata:
       example:
@@ -6002,16 +6019,21 @@ components:
       properties:
         total:
           description: Total items matching the query
+          title: total
           type: integer
         returned:
           description: Number of items in response
+          title: returned
           type: integer
         sort:
           description: Sort order of results
+          title: sort
           type: string
         start:
           description: Index of first response item in total matching items
+          title: start
           type: integer
+      title: ResponseMetadata
       type: object
     ListCloudsResponse:
       example:
@@ -6020,22 +6042,24 @@ components:
             compute: true
             container: false
             dns: false
+          provider: null
           name: name
           owned_by: owned_by
           id: id
-          config: '{}'
+          config: "{}"
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         - features:
             compute: true
             container: false
             dns: false
+          provider: null
           name: name
           owned_by: owned_by
           id: id
-          config: '{}'
+          config: "{}"
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -6045,9 +6069,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Cloud'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListCloudsResponse
       type: object
     GetCloudResponse:
       example:
@@ -6056,12 +6082,13 @@ components:
             compute: true
             container: false
             dns: false
+          provider: null
           name: name
           owned_by: owned_by
           id: id
-          config: '{}'
+          config: "{}"
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -6072,6 +6099,7 @@ components:
           $ref: '#/components/schemas/Cloud'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetCloudResponse
       type: object
     Cloud:
       example:
@@ -6079,29 +6107,37 @@ components:
           compute: true
           container: false
           dns: false
+        provider: null
         name: name
         owned_by: owned_by
         id: id
-        config: '{}'
+        config: "{}"
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
         config:
+          title: config
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
+      title: Cloud
       type: object
     AddCloudRequest:
       allOf:
@@ -6160,14 +6196,17 @@ components:
           projectId: projectId
           privateKey: privateKey
           email: email
+      title: AddCloudRequest
     EditCloudRequest_anyOf:
       additionalProperties: false
       properties:
         name:
           description: Updated name
+          title: name
           type: string
       required:
       - name
+      title: EditCloudRequest_anyOf
       type: object
     EditCloudRequest:
       anyOf:
@@ -6228,6 +6267,7 @@ components:
           - $ref: '#/components/schemas/OtherCloudRequest'
       example:
         name: my-renamed-cloud
+      title: EditCloudRequest
     CloudFeatures:
       description: The cloud features that should be enabled
       example:
@@ -6238,21 +6278,26 @@ components:
         compute:
           default: true
           description: Enable compute services
+          title: compute
           type: boolean
         dns:
           default: false
           description: Enable DNS services
+          title: dns
           type: boolean
         container:
           default: false
           description: Enable container services
+          title: container
           type: boolean
+      title: CloudFeatures
       type: object
     AmazonCloudRequest:
       properties:
         provider:
           enum:
           - amazon
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/AmazonCredentials'
@@ -6261,28 +6306,81 @@ components:
       required:
       - credentials
       - provider
+      title: AmazonCloudRequest
       type: object
     AmazonCredentials:
       properties:
         apikey:
           description: Your AWS API key
+          title: apikey
           type: string
         apisecret:
           description: Your AWS API secret
+          title: apisecret
           type: string
         region:
-          description: Your AWS region
-          type: string
+          $ref: '#/components/schemas/AmazonRegions'
       required:
       - apikey
       - apisecret
       - region
+      title: AmazonCredentials
       type: object
+    AmazonRegions:
+      enum:
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-northeast-3
+      - ap-southeast-1
+      - ap-southeast-2
+      - eu-central-1
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-north-1
+      - ca-central-1
+      - sa-east-1
+      - us-east-1
+      - us-west-1
+      - us-west-2
+      - us-east-2
+      - ap-south-1
+      - ap-east-1
+      - cn-north-1
+      - cn-northwest-1
+      - us-gov-west-1
+      - us-gov-east-1
+      title: AmazonRegions
+      type: string
+      x-enumNames:
+      - Tokyo
+      - Seoul
+      - Osaka
+      - Singapore
+      - Sydney
+      - Frankfurt
+      - Ireland
+      - London
+      - Paris
+      - Stockholm
+      - Canada Central
+      - Sao Paulo
+      - N. Virginia
+      - N. California
+      - Oregon
+      - Ohio
+      - Mumbai
+      - Hong Kong
+      - Beijing
+      - Ningxia
+      - GovCloud (US)
+      - GovCloud (US-East)
     AzureCloudRequest:
       properties:
         provider:
           enum:
           - azure
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/AzureCredentials'
@@ -6291,32 +6389,39 @@ components:
       required:
       - credentials
       - provider
+      title: AzureCloudRequest
       type: object
     AzureCredentials:
       properties:
         tenantId:
           description: Your Azure tenant ID
+          title: tenantId
           type: string
         subscriptionId:
           description: Your Azure subscription ID
+          title: subscriptionId
           type: string
         key:
           description: Your Azure key
+          title: key
           type: string
         secret:
           description: Your Azure secret
+          title: secret
           type: string
       required:
       - key
       - secret
       - subscriptionId
       - tenantId
+      title: AzureCredentials
       type: object
     GoogleCloudRequest:
       properties:
         provider:
           enum:
           - google
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/GoogleCredentials'
@@ -6325,28 +6430,34 @@ components:
       required:
       - credentials
       - provider
+      title: GoogleCloudRequest
       type: object
     GoogleCredentials:
       properties:
         projectId:
           description: The Id of your GCP project
+          title: projectId
           type: string
         privateKey:
           description: Your GCP private key
+          title: privateKey
           type: string
         email:
           description: Your GCP client email
+          title: email
           type: string
       required:
       - email
       - privateKey
       - projectId
+      title: GoogleCredentials
       type: object
     AlibabaCloudRequest:
       properties:
         provider:
           enum:
           - alibaba
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/AlibabaCredentials'
@@ -6355,28 +6466,34 @@ components:
       required:
       - credentials
       - provider
+      title: AlibabaCloudRequest
       type: object
     AlibabaCredentials:
       properties:
         apikey:
           description: Your Alibaba Cloud API key
+          title: apikey
           type: string
         apisecret:
           description: Your Alibaba Cloud API secret
+          title: apisecret
           type: string
         region:
           description: Your Alibaba Cloud region
+          title: region
           type: string
       required:
       - apikey
       - apisecret
       - region
+      title: AlibabaCredentials
       type: object
     CloudSigmaCloudRequest:
       properties:
         provider:
           enum:
           - cloudsigma
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/CloudSigmaCredentials'
@@ -6385,28 +6502,34 @@ components:
       required:
       - credentials
       - provider
+      title: CloudSigmaCloudRequest
       type: object
     CloudSigmaCredentials:
       properties:
         username:
           description: Your CloudSigma username
+          title: username
           type: string
         password:
           description: Your CloudSigma password
+          title: password
           type: string
         region:
           description: Your CloudSigma region
+          title: region
           type: string
       required:
       - password
       - region
       - username
+      title: CloudSigmaCredentials
       type: object
     EquinixCloudRequest:
       properties:
         provider:
           enum:
           - equinix
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/EquinixCredentials'
@@ -6415,21 +6538,25 @@ components:
       required:
       - credentials
       - provider
+      title: EquinixCloudRequest
       type: object
     EquinixCredentials:
       additionalProperties: false
       properties:
         apikey:
           description: Your Equinix Metal API key
+          title: apikey
           type: string
       required:
       - apikey
+      title: EquinixCredentials
       type: object
     IbmCloudRequest:
       properties:
         provider:
           enum:
           - ibm
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/IbmCredentials'
@@ -6438,27 +6565,33 @@ components:
       required:
       - credentials
       - provider
+      title: IbmCloudRequest
       type: object
     IbmCredentials:
       properties:
         provider:
           enum:
           - ibm
+          title: provider
           type: string
         username:
           description: Your IBM Cloud username
+          title: username
           type: string
         apikey:
           description: Your IBM Cloud API key
+          title: apikey
           type: string
       required:
       - apikey
+      title: IbmCredentials
       type: object
     DigitaloceanCloudRequest:
       properties:
         provider:
           enum:
           - digitalocean
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/DigitaloceanCredentials'
@@ -6467,20 +6600,24 @@ components:
       required:
       - credentials
       - provider
+      title: DigitaloceanCloudRequest
       type: object
     DigitaloceanCredentials:
       properties:
         token:
           description: Your DigitalOcean API token
+          title: token
           type: string
       required:
       - token
+      title: DigitaloceanCredentials
       type: object
     LinodeCloudRequest:
       properties:
         provider:
           enum:
           - linode
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/LinodeCredentials'
@@ -6489,20 +6626,24 @@ components:
       required:
       - credentials
       - provider
+      title: LinodeCloudRequest
       type: object
     LinodeCredentials:
       properties:
         apikey:
           description: You Linode API key
+          title: apikey
           type: string
       required:
       - apikey
+      title: LinodeCredentials
       type: object
     RackspaceCloudRequest:
       properties:
         provider:
           enum:
           - rackspace
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/RackspaceCredentials'
@@ -6511,32 +6652,39 @@ components:
       required:
       - credentials
       - provider
+      title: RackspaceCloudRequest
       type: object
     RackspaceCredentials:
       properties:
         provider:
           enum:
           - rackspace
+          title: provider
           type: string
         username:
           description: Your Rackspace Cloud username
+          title: username
           type: string
         apikey:
           description: Your Rackspace Cloud API key
+          title: apikey
           type: string
         region:
           description: Your Rackspace Cloud region
+          title: region
           type: string
       required:
       - apikey
       - region
       - username
+      title: RackspaceCredentials
       type: object
     MaxihostCloudRequest:
       properties:
         provider:
           enum:
           - maxihost
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/MaxihostCredentials'
@@ -6545,20 +6693,24 @@ components:
       required:
       - credentials
       - provider
+      title: MaxihostCloudRequest
       type: object
     MaxihostCredentials:
       properties:
         token:
           description: Your Maxihost API token
+          title: token
           type: string
       required:
       - token
+      title: MaxihostCredentials
       type: object
     VultrCloudRequest:
       properties:
         provider:
           enum:
           - vultr
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/VultrCredentials'
@@ -6567,20 +6719,24 @@ components:
       required:
       - credentials
       - provider
+      title: VultrCloudRequest
       type: object
     VultrCredentials:
       properties:
         apikey:
           description: Your Vultr API key
+          title: apikey
           type: string
       required:
       - apikey
+      title: VultrCredentials
       type: object
     OpenstackCloudRequest:
       properties:
         provider:
           enum:
           - openstack
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/OpenstackCredentials'
@@ -6589,33 +6745,43 @@ components:
       required:
       - credentials
       - provider
+      title: OpenstackCloudRequest
       type: object
     OpenstackCredentials:
       properties:
         authUrl:
+          title: authUrl
           type: string
         user:
+          title: user
           type: string
         password:
+          title: password
           type: string
         tenant:
+          title: tenant
           type: string
         domain:
+          title: domain
           type: string
         region:
+          title: region
           type: string
         computeEndpoint:
+          title: computeEndpoint
           type: string
       required:
       - authUrl
       - password
       - user
+      title: OpenstackCredentials
       type: object
     OnappCloudRequest:
       properties:
         provider:
           enum:
           - onapp
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/OnappCredentials'
@@ -6624,29 +6790,37 @@ components:
       required:
       - credentials
       - provider
+      title: OnappCloudRequest
       type: object
     OnappCredentials:
       properties:
         authUrl:
+          title: authUrl
           type: string
         username:
+          title: username
           type: string
         apikey:
+          title: apikey
           type: string
         host:
+          title: host
           type: string
         verify:
+          title: verify
           type: boolean
       required:
       - apikey
       - host
       - username
+      title: OnappCredentials
       type: object
     VsphereCloudRequest:
       properties:
         provider:
           enum:
           - vsphere
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/VsphereCredentials'
@@ -6655,47 +6829,58 @@ components:
       required:
       - credentials
       - provider
+      title: VsphereCloudRequest
       type: object
     VsphereCredentials:
       properties:
         host:
           description: Your vSphere/vCenter host
+          title: host
           type: string
         username:
           description: Your username
+          title: username
           type: string
         password:
           description: Your password
+          title: password
           type: string
         ca_cert_file:
           description: CA certificate
+          title: ca_cert_file
           type: string
       required:
       - host
       - password
       - username
+      title: VsphereCredentials
       type: object
     KvmCloudRequest:
       properties:
         provider:
           enum:
           - kvm
+          title: provider
           type: string
         credentials:
+          title: KvmCredentials
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
+      title: KvmCloudRequest
       type: object
     KvmCredentials:
+      title: KvmCredentials
       type: object
     LxdCloudRequest:
       properties:
         provider:
           enum:
           - lxd
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/LxdCredentials'
@@ -6704,42 +6889,53 @@ components:
       required:
       - credentials
       - provider
+      title: LxdCloudRequest
       type: object
     LxdCredentials:
       properties:
         host:
           description: Your LXD host
+          title: host
           type: string
         port:
           description: Your LXD port
+          title: port
           type: string
         username:
           description: Your LXD username
+          title: username
           type: string
         password:
           description: Your LXD password
+          title: password
           type: string
         tlsKey:
           description: Your TLS auth key
+          title: tlsKey
           type: string
         tlsCert:
           description: Your TLS auth certificate
+          title: tlsCert
           type: string
         tlsCaCert:
           description: Your TLS CA certifcate
+          title: tlsCaCert
           type: string
         showAll:
-          description: Show all containers, including stopped
+          description: "Show all containers, including stopped"
+          title: showAll
           type: boolean
       required:
       - host
       - port
+      title: LxdCredentials
       type: object
     DockerCloudRequest:
       properties:
         provider:
           enum:
           - docker
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/DockerCredentials'
@@ -6748,42 +6944,53 @@ components:
       required:
       - credentials
       - provider
+      title: DockerCloudRequest
       type: object
     DockerCredentials:
       properties:
         host:
           description: Your Docker host
+          title: host
           type: string
         port:
           description: Your Docker port
+          title: port
           type: string
         username:
           description: Your Docker username
+          title: username
           type: string
         password:
           description: Your Docker password
+          title: password
           type: string
         tlsKey:
           description: Your TLS auth key
+          title: tlsKey
           type: string
         tlsCert:
           description: Your TLS auth certificate
+          title: tlsCert
           type: string
         tlsCaCert:
           description: Your TLS CA certifcate
+          title: tlsCaCert
           type: string
         showAll:
-          description: Show all containers, including stopped
+          description: "Show all containers, including stopped"
+          title: showAll
           type: boolean
       required:
       - host
       - port
+      title: DockerCredentials
       type: object
     KubevirtCloudRequest:
       properties:
         provider:
           enum:
           - kubevirt
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/KubernetesCredentials'
@@ -6792,12 +6999,14 @@ components:
       required:
       - credentials
       - provider
+      title: KubevirtCloudRequest
       type: object
     KubernetesCloudRequest:
       properties:
         provider:
           enum:
           - kubernetes
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/KubernetesCredentials'
@@ -6806,12 +7015,14 @@ components:
       required:
       - credentials
       - provider
+      title: KubernetesCloudRequest
       type: object
     OpenshiftCloudRequest:
       properties:
         provider:
           enum:
           - openshift
+          title: provider
           type: string
         credentials:
           $ref: '#/components/schemas/OpenshiftCredentials'
@@ -6820,117 +7031,139 @@ components:
       required:
       - credentials
       - provider
+      title: OpenshiftCloudRequest
       type: object
     KubernetesCredentials:
       properties:
         host:
           description: Your Kubernetes API host
+          title: host
           type: string
         port:
           description: Your Kubernetes API port
+          title: port
           type: string
         username:
           description: Your Kubernetes API username
+          title: username
           type: string
         password:
           description: Your Kubernetes API password
+          title: password
           type: string
         token:
           description: Your Kubernetes API bearer token
+          title: token
           type: string
         tlsKey:
           description: Your TLS auth key
+          title: tlsKey
           type: string
         tlsCert:
           description: Your TLS auth certificate
+          title: tlsCert
           type: string
         tlsCaCert:
           description: Your TLS CA certifcate
+          title: tlsCaCert
           type: string
         showAll:
-          description: Show all containers, including stopped
+          description: "Show all containers, including stopped"
+          title: showAll
           type: boolean
       required:
       - host
       - port
+      title: KubernetesCredentials
       type: object
     OpenshiftCredentials:
       properties:
         host:
           description: Your OpenShift API host
+          title: host
           type: string
         port:
           description: Your OpenShift API port
+          title: port
           type: string
         username:
           description: Your OpenShift API username
+          title: username
           type: string
         password:
           description: Your OpenShift API password
+          title: password
           type: string
       required:
       - host
       - password
       - port
       - username
+      title: OpenshiftCredentials
       type: object
     OtherCloudRequest:
       properties:
         provider:
           enum:
           - other
+          title: provider
           type: string
         credentials:
+          title: OtherCredentials
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
+      title: OtherCloudRequest
       type: object
     OtherCredentials:
+      title: OtherCredentials
       type: object
     ListClustersResponse:
       example:
         data:
         - owner: owner
           last_seen: last_seen
-          credentials: '{}'
+          credentials: "{}"
           created: created
           total_cpus: 6
           owned_by: owned_by
           external_id: external_id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
           cloud: cloud
           total_memory: 1
+          provider: null
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           name: name
           total_nodes: 0
           location: location
           id: id
           state: state
-          config: '{}'
+          config: "{}"
         - owner: owner
           last_seen: last_seen
-          credentials: '{}'
+          credentials: "{}"
           created: created
           total_cpus: 6
           owned_by: owned_by
           external_id: external_id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
           cloud: cloud
           total_memory: 1
+          provider: null
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           name: name
           total_nodes: 0
           location: location
           id: id
           state: state
-          config: '{}'
+          config: "{}"
         meta:
           total: 0
           start: 1
@@ -6940,32 +7173,35 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Cluster'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListClustersResponse
       type: object
     GetClusterResponse:
       example:
         data:
           owner: owner
           last_seen: last_seen
-          credentials: '{}'
+          credentials: "{}"
           created: created
           total_cpus: 6
           owned_by: owned_by
           external_id: external_id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
           cloud: cloud
           total_memory: 1
+          provider: null
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           name: name
           total_nodes: 0
           location: location
           id: id
           state: state
-          config: '{}'
+          config: "{}"
         meta:
           total: 0
           start: 1
@@ -6976,20 +7212,24 @@ components:
           $ref: '#/components/schemas/Cluster'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetClusterResponse
       type: object
     CreateClusterResponse:
       example:
         jobId: jobId
       properties:
         jobId:
+          title: jobId
           type: string
+      title: CreateClusterResponse
       type: object
     ScaleNodepoolRequest:
-      description: To scale a GKE nodepool without autoscaling set only the desired_nodes
-        parameter. On GKE nodepools with autoscaling, set min_nodes,max_nodes. Enabling/Disabling
-        autoscaling is only supported on GKE nodepools. min_nodes, max_nodes parameters
-        are required to enable autoscaling. To disable autoscaling set only enable_autoscaling
-        to false. For EKS nodepools set the min_nodes, desired_nodes, max_nodes parameters.
+      description: "To scale a GKE nodepool without autoscaling set only the desired_nodes\
+        \ parameter. On GKE nodepools with autoscaling, set min_nodes,max_nodes. Enabling/Disabling\
+        \ autoscaling is only supported on GKE nodepools. min_nodes, max_nodes parameters\
+        \ are required to enable autoscaling. To disable autoscaling set only enable_autoscaling\
+        \ to false. For EKS nodepools set the min_nodes, desired_nodes, max_nodes\
+        \ parameters."
       example:
         desired_nodes: 0
         max_nodes: 1
@@ -6998,16 +7238,21 @@ components:
       properties:
         autoscaling:
           description: Enable/Disable autoscaling for the specified GKE nodepool.
+          title: autoscaling
           type: boolean
         desired_nodes:
           description: The number of nodes that the nodepool should maintain
+          title: desired_nodes
           type: integer
         min_nodes:
           description: Minimum number of nodes for the specified nodepool
+          title: min_nodes
           type: integer
         max_nodes:
           description: Maximum number of nodes for the specified nodepool
+          title: max_nodes
           type: integer
+      title: ScaleNodepoolRequest
       type: object
     DestroyClusterResponse:
       example:
@@ -7016,74 +7261,99 @@ components:
         cluster: cluster
       properties:
         jobId:
+          title: jobId
           type: string
         cloud:
+          title: cloud
           type: string
         cluster:
+          title: cluster
           type: string
+      title: DestroyClusterResponse
       type: object
     Cluster:
       example:
         owner: owner
         last_seen: last_seen
-        credentials: '{}'
+        credentials: "{}"
         created: created
         total_cpus: 6
         owned_by: owned_by
         external_id: external_id
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
         cloud: cloud
         total_memory: 1
+        provider: null
         missing_since: missing_since
-        extra: '{}'
+        extra: "{}"
         name: name
         total_nodes: 0
         location: location
         id: id
         state: state
-        config: '{}'
+        config: "{}"
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
         total_nodes:
+          title: total_nodes
           type: integer
         total_cpus:
+          title: total_cpus
           type: integer
         total_memory:
+          title: total_memory
           type: integer
         location:
+          title: location
           type: string
         credentials:
+          title: credentials
           type: object
         config:
+          title: config
           type: object
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
         extra:
+          title: extra
           type: object
         external_id:
+          title: external_id
           type: string
         owner:
+          title: owner
           type: string
         state:
+          title: state
           type: string
         last_seen:
+          title: last_seen
           type: string
         missing_since:
+          title: missing_since
           type: string
         created:
+          title: created
           type: string
+      title: Cluster
       type: object
     ClusterProviders:
       description: The cloud provider of the cluster
@@ -7095,43 +7365,54 @@ components:
       - kubernetes
       - openshift
       - linode
+      title: ClusterProviders
       type: string
     HelmChart:
       properties:
         type:
           enum:
           - helm
+          title: type
           type: string
         repo_url:
           description: The url of the Helm repository
+          title: repo_url
           type: string
         chart_name:
+          title: chart_name
           type: string
         release_name:
+          title: release_name
           type: string
         namespace:
           description: The namespace to install the release on
+          title: namespace
           type: string
         values:
           description: The contents of a Helm values.yaml file
+          title: values
           type: string
         version:
           description: A version constraint for the chart
+          title: version
           type: string
       required:
       - chart_name
       - release_name
       - repo_url
       - type
+      title: HelmChart
       type: object
     KubernetesManifest:
       properties:
         type:
           enum:
           - manifest
+          title: type
           type: string
       required:
       - type
+      title: KubernetesManifest
       type: object
     CreateClusterRequest:
       allOf:
@@ -7140,29 +7421,30 @@ components:
         name: my-cluster
         provider: google
         location: europe-west2-b
+      title: CreateClusterRequest
     ListImagesResponse:
       example:
         data:
         - cloud: cloud
           starred: true
           os_type: os_type
-          extra: '{}'
+          extra: "{}"
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         - cloud: cloud
           starred: true
           os_type: os_type
-          extra: '{}'
+          extra: "{}"
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -7172,9 +7454,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Image'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListImagesResponse
       type: object
     GetImageResponse:
       example:
@@ -7182,13 +7466,13 @@ components:
           cloud: cloud
           starred: true
           os_type: os_type
-          extra: '{}'
+          extra: "{}"
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -7199,44 +7483,56 @@ components:
           $ref: '#/components/schemas/Image'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetImageResponse
       type: object
     Image:
       example:
         cloud: cloud
         starred: true
         os_type: os_type
-        extra: '{}'
+        extra: "{}"
         name: name
         external_id: external_id
         owned_by: owned_by
         id: id
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         starred:
+          title: starred
           type: boolean
         os_type:
+          title: os_type
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
         extra:
+          title: extra
           type: object
+      title: Image
       type: object
     CreateMachineRequest:
       example:
-        template: '{}'
+        template: "{}"
         image: Debian
         quantity: 1.4658129805029452
         disks:
@@ -7248,10 +7544,11 @@ components:
         save: true
         dry: true
         monitoring: true
-        tags: '{}'
+        tags: "{}"
         cloud: cloud
         size: m1.small
         optimize: optimize
+        provider: null
         schedules:
         - ""
         - ""
@@ -7274,20 +7571,23 @@ components:
         name:
           description: Specify machine name
           example: DB mirror
+          title: name
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
         cloud:
           description: Specify cloud to provision on
+          title: cloud
           type: string
         location:
-          description: Where to provision e.g. region, datacenter, rack
+          description: "Where to provision e.g. region, datacenter, rack"
           oneOf:
           - properties:
               prefer:
                 type: string
             type: object
           - type: string
+          title: location
         size:
           description: Machine sizing spec e.g. cpu/ram/flavor
           example: m1.small
@@ -7333,6 +7633,7 @@ components:
             type: object
           - description: Name or ID of the size to select for this machine
             type: string
+          title: size
         image:
           description: Operating System image to boot from
           example: Debian
@@ -7340,6 +7641,7 @@ components:
           - type: object
           - description: Name or ID of the image to boot from
             type: string
+          title: image
         net:
           anyOf:
           - $ref: '#/components/schemas/AlibabaNet'
@@ -7355,6 +7657,7 @@ components:
           - $ref: '#/components/schemas/VSphereNet'
           - $ref: '#/components/schemas/VultrNet'
           description: Specify network configuration parameters
+          title: net
         key:
           description: Associate SSH key
           oneOf:
@@ -7363,11 +7666,12 @@ components:
                 description: Name or ID of the SSH key to deploy
                 type: string
               user:
-                description: SSH user, supported on Google
+                description: "SSH user, supported on Google"
                 type: string
             type: object
           - description: Name or ID of the SSH key to deploy
             type: string
+          title: key
         disks:
           $ref: '#/components/schemas/CreateMachineRequest_disks'
         volumes:
@@ -7382,14 +7686,17 @@ components:
           - $ref: '#/components/schemas/LXDVolumes'
           - $ref: '#/components/schemas/OpenstackVolumes'
           - $ref: '#/components/schemas/VultrVolumes'
-          description: Configure of attached storage volumes, e.g. cloud disks
+          description: "Configure of attached storage volumes, e.g. cloud disks"
+          title: volumes
         fqdn:
           description: Add DNS A Record that points machine's public IP to this Fully
             Qualified Domain Name. Zone needs to be managed by a configured Cloud
             DNS provider
+          title: fqdn
           type: string
         cloudinit:
           description: Run this Cloud Init script on first boot
+          title: cloudinit
           type: string
         scripts:
           description: Run post deploy scripts over SSH
@@ -7399,6 +7706,7 @@ components:
             - oneOf:
               - $ref: '#/components/schemas/InlineScript'
               - $ref: '#/components/schemas/PostDeployScript'
+          title: scripts
           type: array
         schedules:
           description: Configure scheduled actions for the provisioned machine
@@ -7435,9 +7743,11 @@ components:
               - $ref: '#/components/schemas/OneOffSchedule'
               - $ref: '#/components/schemas/CronSchedule'
               - $ref: '#/components/schemas/IntervalSchedule'
+          title: schedules
           type: array
         tags:
           description: Assign tags to provisioned machine
+          title: tags
           type: object
         expiration:
           $ref: '#/components/schemas/Expiration'
@@ -7452,26 +7762,34 @@ components:
           - $ref: '#/components/schemas/VSphereExtra'
           - $ref: '#/components/schemas/VultrExtra'
           description: Configure additional parameters
+          title: extra
         monitoring:
           description: Enable monitoring of this machine
+          title: monitoring
           type: boolean
         quantity:
           description: Provision multiple machines of this type
+          title: quantity
           type: number
         template:
+          title: template
           type: object
         dry:
           description: Return provisioning plan and exit without executing it
+          title: dry
           type: boolean
         save:
           description: Save provisioning plan as template
+          title: save
           type: boolean
         optimize:
-          description: Criteria optimization, e.g "cost"
+          description: "Criteria optimization, e.g \"cost\""
+          title: optimize
           type: string
       required:
       - image
       - name
+      title: CreateMachineRequest
       type: object
     EditMachineRequest:
       example:
@@ -7482,29 +7800,36 @@ components:
       properties:
         expiration:
           $ref: '#/components/schemas/EditMachineRequest_expiration'
+      title: EditMachineRequest
       type: object
     DockerNet:
       properties:
         port_bindings:
-          description: ContainerPort,HostPort pairs. For example "80"/"80", "123/udp"/"123"
+          description: "ContainerPort,HostPort pairs. For example \"80\"/\"80\", \"\
+            123/udp\"/\"123\""
+          title: port_bindings
           type: object
       title: Docker net parameter
       type: object
     DockerExtra:
       properties:
         environment:
-          description: Key, value pairs of environment variables to set inside the
-            container
+          description: "Key, value pairs of environment variables to set inside the\
+            \ container"
+          title: environment
           type: object
         command:
           description: Command to run specified as a string
+          title: command
           type: string
       title: Docker extra parameter
       type: object
     LXDExtra:
       properties:
         ephemeral:
-          description: Whether to destroy the container on shutdown, defaults to False
+          description: "Whether to destroy the container on shutdown, defaults to\
+            \ False"
+          title: ephemeral
           type: boolean
       title: LXD extra parameter
       type: object
@@ -7514,6 +7839,7 @@ components:
           description: An array of network names or IDs to launch the container into
           items:
             type: string
+          title: networks
           type: array
       title: LXD net parameter
       type: object
@@ -7547,10 +7873,10 @@ components:
                 the default storage pool will be selected
               type: string
             filesystem:
-              description: Filesystem of the storage volume, defaults to "ext4"
+              description: "Filesystem of the storage volume, defaults to \"ext4\""
               type: string
             mount_options:
-              description: Mount options for block devices,  defaults to "discard"
+              description: "Mount options for block devices,  defaults to \"discard\""
               type: string
             security_shifted:
               description: Whether to enable id shifting overlay (allows attach by
@@ -7592,9 +7918,11 @@ components:
         folder:
           description: Name or ID of the Vsphere folder to place the machine into.
             Required for Vsphere 6.7
+          title: folder
           type: string
         datastore:
           description: Name or ID of a VSphere datastore
+          title: datastore
           type: string
       title: VSphere extra parameter
       type: object
@@ -7602,6 +7930,7 @@ components:
       properties:
         network:
           description: Name or ID of the network to launch the machine into
+          title: network
           type: string
       title: VSphere net parameter
       type: object
@@ -7631,46 +7960,54 @@ components:
     VultrNet:
       properties:
         networks:
-          description: An array of network names or IDs to attach to this machine,
-            invalid for "Bare Metal" machines
+          description: "An array of network names or IDs to attach to this machine,\
+            \ invalid for \"Bare Metal\" machines"
           items:
             type: string
+          title: networks
           type: array
         ipv6:
-          description: Enable IPv6, defaults to false
+          description: "Enable IPv6, defaults to false"
+          title: ipv6
           type: boolean
         hostname:
-          description: The hostname to use when deploying this machine, defaults to
-            machine name
+          description: "The hostname to use when deploying this machine, defaults\
+            \ to machine name"
+          title: hostname
           type: string
       title: Vultr net parameter
       type: object
     VultrExtra:
       properties:
         backups:
-          description: Enable automatic backups for the machine, invalid for "Bare
-            Metal" & "Dedicated Cloud" size types. There is an additional charge depending
-            on the size selected
+          description: "Enable automatic backups for the machine, invalid for \"Bare\
+            \ Metal\" & \"Dedicated Cloud\" size types. There is an additional charge\
+            \ depending on the size selected"
+          title: backups
           type: boolean
         ddos_protection:
-          description: Enable DDoS protection, invalid for "Bare Metal" size type.
-            There is an additional charge depending on the type of the size selected
+          description: "Enable DDoS protection, invalid for \"Bare Metal\" size type.\
+            \ There is an additional charge depending on the type of the size selected"
+          title: ddos_protection
           type: boolean
       title: Vultr extra parameter
       type: object
     AlibabaNet:
       properties:
         network:
-          description: Name or ID of an existing network to associate the machine
-            with. If not provided, one existing network will be selected.
+          description: "Name or ID of an existing network to associate the machine\
+            \ with. If not provided, one existing network will be selected."
+          title: network
           type: string
         subnet:
           description: Name or ID of an existing or new subnet(switch) to launch the
             machine into. If not provided a default 'mistio' subnet will be created.
+          title: subnet
           type: string
         security_group:
           description: Name of the security group to assign to the machine. If not
             provided a default 'mistio' security group will be created.
+          title: security_group
           type: string
       title: Alibaba net parameter
       type: object
@@ -7700,7 +8037,7 @@ components:
                 to false
               type: boolean
             type:
-              description: Type of the volume to create, defaults to 'cloud'
+              description: "Type of the volume to create, defaults to 'cloud'"
               enum:
               - cloud
               - cloud_efficiency
@@ -7721,8 +8058,8 @@ components:
               description: Name or ID of an existing volume to attach
               type: string
             boot:
-              description: Use as boot volume, up to one volume can be used as boot.
-                Defaults to false
+              description: "Use as boot volume, up to one volume can be used as boot.\
+                \ Defaults to false"
               type: boolean
             delete_on_termination:
               description: Delete the volume when the machine is deleted. Defaults
@@ -7736,8 +8073,8 @@ components:
               minimum: 1
               type: integer
             boot:
-              description: Use as boot volume, up to one volume can be used as boot.
-                Defaults to false
+              description: "Use as boot volume, up to one volume can be used as boot.\
+                \ Defaults to false"
               type: boolean
             delete_on_termination:
               description: Delete the  volume when the machine is deleted. Defaults
@@ -7755,16 +8092,19 @@ components:
             the machine
           items:
             type: string
+          title: security_groups
           type: array
         networks:
           description: Name or ID of the networks to launch the machine into. Required
             parameter when there are multiple networks defined for the tenant
           items:
             type: string
+          title: networks
           type: array
         associate_floating_ip:
-          description: Assign a floating IP to the machine, defaults to True for Openstack
-            and False for Vexxhost
+          description: "Assign a floating IP to the machine, defaults to True for\
+            \ Openstack and False for Vexxhost"
+          title: associate_floating_ip
           type: boolean
       title: Openstack & Vexxhost net parameter
       type: object
@@ -7813,6 +8153,7 @@ components:
         network:
           description: A new or existing network If not provided a `mist-resource_group-location`
             network will be used.
+          title: network
           type: string
       title: Azure net parameter
       type: object
@@ -7821,6 +8162,7 @@ components:
         resource_group:
           description: A new or existing resource group. If not provided a `mist`
             resource group will be used.
+          title: resource_group
           type: string
         storage_account_type:
           description: Specifies the storage account type for the OS disk. Defaults
@@ -7831,12 +8173,15 @@ components:
           - StandardSSD_LRS
           - StandardSSD_ZRS
           - Standard_LRS
+          title: storage_account_type
           type: string
         user:
           description: The machine username. Defaults to azureuser
+          title: user
           type: string
         password:
           description: The machine password. Only used on Microsoft images
+          title: password
           type: string
       title: Azure extra parameter
       type: object
@@ -7844,6 +8189,7 @@ components:
       properties:
         root_pass:
           description: Set root password. If not given a secure password will be generated
+          title: root_pass
           type: string
       title: Linode extra parameter
       type: object
@@ -7855,8 +8201,8 @@ components:
               description: Name or ID of the volume to attach
               type: string
             persist_across_boots:
-              description: Whether the volume should be attached to node across reboots,
-                defaults to True
+              description: "Whether the volume should be attached to node across reboots,\
+                \ defaults to True"
               type: boolean
           required:
           - volume
@@ -7876,54 +8222,60 @@ components:
     LinodeNet:
       properties:
         private_ip:
-          description: Assign a private IPv4 address, defaults to True
+          description: "Assign a private IPv4 address, defaults to True"
+          title: private_ip
           type: boolean
       title: Linode net parameter
       type: object
-    GoogleVolumes:
+    AlibabaVolumes:
       items:
         oneOf:
         - properties:
             volume:
-              description: Name or ID of the volume to attach
+              description: Name or ID of an existing volume to attach
               type: string
-            boot:
-              description: Whether this volume should be used as the boot drive. Up
-                to one volume must set this parameter
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
               type: boolean
           required:
           - volume
         - properties:
             name:
-              description: Name of the volume to be created, mandatory on non-boot
-                volumes
+              description: "Name of the volume to be created, mandatory on non-boot\
+                \ volumes"
               type: string
             size:
-              description: Size of the volume to be created
-              minimum: 1
+              description: Size of the volume in GBs. The minimum size depends on
+                the volume type
               type: integer
-            boot:
-              description: Whether this volume should be used as the boot drive. Up
-                to one volume must set this parameter
+            delete_on_termination:
+              description: Delete the volume when the machine is deleted. Defaults
+                to false
               type: boolean
             type:
-              description: Type of the volume to create, defaults to 'pd-standard'
+              description: "Type of the volume to create, defaults to 'pd-standard'"
               enum:
-              - pd-standard
-              - pd-ssd
+              - cloud
+              - cloud_efficiency
+              - cloud_ssd
+              - cloud_essd
               type: string
           required:
+          - name
           - size
         type: object
-      title: Google volumes parameter
+      title: Alibaba volumes parameter
       type: array
     GoogleNet:
       properties:
         network:
           description: The network to associate with the machine
+          title: network
           type: string
         subnetwork:
           description: The subnetwork resource for this machine
+          title: subnetwork
           type: string
       title: Google net parameter
       type: object
@@ -7936,18 +8288,20 @@ components:
     EquinixMetalNet:
       properties:
         ip_addresses:
-          description: Specify addresses to be created with your machine.By default
-            Equinix configures public IPv4, public IPv6, and private IPv4
+          description: "Specify addresses to be created with your machine.By default\
+            \ Equinix configures public IPv4, public IPv6, and private IPv4"
           items:
             $ref: '#/components/schemas/EquinixMetalNet_ip_addresses'
+          title: ip_addresses
           type: array
       title: Equnix Metal net parameter
       type: object
     EquinixMetalExtra:
       properties:
         project_id:
-          description: Project UUID, if not given the first one available will be
-            selected
+          description: "Project UUID, if not given the first one available will be\
+            \ selected"
+          title: project_id
           type: string
       title: Equnix Metal extra parameter
       type: object
@@ -7983,9 +8337,11 @@ components:
       properties:
         security_group:
           description: Security group to assign to the machine
+          title: security_group
           type: string
         subnet:
           description: Name or ID of the subnet to launch the machine into
+          title: subnet
           type: string
       title: Amazon net parameter
       type: object
@@ -7997,14 +8353,14 @@ components:
               description: Name or ID of the volume
               type: string
             device:
-              description: The device name (for example, /dev/sdh or xvdh)
+              description: "The device name (for example, /dev/sdh or xvdh)"
               type: string
           required:
           - device
           - volume
         - properties:
             name:
-              description: The device name (for example, /dev/sdh or xvdh)
+              description: "The device name (for example, /dev/sdh or xvdh)"
               type: string
             size:
               description: Size of the volume in GBs
@@ -8034,10 +8390,12 @@ components:
         networks:
           items:
             $ref: '#/components/schemas/KVMNet_networks'
+          title: networks
           type: array
         vnfs:
           items:
             type: string
+          title: vnfs
           type: array
       title: KVM net parameter
       type: object
@@ -8045,6 +8403,7 @@ components:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      title: CreateMachineResponse
       type: object
     ListMachinesResponse:
       example:
@@ -8054,7 +8413,7 @@ components:
           subnet: subnet
           last_seen: last_seen
           external_id: external_id
-          ports: '{}'
+          ports: "{}"
           type: type
           unreachable_since: unreachable_since
           network: network
@@ -8063,19 +8422,20 @@ components:
           hostname: hostname
           cores: 0.8008281904610115
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           id: id
+          state: null
           public_ips:
           - public_ips
           - public_ips
           image: image
-          cost: '{}'
+          cost: "{}"
           created: created
           owned_by: owned_by
           monitoring: monitoring
           created_by: created_by
-          tags: '{}'
-          probe: '{}'
+          tags: "{}"
+          probe: "{}"
           size: size
           os_type: os_type
           name: name
@@ -8084,7 +8444,7 @@ components:
           - private_ips
           expiration: expiration
           location: location
-          actions: '{}'
+          actions: "{}"
           key_associations:
           - port: 1
             machine: machine
@@ -8103,7 +8463,7 @@ components:
           subnet: subnet
           last_seen: last_seen
           external_id: external_id
-          ports: '{}'
+          ports: "{}"
           type: type
           unreachable_since: unreachable_since
           network: network
@@ -8112,19 +8472,20 @@ components:
           hostname: hostname
           cores: 0.8008281904610115
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           id: id
+          state: null
           public_ips:
           - public_ips
           - public_ips
           image: image
-          cost: '{}'
+          cost: "{}"
           created: created
           owned_by: owned_by
           monitoring: monitoring
           created_by: created_by
-          tags: '{}'
-          probe: '{}'
+          tags: "{}"
+          probe: "{}"
           size: size
           os_type: os_type
           name: name
@@ -8133,7 +8494,7 @@ components:
           - private_ips
           expiration: expiration
           location: location
-          actions: '{}'
+          actions: "{}"
           key_associations:
           - port: 1
             machine: machine
@@ -8156,9 +8517,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Machine'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListMachinesResponse
       type: object
     GetMachineResponse:
       example:
@@ -8168,7 +8531,7 @@ components:
           subnet: subnet
           last_seen: last_seen
           external_id: external_id
-          ports: '{}'
+          ports: "{}"
           type: type
           unreachable_since: unreachable_since
           network: network
@@ -8177,19 +8540,20 @@ components:
           hostname: hostname
           cores: 0.8008281904610115
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           id: id
+          state: null
           public_ips:
           - public_ips
           - public_ips
           image: image
-          cost: '{}'
+          cost: "{}"
           created: created
           owned_by: owned_by
           monitoring: monitoring
           created_by: created_by
-          tags: '{}'
-          probe: '{}'
+          tags: "{}"
+          probe: "{}"
           size: size
           os_type: os_type
           name: name
@@ -8198,7 +8562,7 @@ components:
           - private_ips
           expiration: expiration
           location: location
-          actions: '{}'
+          actions: "{}"
           key_associations:
           - port: 1
             machine: machine
@@ -8222,6 +8586,7 @@ components:
           $ref: '#/components/schemas/Machine'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetMachineResponse
       type: object
     Machine:
       example:
@@ -8230,7 +8595,7 @@ components:
         subnet: subnet
         last_seen: last_seen
         external_id: external_id
-        ports: '{}'
+        ports: "{}"
         type: type
         unreachable_since: unreachable_since
         network: network
@@ -8239,19 +8604,20 @@ components:
         hostname: hostname
         cores: 0.8008281904610115
         missing_since: missing_since
-        extra: '{}'
+        extra: "{}"
         id: id
+        state: null
         public_ips:
         - public_ips
         - public_ips
         image: image
-        cost: '{}'
+        cost: "{}"
         created: created
         owned_by: owned_by
         monitoring: monitoring
         created_by: created_by
-        tags: '{}'
-        probe: '{}'
+        tags: "{}"
+        probe: "{}"
         size: size
         os_type: os_type
         name: name
@@ -8260,7 +8626,7 @@ components:
         - private_ips
         expiration: expiration
         location: location
-        actions: '{}'
+        actions: "{}"
         key_associations:
         - port: 1
           machine: machine
@@ -8276,79 +8642,113 @@ components:
           key: key
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
         default:
+          title: default
           type: boolean
         state:
           $ref: '#/components/schemas/MachineState'
         actions:
+          title: actions
           type: object
         cluster:
+          title: cluster
           type: string
         cores:
+          title: cores
           type: number
         cost:
+          title: cost
           type: object
         created:
+          title: created
           type: string
         expiration:
+          title: expiration
           type: string
         extra:
+          title: extra
           type: object
         hostname:
+          title: hostname
           type: string
         image:
+          title: image
           type: string
         key_associations:
           items:
             $ref: '#/components/schemas/KeyMachineAssociation'
+          title: key_associations
           type: array
         last_seen:
+          title: last_seen
           type: string
         location:
+          title: location
           type: string
         missing_since:
+          title: missing_since
           type: string
         monitoring:
+          title: monitoring
           type: string
         network:
+          title: network
           type: string
         os_type:
+          title: os_type
           type: string
         parent:
+          title: parent
           type: string
         ports:
+          title: ports
           type: object
         private_ips:
           items:
             type: string
+          title: private_ips
           type: array
         probe:
+          title: probe
           type: object
         public_ips:
           items:
             type: string
+          title: public_ips
           type: array
         size:
+          title: size
           type: string
         subnet:
+          title: subnet
           type: string
         type:
+          title: type
           type: string
         unreachable_since:
+          title: unreachable_since
           type: string
+      title: Machine
       type: object
     CreateSnapshotResponse:
       type: object
@@ -8366,11 +8766,14 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Snapshot'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListSnapshotsResponse
       type: object
     Snapshot:
+      title: Snapshot
       type: object
     OneOffSchedule:
       description: one_off schedule
@@ -8378,10 +8781,12 @@ components:
         schedule_type:
           enum:
           - one_off
+          title: schedule_type
           type: string
         datetime:
-          description: When one_off schedule should run, e.g 2021-09-22T18:19:28Z
+          description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
           format: date-time
+          title: datetime
           type: string
       required:
       - datetime
@@ -8394,27 +8799,36 @@ components:
         schedule_type:
           enum:
           - crontab
+          title: schedule_type
           type: string
         minute:
+          title: minute
           type: string
         hour:
+          title: hour
           type: string
         day_of_month:
+          title: day_of_month
           type: string
         month_of_year:
+          title: month_of_year
           type: string
         day_of_week:
+          title: day_of_week
           type: string
         start_after:
-          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
+          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
           format: date-time
+          title: start_after
           type: string
         expires:
-          description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
+          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
           format: date-time
+          title: expires
           type: string
         max_run_count:
           minimum: 1
+          title: max_run_count
           type: integer
       required:
       - day_of_month
@@ -8431,25 +8845,31 @@ components:
         schedule_type:
           enum:
           - interval
+          title: schedule_type
           type: string
         every:
+          title: every
           type: integer
         period:
           enum:
           - minutes
           - hours
           - days
+          title: period
           type: string
         start_after:
-          description: The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z
+          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
           format: date-time
+          title: start_after
           type: string
         expires:
-          description: The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z
+          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
           format: date-time
+          title: expires
           type: string
         max_run_count:
           minimum: 1
+          title: max_run_count
           type: integer
       required:
       - every
@@ -8460,19 +8880,24 @@ components:
     InlineScript:
       properties:
         inline:
+          title: inline
           type: string
       required:
       - inline
+      title: InlineScript
       type: object
     PostDeployScript:
       properties:
         script:
           description: Name or ID of the script to run
+          title: script
           type: string
         params:
+          title: params
           type: string
       required:
       - script
+      title: PostDeployScript
       type: object
     Expiration:
       example:
@@ -8487,18 +8912,22 @@ components:
           enum:
           - stop
           - destroy
+          title: action
           type: string
         date:
-          description: When machine should expire, e.g 2021-09-22T18:19:28Z
+          description: "When machine should expire, e.g 2021-09-22T18:19:28Z"
           format: date-time
+          title: date
           type: string
         notify:
           $ref: '#/components/schemas/Expiration_notify'
         notify_msg:
+          title: notify_msg
           type: string
       required:
       - action
       - date
+      title: Expiration
       type: object
     KeyMachineAssociation:
       example:
@@ -8511,22 +8940,29 @@ components:
       properties:
         key:
           description: Name or ID of the SSH key
+          title: key
           type: string
         machine:
           description: Name or ID of the machine
+          title: machine
           type: string
         last_used:
           description: Last used time
+          title: last_used
           type: integer
         port:
           description: SSH port
+          title: port
           type: integer
         user:
           description: SSH user
+          title: user
           type: string
         sudo:
           description: Indicates if the SSH user has sudo privileges
+          title: sudo
           type: boolean
+      title: KeyMachineAssociation
       type: object
     KeyMachineDisassociation:
       example:
@@ -8534,48 +8970,59 @@ components:
       properties:
         key:
           description: Name or ID of the SSH key to disassociate
+          title: key
           type: string
+      title: KeyMachineDisassociation
       type: object
     CreateNetworkRequest:
       example:
         cloud: my-cloud
-        template: '{}'
-        extra: '{}'
+        template: "{}"
+        extra: "{}"
         name: my-network
         save: true
         dry: true
-        tags: '{}'
+        tags: "{}"
       properties:
         name:
           description: Specify network name
           example: my-network
+          title: name
           type: string
         cloud:
           description: Specify cloud to provision on
           example: my-cloud
+          title: cloud
           type: string
         tags:
           description: Assign tags to provisioned network
+          title: tags
           type: object
         extra:
-          description: Configure additional parameters, e.g. cidr (EC2 network)
+          description: "Configure additional parameters, e.g. cidr (EC2 network)"
+          title: extra
           type: object
         template:
+          title: template
           type: object
         dry:
           description: Return provisioning plan and exit without executing it
+          title: dry
           type: boolean
         save:
           description: Save provisioning plan as template
+          title: save
           type: boolean
       required:
       - cloud
       - name
+      title: CreateNetworkRequest
       type: object
     CreateNetworkResponse:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      title: CreateNetworkResponse
       type: object
     ListNetworksResponse:
       example:
@@ -8584,16 +9031,57 @@ components:
           name: name
           external_id: external_id
           owned_by: owned_by
-          id: id
+          monitoring: monitoring
           created_by: created_by
           tags: '{}'
+          probe: '{}'
+          size: size
+          os_type: os_type
+          name: name
+          private_ips:
+          - private_ips
+          - private_ips
+          expiration: expiration
+          location: location
+          actions: '{}'
+          key_associations:
+          - port: 1
+            machine: machine
+            last_used: 6
+            sudo: true
+            user: user
+            key: key
+          - port: 1
+            machine: machine
+            last_used: 6
+            sudo: true
+            user: user
+            key: key
+        - cluster: cluster
+          parent: parent
+          subnet: subnet
+          last_seen: last_seen
+          external_id: external_id
+          ports: '{}'
+          type: type
+          unreachable_since: unreachable_since
+          network: network
+          cloud: cloud
+          default: true
+          hostname: hostname
+          cores: 0.8008281904610115
+          missing_since: missing_since
+          extra: '{}'
+          id: id
+          created_by: created_by
+          tags: "{}"
         - cloud: cloud
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -8603,9 +9091,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Network'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListNetworksResponse
       type: object
     GetNetworkResponse:
       example:
@@ -8616,7 +9106,7 @@ components:
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -8627,6 +9117,7 @@ components:
           $ref: '#/components/schemas/Network'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetNetworkResponse
       type: object
     Network:
       example:
@@ -8636,33 +9127,41 @@ components:
         owned_by: owned_by
         id: id
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
+      title: Network
       type: object
     ListSizesResponse:
       example:
         data:
         - cloud: cloud
-          extra: '{}'
+          extra: "{}"
           name: name
           external_id: external_id
           id: id
         - cloud: cloud
-          extra: '{}'
+          extra: "{}"
           name: name
           external_id: external_id
           id: id
@@ -8675,15 +9174,17 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Size'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListSizesResponse
       type: object
     GetSizeResponse:
       example:
         data:
           cloud: cloud
-          extra: '{}'
+          extra: "{}"
           name: name
           external_id: external_id
           id: id
@@ -8697,51 +9198,63 @@ components:
           $ref: '#/components/schemas/Size'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetSizeResponse
       type: object
     Size:
       example:
         cloud: cloud
-        extra: '{}'
+        extra: "{}"
         name: name
         external_id: external_id
         id: id
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         extra:
+          title: extra
           type: object
+      title: Size
       type: object
-    ListLocationsResponse:
+    CreateNetworkResponse:
+      oneOf:
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
+      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      type: object
+    ListNetworksResponse:
       example:
         data:
         - cloud: cloud
           parent: parent
           country: country
-          available_sizes: '{}'
-          extra: '{}'
+          available_sizes: "{}"
+          extra: "{}"
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
-          available_images: '{}'
+          available_images: "{}"
           created_by: created_by
-          location_type: location_type
+          tags: '{}'
         - cloud: cloud
           parent: parent
           country: country
-          available_sizes: '{}'
-          extra: '{}'
+          available_sizes: "{}"
+          extra: "{}"
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
-          available_images: '{}'
+          available_images: "{}"
           created_by: created_by
           location_type: location_type
         meta:
@@ -8753,9 +9266,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Location'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListLocationsResponse
       type: object
     GetLocationResponse:
       example:
@@ -8763,13 +9278,13 @@ components:
           cloud: cloud
           parent: parent
           country: country
-          available_sizes: '{}'
-          extra: '{}'
+          available_sizes: "{}"
+          extra: "{}"
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
-          available_images: '{}'
+          available_images: "{}"
           created_by: created_by
           location_type: location_type
         meta:
@@ -8782,80 +9297,99 @@ components:
           $ref: '#/components/schemas/Location'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetLocationResponse
       type: object
     Location:
       example:
         cloud: cloud
         parent: parent
         country: country
-        available_sizes: '{}'
-        extra: '{}'
+        available_sizes: "{}"
+        extra: "{}"
         name: name
         external_id: external_id
         owned_by: owned_by
         id: id
-        available_images: '{}'
+        available_images: "{}"
         created_by: created_by
         location_type: location_type
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         extra:
+          title: extra
           type: object
         parent:
+          title: parent
           type: string
         location_type:
+          title: location_type
           type: string
         country:
+          title: country
           type: string
         available_sizes:
+          title: available_sizes
           type: object
         available_images:
+          title: available_images
           type: object
         owned_by:
+          title: owned_by
           type: string
         created_by:
+          title: created_by
           type: string
+      title: Location
       type: object
     CreateVolumeRequest:
       example:
-        template: '{}'
+        template: "{}"
         quantity: 0
         ex_disk_type: pd-standard
         ex_volume_type: standard
         save: true
         dry: true
-        tags: '{}'
+        tags: "{}"
         cloud: my-cloud
         ex_iops: ex_iops
         size: 1
-        extra: '{}'
+        provider: null
+        extra: "{}"
         name: my-volume
         location: us-central1-a
       properties:
         name:
           description: Specify volume name
           example: my-volume
+          title: name
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
         cloud:
           description: Specify cloud to provision on
           example: my-cloud
+          title: cloud
           type: string
         location:
-          description: Where to provision e.g. region, datacenter, rack
+          description: "Where to provision e.g. region, datacenter, rack"
           example: us-central1-a
+          title: location
           type: string
         size:
           description: Volume sizing spec
           example: 1
+          title: size
           type: integer
         ex_disk_type:
           description: GCE-specific
@@ -8863,6 +9397,7 @@ components:
           - pd-standard
           - pd-ssd
           example: pd-standard
+          title: ex_disk_type
           type: string
         ex_volume_type:
           description: EC2-specific
@@ -8873,37 +9408,47 @@ components:
           - sc1
           - st1
           example: standard
+          title: ex_volume_type
           type: string
         ex_iops:
           description: EC2-specific. Needs to be specified if volume_type='io1'
+          title: ex_iops
           type: string
         tags:
           description: Assign tags to provisioned volume
+          title: tags
           type: object
         extra:
           description: Configure additional parameters
+          title: extra
           type: object
         quantity:
           description: Provision multiple volumes of this type
+          title: quantity
           type: integer
         template:
+          title: template
           type: object
         dry:
           description: Return provisioning plan and exit without executing it
+          title: dry
           type: boolean
         save:
           description: Save provisioning plan as template
+          title: save
           type: boolean
       required:
       - cloud
       - location
       - name
       - size
+      title: CreateVolumeRequest
       type: object
     CreateVolumeResponse:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      title: CreateVolumeResponse
       type: object
     ListVolumesResponse:
       example:
@@ -8912,7 +9457,7 @@ components:
           external_id: external_id
           owned_by: owned_by
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
           cloud: cloud
           default: true
           size: size
@@ -8920,16 +9465,16 @@ components:
           - attached_to
           - attached_to
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           name: name
           location: location
           id: id
-          actions: '{}'
+          actions: "{}"
         - last_seen: last_seen
           external_id: external_id
           owned_by: owned_by
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
           cloud: cloud
           default: true
           size: size
@@ -8937,11 +9482,11 @@ components:
           - attached_to
           - attached_to
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           name: name
           location: location
           id: id
-          actions: '{}'
+          actions: "{}"
         meta:
           total: 0
           start: 1
@@ -8951,9 +9496,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Volume'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListVolumesResponse
       type: object
     GetVolumeResponse:
       example:
@@ -8962,7 +9509,7 @@ components:
           external_id: external_id
           owned_by: owned_by
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
           cloud: cloud
           default: true
           size: size
@@ -8970,11 +9517,11 @@ components:
           - attached_to
           - attached_to
           missing_since: missing_since
-          extra: '{}'
+          extra: "{}"
           name: name
           location: location
           id: id
-          actions: '{}'
+          actions: "{}"
         meta:
           total: 0
           start: 1
@@ -8985,6 +9532,7 @@ components:
           $ref: '#/components/schemas/Volume'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetVolumeResponse
       type: object
     Volume:
       example:
@@ -8992,7 +9540,7 @@ components:
         external_id: external_id
         owned_by: owned_by
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
         cloud: cloud
         default: true
         size: size
@@ -9000,44 +9548,60 @@ components:
         - attached_to
         - attached_to
         missing_since: missing_since
-        extra: '{}'
+        extra: "{}"
         name: name
         location: location
         id: id
-        actions: '{}'
+        actions: "{}"
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         location:
+          title: location
           type: string
         size:
+          title: size
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
         default:
+          title: default
           type: boolean
         actions:
+          title: actions
           type: object
         attached_to:
           items:
             type: string
+          title: attached_to
           type: array
         extra:
+          title: extra
           type: object
         last_seen:
+          title: last_seen
           type: string
         missing_since:
+          title: missing_since
           type: string
+      title: Volume
       type: object
     CreateZoneRequest:
       example:
@@ -9067,11 +9631,13 @@ components:
       required:
       - cloud
       - name
+      title: CreateZoneRequest
       type: object
     CreateZoneResponse:
       oneOf:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
+      title: CreateZoneResponse
       type: object
     ListZonesResponse:
       example:
@@ -9082,14 +9648,14 @@ components:
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         - cloud: cloud
           name: name
           external_id: external_id
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -9099,9 +9665,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Zone'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListZonesResponse
       type: object
     GetZoneResponse:
       example:
@@ -9111,8 +9679,12 @@ components:
           external_id: external_id
           owned_by: owned_by
           id: id
+          actions: '{}'
+        - last_seen: last_seen
+          external_id: external_id
+          owned_by: owned_by
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -9123,6 +9695,7 @@ components:
           $ref: '#/components/schemas/Zone'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetZoneResponse
       type: object
     Zone:
       example:
@@ -9132,22 +9705,30 @@ components:
         owned_by: owned_by
         id: id
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         external_id:
+          title: external_id
           type: string
         name:
+          title: name
           type: string
         cloud:
+          title: cloud
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
+      title: Zone
       type: object
     AddKeyRequest:
       anyOf:
@@ -9160,6 +9741,7 @@ components:
           -----BEGIN RSA PRIVATE KEY-----
           MIICXAIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUp wmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ5 1s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQABAoGAFijko56+qGyN8M0RVyaRAXz++xTqHBLh 3tx4VgMtrQ+WEgCjhoTwo23KMBAuJGSYnRmoBZM3lMfTKevIkAidPExvYCdm5dYq3XToLkkLv5L2 pIIVOFMDG+KESnAFV7l2c+cnzRMW0+b6f8mR1CJzZuxVLL6Q02fvLi55/mbSYxECQQDeAw6fiIQX GukBI4eMZZt4nscy2o12KyYner3VpoeE+Np2q+Z3pvAMd/aNzQ/W9WaI+NRfcxUJrmfPwIGm63il AkEAxCL5HQb2bQr4ByorcMWm/hEP2MZzROV73yF41hPsRC9m66KrheO9HPTJuo3/9s5p+sqGxOlF L0NDt4SkosjgGwJAFklyR1uZ/wPJjj611cdBcztlPdqoxssQGnh85BzCj/u3WqBpE2vjvyyvyI5k X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ 37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0=
           -----END RSA PRIVATE KEY-----
+      title: AddKeyRequest
       type: object
     AddKeyResponse:
       example:
@@ -9168,11 +9750,15 @@ components:
         id: id
       properties:
         id:
+          title: id
           type: string
         private:
+          title: private
           type: string
         public:
+          title: public
           type: string
+      title: AddKeyResponse
       type: object
     ListKeysResponse:
       example:
@@ -9182,17 +9768,17 @@ components:
           owned_by: owned_by
           id: id
           type: ssh
-          config: '{}'
+          config: "{}"
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         - default: true
           name: name
           owned_by: owned_by
           id: id
           type: ssh
-          config: '{}'
+          config: "{}"
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -9202,9 +9788,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Key'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListKeysResponse
       type: object
     GetKeyResponse:
       example:
@@ -9214,9 +9802,9 @@ components:
           owned_by: owned_by
           id: id
           type: ssh
-          config: '{}'
+          config: "{}"
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -9227,6 +9815,7 @@ components:
           $ref: '#/components/schemas/Key'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetKeyResponse
       type: object
     Key:
       example:
@@ -9235,29 +9824,38 @@ components:
         owned_by: owned_by
         id: id
         type: ssh
-        config: '{}'
+        config: "{}"
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         config:
+          title: config
           type: object
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
         default:
+          title: default
           type: boolean
         type:
           enum:
           - ssh
           - signed_ssh
+          title: type
           type: string
+      title: Key
       type: object
     AddScheduleRequest:
       example:
@@ -9278,14 +9876,17 @@ components:
         name:
           description: The name of the schedule
           example: backup-schedule
+          title: name
           type: string
         description:
           description: The description of the schedule
           example: This is a schedule
+          title: description
           type: string
         enabled:
-          description: Schedule status (enabled, disabled)
+          description: "Schedule status (enabled, disabled)"
           example: true
+          title: enabled
           type: boolean
         action:
           description: The action that a schedule performs on a resource
@@ -9297,18 +9898,22 @@ components:
           - stop
           - delete
           example: start
+          title: action
           type: string
         script_id:
           description: The id of the script that schedule is about to run
           example: d5775984772949de820fa8279c306b30
+          title: script_id
           type: string
         params:
           description: Schedule parameters
           example: Parameters string
+          title: params
           type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
+          title: selectors
           type: array
         schedule_type:
           description: The type of the schedule
@@ -9317,15 +9922,289 @@ components:
           - interval
           - one_off
           example: one_off
+          title: schedule_type
           type: string
         schedule_entry:
-          description: In case of One Off schedule type the date string that schedule
-            runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and
-            Crontab schedule types a JSON string with need time unit values. For Interval
-            schedule type interval integer value and period string value needed. For
-            Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year
-            string values needed.
+          description: "In case of One Off schedule type the date string that schedule\
+            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
+            \ and Crontab schedule types a JSON string with need time unit values.\
+            \ For Interval schedule type interval integer value and period string\
+            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
+            \ and month_of_year string values needed."
           example: 2022-05-28 00:00:00
+          title: schedule_entry
+          type: string
+        start_after:
+          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
+            HH:MM:SS
+          example: 2022-06-01 T00:00:00
+          title: start_after
+          type: string
+        run_immediately:
+          description: Decides if the schedule runs immediately of not
+          example: false
+          title: run_immediately
+          type: boolean
+      required:
+      - action
+      - name
+      title: AddScheduleRequest
+      type: object
+    EditScheduleRequest:
+      example:
+        start_after: 2022-06-01 00:00:00
+        schedule_type: one_off
+        schedule_entry: 2022-05-28 00:00:00
+        name: schedule-name
+        description: This is a schedule that is about to be edited
+        action: start
+        script_id: d5775984772949de820fa8279c306b30
+        params: Parameters string
+        selectors:
+        - null
+        - null
+        enabled: true
+      properties:
+        name:
+          description: The name of the schedule that is about to be edited
+          example: schedule-name
+          title: name
+          type: string
+        description:
+          description: The description of the schedule that is about to be edited
+          example: This is a schedule that is about to be edited
+          title: description
+          type: string
+        enabled:
+          description: "Schedule status (enabled, disabled)"
+          example: true
+          title: enabled
+          type: boolean
+        action:
+          description: Edit the action that a schedule performs on a resource
+          enum:
+          - reboot
+          - destroy
+          - notify
+          - start
+          - stop
+          - delete
+          example: start
+          title: action
+          type: string
+        script_id:
+          description: The id of the script that schedule is about to run
+          example: d5775984772949de820fa8279c306b30
+          title: script_id
+          type: string
+        params:
+          description: Edit schedule parameters
+          example: Parameters string
+          title: params
+          type: string
+        selectors:
+          items:
+            $ref: '#/components/schemas/Selector'
+          title: selectors
+          type: array
+        schedule_type:
+          description: Edit the type of the schedule
+          enum:
+          - crontab
+          - interval
+          - one_off
+          example: one_off
+          title: schedule_type
+          type: string
+        schedule_entry:
+          description: "In case of One Off schedule type the date string that schedule\
+            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
+            \ and Crontab schedule types a JSON string with need time unit values.\
+            \ For Interval schedule type interval integer value and period string\
+            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
+            \ and month_of_year string values needed."
+          example: 2022-05-28 00:00:00
+          title: schedule_entry
+          type: string
+        start_after:
+          description: Edit the date after that schedule starts. The format should
+            be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          example: 2022-06-01 00:00:00
+          title: start_after
+          type: string
+      title: EditScheduleRequest
+      type: object
+    ListSchedulesResponse:
+      example:
+        data:
+        - schedule_type: crontab
+          description: This is an test schedule
+          script_id: d5775984772949de820fa8279c306b30
+          owned_by: Officer B
+          run_immediately: true
+          params: Test parameters
+          selectors:
+          - null
+          - null
+          created_by: Manager A
+          enabled: true
+          tags: "{}"
+          start_after: 2022-05-28 00:00:00
+          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
+            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
+            \":\\\"*\\\"}"
+          name: reboot-schedule
+          action: stop
+          id: id
+        - schedule_type: crontab
+          description: This is an test schedule
+          script_id: d5775984772949de820fa8279c306b30
+          owned_by: Officer B
+          run_immediately: true
+          params: Test parameters
+          selectors:
+          - null
+          - null
+          created_by: Manager A
+          enabled: true
+          tags: "{}"
+          start_after: 2022-05-28 00:00:00
+          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
+            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
+            \":\\\"*\\\"}"
+          name: reboot-schedule
+          action: stop
+          id: id
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Schedule'
+          title: data
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: ListSchedulesResponse
+      type: object
+    GetScheduleResponse:
+      example:
+        data:
+          schedule_type: crontab
+          description: This is an test schedule
+          script_id: d5775984772949de820fa8279c306b30
+          owned_by: Officer B
+          run_immediately: true
+          params: Test parameters
+          selectors:
+          - null
+          - null
+          created_by: Manager A
+          enabled: true
+          tags: "{}"
+          start_after: 2022-05-28 00:00:00
+          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
+            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
+            \":\\\"*\\\"}"
+          name: reboot-schedule
+          action: stop
+          id: id
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          $ref: '#/components/schemas/Schedule'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: GetScheduleResponse
+      type: object
+    Schedule:
+      example:
+        schedule_type: crontab
+        description: This is an test schedule
+        script_id: d5775984772949de820fa8279c306b30
+        owned_by: Officer B
+        run_immediately: true
+        params: Test parameters
+        selectors:
+        - null
+        - null
+        created_by: Manager A
+        enabled: true
+        tags: "{}"
+        start_after: 2022-05-28 00:00:00
+        schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"day_of_week\\\
+          \":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\":\\\"\
+          *\\\"}"
+        name: reboot-schedule
+        action: stop
+        id: id
+      properties:
+        id:
+          description: The id of the schedule
+          title: id
+          type: string
+        name:
+          description: The name of the schedule
+          example: reboot-schedule
+          title: name
+          type: string
+        description:
+          description: The description of the schedule
+          example: This is an test schedule
+          title: description
+          type: string
+        tags:
+          description: The tags related to the schedule
+          title: tags
+          type: object
+        enabled:
+          description: "Schedule status (enabled, disabled)"
+          example: true
+          title: enabled
+          type: boolean
+        action:
+          description: The action that a schedule performs on a resource
+          example: stop
+          title: action
+          type: string
+        script_id:
+          description: The id of the script that schedule is about to run
+          example: d5775984772949de820fa8279c306b30
+          title: script_id
+          type: string
+        params:
+          description: Schedule parameters
+          example: Test parameters
+          title: params
+          type: string
+        selectors:
+          items:
+            $ref: '#/components/schemas/Selector'
+          title: selectors
+          type: array
+        schedule_type:
+          description: The type of the schedule
+          example: crontab
+          title: schedule_type
+          type: string
+        schedule_entry:
+          description: "In case of One Off schedule type the date string that schedule\
+            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
+            \ and Crontab schedule types a JSON string with need time unit values.\
+            \ For Interval schedule type interval integer value and period string\
+            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
+            \ and month_of_year string values needed."
+          example: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"day_of_week\\\
+            \":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\":\\\
+            \"*\\\"}"
+          title: schedule_entry
           type: string
         start_after:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
@@ -9905,36 +10784,23 @@ components:
             $ref: '#/components/schemas/Selector'
           type: array
       type: object
-    Rule:
+    TriggerAfter:
       example:
-        triggered_after: '{}'
-        name: name
-        data_type: data_type
-        disabled: disabled
-        id: id
-        window: '{}'
-        queries: '{}'
-        actions: '{}'
-        frequency: '{}'
+        period: period
+        offset: 5
       properties:
-        id:
+        offset:
+          description: a positive integer denoting the tolerance period
+          title: offset
+          type: integer
+        period:
+          description: "units of time, e.g. \"seconds\""
+          title: period
           type: string
-        name:
-          type: string
-        queries:
-          type: object
-        window:
-          type: object
-        frequency:
-          type: object
-        triggered_after:
-          type: object
-        actions:
-          type: object
-        disabled:
-          type: string
-        data_type:
-          type: string
+      required:
+      - offset
+      - period
+      title: TriggerAfter
       type: object
     Query:
       example:
@@ -9968,30 +10834,33 @@ components:
     Notification:
       properties:
         users:
-          description: |
-            a list of user to be notified, denoted by their UUIDs
+          description: "a list of user to be notified, denoted by their UUIDs. Can\
+            \ be\nused by a notification action (optional)\n"
           items:
             type: string
+          title: users
           type: array
         teams:
-          description: |
-            a list of teams, denoted by their UUIDs, whose users will be
-            notified
+          description: "a list of teams, denoted by their UUIDs, whose users will\
+            \ be\nnotified. Can be used by a notification action (optional)\n"
           items:
             type: string
+          title: teams
           type: array
         emails:
           description: |
             a list of e-mails to send a notification to
           items:
             type: string
+          title: emails
           type: array
       type: object
     MachineAction:
       properties:
         action:
           description: |
-            the action to be performed
+            the action to be performed. Required by machine_action type
+          title: action
           type: string
       required:
       - action
@@ -10080,6 +10949,7 @@ components:
     RuleActions:
       items:
         $ref: '#/components/schemas/RuleAction'
+      title: actions
       type: array
     Selectors:
       items:
@@ -10090,11 +10960,12 @@ components:
       - metrics
       - logs
       example: logs
+      title: DataType
       type: string
     ListOrgsResponse:
       example:
         data:
-        - enterprise_plan: '{}'
+        - enterprise_plan: "{}"
           total_machine_count: total_machine_count
           selected_plan: selected_plan
           created: true
@@ -10103,7 +10974,7 @@ components:
           last_active: last_active
           clouds_count: clouds_count
           teams_count: teams_count
-        - enterprise_plan: '{}'
+        - enterprise_plan: "{}"
           total_machine_count: total_machine_count
           selected_plan: selected_plan
           created: true
@@ -10121,14 +10992,16 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Org'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListOrgsResponse
       type: object
     GetOrgResponse:
       example:
         data:
-          enterprise_plan: '{}'
+          enterprise_plan: "{}"
           total_machine_count: total_machine_count
           selected_plan: selected_plan
           created: true
@@ -10147,10 +11020,11 @@ components:
           $ref: '#/components/schemas/Org'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetOrgResponse
       type: object
     Org:
       example:
-        enterprise_plan: '{}'
+        enterprise_plan: "{}"
         total_machine_count: total_machine_count
         selected_plan: selected_plan
         created: true
@@ -10161,23 +11035,33 @@ components:
         teams_count: teams_count
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         clouds_count:
+          title: clouds_count
           type: string
         teams_count:
+          title: teams_count
           type: string
         total_machine_count:
+          title: total_machine_count
           type: string
         created:
+          title: created
           type: boolean
         enterprise_plan:
+          title: enterprise_plan
           type: object
         selected_plan:
+          title: selected_plan
           type: string
         last_active:
+          title: last_active
           type: string
+      title: Org
       type: object
     ListOrgMembersResponse:
       example:
@@ -10207,9 +11091,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Member'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListOrgMembersResponse
       type: object
     GetOrgMemberResponse:
       example:
@@ -10232,6 +11118,7 @@ components:
           $ref: '#/components/schemas/Member'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetOrgMemberResponse
       type: object
     Member:
       example:
@@ -10245,21 +11132,30 @@ components:
         username: username
       properties:
         email:
+          title: email
           type: string
         id:
+          title: id
           type: string
         first_name:
+          title: first_name
           type: string
         last_name:
+          title: last_name
           type: string
         last_login:
+          title: last_login
           type: string
         username:
+          title: username
           type: string
         registration_date:
+          title: registration_date
           type: string
         pending:
+          title: pending
           type: boolean
+      title: Member
       type: object
     ListOrgTeamsResponse:
       example:
@@ -10285,7 +11181,7 @@ components:
           description: description
           members_count: members_count
           id: id
-          policy: '{}'
+          policy: "{}"
         - members:
           - registration_date: registration_date
             last_login: last_login
@@ -10307,7 +11203,7 @@ components:
           description: description
           members_count: members_count
           id: id
-          policy: '{}'
+          policy: "{}"
         meta:
           total: 0
           start: 1
@@ -10317,9 +11213,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Team'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListOrgTeamsResponse
       type: object
     Team:
       example:
@@ -10344,22 +11242,29 @@ components:
         description: description
         members_count: members_count
         id: id
-        policy: '{}'
+        policy: "{}"
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         members:
           items:
             $ref: '#/components/schemas/Member'
+          title: members
           type: array
         members_count:
+          title: members_count
           type: string
         description:
+          title: description
           type: string
         policy:
+          title: policy
           type: object
+      title: Team
       type: object
     GetJobResponse:
       example:
@@ -10388,6 +11293,7 @@ components:
           $ref: '#/components/schemas/Job'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetJobResponse
       type: object
     Job:
       example:
@@ -10409,24 +11315,34 @@ components:
         logs:
           items:
             $ref: '#/components/schemas/Log'
+          title: logs
           type: array
         error:
+          title: error
           type: boolean
         started_at:
+          title: started_at
           type: number
         finished_at:
+          title: finished_at
           type: number
         org:
+          title: org
           type: string
         machine_id:
+          title: machine_id
           type: string
         job_id:
+          title: job_id
           type: string
         cloud_id:
+          title: cloud_id
           type: string
         action:
+          title: action
           type: string
         user:
+          title: user
           type: string
       required:
       - action
@@ -10436,8 +11352,10 @@ components:
       - logs
       - org
       - started_at
+      title: Job
       type: object
     Log:
+      additionalProperties: true
       example:
         org: org
         job_id: job_id
@@ -10449,6 +11367,7 @@ components:
       required:
       - job_id
       - org
+      title: Log
       type: object
     ListUsersResponse:
       example:
@@ -10476,9 +11395,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/User'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListUsersResponse
       type: object
     User:
       example:
@@ -10491,19 +11412,27 @@ components:
         username: username
       properties:
         email:
+          title: email
           type: string
         id:
+          title: id
           type: string
         first_name:
+          title: first_name
           type: string
         last_name:
+          title: last_name
           type: string
         last_login:
+          title: last_login
           type: string
         username:
+          title: username
           type: string
         registration_date:
+          title: registration_date
           type: string
+      title: User
       type: object
     GetDatapointsResponse:
       example:
@@ -10524,37 +11453,47 @@ components:
           $ref: '#/components/schemas/Datapoints'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetDatapointsResponse
       type: object
     DatapointsValuesItem:
       anyOf:
       - type: string
       - type: number
+      title: DatapointsValuesItem
     DatapointsValuesTuple:
       items:
         $ref: '#/components/schemas/DatapointsValuesItem'
+      title: DatapointsValuesTuple
       type: array
     InstantVector:
       properties:
         metric:
+          title: metric
           type: object
         values:
           items:
             $ref: '#/components/schemas/DatapointsValuesItem'
+          title: DatapointsValuesTuple
           type: array
+      title: InstantVector
       type: object
     RangeVector:
       properties:
         metric:
+          title: metric
           type: object
         value:
           items:
             $ref: '#/components/schemas/DatapointsValuesTuple'
+          title: value
           type: array
+      title: RangeVector
       type: object
     Vector:
       oneOf:
       - $ref: '#/components/schemas/InstantVector'
       - $ref: '#/components/schemas/RangeVector'
+      title: Vector
       type: object
     Datapoints:
       example:
@@ -10566,9 +11505,11 @@ components:
         status: status
       properties:
         status:
+          title: status
           type: string
         data:
           $ref: '#/components/schemas/Datapoints_data'
+      title: Datapoints
       type: object
     ListSecretsResponse:
       example:
@@ -10577,12 +11518,12 @@ components:
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         - name: name
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -10592,9 +11533,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Secret'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListSecretsResponse
       type: object
     GetSecretResponse:
       example:
@@ -10603,7 +11546,7 @@ components:
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -10614,6 +11557,7 @@ components:
           $ref: '#/components/schemas/Secret'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetSecretResponse
       type: object
     Secret:
       example:
@@ -10621,18 +11565,53 @@ components:
         owned_by: owned_by
         id: id
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
+      title: Secret
+      type: object
+    CreateSecretRequest:
+      example:
+        name: name
+        secret: "{}"
+      properties:
+        name:
+          description: The name of the secret. This is equivalent to the path the
+            secret will be stored in Vault
+          title: name
+          type: string
+        secret:
+          title: secret
+          type: object
+      required:
+      - name
+      - secret
+      title: CreateSecretRequest
+      type: object
+    EditSecretRequest:
+      example:
+        secret: "{}"
+      properties:
+        secret:
+          title: secret
+          type: object
+      required:
+      - secret
+      title: EditSecretRequest
       type: object
     CreateSecretRequest:
       example:
@@ -10663,98 +11642,122 @@ components:
         id: id
       properties:
         id:
+          title: id
           type: string
+      title: inline_response_200
       type: object
     inline_response_200_1:
       example:
         url: url
       properties:
         url:
+          title: url
           type: string
+      title: inline_response_200_1
       type: object
     AddCloudRequest_allOf:
       properties:
         name:
           description: The name of the cloud to add
+          title: name
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
       required:
       - name
       - provider
+      title: AddCloudRequest_allOf
       type: object
     CreateClusterRequest_allOf_nodepools:
       properties:
         autoscaling:
           default: false
-          description: GKE only, set to true to enable autoscaling, requires min_nodes
-            and max_nodes to be set.
+          description: "GKE only, set to true to enable autoscaling, requires min_nodes\
+            \ and max_nodes to be set."
+          title: autoscaling
           type: boolean
         min_nodes:
           description: The minimum number of nodes the autoscaler should maintain.
             On EKS nodepools if this value is not provided it will implicitly be set
             equal to nodes value
+          title: min_nodes
           type: integer
         max_nodes:
           description: The maximum number of nodes the autoscaler should maintain.
             On EKS nodepools if this value is not provided it will implicitly be set
             equal to nodes value
+          title: max_nodes
           type: integer
         nodes:
           description: The number of nodes to provision for the cluster
+          title: nodes
           type: integer
         size:
-          description: Name or ID of size to use for the nodes. If not provided, the
-            t3.medium(EKS), e2-medium(GKE) size will be used
+          description: "Name or ID of size to use for the nodes. If not provided,\
+            \ the t3.medium(EKS), e2-medium(GKE) size will be used"
+          title: size
           type: string
         disk_size:
           default: 20
-          description: Size of the disk attached to each node, specified in GB.
+          description: "Size of the disk attached to each node, specified in GB."
+          title: disk_size
           type: integer
         disk_type:
-          description: Type of the disk attached to each node. Defaults to pd-standard(GKE),
-            gp3(EKS)
+          description: "Type of the disk attached to each node. Defaults to pd-standard(GKE),\
+            \ gp3(EKS)"
+          title: disk_type
           type: string
         preemptible:
           description: Google specific parameter.Whether the nodes are created as
             preemptible machines. Defaults to false
+          title: preemptible
           type: boolean
       required:
       - nodes
+      title: CreateClusterRequest_allOf_nodepools
       type: object
     CreateClusterRequest_allOf_waiters:
       properties:
         name:
+          title: name
           type: string
         type:
+          title: type
           type: string
         namespace:
           default: default
+          title: namespace
           type: string
         timeout:
           default: 1800
+          title: timeout
           type: integer
       required:
       - name
       - type
+      title: CreateClusterRequest_allOf_waiters
       type: object
     CreateClusterRequest_allOf:
       properties:
         name:
           description: The name of the cluster to create
+          title: name
           type: string
         cloud:
           description: The cloud the cluster belongs to
+          title: cloud
           type: string
         provider:
           $ref: '#/components/schemas/ClusterProviders'
         location:
           description: Google specific parameter(Required).Name or ID of the location
             to create the cluster in
+          title: location
           type: string
         nodepools:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_nodepools'
+          title: nodepools
           type: array
         templates:
           items:
@@ -10776,13 +11779,16 @@ components:
               oneOf:
               - $ref: '#/components/schemas/HelmChart'
               - $ref: '#/components/schemas/KubernetesManifest'
+          title: templates
           type: array
         waiters:
           items:
             $ref: '#/components/schemas/CreateClusterRequest_allOf_waiters'
+          title: waiters
           type: array
       required:
       - name
+      title: CreateClusterRequest_allOf
       type: object
     CreateMachineRequest_disks:
       description: Configure local disks
@@ -10791,11 +11797,14 @@ components:
         disk_path: disk_path
       properties:
         disk_size:
-          description: KVM, CloudSigma specific parameter
+          description: "KVM, CloudSigma specific parameter"
+          title: disk_size
           type: integer
         disk_path:
           description: KVM specific parameter. Where the VM disk file will be created
+          title: disk_path
           type: string
+      title: CreateMachineRequest_disks
       type: object
     EditMachineRequest_expiration:
       example:
@@ -10805,18 +11814,36 @@ components:
       properties:
         date:
           description: format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          title: date
           type: string
         action:
           enum:
           - stop
           - destroy
+          title: action
           type: string
         notify:
           description: seconds before the expiration date to be notified
+          title: notify
           type: integer
       required:
       - action
       - date
+      title: EditMachineRequest_expiration
+      type: object
+    GoogleExtra_service_account:
+      properties:
+        email:
+          description: The email address of the service account.
+          title: email
+          type: string
+        scopes:
+          description: A list of scopes to be made available for this machine.
+          items:
+            type: string
+          title: scopes
+          type: array
+      title: GoogleExtra_service_account
       type: object
     GoogleExtra_service_account:
       properties:
@@ -10832,53 +11859,67 @@ components:
     EquinixMetalNet_ip_addresses:
       properties:
         address_family:
-          description: Address Family for IP Address(IPv4, IPv6)
+          description: "Address Family for IP Address(IPv4, IPv6)"
           enum:
           - 4
           - 6
+          title: address_family
           type: integer
         public:
           description: Address Type for IP Address
+          title: public
           type: boolean
         cidr:
-          description: Cidr Size for the IP Block created. Valid values depend on
-            the operating system being provisioned. (28..32 for IPv4 addresses, 124..127
-            for IPv6 addresses)
+          description: "Cidr Size for the IP Block created. Valid values depend on\
+            \ the operating system being provisioned. (28..32 for IPv4 addresses,\
+            \ 124..127 for IPv6 addresses)"
+          title: cidr
           type: integer
       required:
       - address_family
       - cidr
       - public
+      title: EquinixMetalNet_ip_addresses
       type: object
     KVMNet_networks:
       properties:
         network:
-          description: Name or ID of the network, if only this field is provided a
-            dynamic IP address will be assigned
+          description: "Name or ID of the network, if only this field is provided\
+            \ a dynamic IP address will be assigned"
+          title: network
           type: string
         ip:
           description: The IPv4 address to statically assign to the interface
+          title: ip
           type: string
         gateway:
           description: The IPv4 address for the default Gateway
+          title: gateway
           type: string
         primary:
-          description: The primary interface, which will be assigned a routing rule
-            for the default GW
+          description: "The primary interface, which will be assigned a routing rule\
+            \ for the default GW"
+          title: primary
           type: string
       required:
       - network
+      title: KVMNet_networks
       type: object
     CreateMachineResponse_oneOf:
       properties:
         jobId:
+          title: jobId
           type: string
         plan:
+          title: plan
           type: object
+      title: CreateMachineResponse_oneOf
     CreateMachineResponse_oneOf_1:
       properties:
         plan:
+          title: plan
           type: object
+      title: CreateMachineResponse_oneOf_1
     Expiration_notify:
       description: Notify user before machine expiration
       example:
@@ -10887,69 +11928,70 @@ components:
       properties:
         value:
           minimum: 1
+          title: value
           type: integer
         period:
           enum:
           - minutes
           - hours
           - days
+          title: period
           type: string
       required:
       - period
       - value
+      title: Expiration_notify
       type: object
     AddKeyRequest_anyOf:
       properties:
         name:
           description: The key's name
+          title: name
           type: string
         private:
           description: The private key
+          title: private
           type: string
         certificate:
-          description: The signed public key, when using signed ssh keys
+          description: "The signed public key, when using signed ssh keys"
+          title: certificate
           type: string
       required:
       - name
       - private
+      title: AddKeyRequest_anyOf
     AddKeyRequest_anyOf_1:
       properties:
         name:
           description: The key's name
+          title: name
           type: string
         generate:
           description: Generate a keypair instead of providing one
+          title: generate
           type: boolean
         dry:
           description: Return generated key without actually adding it
+          title: dry
           type: boolean
       required:
       - generate
       - name
+      title: AddKeyRequest_anyOf_1
     AddKeyRequest_anyOf_2:
       properties:
         generate:
           description: Generate a keypair instead of providing one
+          title: generate
           type: boolean
         dry:
           description: Return generated key without actually adding it
+          title: dry
           type: boolean
       required:
       - dry
       - generate
-    RuleAction_allOf:
-      properties:
-        type:
-          description: |
-            the action's type: notification, machine_action, command
-          enum:
-          - notification
-          - machine_action
-          - command
-          type: string
-      required:
-      - type
-      type: object
+      title: AddKeyRequest_anyOf_2
     Datapoints_data:
       example:
         result:
@@ -10958,11 +12000,14 @@ components:
         resultType: resultType
       properties:
         resultType:
+          title: resultType
           type: string
         result:
           items:
             $ref: '#/components/schemas/Vector'
+          title: result
           type: array
+      title: Datapoints_data
       type: object
   securitySchemes:
     ApiKeyAuth:
@@ -10993,7 +12038,7 @@ x-cli-waiters:
       test: notEqual
       expected: false
       state: failure
-    updates: response.body#data.logs[:].action
+    updates: "response.body#data.logs[:].action"
     after:
       create-machine:
         job_id: response.body#jobId

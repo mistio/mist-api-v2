@@ -20,6 +20,7 @@ from mist_api_v2.models.alibaba_net import AlibabaNet
 from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
+from mist_api_v2.models.amazon_regions import AmazonRegions
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.azure_extra import AzureExtra

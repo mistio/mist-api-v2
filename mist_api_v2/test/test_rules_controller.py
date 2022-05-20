@@ -186,7 +186,7 @@ class TestRulesController:
         query_string = setup_data.get('list_rules', {}).get('query_string') or [('search', 'total_run_count:5'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/rules'

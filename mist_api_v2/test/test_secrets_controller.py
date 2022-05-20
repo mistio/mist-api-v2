@@ -70,7 +70,7 @@ class TestSecretsController:
         Delete secret
         """
         uri = MIST_URL + '/api/v2/secrets/{secret}'.format(
-            secret=setup_data.get('delete_secret', {}).get('secret') or setup_data.get('secret') or ''secret_example'')
+            secret=setup_data.get('delete_secret', {}).get('secret') or setup_data.get('secret') or 'secret_example')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri)
@@ -92,7 +92,7 @@ class TestSecretsController:
   "secret" : "{}"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/secrets/{secret}'.format(
-            secret=setup_data.get('edit_secret', {}).get('secret') or setup_data.get('secret') or ''secret_example'')
+            secret=setup_data.get('edit_secret', {}).get('secret') or setup_data.get('secret') or 'secret_example')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -110,9 +110,9 @@ class TestSecretsController:
 
         Get secret
         """
-        query_string = setup_data.get('get_secret', {}).get('query_string') or [('value', 'True')]
+        query_string = setup_data.get('get_secret', {}).get('query_string') or [('value', True)]
         uri = MIST_URL + '/api/v2/secrets/{secret}'.format(
-            secret=setup_data.get('get_secret', {}).get('secret') or setup_data.get('secret') or ''secret_example'')
+            secret=setup_data.get('get_secret', {}).get('secret') or setup_data.get('secret') or 'secret_example')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -133,7 +133,7 @@ class TestSecretsController:
         query_string = setup_data.get('list_secrets', {}).get('query_string') or [('search', 'name:clouds/EC2-Tokyo'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id')]
         uri = MIST_URL + '/api/v2/secrets'
         request = MistRequests(

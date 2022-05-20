@@ -152,7 +152,7 @@ class TestSchedulesController:
         query_string = setup_data.get('list_schedules', {}).get('query_string') or [('search', 'schedule-name'),
                         ('sort', '-name'),
                         ('start', '3'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/schedules'

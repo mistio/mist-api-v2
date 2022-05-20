@@ -90,7 +90,7 @@ class TestClustersController:
         """
         query_string = setup_data.get('get_cluster', {}).get('query_string') or [('only', 'id'),
                         ('deref', 'auto'),
-                        ('credentials', 'true')]
+                        ('credentials', False)]
         uri = MIST_URL + '/api/v2/clusters/{cluster}'.format(
             cluster=setup_data.get('get_cluster', {}).get('cluster') or setup_data.get('cluster') or 'my-cluster')
         request = MistRequests(
@@ -114,7 +114,7 @@ class TestClustersController:
                         ('search', 'created_by:csk'),
                         ('sort', '-name'),
                         ('start', '50'),
-                        ('limit', '56'),
+                        ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
