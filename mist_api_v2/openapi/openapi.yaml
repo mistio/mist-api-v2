@@ -8227,16 +8227,16 @@ components:
           type: boolean
       title: Linode net parameter
       type: object
-    AlibabaVolumes:
+    GoogleVolumes:
       items:
         oneOf:
         - properties:
             volume:
-              description: Name or ID of an existing volume to attach
+              description: Name or ID of the volume to attach
               type: string
-            delete_on_termination:
-              description: Delete the volume when the machine is deleted. Defaults
-                to false
+            boot:
+              description: Whether this volume should be used as the boot drive. Up
+                to one volume must set this parameter
               type: boolean
           required:
           - volume
@@ -8246,26 +8246,23 @@ components:
                 \ volumes"
               type: string
             size:
-              description: Size of the volume in GBs. The minimum size depends on
-                the volume type
+              description: Size of the volume to be created
+              minimum: 1
               type: integer
-            delete_on_termination:
-              description: Delete the volume when the machine is deleted. Defaults
-                to false
+            boot:
+              description: Whether this volume should be used as the boot drive. Up
+                to one volume must set this parameter
               type: boolean
             type:
               description: "Type of the volume to create, defaults to 'pd-standard'"
               enum:
-              - cloud
-              - cloud_efficiency
-              - cloud_ssd
-              - cloud_essd
+              - pd-standard
+              - pd-ssd
               type: string
           required:
-          - name
           - size
         type: object
-      title: Alibaba volumes parameter
+      title: Google volumes parameter
       type: array
     GoogleNet:
       properties:
@@ -9031,47 +9028,6 @@ components:
           name: name
           external_id: external_id
           owned_by: owned_by
-          monitoring: monitoring
-          created_by: created_by
-          tags: '{}'
-          probe: '{}'
-          size: size
-          os_type: os_type
-          name: name
-          private_ips:
-          - private_ips
-          - private_ips
-          expiration: expiration
-          location: location
-          actions: '{}'
-          key_associations:
-          - port: 1
-            machine: machine
-            last_used: 6
-            sudo: true
-            user: user
-            key: key
-          - port: 1
-            machine: machine
-            last_used: 6
-            sudo: true
-            user: user
-            key: key
-        - cluster: cluster
-          parent: parent
-          subnet: subnet
-          last_seen: last_seen
-          external_id: external_id
-          ports: '{}'
-          type: type
-          unreachable_since: unreachable_since
-          network: network
-          cloud: cloud
-          default: true
-          hostname: hostname
-          cores: 0.8008281904610115
-          missing_since: missing_since
-          extra: '{}'
           id: id
           created_by: created_by
           tags: "{}"
@@ -9225,12 +9181,7 @@ components:
           type: object
       title: Size
       type: object
-    CreateNetworkResponse:
-      oneOf:
-      - $ref: '#/components/schemas/CreateMachineResponse_oneOf'
-      - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
-      type: object
-    ListNetworksResponse:
+    ListLocationsResponse:
       example:
         data:
         - cloud: cloud
@@ -9244,7 +9195,7 @@ components:
           id: id
           available_images: "{}"
           created_by: created_by
-          tags: '{}'
+          location_type: location_type
         - cloud: cloud
           parent: parent
           country: country
@@ -9679,10 +9630,6 @@ components:
           external_id: external_id
           owned_by: owned_by
           id: id
-          actions: '{}'
-        - last_seen: last_seen
-          external_id: external_id
-          owned_by: owned_by
           created_by: created_by
           tags: "{}"
         meta:
@@ -10209,259 +10156,25 @@ components:
         start_after:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
             HH:MM:SS
-          example: 2022-06-01 T00:00:00
-          type: string
-        run_immediately:
-          description: Decides if the schedule runs immediately of not
-          example: false
-          type: boolean
-      required:
-      - action
-      - name
-      type: object
-    EditScheduleRequest:
-      example:
-        start_after: 2022-06-01 00:00:00
-        schedule_type: one_off
-        schedule_entry: 2022-05-28 00:00:00
-        name: schedule-name
-        description: This is a schedule that is about to be edited
-        action: start
-        script_id: d5775984772949de820fa8279c306b30
-        params: Parameters string
-        selectors:
-        - null
-        - null
-        enabled: true
-      properties:
-        name:
-          description: The name of the schedule that is about to be edited
-          example: schedule-name
-          type: string
-        description:
-          description: The description of the schedule that is about to be edited
-          example: This is a schedule that is about to be edited
-          type: string
-        enabled:
-          description: Schedule status (enabled, disabled)
-          example: true
-          type: boolean
-        action:
-          description: Edit the action that a schedule performs on a resource
-          enum:
-          - reboot
-          - destroy
-          - notify
-          - start
-          - stop
-          - delete
-          example: start
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          type: string
-        params:
-          description: Edit schedule parameters
-          example: Parameters string
-          type: string
-        selectors:
-          items:
-            $ref: '#/components/schemas/Selector'
-          type: array
-        schedule_type:
-          description: Edit the type of the schedule
-          enum:
-          - crontab
-          - interval
-          - one_off
-          example: one_off
-          type: string
-        schedule_entry:
-          description: In case of One Off schedule type the date string that schedule
-            runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and
-            Crontab schedule types a JSON string with need time unit values. For Interval
-            schedule type interval integer value and period string value needed. For
-            Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year
-            string values needed.
           example: 2022-05-28 00:00:00
-          type: string
-        start_after:
-          description: Edit the date after that schedule starts. The format should
-            be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
-          example: 2022-06-01 00:00:00
-          type: string
-      type: object
-    ListSchedulesResponse:
-      example:
-        data:
-        - schedule_type: crontab
-          description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
-          owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
-          selectors:
-          - null
-          - null
-          created_by: Manager A
-          enabled: true
-          tags: '{}'
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
-            \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
-          name: reboot-schedule
-          action: stop
-          id: id
-        - schedule_type: crontab
-          description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
-          owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
-          selectors:
-          - null
-          - null
-          created_by: Manager A
-          enabled: true
-          tags: '{}'
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
-            \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
-          name: reboot-schedule
-          action: stop
-          id: id
-        meta:
-          total: 0
-          start: 1
-          sort: sort
-          returned: 6
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Schedule'
-          type: array
-        meta:
-          $ref: '#/components/schemas/ResponseMetadata'
-      type: object
-    GetScheduleResponse:
-      example:
-        data:
-          schedule_type: crontab
-          description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
-          owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
-          selectors:
-          - null
-          - null
-          created_by: Manager A
-          enabled: true
-          tags: '{}'
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
-            \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
-          name: reboot-schedule
-          action: stop
-          id: id
-        meta:
-          total: 0
-          start: 1
-          sort: sort
-          returned: 6
-      properties:
-        data:
-          $ref: '#/components/schemas/Schedule'
-        meta:
-          $ref: '#/components/schemas/ResponseMetadata'
-      type: object
-    Schedule:
-      example:
-        schedule_type: crontab
-        description: This is an test schedule
-        script_id: d5775984772949de820fa8279c306b30
-        owned_by: Officer B
-        run_immediately: true
-        params: Test parameters
-        selectors:
-        - null
-        - null
-        created_by: Manager A
-        enabled: true
-        tags: '{}'
-        start_after: 2022-05-28 00:00:00
-        schedule_entry: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\",
-          \"day_of_month\":\"*\", \"month_of_year\":\"*\"}'
-        name: reboot-schedule
-        action: stop
-        id: id
-      properties:
-        id:
-          description: The id of the schedule
-          type: string
-        name:
-          description: The name of the schedule
-          example: reboot-schedule
-          type: string
-        description:
-          description: The description of the schedule
-          example: This is an test schedule
-          type: string
-        tags:
-          description: The tags related to the schedule
-          type: object
-        enabled:
-          description: Schedule status (enabled, disabled)
-          example: true
-          type: boolean
-        action:
-          description: The action that a schedule performs on a resource
-          example: stop
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          type: string
-        params:
-          description: Schedule parameters
-          example: Test parameters
-          type: string
-        selectors:
-          items:
-            $ref: '#/components/schemas/Selector'
-          type: array
-        schedule_type:
-          description: The type of the schedule
-          example: crontab
-          type: string
-        schedule_entry:
-          description: In case of One Off schedule type the date string that schedule
-            runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval and
-            Crontab schedule types a JSON string with need time unit values. For Interval
-            schedule type interval integer value and period string value needed. For
-            Crontab schedule type minute, hour, day_of_week, day_of_month and month_of_year
-            string values needed.
-          example: '{\"minute\":\"0\", \"hour\":\"0\", \"day_of_week\":\"*\", \"day_of_month\":\"*\",
-            \"month_of_year\":\"*\"}'
-          type: string
-        start_after:
-          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-05-28 00:00:00
+          title: start_after
           type: string
         run_immediately:
           description: Decides if the schedule runs immediately of not
           example: true
+          title: run_immediately
           type: boolean
         created_by:
           description: The name of user that created the schedule
           example: Manager A
+          title: created_by
           type: string
         owned_by:
           description: The name of user that owns the schedule
           example: Officer B
+          title: owned_by
           type: string
+      title: Schedule
       type: object
     AddScriptRequest:
       example:
@@ -10469,18 +10182,16 @@ components:
         name: my-script
         description: description
         exec_type: executable
-        script: |-
-          #!/usr/bin/env bash
-          echo Hello, World!
+        script: "#!/usr/bin/env bash\necho Hello, World!"
         location_type: inline
       properties:
         name:
           example: my-script
+          title: name
           type: string
         script:
-          example: |-
-            #!/usr/bin/env bash
-            echo Hello, World!
+          example: "#!/usr/bin/env bash\necho Hello, World!"
+          title: script
           type: string
         location_type:
           enum:
@@ -10488,23 +10199,28 @@ components:
           - github
           - url
           example: inline
+          title: location_type
           type: string
         entrypoint:
           example: entrypoint.sh
+          title: entrypoint
           type: string
         exec_type:
           enum:
           - executable
           - ansible
           example: executable
+          title: exec_type
           type: string
         description:
+          title: description
           type: string
       required:
       - exec_type
       - location_type
       - name
       - script
+      title: AddScriptRequest
       type: object
     RunScriptRequest:
       example:
@@ -10516,31 +10232,39 @@ components:
       properties:
         machine:
           example: my-machine
+          title: machine
           type: string
         params:
           example: -v
+          title: params
           type: string
         su:
           enum:
           - "true"
           - "false"
           example: "false"
+          title: su
           type: string
         env:
           example: EXAMPLE_VAR=123
+          title: env
           type: string
         job_id:
           example: ab74e2f0b7ae4999b1e4013e20dac418
+          title: job_id
           type: string
       required:
       - machine
+      title: RunScriptRequest
       type: object
     RunScriptResponse:
       example:
         job_id: job_id
       properties:
         job_id:
+          title: job_id
           type: string
+      title: RunScriptResponse
       type: object
     ListScriptsResponse:
       example:
@@ -10550,13 +10274,13 @@ components:
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         - name: name
           description: description
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -10566,9 +10290,11 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Script'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListScriptsResponse
       type: object
     GetScriptResponse:
       example:
@@ -10578,7 +10304,7 @@ components:
           owned_by: owned_by
           id: id
           created_by: created_by
-          tags: '{}'
+          tags: "{}"
         meta:
           total: 0
           start: 1
@@ -10589,6 +10315,7 @@ components:
           $ref: '#/components/schemas/Script'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetScriptResponse
       type: object
     Script:
       example:
@@ -10597,42 +10324,49 @@ components:
         owned_by: owned_by
         id: id
         created_by: created_by
-        tags: '{}'
+        tags: "{}"
       properties:
         id:
+          title: id
           type: string
         name:
+          title: name
           type: string
         description:
+          title: description
           type: string
         tags:
+          title: tags
           type: object
         created_by:
+          title: created_by
           type: string
         owned_by:
+          title: owned_by
           type: string
+      title: Script
       type: object
     ListRulesResponse:
       example:
         data:
-        - triggered_after: '{}'
+        - triggered_after: "{}"
           name: name
           data_type: data_type
           disabled: disabled
           id: id
-          window: '{}'
-          queries: '{}'
-          actions: '{}'
-          frequency: '{}'
-        - triggered_after: '{}'
+          window: "{}"
+          queries: "{}"
+          actions: "{}"
+          frequency: "{}"
+        - triggered_after: "{}"
           name: name
           data_type: data_type
           disabled: disabled
           id: id
-          window: '{}'
-          queries: '{}'
-          actions: '{}'
-          frequency: '{}'
+          window: "{}"
+          queries: "{}"
+          actions: "{}"
+          frequency: "{}"
         meta:
           total: 0
           start: 1
@@ -10642,22 +10376,24 @@ components:
         data:
           items:
             $ref: '#/components/schemas/Rule'
+          title: data
           type: array
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: ListRulesResponse
       type: object
     GetRuleResponse:
       example:
         data:
-          triggered_after: '{}'
+          triggered_after: "{}"
           name: name
           data_type: data_type
           disabled: disabled
           id: id
-          window: '{}'
-          queries: '{}'
-          actions: '{}'
-          frequency: '{}'
+          window: "{}"
+          queries: "{}"
+          actions: "{}"
+          frequency: "{}"
         meta:
           total: 0
           start: 1
@@ -10668,6 +10404,7 @@ components:
           $ref: '#/components/schemas/Rule'
         meta:
           $ref: '#/components/schemas/ResponseMetadata'
+      title: GetRuleResponse
       type: object
     AddRuleRequest:
       example:
@@ -10702,10 +10439,12 @@ components:
         name:
           description: The name of the rule
           example: new-rule
+          title: name
           type: string
         queries:
           items:
             $ref: '#/components/schemas/Query'
+          title: queries
           type: array
         window:
           $ref: '#/components/schemas/Window'
@@ -10716,10 +10455,12 @@ components:
         actions:
           items:
             $ref: '#/components/schemas/RuleAction'
+          title: actions
           type: array
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
+          title: selectors
           type: array
         data_type:
           $ref: '#/components/schemas/DataType'
@@ -10731,6 +10472,7 @@ components:
       - queries
       - trigger_after
       - window
+      title: AddRuleRequest
       type: object
     EditRuleRequest:
       example:
@@ -10764,10 +10506,12 @@ components:
         name:
           description: The name of the rule
           example: edited-rule
+          title: name
           type: string
         queries:
           items:
             $ref: '#/components/schemas/Query'
+          title: queries
           type: array
         window:
           $ref: '#/components/schemas/Window'
@@ -10778,11 +10522,185 @@ components:
         actions:
           items:
             $ref: '#/components/schemas/RuleAction'
+          title: actions
           type: array
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
+          title: selectors
           type: array
+      title: EditRuleRequest
+      type: object
+    Rule:
+      example:
+        triggered_after: "{}"
+        name: name
+        data_type: data_type
+        disabled: disabled
+        id: id
+        window: "{}"
+        queries: "{}"
+        actions: "{}"
+        frequency: "{}"
+      properties:
+        id:
+          title: id
+          type: string
+        name:
+          title: name
+          type: string
+        queries:
+          title: queries
+          type: object
+        window:
+          title: window
+          type: object
+        frequency:
+          title: frequency
+          type: object
+        triggered_after:
+          title: triggered_after
+          type: object
+        actions:
+          title: actions
+          type: object
+        disabled:
+          title: disabled
+          type: string
+        data_type:
+          title: data_type
+          type: string
+      title: Rule
+      type: object
+    Query:
+      example:
+        threshold: 0.8008281904610115
+        aggregation: aggregation
+        operator: operator
+        target: target
+      properties:
+        target:
+          description: "the metric's name, e.g. \"load.shortterm\""
+          title: target
+          type: string
+        operator:
+          description: |
+            the operator used to compare the computed value with the given
+            threshold
+          title: operator
+          type: string
+        threshold:
+          description: the value over/under which an alert will be raised
+          title: threshold
+          type: number
+        aggregation:
+          description: "the function to be applied on the computed series. Must be\
+            \ one\nof: all, any, avg\n"
+          title: aggregation
+          type: string
+      required:
+      - aggregation
+      - operator
+      - target
+      - threshold
+      title: Query
+      type: object
+    Notification:
+      properties:
+        users:
+          description: "a list of user to be notified, denoted by their UUIDs\n"
+          items:
+            type: string
+          title: users
+          type: array
+        teams:
+          description: "a list of teams, denoted by their UUIDs, whose users will\
+            \ be\nnotified\n"
+          items:
+            type: string
+          title: teams
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to
+          items:
+            type: string
+          title: emails
+          type: array
+      title: Notification
+      type: object
+    MachineAction:
+      properties:
+        action:
+          description: |
+            the action to be performed
+          title: action
+          type: string
+      required:
+      - action
+      title: MachineAction
+      type: object
+    Command:
+      properties:
+        command:
+          description: |
+            the command to be executed
+          title: command
+          type: string
+      required:
+      - command
+      title: Command
+      type: object
+    Queries:
+      items:
+        $ref: '#/components/schemas/Query'
+      title: queries
+      type: array
+    Window:
+      example:
+        period: period
+        stop: 1
+        start: 6
+      properties:
+        start:
+          description: |
+            a positive integer denoting the start of the search window in
+            terms of "now() - start"
+          title: start
+          type: integer
+        stop:
+          default: 0
+          description: "a positive integer, where stop < start, denoting the end of\
+            \ the\nsearch window. Defaults to now\n"
+          title: stop
+          type: integer
+        period:
+          description: "units of time, e.g. \"seconds\""
+          title: period
+          type: string
+      required:
+      - period
+      - start
+      title: Window
+      type: object
+    Frequency:
+      example:
+        period: period
+        every: 5
+      properties:
+        every:
+          description: |
+            a positive integer denoting how often the rule must be evaluated
+          title: every
+          type: integer
+        period:
+          description: "units of time, e.g. \"seconds\""
+          title: period
+          type: string
+      required:
+      - every
+      - period
+      title: Frequency
       type: object
     TriggerAfter:
       example:
@@ -10802,137 +10720,6 @@ components:
       - period
       title: TriggerAfter
       type: object
-    Query:
-      example:
-        threshold: 0.8008281904610115
-        aggregation: aggregation
-        operator: operator
-        target: target
-      properties:
-        target:
-          description: the metric's name, e.g. "load.shortterm"
-          type: string
-        operator:
-          description: |
-            the operator used to compare the computed value with the given
-            threshold
-          type: string
-        threshold:
-          description: the value over/under which an alert will be raised
-          type: number
-        aggregation:
-          description: |
-            the function to be applied on the computed series. Must be one
-            of: all, any, avg
-          type: string
-      required:
-      - aggregation
-      - operator
-      - target
-      - threshold
-      type: object
-    Notification:
-      properties:
-        users:
-          description: "a list of user to be notified, denoted by their UUIDs. Can\
-            \ be\nused by a notification action (optional)\n"
-          items:
-            type: string
-          title: users
-          type: array
-        teams:
-          description: "a list of teams, denoted by their UUIDs, whose users will\
-            \ be\nnotified. Can be used by a notification action (optional)\n"
-          items:
-            type: string
-          title: teams
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to
-          items:
-            type: string
-          title: emails
-          type: array
-      type: object
-    MachineAction:
-      properties:
-        action:
-          description: |
-            the action to be performed. Required by machine_action type
-          title: action
-          type: string
-      required:
-      - action
-      type: object
-    Command:
-      properties:
-        command:
-          description: |
-            the command to be executed
-          type: string
-      required:
-      - command
-      type: object
-    Queries:
-      items:
-        $ref: '#/components/schemas/Query'
-      type: array
-    Window:
-      example:
-        period: period
-        stop: 1
-        start: 6
-      properties:
-        start:
-          description: |
-            a positive integer denoting the start of the search window in
-            terms of "now() - start"
-          type: integer
-        stop:
-          default: 0
-          description: |
-            a positive integer, where stop < start, denoting the end of the
-            search window. Defaults to now
-          type: integer
-        period:
-          description: units of time, e.g. "seconds"
-          type: string
-      required:
-      - period
-      - start
-      type: object
-    Frequency:
-      example:
-        period: period
-        every: 5
-      properties:
-        every:
-          description: |
-            a positive integer denoting how often the rule must be evaluated
-          type: integer
-        period:
-          description: units of time, e.g. "seconds"
-          type: string
-      required:
-      - every
-      - period
-      type: object
-    TriggerAfter:
-      example:
-        period: period
-        offset: 5
-      properties:
-        offset:
-          description: a positive integer denoting the tolerance period
-          type: integer
-        period:
-          description: units of time, e.g. "seconds"
-          type: string
-      required:
-      - offset
-      - period
-      type: object
     RuleAction:
       allOf:
       - $ref: '#/components/schemas/RuleAction_allOf'
@@ -10946,6 +10733,7 @@ components:
         - $ref: '#/components/schemas/Notification'
         - $ref: '#/components/schemas/MachineAction'
         - $ref: '#/components/schemas/Command'
+      title: RuleAction
     RuleActions:
       items:
         $ref: '#/components/schemas/RuleAction'
@@ -11613,30 +11401,6 @@ components:
       - secret
       title: EditSecretRequest
       type: object
-    CreateSecretRequest:
-      example:
-        name: name
-        secret: '{}'
-      properties:
-        name:
-          description: The name of the secret. This is equivalent to the path the
-            secret will be stored in Vault
-          type: string
-        secret:
-          type: object
-      required:
-      - name
-      - secret
-      type: object
-    EditSecretRequest:
-      example:
-        secret: '{}'
-      properties:
-        secret:
-          type: object
-      required:
-      - secret
-      type: object
     inline_response_200:
       example:
         id: id
@@ -11845,17 +11609,6 @@ components:
           type: array
       title: GoogleExtra_service_account
       type: object
-    GoogleExtra_service_account:
-      properties:
-        email:
-          description: The email address of the service account.
-          type: string
-        scopes:
-          description: A list of scopes to be made available for this machine.
-          items:
-            type: string
-          type: array
-      type: object
     EquinixMetalNet_ip_addresses:
       properties:
         address_family:
@@ -11992,6 +11745,20 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
+    RuleAction_allOf:
+      properties:
+        type:
+          description: "the action's type: notification, machine_action, command\n"
+          enum:
+          - notification
+          - machine_action
+          - command
+          title: type
+          type: string
+      required:
+      - type
+      title: RuleAction_allOf
+      type: object
     Datapoints_data:
       example:
         result:
