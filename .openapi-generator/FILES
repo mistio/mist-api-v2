@@ -100,6 +100,7 @@ mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/equinix_metal_extra.py
 mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
+mist_api_v2/models/existing_script.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/field_selector.py
@@ -209,6 +210,8 @@ mist_api_v2/models/run_script_response.py
 mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
+mist_api_v2/models/script_to_run.py
+mist_api_v2/models/script_to_run_all_of.py
 mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py

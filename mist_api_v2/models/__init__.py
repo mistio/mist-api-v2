@@ -72,6 +72,7 @@ from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2.models.equinix_metal_extra import EquinixMetalExtra
 from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
 from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
+from mist_api_v2.models.existing_script import ExistingScript
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.field_selector import FieldSelector
@@ -181,6 +182,8 @@ from mist_api_v2.models.run_script_response import RunScriptResponse
 from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
 from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
+from mist_api_v2.models.script_to_run import ScriptToRun
+from mist_api_v2.models.script_to_run_all_of import ScriptToRunAllOf
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size

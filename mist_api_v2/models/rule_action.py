@@ -17,7 +17,7 @@ class RuleAction(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, users=None, teams=None, emails=None, action=None, command=None):  # noqa: E501
+    def __init__(self, type=None, users=None, teams=None, emails=None, action=None, command=None, inline=None, script_id=None):  # noqa: E501
         """RuleAction - a model defined in OpenAPI
 
         :param type: The type of this RuleAction.  # noqa: E501
@@ -32,6 +32,10 @@ class RuleAction(Model):
         :type action: str
         :param command: The command of this RuleAction.  # noqa: E501
         :type command: str
+        :param inline: The inline of this RuleAction.  # noqa: E501
+        :type inline: str
+        :param script_id: The script_id of this RuleAction.  # noqa: E501
+        :type script_id: str
         """
         self.openapi_types = {
             'type': str,
@@ -39,7 +43,9 @@ class RuleAction(Model):
             'teams': List[str],
             'emails': List[str],
             'action': str,
-            'command': str
+            'command': str,
+            'inline': str,
+            'script_id': str
         }
 
         self.attribute_map = {
@@ -48,7 +54,9 @@ class RuleAction(Model):
             'teams': 'teams',
             'emails': 'emails',
             'action': 'action',
-            'command': 'command'
+            'command': 'command',
+            'inline': 'inline',
+            'script_id': 'scriptId'
         }
 
         self._type = type
@@ -57,6 +65,8 @@ class RuleAction(Model):
         self._emails = emails
         self._action = action
         self._command = command
+        self._inline = inline
+        self._script_id = script_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'RuleAction':
@@ -73,7 +83,7 @@ class RuleAction(Model):
     def type(self):
         """Gets the type of this RuleAction.
 
-        the action's type: notification, machine_action, command   # noqa: E501
+        the script's type: inline, existing   # noqa: E501
 
         :return: The type of this RuleAction.
         :rtype: str
@@ -84,12 +94,12 @@ class RuleAction(Model):
     def type(self, type):
         """Sets the type of this RuleAction.
 
-        the action's type: notification, machine_action, command   # noqa: E501
+        the script's type: inline, existing   # noqa: E501
 
         :param type: The type of this RuleAction.
         :type type: str
         """
-        allowed_values = ["notification", "machine_action", "command"]  # noqa: E501
+        allowed_values = ["inline", "existing"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
@@ -216,3 +226,51 @@ class RuleAction(Model):
             raise ValueError("Invalid value for `command`, must not be `None`")  # noqa: E501
 
         self._command = command
+
+    @property
+    def inline(self):
+        """Gets the inline of this RuleAction.
+
+
+        :return: The inline of this RuleAction.
+        :rtype: str
+        """
+        return self._inline
+
+    @inline.setter
+    def inline(self, inline):
+        """Sets the inline of this RuleAction.
+
+
+        :param inline: The inline of this RuleAction.
+        :type inline: str
+        """
+        if inline is None:
+            raise ValueError("Invalid value for `inline`, must not be `None`")  # noqa: E501
+
+        self._inline = inline
+
+    @property
+    def script_id(self):
+        """Gets the script_id of this RuleAction.
+
+        the Id of the existing script to be executed   # noqa: E501
+
+        :return: The script_id of this RuleAction.
+        :rtype: str
+        """
+        return self._script_id
+
+    @script_id.setter
+    def script_id(self, script_id):
+        """Sets the script_id of this RuleAction.
+
+        the Id of the existing script to be executed   # noqa: E501
+
+        :param script_id: The script_id of this RuleAction.
+        :type script_id: str
+        """
+        if script_id is None:
+            raise ValueError("Invalid value for `script_id`, must not be `None`")  # noqa: E501
+
+        self._script_id = script_id

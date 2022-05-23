@@ -5921,6 +5921,26 @@ components:
       - other
       title: SupportedProviders
       type: string
+    InlineScript:
+      properties:
+        inline:
+          title: inline
+          type: string
+      required:
+      - inline
+      title: InlineScript
+      type: object
+    ExistingScript:
+      properties:
+        scriptId:
+          description: |
+            the Id of the existing script to be executed
+          title: scriptId
+          type: string
+      required:
+      - scriptId
+      title: ExistingScript
+      type: object
     Selector:
       oneOf:
       - $ref: '#/components/schemas/ResourceSelector'
@@ -8874,15 +8894,6 @@ components:
       - schedule_type
       title: Interval
       type: object
-    InlineScript:
-      properties:
-        inline:
-          title: inline
-          type: string
-      required:
-      - inline
-      title: InlineScript
-      type: object
     PostDeployScript:
       properties:
         script:
@@ -10651,6 +10662,18 @@ components:
       - command
       title: Command
       type: object
+    ScriptToRun:
+      allOf:
+      - $ref: '#/components/schemas/ScriptToRun_allOf'
+      - discriminator:
+          mapping:
+            inline: '#/components/schemas/InlineScript'
+            existing: '#/components/schemas/ExistingScript'
+          propertyName: type
+        oneOf:
+        - $ref: '#/components/schemas/InlineScript'
+        - $ref: '#/components/schemas/ExistingScript'
+      title: ScriptToRun
     Queries:
       items:
         $ref: '#/components/schemas/Query'
@@ -10728,11 +10751,13 @@ components:
             notification: '#/components/schemas/Notification'
             machine_action: '#/components/schemas/MachineAction'
             command: '#/components/schemas/Command'
+            script: '#/components/schemas/ScriptToRun'
           propertyName: type
         oneOf:
         - $ref: '#/components/schemas/Notification'
         - $ref: '#/components/schemas/MachineAction'
         - $ref: '#/components/schemas/Command'
+        - $ref: '#/components/schemas/ScriptToRun'
       title: RuleAction
     RuleActions:
       items:
@@ -11745,14 +11770,29 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
+    ScriptToRun_allOf:
+      properties:
+        type:
+          description: "the script's type: inline, existing\n"
+          enum:
+          - inline
+          - existing
+          title: type
+          type: string
+      required:
+      - type
+      title: ScriptToRun_allOf
+      type: object
     RuleAction_allOf:
       properties:
         type:
-          description: "the action's type: notification, machine_action, command\n"
+          description: "the action's type: notification, machine_action, command,\
+            \ script\n"
           enum:
           - notification
           - machine_action
           - command
+          - script
           title: type
           type: string
       required:
