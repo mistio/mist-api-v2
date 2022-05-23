@@ -58,7 +58,6 @@ mist_api_v2/models/cloud_sigma_cloud_request.py
 mist_api_v2/models/cloud_sigma_credentials.py
 mist_api_v2/models/cluster.py
 mist_api_v2/models/cluster_providers.py
-mist_api_v2/models/command.py
 mist_api_v2/models/create_cluster_request.py
 mist_api_v2/models/create_cluster_request_all_of.py
 mist_api_v2/models/create_cluster_request_all_of_nodepools.py
@@ -100,7 +99,6 @@ mist_api_v2/models/equinix_credentials.py
 mist_api_v2/models/equinix_metal_extra.py
 mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
-mist_api_v2/models/existing_script.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/field_selector.py
@@ -134,7 +132,6 @@ mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
 mist_api_v2/models/inline_response200.py
 mist_api_v2/models/inline_response2001.py
-mist_api_v2/models/inline_script.py
 mist_api_v2/models/instant_vector.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
@@ -195,7 +192,6 @@ mist_api_v2/models/openstack_credentials.py
 mist_api_v2/models/openstack_net.py
 mist_api_v2/models/org.py
 mist_api_v2/models/other_cloud_request.py
-mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
@@ -205,13 +201,14 @@ mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
 mist_api_v2/models/rule_action.py
 mist_api_v2/models/rule_action_all_of.py
+mist_api_v2/models/run_command.py
+mist_api_v2/models/run_existing_script.py
 mist_api_v2/models/run_script_request.py
 mist_api_v2/models/run_script_response.py
 mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/script_to_run.py
-mist_api_v2/models/script_to_run_all_of.py
 mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py

@@ -5873,6 +5873,34 @@ components:
   requestBodies: {}
   responses: {}
   schemas:
+    RunCommand:
+      properties:
+        command:
+          description: Command that is about to run
+          title: command
+          type: string
+      required:
+      - command
+      title: RunCommand
+      type: object
+    RunExistingScript:
+      properties:
+        script:
+          description: Name or ID of the script to run
+          title: script
+          type: string
+        params:
+          title: params
+          type: string
+      required:
+      - script
+      title: RunExistingScript
+      type: object
+    ScriptToRun:
+      oneOf:
+      - $ref: '#/components/schemas/RunCommand'
+      - $ref: '#/components/schemas/RunExistingScript'
+      title: ScriptToRun
     MachineState:
       enum:
       - running
@@ -5921,26 +5949,6 @@ components:
       - other
       title: SupportedProviders
       type: string
-    InlineScript:
-      properties:
-        inline:
-          title: inline
-          type: string
-      required:
-      - inline
-      title: InlineScript
-      type: object
-    ExistingScript:
-      properties:
-        scriptId:
-          description: |
-            the Id of the existing script to be executed
-          title: scriptId
-          type: string
-      required:
-      - scriptId
-      title: ExistingScript
-      type: object
     Selector:
       oneOf:
       - $ref: '#/components/schemas/ResourceSelector'
@@ -7584,8 +7592,8 @@ components:
           notify_msg: notify_msg
         net: ""
         scripts:
-        - ""
-        - ""
+        - null
+        - null
         key: ""
       properties:
         name:
@@ -7721,11 +7729,7 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            allOf:
-            - type: object
-            - oneOf:
-              - $ref: '#/components/schemas/InlineScript'
-              - $ref: '#/components/schemas/PostDeployScript'
+            $ref: '#/components/schemas/ScriptToRun'
           title: scripts
           type: array
         schedules:
@@ -7740,7 +7744,7 @@ components:
                   - interval
                   type: string
                 script:
-                  $ref: '#/components/schemas/PostDeployScript'
+                  $ref: '#/components/schemas/RunExistingScript'
                 action:
                   enum:
                   - start
@@ -8893,19 +8897,6 @@ components:
       - period
       - schedule_type
       title: Interval
-      type: object
-    PostDeployScript:
-      properties:
-        script:
-          description: Name or ID of the script to run
-          title: script
-          type: string
-        params:
-          title: params
-          type: string
-      required:
-      - script
-      title: PostDeployScript
       type: object
     Expiration:
       example:
@@ -10651,29 +10642,6 @@ components:
       - action
       title: MachineAction
       type: object
-    Command:
-      properties:
-        command:
-          description: |
-            the command to be executed
-          title: command
-          type: string
-      required:
-      - command
-      title: Command
-      type: object
-    ScriptToRun:
-      allOf:
-      - $ref: '#/components/schemas/ScriptToRun_allOf'
-      - discriminator:
-          mapping:
-            inline: '#/components/schemas/InlineScript'
-            existing: '#/components/schemas/ExistingScript'
-          propertyName: type
-        oneOf:
-        - $ref: '#/components/schemas/InlineScript'
-        - $ref: '#/components/schemas/ExistingScript'
-      title: ScriptToRun
     Queries:
       items:
         $ref: '#/components/schemas/Query'
@@ -10750,13 +10718,11 @@ components:
           mapping:
             notification: '#/components/schemas/Notification'
             machine_action: '#/components/schemas/MachineAction'
-            command: '#/components/schemas/Command'
-            script: '#/components/schemas/ScriptToRun'
+            run_script: '#/components/schemas/ScriptToRun'
           propertyName: type
         oneOf:
         - $ref: '#/components/schemas/Notification'
         - $ref: '#/components/schemas/MachineAction'
-        - $ref: '#/components/schemas/Command'
         - $ref: '#/components/schemas/ScriptToRun'
       title: RuleAction
     RuleActions:
@@ -11770,19 +11736,6 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
-    ScriptToRun_allOf:
-      properties:
-        type:
-          description: "the script's type: inline, existing\n"
-          enum:
-          - inline
-          - existing
-          title: type
-          type: string
-      required:
-      - type
-      title: ScriptToRun_allOf
-      type: object
     RuleAction_allOf:
       properties:
         type:
@@ -11791,8 +11744,7 @@ components:
           enum:
           - notification
           - machine_action
-          - command
-          - script
+          - run_script
           title: type
           type: string
       required:

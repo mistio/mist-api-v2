@@ -146,7 +146,7 @@ class TestMachinesController:
     "notify_msg" : "notify_msg"
   },
   "net" : "",
-  "scripts" : [ "", "" ],
+  "scripts" : [ null, null ],
   "key" : ""
 }""", strict=False)
         uri = MIST_URL + '/api/v2/machines'

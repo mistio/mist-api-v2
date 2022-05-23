@@ -17,7 +17,7 @@ class RuleAction(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, users=None, teams=None, emails=None, action=None, command=None, inline=None, script_id=None):  # noqa: E501
+    def __init__(self, type=None, users=None, teams=None, emails=None, action=None, command=None, script=None, params=None):  # noqa: E501
         """RuleAction - a model defined in OpenAPI
 
         :param type: The type of this RuleAction.  # noqa: E501
@@ -32,10 +32,10 @@ class RuleAction(Model):
         :type action: str
         :param command: The command of this RuleAction.  # noqa: E501
         :type command: str
-        :param inline: The inline of this RuleAction.  # noqa: E501
-        :type inline: str
-        :param script_id: The script_id of this RuleAction.  # noqa: E501
-        :type script_id: str
+        :param script: The script of this RuleAction.  # noqa: E501
+        :type script: str
+        :param params: The params of this RuleAction.  # noqa: E501
+        :type params: str
         """
         self.openapi_types = {
             'type': str,
@@ -44,8 +44,8 @@ class RuleAction(Model):
             'emails': List[str],
             'action': str,
             'command': str,
-            'inline': str,
-            'script_id': str
+            'script': str,
+            'params': str
         }
 
         self.attribute_map = {
@@ -55,8 +55,8 @@ class RuleAction(Model):
             'emails': 'emails',
             'action': 'action',
             'command': 'command',
-            'inline': 'inline',
-            'script_id': 'scriptId'
+            'script': 'script',
+            'params': 'params'
         }
 
         self._type = type
@@ -65,8 +65,8 @@ class RuleAction(Model):
         self._emails = emails
         self._action = action
         self._command = command
-        self._inline = inline
-        self._script_id = script_id
+        self._script = script
+        self._params = params
 
     @classmethod
     def from_dict(cls, dikt) -> 'RuleAction':
@@ -83,7 +83,7 @@ class RuleAction(Model):
     def type(self):
         """Gets the type of this RuleAction.
 
-        the script's type: inline, existing   # noqa: E501
+        the action's type: notification, machine_action, command, script   # noqa: E501
 
         :return: The type of this RuleAction.
         :rtype: str
@@ -94,12 +94,12 @@ class RuleAction(Model):
     def type(self, type):
         """Sets the type of this RuleAction.
 
-        the script's type: inline, existing   # noqa: E501
+        the action's type: notification, machine_action, command, script   # noqa: E501
 
         :param type: The type of this RuleAction.
         :type type: str
         """
-        allowed_values = ["inline", "existing"]  # noqa: E501
+        allowed_values = ["notification", "machine_action", "run_script"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
@@ -206,7 +206,7 @@ class RuleAction(Model):
     def command(self):
         """Gets the command of this RuleAction.
 
-        the command to be executed   # noqa: E501
+        Command that is about to run  # noqa: E501
 
         :return: The command of this RuleAction.
         :rtype: str
@@ -217,7 +217,7 @@ class RuleAction(Model):
     def command(self, command):
         """Sets the command of this RuleAction.
 
-        the command to be executed   # noqa: E501
+        Command that is about to run  # noqa: E501
 
         :param command: The command of this RuleAction.
         :type command: str
@@ -228,49 +228,47 @@ class RuleAction(Model):
         self._command = command
 
     @property
-    def inline(self):
-        """Gets the inline of this RuleAction.
+    def script(self):
+        """Gets the script of this RuleAction.
 
+        Name or ID of the script to run  # noqa: E501
 
-        :return: The inline of this RuleAction.
+        :return: The script of this RuleAction.
         :rtype: str
         """
-        return self._inline
+        return self._script
 
-    @inline.setter
-    def inline(self, inline):
-        """Sets the inline of this RuleAction.
+    @script.setter
+    def script(self, script):
+        """Sets the script of this RuleAction.
 
+        Name or ID of the script to run  # noqa: E501
 
-        :param inline: The inline of this RuleAction.
-        :type inline: str
+        :param script: The script of this RuleAction.
+        :type script: str
         """
-        if inline is None:
-            raise ValueError("Invalid value for `inline`, must not be `None`")  # noqa: E501
+        if script is None:
+            raise ValueError("Invalid value for `script`, must not be `None`")  # noqa: E501
 
-        self._inline = inline
+        self._script = script
 
     @property
-    def script_id(self):
-        """Gets the script_id of this RuleAction.
+    def params(self):
+        """Gets the params of this RuleAction.
 
-        the Id of the existing script to be executed   # noqa: E501
 
-        :return: The script_id of this RuleAction.
+        :return: The params of this RuleAction.
         :rtype: str
         """
-        return self._script_id
+        return self._params
 
-    @script_id.setter
-    def script_id(self, script_id):
-        """Sets the script_id of this RuleAction.
+    @params.setter
+    def params(self, params):
+        """Sets the params of this RuleAction.
 
-        the Id of the existing script to be executed   # noqa: E501
 
-        :param script_id: The script_id of this RuleAction.
-        :type script_id: str
+        :param params: The params of this RuleAction.
+        :type params: str
         """
-        if script_id is None:
-            raise ValueError("Invalid value for `script_id`, must not be `None`")  # noqa: E501
 
-        self._script_id = script_id
+        self._params = params

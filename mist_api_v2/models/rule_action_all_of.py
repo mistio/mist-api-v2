@@ -62,7 +62,7 @@ class RuleActionAllOf(Model):
         :param type: The type of this RuleActionAllOf.
         :type type: str
         """
-        allowed_values = ["notification", "machine_action", "command", "script"]  # noqa: E501
+        allowed_values = ["notification", "machine_action", "run_script"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
