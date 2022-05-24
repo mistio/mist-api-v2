@@ -24,6 +24,7 @@ mist_api_v2/controllers/secrets_controller.py
 mist_api_v2/controllers/security_controller_.py
 mist_api_v2/controllers/sizes_controller.py
 mist_api_v2/controllers/snapshots_controller.py
+mist_api_v2/controllers/tags_controller.py
 mist_api_v2/controllers/users_controller.py
 mist_api_v2/controllers/volumes_controller.py
 mist_api_v2/controllers/zones_controller.py
@@ -166,6 +167,8 @@ mist_api_v2/models/list_scripts_response.py
 mist_api_v2/models/list_secrets_response.py
 mist_api_v2/models/list_sizes_response.py
 mist_api_v2/models/list_snapshots_response.py
+mist_api_v2/models/list_tags_response.py
+mist_api_v2/models/list_tags_response_data.py
 mist_api_v2/models/list_users_response.py
 mist_api_v2/models/list_volumes_response.py
 mist_api_v2/models/list_zones_response.py
@@ -196,6 +199,7 @@ mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
+mist_api_v2/models/resource.py
 mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
@@ -209,6 +213,10 @@ mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
+mist_api_v2/models/tag.py
+mist_api_v2/models/tag_resources_request.py
+mist_api_v2/models/tag_resources_request_operations.py
+mist_api_v2/models/taggable_resource_types.py
 mist_api_v2/models/tagging_selector.py
 mist_api_v2/models/team.py
 mist_api_v2/models/trigger_after.py
@@ -243,6 +251,7 @@ mist_api_v2/test/test_scripts_controller.py
 mist_api_v2/test/test_secrets_controller.py
 mist_api_v2/test/test_sizes_controller.py
 mist_api_v2/test/test_snapshots_controller.py
+mist_api_v2/test/test_tags_controller.py
 mist_api_v2/test/test_users_controller.py
 mist_api_v2/test/test_volumes_controller.py
 mist_api_v2/test/test_zones_controller.py

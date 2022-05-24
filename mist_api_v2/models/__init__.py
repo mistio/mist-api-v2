@@ -140,6 +140,8 @@ from mist_api_v2.models.list_scripts_response import ListScriptsResponse
 from mist_api_v2.models.list_secrets_response import ListSecretsResponse
 from mist_api_v2.models.list_sizes_response import ListSizesResponse
 from mist_api_v2.models.list_snapshots_response import ListSnapshotsResponse
+from mist_api_v2.models.list_tags_response import ListTagsResponse
+from mist_api_v2.models.list_tags_response_data import ListTagsResponseData
 from mist_api_v2.models.list_users_response import ListUsersResponse
 from mist_api_v2.models.list_volumes_response import ListVolumesResponse
 from mist_api_v2.models.list_zones_response import ListZonesResponse
@@ -168,6 +170,7 @@ from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.resource import Resource
 from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
@@ -181,6 +184,10 @@ from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
+from mist_api_v2.models.tag import Tag
+from mist_api_v2.models.tag_resources_request import TagResourcesRequest
+from mist_api_v2.models.tag_resources_request_operations import TagResourcesRequestOperations
+from mist_api_v2.models.taggable_resource_types import TaggableResourceTypes
 from mist_api_v2.models.tagging_selector import TaggingSelector
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.trigger_after import TriggerAfter
