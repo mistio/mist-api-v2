@@ -1783,33 +1783,6 @@ paths:
                   name: azuremachine
                   image: Ubuntu
                   size: Standard_D4s_v5
-              FullExample:
-                summary: "Provision 2 machines with monitoring, schedules, expiration\
-                  \ and provisioning scripts"
-                value:
-                  cloud: GCE
-                  name: testmachine
-                  image: Ubuntu
-                  size:
-                    cpu: 2
-                    memory: 2048
-                  location: us-east1-b
-                  key: TestKey
-                  monitoring: true
-                  quantity: 2
-                  expiration:
-                    action: destroy
-                    date: 2025-08-30T18:24:15Z
-                  scripts:
-                  - inline: |-
-                      #!/bin/bash
-                       touch ~/inline.txt
-                  - script: test123
-                  schedules:
-                  - schedule_type: one_off
-                    datetime: 2023-09-22T18:19:28Z
-                    script:
-                      script: test123
             schema:
               $ref: '#/components/schemas/CreateMachineRequest'
       responses:
@@ -3621,18 +3594,14 @@ paths:
       - rules
       x-cli-table-default:
       - name
-      - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
       - name
-      - resource_type
+      - conditions
       - selectors
-      - queries
       - actions
-      - window
-      - frequency
       - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
@@ -3754,18 +3723,14 @@ paths:
       - rules
       x-cli-table-default:
       - name
-      - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
       - name
-      - resource_type
+      - conditions
       - selectors
-      - queries
       - actions
-      - window
-      - frequency
       - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     patch:
@@ -3994,12 +3959,8 @@ paths:
       - description
       - tags
       - enabled
-      - action
-      - script_id
-      - params
+      - actions
       - selectors
-      - schedule_type
-      - schedule_entry
       - start_after
       - run_immediately
       - owned_by
@@ -4011,23 +3972,6 @@ paths:
       requestBody:
         content:
           application/json:
-            examples:
-              RebootMachineOneOffSchedule:
-                summary: Create a reboot machine schedule that runs once
-                value:
-                  name: TestMachineRebootSchedule
-                  description: This is a reboot machine schedule that runs once
-                  enabled: true
-                  action: reboot
-                  params: None
-                  selectors:
-                    ids:
-                    - d5775984772949de820fa8279c306b30
-                    type: machines
-                  schedule_type: one_off
-                  schedule_entry: 2022-06-05 00:00:00
-                  start_after: 2022-06-08 00:00:00
-                  run_immediately: false
             schema:
               $ref: '#/components/schemas/AddScheduleRequest'
       responses:
@@ -4152,12 +4096,8 @@ paths:
       - description
       - tags
       - enabled
-      - action
-      - script_id
-      - params
+      - actions
       - selectors
-      - schedule_type
-      - schedule_entry
       - start_after
       - run_immediately
       - owned_by
@@ -4178,18 +4118,6 @@ paths:
       requestBody:
         content:
           application/json:
-            examples:
-              RenameSchedule:
-                summary: Rename an existing schedule
-                value:
-                  name: RenamedSchedule
-                  description: This is a renamed schedule
-              DeactivateSchedule:
-                summary: Deactivate an existing active schedule
-                value:
-                  name: DeactivatedSchedule
-                  description: This is a deactivated schedule
-                  enabled: false
             schema:
               $ref: '#/components/schemas/EditScheduleRequest'
       responses:
@@ -5061,6 +4989,206 @@ paths:
       - external_id
       - machines
       x-openapi-router-controller: mist_api_v2.controllers.sizes_controller
+  /api/v2/tags:
+    get:
+      description: List tags on resources owned by the active org. READ permission
+        required on each resource.
+      operationId: list_tags
+      parameters:
+      - description: Toggle displaying resource types and ids associated with each
+          key value pair
+        examples:
+          (default) Display only {key, value} pairs:
+            value: "False"
+          Also dispalay resource types and ids:
+            value: "True"
+        explode: true
+        in: query
+        name: verbose
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Display tags on a single resource
+        explode: true
+        in: query
+        name: resource
+        required: false
+        schema:
+          $ref: '#/components/schemas/TaggableResourceTypes'
+        style: form
+      - description: Only return results matching search filter
+        examples:
+          Filter by key:
+            value: key:key1
+          Filter by key and value:
+            value: key:key1 value:value1
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Limit number of results, 1000 max"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return key:
+            value: key
+          Return key, resources:
+            value: "key,resources"
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          (default) Do not dereference anything, just return ids:
+            value: id
+          ' Automatically replace all foreign key ids with referenced resource name ':
+            value: name
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: id
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTagsResponse'
+          description: List tags response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+      summary: List tags
+      tags:
+      - tags
+      x-cli-table-default:
+      - key
+      - value
+      x-cli-table-extended:
+      - key
+      - value
+      x-openapi-router-controller: mist_api_v2.controllers.tags_controller
+    post:
+      description: Batch operation for adding/removing tags from a list of resources.
+      operationId: tag_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagResourcesRequest'
+      responses:
+        "200":
+          description: Tags successfully updated
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Resource not found
+      security:
+      - ApiKeyAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+        - read:cluster
+        - edit:cloud
+        - edit:image
+        - edit:key
+        - edit:machine
+        - edit:network
+        - edit:script
+        - edit:volumes
+        - edit:zones
+      - CookieAuth:
+        - read:cluster
+        - read:cloud
+        - read:image
+        - read:key
+        - read:machine
+        - read:network
+        - read:script
+        - read:volumes
+        - read:zones
+        - read:cluster
+        - edit:cloud
+        - edit:image
+        - edit:key
+        - edit:machine
+        - edit:network
+        - edit:script
+        - edit:volumes
+        - edit:zones
+      summary: Tag Resources
+      tags:
+      - tags
+      x-openapi-router-controller: mist_api_v2.controllers.tags_controller
   /api/v2/users:
     get:
       description: Return current user if requester is not admin. Return all users
@@ -5873,6 +6001,56 @@ components:
   requestBodies: {}
   responses: {}
   schemas:
+    Action:
+      allOf:
+      - $ref: '#/components/schemas/Action_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/Notification'
+        - $ref: '#/components/schemas/MachineAction'
+        - $ref: '#/components/schemas/ScriptToRun'
+      discriminator:
+        mapping:
+          notification: '#/components/schemas/Notification'
+          machine_action: '#/components/schemas/MachineAction'
+          run_script: '#/components/schemas/ScriptToRun'
+        propertyName: type
+      title: Action
+      type: object
+    MachineAction:
+      properties:
+        action:
+          description: |
+            the action to be performed
+          title: action
+          type: string
+      required:
+      - action
+      title: MachineAction
+      type: object
+    Notification:
+      properties:
+        users:
+          description: "a list of user to be notified, denoted by their UUIDs\n"
+          items:
+            type: string
+          title: users
+          type: array
+        teams:
+          description: "a list of teams, denoted by their UUIDs, whose users will\
+            \ be\nnotified\n"
+          items:
+            type: string
+          title: teams
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to
+          items:
+            type: string
+          title: emails
+          type: array
+      title: Notification
+      type: object
     RunCommand:
       properties:
         command:
@@ -5901,6 +6079,22 @@ components:
       - $ref: '#/components/schemas/RunCommand'
       - $ref: '#/components/schemas/RunExistingScript'
       title: ScriptToRun
+      type: object
+    When:
+      allOf:
+      - $ref: '#/components/schemas/When_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/OneOffSchedule'
+        - $ref: '#/components/schemas/CronSchedule'
+        - $ref: '#/components/schemas/IntervalSchedule'
+      discriminator:
+        mapping:
+          one_off: '#/components/schemas/OneOffSchedule'
+          crontab: '#/components/schemas/CronSchedule'
+          interval: '#/components/schemas/IntervalSchedule'
+        propertyName: schedule_type
+      title: When
+      type: object
     MachineState:
       enum:
       - running
@@ -6038,6 +6232,26 @@ components:
           type: integer
       title: AgeSelector
       type: object
+    TaggableResourceTypes:
+      enum:
+      - buckets
+      - clouds
+      - clusters
+      - images
+      - keys
+      - machines
+      - networks
+      - records
+      - schedules
+      - scripts
+      - stacks
+      - subnets
+      - templates
+      - tunnels
+      - volumes
+      - zones
+      title: TaggableResourceTypes
+      type: string
     ResponseMetadata:
       example:
         total: 0
@@ -9809,17 +10023,19 @@ components:
     AddScheduleRequest:
       example:
         start_after: 2022-06-01 T00:00:00
-        schedule_type: one_off
-        schedule_entry: 2022-05-28 00:00:00
+        expires: 2022-06-01 T00:00:00
+        reminder:
+          message: message
         name: backup-schedule
-        description: This is a schedule
-        action: start
-        script_id: d5775984772949de820fa8279c306b30
+        description: Backup schedule
         run_immediately: false
-        params: Parameters string
         selectors:
         - null
         - null
+        actions:
+        - null
+        - null
+        when: null
         enabled: true
       properties:
         name:
@@ -9829,7 +10045,7 @@ components:
           type: string
         description:
           description: The description of the schedule
-          example: This is a schedule
+          example: Backup schedule
           title: description
           type: string
         enabled:
@@ -9837,81 +10053,54 @@ components:
           example: true
           title: enabled
           type: boolean
-        action:
-          description: The action that a schedule performs on a resource
-          enum:
-          - reboot
-          - destroy
-          - notify
-          - start
-          - stop
-          - delete
-          example: start
-          title: action
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          title: script_id
-          type: string
-        params:
-          description: Schedule parameters
-          example: Parameters string
-          title: params
-          type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
-        schedule_type:
-          description: The type of the schedule
-          enum:
-          - crontab
-          - interval
-          - one_off
-          example: one_off
-          title: schedule_type
-          type: string
-        schedule_entry:
-          description: "In case of One Off schedule type the date string that schedule\
-            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
-            \ and Crontab schedule types a JSON string with need time unit values.\
-            \ For Interval schedule type interval integer value and period string\
-            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
-            \ and month_of_year string values needed."
-          example: 2022-05-28 00:00:00
-          title: schedule_entry
-          type: string
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
         start_after:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
             HH:MM:SS
           example: 2022-06-01 T00:00:00
           title: start_after
           type: string
+        expires:
+          description: The date after that schedule expires. The format should be
+            ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          example: 2022-06-01 T00:00:00
+          title: expires
+          type: string
+        reminder:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder'
         run_immediately:
           description: Decides if the schedule runs immediately of not
           example: false
           title: run_immediately
           type: boolean
       required:
-      - action
+      - actions
       - name
       title: AddScheduleRequest
       type: object
     EditScheduleRequest:
       example:
-        start_after: 2022-06-01 00:00:00
-        schedule_type: one_off
-        schedule_entry: 2022-05-28 00:00:00
+        start_after: 2022-06-01 T00:00:00
+        expires: 2022-06-01 T00:00:00
+        reminder:
+          message: message
         name: schedule-name
-        description: This is a schedule that is about to be edited
-        action: start
-        script_id: d5775984772949de820fa8279c306b30
-        params: Parameters string
-        selectors:
+        description: Edited Schedule
+        actions:
         - null
         - null
+        when: null
         enabled: true
       properties:
         name:
@@ -9921,7 +10110,7 @@ components:
           type: string
         description:
           description: The description of the schedule that is about to be edited
-          example: This is a schedule that is about to be edited
+          example: Edited Schedule
           title: description
           type: string
         enabled:
@@ -9929,101 +10118,70 @@ components:
           example: true
           title: enabled
           type: boolean
-        action:
-          description: Edit the action that a schedule performs on a resource
-          enum:
-          - reboot
-          - destroy
-          - notify
-          - start
-          - stop
-          - delete
-          example: start
-          title: action
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          title: script_id
-          type: string
-        params:
-          description: Edit schedule parameters
-          example: Parameters string
-          title: params
-          type: string
-        selectors:
+        actions:
           items:
-            $ref: '#/components/schemas/Selector'
-          title: selectors
+            $ref: '#/components/schemas/Action'
+          title: actions
           type: array
-        schedule_type:
-          description: Edit the type of the schedule
-          enum:
-          - crontab
-          - interval
-          - one_off
-          example: one_off
-          title: schedule_type
-          type: string
-        schedule_entry:
-          description: "In case of One Off schedule type the date string that schedule\
-            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
-            \ and Crontab schedule types a JSON string with need time unit values.\
-            \ For Interval schedule type interval integer value and period string\
-            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
-            \ and month_of_year string values needed."
-          example: 2022-05-28 00:00:00
-          title: schedule_entry
-          type: string
+        when:
+          $ref: '#/components/schemas/When'
         start_after:
-          description: Edit the date after that schedule starts. The format should
-            be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
-          example: 2022-06-01 00:00:00
+          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
+            HH:MM:SS
+          example: 2022-06-01 T00:00:00
           title: start_after
           type: string
+        expires:
+          description: The date after that schedule expires. The format should be
+            ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          example: 2022-06-01 T00:00:00
+          title: expires
+          type: string
+        reminder:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder'
       title: EditScheduleRequest
       type: object
     ListSchedulesResponse:
       example:
         data:
-        - schedule_type: crontab
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
           description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
+          run_immediately: false
           selectors:
           - null
           - null
+          when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
-            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
-            \":\\\"*\\\"}"
+          start_after: 2022-06-01 T00:00:00
           name: reboot-schedule
-          action: stop
           id: id
-        - schedule_type: crontab
+          actions:
+          - null
+          - null
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
           description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
+          run_immediately: false
           selectors:
           - null
           - null
+          when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
-            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
-            \":\\\"*\\\"}"
+          start_after: 2022-06-01 T00:00:00
           name: reboot-schedule
-          action: stop
           id: id
+          actions:
+          - null
+          - null
         meta:
           total: 0
           start: 1
@@ -10042,25 +10200,25 @@ components:
     GetScheduleResponse:
       example:
         data:
-          schedule_type: crontab
+          expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
           description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
+          run_immediately: false
           selectors:
           - null
           - null
+          when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
-            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
-            \":\\\"*\\\"}"
+          start_after: 2022-06-01 T00:00:00
           name: reboot-schedule
-          action: stop
           id: id
+          actions:
+          - null
+          - null
         meta:
           total: 0
           start: 1
@@ -10075,25 +10233,25 @@ components:
       type: object
     Schedule:
       example:
-        schedule_type: crontab
+        expires: 2022-06-01 T00:00:00
+        reminder:
+          message: message
         description: This is an test schedule
-        script_id: d5775984772949de820fa8279c306b30
         owned_by: Officer B
-        run_immediately: true
-        params: Test parameters
+        run_immediately: false
         selectors:
         - null
         - null
+        when: null
         created_by: Manager A
         enabled: true
         tags: "{}"
-        start_after: 2022-05-28 00:00:00
-        schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"day_of_week\\\
-          \":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\":\\\"\
-          *\\\"}"
+        start_after: 2022-06-01 T00:00:00
         name: reboot-schedule
-        action: stop
         id: id
+        actions:
+        - null
+        - null
       properties:
         id:
           description: The id of the schedule
@@ -10118,52 +10276,35 @@ components:
           example: true
           title: enabled
           type: boolean
-        action:
-          description: The action that a schedule performs on a resource
-          example: stop
-          title: action
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          title: script_id
-          type: string
-        params:
-          description: Schedule parameters
-          example: Test parameters
-          title: params
-          type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
-        schedule_type:
-          description: The type of the schedule
-          example: crontab
-          title: schedule_type
-          type: string
-        schedule_entry:
-          description: "In case of One Off schedule type the date string that schedule\
-            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
-            \ and Crontab schedule types a JSON string with need time unit values.\
-            \ For Interval schedule type interval integer value and period string\
-            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
-            \ and month_of_year string values needed."
-          example: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"day_of_week\\\
-            \":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\":\\\
-            \"*\\\"}"
-          title: schedule_entry
-          type: string
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
         start_after:
           description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
             HH:MM:SS
-          example: 2022-05-28 00:00:00
+          example: 2022-06-01 T00:00:00
           title: start_after
           type: string
+        expires:
+          description: The date after that schedule expires. The format should be
+            ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          example: 2022-06-01 T00:00:00
+          title: expires
+          type: string
+        reminder:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder'
         run_immediately:
           description: Decides if the schedule runs immediately of not
-          example: true
+          example: false
           title: run_immediately
           type: boolean
         created_by:
@@ -10351,24 +10492,76 @@ components:
     ListRulesResponse:
       example:
         data:
-        - triggered_after: "{}"
-          name: name
-          data_type: data_type
-          disabled: disabled
+        - name: name
+          trigger_after:
+            period: period
+            offset: 5
+          description: description
           id: id
-          window: "{}"
-          queries: "{}"
-          actions: "{}"
-          frequency: "{}"
-        - triggered_after: "{}"
-          name: name
-          data_type: data_type
-          disabled: disabled
+          selectors:
+          - null
+          - null
+          conditions:
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          actions:
+          - null
+          - null
+          when: null
+          enabled: true
+        - name: name
+          trigger_after:
+            period: period
+            offset: 5
+          description: description
           id: id
-          window: "{}"
-          queries: "{}"
-          actions: "{}"
-          frequency: "{}"
+          selectors:
+          - null
+          - null
+          conditions:
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          actions:
+          - null
+          - null
+          when: null
+          enabled: true
         meta:
           total: 0
           start: 1
@@ -10387,15 +10580,41 @@ components:
     GetRuleResponse:
       example:
         data:
-          triggered_after: "{}"
           name: name
-          data_type: data_type
-          disabled: disabled
+          trigger_after:
+            period: period
+            offset: 5
+          description: description
           id: id
-          window: "{}"
-          queries: "{}"
-          actions: "{}"
-          frequency: "{}"
+          selectors:
+          - null
+          - null
+          conditions:
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          actions:
+          - null
+          - null
+          when: null
+          enabled: true
         meta:
           total: 0
           start: 1
@@ -10414,66 +10633,75 @@ components:
         trigger_after:
           period: period
           offset: 5
-        data_type: logs
-        window:
-          period: period
-          stop: 1
-          start: 6
+        description: description
         selectors:
         - null
         - null
-        queries:
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
+        conditions:
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
         actions:
         - null
         - null
-        frequency:
-          period: period
-          every: 5
+        when: null
+        enabled: true
       properties:
         name:
           description: The name of the rule
           example: new-rule
           title: name
           type: string
-        queries:
-          items:
-            $ref: '#/components/schemas/Query'
-          title: queries
-          type: array
-        window:
-          $ref: '#/components/schemas/Window'
-        frequency:
-          $ref: '#/components/schemas/Frequency'
-        trigger_after:
-          $ref: '#/components/schemas/TriggerAfter'
-        actions:
-          items:
-            $ref: '#/components/schemas/RuleAction'
-          title: actions
-          type: array
+        description:
+          description: The description of the rule
+          title: description
+          type: string
+        enabled:
+          description: "Rule status (enabled, disabled)"
+          example: true
+          title: enabled
+          type: boolean
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
-        data_type:
-          $ref: '#/components/schemas/DataType'
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          title: conditions
+          type: array
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
       required:
       - actions
-      - data_type
-      - frequency
+      - conditions
       - name
-      - queries
       - trigger_after
-      - window
       title: AddRuleRequest
       type: object
     EditRuleRequest:
@@ -10482,68 +10710,109 @@ components:
         trigger_after:
           period: period
           offset: 5
-        window:
-          period: period
-          stop: 1
-          start: 6
+        description: description
         selectors:
         - null
         - null
-        queries:
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
+        conditions:
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
         actions:
         - null
         - null
-        frequency:
-          period: period
-          every: 5
+        when: null
+        enabled: true
       properties:
         name:
           description: The name of the rule
           example: edited-rule
           title: name
           type: string
-        queries:
-          items:
-            $ref: '#/components/schemas/Query'
-          title: queries
-          type: array
-        window:
-          $ref: '#/components/schemas/Window'
-        frequency:
-          $ref: '#/components/schemas/Frequency'
-        trigger_after:
-          $ref: '#/components/schemas/TriggerAfter'
-        actions:
-          items:
-            $ref: '#/components/schemas/RuleAction'
-          title: actions
-          type: array
+        description:
+          description: The description of the rule
+          title: description
+          type: string
+        enabled:
+          description: "Rule status (enabled, disabled)"
+          example: true
+          title: enabled
+          type: boolean
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          title: conditions
+          type: array
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
       title: EditRuleRequest
       type: object
     Rule:
       example:
-        triggered_after: "{}"
         name: name
-        data_type: data_type
-        disabled: disabled
+        trigger_after:
+          period: period
+          offset: 5
+        description: description
         id: id
-        window: "{}"
-        queries: "{}"
-        actions: "{}"
-        frequency: "{}"
+        selectors:
+        - null
+        - null
+        conditions:
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        actions:
+        - null
+        - null
+        when: null
+        enabled: true
       properties:
         id:
           title: id
@@ -10551,32 +10820,57 @@ components:
         name:
           title: name
           type: string
-        queries:
-          title: queries
-          type: object
-        window:
-          title: window
-          type: object
-        frequency:
-          title: frequency
-          type: object
-        triggered_after:
-          title: triggered_after
-          type: object
+        description:
+          title: description
+          type: string
+        enabled:
+          title: enabled
+          type: boolean
+        selectors:
+          items:
+            $ref: '#/components/schemas/Selector'
+          title: selectors
+          type: array
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          title: conditions
+          type: array
         actions:
+          items:
+            $ref: '#/components/schemas/Action'
           title: actions
-          type: object
-        disabled:
-          title: disabled
-          type: string
-        data_type:
-          title: data_type
-          type: string
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
       title: Rule
+      type: object
+    Condition:
+      example:
+        query:
+          threshold: 1.4658129805029452
+          aggregation: aggregation
+          operator: operator
+          target: target
+        data_type: logs
+        window:
+          period: period
+          stop: 6
+          start: 0
+      properties:
+        data_type:
+          $ref: '#/components/schemas/DataType'
+        window:
+          $ref: '#/components/schemas/Window'
+        query:
+          $ref: '#/components/schemas/Query'
+      title: Condition
       type: object
     Query:
       example:
-        threshold: 0.8008281904610115
+        threshold: 1.4658129805029452
         aggregation: aggregation
         operator: operator
         target: target
@@ -10607,51 +10901,11 @@ components:
       - threshold
       title: Query
       type: object
-    Notification:
-      properties:
-        users:
-          description: "a list of user to be notified, denoted by their UUIDs\n"
-          items:
-            type: string
-          title: users
-          type: array
-        teams:
-          description: "a list of teams, denoted by their UUIDs, whose users will\
-            \ be\nnotified\n"
-          items:
-            type: string
-          title: teams
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to
-          items:
-            type: string
-          title: emails
-          type: array
-      title: Notification
-      type: object
-    MachineAction:
-      properties:
-        action:
-          description: |
-            the action to be performed
-          title: action
-          type: string
-      required:
-      - action
-      title: MachineAction
-      type: object
-    Queries:
-      items:
-        $ref: '#/components/schemas/Query'
-      title: queries
-      type: array
     Window:
       example:
         period: period
-        stop: 1
-        start: 6
+        stop: 6
+        start: 0
       properties:
         start:
           description: |
@@ -10674,25 +10928,6 @@ components:
       - start
       title: Window
       type: object
-    Frequency:
-      example:
-        period: period
-        every: 5
-      properties:
-        every:
-          description: |
-            a positive integer denoting how often the rule must be evaluated
-          title: every
-          type: integer
-        period:
-          description: "units of time, e.g. \"seconds\""
-          title: period
-          type: string
-      required:
-      - every
-      - period
-      title: Frequency
-      type: object
     TriggerAfter:
       example:
         period: period
@@ -10711,25 +10946,6 @@ components:
       - period
       title: TriggerAfter
       type: object
-    RuleAction:
-      allOf:
-      - $ref: '#/components/schemas/RuleAction_allOf'
-      - discriminator:
-          mapping:
-            notification: '#/components/schemas/Notification'
-            machine_action: '#/components/schemas/MachineAction'
-            run_script: '#/components/schemas/ScriptToRun'
-          propertyName: type
-        oneOf:
-        - $ref: '#/components/schemas/Notification'
-        - $ref: '#/components/schemas/MachineAction'
-        - $ref: '#/components/schemas/ScriptToRun'
-      title: RuleAction
-    RuleActions:
-      items:
-        $ref: '#/components/schemas/RuleAction'
-      title: actions
-      type: array
     Selectors:
       items:
         $ref: '#/components/schemas/Selector'
@@ -11392,6 +11608,90 @@ components:
       - secret
       title: EditSecretRequest
       type: object
+    ListTagsResponse:
+      example:
+        data:
+        - resources: "{}"
+          tag:
+            value: value
+            key: key
+        - resources: "{}"
+          tag:
+            value: value
+            key: key
+        meta:
+          total: 0
+          start: 1
+          sort: sort
+          returned: 6
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/ListTagsResponse_data'
+          title: data
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: ListTagsResponse
+      type: object
+    TagResourcesRequest:
+      example:
+        operations:
+        - resources:
+          - resource_type: null
+            resource_id: resource_id
+          - resource_type: null
+            resource_id: resource_id
+          operation: add
+          tags:
+          - value: value
+            key: key
+          - value: value
+            key: key
+        - resources:
+          - resource_type: null
+            resource_id: resource_id
+          - resource_type: null
+            resource_id: resource_id
+          operation: add
+          tags:
+          - value: value
+            key: key
+          - value: value
+            key: key
+      properties:
+        operations:
+          items:
+            $ref: '#/components/schemas/TagResourcesRequest_operations'
+          title: operations
+          type: array
+      title: TagResourcesRequest
+      type: object
+    Tag:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          title: key
+          type: string
+        value:
+          title: value
+          type: string
+      title: Tag
+      type: object
+    Resource:
+      example:
+        resource_type: null
+        resource_id: resource_id
+      properties:
+        resource_type:
+          $ref: '#/components/schemas/TaggableResourceTypes'
+        resource_id:
+          title: resource_id
+          type: string
+      title: Resource
+      type: object
     inline_response_200:
       example:
         id: id
@@ -11410,6 +11710,29 @@ components:
           type: string
       title: inline_response_200_1
       type: object
+    Action_allOf:
+      properties:
+        type:
+          description: "the action's type: notification, machine_action, run_script\n"
+          enum:
+          - notification
+          - machine_action
+          - run_script
+          title: type
+          type: string
+      required:
+      - type
+      title: Action_allOf
+    When_allOf:
+      properties:
+        schedule_type:
+          enum:
+          - crontab
+          - interval
+          - one_off
+          title: schedule_type
+          type: string
+      title: When_allOf
     AddCloudRequest_allOf:
       properties:
         name:
@@ -11736,20 +12059,15 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
-    RuleAction_allOf:
+    AddScheduleRequest_reminder:
+      example:
+        message: message
       properties:
-        type:
-          description: "the action's type: notification, machine_action, command,\
-            \ script\n"
-          enum:
-          - notification
-          - machine_action
-          - run_script
-          title: type
+        message:
+          description: The reminder message to be sent
+          title: message
           type: string
-      required:
-      - type
-      title: RuleAction_allOf
+      title: AddScheduleRequest_reminder
       type: object
     Datapoints_data:
       example:
@@ -11767,6 +12085,52 @@ components:
           title: result
           type: array
       title: Datapoints_data
+      type: object
+    ListTagsResponse_data:
+      example:
+        resources: "{}"
+        tag:
+          value: value
+          key: key
+      properties:
+        tag:
+          $ref: '#/components/schemas/Tag'
+        resources:
+          title: resources
+          type: object
+      title: ListTagsResponse_data
+      type: object
+    TagResourcesRequest_operations:
+      example:
+        resources:
+        - resource_type: null
+          resource_id: resource_id
+        - resource_type: null
+          resource_id: resource_id
+        operation: add
+        tags:
+        - value: value
+          key: key
+        - value: value
+          key: key
+      properties:
+        operation:
+          enum:
+          - add
+          - remove
+          title: operation
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          title: tags
+          type: array
+        resources:
+          items:
+            $ref: '#/components/schemas/Resource'
+          title: resources
+          type: array
+      title: TagResourcesRequest_operations
       type: object
   securitySchemes:
     ApiKeyAuth:
