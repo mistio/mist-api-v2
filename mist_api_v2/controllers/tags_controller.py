@@ -14,7 +14,7 @@ from mist_api_v2.models.tag_resources_request import TagResourcesRequest  # noqa
 log = logging.getLogger(__name__)
 
 
-def list_tags(verbose=None, resource=None, search='', sort='key', start=0, limit=100, only='', deref=None):  # noqa: E501
+def list_tags(types=None, search='', sort='key', start=0, limit=100, only='', deref=None):  # noqa: E501
     """List tags
 
     List tags on resources owned by the active org. READ permission required on each resource. # noqa: E501
@@ -43,8 +43,7 @@ def list_tags(verbose=None, resource=None, search='', sort='key', start=0, limit
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-
-    data, meta = get_tags(auth_context, verbose=verbose, resource=resource,
+    data, meta = get_tags(auth_context, types=types or [],
                           search=search, sort=sort, start=start, limit=limit,
                           only=only, deref=deref)
 
