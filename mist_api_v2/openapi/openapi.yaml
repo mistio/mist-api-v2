@@ -5067,27 +5067,19 @@ paths:
         required on each resource.
       operationId: list_tags
       parameters:
-      - description: Toggle displaying resource types and ids associated with each
-          key value pair
+      - description: Choose resource types to by displayed
         examples:
-          (default) Display only {key, value} pairs:
-            value: "False"
-          Also dispalay resource types and ids:
-            value: "True"
+          Display machines, clouds, scripts:
+            value: "machines,clouds,keys"
+          Display all:
+            value: all
+          (Default) Display none: {}
         explode: true
         in: query
-        name: verbose
+        name: types
         required: false
         schema:
-          type: boolean
-        style: form
-      - description: Display tags on a single resource
-        explode: true
-        in: query
-        name: resource
-        required: false
-        schema:
-          $ref: '#/components/schemas/TaggableResourceTypes'
+          $ref: '#/components/schemas/Types'
         style: form
       - description: Only return results matching search filter
         examples:
@@ -5197,9 +5189,11 @@ paths:
       x-cli-table-default:
       - key
       - value
+      - resources
       x-cli-table-extended:
       - key
       - value
+      - resources
       x-openapi-router-controller: mist_api_v2.controllers.tags_controller
     post:
       description: Batch operation for adding/removing tags from a list of resources.
@@ -11721,6 +11715,28 @@ components:
           type: string
       title: Resource
       type: object
+    Types:
+      nullable: true
+      type: string
+      x-extensible-enum:
+      - buckets
+      - clouds
+      - clusters
+      - images
+      - keys
+      - machines
+      - networks
+      - records
+      - schedules
+      - scripts
+      - stacks
+      - subnets
+      - templates
+      - tunnels
+      - volumes
+      - zones
+      - all
+      - null
     inline_response_200:
       example:
         id: id
