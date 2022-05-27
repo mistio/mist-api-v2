@@ -48,7 +48,6 @@ class TestSchedulesController:
         """
         add_schedule_request = setup_data.get('add_schedule', {}).get(
             'request_body') or json.loads("""{
-  "start_after" : "2022-06-01 T00:00:00",
   "expires" : "2022-06-01 T00:00:00",
   "reminder" : {
     "message" : "message",
@@ -102,7 +101,6 @@ class TestSchedulesController:
         """
         edit_schedule_request = setup_data.get('edit_schedule', {}).get(
             'request_body') or json.loads("""{
-  "start_after" : "2022-06-01 T00:00:00",
   "expires" : "2022-06-01 T00:00:00",
   "reminder" : {
     "message" : "message",

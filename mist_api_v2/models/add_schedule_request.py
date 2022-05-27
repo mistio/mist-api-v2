@@ -23,7 +23,7 @@ class AddScheduleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, enabled=None, selectors=None, actions=None, when=None, start_after=None, expires=None, reminder=None, run_immediately=None):  # noqa: E501
+    def __init__(self, name=None, description=None, enabled=None, selectors=None, actions=None, when=None, expires=None, reminder=None, run_immediately=None):  # noqa: E501
         """AddScheduleRequest - a model defined in OpenAPI
 
         :param name: The name of this AddScheduleRequest.  # noqa: E501
@@ -38,8 +38,6 @@ class AddScheduleRequest(Model):
         :type actions: List[Action]
         :param when: The when of this AddScheduleRequest.  # noqa: E501
         :type when: When
-        :param start_after: The start_after of this AddScheduleRequest.  # noqa: E501
-        :type start_after: str
         :param expires: The expires of this AddScheduleRequest.  # noqa: E501
         :type expires: str
         :param reminder: The reminder of this AddScheduleRequest.  # noqa: E501
@@ -54,7 +52,6 @@ class AddScheduleRequest(Model):
             'selectors': List[Selector],
             'actions': List[Action],
             'when': When,
-            'start_after': str,
             'expires': str,
             'reminder': AddScheduleRequestReminder,
             'run_immediately': bool
@@ -67,7 +64,6 @@ class AddScheduleRequest(Model):
             'selectors': 'selectors',
             'actions': 'actions',
             'when': 'when',
-            'start_after': 'start_after',
             'expires': 'expires',
             'reminder': 'reminder',
             'run_immediately': 'run_immediately'
@@ -79,7 +75,6 @@ class AddScheduleRequest(Model):
         self._selectors = selectors
         self._actions = actions
         self._when = when
-        self._start_after = start_after
         self._expires = expires
         self._reminder = reminder
         self._run_immediately = run_immediately
@@ -230,29 +225,6 @@ class AddScheduleRequest(Model):
         """
 
         self._when = when
-
-    @property
-    def start_after(self):
-        """Gets the start_after of this AddScheduleRequest.
-
-        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
-
-        :return: The start_after of this AddScheduleRequest.
-        :rtype: str
-        """
-        return self._start_after
-
-    @start_after.setter
-    def start_after(self, start_after):
-        """Sets the start_after of this AddScheduleRequest.
-
-        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
-
-        :param start_after: The start_after of this AddScheduleRequest.
-        :type start_after: str
-        """
-
-        self._start_after = start_after
 
     @property
     def expires(self):

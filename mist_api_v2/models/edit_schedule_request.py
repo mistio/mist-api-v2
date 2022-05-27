@@ -21,7 +21,7 @@ class EditScheduleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, enabled=None, actions=None, when=None, start_after=None, expires=None, reminder=None):  # noqa: E501
+    def __init__(self, name=None, description=None, enabled=None, actions=None, when=None, expires=None, reminder=None):  # noqa: E501
         """EditScheduleRequest - a model defined in OpenAPI
 
         :param name: The name of this EditScheduleRequest.  # noqa: E501
@@ -34,8 +34,6 @@ class EditScheduleRequest(Model):
         :type actions: List[Action]
         :param when: The when of this EditScheduleRequest.  # noqa: E501
         :type when: When
-        :param start_after: The start_after of this EditScheduleRequest.  # noqa: E501
-        :type start_after: str
         :param expires: The expires of this EditScheduleRequest.  # noqa: E501
         :type expires: str
         :param reminder: The reminder of this EditScheduleRequest.  # noqa: E501
@@ -47,7 +45,6 @@ class EditScheduleRequest(Model):
             'enabled': bool,
             'actions': List[Action],
             'when': When,
-            'start_after': str,
             'expires': str,
             'reminder': AddScheduleRequestReminder
         }
@@ -58,7 +55,6 @@ class EditScheduleRequest(Model):
             'enabled': 'enabled',
             'actions': 'actions',
             'when': 'when',
-            'start_after': 'start_after',
             'expires': 'expires',
             'reminder': 'reminder'
         }
@@ -68,7 +64,6 @@ class EditScheduleRequest(Model):
         self._enabled = enabled
         self._actions = actions
         self._when = when
-        self._start_after = start_after
         self._expires = expires
         self._reminder = reminder
 
@@ -193,29 +188,6 @@ class EditScheduleRequest(Model):
         """
 
         self._when = when
-
-    @property
-    def start_after(self):
-        """Gets the start_after of this EditScheduleRequest.
-
-        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
-
-        :return: The start_after of this EditScheduleRequest.
-        :rtype: str
-        """
-        return self._start_after
-
-    @start_after.setter
-    def start_after(self, start_after):
-        """Sets the start_after of this EditScheduleRequest.
-
-        The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS  # noqa: E501
-
-        :param start_after: The start_after of this EditScheduleRequest.
-        :type start_after: str
-        """
-
-        self._start_after = start_after
 
     @property
     def expires(self):

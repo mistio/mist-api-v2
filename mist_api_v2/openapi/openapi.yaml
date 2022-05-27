@@ -3961,7 +3961,7 @@ paths:
       - enabled
       - actions
       - selectors
-      - start_after
+      - when
       - run_immediately
       - owned_by
       - created_by
@@ -4098,7 +4098,7 @@ paths:
       - enabled
       - actions
       - selectors
-      - start_after
+      - when
       - run_immediately
       - owned_by
       - created_by
@@ -6079,6 +6079,108 @@ components:
       - $ref: '#/components/schemas/RunCommand'
       - $ref: '#/components/schemas/RunExistingScript'
       title: ScriptToRun
+      type: object
+    OneOffSchedule:
+      description: one_off schedule
+      properties:
+        schedule_type:
+          enum:
+          - one_off
+          title: schedule_type
+          type: string
+        datetime:
+          description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
+          format: date-time
+          title: datetime
+          type: string
+      required:
+      - datetime
+      - schedule_type
+      title: OneOff
+      type: object
+    CronSchedule:
+      description: crontab schedule
+      properties:
+        schedule_type:
+          enum:
+          - crontab
+          title: schedule_type
+          type: string
+        minute:
+          title: minute
+          type: string
+        hour:
+          title: hour
+          type: string
+        day_of_month:
+          title: day_of_month
+          type: string
+        month_of_year:
+          title: month_of_year
+          type: string
+        day_of_week:
+          title: day_of_week
+          type: string
+        start_after:
+          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
+          format: date-time
+          title: start_after
+          type: string
+        expires:
+          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
+          format: date-time
+          title: expires
+          type: string
+        max_run_count:
+          minimum: 1
+          title: max_run_count
+          type: integer
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
+      - schedule_type
+      title: Cron
+      type: object
+    IntervalSchedule:
+      description: interval schedule
+      properties:
+        schedule_type:
+          enum:
+          - interval
+          title: schedule_type
+          type: string
+        every:
+          title: every
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          title: period
+          type: string
+        start_after:
+          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
+          format: date-time
+          title: start_after
+          type: string
+        expires:
+          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
+          format: date-time
+          title: expires
+          type: string
+        max_run_count:
+          minimum: 1
+          title: max_run_count
+          type: integer
+      required:
+      - every
+      - period
+      - schedule_type
+      title: Interval
       type: object
     When:
       allOf:
@@ -9010,108 +9112,6 @@ components:
     Snapshot:
       title: Snapshot
       type: object
-    OneOffSchedule:
-      description: one_off schedule
-      properties:
-        schedule_type:
-          enum:
-          - one_off
-          title: schedule_type
-          type: string
-        datetime:
-          description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: datetime
-          type: string
-      required:
-      - datetime
-      - schedule_type
-      title: OneOff
-      type: object
-    CronSchedule:
-      description: crontab schedule
-      properties:
-        schedule_type:
-          enum:
-          - crontab
-          title: schedule_type
-          type: string
-        minute:
-          title: minute
-          type: string
-        hour:
-          title: hour
-          type: string
-        day_of_month:
-          title: day_of_month
-          type: string
-        month_of_year:
-          title: month_of_year
-          type: string
-        day_of_week:
-          title: day_of_week
-          type: string
-        start_after:
-          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: start_after
-          type: string
-        expires:
-          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: expires
-          type: string
-        max_run_count:
-          minimum: 1
-          title: max_run_count
-          type: integer
-      required:
-      - day_of_month
-      - day_of_week
-      - hour
-      - minute
-      - month_of_year
-      - schedule_type
-      title: Cron
-      type: object
-    IntervalSchedule:
-      description: interval schedule
-      properties:
-        schedule_type:
-          enum:
-          - interval
-          title: schedule_type
-          type: string
-        every:
-          title: every
-          type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          title: period
-          type: string
-        start_after:
-          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: start_after
-          type: string
-        expires:
-          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: expires
-          type: string
-        max_run_count:
-          minimum: 1
-          title: max_run_count
-          type: integer
-      required:
-      - every
-      - period
-      - schedule_type
-      title: Interval
-      type: object
     Expiration:
       example:
         date: 2000-01-23T04:56:07.000+00:00
@@ -10022,7 +10022,6 @@ components:
       type: object
     AddScheduleRequest:
       example:
-        start_after: 2022-06-01 T00:00:00
         expires: 2022-06-01 T00:00:00
         reminder:
           message: message
@@ -10068,12 +10067,6 @@ components:
           type: array
         when:
           $ref: '#/components/schemas/When'
-        start_after:
-          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-06-01 T00:00:00
-          title: start_after
-          type: string
         expires:
           description: The date after that schedule expires. The format should be
             ΥΥΥΥ-ΜΜ-DD HH:MM:SS
@@ -10094,7 +10087,6 @@ components:
       type: object
     EditScheduleRequest:
       example:
-        start_after: 2022-06-01 T00:00:00
         expires: 2022-06-01 T00:00:00
         reminder:
           message: message
@@ -10131,12 +10123,6 @@ components:
           type: array
         when:
           $ref: '#/components/schemas/When'
-        start_after:
-          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-06-01 T00:00:00
-          title: start_after
-          type: string
         expires:
           description: The date after that schedule expires. The format should be
             ΥΥΥΥ-ΜΜ-DD HH:MM:SS
@@ -10166,7 +10152,6 @@ components:
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-06-01 T00:00:00
           name: reboot-schedule
           id: id
           actions:
@@ -10188,7 +10173,6 @@ components:
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-06-01 T00:00:00
           name: reboot-schedule
           id: id
           actions:
@@ -10228,7 +10212,6 @@ components:
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-06-01 T00:00:00
           name: reboot-schedule
           id: id
           actions:
@@ -10264,7 +10247,6 @@ components:
         created_by: Manager A
         enabled: true
         tags: "{}"
-        start_after: 2022-06-01 T00:00:00
         name: reboot-schedule
         id: id
         actions:
@@ -10306,12 +10288,6 @@ components:
           type: array
         when:
           $ref: '#/components/schemas/When'
-        start_after:
-          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-06-01 T00:00:00
-          title: start_after
-          type: string
         expires:
           description: The date after that schedule expires. The format should be
             ΥΥΥΥ-ΜΜ-DD HH:MM:SS
