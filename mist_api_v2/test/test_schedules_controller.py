@@ -51,7 +51,11 @@ class TestSchedulesController:
   "start_after" : "2022-06-01 T00:00:00",
   "expires" : "2022-06-01 T00:00:00",
   "reminder" : {
-    "message" : "message"
+    "message" : "message",
+    "when" : {
+      "unit" : "seconds",
+      "value" : 0
+    }
   },
   "name" : "backup-schedule",
   "description" : "Backup schedule",
@@ -101,7 +105,11 @@ class TestSchedulesController:
   "start_after" : "2022-06-01 T00:00:00",
   "expires" : "2022-06-01 T00:00:00",
   "reminder" : {
-    "message" : "message"
+    "message" : "message",
+    "when" : {
+      "unit" : "seconds",
+      "value" : 0
+    }
   },
   "name" : "schedule-name",
   "description" : "Edited Schedule",

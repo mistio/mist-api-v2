@@ -15,6 +15,7 @@ from mist_api_v2.models.add_key_response import AddKeyResponse
 from mist_api_v2.models.add_rule_request import AddRuleRequest
 from mist_api_v2.models.add_schedule_request import AddScheduleRequest
 from mist_api_v2.models.add_schedule_request_reminder import AddScheduleRequestReminder
+from mist_api_v2.models.add_schedule_request_reminder_when import AddScheduleRequestReminderWhen
 from mist_api_v2.models.add_script_request import AddScriptRequest
 from mist_api_v2.models.age_selector import AgeSelector
 from mist_api_v2.models.alibaba_cloud_request import AlibabaCloudRequest

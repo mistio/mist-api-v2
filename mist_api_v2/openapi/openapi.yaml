@@ -10026,6 +10026,9 @@ components:
         expires: 2022-06-01 T00:00:00
         reminder:
           message: message
+          when:
+            unit: seconds
+            value: 0
         name: backup-schedule
         description: Backup schedule
         run_immediately: false
@@ -10095,6 +10098,9 @@ components:
         expires: 2022-06-01 T00:00:00
         reminder:
           message: message
+          when:
+            unit: seconds
+            value: 0
         name: schedule-name
         description: Edited Schedule
         actions:
@@ -10147,6 +10153,9 @@ components:
         - expires: 2022-06-01 T00:00:00
           reminder:
             message: message
+            when:
+              unit: seconds
+              value: 0
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10166,6 +10175,9 @@ components:
         - expires: 2022-06-01 T00:00:00
           reminder:
             message: message
+            when:
+              unit: seconds
+              value: 0
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10203,6 +10215,9 @@ components:
           expires: 2022-06-01 T00:00:00
           reminder:
             message: message
+            when:
+              unit: seconds
+              value: 0
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10236,6 +10251,9 @@ components:
         expires: 2022-06-01 T00:00:00
         reminder:
           message: message
+          when:
+            unit: seconds
+            value: 0
         description: This is an test schedule
         owned_by: Officer B
         run_immediately: false
@@ -10847,27 +10865,6 @@ components:
           $ref: '#/components/schemas/TriggerAfter'
       title: Rule
       type: object
-    Condition:
-      example:
-        query:
-          threshold: 1.4658129805029452
-          aggregation: aggregation
-          operator: operator
-          target: target
-        data_type: logs
-        window:
-          period: period
-          stop: 6
-          start: 0
-      properties:
-        data_type:
-          $ref: '#/components/schemas/DataType'
-        window:
-          $ref: '#/components/schemas/Window'
-        query:
-          $ref: '#/components/schemas/Query'
-      title: Condition
-      type: object
     Query:
       example:
         threshold: 1.4658129805029452
@@ -10957,6 +10954,27 @@ components:
       example: logs
       title: DataType
       type: string
+    Condition:
+      example:
+        query:
+          threshold: 1.4658129805029452
+          aggregation: aggregation
+          operator: operator
+          target: target
+        data_type: logs
+        window:
+          period: period
+          stop: 6
+          start: 0
+      properties:
+        data_type:
+          $ref: '#/components/schemas/DataType'
+        window:
+          $ref: '#/components/schemas/Window'
+        query:
+          $ref: '#/components/schemas/Query'
+      title: Condition
+      type: object
     ListOrgsResponse:
       example:
         data:
@@ -12059,14 +12077,37 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
+    AddScheduleRequest_reminder_when:
+      example:
+        unit: seconds
+        value: 0
+      properties:
+        value:
+          title: value
+          type: integer
+        unit:
+          enum:
+          - seconds
+          - minutes
+          - hours
+          - days
+          title: unit
+          type: string
+      title: AddScheduleRequest_reminder_when
+      type: object
     AddScheduleRequest_reminder:
       example:
         message: message
+        when:
+          unit: seconds
+          value: 0
       properties:
         message:
           description: The reminder message to be sent
           title: message
           type: string
+        when:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder_when'
       title: AddScheduleRequest_reminder
       type: object
     Datapoints_data:
