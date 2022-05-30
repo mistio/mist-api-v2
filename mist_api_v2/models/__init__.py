@@ -153,7 +153,6 @@ from mist_api_v2.models.log import Log
 from mist_api_v2.models.lxd_cloud_request import LxdCloudRequest
 from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2.models.machine import Machine
-from mist_api_v2.models.machine_action import MachineAction
 from mist_api_v2.models.machine_state import MachineState
 from mist_api_v2.models.maxihost_cloud_request import MaxihostCloudRequest
 from mist_api_v2.models.maxihost_credentials import MaxihostCredentials
@@ -175,6 +174,8 @@ from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
 from mist_api_v2.models.resource import Resource
+from mist_api_v2.models.resource_action import ResourceAction
+from mist_api_v2.models.resource_action_all_of import ResourceActionAllOf
 from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule

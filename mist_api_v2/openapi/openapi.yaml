@@ -6006,26 +6006,20 @@ components:
       - $ref: '#/components/schemas/Action_allOf'
       - oneOf:
         - $ref: '#/components/schemas/Notification'
-        - $ref: '#/components/schemas/MachineAction'
+        - $ref: '#/components/schemas/ResourceAction'
         - $ref: '#/components/schemas/ScriptToRun'
       discriminator:
         mapping:
           notification: '#/components/schemas/Notification'
-          machine_action: '#/components/schemas/MachineAction'
+          resource_action: '#/components/schemas/ResourceAction'
           run_script: '#/components/schemas/ScriptToRun'
         propertyName: type
       title: Action
       type: object
-    MachineAction:
-      properties:
-        action:
-          description: |
-            the action to be performed
-          title: action
-          type: string
-      required:
-      - action
-      title: MachineAction
+    ResourceAction:
+      allOf:
+      - $ref: '#/components/schemas/ResourceAction_allOf'
+      title: ResourceAction
       type: object
     Notification:
       properties:
@@ -11707,16 +11701,33 @@ components:
     Action_allOf:
       properties:
         type:
-          description: "the action's type: notification, machine_action, run_script\n"
+          description: "the action's type: notification, resource_action, run_script\n"
           enum:
           - notification
-          - machine_action
+          - resource_action
           - run_script
           title: type
           type: string
       required:
       - type
       title: Action_allOf
+    ResourceAction_allOf:
+      properties:
+        type:
+          description: |
+            the type of the action to be executed
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          - notify
+          - delete
+          title: type
+          type: string
+      required:
+      - action
+      title: ResourceAction_allOf
     When_allOf:
       properties:
         schedule_type:

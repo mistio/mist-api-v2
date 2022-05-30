@@ -182,7 +182,6 @@ mist_api_v2/models/lxd_credentials.py
 mist_api_v2/models/lxd_extra.py
 mist_api_v2/models/lxd_net.py
 mist_api_v2/models/machine.py
-mist_api_v2/models/machine_action.py
 mist_api_v2/models/machine_state.py
 mist_api_v2/models/maxihost_cloud_request.py
 mist_api_v2/models/maxihost_credentials.py
@@ -204,6 +203,8 @@ mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
 mist_api_v2/models/resource.py
+mist_api_v2/models/resource_action.py
+mist_api_v2/models/resource_action_all_of.py
 mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
