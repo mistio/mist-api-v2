@@ -3972,6 +3972,32 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              RebootMachineOneOffSchedule:
+                summary: Create a reboot machine schedule that runs once
+                value:
+                  actions:
+                  - reboot
+                  description: Backup schedule
+                  enabled: true
+                  expires: 2022-06-01T00:00:00Z
+                  name: backup-schedule
+                  reminder:
+                    message: message
+                    when:
+                      unit: seconds
+                      value: 10
+                  run_immediately: false
+                  selectors:
+                    ResourceSelector:
+                      type: machines
+                      ids:
+                      - 738f633d987148a8b2c1628e0cd416b4
+                  when:
+                    schedule_type: one_off
+                    OneOffSchedule:
+                      datetime: 2022-06-22T18:19:28Z
+                      schedule_type: one_off
             schema:
               $ref: '#/components/schemas/AddScheduleRequest'
       responses:
@@ -6080,10 +6106,12 @@ components:
         schedule_type:
           enum:
           - one_off
+          example: one_off
           title: schedule_type
           type: string
         datetime:
           description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
+          example: 2022-06-22T18:19:28Z
           format: date-time
           title: datetime
           type: string
@@ -6098,34 +6126,43 @@ components:
         schedule_type:
           enum:
           - crontab
+          example: crontab
           title: schedule_type
           type: string
         minute:
+          example: '*'
           title: minute
           type: string
         hour:
+          example: '*'
           title: hour
           type: string
         day_of_month:
+          example: "0"
           title: day_of_month
           type: string
         month_of_year:
+          example: "0"
           title: month_of_year
           type: string
         day_of_week:
+          example: '*'
           title: day_of_week
           type: string
         start_after:
           description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
+          example: 2022-07-22T18:19:28Z
           format: date-time
           title: start_after
           type: string
         expires:
           description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
+          example: 2022-08-29T18:19:28Z
           format: date-time
           title: expires
           type: string
         max_run_count:
+          example: 5
           minimum: 1
           title: max_run_count
           type: integer
@@ -6144,9 +6181,11 @@ components:
         schedule_type:
           enum:
           - interval
+          example: interval
           title: schedule_type
           type: string
         every:
+          example: 20
           title: every
           type: integer
         period:
@@ -6154,19 +6193,23 @@ components:
           - minutes
           - hours
           - days
+          example: hours
           title: period
           type: string
         start_after:
           description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
+          example: 2022-10-22T18:19:28Z
           format: date-time
           title: start_after
           type: string
         expires:
           description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
+          example: 2022-12-22T18:19:28Z
           format: date-time
           title: expires
           type: string
         max_run_count:
+          example: 10
           minimum: 1
           title: max_run_count
           type: integer
@@ -6257,11 +6300,14 @@ components:
           - volumes
           - clusters
           - networks
+          example: machines
           title: type
           type: string
         ids:
           description: "a list of UUIDs in case type is resource like \"machines\"\
             , \"volumes\", \"clusters\" or \"networks\""
+          example:
+          - 738f633d987148a8b2c1628e0cd416b4
           items:
             type: string
           title: ids
@@ -6274,6 +6320,7 @@ components:
           description: field type
           enum:
           - field
+          example: field
           title: type
           type: string
         field:
@@ -6302,6 +6349,7 @@ components:
           description: tag type
           enum:
           - tags
+          example: tags
           title: type
           type: string
         include:
@@ -6318,6 +6366,7 @@ components:
           description: age type
           enum:
           - age
+          example: age
           title: type
           type: string
         minutes:
@@ -11735,6 +11784,7 @@ components:
           - crontab
           - interval
           - one_off
+          example: one_off
           title: schedule_type
           type: string
       title: When_allOf
