@@ -5079,7 +5079,7 @@ paths:
         name: types
         required: false
         schema:
-          $ref: '#/components/schemas/Types'
+          type: string
         style: form
       - description: Only return results matching search filter
         examples:
@@ -5189,11 +5189,43 @@ paths:
       x-cli-table-default:
       - key
       - value
-      - resources
+      - buckets
+      - clouds
+      - clusters
+      - images
+      - keys
+      - machines
+      - networks
+      - records
+      - schedules
+      - scripts
+      - secrets
+      - stacks
+      - subnets
+      - templates
+      - tunnels
+      - volumes
+      - zones
       x-cli-table-extended:
       - key
       - value
-      - resources
+      - buckets
+      - clouds
+      - clusters
+      - images
+      - keys
+      - machines
+      - networks
+      - records
+      - schedules
+      - scripts
+      - secrets
+      - stacks
+      - subnets
+      - templates
+      - tunnels
+      - volumes
+      - zones
       x-openapi-router-controller: mist_api_v2.controllers.tags_controller
     post:
       description: Batch operation for adding/removing tags from a list of resources.
@@ -6216,6 +6248,7 @@ components:
       - records
       - schedules
       - scripts
+      - secrets
       - stacks
       - subnets
       - templates
@@ -11715,28 +11748,6 @@ components:
           type: string
       title: Resource
       type: object
-    Types:
-      nullable: true
-      type: string
-      x-extensible-enum:
-      - buckets
-      - clouds
-      - clusters
-      - images
-      - keys
-      - machines
-      - networks
-      - records
-      - schedules
-      - scripts
-      - stacks
-      - subnets
-      - templates
-      - tunnels
-      - volumes
-      - zones
-      - all
-      - null
     inline_response_200:
       example:
         id: id
