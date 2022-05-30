@@ -11667,11 +11667,17 @@ components:
     ListTagsResponse:
       example:
         data:
-        - resources: "{}"
+        - resources:
+            key:
+            - resources
+            - resources
           tag:
             value: value
             key: key
-        - resources: "{}"
+        - resources:
+            key:
+            - resources
+            - resources
           tag:
             value: value
             key: key
@@ -12111,7 +12117,10 @@ components:
       type: object
     ListTagsResponse_data:
       example:
-        resources: "{}"
+        resources:
+          key:
+          - resources
+          - resources
         tag:
           value: value
           key: key
@@ -12119,6 +12128,45 @@ components:
         tag:
           $ref: '#/components/schemas/Tag'
         resources:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          properties:
+            buckets:
+              type: string
+            clouds:
+              type: string
+            clusters:
+              type: string
+            images:
+              type: string
+            keys:
+              type: string
+            machines:
+              type: string
+            networks:
+              type: string
+            records:
+              type: string
+            schedules:
+              type: string
+            scripts:
+              type: string
+            secrets:
+              type: string
+            stacks:
+              type: string
+            subnets:
+              type: string
+            templates:
+              type: string
+            tunnels:
+              type: string
+            volumes:
+              type: string
+            zones:
+              type: string
           title: resources
           type: object
       title: ListTagsResponse_data

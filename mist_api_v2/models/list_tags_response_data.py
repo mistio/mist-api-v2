@@ -23,11 +23,11 @@ class ListTagsResponseData(Model):
         :param tag: The tag of this ListTagsResponseData.  # noqa: E501
         :type tag: Tag
         :param resources: The resources of this ListTagsResponseData.  # noqa: E501
-        :type resources: object
+        :type resources: Dict[str, List[str]]
         """
         self.openapi_types = {
             'tag': Tag,
-            'resources': object
+            'resources': Dict[str, List[str]]
         }
 
         self.attribute_map = {
@@ -76,7 +76,7 @@ class ListTagsResponseData(Model):
 
 
         :return: The resources of this ListTagsResponseData.
-        :rtype: object
+        :rtype: Dict[str, List[str]]
         """
         return self._resources
 
@@ -86,7 +86,7 @@ class ListTagsResponseData(Model):
 
 
         :param resources: The resources of this ListTagsResponseData.
-        :type resources: object
+        :type resources: Dict[str, List[str]]
         """
 
         self._resources = resources
