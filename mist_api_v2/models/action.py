@@ -17,7 +17,7 @@ class Action(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, users=None, teams=None, emails=None, command=None, script=None, params=None):  # noqa: E501
+    def __init__(self, type=None, users=None, teams=None, emails=None, action=None, command=None, script=None, params=None):  # noqa: E501
         """Action - a model defined in OpenAPI
 
         :param type: The type of this Action.  # noqa: E501
@@ -28,6 +28,8 @@ class Action(Model):
         :type teams: List[str]
         :param emails: The emails of this Action.  # noqa: E501
         :type emails: List[str]
+        :param action: The action of this Action.  # noqa: E501
+        :type action: str
         :param command: The command of this Action.  # noqa: E501
         :type command: str
         :param script: The script of this Action.  # noqa: E501
@@ -40,6 +42,7 @@ class Action(Model):
             'users': List[str],
             'teams': List[str],
             'emails': List[str],
+            'action': str,
             'command': str,
             'script': str,
             'params': str
@@ -50,6 +53,7 @@ class Action(Model):
             'users': 'users',
             'teams': 'teams',
             'emails': 'emails',
+            'action': 'action',
             'command': 'command',
             'script': 'script',
             'params': 'params'
@@ -59,6 +63,7 @@ class Action(Model):
         self._users = users
         self._teams = teams
         self._emails = emails
+        self._action = action
         self._command = command
         self._script = script
         self._params = params
@@ -78,7 +83,7 @@ class Action(Model):
     def type(self):
         """Gets the type of this Action.
 
-        the type of the action to be executed   # noqa: E501
+        the action's type: notification, resource_action, run_script   # noqa: E501
 
         :return: The type of this Action.
         :rtype: str
@@ -89,12 +94,12 @@ class Action(Model):
     def type(self, type):
         """Sets the type of this Action.
 
-        the type of the action to be executed   # noqa: E501
+        the action's type: notification, resource_action, run_script   # noqa: E501
 
         :param type: The type of this Action.
         :type type: str
         """
-        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete"]  # noqa: E501
+        allowed_values = ["notification", "resource_action", "run_script"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"
@@ -171,6 +176,35 @@ class Action(Model):
         """
 
         self._emails = emails
+
+    @property
+    def action(self):
+        """Gets the action of this Action.
+
+        the type of the action to be executed   # noqa: E501
+
+        :return: The action of this Action.
+        :rtype: str
+        """
+        return self._action
+
+    @action.setter
+    def action(self, action):
+        """Sets the action of this Action.
+
+        the type of the action to be executed   # noqa: E501
+
+        :param action: The action of this Action.
+        :type action: str
+        """
+        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete"]  # noqa: E501
+        if action not in allowed_values:
+            raise ValueError(
+                "Invalid value for `action` ({0}), must be one of {1}"
+                .format(action, allowed_values)
+            )
+
+        self._action = action
 
     @property
     def command(self):

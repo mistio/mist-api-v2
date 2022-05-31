@@ -175,7 +175,6 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
 from mist_api_v2.models.resource import Resource
 from mist_api_v2.models.resource_action import ResourceAction
-from mist_api_v2.models.resource_action_all_of import ResourceActionAllOf
 from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
