@@ -54,7 +54,7 @@ class TestSearchTags:
             params=query_string).get()
         assert_response_ok(response)
         print(response.json()['data'])
-        assert_equal(response['meta']['total'], setup_data['N_KEYS'])
+        assert_equal(response.json()['meta']['total'], setup_data['N_KEYS'])
 
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
         response = MistRequests(
