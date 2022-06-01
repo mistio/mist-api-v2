@@ -1695,6 +1695,19 @@ paths:
           format: date-time
           type: string
         style: form
+      - description: "Machine types to exclude, separated by commas"
+        examples:
+          Exclude pods & containers:
+            value: "pods,containers"
+          Exclude hypervisors:
+            value: hypervisors
+        explode: true
+        in: query
+        name: excludedTypes
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:

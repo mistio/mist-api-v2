@@ -263,7 +263,8 @@ class TestMachinesController:
                         ('limit', 56),
                         ('only', 'id'),
                         ('deref', 'auto'),
-                        ('at', '2021-07-21T17:32:28Z')]
+                        ('at', '2021-07-21T17:32:28Z'),
+                        ('excludedTypes', 'pods,containers')]
         uri = MIST_URL + '/api/v2/machines'
         request = MistRequests(
             api_token=owner_api_token,
