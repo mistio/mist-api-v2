@@ -40,10 +40,9 @@ class TestSearchTags:
     """Search by tags in list_keys test stubs"""
     def search_keys_template(self, owner_api_token, query_string):
         print(datetime.now().time())
-        print("The tagged resources are ", setup_data['tagged'])
+        print(f"The tagged resources are {setup_data['tagged']} \n")
         print("Hitting the api:")
 
-        
         response = MistRequests(
             api_token=owner_api_token,
             uri=KEYS_URI,
@@ -58,11 +57,9 @@ class TestSearchTags:
 
     def test_search_fulltag(self, pretty_print, owner_api_token):
         """Test case for search Keys by full tag=key:value"""
-        print(datetime.now().time())
-        print("The tagged resources are ", setup_data['tagged'])
 
-        print("Hitting the api:")
         # Checking if all Keys exist:
+        print('Checking if all Keys exist:\n')
         query_string = [('only', 'id')]
 
         response = MistRequests(
@@ -73,37 +70,33 @@ class TestSearchTags:
         print(response.json()['data'])
         assert_equal(response.json()['meta']['total'], setup_data['N_KEYS'])
         time.sleep(1)
-        
+
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
         self.search_keys_template(owner_api_token, query_string)
 
     def test_search_only_tagkey(self, pretty_print, owner_api_token):
         """Test case for search Keys by tagkey"""
-        
+
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template( owner_api_token, query_string)
-        
+        self.search_keys_template(owner_api_token, query_string)
 
     def test_search_only_tagvalue(self, pretty_print, owner_api_token):
         """Test case for search Keys by tagValue"""
-       
+
         query_string = [('search', 'tag:,value1'), ('only', 'id')]
         self.search_keys_template(owner_api_token, query_string)
 
     def test_search_implicit_tagkey(self, pretty_print, owner_api_token):
         """Test case for implicit search Keys by tagKey"""
-        
+
         query_string = [('search', 'dev'), ('only', 'id')]
         self.search_keys_template(owner_api_token, query_string)
 
-
     def test_search_implicit_tagValue(self, pretty_print, owner_api_token):
         """Test case for implicit search Keys by tagValue"""
-        
 
         query_string = [('search', 'value1'), ('only', 'id')]
         self.search_keys_template(owner_api_token, query_string)
-
 
     # def test_untag_and_search_tags(self, pretty_print, owner_api_token):
     #     """Test case for searching keys by tags when no
