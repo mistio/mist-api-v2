@@ -3638,6 +3638,43 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              AddStopMachineIntervalRule:
+                summary: Create a rule that stops a machine when a sum equals to 10
+                  and is evaluated every 2 hours
+                value:
+                  actions:
+                  - stop
+                  conditions:
+                    data_type: logs
+                    query:
+                      aggregation: sum
+                      operator: eq
+                      target: 10
+                      threshold: 9.5
+                    window:
+                      period: hours
+                      start: 0
+                      stop: 2
+                  description: rule that stops a machine when a sum equals to 10 and
+                    is evaluated every 2 hours
+                  enabled: true
+                  name: AddStopMachineIntervalRule
+                  selectors:
+                    ResourceSelector:
+                      type: machines
+                      ids:
+                      - 738f633d987148a8b2c1628e0cd416b4
+                  trigger_after:
+                    offset: 5
+                    period: minutes
+                  when:
+                    schedule_type: interval
+                    IntervalSchedule:
+                      schedule_type: interval
+                      every: 2
+                      period: hours
+                      start_after: 2022-10-22T18:19:28Z
             schema:
               $ref: '#/components/schemas/AddRuleRequest'
       responses:
@@ -3813,6 +3850,41 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              EditRebootMachineOneOffRule:
+                summary: Edit a rule that reboots a machine when a sum equals to 10
+                  and is evaluated once
+                value:
+                  actions:
+                  - reboot
+                  conditions:
+                    data_type: logs
+                    query:
+                      aggregation: sum
+                      operator: eq
+                      target: 10
+                      threshold: 9.5
+                    window:
+                      period: hours
+                      start: 0
+                      stop: 2
+                  description: Rule that reboots a machine when a sum equals to 10
+                    and is evaluated once
+                  enabled: true
+                  name: EditRebootMachineOneOffRule
+                  selectors:
+                    ResourceSelector:
+                      type: machines
+                      ids:
+                      - 738f633d987148a8b2c1628e0cd416b4
+                  trigger_after:
+                    offset: 20
+                    period: minutes
+                  when:
+                    schedule_type: one_off
+                    OneOffSchedule:
+                      datetime: 2022-06-22T18:19:28Z
+                      schedule_type: one_off
             schema:
               $ref: '#/components/schemas/EditRuleRequest'
       responses:
