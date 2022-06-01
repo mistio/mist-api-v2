@@ -88,6 +88,9 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
             if not modify_security_tags(auth_context, tags, resource_obj):
                 return 'You are not authorized to perform this action', 403
 
+            log.info('CONTROLLER %s tags %s on resource %s',
+                     op.operation or 'add', tags, resource_id)
+
             if not op.operation or op.operation == 'add':
                 add_tags_to_resource(auth_context.owner, resource_obj,
                                      tags)
