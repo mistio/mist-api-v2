@@ -3645,14 +3645,13 @@ paths:
                 value:
                   actions:
                     type: resource_action
-                    ResourceAction:
-                      action: stop
+                    action: stop
                   conditions:
                     data_type: logs
                     query:
                       aggregation: sum
                       operator: eq
-                      target: 10
+                      target: "10"
                       threshold: 9.5
                     window:
                       period: hours
@@ -3663,10 +3662,9 @@ paths:
                   enabled: true
                   name: NewStopMachineIntervalRule
                   selectors:
-                    ResourceSelector:
-                      type: machines
-                      ids:
-                      - 738f633d987148a8b2c1628e0cd416b4
+                    type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
                   trigger_after:
                     offset: 5
                     period: minutes
@@ -4075,8 +4073,7 @@ paths:
                 value:
                   actions:
                     type: resource_action
-                    ResourceAction:
-                      action: reboot
+                    action: reboot
                   description: Backup schedule
                   enabled: true
                   expires: 2022-06-01T00:00:00Z
@@ -4088,15 +4085,12 @@ paths:
                       value: 10
                   run_immediately: false
                   selectors:
-                    ResourceSelector:
-                      type: machines
-                      ids:
-                      - 738f633d987148a8b2c1628e0cd416b4
+                    type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
                   when:
+                    datetime: 2022-06-22T18:19:28Z
                     schedule_type: one_off
-                    OneOffSchedule:
-                      datetime: 2022-06-22T18:19:28Z
-                      schedule_type: one_off
             schema:
               $ref: '#/components/schemas/AddScheduleRequest'
       responses:
