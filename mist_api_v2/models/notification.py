@@ -15,9 +15,11 @@ class Notification(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, users=None, teams=None, emails=None):  # noqa: E501
+    def __init__(self, type=None, users=None, teams=None, emails=None):  # noqa: E501
         """Notification - a model defined in OpenAPI
 
+        :param type: The type of this Notification.  # noqa: E501
+        :type type: str
         :param users: The users of this Notification.  # noqa: E501
         :type users: List[str]
         :param teams: The teams of this Notification.  # noqa: E501
@@ -26,17 +28,20 @@ class Notification(Model):
         :type emails: List[str]
         """
         self.openapi_types = {
+            'type': str,
             'users': List[str],
             'teams': List[str],
             'emails': List[str]
         }
 
         self.attribute_map = {
+            'type': 'type',
             'users': 'users',
             'teams': 'teams',
             'emails': 'emails'
         }
 
+        self._type = type
         self._users = users
         self._teams = teams
         self._emails = emails
@@ -51,6 +56,33 @@ class Notification(Model):
         :rtype: Notification
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def type(self):
+        """Gets the type of this Notification.
+
+
+        :return: The type of this Notification.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Notification.
+
+
+        :param type: The type of this Notification.
+        :type type: str
+        """
+        allowed_values = ["notification"]  # noqa: E501
+        if type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `type` ({0}), must be one of {1}"
+                .format(type, allowed_values)
+            )
+
+        self._type = type
 
     @property
     def users(self):

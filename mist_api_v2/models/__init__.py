@@ -186,6 +186,7 @@ from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
 from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.script_to_run import ScriptToRun
+from mist_api_v2.models.script_to_run_all_of import ScriptToRunAllOf
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size

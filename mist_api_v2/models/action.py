@@ -83,7 +83,6 @@ class Action(Model):
     def type(self):
         """Gets the type of this Action.
 
-        the action's type: notification, resource_action, run_script   # noqa: E501
 
         :return: The type of this Action.
         :rtype: str
@@ -94,12 +93,11 @@ class Action(Model):
     def type(self, type):
         """Sets the type of this Action.
 
-        the action's type: notification, resource_action, run_script   # noqa: E501
 
         :param type: The type of this Action.
         :type type: str
         """
-        allowed_values = ["notification", "resource_action", "run_script"]  # noqa: E501
+        allowed_values = ["run_script"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"

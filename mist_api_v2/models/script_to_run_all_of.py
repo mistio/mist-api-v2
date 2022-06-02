@@ -46,7 +46,6 @@ class ScriptToRunAllOf(Model):
     def type(self):
         """Gets the type of this ScriptToRunAllOf.
 
-        the script's type: inline, existing   # noqa: E501
 
         :return: The type of this ScriptToRunAllOf.
         :rtype: str
@@ -57,12 +56,11 @@ class ScriptToRunAllOf(Model):
     def type(self, type):
         """Sets the type of this ScriptToRunAllOf.
 
-        the script's type: inline, existing   # noqa: E501
 
         :param type: The type of this ScriptToRunAllOf.
         :type type: str
         """
-        allowed_values = ["inline", "existing"]  # noqa: E501
+        allowed_values = ["run_script"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"

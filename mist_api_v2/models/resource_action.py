@@ -15,20 +15,25 @@ class ResourceAction(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, action=None):  # noqa: E501
+    def __init__(self, type=None, action=None):  # noqa: E501
         """ResourceAction - a model defined in OpenAPI
 
+        :param type: The type of this ResourceAction.  # noqa: E501
+        :type type: str
         :param action: The action of this ResourceAction.  # noqa: E501
         :type action: str
         """
         self.openapi_types = {
+            'type': str,
             'action': str
         }
 
         self.attribute_map = {
+            'type': 'type',
             'action': 'action'
         }
 
+        self._type = type
         self._action = action
 
     @classmethod
@@ -41,6 +46,33 @@ class ResourceAction(Model):
         :rtype: ResourceAction
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def type(self):
+        """Gets the type of this ResourceAction.
+
+
+        :return: The type of this ResourceAction.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this ResourceAction.
+
+
+        :param type: The type of this ResourceAction.
+        :type type: str
+        """
+        allowed_values = ["resource_action"]  # noqa: E501
+        if type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `type` ({0}), must be one of {1}"
+                .format(type, allowed_values)
+            )
+
+        self._type = type
 
     @property
     def action(self):
