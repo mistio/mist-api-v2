@@ -3639,7 +3639,7 @@ paths:
         content:
           application/json:
             examples:
-              AddStopMachineIntervalRule:
+              NewStopMachineIntervalRule:
                 summary: Create a rule that stops a machine when a sum equals to 10
                   and is evaluated every 2 hours
                 value:
@@ -3661,7 +3661,7 @@ paths:
                   description: rule that stops a machine when a sum equals to 10 and
                     is evaluated every 2 hours
                   enabled: true
-                  name: AddStopMachineIntervalRule
+                  name: NewStopMachineIntervalRule
                   selectors:
                     ResourceSelector:
                       type: machines
@@ -3853,7 +3853,7 @@ paths:
         content:
           application/json:
             examples:
-              EditRebootMachineOneOffRule:
+              EditedRebootMachineOneOffRule:
                 summary: Edit a rule that reboots a machine when a sum equals to 10
                   and is evaluated once
                 value:
@@ -3875,7 +3875,7 @@ paths:
                   description: Rule that reboots a machine when a sum equals to 10
                     and is evaluated once
                   enabled: true
-                  name: EditRebootMachineOneOffRule
+                  name: EditedRebootMachineOneOffRule
                   selectors:
                     ResourceSelector:
                       type: machines
@@ -4076,7 +4076,7 @@ paths:
         content:
           application/json:
             examples:
-              AddRebootMachineOneOffSchedule:
+              NewRebootMachineOneOffSchedule:
                 summary: Create a reboot machine schedule that runs once
                 value:
                   actions:
@@ -4086,7 +4086,7 @@ paths:
                   description: Backup schedule
                   enabled: true
                   expires: 2022-06-01T00:00:00Z
-                  name: AddRebootMachineOneOffSchedule
+                  name: NewRebootMachineOneOffSchedule
                   reminder:
                     message: message
                     when:
