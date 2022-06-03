@@ -42,7 +42,7 @@ mist_api_v2/models/add_key_response.py
 mist_api_v2/models/add_rule_request.py
 mist_api_v2/models/add_schedule_request.py
 mist_api_v2/models/add_schedule_request_reminder.py
-mist_api_v2/models/add_schedule_request_reminder_when.py
+mist_api_v2/models/add_schedule_request_reminder_reminder_when.py
 mist_api_v2/models/add_script_request.py
 mist_api_v2/models/age_selector.py
 mist_api_v2/models/alibaba_cloud_request.py

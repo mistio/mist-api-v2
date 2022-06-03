@@ -4080,7 +4080,7 @@ paths:
                   name: NewRebootMachineOneOffSchedule
                   reminder:
                     message: message
-                    when:
+                    reminder_when:
                       unit: seconds
                       value: 10
                   run_immediately: false
@@ -10156,10 +10156,10 @@ components:
       example:
         expires: 2022-06-01 T00:00:00
         reminder:
-          message: message
-          when:
+          reminder_when:
             unit: seconds
             value: 0
+          message: message
         name: backup-schedule
         description: Backup schedule
         run_immediately: false
@@ -10221,10 +10221,10 @@ components:
       example:
         expires: 2022-06-01 T00:00:00
         reminder:
-          message: message
-          when:
+          reminder_when:
             unit: seconds
             value: 0
+          message: message
         name: schedule-name
         description: Edited Schedule
         actions:
@@ -10270,10 +10270,10 @@ components:
         data:
         - expires: 2022-06-01 T00:00:00
           reminder:
-            message: message
-            when:
+            reminder_when:
               unit: seconds
               value: 0
+            message: message
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10291,10 +10291,10 @@ components:
           - null
         - expires: 2022-06-01 T00:00:00
           reminder:
-            message: message
-            when:
+            reminder_when:
               unit: seconds
               value: 0
+            message: message
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10330,10 +10330,10 @@ components:
         data:
           expires: 2022-06-01 T00:00:00
           reminder:
-            message: message
-            when:
+            reminder_when:
               unit: seconds
               value: 0
+            message: message
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10365,10 +10365,10 @@ components:
       example:
         expires: 2022-06-01 T00:00:00
         reminder:
-          message: message
-          when:
+          reminder_when:
             unit: seconds
             value: 0
+          message: message
         description: This is an test schedule
         owned_by: Officer B
         run_immediately: false
@@ -12191,7 +12191,7 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
-    AddScheduleRequest_reminder_when:
+    AddScheduleRequest_reminder_reminder_when:
       example:
         unit: seconds
         value: 0
@@ -12207,21 +12207,21 @@ components:
           - days
           title: unit
           type: string
-      title: AddScheduleRequest_reminder_when
+      title: AddScheduleRequest_reminder_reminder_when
       type: object
     AddScheduleRequest_reminder:
       example:
-        message: message
-        when:
+        reminder_when:
           unit: seconds
           value: 0
+        message: message
       properties:
         message:
           description: The reminder message to be sent
           title: message
           type: string
-        when:
-          $ref: '#/components/schemas/AddScheduleRequest_reminder_when'
+        reminder_when:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder_reminder_when'
       title: AddScheduleRequest_reminder
       type: object
     Datapoints_data:
