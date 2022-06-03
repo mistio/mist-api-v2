@@ -17,7 +17,7 @@ class When(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, datetime=None, minute=None, hour=None, day_of_month=None, month_of_year=None, day_of_week=None, start_after=None, expires=None, max_run_count=None, every=None, period=None):  # noqa: E501
+    def __init__(self, schedule_type=None, datetime=None, minute=None, hour=None, day_of_month=None, month_of_year=None, day_of_week=None, max_run_count=None, every=None, period=None):  # noqa: E501
         """When - a model defined in OpenAPI
 
         :param schedule_type: The schedule_type of this When.  # noqa: E501
@@ -34,10 +34,6 @@ class When(Model):
         :type month_of_year: str
         :param day_of_week: The day_of_week of this When.  # noqa: E501
         :type day_of_week: str
-        :param start_after: The start_after of this When.  # noqa: E501
-        :type start_after: datetime
-        :param expires: The expires of this When.  # noqa: E501
-        :type expires: datetime
         :param max_run_count: The max_run_count of this When.  # noqa: E501
         :type max_run_count: int
         :param every: The every of this When.  # noqa: E501
@@ -53,8 +49,6 @@ class When(Model):
             'day_of_month': str,
             'month_of_year': str,
             'day_of_week': str,
-            'start_after': datetime,
-            'expires': datetime,
             'max_run_count': int,
             'every': int,
             'period': str
@@ -68,8 +62,6 @@ class When(Model):
             'day_of_month': 'day_of_month',
             'month_of_year': 'month_of_year',
             'day_of_week': 'day_of_week',
-            'start_after': 'start_after',
-            'expires': 'expires',
             'max_run_count': 'max_run_count',
             'every': 'every',
             'period': 'period'
@@ -82,8 +74,6 @@ class When(Model):
         self._day_of_month = day_of_month
         self._month_of_year = month_of_year
         self._day_of_week = day_of_week
-        self._start_after = start_after
-        self._expires = expires
         self._max_run_count = max_run_count
         self._every = every
         self._period = period
@@ -265,52 +255,6 @@ class When(Model):
             raise ValueError("Invalid value for `day_of_week`, must not be `None`")  # noqa: E501
 
         self._day_of_week = day_of_week
-
-    @property
-    def start_after(self):
-        """Gets the start_after of this When.
-
-        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :return: The start_after of this When.
-        :rtype: datetime
-        """
-        return self._start_after
-
-    @start_after.setter
-    def start_after(self, start_after):
-        """Sets the start_after of this When.
-
-        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :param start_after: The start_after of this When.
-        :type start_after: datetime
-        """
-
-        self._start_after = start_after
-
-    @property
-    def expires(self):
-        """Gets the expires of this When.
-
-        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :return: The expires of this When.
-        :rtype: datetime
-        """
-        return self._expires
-
-    @expires.setter
-    def expires(self, expires):
-        """Sets the expires of this When.
-
-        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :param expires: The expires of this When.
-        :type expires: datetime
-        """
-
-        self._expires = expires
 
     @property
     def max_run_count(self):

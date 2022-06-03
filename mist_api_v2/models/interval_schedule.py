@@ -15,40 +15,30 @@ class IntervalSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, every=None, period=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
+    def __init__(self, every=None, period=None, max_run_count=None):  # noqa: E501
         """IntervalSchedule - a model defined in OpenAPI
 
         :param every: The every of this IntervalSchedule.  # noqa: E501
         :type every: int
         :param period: The period of this IntervalSchedule.  # noqa: E501
         :type period: str
-        :param start_after: The start_after of this IntervalSchedule.  # noqa: E501
-        :type start_after: datetime
-        :param expires: The expires of this IntervalSchedule.  # noqa: E501
-        :type expires: datetime
         :param max_run_count: The max_run_count of this IntervalSchedule.  # noqa: E501
         :type max_run_count: int
         """
         self.openapi_types = {
             'every': int,
             'period': str,
-            'start_after': datetime,
-            'expires': datetime,
             'max_run_count': int
         }
 
         self.attribute_map = {
             'every': 'every',
             'period': 'period',
-            'start_after': 'start_after',
-            'expires': 'expires',
             'max_run_count': 'max_run_count'
         }
 
         self._every = every
         self._period = period
-        self._start_after = start_after
-        self._expires = expires
         self._max_run_count = max_run_count
 
     @classmethod
@@ -111,52 +101,6 @@ class IntervalSchedule(Model):
             )
 
         self._period = period
-
-    @property
-    def start_after(self):
-        """Gets the start_after of this IntervalSchedule.
-
-        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :return: The start_after of this IntervalSchedule.
-        :rtype: datetime
-        """
-        return self._start_after
-
-    @start_after.setter
-    def start_after(self, start_after):
-        """Sets the start_after of this IntervalSchedule.
-
-        The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :param start_after: The start_after of this IntervalSchedule.
-        :type start_after: datetime
-        """
-
-        self._start_after = start_after
-
-    @property
-    def expires(self):
-        """Gets the expires of this IntervalSchedule.
-
-        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :return: The expires of this IntervalSchedule.
-        :rtype: datetime
-        """
-        return self._expires
-
-    @expires.setter
-    def expires(self, expires):
-        """Sets the expires of this IntervalSchedule.
-
-        The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z  # noqa: E501
-
-        :param expires: The expires of this IntervalSchedule.
-        :type expires: datetime
-        """
-
-        self._expires = expires
 
     @property
     def max_run_count(self):
