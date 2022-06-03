@@ -23,7 +23,7 @@ class When(Model):
         :param schedule_type: The schedule_type of this When.  # noqa: E501
         :type schedule_type: str
         :param datetime: The datetime of this When.  # noqa: E501
-        :type datetime: datetime
+        :type datetime: str
         :param minute: The minute of this When.  # noqa: E501
         :type minute: str
         :param hour: The hour of this When.  # noqa: E501
@@ -43,7 +43,7 @@ class When(Model):
         """
         self.openapi_types = {
             'schedule_type': str,
-            'datetime': datetime,
+            'datetime': str,
             'minute': str,
             'hour': str,
             'day_of_month': str,
@@ -123,7 +123,7 @@ class When(Model):
         When one_off schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The datetime of this When.
-        :rtype: datetime
+        :rtype: str
         """
         return self._datetime
 
@@ -134,7 +134,7 @@ class When(Model):
         When one_off schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param datetime: The datetime of this When.
-        :type datetime: datetime
+        :type datetime: str
         """
         if datetime is None:
             raise ValueError("Invalid value for `datetime`, must not be `None`")  # noqa: E501

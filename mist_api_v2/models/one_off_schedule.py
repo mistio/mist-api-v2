@@ -19,10 +19,10 @@ class OneOffSchedule(Model):
         """OneOffSchedule - a model defined in OpenAPI
 
         :param datetime: The datetime of this OneOffSchedule.  # noqa: E501
-        :type datetime: datetime
+        :type datetime: str
         """
         self.openapi_types = {
-            'datetime': datetime
+            'datetime': str
         }
 
         self.attribute_map = {
@@ -49,7 +49,7 @@ class OneOffSchedule(Model):
         When one_off schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The datetime of this OneOffSchedule.
-        :rtype: datetime
+        :rtype: str
         """
         return self._datetime
 
@@ -60,7 +60,7 @@ class OneOffSchedule(Model):
         When one_off schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param datetime: The datetime of this OneOffSchedule.
-        :type datetime: datetime
+        :type datetime: str
         """
         if datetime is None:
             raise ValueError("Invalid value for `datetime`, must not be `None`")  # noqa: E501
