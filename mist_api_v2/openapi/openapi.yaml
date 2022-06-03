@@ -6210,6 +6210,21 @@ components:
       - $ref: '#/components/schemas/RunCommand'
       - $ref: '#/components/schemas/RunExistingScript'
       title: ScriptToRun
+    When:
+      allOf:
+      - $ref: '#/components/schemas/When_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/OneOffSchedule'
+        - $ref: '#/components/schemas/CronSchedule'
+        - $ref: '#/components/schemas/IntervalSchedule'
+      discriminator:
+        mapping:
+          one_off: '#/components/schemas/OneOffSchedule'
+          crontab: '#/components/schemas/CronSchedule'
+          interval: '#/components/schemas/IntervalSchedule'
+        propertyName: schedule_type
+      title: When
+      type: object
     OneOffSchedule:
       description: one_off schedule
       properties:
@@ -6307,21 +6322,6 @@ components:
       - every
       - period
       title: Interval
-      type: object
-    When:
-      allOf:
-      - $ref: '#/components/schemas/When_allOf'
-      - oneOf:
-        - $ref: '#/components/schemas/OneOffSchedule'
-        - $ref: '#/components/schemas/CronSchedule'
-        - $ref: '#/components/schemas/IntervalSchedule'
-      discriminator:
-        mapping:
-          one_off: '#/components/schemas/OneOffSchedule'
-          crontab: '#/components/schemas/CronSchedule'
-          interval: '#/components/schemas/IntervalSchedule'
-        propertyName: schedule_type
-      title: When
       type: object
     MachineState:
       enum:
