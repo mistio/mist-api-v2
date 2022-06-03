@@ -117,7 +117,7 @@ class When(Model):
         :param schedule_type: The schedule_type of this When.
         :type schedule_type: str
         """
-        allowed_values = ["crontab", "interval", "one_off"]  # noqa: E501
+        allowed_values = ["interval"]  # noqa: E501
         if schedule_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `schedule_type` ({0}), must be one of {1}"

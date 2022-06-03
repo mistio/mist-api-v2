@@ -4080,7 +4080,7 @@ paths:
                   name: NewRebootMachineOneOffSchedule
                   reminder:
                     message: message
-                    reminder_when:
+                    when:
                       unit: seconds
                       value: 10
                   run_immediately: false
@@ -6213,6 +6213,12 @@ components:
     OneOffSchedule:
       description: one_off schedule
       properties:
+        schedule_type:
+          enum:
+          - one_off
+          example: one_off
+          title: schedule_type
+          type: string
         datetime:
           description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
           example: 2022-06-22T18:19:28Z
@@ -6221,11 +6227,18 @@ components:
           type: string
       required:
       - datetime
+      - schedule_type
       title: OneOff
       type: object
     CronSchedule:
       description: crontab schedule
       properties:
+        schedule_type:
+          enum:
+          - crontab
+          example: crontab
+          title: schedule_type
+          type: string
         minute:
           example: '*'
           title: minute
@@ -6269,11 +6282,18 @@ components:
       - hour
       - minute
       - month_of_year
+      - schedule_type
       title: Cron
       type: object
     IntervalSchedule:
       description: interval schedule
       properties:
+        schedule_type:
+          enum:
+          - interval
+          example: interval
+          title: schedule_type
+          type: string
         every:
           example: 20
           title: every
@@ -6306,6 +6326,7 @@ components:
       required:
       - every
       - period
+      - schedule_type
       title: Interval
       type: object
     When:
@@ -10156,10 +10177,10 @@ components:
       example:
         expires: 2022-06-01 T00:00:00
         reminder:
-          reminder_when:
+          message: message
+          when:
             unit: seconds
             value: 0
-          message: message
         name: backup-schedule
         description: Backup schedule
         run_immediately: false
@@ -10221,10 +10242,10 @@ components:
       example:
         expires: 2022-06-01 T00:00:00
         reminder:
-          reminder_when:
+          message: message
+          when:
             unit: seconds
             value: 0
-          message: message
         name: schedule-name
         description: Edited Schedule
         actions:
@@ -10270,10 +10291,10 @@ components:
         data:
         - expires: 2022-06-01 T00:00:00
           reminder:
-            reminder_when:
+            message: message
+            when:
               unit: seconds
               value: 0
-            message: message
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10291,10 +10312,10 @@ components:
           - null
         - expires: 2022-06-01 T00:00:00
           reminder:
-            reminder_when:
+            message: message
+            when:
               unit: seconds
               value: 0
-            message: message
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10330,10 +10351,10 @@ components:
         data:
           expires: 2022-06-01 T00:00:00
           reminder:
-            reminder_when:
+            message: message
+            when:
               unit: seconds
               value: 0
-            message: message
           description: This is an test schedule
           owned_by: Officer B
           run_immediately: false
@@ -10365,10 +10386,10 @@ components:
       example:
         expires: 2022-06-01 T00:00:00
         reminder:
-          reminder_when:
+          message: message
+          when:
             unit: seconds
             value: 0
-          message: message
         description: This is an test schedule
         owned_by: Officer B
         run_immediately: false
@@ -12191,7 +12212,7 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
-    AddScheduleRequest_reminder_reminder_when:
+    AddScheduleRequest_reminder_when:
       example:
         unit: seconds
         value: 0
@@ -12207,21 +12228,21 @@ components:
           - days
           title: unit
           type: string
-      title: AddScheduleRequest_reminder_reminder_when
+      title: AddScheduleRequest_reminder_when
       type: object
     AddScheduleRequest_reminder:
       example:
-        reminder_when:
+        message: message
+        when:
           unit: seconds
           value: 0
-        message: message
       properties:
         message:
           description: The reminder message to be sent
           title: message
           type: string
-        reminder_when:
-          $ref: '#/components/schemas/AddScheduleRequest_reminder_reminder_when'
+        when:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder_when'
       title: AddScheduleRequest_reminder
       type: object
     Datapoints_data:

@@ -50,11 +50,11 @@ class TestSchedulesController:
             'request_body') or json.loads("""{
   "expires" : "2022-06-01 T00:00:00",
   "reminder" : {
-    "reminder_when" : {
+    "message" : "message",
+    "when" : {
       "unit" : "seconds",
       "value" : 0
-    },
-    "message" : "message"
+    }
   },
   "name" : "backup-schedule",
   "description" : "Backup schedule",
@@ -103,11 +103,11 @@ class TestSchedulesController:
             'request_body') or json.loads("""{
   "expires" : "2022-06-01 T00:00:00",
   "reminder" : {
-    "reminder_when" : {
+    "message" : "message",
+    "when" : {
       "unit" : "seconds",
       "value" : 0
-    },
-    "message" : "message"
+    }
   },
   "name" : "schedule-name",
   "description" : "Edited Schedule",
