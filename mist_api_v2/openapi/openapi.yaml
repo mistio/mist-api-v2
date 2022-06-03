@@ -3854,7 +3854,7 @@ paths:
                   and is evaluated once
                 value:
                   actions:
-                    type: resource_action
+                  - type: resource_action
                     action: reboot
                   conditions:
                     data_type: logs
@@ -3872,7 +3872,7 @@ paths:
                   enabled: true
                   name: EditedRebootMachineOneOffRule
                   selectors:
-                    type: machines
+                  - type: machines
                     ids:
                     - 738f633d987148a8b2c1628e0cd416b4
                   trigger_after:
@@ -4072,7 +4072,7 @@ paths:
                 summary: Create a reboot machine schedule that runs once
                 value:
                   actions:
-                    type: resource_action
+                  - type: resource_action
                     action: reboot
                   description: Backup schedule
                   enabled: true
@@ -4085,7 +4085,7 @@ paths:
                       value: 10
                   run_immediately: false
                   selectors:
-                    type: machines
+                  - type: machines
                     ids:
                     - 738f633d987148a8b2c1628e0cd416b4
                   when:
