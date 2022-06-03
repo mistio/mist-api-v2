@@ -6213,12 +6213,6 @@ components:
     OneOffSchedule:
       description: one_off schedule
       properties:
-        schedule_type:
-          enum:
-          - one_off
-          example: one_off
-          title: schedule_type
-          type: string
         datetime:
           description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
           example: 2022-06-22T18:19:28Z
@@ -6227,18 +6221,11 @@ components:
           type: string
       required:
       - datetime
-      - schedule_type
       title: OneOff
       type: object
     CronSchedule:
       description: crontab schedule
       properties:
-        schedule_type:
-          enum:
-          - crontab
-          example: crontab
-          title: schedule_type
-          type: string
         minute:
           example: '*'
           title: minute
@@ -6282,18 +6269,11 @@ components:
       - hour
       - minute
       - month_of_year
-      - schedule_type
       title: Cron
       type: object
     IntervalSchedule:
       description: interval schedule
       properties:
-        schedule_type:
-          enum:
-          - interval
-          example: interval
-          title: schedule_type
-          type: string
         every:
           example: 20
           title: every
@@ -6326,7 +6306,6 @@ components:
       required:
       - every
       - period
-      - schedule_type
       title: Interval
       type: object
     When:

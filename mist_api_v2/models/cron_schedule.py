@@ -15,11 +15,9 @@ class CronSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, minute=None, hour=None, day_of_month=None, month_of_year=None, day_of_week=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
+    def __init__(self, minute=None, hour=None, day_of_month=None, month_of_year=None, day_of_week=None, start_after=None, expires=None, max_run_count=None):  # noqa: E501
         """CronSchedule - a model defined in OpenAPI
 
-        :param schedule_type: The schedule_type of this CronSchedule.  # noqa: E501
-        :type schedule_type: str
         :param minute: The minute of this CronSchedule.  # noqa: E501
         :type minute: str
         :param hour: The hour of this CronSchedule.  # noqa: E501
@@ -38,7 +36,6 @@ class CronSchedule(Model):
         :type max_run_count: int
         """
         self.openapi_types = {
-            'schedule_type': str,
             'minute': str,
             'hour': str,
             'day_of_month': str,
@@ -50,7 +47,6 @@ class CronSchedule(Model):
         }
 
         self.attribute_map = {
-            'schedule_type': 'schedule_type',
             'minute': 'minute',
             'hour': 'hour',
             'day_of_month': 'day_of_month',
@@ -61,7 +57,6 @@ class CronSchedule(Model):
             'max_run_count': 'max_run_count'
         }
 
-        self._schedule_type = schedule_type
         self._minute = minute
         self._hour = hour
         self._day_of_month = day_of_month
@@ -81,33 +76,6 @@ class CronSchedule(Model):
         :rtype: CronSchedule
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def schedule_type(self):
-        """Gets the schedule_type of this CronSchedule.
-
-
-        :return: The schedule_type of this CronSchedule.
-        :rtype: str
-        """
-        return self._schedule_type
-
-    @schedule_type.setter
-    def schedule_type(self, schedule_type):
-        """Sets the schedule_type of this CronSchedule.
-
-
-        :param schedule_type: The schedule_type of this CronSchedule.
-        :type schedule_type: str
-        """
-        allowed_values = ["crontab"]  # noqa: E501
-        if schedule_type not in allowed_values:
-            raise ValueError(
-                "Invalid value for `schedule_type` ({0}), must be one of {1}"
-                .format(schedule_type, allowed_values)
-            )
-
-        self._schedule_type = schedule_type
 
     @property
     def minute(self):
