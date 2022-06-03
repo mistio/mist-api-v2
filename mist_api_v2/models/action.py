@@ -17,56 +17,51 @@ class Action(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, users=None, teams=None, emails=None, action=None, command=None, script=None, params=None):  # noqa: E501
+    def __init__(self, action_type=None, users=None, teams=None, emails=None, params=None, command=None, script=None):  # noqa: E501
         """Action - a model defined in OpenAPI
 
-        :param type: The type of this Action.  # noqa: E501
-        :type type: str
+        :param action_type: The action_type of this Action.  # noqa: E501
+        :type action_type: str
         :param users: The users of this Action.  # noqa: E501
         :type users: List[str]
         :param teams: The teams of this Action.  # noqa: E501
         :type teams: List[str]
         :param emails: The emails of this Action.  # noqa: E501
         :type emails: List[str]
-        :param action: The action of this Action.  # noqa: E501
-        :type action: str
+        :param params: The params of this Action.  # noqa: E501
+        :type params: str
         :param command: The command of this Action.  # noqa: E501
         :type command: str
         :param script: The script of this Action.  # noqa: E501
         :type script: str
-        :param params: The params of this Action.  # noqa: E501
-        :type params: str
         """
         self.openapi_types = {
-            'type': str,
+            'action_type': str,
             'users': List[str],
             'teams': List[str],
             'emails': List[str],
-            'action': str,
+            'params': str,
             'command': str,
-            'script': str,
-            'params': str
+            'script': str
         }
 
         self.attribute_map = {
-            'type': 'type',
+            'action_type': 'action_type',
             'users': 'users',
             'teams': 'teams',
             'emails': 'emails',
-            'action': 'action',
+            'params': 'params',
             'command': 'command',
-            'script': 'script',
-            'params': 'params'
+            'script': 'script'
         }
 
-        self._type = type
+        self._action_type = action_type
         self._users = users
         self._teams = teams
         self._emails = emails
-        self._action = action
+        self._params = params
         self._command = command
         self._script = script
-        self._params = params
 
     @classmethod
     def from_dict(cls, dikt) -> 'Action':
@@ -80,31 +75,33 @@ class Action(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def type(self):
-        """Gets the type of this Action.
+    def action_type(self):
+        """Gets the action_type of this Action.
 
+        the action's type: notification, resource_action, run_script   # noqa: E501
 
-        :return: The type of this Action.
+        :return: The action_type of this Action.
         :rtype: str
         """
-        return self._type
+        return self._action_type
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this Action.
+    @action_type.setter
+    def action_type(self, action_type):
+        """Sets the action_type of this Action.
 
+        the action's type: notification, resource_action, run_script   # noqa: E501
 
-        :param type: The type of this Action.
-        :type type: str
+        :param action_type: The action_type of this Action.
+        :type action_type: str
         """
-        allowed_values = ["run_script"]  # noqa: E501
-        if type not in allowed_values:
+        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete", "resize", "run_script"]  # noqa: E501
+        if action_type not in allowed_values:
             raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"
-                .format(type, allowed_values)
+                "Invalid value for `action_type` ({0}), must be one of {1}"
+                .format(action_type, allowed_values)
             )
 
-        self._type = type
+        self._action_type = action_type
 
     @property
     def users(self):
@@ -176,33 +173,27 @@ class Action(Model):
         self._emails = emails
 
     @property
-    def action(self):
-        """Gets the action of this Action.
+    def params(self):
+        """Gets the params of this Action.
 
-        the type of the action to be executed   # noqa: E501
 
-        :return: The action of this Action.
+        :return: The params of this Action.
         :rtype: str
         """
-        return self._action
+        return self._params
 
-    @action.setter
-    def action(self, action):
-        """Sets the action of this Action.
+    @params.setter
+    def params(self, params):
+        """Sets the params of this Action.
 
-        the type of the action to be executed   # noqa: E501
 
-        :param action: The action of this Action.
-        :type action: str
+        :param params: The params of this Action.
+        :type params: str
         """
-        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete"]  # noqa: E501
-        if action not in allowed_values:
-            raise ValueError(
-                "Invalid value for `action` ({0}), must be one of {1}"
-                .format(action, allowed_values)
-            )
+        if params is None:
+            raise ValueError("Invalid value for `params`, must not be `None`")  # noqa: E501
 
-        self._action = action
+        self._params = params
 
     @property
     def command(self):
@@ -253,24 +244,3 @@ class Action(Model):
             raise ValueError("Invalid value for `script`, must not be `None`")  # noqa: E501
 
         self._script = script
-
-    @property
-    def params(self):
-        """Gets the params of this Action.
-
-
-        :return: The params of this Action.
-        :rtype: str
-        """
-        return self._params
-
-    @params.setter
-    def params(self, params):
-        """Sets the params of this Action.
-
-
-        :param params: The params of this Action.
-        :type params: str
-        """
-
-        self._params = params

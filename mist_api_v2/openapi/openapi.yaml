@@ -6137,49 +6137,29 @@ components:
       - $ref: '#/components/schemas/Action_allOf'
       - oneOf:
         - $ref: '#/components/schemas/Notification'
-        - $ref: '#/components/schemas/ResourceAction'
+        - $ref: '#/components/schemas/ResizeAction'
         - $ref: '#/components/schemas/ScriptToRun'
       discriminator:
         mapping:
-          notification: '#/components/schemas/Notification'
-          resource_action: '#/components/schemas/ResourceAction'
+          notify: '#/components/schemas/Notification'
+          resize: '#/components/schemas/ResizeAction'
           run_script: '#/components/schemas/ScriptToRun'
         propertyName: type
       title: Action
       type: object
-    ResourceAction:
+    ResizeAction:
       properties:
-        type:
-          enum:
-          - resource_action
-          example: resource_action
-          title: type
-          type: string
-        action:
+        params:
           description: |
-            the type of the action to be executed
-          enum:
-          - start
-          - stop
-          - reboot
-          - destroy
-          - notify
-          - delete
-          title: action
+            the params of the resize action to be executed
+          title: params
           type: string
       required:
-      - action
-      - type
-      title: ResourceAction
+      - params
+      title: ResizeAction
       type: object
     Notification:
       properties:
-        type:
-          enum:
-          - notification
-          example: notification
-          title: type
-          type: string
         users:
           description: "a list of user to be notified, denoted by their UUIDs\n"
           items:
@@ -6200,8 +6180,6 @@ components:
             type: string
           title: emails
           type: array
-      required:
-      - type
       title: Notification
       type: object
     RunCommand:
@@ -6228,11 +6206,9 @@ components:
       title: RunExistingScript
       type: object
     ScriptToRun:
-      allOf:
-      - $ref: '#/components/schemas/ScriptToRun_allOf'
-      - oneOf:
-        - $ref: '#/components/schemas/RunCommand'
-        - $ref: '#/components/schemas/RunExistingScript'
+      oneOf:
+      - $ref: '#/components/schemas/RunCommand'
+      - $ref: '#/components/schemas/RunExistingScript'
       title: ScriptToRun
     OneOffSchedule:
       description: one_off schedule
@@ -11883,28 +11859,22 @@ components:
       type: object
     Action_allOf:
       properties:
-        type:
+        action_type:
           description: "the action's type: notification, resource_action, run_script\n"
           enum:
-          - notification
-          - resource_action
+          - start
+          - stop
+          - reboot
+          - destroy
+          - notify
+          - delete
+          - resize
           - run_script
-          title: type
+          title: action_type
           type: string
       required:
-      - type
+      - action_type
       title: Action_allOf
-    ScriptToRun_allOf:
-      properties:
-        type:
-          enum:
-          - run_script
-          example: run_script
-          title: type
-          type: string
-      required:
-      - type
-      title: ScriptToRun_allOf
     When_allOf:
       properties:
         schedule_type:

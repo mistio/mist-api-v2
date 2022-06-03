@@ -173,8 +173,8 @@ from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.resize_action import ResizeAction
 from mist_api_v2.models.resource import Resource
-from mist_api_v2.models.resource_action import ResourceAction
 from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
@@ -186,7 +186,6 @@ from mist_api_v2.models.scale_nodepool_request import ScaleNodepoolRequest
 from mist_api_v2.models.schedule import Schedule
 from mist_api_v2.models.script import Script
 from mist_api_v2.models.script_to_run import ScriptToRun
-from mist_api_v2.models.script_to_run_all_of import ScriptToRunAllOf
 from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size

@@ -15,21 +15,21 @@ class ActionAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None):  # noqa: E501
+    def __init__(self, action_type=None):  # noqa: E501
         """ActionAllOf - a model defined in OpenAPI
 
-        :param type: The type of this ActionAllOf.  # noqa: E501
-        :type type: str
+        :param action_type: The action_type of this ActionAllOf.  # noqa: E501
+        :type action_type: str
         """
         self.openapi_types = {
-            'type': str
+            'action_type': str
         }
 
         self.attribute_map = {
-            'type': 'type'
+            'action_type': 'action_type'
         }
 
-        self._type = type
+        self._action_type = action_type
 
     @classmethod
     def from_dict(cls, dikt) -> 'ActionAllOf':
@@ -43,30 +43,30 @@ class ActionAllOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def type(self):
-        """Gets the type of this ActionAllOf.
+    def action_type(self):
+        """Gets the action_type of this ActionAllOf.
 
         the action's type: notification, resource_action, run_script   # noqa: E501
 
-        :return: The type of this ActionAllOf.
+        :return: The action_type of this ActionAllOf.
         :rtype: str
         """
-        return self._type
+        return self._action_type
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this ActionAllOf.
+    @action_type.setter
+    def action_type(self, action_type):
+        """Sets the action_type of this ActionAllOf.
 
         the action's type: notification, resource_action, run_script   # noqa: E501
 
-        :param type: The type of this ActionAllOf.
-        :type type: str
+        :param action_type: The action_type of this ActionAllOf.
+        :type action_type: str
         """
-        allowed_values = ["notification", "resource_action", "run_script"]  # noqa: E501
-        if type not in allowed_values:
+        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete", "resize", "run_script"]  # noqa: E501
+        if action_type not in allowed_values:
             raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"
-                .format(type, allowed_values)
+                "Invalid value for `action_type` ({0}), must be one of {1}"
+                .format(action_type, allowed_values)
             )
 
-        self._type = type
+        self._action_type = action_type

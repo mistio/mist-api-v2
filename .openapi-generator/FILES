@@ -202,8 +202,8 @@ mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
+mist_api_v2/models/resize_action.py
 mist_api_v2/models/resource.py
-mist_api_v2/models/resource_action.py
 mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
@@ -215,7 +215,6 @@ mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/script_to_run.py
-mist_api_v2/models/script_to_run_all_of.py
 mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
