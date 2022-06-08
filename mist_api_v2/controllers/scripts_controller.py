@@ -69,7 +69,9 @@ def add_script(add_script_request=None):  # noqa: E501
     # Set ownership.
     script.assign_to(auth_context.user)
     if script_tags:
-        add_tags_to_resource(auth_context.owner, script,
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type': 'script',
+                               'resource_id': script.id}],
                              list(script_tags.items()))
     script = script.as_dict()
     if 'job_id' in params:
