@@ -4,7 +4,9 @@ import connexion
 from mist.api.tag.methods import get_tags
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tag.methods import remove_tags_from_resource
-from mist.api.exceptions import UnauthorizedError, NotFoundError
+from mist.api.tag.methods import can_modify_resources_tags
+from mist.api.exceptions import NotFoundError
+
 
 from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
 from mist_api_v2.models.tag_resources_request import TagResourcesRequest  # noqa: E501
@@ -68,14 +70,22 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
 
     for op in tag_resources_request.operations:
         tags = {tag.key: tag.value for tag in op.tags}
+
+        if not can_modify_resources_tags(auth_context,
+                                         tags, op.resources,
+                                         op.operation):
+            return 'You are not authorized to perform this action', 403
+
         try:
             if not op.operation or op.operation == 'add':
-                add_tags_to_resource(auth_context, op.resources,
+                add_tags_to_resource(auth_context.owner,
+                                     op.resources,
                                      tags)
             if op.operation == 'remove':
-                remove_tags_from_resource(auth_context, op.resources,
+                remove_tags_from_resource(auth_context.owner,
+                                          op.resources,
                                           tags)
-        except (NotFoundError, UnauthorizedError) as exc:
-            return exc.args[0], exc.http_code
+        except (NotFoundError) as exc:
+            return exc.args[0], 400
 
     return 'Tags succesfully updated', 200
