@@ -3644,8 +3644,7 @@ paths:
                   and is evaluated every 2 hours
                 value:
                   actions:
-                  - type: resource_action
-                    action: stop
+                  - action_type: stop
                   conditions:
                   - data_type: logs
                     query:
@@ -3854,8 +3853,7 @@ paths:
                   and is evaluated once
                 value:
                   actions:
-                  - type: resource_action
-                    action: reboot
+                  - action_type: reboot
                   conditions:
                   - data_type: logs
                     query:
@@ -4072,8 +4070,7 @@ paths:
                 summary: Create a reboot machine schedule that runs once
                 value:
                   actions:
-                  - type: resource_action
-                    action: reboot
+                  - action_type: reboot
                   description: Backup schedule
                   enabled: true
                   expires: 2022-06-01T00:00:00Z
