@@ -5,7 +5,7 @@ from mist.api.exceptions import PolicyUnauthorizedError
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import ScheduleNameExistsError
 from mist.api.schedules.models import Schedule
-from mist.api.tag.methods import resolve_id_and_set_tags
+from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tasks import async_session_update
 
 from mist_api_v2.models.add_schedule_request import AddScheduleRequest  # noqa: E501
@@ -53,8 +53,11 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
     except ScheduleNameExistsError as e:
         return str(e), 409
     if schedule_tags:
-        resolve_id_and_set_tags(auth_context.owner, 'schedule', schedule.id,
-                                list(schedule_tags.items()))
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type': 'schedule',
+                               'resource_id': schedule.id}],
+                             list(schedule_tags.items()))
+
     async_session_update(auth_context.owner, ['schedules'])
     result = get_resource(auth_context, 'schedule',
                           search=schedule['id'], only=None, deref=None)
