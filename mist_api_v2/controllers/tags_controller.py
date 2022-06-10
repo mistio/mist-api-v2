@@ -70,20 +70,23 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
 
     for op in tag_resources_request.operations:
         tags = {tag.key: tag.value for tag in op.tags}
-
+        resources = [
+            {'resource_id': res.resource_id,
+             'resource_type': res.resource_type}
+            for res in op.resources]
         if not can_modify_resources_tags(auth_context,
-                                         tags, op.resources,
+                                         tags, resources,
                                          op.operation):
             return 'You are not authorized to perform this action', 403
 
         try:
             if not op.operation or op.operation == 'add':
                 add_tags_to_resource(auth_context.owner,
-                                     op.resources,
+                                     resources,
                                      tags)
             if op.operation == 'remove':
                 remove_tags_from_resource(auth_context.owner,
-                                          op.resources,
+                                          resources,
                                           tags)
         except (NotFoundError) as exc:
             return exc.args[0], 400
