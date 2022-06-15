@@ -1,12 +1,12 @@
 import logging
 import connexion
 
-from mist.api.methods import list_resources
 from mist.api.tag.methods import get_tags
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.tag.methods import remove_tags_from_resource
-from mist.api.tag.methods import modify_security_tags
-from mist.api.exceptions import PolicyUnauthorizedError
+from mist.api.tag.methods import can_modify_resources_tags
+from mist.api.exceptions import NotFoundError
+
 
 from mist_api_v2.models.list_tags_response import ListTagsResponse  # noqa: E501
 from mist_api_v2.models.tag_resources_request import TagResourcesRequest  # noqa: E501
@@ -70,29 +70,25 @@ def tag_resources(tag_resources_request=None):  # noqa: E501
 
     for op in tag_resources_request.operations:
         tags = {tag.key: tag.value for tag in op.tags}
+        resources = [
+            {'resource_id': res.resource_id,
+             'resource_type': res.resource_type}
+            for res in op.resources]
+        if not can_modify_resources_tags(auth_context,
+                                         tags, resources,
+                                         op.operation):
+            return 'You are not authorized to perform this action', 403
 
-        for resource in op.resources:
-            resource_type = resource.resource_type.rstrip('s')
-            resource_id = resource.resource_id
-            try:
-                resource_obj = list_resources(auth_context, resource_type,
-                                              search=resource_id)[0][0]
-            except IndexError:
-                return f"{resource_type} ({resource_id}) doesn't exist", 400
-            try:
-                auth_context.check_perm(resource_type, 'edit_tags',
-                                        resource_obj.id)
-            except PolicyUnauthorizedError:
-                return 'You are not authorized to perform this action', 403
-
-            if not modify_security_tags(auth_context, tags, resource_obj):
-                return 'You are not authorized to perform this action', 403
-
+        try:
             if not op.operation or op.operation == 'add':
-                add_tags_to_resource(auth_context.owner, resource_obj,
+                add_tags_to_resource(auth_context.owner,
+                                     resources,
                                      tags)
             if op.operation == 'remove':
-                remove_tags_from_resource(auth_context.owner, resource_obj,
+                remove_tags_from_resource(auth_context.owner,
+                                          resources,
                                           tags)
+        except (NotFoundError) as exc:
+            return exc.args[0], 400
 
     return 'Tags succesfully updated', 200

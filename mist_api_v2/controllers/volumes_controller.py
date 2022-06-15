@@ -66,7 +66,10 @@ def create_volume(create_volume_request=None):  # noqa: E501
         return str(e), 503
     owner = auth_context.owner
     if tags:
-        add_tags_to_resource(owner, volume, tags)
+        add_tags_to_resource(owner,
+                             [{'resource_type': 'volume',
+                               'resource_id': volume.id}],
+                             tags)
     volume.assign_to(auth_context.user)
     trigger_session_update(owner.id, ['volumes'])
     if config.HAS_RBAC:

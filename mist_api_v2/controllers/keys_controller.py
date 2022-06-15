@@ -83,7 +83,10 @@ def add_key(add_key_request=None):  # noqa: E501
 
     # Add tags returned by RBAC check
     if key_tags:
-        add_tags_to_resource(auth_context.owner, key, list(key_tags.items()))
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type': 'key',
+                               'resource_id': key.id}],
+                             list(key_tags.items()))
 
     return AddKeyResponse(key.id)
 

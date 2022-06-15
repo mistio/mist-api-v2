@@ -63,7 +63,10 @@ def create_network(create_network_request=None):  # noqa: E501
         return str(e), 503
     network.assign_to(auth_context.user)
     if tags:
-        add_tags_to_resource(auth_context.owner, network, tags)
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type': 'network',
+                               'resource_id': network.id}],
+                             tags)
     return network.as_dict()
 
 
