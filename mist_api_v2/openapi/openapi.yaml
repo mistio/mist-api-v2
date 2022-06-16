@@ -11901,6 +11901,8 @@ components:
           example: inline
           title: script_type
           type: string
+      required:
+      - script_type
       title: ScriptToRun_allOf
     When_allOf:
       properties:
