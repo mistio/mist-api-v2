@@ -17,7 +17,7 @@ class Action(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, action_type=None, users=None, teams=None, emails=None, params=None, command=None, script=None):  # noqa: E501
+    def __init__(self, action_type=None, users=None, teams=None, emails=None, params=None, script_type=None, command=None, script=None, method=None, url=None, data=None, json=None, headers=None):  # noqa: E501
         """Action - a model defined in OpenAPI
 
         :param action_type: The action_type of this Action.  # noqa: E501
@@ -30,10 +30,22 @@ class Action(Model):
         :type emails: List[str]
         :param params: The params of this Action.  # noqa: E501
         :type params: str
+        :param script_type: The script_type of this Action.  # noqa: E501
+        :type script_type: str
         :param command: The command of this Action.  # noqa: E501
         :type command: str
         :param script: The script of this Action.  # noqa: E501
         :type script: str
+        :param method: The method of this Action.  # noqa: E501
+        :type method: str
+        :param url: The url of this Action.  # noqa: E501
+        :type url: str
+        :param data: The data of this Action.  # noqa: E501
+        :type data: str
+        :param json: The json of this Action.  # noqa: E501
+        :type json: str
+        :param headers: The headers of this Action.  # noqa: E501
+        :type headers: str
         """
         self.openapi_types = {
             'action_type': str,
@@ -41,8 +53,14 @@ class Action(Model):
             'teams': List[str],
             'emails': List[str],
             'params': str,
+            'script_type': str,
             'command': str,
-            'script': str
+            'script': str,
+            'method': str,
+            'url': str,
+            'data': str,
+            'json': str,
+            'headers': str
         }
 
         self.attribute_map = {
@@ -51,8 +69,14 @@ class Action(Model):
             'teams': 'teams',
             'emails': 'emails',
             'params': 'params',
+            'script_type': 'script_type',
             'command': 'command',
-            'script': 'script'
+            'script': 'script',
+            'method': 'method',
+            'url': 'url',
+            'data': 'data',
+            'json': 'json',
+            'headers': 'headers'
         }
 
         self._action_type = action_type
@@ -60,8 +84,14 @@ class Action(Model):
         self._teams = teams
         self._emails = emails
         self._params = params
+        self._script_type = script_type
         self._command = command
         self._script = script
+        self._method = method
+        self._url = url
+        self._data = data
+        self._json = json
+        self._headers = headers
 
     @classmethod
     def from_dict(cls, dikt) -> 'Action':
@@ -78,7 +108,7 @@ class Action(Model):
     def action_type(self):
         """Gets the action_type of this Action.
 
-        the action's type: notification, resource_action, run_script   # noqa: E501
+        the action's type: notification, resource_action, run_script, webhook   # noqa: E501
 
         :return: The action_type of this Action.
         :rtype: str
@@ -89,12 +119,12 @@ class Action(Model):
     def action_type(self, action_type):
         """Sets the action_type of this Action.
 
-        the action's type: notification, resource_action, run_script   # noqa: E501
+        the action's type: notification, resource_action, run_script, webhook   # noqa: E501
 
         :param action_type: The action_type of this Action.
         :type action_type: str
         """
-        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete", "resize", "run_script"]  # noqa: E501
+        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete", "resize", "run_script", "webhook"]  # noqa: E501
         if action_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `action_type` ({0}), must be one of {1}"
@@ -176,6 +206,7 @@ class Action(Model):
     def params(self):
         """Gets the params of this Action.
 
+        the query string parameters of the HTTP request  # noqa: E501
 
         :return: The params of this Action.
         :rtype: str
@@ -186,6 +217,7 @@ class Action(Model):
     def params(self, params):
         """Sets the params of this Action.
 
+        the query string parameters of the HTTP request  # noqa: E501
 
         :param params: The params of this Action.
         :type params: str
@@ -194,6 +226,33 @@ class Action(Model):
             raise ValueError("Invalid value for `params`, must not be `None`")  # noqa: E501
 
         self._params = params
+
+    @property
+    def script_type(self):
+        """Gets the script_type of this Action.
+
+
+        :return: The script_type of this Action.
+        :rtype: str
+        """
+        return self._script_type
+
+    @script_type.setter
+    def script_type(self, script_type):
+        """Sets the script_type of this Action.
+
+
+        :param script_type: The script_type of this Action.
+        :type script_type: str
+        """
+        allowed_values = ["inline", "existing"]  # noqa: E501
+        if script_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `script_type` ({0}), must be one of {1}"
+                .format(script_type, allowed_values)
+            )
+
+        self._script_type = script_type
 
     @property
     def command(self):
@@ -244,3 +303,126 @@ class Action(Model):
             raise ValueError("Invalid value for `script`, must not be `None`")  # noqa: E501
 
         self._script = script
+
+    @property
+    def method(self):
+        """Gets the method of this Action.
+
+        the HTTP method to be executed by the webhook  # noqa: E501
+
+        :return: The method of this Action.
+        :rtype: str
+        """
+        return self._method
+
+    @method.setter
+    def method(self, method):
+        """Sets the method of this Action.
+
+        the HTTP method to be executed by the webhook  # noqa: E501
+
+        :param method: The method of this Action.
+        :type method: str
+        """
+        allowed_values = ["post", "delete", "put", "patch"]  # noqa: E501
+        if method not in allowed_values:
+            raise ValueError(
+                "Invalid value for `method` ({0}), must be one of {1}"
+                .format(method, allowed_values)
+            )
+
+        self._method = method
+
+    @property
+    def url(self):
+        """Gets the url of this Action.
+
+        the URL of the endpoint that is called by the webhook  # noqa: E501
+
+        :return: The url of this Action.
+        :rtype: str
+        """
+        return self._url
+
+    @url.setter
+    def url(self, url):
+        """Sets the url of this Action.
+
+        the URL of the endpoint that is called by the webhook  # noqa: E501
+
+        :param url: The url of this Action.
+        :type url: str
+        """
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
+
+        self._url = url
+
+    @property
+    def data(self):
+        """Gets the data of this Action.
+
+        the body of the HTTP request  # noqa: E501
+
+        :return: The data of this Action.
+        :rtype: str
+        """
+        return self._data
+
+    @data.setter
+    def data(self, data):
+        """Sets the data of this Action.
+
+        the body of the HTTP request  # noqa: E501
+
+        :param data: The data of this Action.
+        :type data: str
+        """
+
+        self._data = data
+
+    @property
+    def json(self):
+        """Gets the json of this Action.
+
+        the JSON body of the HTTP request  # noqa: E501
+
+        :return: The json of this Action.
+        :rtype: str
+        """
+        return self._json
+
+    @json.setter
+    def json(self, json):
+        """Sets the json of this Action.
+
+        the JSON body of the HTTP request  # noqa: E501
+
+        :param json: The json of this Action.
+        :type json: str
+        """
+
+        self._json = json
+
+    @property
+    def headers(self):
+        """Gets the headers of this Action.
+
+        the HTTP headers of the request  # noqa: E501
+
+        :return: The headers of this Action.
+        :rtype: str
+        """
+        return self._headers
+
+    @headers.setter
+    def headers(self, headers):
+        """Sets the headers of this Action.
+
+        the HTTP headers of the request  # noqa: E501
+
+        :param headers: The headers of this Action.
+        :type headers: str
+        """
+
+        self._headers = headers

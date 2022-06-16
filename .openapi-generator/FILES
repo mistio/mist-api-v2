@@ -215,6 +215,7 @@ mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
 mist_api_v2/models/script_to_run.py
+mist_api_v2/models/script_to_run_all_of.py
 mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
@@ -237,6 +238,7 @@ mist_api_v2/models/vultr_cloud_request.py
 mist_api_v2/models/vultr_credentials.py
 mist_api_v2/models/vultr_extra.py
 mist_api_v2/models/vultr_net.py
+mist_api_v2/models/web_hook_action.py
 mist_api_v2/models/when.py
 mist_api_v2/models/when_all_of.py
 mist_api_v2/models/window.py

@@ -15,21 +15,21 @@ class ScriptToRunAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None):  # noqa: E501
+    def __init__(self, script_type=None):  # noqa: E501
         """ScriptToRunAllOf - a model defined in OpenAPI
 
-        :param type: The type of this ScriptToRunAllOf.  # noqa: E501
-        :type type: str
+        :param script_type: The script_type of this ScriptToRunAllOf.  # noqa: E501
+        :type script_type: str
         """
         self.openapi_types = {
-            'type': str
+            'script_type': str
         }
 
         self.attribute_map = {
-            'type': 'type'
+            'script_type': 'script_type'
         }
 
-        self._type = type
+        self._script_type = script_type
 
     @classmethod
     def from_dict(cls, dikt) -> 'ScriptToRunAllOf':
@@ -43,28 +43,28 @@ class ScriptToRunAllOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def type(self):
-        """Gets the type of this ScriptToRunAllOf.
+    def script_type(self):
+        """Gets the script_type of this ScriptToRunAllOf.
 
 
-        :return: The type of this ScriptToRunAllOf.
+        :return: The script_type of this ScriptToRunAllOf.
         :rtype: str
         """
-        return self._type
+        return self._script_type
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this ScriptToRunAllOf.
+    @script_type.setter
+    def script_type(self, script_type):
+        """Sets the script_type of this ScriptToRunAllOf.
 
 
-        :param type: The type of this ScriptToRunAllOf.
-        :type type: str
+        :param script_type: The script_type of this ScriptToRunAllOf.
+        :type script_type: str
         """
-        allowed_values = ["run_script"]  # noqa: E501
-        if type not in allowed_values:
+        allowed_values = ["inline", "existing"]  # noqa: E501
+        if script_type not in allowed_values:
             raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"
-                .format(type, allowed_values)
+                "Invalid value for `script_type` ({0}), must be one of {1}"
+                .format(script_type, allowed_values)
             )
 
-        self._type = type
+        self._script_type = script_type

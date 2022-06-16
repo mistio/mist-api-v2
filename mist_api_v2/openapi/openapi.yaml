@@ -6136,11 +6136,13 @@ components:
         - $ref: '#/components/schemas/Notification'
         - $ref: '#/components/schemas/ResizeAction'
         - $ref: '#/components/schemas/ScriptToRun'
+        - $ref: '#/components/schemas/WebHookAction'
       discriminator:
         mapping:
           notify: '#/components/schemas/Notification'
           resize: '#/components/schemas/ResizeAction'
           run_script: '#/components/schemas/ScriptToRun'
+          webhook: '#/components/schemas/WebHookAction'
         propertyName: type
       title: Action
       type: object
@@ -6203,10 +6205,56 @@ components:
       title: RunExistingScript
       type: object
     ScriptToRun:
-      oneOf:
-      - $ref: '#/components/schemas/RunCommand'
-      - $ref: '#/components/schemas/RunExistingScript'
+      allOf:
+      - $ref: '#/components/schemas/ScriptToRun_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/RunCommand'
+        - $ref: '#/components/schemas/RunExistingScript'
+      discriminator:
+        mapping:
+          inline: '#/components/schemas/RunCommand'
+          existing: '#/components/schemas/RunExistingScript'
+        propertyName: script_type
       title: ScriptToRun
+    WebHookAction:
+      properties:
+        method:
+          description: the HTTP method to be executed by the webhook
+          enum:
+          - post
+          - delete
+          - put
+          - patch
+          example: post
+          title: method
+          type: string
+        url:
+          description: the URL of the endpoint that is called by the webhook
+          example: http://localhost
+          title: url
+          type: string
+        params:
+          description: the query string parameters of the HTTP request
+          example: ?id=test
+          title: params
+          type: string
+        data:
+          description: the body of the HTTP request
+          title: data
+          type: string
+        json:
+          description: the JSON body of the HTTP request
+          title: json
+          type: string
+        headers:
+          description: the HTTP headers of the request
+          title: headers
+          type: string
+      required:
+      - method
+      - url
+      title: WebHookAction
+      type: object
     When:
       allOf:
       - $ref: '#/components/schemas/When_allOf'
@@ -11811,7 +11859,8 @@ components:
     Action_allOf:
       properties:
         action_type:
-          description: "the action's type: notification, resource_action, run_script\n"
+          description: "the action's type: notification, resource_action, run_script,\
+            \ webhook\n"
           enum:
           - start
           - stop
@@ -11821,11 +11870,22 @@ components:
           - delete
           - resize
           - run_script
+          - webhook
           title: action_type
           type: string
       required:
       - action_type
       title: Action_allOf
+    ScriptToRun_allOf:
+      properties:
+        script_type:
+          enum:
+          - inline
+          - existing
+          example: inline
+          title: script_type
+          type: string
+      title: ScriptToRun_allOf
     When_allOf:
       properties:
         schedule_type:
