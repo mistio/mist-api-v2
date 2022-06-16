@@ -620,6 +620,8 @@ paths:
       - tags
       - owned_by
       - created_by
+      x-cli-table-override:
+      - credentials
       x-openapi-router-controller: mist_api_v2.controllers.clusters_controller
   /api/v2/clusters/{cluster}/nodepools/{nodepool}:
     post:
@@ -1334,6 +1336,8 @@ paths:
       - tags
       - owned_by
       - created_by
+      x-cli-table-override:
+      - private
       x-openapi-router-controller: mist_api_v2.controllers.keys_controller
     put:
       description: Edit target key
@@ -4870,6 +4874,18 @@ paths:
       summary: Get secret
       tags:
       - secrets
+      x-cli-table-default:
+      - id
+      - name
+      - tags
+      x-cli-table-extended:
+      - id
+      - name
+      - tags
+      - owned_by
+      - created_by
+      x-cli-table-override:
+      - value
       x-openapi-router-controller: mist_api_v2.controllers.secrets_controller
     put:
       description: Edit/update target secret
