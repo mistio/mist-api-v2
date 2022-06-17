@@ -3,7 +3,6 @@ import importlib
 
 import pytest
 
-from misttests.config import MIST_URL
 from misttests.integration.api.helpers import assert_response_ok
 from misttests.integration.api.mistrequests import MistRequests
 from misttests.integration.api.utils import assert_equal, assert_in
@@ -11,7 +10,9 @@ from datetime import datetime
 
 from misttests.integration.api.utils import assert_list_empty
 
-from misttests.integration.api.main.v2.setup.search_tags import N_KEYS, KEYS_URI, TAGS_URI
+from misttests.integration.api.main.v2.setup.search_tags import N_KEYS
+from misttests.integration.api.main.v2.setup.search_tags import KEYS_URI
+from misttests.integration.api.main.v2.setup.search_tags import TAGS_URI
 
 try:
     _setup_module = importlib.import_module(
@@ -39,7 +40,8 @@ def after_test(request):
 
 class TestSearchTags:
     """Search by tags in list_keys test stubs"""
-    def search_keys_template(self, owner_api_token, query_string, negative=False):
+    def search_keys_template(self, owner_api_token, query_string,
+                             negative=False):
         print(datetime.now().time())
         print(f"The tagged resources are {setup_data['tagged']} \n")
         print("Hitting the api:")
@@ -59,39 +61,39 @@ class TestSearchTags:
             for id in setup_data['tagged']:
                 assert_in(id, data)
         print('Success!!!')
-        
+
     def test_search_tags_before_tagging(self, pretty_print, owner_api_token):
         """
             Test case for searching keys by tags when no
             key is tagged. Should return []
         """
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string, negative= True)
-    
+        self.search_keys_template(owner_api_token, query_string,
+                                  negative=True)
+
     def test_tag_keys(self, pretty_print, owner_api_token):
         """
             Test case for tagging keys.
         """
         request = MistRequests(
-        api_token=owner_api_token,
-        uri=TAGS_URI,
-        json=setup_data['tag_request'])
-        
+            api_token=owner_api_token,
+            uri=TAGS_URI,
+            json=setup_data['tag_request'])
+
         response = request.post()
         assert_response_ok(response)
         print(f'Tagged at {datetime.now().time()} \n')
         print(f"{setup_data['tag_request']['operations'][0]['resources']}\n")
-        time.sleep(5)
 
         # Check if the keys are tagged
         query_params = [('search', 'tagged-key')]
         response = MistRequests(
-        api_token=owner_api_token,
-        uri=KEYS_URI,
-        params=query_params).get()
+            api_token=owner_api_token,
+            uri=KEYS_URI,
+            params=query_params).get()
 
         assert_response_ok(response)
-       
+
         print('Success!!!')
 
     def test_search_fulltag(self, pretty_print, owner_api_token):
@@ -152,26 +154,16 @@ class TestSearchTags:
 
         response = request.post()
         assert_response_ok(response)
-        time.sleep(5)
-        
-        # Check if the keys are untagged
-        query_params = [('search', 'tagged-key')]
-        response = MistRequests(
-        api_token=owner_api_token,
-        uri=KEYS_URI,
-        params=query_params).get()
-
-        assert_response_ok(response)
-        
         print('Success!!!')
 
-    def test_search_tags_after_untagging(self, pretty_print, owner_api_token):   
+    def test_search_tags_after_untagging(self, pretty_print, owner_api_token):
         """
             Test case for searching keys by tags when no
             key is tagged. Should return []
         """
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string, negative= True)
+        self.search_keys_template(owner_api_token, query_string,
+                                  negative=True)
 
 
 if SETUP_MODULE_EXISTS:
