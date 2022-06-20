@@ -38,29 +38,27 @@ def after_test(request):
             time.sleep(sleep)
 
 
+def search_keys_template(owner_api_token, query_string):
+
+    print(datetime.now().time())
+    print(f"The tagged resources are {setup_data['tagged']} \n")
+    print("Hitting the api:")
+
+    response = MistRequests(
+        api_token=owner_api_token,
+        uri=KEYS_URI,
+        params=query_string).get()
+
+    assert_response_ok(response)
+    print("List keys with query=", query_string)
+    data = response.json()['data']
+    print(data)
+
+    return data
+
+
 class TestSearchTags:
     """Search by tags in list_keys test stubs"""
-    def search_keys_template(self, owner_api_token, query_string,
-                             negative=False):
-        print(datetime.now().time())
-        print(f"The tagged resources are {setup_data['tagged']} \n")
-        print("Hitting the api:")
-
-        response = MistRequests(
-            api_token=owner_api_token,
-            uri=KEYS_URI,
-            params=query_string).get()
-        time.sleep(1)
-        assert_response_ok(response)
-        print("List keys with query=", query_string)
-        data = response.json()['data']
-        print(data)
-        if negative:
-            assert_list_empty(data)
-        else:
-            for id in setup_data['tagged']:
-                assert_in(id, data)
-        print('Success!!!')
 
     def test_search_tags_before_tagging(self, pretty_print, owner_api_token):
         """
@@ -68,8 +66,9 @@ class TestSearchTags:
             key is tagged. Should return []
         """
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string,
-                                  negative=True)
+        data = search_keys_template(owner_api_token, query_string)
+        assert_list_empty(data)
+        print('Success!!!')
 
     def test_tag_keys(self, pretty_print, owner_api_token):
         """
@@ -94,8 +93,6 @@ class TestSearchTags:
 
         assert_response_ok(response)
 
-        print('Success!!!')
-
     def test_search_fulltag(self, pretty_print, owner_api_token):
         """Test case for search Keys by full tag=key:value"""
 
@@ -110,34 +107,48 @@ class TestSearchTags:
         assert_response_ok(response)
         print(response.json()['data'])
         assert_equal(response.json()['meta']['total'], N_KEYS)
-        time.sleep(1)
 
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string)
+        data = search_keys_template(owner_api_token, query_string)
+        for id in setup_data['tagged']:
+            assert_in(id, data)
+        print('Success!!!')
 
     def test_search_only_tagkey(self, pretty_print, owner_api_token):
         """Test case for search Keys by tagkey"""
 
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string)
+        data = search_keys_template(owner_api_token, query_string)
+        for id in setup_data['tagged']:
+            assert_in(id, data)
+        print('Success!!!')
 
     def test_search_only_tagvalue(self, pretty_print, owner_api_token):
         """Test case for search Keys by tagValue"""
 
         query_string = [('search', 'tag:,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string)
+        data = search_keys_template(owner_api_token, query_string)
+        for id in setup_data['tagged']:
+            assert_in(id, data)
+        print('Success!!!')
 
     def test_search_implicit_tagkey(self, pretty_print, owner_api_token):
         """Test case for implicit search Keys by tagKey"""
 
         query_string = [('search', 'dev'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string)
+        data = search_keys_template(owner_api_token, query_string)
+        for id in setup_data['tagged']:
+            assert_in(id, data)
+        print('Success!!!')
 
     def test_search_implicit_tagValue(self, pretty_print, owner_api_token):
         """Test case for implicit search Keys by tagValue"""
 
         query_string = [('search', 'value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string)
+        data = search_keys_template(owner_api_token, query_string)
+        for id in setup_data['tagged']:
+            assert_in(id, data)
+        print('Success!!!')
 
     def test_untag_keys(self, pretty_print, owner_api_token):
         """Test case for untagging keys.
@@ -162,8 +173,9 @@ class TestSearchTags:
             key is tagged. Should return []
         """
         query_string = [('search', 'tag:dev,value1'), ('only', 'id')]
-        self.search_keys_template(owner_api_token, query_string,
-                                  negative=True)
+        data = search_keys_template(owner_api_token, query_string)
+        assert_list_empty(data)
+        print('Success!!!')
 
 
 if SETUP_MODULE_EXISTS:
