@@ -5302,6 +5302,7 @@ paths:
       summary: Tag Resources
       tags:
       - tags
+      x-cli-ignore: true
       x-openapi-router-controller: mist_api_v2.controllers.tags_controller
   /api/v2/users:
     get:
