@@ -46,23 +46,17 @@ def add_rule(add_rule_request=None):  # noqa: E501
     kwargs = add_rule_request.to_dict()
     arbitrary = kwargs['selectors'] is None
     delete_none(kwargs)
-    import ipdb; ipdb.set_trace()
     if len(kwargs.get('conditions')) > 1:
         raise NotImplementedError()
     data_type = kwargs.get('conditions')[0].pop('data_type')
     queries = kwargs.get('conditions')[0].pop('query')
     window = kwargs.get('conditions')[0].pop('window')
     kwargs.pop('conditions')
-    kwargs['queries'] = queries
+    kwargs['queries'] = [queries]
     kwargs['window'] = window
     schedule_type = kwargs.get('when').pop('schedule_type')
-    if schedule_type == 'interval':
-        frequency = kwargs.pop('when')
-        kwargs['frequency'] = frequency
-    elif schedule_type == 'one_off':
-        raise NotImplementedError()
-    elif schedule_type == 'crontab':
-        raise NotImplementedError()
+    if schedule_type != 'interval':
+        raise BadRequestError('Invalid schedule type')
     # Get the proper Rule subclass.
     rule_key = f'{"arbitrary" if arbitrary else "resource"}-{data_type}'
     rule_cls = RULES[rule_key]
@@ -141,6 +135,16 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     rule.ctl.set_auth_context(auth_context)
     kwargs = delete_none(edit_rule_request.to_dict())
+    data_type = kwargs.get('conditions')[0].pop('data_type')
+    queries = kwargs.get('conditions')[0].pop('query')
+    window = kwargs.get('conditions')[0].pop('window')
+    kwargs.pop('conditions')
+    kwargs['queries'] = [queries]
+    kwargs['window'] = window
+    schedule_type = kwargs.get('when').pop('schedule_type')
+    import ipdb; ipdb.set_trace()
+    if schedule_type != 'interval':
+        raise BadRequestError('Invalid schedule type')
     try:
         rule.ctl.update(**kwargs)
     except (BadRequestError, ValidationError) as e:
