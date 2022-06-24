@@ -25,11 +25,9 @@ class EditRuleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, selectors=None, conditions=None, actions=None, when=None, trigger_after=None):  # noqa: E501
+    def __init__(self, description=None, selectors=None, conditions=None, actions=None, when=None, trigger_after=None):  # noqa: E501
         """EditRuleRequest - a model defined in OpenAPI
 
-        :param name: The name of this EditRuleRequest.  # noqa: E501
-        :type name: str
         :param description: The description of this EditRuleRequest.  # noqa: E501
         :type description: str
         :param selectors: The selectors of this EditRuleRequest.  # noqa: E501
@@ -44,7 +42,6 @@ class EditRuleRequest(Model):
         :type trigger_after: TriggerAfter
         """
         self.openapi_types = {
-            'name': str,
             'description': str,
             'selectors': List[Selector],
             'conditions': List[Condition],
@@ -54,7 +51,6 @@ class EditRuleRequest(Model):
         }
 
         self.attribute_map = {
-            'name': 'name',
             'description': 'description',
             'selectors': 'selectors',
             'conditions': 'conditions',
@@ -63,7 +59,6 @@ class EditRuleRequest(Model):
             'trigger_after': 'trigger_after'
         }
 
-        self._name = name
         self._description = description
         self._selectors = selectors
         self._conditions = conditions
@@ -81,29 +76,6 @@ class EditRuleRequest(Model):
         :rtype: EditRuleRequest
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def name(self):
-        """Gets the name of this EditRuleRequest.
-
-        The name of the rule  # noqa: E501
-
-        :return: The name of this EditRuleRequest.
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this EditRuleRequest.
-
-        The name of the rule  # noqa: E501
-
-        :param name: The name of this EditRuleRequest.
-        :type name: str
-        """
-
-        self._name = name
 
     @property
     def description(self):

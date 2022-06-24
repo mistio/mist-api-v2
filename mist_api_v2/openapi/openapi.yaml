@@ -3652,7 +3652,7 @@ paths:
                   conditions:
                   - data_type: logs
                     query:
-                      aggregation: sum
+                      aggregation: count
                       operator: eq
                       target: "10"
                       threshold: 9.5
@@ -3668,13 +3668,12 @@ paths:
                     ids:
                     - 738f633d987148a8b2c1628e0cd416b4
                   trigger_after:
-                    offset: 0
-                    period: minutes
+                    offset: 8
+                    period: hours
                   when:
                     schedule_type: interval
                     every: 2
                     period: hours
-                    start_after: 2022-10-22T18:19:28Z
             schema:
               $ref: '#/components/schemas/AddRuleRequest'
       responses:
@@ -3860,7 +3859,7 @@ paths:
                   conditions:
                   - data_type: logs
                     query:
-                      aggregation: sum
+                      aggregation: count
                       operator: eq
                       target: "10"
                       threshold: 9.5
@@ -3870,17 +3869,16 @@ paths:
                       stop: 2
                   description: Rule that reboots a machine when a sum equals to 10
                     and is evaluated once
-                  name: EditedRebootMachineOneOffRule
                   selectors:
                   - type: machines
                     ids:
                     - 738f633d987148a8b2c1628e0cd416b4
                   trigger_after:
-                    offset: 0
-                    period: minutes
+                    offset: 6
+                    period: hours
                   when:
                     schedule_type: interval
-                    every: 5
+                    every: 2
                     period: hours
             schema:
               $ref: '#/components/schemas/EditRuleRequest'
@@ -10858,7 +10856,6 @@ components:
       type: object
     EditRuleRequest:
       example:
-        name: edited-rule
         trigger_after:
           period: period
           offset: 5
@@ -10892,11 +10889,6 @@ components:
         - null
         when: null
       properties:
-        name:
-          description: The name of the rule
-          example: edited-rule
-          title: name
-          type: string
         description:
           description: The description of the rule
           title: description

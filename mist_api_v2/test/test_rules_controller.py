@@ -122,7 +122,6 @@ class TestRulesController:
         """
         edit_rule_request = setup_data.get('edit_rule', {}).get(
             'request_body') or json.loads("""{
-  "name" : "edited-rule",
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
