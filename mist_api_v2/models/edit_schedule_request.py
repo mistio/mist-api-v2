@@ -8,11 +8,13 @@ from typing import List, Dict  # noqa: F401
 from mist_api_v2.models.base_model_ import Model
 from mist_api_v2.models.action import Action
 from mist_api_v2.models.add_schedule_request_reminder import AddScheduleRequestReminder
+from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.when import When
 from mist_api_v2 import util
 
 from mist_api_v2.models.action import Action  # noqa: E501
 from mist_api_v2.models.add_schedule_request_reminder import AddScheduleRequestReminder  # noqa: E501
+from mist_api_v2.models.selector import Selector  # noqa: E501
 from mist_api_v2.models.when import When  # noqa: E501
 
 class EditScheduleRequest(Model):
@@ -21,7 +23,7 @@ class EditScheduleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, enabled=None, actions=None, when=None, expires=None, reminder=None):  # noqa: E501
+    def __init__(self, name=None, description=None, enabled=None, selectors=None, actions=None, when=None, expires=None, reminder=None):  # noqa: E501
         """EditScheduleRequest - a model defined in OpenAPI
 
         :param name: The name of this EditScheduleRequest.  # noqa: E501
@@ -30,6 +32,8 @@ class EditScheduleRequest(Model):
         :type description: str
         :param enabled: The enabled of this EditScheduleRequest.  # noqa: E501
         :type enabled: bool
+        :param selectors: The selectors of this EditScheduleRequest.  # noqa: E501
+        :type selectors: List[Selector]
         :param actions: The actions of this EditScheduleRequest.  # noqa: E501
         :type actions: List[Action]
         :param when: The when of this EditScheduleRequest.  # noqa: E501
@@ -43,6 +47,7 @@ class EditScheduleRequest(Model):
             'name': str,
             'description': str,
             'enabled': bool,
+            'selectors': List[Selector],
             'actions': List[Action],
             'when': When,
             'expires': str,
@@ -53,6 +58,7 @@ class EditScheduleRequest(Model):
             'name': 'name',
             'description': 'description',
             'enabled': 'enabled',
+            'selectors': 'selectors',
             'actions': 'actions',
             'when': 'when',
             'expires': 'expires',
@@ -62,6 +68,7 @@ class EditScheduleRequest(Model):
         self._name = name
         self._description = description
         self._enabled = enabled
+        self._selectors = selectors
         self._actions = actions
         self._when = when
         self._expires = expires
@@ -146,6 +153,27 @@ class EditScheduleRequest(Model):
         """
 
         self._enabled = enabled
+
+    @property
+    def selectors(self):
+        """Gets the selectors of this EditScheduleRequest.
+
+
+        :return: The selectors of this EditScheduleRequest.
+        :rtype: List[Selector]
+        """
+        return self._selectors
+
+    @selectors.setter
+    def selectors(self, selectors):
+        """Sets the selectors of this EditScheduleRequest.
+
+
+        :param selectors: The selectors of this EditScheduleRequest.
+        :type selectors: List[Selector]
+        """
+
+        self._selectors = selectors
 
     @property
     def actions(self):

@@ -111,6 +111,7 @@ class TestSchedulesController:
   },
   "name" : "schedule-name",
   "description" : "Edited Schedule",
+  "selectors" : [ null, null ],
   "actions" : [ null, null ],
   "enabled" : true
 }""", strict=False)

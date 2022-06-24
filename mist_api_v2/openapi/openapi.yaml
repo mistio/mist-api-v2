@@ -10293,6 +10293,9 @@ components:
             value: 0
         name: schedule-name
         description: Edited Schedule
+        selectors:
+        - null
+        - null
         actions:
         - null
         - null
@@ -10314,6 +10317,11 @@ components:
           example: true
           title: enabled
           type: boolean
+        selectors:
+          items:
+            $ref: '#/components/schemas/Selector'
+          title: selectors
+          type: array
         actions:
           items:
             $ref: '#/components/schemas/Action'
