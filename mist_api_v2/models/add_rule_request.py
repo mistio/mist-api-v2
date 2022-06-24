@@ -25,15 +25,13 @@ class AddRuleRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, enabled=None, selectors=None, conditions=None, actions=None, when=None, trigger_after=None):  # noqa: E501
+    def __init__(self, name=None, description=None, selectors=None, conditions=None, actions=None, when=None, trigger_after=None):  # noqa: E501
         """AddRuleRequest - a model defined in OpenAPI
 
         :param name: The name of this AddRuleRequest.  # noqa: E501
         :type name: str
         :param description: The description of this AddRuleRequest.  # noqa: E501
         :type description: str
-        :param enabled: The enabled of this AddRuleRequest.  # noqa: E501
-        :type enabled: bool
         :param selectors: The selectors of this AddRuleRequest.  # noqa: E501
         :type selectors: List[Selector]
         :param conditions: The conditions of this AddRuleRequest.  # noqa: E501
@@ -48,7 +46,6 @@ class AddRuleRequest(Model):
         self.openapi_types = {
             'name': str,
             'description': str,
-            'enabled': bool,
             'selectors': List[Selector],
             'conditions': List[Condition],
             'actions': List[Action],
@@ -59,7 +56,6 @@ class AddRuleRequest(Model):
         self.attribute_map = {
             'name': 'name',
             'description': 'description',
-            'enabled': 'enabled',
             'selectors': 'selectors',
             'conditions': 'conditions',
             'actions': 'actions',
@@ -69,7 +65,6 @@ class AddRuleRequest(Model):
 
         self._name = name
         self._description = description
-        self._enabled = enabled
         self._selectors = selectors
         self._conditions = conditions
         self._actions = actions
@@ -134,29 +129,6 @@ class AddRuleRequest(Model):
         """
 
         self._description = description
-
-    @property
-    def enabled(self):
-        """Gets the enabled of this AddRuleRequest.
-
-        Rule status (enabled, disabled)  # noqa: E501
-
-        :return: The enabled of this AddRuleRequest.
-        :rtype: bool
-        """
-        return self._enabled
-
-    @enabled.setter
-    def enabled(self, enabled):
-        """Sets the enabled of this AddRuleRequest.
-
-        Rule status (enabled, disabled)  # noqa: E501
-
-        :param enabled: The enabled of this AddRuleRequest.
-        :type enabled: bool
-        """
-
-        self._enabled = enabled
 
     @property
     def selectors(self):

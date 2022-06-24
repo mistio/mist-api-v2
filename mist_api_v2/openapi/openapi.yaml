@@ -3658,18 +3658,17 @@ paths:
                       threshold: 9.5
                     window:
                       period: hours
-                      start: 0
-                      stop: 2
+                      start: 2
+                      stop: 1
                   description: rule that stops a machine when a sum equals to 10 and
                     is evaluated every 2 hours
-                  enabled: true
                   name: NewStopMachineIntervalRule
                   selectors:
                   - type: machines
                     ids:
                     - 738f633d987148a8b2c1628e0cd416b4
                   trigger_after:
-                    offset: 5
+                    offset: 0
                     period: minutes
                   when:
                     schedule_type: interval
@@ -3871,18 +3870,18 @@ paths:
                       stop: 2
                   description: Rule that reboots a machine when a sum equals to 10
                     and is evaluated once
-                  enabled: true
                   name: EditedRebootMachineOneOffRule
                   selectors:
                   - type: machines
                     ids:
                     - 738f633d987148a8b2c1628e0cd416b4
                   trigger_after:
-                    offset: 20
+                    offset: 0
                     period: minutes
                   when:
-                    datetime: 2022-06-22T18:19:28Z
-                    schedule_type: one_off
+                    schedule_type: interval
+                    every: 5
+                    period: hours
             schema:
               $ref: '#/components/schemas/EditRuleRequest'
       responses:
@@ -10688,7 +10687,6 @@ components:
           - null
           - null
           when: null
-          enabled: true
         - name: name
           trigger_after:
             period: period
@@ -10723,7 +10721,6 @@ components:
           - null
           - null
           when: null
-          enabled: true
         meta:
           total: 0
           start: 1
@@ -10776,7 +10773,6 @@ components:
           - null
           - null
           when: null
-          enabled: true
         meta:
           total: 0
           start: 1
@@ -10824,7 +10820,6 @@ components:
         - null
         - null
         when: null
-        enabled: true
       properties:
         name:
           description: The name of the rule
@@ -10835,11 +10830,6 @@ components:
           description: The description of the rule
           title: description
           type: string
-        enabled:
-          description: "Rule status (enabled, disabled)"
-          example: true
-          title: enabled
-          type: boolean
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
@@ -10901,7 +10891,6 @@ components:
         - null
         - null
         when: null
-        enabled: true
       properties:
         name:
           description: The name of the rule
@@ -10912,11 +10901,6 @@ components:
           description: The description of the rule
           title: description
           type: string
-        enabled:
-          description: "Rule status (enabled, disabled)"
-          example: true
-          title: enabled
-          type: boolean
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
@@ -10974,7 +10958,6 @@ components:
         - null
         - null
         when: null
-        enabled: true
       properties:
         id:
           title: id
@@ -10985,9 +10968,6 @@ components:
         description:
           title: description
           type: string
-        enabled:
-          title: enabled
-          type: boolean
         selectors:
           items:
             $ref: '#/components/schemas/Selector'

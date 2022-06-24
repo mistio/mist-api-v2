@@ -25,7 +25,7 @@ class Rule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, enabled=None, selectors=None, conditions=None, actions=None, when=None, trigger_after=None):  # noqa: E501
+    def __init__(self, id=None, name=None, description=None, selectors=None, conditions=None, actions=None, when=None, trigger_after=None):  # noqa: E501
         """Rule - a model defined in OpenAPI
 
         :param id: The id of this Rule.  # noqa: E501
@@ -34,8 +34,6 @@ class Rule(Model):
         :type name: str
         :param description: The description of this Rule.  # noqa: E501
         :type description: str
-        :param enabled: The enabled of this Rule.  # noqa: E501
-        :type enabled: bool
         :param selectors: The selectors of this Rule.  # noqa: E501
         :type selectors: List[Selector]
         :param conditions: The conditions of this Rule.  # noqa: E501
@@ -51,7 +49,6 @@ class Rule(Model):
             'id': str,
             'name': str,
             'description': str,
-            'enabled': bool,
             'selectors': List[Selector],
             'conditions': List[Condition],
             'actions': List[Action],
@@ -63,7 +60,6 @@ class Rule(Model):
             'id': 'id',
             'name': 'name',
             'description': 'description',
-            'enabled': 'enabled',
             'selectors': 'selectors',
             'conditions': 'conditions',
             'actions': 'actions',
@@ -74,7 +70,6 @@ class Rule(Model):
         self._id = id
         self._name = name
         self._description = description
-        self._enabled = enabled
         self._selectors = selectors
         self._conditions = conditions
         self._actions = actions
@@ -154,27 +149,6 @@ class Rule(Model):
         """
 
         self._description = description
-
-    @property
-    def enabled(self):
-        """Gets the enabled of this Rule.
-
-
-        :return: The enabled of this Rule.
-        :rtype: bool
-        """
-        return self._enabled
-
-    @enabled.setter
-    def enabled(self, enabled):
-        """Sets the enabled of this Rule.
-
-
-        :param enabled: The enabled of this Rule.
-        :type enabled: bool
-        """
-
-        self._enabled = enabled
 
     @property
     def selectors(self):
