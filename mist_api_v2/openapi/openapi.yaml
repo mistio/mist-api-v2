@@ -4239,14 +4239,47 @@ paths:
               RenameSchedule:
                 summary: Rename an existing schedule
                 value:
-                  name: RenamedSchedule
-                  description: This is a renamed schedule
+                  actions:
+                  - action_type: reboot
+                  description: Renamed schedule
+                  enabled: true
+                  expires: 2022-06-28 00:00:00
+                  name: RenamedOneOffSchedule
+                  reminder:
+                    message: message
+                    when:
+                      unit: seconds
+                      value: 10
+                  run_immediately: false
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  when:
+                    datetime: 2022-06-25 18:19:23
+                    schedule_type: one_off
               DeactivateSchedule:
                 summary: Deactivate an existing active schedule
                 value:
-                  name: DeactivatedSchedule
-                  description: This is a deactivated schedule
+                  actions:
+                  - action_type: reboot
+                  description: Renamed schedule
                   enabled: false
+                  expires: 2022-06-28 00:00:00
+                  name: DeactivatedOneOffSchedule
+                  reminder:
+                    message: message
+                    when:
+                      unit: seconds
+                      value: 10
+                  run_immediately: false
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  when:
+                    datetime: 2022-06-25 18:19:23
+                    schedule_type: one_off
             schema:
               $ref: '#/components/schemas/EditScheduleRequest'
       responses:
