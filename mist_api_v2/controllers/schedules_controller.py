@@ -47,7 +47,7 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
     enabled = kwargs.pop('enabled')
     kwargs['task_enabled'] = enabled
     try:
-        schedule = Schedule.add_v2(auth_context, name, **kwargs)
+        schedule = Schedule.add(auth_context, name, **kwargs)
     except BadRequestError as e:
         return str(e), 400
     except ScheduleNameExistsError as e:
@@ -130,7 +130,7 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
                                     deleted=None)
 
     schedule.ctl.set_auth_context(auth_context)
-    schedule.ctl.update_v2(**kwargs)
+    schedule.ctl.update(**kwargs)
     return 'Updated schedule `%s`' % schedule.name, 200
 
 

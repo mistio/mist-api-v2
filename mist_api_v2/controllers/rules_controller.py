@@ -142,7 +142,6 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
     kwargs['queries'] = [queries]
     kwargs['window'] = window
     schedule_type = kwargs.get('when').pop('schedule_type')
-    import ipdb; ipdb.set_trace()
     if schedule_type != 'interval':
         raise BadRequestError('Invalid schedule type')
     try:
