@@ -194,7 +194,6 @@ mist_api_v2/models/openstack_credentials.py
 mist_api_v2/models/openstack_net.py
 mist_api_v2/models/org.py
 mist_api_v2/models/org_resources_summary.py
-mist_api_v2/models/org_resources_summary_keys.py
 mist_api_v2/models/other_cloud_request.py
 mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
@@ -202,6 +201,7 @@ mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
 mist_api_v2/models/resource.py
+mist_api_v2/models/resource_count.py
 mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py

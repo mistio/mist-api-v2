@@ -17,25 +17,17 @@ class Org(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, clouds_count=None, teams_count=None, total_machine_count=None, created=None, enterprise_plan=None, selected_plan=None, last_active=None, resources=None):  # noqa: E501
+    def __init__(self, id=None, name=None, created=None, billing=None, last_active=None, resources=None):  # noqa: E501
         """Org - a model defined in OpenAPI
 
         :param id: The id of this Org.  # noqa: E501
         :type id: str
         :param name: The name of this Org.  # noqa: E501
         :type name: str
-        :param clouds_count: The clouds_count of this Org.  # noqa: E501
-        :type clouds_count: str
-        :param teams_count: The teams_count of this Org.  # noqa: E501
-        :type teams_count: str
-        :param total_machine_count: The total_machine_count of this Org.  # noqa: E501
-        :type total_machine_count: str
         :param created: The created of this Org.  # noqa: E501
         :type created: bool
-        :param enterprise_plan: The enterprise_plan of this Org.  # noqa: E501
-        :type enterprise_plan: object
-        :param selected_plan: The selected_plan of this Org.  # noqa: E501
-        :type selected_plan: str
+        :param billing: The billing of this Org.  # noqa: E501
+        :type billing: object
         :param last_active: The last_active of this Org.  # noqa: E501
         :type last_active: str
         :param resources: The resources of this Org.  # noqa: E501
@@ -44,12 +36,8 @@ class Org(Model):
         self.openapi_types = {
             'id': str,
             'name': str,
-            'clouds_count': str,
-            'teams_count': str,
-            'total_machine_count': str,
             'created': bool,
-            'enterprise_plan': object,
-            'selected_plan': str,
+            'billing': object,
             'last_active': str,
             'resources': OrgResourcesSummary
         }
@@ -57,24 +45,16 @@ class Org(Model):
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
-            'clouds_count': 'clouds_count',
-            'teams_count': 'teams_count',
-            'total_machine_count': 'total_machine_count',
             'created': 'created',
-            'enterprise_plan': 'enterprise_plan',
-            'selected_plan': 'selected_plan',
+            'billing': 'billing',
             'last_active': 'last_active',
             'resources': 'resources'
         }
 
         self._id = id
         self._name = name
-        self._clouds_count = clouds_count
-        self._teams_count = teams_count
-        self._total_machine_count = total_machine_count
         self._created = created
-        self._enterprise_plan = enterprise_plan
-        self._selected_plan = selected_plan
+        self._billing = billing
         self._last_active = last_active
         self._resources = resources
 
@@ -132,69 +112,6 @@ class Org(Model):
         self._name = name
 
     @property
-    def clouds_count(self):
-        """Gets the clouds_count of this Org.
-
-
-        :return: The clouds_count of this Org.
-        :rtype: str
-        """
-        return self._clouds_count
-
-    @clouds_count.setter
-    def clouds_count(self, clouds_count):
-        """Sets the clouds_count of this Org.
-
-
-        :param clouds_count: The clouds_count of this Org.
-        :type clouds_count: str
-        """
-
-        self._clouds_count = clouds_count
-
-    @property
-    def teams_count(self):
-        """Gets the teams_count of this Org.
-
-
-        :return: The teams_count of this Org.
-        :rtype: str
-        """
-        return self._teams_count
-
-    @teams_count.setter
-    def teams_count(self, teams_count):
-        """Sets the teams_count of this Org.
-
-
-        :param teams_count: The teams_count of this Org.
-        :type teams_count: str
-        """
-
-        self._teams_count = teams_count
-
-    @property
-    def total_machine_count(self):
-        """Gets the total_machine_count of this Org.
-
-
-        :return: The total_machine_count of this Org.
-        :rtype: str
-        """
-        return self._total_machine_count
-
-    @total_machine_count.setter
-    def total_machine_count(self, total_machine_count):
-        """Sets the total_machine_count of this Org.
-
-
-        :param total_machine_count: The total_machine_count of this Org.
-        :type total_machine_count: str
-        """
-
-        self._total_machine_count = total_machine_count
-
-    @property
     def created(self):
         """Gets the created of this Org.
 
@@ -216,46 +133,25 @@ class Org(Model):
         self._created = created
 
     @property
-    def enterprise_plan(self):
-        """Gets the enterprise_plan of this Org.
+    def billing(self):
+        """Gets the billing of this Org.
 
 
-        :return: The enterprise_plan of this Org.
+        :return: The billing of this Org.
         :rtype: object
         """
-        return self._enterprise_plan
+        return self._billing
 
-    @enterprise_plan.setter
-    def enterprise_plan(self, enterprise_plan):
-        """Sets the enterprise_plan of this Org.
+    @billing.setter
+    def billing(self, billing):
+        """Sets the billing of this Org.
 
 
-        :param enterprise_plan: The enterprise_plan of this Org.
-        :type enterprise_plan: object
+        :param billing: The billing of this Org.
+        :type billing: object
         """
 
-        self._enterprise_plan = enterprise_plan
-
-    @property
-    def selected_plan(self):
-        """Gets the selected_plan of this Org.
-
-
-        :return: The selected_plan of this Org.
-        :rtype: str
-        """
-        return self._selected_plan
-
-    @selected_plan.setter
-    def selected_plan(self, selected_plan):
-        """Sets the selected_plan of this Org.
-
-
-        :param selected_plan: The selected_plan of this Org.
-        :type selected_plan: str
-        """
-
-        self._selected_plan = selected_plan
+        self._billing = billing
 
     @property
     def last_active(self):
