@@ -2,7 +2,7 @@ import connexion
 
 from mist.api.helpers import delete_none
 from mist.api.dns.models import Zone
-from mist.api.tag.methods import resolve_id_and_set_tags
+from mist.api.tag.methods import add_tags_to_resource
 from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
 
 from mist.api.exceptions import BadRequestError
@@ -64,8 +64,11 @@ def create_zone(create_zone_request=None):  # noqa: E501
         return str(e), 503
     new_zone.assign_to(auth_context.user)
     if tags:
-        resolve_id_and_set_tags(auth_context.owner, 'zone', new_zone.id,
-                                tags, cloud_id=cloud.id)
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type': 'zone',
+                               'resource_id': new_zone.id}],
+                             tags)
+
     return new_zone.as_dict()
 
 

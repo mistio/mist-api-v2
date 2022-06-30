@@ -127,7 +127,9 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     cloud = Cloud.objects.get(owner=auth_context.owner, id=cloud_id)
 
     if cloud_tags:
-        add_tags_to_resource(auth_context.owner, cloud,
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type': 'cloud',
+                               'resource_id': cloud.id}],
                              list(cloud_tags.items()))
 
     # Set ownership.
