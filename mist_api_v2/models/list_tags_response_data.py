@@ -17,106 +17,26 @@ class ListTagsResponseData(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, tag=None, buckets=None, clouds=None, clusters=None, images=None, keys=None, machines=None, networks=None, records=None, schedules=None, scripts=None, secrets=None, stacks=None, subnets=None, templates=None, tunnels=None, volumes=None, zones=None):  # noqa: E501
+    def __init__(self, tag=None, resources=None):  # noqa: E501
         """ListTagsResponseData - a model defined in OpenAPI
 
         :param tag: The tag of this ListTagsResponseData.  # noqa: E501
         :type tag: Tag
-        :param buckets: The buckets of this ListTagsResponseData.  # noqa: E501
-        :type buckets: List[str]
-        :param clouds: The clouds of this ListTagsResponseData.  # noqa: E501
-        :type clouds: List[str]
-        :param clusters: The clusters of this ListTagsResponseData.  # noqa: E501
-        :type clusters: List[str]
-        :param images: The images of this ListTagsResponseData.  # noqa: E501
-        :type images: List[str]
-        :param keys: The keys of this ListTagsResponseData.  # noqa: E501
-        :type keys: List[str]
-        :param machines: The machines of this ListTagsResponseData.  # noqa: E501
-        :type machines: List[str]
-        :param networks: The networks of this ListTagsResponseData.  # noqa: E501
-        :type networks: List[str]
-        :param records: The records of this ListTagsResponseData.  # noqa: E501
-        :type records: List[str]
-        :param schedules: The schedules of this ListTagsResponseData.  # noqa: E501
-        :type schedules: List[str]
-        :param scripts: The scripts of this ListTagsResponseData.  # noqa: E501
-        :type scripts: List[str]
-        :param secrets: The secrets of this ListTagsResponseData.  # noqa: E501
-        :type secrets: List[str]
-        :param stacks: The stacks of this ListTagsResponseData.  # noqa: E501
-        :type stacks: List[str]
-        :param subnets: The subnets of this ListTagsResponseData.  # noqa: E501
-        :type subnets: List[str]
-        :param templates: The templates of this ListTagsResponseData.  # noqa: E501
-        :type templates: List[str]
-        :param tunnels: The tunnels of this ListTagsResponseData.  # noqa: E501
-        :type tunnels: List[str]
-        :param volumes: The volumes of this ListTagsResponseData.  # noqa: E501
-        :type volumes: List[str]
-        :param zones: The zones of this ListTagsResponseData.  # noqa: E501
-        :type zones: List[str]
+        :param resources: The resources of this ListTagsResponseData.  # noqa: E501
+        :type resources: object
         """
         self.openapi_types = {
             'tag': Tag,
-            'buckets': List[str],
-            'clouds': List[str],
-            'clusters': List[str],
-            'images': List[str],
-            'keys': List[str],
-            'machines': List[str],
-            'networks': List[str],
-            'records': List[str],
-            'schedules': List[str],
-            'scripts': List[str],
-            'secrets': List[str],
-            'stacks': List[str],
-            'subnets': List[str],
-            'templates': List[str],
-            'tunnels': List[str],
-            'volumes': List[str],
-            'zones': List[str]
+            'resources': object
         }
 
         self.attribute_map = {
             'tag': 'tag',
-            'buckets': 'buckets',
-            'clouds': 'clouds',
-            'clusters': 'clusters',
-            'images': 'images',
-            'keys': 'keys',
-            'machines': 'machines',
-            'networks': 'networks',
-            'records': 'records',
-            'schedules': 'schedules',
-            'scripts': 'scripts',
-            'secrets': 'secrets',
-            'stacks': 'stacks',
-            'subnets': 'subnets',
-            'templates': 'templates',
-            'tunnels': 'tunnels',
-            'volumes': 'volumes',
-            'zones': 'zones'
+            'resources': 'resources'
         }
 
         self._tag = tag
-        self._buckets = buckets
-        self._clouds = clouds
-        self._clusters = clusters
-        self._images = images
-        self._keys = keys
-        self._machines = machines
-        self._networks = networks
-        self._records = records
-        self._schedules = schedules
-        self._scripts = scripts
-        self._secrets = secrets
-        self._stacks = stacks
-        self._subnets = subnets
-        self._templates = templates
-        self._tunnels = tunnels
-        self._volumes = volumes
-        self._zones = zones
+        self._resources = resources
 
     @classmethod
     def from_dict(cls, dikt) -> 'ListTagsResponseData':
@@ -151,358 +71,22 @@ class ListTagsResponseData(Model):
         self._tag = tag
 
     @property
-    def buckets(self):
-        """Gets the buckets of this ListTagsResponseData.
+    def resources(self):
+        """Gets the resources of this ListTagsResponseData.
 
 
-        :return: The buckets of this ListTagsResponseData.
-        :rtype: List[str]
+        :return: The resources of this ListTagsResponseData.
+        :rtype: object
         """
-        return self._buckets
+        return self._resources
 
-    @buckets.setter
-    def buckets(self, buckets):
-        """Sets the buckets of this ListTagsResponseData.
-
-
-        :param buckets: The buckets of this ListTagsResponseData.
-        :type buckets: List[str]
-        """
-
-        self._buckets = buckets
-
-    @property
-    def clouds(self):
-        """Gets the clouds of this ListTagsResponseData.
+    @resources.setter
+    def resources(self, resources):
+        """Sets the resources of this ListTagsResponseData.
 
 
-        :return: The clouds of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._clouds
-
-    @clouds.setter
-    def clouds(self, clouds):
-        """Sets the clouds of this ListTagsResponseData.
-
-
-        :param clouds: The clouds of this ListTagsResponseData.
-        :type clouds: List[str]
+        :param resources: The resources of this ListTagsResponseData.
+        :type resources: object
         """
 
-        self._clouds = clouds
-
-    @property
-    def clusters(self):
-        """Gets the clusters of this ListTagsResponseData.
-
-
-        :return: The clusters of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._clusters
-
-    @clusters.setter
-    def clusters(self, clusters):
-        """Sets the clusters of this ListTagsResponseData.
-
-
-        :param clusters: The clusters of this ListTagsResponseData.
-        :type clusters: List[str]
-        """
-
-        self._clusters = clusters
-
-    @property
-    def images(self):
-        """Gets the images of this ListTagsResponseData.
-
-
-        :return: The images of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._images
-
-    @images.setter
-    def images(self, images):
-        """Sets the images of this ListTagsResponseData.
-
-
-        :param images: The images of this ListTagsResponseData.
-        :type images: List[str]
-        """
-
-        self._images = images
-
-    @property
-    def keys(self):
-        """Gets the keys of this ListTagsResponseData.
-
-
-        :return: The keys of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._keys
-
-    @keys.setter
-    def keys(self, keys):
-        """Sets the keys of this ListTagsResponseData.
-
-
-        :param keys: The keys of this ListTagsResponseData.
-        :type keys: List[str]
-        """
-
-        self._keys = keys
-
-    @property
-    def machines(self):
-        """Gets the machines of this ListTagsResponseData.
-
-
-        :return: The machines of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._machines
-
-    @machines.setter
-    def machines(self, machines):
-        """Sets the machines of this ListTagsResponseData.
-
-
-        :param machines: The machines of this ListTagsResponseData.
-        :type machines: List[str]
-        """
-
-        self._machines = machines
-
-    @property
-    def networks(self):
-        """Gets the networks of this ListTagsResponseData.
-
-
-        :return: The networks of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._networks
-
-    @networks.setter
-    def networks(self, networks):
-        """Sets the networks of this ListTagsResponseData.
-
-
-        :param networks: The networks of this ListTagsResponseData.
-        :type networks: List[str]
-        """
-
-        self._networks = networks
-
-    @property
-    def records(self):
-        """Gets the records of this ListTagsResponseData.
-
-
-        :return: The records of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._records
-
-    @records.setter
-    def records(self, records):
-        """Sets the records of this ListTagsResponseData.
-
-
-        :param records: The records of this ListTagsResponseData.
-        :type records: List[str]
-        """
-
-        self._records = records
-
-    @property
-    def schedules(self):
-        """Gets the schedules of this ListTagsResponseData.
-
-
-        :return: The schedules of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._schedules
-
-    @schedules.setter
-    def schedules(self, schedules):
-        """Sets the schedules of this ListTagsResponseData.
-
-
-        :param schedules: The schedules of this ListTagsResponseData.
-        :type schedules: List[str]
-        """
-
-        self._schedules = schedules
-
-    @property
-    def scripts(self):
-        """Gets the scripts of this ListTagsResponseData.
-
-
-        :return: The scripts of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._scripts
-
-    @scripts.setter
-    def scripts(self, scripts):
-        """Sets the scripts of this ListTagsResponseData.
-
-
-        :param scripts: The scripts of this ListTagsResponseData.
-        :type scripts: List[str]
-        """
-
-        self._scripts = scripts
-
-    @property
-    def secrets(self):
-        """Gets the secrets of this ListTagsResponseData.
-
-
-        :return: The secrets of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._secrets
-
-    @secrets.setter
-    def secrets(self, secrets):
-        """Sets the secrets of this ListTagsResponseData.
-
-
-        :param secrets: The secrets of this ListTagsResponseData.
-        :type secrets: List[str]
-        """
-
-        self._secrets = secrets
-
-    @property
-    def stacks(self):
-        """Gets the stacks of this ListTagsResponseData.
-
-
-        :return: The stacks of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._stacks
-
-    @stacks.setter
-    def stacks(self, stacks):
-        """Sets the stacks of this ListTagsResponseData.
-
-
-        :param stacks: The stacks of this ListTagsResponseData.
-        :type stacks: List[str]
-        """
-
-        self._stacks = stacks
-
-    @property
-    def subnets(self):
-        """Gets the subnets of this ListTagsResponseData.
-
-
-        :return: The subnets of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._subnets
-
-    @subnets.setter
-    def subnets(self, subnets):
-        """Sets the subnets of this ListTagsResponseData.
-
-
-        :param subnets: The subnets of this ListTagsResponseData.
-        :type subnets: List[str]
-        """
-
-        self._subnets = subnets
-
-    @property
-    def templates(self):
-        """Gets the templates of this ListTagsResponseData.
-
-
-        :return: The templates of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._templates
-
-    @templates.setter
-    def templates(self, templates):
-        """Sets the templates of this ListTagsResponseData.
-
-
-        :param templates: The templates of this ListTagsResponseData.
-        :type templates: List[str]
-        """
-
-        self._templates = templates
-
-    @property
-    def tunnels(self):
-        """Gets the tunnels of this ListTagsResponseData.
-
-
-        :return: The tunnels of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._tunnels
-
-    @tunnels.setter
-    def tunnels(self, tunnels):
-        """Sets the tunnels of this ListTagsResponseData.
-
-
-        :param tunnels: The tunnels of this ListTagsResponseData.
-        :type tunnels: List[str]
-        """
-
-        self._tunnels = tunnels
-
-    @property
-    def volumes(self):
-        """Gets the volumes of this ListTagsResponseData.
-
-
-        :return: The volumes of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._volumes
-
-    @volumes.setter
-    def volumes(self, volumes):
-        """Sets the volumes of this ListTagsResponseData.
-
-
-        :param volumes: The volumes of this ListTagsResponseData.
-        :type volumes: List[str]
-        """
-
-        self._volumes = volumes
-
-    @property
-    def zones(self):
-        """Gets the zones of this ListTagsResponseData.
-
-
-        :return: The zones of this ListTagsResponseData.
-        :rtype: List[str]
-        """
-        return self._zones
-
-    @zones.setter
-    def zones(self, zones):
-        """Sets the zones of this ListTagsResponseData.
-
-
-        :param zones: The zones of this ListTagsResponseData.
-        :type zones: List[str]
-        """
-
-        self._zones = zones
+        self._resources = resources

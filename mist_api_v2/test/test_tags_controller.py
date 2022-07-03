@@ -46,7 +46,8 @@ class TestTagsController:
 
         List tags
         """
-        query_string = setup_data.get('list_tags', {}).get('query_string') or [('types', 'machines,clouds,keys'),
+        query_string = setup_data.get('list_tags', {}).get('query_string') or [('verbose', False),
+                        ('resource', mist_api_v2.TaggableResourceTypes()),
                         ('search', 'key:key1'),
                         ('sort', '-name'),
                         ('start', '50'),

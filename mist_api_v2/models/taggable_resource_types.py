@@ -28,7 +28,6 @@ class TaggableResourceTypes(Model):
     RECORDS = "records"
     SCHEDULES = "schedules"
     SCRIPTS = "scripts"
-    SECRETS = "secrets"
     STACKS = "stacks"
     SUBNETS = "subnets"
     TEMPLATES = "templates"
