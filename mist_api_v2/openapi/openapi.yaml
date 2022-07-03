@@ -6308,7 +6308,7 @@ components:
           type: string
         query_string_params:
           description: the query string parameters of the HTTP request
-          example: ?id=test
+          example: id=test
           title: query_string_params
           type: string
         data:
