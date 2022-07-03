@@ -6306,10 +6306,10 @@ components:
           example: http://localhost
           title: url
           type: string
-        params:
+        query_string_params:
           description: the query string parameters of the HTTP request
           example: ?id=test
-          title: params
+          title: query_string_params
           type: string
         data:
           description: the body of the HTTP request

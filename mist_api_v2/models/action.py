@@ -17,7 +17,7 @@ class Action(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, action_type=None, users=None, teams=None, emails=None, params=None, script_type=None, command=None, script=None, method=None, url=None, data=None, json=None, headers=None):  # noqa: E501
+    def __init__(self, action_type=None, users=None, teams=None, emails=None, params=None, script_type=None, command=None, script=None, method=None, url=None, query_string_params=None, data=None, json=None, headers=None):  # noqa: E501
         """Action - a model defined in OpenAPI
 
         :param action_type: The action_type of this Action.  # noqa: E501
@@ -40,6 +40,8 @@ class Action(Model):
         :type method: str
         :param url: The url of this Action.  # noqa: E501
         :type url: str
+        :param query_string_params: The query_string_params of this Action.  # noqa: E501
+        :type query_string_params: str
         :param data: The data of this Action.  # noqa: E501
         :type data: str
         :param json: The json of this Action.  # noqa: E501
@@ -58,6 +60,7 @@ class Action(Model):
             'script': str,
             'method': str,
             'url': str,
+            'query_string_params': str,
             'data': str,
             'json': str,
             'headers': str
@@ -74,6 +77,7 @@ class Action(Model):
             'script': 'script',
             'method': 'method',
             'url': 'url',
+            'query_string_params': 'query_string_params',
             'data': 'data',
             'json': 'json',
             'headers': 'headers'
@@ -89,6 +93,7 @@ class Action(Model):
         self._script = script
         self._method = method
         self._url = url
+        self._query_string_params = query_string_params
         self._data = data
         self._json = json
         self._headers = headers
@@ -206,7 +211,6 @@ class Action(Model):
     def params(self):
         """Gets the params of this Action.
 
-        the query string parameters of the HTTP request  # noqa: E501
 
         :return: The params of this Action.
         :rtype: str
@@ -217,7 +221,6 @@ class Action(Model):
     def params(self, params):
         """Sets the params of this Action.
 
-        the query string parameters of the HTTP request  # noqa: E501
 
         :param params: The params of this Action.
         :type params: str
@@ -357,6 +360,29 @@ class Action(Model):
             raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url
+
+    @property
+    def query_string_params(self):
+        """Gets the query_string_params of this Action.
+
+        the query string parameters of the HTTP request  # noqa: E501
+
+        :return: The query_string_params of this Action.
+        :rtype: str
+        """
+        return self._query_string_params
+
+    @query_string_params.setter
+    def query_string_params(self, query_string_params):
+        """Sets the query_string_params of this Action.
+
+        the query string parameters of the HTTP request  # noqa: E501
+
+        :param query_string_params: The query_string_params of this Action.
+        :type query_string_params: str
+        """
+
+        self._query_string_params = query_string_params
 
     @property
     def data(self):

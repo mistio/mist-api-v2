@@ -15,15 +15,15 @@ class WebHookAction(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, method=None, url=None, params=None, data=None, json=None, headers=None):  # noqa: E501
+    def __init__(self, method=None, url=None, query_string_params=None, data=None, json=None, headers=None):  # noqa: E501
         """WebHookAction - a model defined in OpenAPI
 
         :param method: The method of this WebHookAction.  # noqa: E501
         :type method: str
         :param url: The url of this WebHookAction.  # noqa: E501
         :type url: str
-        :param params: The params of this WebHookAction.  # noqa: E501
-        :type params: str
+        :param query_string_params: The query_string_params of this WebHookAction.  # noqa: E501
+        :type query_string_params: str
         :param data: The data of this WebHookAction.  # noqa: E501
         :type data: str
         :param json: The json of this WebHookAction.  # noqa: E501
@@ -34,7 +34,7 @@ class WebHookAction(Model):
         self.openapi_types = {
             'method': str,
             'url': str,
-            'params': str,
+            'query_string_params': str,
             'data': str,
             'json': str,
             'headers': str
@@ -43,7 +43,7 @@ class WebHookAction(Model):
         self.attribute_map = {
             'method': 'method',
             'url': 'url',
-            'params': 'params',
+            'query_string_params': 'query_string_params',
             'data': 'data',
             'json': 'json',
             'headers': 'headers'
@@ -51,7 +51,7 @@ class WebHookAction(Model):
 
         self._method = method
         self._url = url
-        self._params = params
+        self._query_string_params = query_string_params
         self._data = data
         self._json = json
         self._headers = headers
@@ -122,27 +122,27 @@ class WebHookAction(Model):
         self._url = url
 
     @property
-    def params(self):
-        """Gets the params of this WebHookAction.
+    def query_string_params(self):
+        """Gets the query_string_params of this WebHookAction.
 
         the query string parameters of the HTTP request  # noqa: E501
 
-        :return: The params of this WebHookAction.
+        :return: The query_string_params of this WebHookAction.
         :rtype: str
         """
-        return self._params
+        return self._query_string_params
 
-    @params.setter
-    def params(self, params):
-        """Sets the params of this WebHookAction.
+    @query_string_params.setter
+    def query_string_params(self, query_string_params):
+        """Sets the query_string_params of this WebHookAction.
 
         the query string parameters of the HTTP request  # noqa: E501
 
-        :param params: The params of this WebHookAction.
-        :type params: str
+        :param query_string_params: The query_string_params of this WebHookAction.
+        :type query_string_params: str
         """
 
-        self._params = params
+        self._query_string_params = query_string_params
 
     @property
     def data(self):
