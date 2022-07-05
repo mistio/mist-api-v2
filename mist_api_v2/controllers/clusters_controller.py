@@ -135,6 +135,23 @@ def destroy_cluster(cluster):  # noqa: E501
                                   cluster=cluster.id), 200
 
 
+def get_new_cluster_credentials(auth_context, cluster):
+    """
+    Fetch fresh cluster credentials from provider
+
+    :param cluster:
+    :type cluster: str
+
+    :rtype: dict
+    """
+    from mist.api.methods import list_resources
+    items, _ = list_resources(auth_context, 'cluster', search=cluster)
+    if len(items) == 0:
+        raise NotFoundError
+    cluster_object = items[0]
+    return cluster_object.ctl.get_credentials()
+
+
 def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E501
     """Get cluster
 
@@ -165,8 +182,12 @@ def get_cluster(cluster, only=None, deref=None, credentials=False):  # noqa: E50
         try:
             auth_context.check_perm(
                 'cluster', 'read_credentials', result['data']['id'])
+            result['data']['credentials'] = get_new_cluster_credentials(
+                auth_context, cluster)
         except PolicyUnauthorizedError:
             return 'You are not authorized to perform this action', 403
+        except NotFoundError:
+            return 'Cluster does not exist', 404
     else:
         try:
             result['data']['credentials']['token'] = '***CENSORED***'
