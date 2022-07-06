@@ -117,7 +117,6 @@ class TestSchedulesController:
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
             schedule=setup_data.get('edit_schedule', {}).get('schedule') or setup_data.get('schedule') or 'edited-schedule')
-        assert uri == f'{MIST_URL}/api/v2/schedules/' + setup_data.get.scheule('schedule')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
