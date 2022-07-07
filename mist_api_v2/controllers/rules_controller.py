@@ -135,15 +135,17 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     rule.ctl.set_auth_context(auth_context)
     kwargs = delete_none(edit_rule_request.to_dict())
-    data_type = kwargs.get('conditions')[0].pop('data_type')
-    queries = kwargs.get('conditions')[0].pop('query')
-    window = kwargs.get('conditions')[0].pop('window')
-    kwargs.pop('conditions')
-    kwargs['queries'] = [queries]
-    kwargs['window'] = window
-    schedule_type = kwargs.get('when').pop('schedule_type')
-    if schedule_type != 'interval':
-        raise BadRequestError('Invalid schedule type')
+    if kwargs.get('conditions',[]):
+        data_type = kwargs.get('conditions')[0].pop('data_type')
+        queries = kwargs.get('conditions')[0].pop('query')
+        window = kwargs.get('conditions')[0].pop('window')
+        kwargs.pop('conditions')
+        kwargs['queries'] = [queries]
+        kwargs['window'] = window
+    if kwargs.get('when', {}):
+        schedule_type = kwargs.get('when').pop('schedule_type')
+        if schedule_type != 'interval':
+            raise BadRequestError('Invalid schedule type')
     try:
         rule.ctl.update(**kwargs)
     except (BadRequestError, ValidationError) as e:
