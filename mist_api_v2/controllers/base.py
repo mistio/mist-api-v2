@@ -19,7 +19,10 @@ def list_resources(auth_context, resource_type, cloud=None, tags='',
         search=search, only=only, sort=sort, limit=limit,
         start=start, at=at
     )
+    if not resource_type.endswith('s'):
+        resource_type += 's'
     meta = {
+        'kind': resource_type,
         'total': total,
         'returned': len(items),
         'sort': sort,
@@ -42,6 +45,7 @@ def get_resource(auth_context, resource_type, cloud=None, search='', only='',
 
     if result['data']:
         result['data'] = result['data'][0]
+        result['meta']['kind'] = result['meta']['kind'][:-1]
     else:
         raise NotFoundError(f'Resource {search} not found')
 
@@ -54,7 +58,7 @@ def get_org_resources_summary(auth_context, org_id):
     resources_count = {}
     # get count for org resources
     org_r_types = {'key', 'script', 'template', 'tunnel', 'schedule', 'rule',
-                   'team','secret'}
+                   'team','secret', 'stack'}
     from mist.api.helpers import get_resource_model
     for resource_type in org_r_types:
         try:

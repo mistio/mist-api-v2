@@ -52,13 +52,15 @@ def get_member(org, member, only=None):  # noqa: E501
     return GetOrgMemberResponse(data=result['data'], meta=result['meta'])
 
 
-def get_org(org, summary=False, only=None, deref=None):  # noqa: E501
+def get_org(org, summary=None, only=None, deref=None):  # noqa: E501
     """Get Org
 
     Get details about target org # noqa: E501
 
-    :param org:
+    :param org: 
     :type org: str
+    :param summary: Return total number for each org specific resource
+    :type summary: bool
     :param only: Only return these fields
     :type only: str
     :param deref: Dereference foreign keys
@@ -71,11 +73,14 @@ def get_org(org, summary=False, only=None, deref=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     search = f'id={org}'
-    result = get_resource(auth_context, 'orgs', search=search, only=only)
-    # get resources count only if get_resource rbac checks pass
+    try:
+        result = get_resource(auth_context, 'orgs', search=search, only=only)
+    except NotFoundError:
+        return 'Organization does not exist', 404
+    # Get resource counts only if rbac checks pass
     if summary and result['meta']['returned'] == 1:
-        r_count = get_org_resources_summary(auth_context, org_id=org)
-        result['data']['resources_count'] = r_count
+        result['data']['resources'] = get_org_resources_summary(
+            auth_context, org_id=org)
     return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 
