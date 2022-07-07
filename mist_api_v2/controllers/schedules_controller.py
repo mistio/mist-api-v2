@@ -127,10 +127,16 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
             kwargs[key] = {}
         else:
             kwargs[key] = params[key]
-    enabled = kwargs.pop('enabled')
-    kwargs['task_enabled'] = enabled
+
+    if 'enabled' in kwargs:
+        enabled = kwargs.pop('enabled')
+        kwargs['task_enabled'] = enabled
+
     schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
                                     deleted=None)
+
+    if not kwargs.get('name', ''):
+      kwargs['name'] = schedule.name
 
     schedule.ctl.set_auth_context(auth_context)
     schedule.ctl.update(**kwargs)
