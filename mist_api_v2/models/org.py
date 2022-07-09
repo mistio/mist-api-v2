@@ -17,17 +17,13 @@ class Org(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, avatar=None, created=None, billing=None, last_active=None, resources=None):  # noqa: E501
+    def __init__(self, id=None, name=None, created=None, billing=None, last_active=None, resources=None):  # noqa: E501
         """Org - a model defined in OpenAPI
 
         :param id: The id of this Org.  # noqa: E501
         :type id: str
         :param name: The name of this Org.  # noqa: E501
         :type name: str
-        :param description: The description of this Org.  # noqa: E501
-        :type description: str
-        :param avatar: The avatar of this Org.  # noqa: E501
-        :type avatar: str
         :param created: The created of this Org.  # noqa: E501
         :type created: bool
         :param billing: The billing of this Org.  # noqa: E501
@@ -40,8 +36,6 @@ class Org(Model):
         self.openapi_types = {
             'id': str,
             'name': str,
-            'description': str,
-            'avatar': str,
             'created': bool,
             'billing': object,
             'last_active': str,
@@ -51,8 +45,6 @@ class Org(Model):
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
-            'description': 'description',
-            'avatar': 'avatar',
             'created': 'created',
             'billing': 'billing',
             'last_active': 'last_active',
@@ -61,8 +53,6 @@ class Org(Model):
 
         self._id = id
         self._name = name
-        self._description = description
-        self._avatar = avatar
         self._created = created
         self._billing = billing
         self._last_active = last_active
@@ -120,48 +110,6 @@ class Org(Model):
         """
 
         self._name = name
-
-    @property
-    def description(self):
-        """Gets the description of this Org.
-
-
-        :return: The description of this Org.
-        :rtype: str
-        """
-        return self._description
-
-    @description.setter
-    def description(self, description):
-        """Sets the description of this Org.
-
-
-        :param description: The description of this Org.
-        :type description: str
-        """
-
-        self._description = description
-
-    @property
-    def avatar(self):
-        """Gets the avatar of this Org.
-
-
-        :return: The avatar of this Org.
-        :rtype: str
-        """
-        return self._avatar
-
-    @avatar.setter
-    def avatar(self, avatar):
-        """Sets the avatar of this Org.
-
-
-        :param avatar: The avatar of this Org.
-        :type avatar: str
-        """
-
-        self._avatar = avatar
 
     @property
     def created(self):

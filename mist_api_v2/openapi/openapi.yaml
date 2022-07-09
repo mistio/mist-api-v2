@@ -10,296 +10,6 @@ servers:
 - description: Mist Hosted Service
   url: https://mist.io/
 paths:
-  /api/v2/auth:
-    get:
-      description: Return info about current authenticated session.
-      operationId: describe_auth
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthInfo'
-          description: Auth session info
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - ""
-      - CookieAuth:
-        - ""
-      summary: Authentication info
-      tags:
-      - auth
-      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
-  /api/v2/auth/sessions:
-    get:
-      operationId: list_sessions
-      parameters:
-      - description: Only return results matching search filter
-        explode: true
-        in: query
-        name: search
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Order results by
-        examples:
-          Sort by last_active, descending:
-            value: -last_active
-        explode: true
-        in: query
-        name: sort
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Start results from index or id
-        examples:
-          Start from the 50th result:
-            value: "50"
-          Start from item with id xyz:
-            value: xyz
-        explode: true
-        in: query
-        name: start
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "Limit number of results, 1000 max"
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          type: integer
-        style: form
-      - description: Only return these fields
-        examples:
-          Only return id:
-            value: id
-          Return email, last_login & registration_date:
-            value: "email,last_login,registration_date"
-        explode: true
-        in: query
-        name: only
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Dereference foreign keys
-        examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name ':
-            value: auto
-          Do not dereference anything, just return ids:
-            value: none
-        explode: true
-        in: query
-        name: deref
-        required: false
-        schema:
-          default: auto
-          type: string
-        style: form
-      - description: "Limit results by specific datetime. Return resources created\
-          \ before or at, or deleted after or at, given datetime."
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListSessionsResponse'
-          description: List sessions response
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - ""
-      - CookieAuth:
-        - ""
-      summary: List sessions
-      tags:
-      - auth
-      x-cli-table-default:
-      - last_active
-      x-cli-table-extended:
-      - last_active
-      - id
-      - creation_date
-      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
-    post:
-      description: Sign in
-      operationId: login
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginCredentials'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthInfo'
-          description: Authentication info
-        "401":
-          description: Authentication failed
-      summary: Sign in to the portal
-      tags:
-      - auth
-      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
-  /api/v2/auth/tokens:
-    get:
-      description: List API tokens
-      operationId: list_tokens
-      parameters:
-      - description: Only return results matching search filter
-        explode: true
-        in: query
-        name: search
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Order results by
-        examples:
-          Sort by name, descending:
-            value: -name
-        explode: true
-        in: query
-        name: sort
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Start results from index or id
-        examples:
-          Start from the 50th result:
-            value: "50"
-          Start from item with id xyz:
-            value: xyz
-        explode: true
-        in: query
-        name: start
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "Limit number of results, 1000 max"
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          type: integer
-        style: form
-      - description: Only return these fields
-        examples:
-          Only return id:
-            value: id
-          Return email, last_login & registration_date:
-            value: "email,last_login,registration_date"
-        explode: true
-        in: query
-        name: only
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: Dereference foreign keys
-        examples:
-          '(default) Automatically replace all foreign key ids with referenced resource name ':
-            value: auto
-          Do not dereference anything, just return ids:
-            value: none
-        explode: true
-        in: query
-        name: deref
-        required: false
-        schema:
-          default: auto
-          type: string
-        style: form
-      - description: "Limit results by specific datetime. Return resources created\
-          \ before or at, or deleted after or at, given datetime."
-        examples:
-          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
-            value: 2021-07-21T17:32:28Z
-        explode: true
-        in: query
-        name: at
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListTokensResponse'
-          description: List tokens response
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - ""
-      - CookieAuth:
-        - ""
-      summary: List API tokens
-      tags:
-      - auth
-      x-cli-table-default:
-      - email
-      x-cli-table-extended:
-      - email
-      - id
-      - last_login
-      - registration_date
-      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
-    post:
-      description: Create new API token
-      operationId: create_token
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateTokenResponse'
-          description: List sessions response
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - ""
-      - CookieAuth:
-        - ""
-      summary: Create token
-      tags:
-      - auth
-      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
   /api/v2/clouds:
     get:
       description: List clouds owned by the active org. READ permission required on
@@ -6575,10 +6285,10 @@ components:
       type: string
     ResponseMetadata:
       example:
-        total: 6
-        start: 5
+        total: 0
+        start: 1
         sort: sort
-        returned: 1
+        returned: 6
       properties:
         total:
           description: Total items matching the query
@@ -6597,126 +6307,6 @@ components:
           title: start
           type: integer
       title: ResponseMetadata
-      type: object
-    AuthInfo:
-      example:
-        data:
-          orgs:
-          - created: true
-            name: name
-            description: description
-            resources:
-              images:
-                total: 0
-              teams:
-                total: 0
-              stacks:
-                total: 0
-              keys:
-                total: 0
-              buckets:
-                total: 0
-              templates:
-                total: 0
-              volumes:
-                total: 0
-              rules:
-                total: 0
-              clouds:
-                total: 0
-              networks:
-                total: 0
-              zones:
-                total: 0
-              secrets:
-                total: 0
-              tunnels:
-                total: 0
-              schedules:
-                total: 0
-              members:
-                total: 0
-              machines:
-                total: 0
-              scripts:
-                total: 0
-              clusters:
-                total: 0
-            id: id
-            avatar: avatar
-            last_active: last_active
-            billing: "{}"
-          - created: true
-            name: name
-            description: description
-            resources:
-              images:
-                total: 0
-              teams:
-                total: 0
-              stacks:
-                total: 0
-              keys:
-                total: 0
-              buckets:
-                total: 0
-              templates:
-                total: 0
-              volumes:
-                total: 0
-              rules:
-                total: 0
-              clouds:
-                total: 0
-              networks:
-                total: 0
-              zones:
-                total: 0
-              secrets:
-                total: 0
-              tunnels:
-                total: 0
-              schedules:
-                total: 0
-              members:
-                total: 0
-              machines:
-                total: 0
-              scripts:
-                total: 0
-              clusters:
-                total: 0
-            id: id
-            avatar: avatar
-            last_active: last_active
-            billing: "{}"
-          user:
-            registration_date: registration_date
-            last_login: last_login
-            last_name: last_name
-            id: id
-            first_name: first_name
-            email: email
-            username: username
-        meta:
-          total: 6
-          start: 5
-          sort: sort
-          returned: 1
-      properties:
-        data:
-          $ref: '#/components/schemas/AuthInfo_data'
-        meta:
-          $ref: '#/components/schemas/ResponseMetadata'
-      title: AuthInfo
-      type: object
-    ListSessionsResponse:
-      type: object
-    ListTokensResponse:
-      type: object
-    CreateTokenResponse:
-      type: object
-    LoginCredentials:
       type: object
     ListCloudsResponse:
       example:
@@ -6744,10 +6334,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -6773,10 +6363,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
@@ -7848,10 +7438,10 @@ components:
           state: state
           config: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -7886,10 +7476,10 @@ components:
           state: state
           config: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Cluster'
@@ -8129,10 +7719,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -8157,10 +7747,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Image'
@@ -9189,10 +8779,10 @@ components:
             user: user
             key: key
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -9257,10 +8847,10 @@ components:
             user: user
             key: key
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Machine'
@@ -9438,10 +9028,10 @@ components:
         - null
         - null
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -9722,10 +9312,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -9747,10 +9337,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Network'
@@ -9805,10 +9395,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -9828,10 +9418,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Size'
@@ -9892,10 +9482,10 @@ components:
           created_by: created_by
           location_type: location_type
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -9922,10 +9512,10 @@ components:
           created_by: created_by
           location_type: location_type
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Location'
@@ -10122,10 +9712,10 @@ components:
           id: id
           actions: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -10157,10 +9747,10 @@ components:
           id: id
           actions: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Volume'
@@ -10291,10 +9881,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -10316,10 +9906,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Zone'
@@ -10410,10 +10000,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -10436,10 +10026,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Key'
@@ -10706,10 +10296,10 @@ components:
           action: stop
           id: id
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -10743,10 +10333,10 @@ components:
           action: stop
           id: id
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Schedule'
@@ -10965,10 +10555,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -10989,10 +10579,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Script'
@@ -11051,10 +10641,10 @@ components:
           actions: "{}"
           frequency: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -11078,10 +10668,10 @@ components:
           actions: "{}"
           frequency: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Rule'
@@ -11466,7 +11056,6 @@ components:
         data:
         - created: true
           name: name
-          description: description
           resources:
             images:
               total: 0
@@ -11505,12 +11094,10 @@ components:
             clusters:
               total: 0
           id: id
-          avatar: avatar
           last_active: last_active
           billing: "{}"
         - created: true
           name: name
-          description: description
           resources:
             images:
               total: 0
@@ -11549,14 +11136,13 @@ components:
             clusters:
               total: 0
           id: id
-          avatar: avatar
           last_active: last_active
           billing: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -11572,7 +11158,6 @@ components:
         data:
           created: true
           name: name
-          description: description
           resources:
             images:
               total: 0
@@ -11611,14 +11196,13 @@ components:
             clusters:
               total: 0
           id: id
-          avatar: avatar
           last_active: last_active
           billing: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Org'
@@ -11630,7 +11214,6 @@ components:
       example:
         created: true
         name: name
-        description: description
         resources:
           images:
             total: 0
@@ -11669,7 +11252,6 @@ components:
           clusters:
             total: 0
         id: id
-        avatar: avatar
         last_active: last_active
         billing: "{}"
       properties:
@@ -11678,12 +11260,6 @@ components:
           type: string
         name:
           title: name
-          type: string
-        description:
-          title: description
-          type: string
-        avatar:
-          title: avatar
           type: string
         created:
           title: created
@@ -11795,10 +11371,10 @@ components:
           email: email
           username: username
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -11821,10 +11397,10 @@ components:
           email: email
           username: username
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Member'
@@ -11917,10 +11493,10 @@ components:
           id: id
           policy: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -11996,10 +11572,10 @@ components:
             job_id: job_id
           user: user
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Job'
@@ -12099,10 +11675,10 @@ components:
           email: email
           username: username
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -12156,10 +11732,10 @@ components:
             resultType: resultType
           status: status
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Datapoints'
@@ -12237,10 +11813,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -12260,10 +11836,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           $ref: '#/components/schemas/Secret'
@@ -12437,10 +12013,10 @@ components:
           - clusters
           - clusters
         meta:
-          total: 6
-          start: 5
+          total: 0
+          start: 1
           sort: sort
-          returned: 1
+          returned: 6
       properties:
         data:
           items:
@@ -12526,116 +12102,6 @@ components:
           title: url
           type: string
       title: inline_response_200_1
-      type: object
-    AuthInfo_data:
-      example:
-        orgs:
-        - created: true
-          name: name
-          description: description
-          resources:
-            images:
-              total: 0
-            teams:
-              total: 0
-            stacks:
-              total: 0
-            keys:
-              total: 0
-            buckets:
-              total: 0
-            templates:
-              total: 0
-            volumes:
-              total: 0
-            rules:
-              total: 0
-            clouds:
-              total: 0
-            networks:
-              total: 0
-            zones:
-              total: 0
-            secrets:
-              total: 0
-            tunnels:
-              total: 0
-            schedules:
-              total: 0
-            members:
-              total: 0
-            machines:
-              total: 0
-            scripts:
-              total: 0
-            clusters:
-              total: 0
-          id: id
-          avatar: avatar
-          last_active: last_active
-          billing: "{}"
-        - created: true
-          name: name
-          description: description
-          resources:
-            images:
-              total: 0
-            teams:
-              total: 0
-            stacks:
-              total: 0
-            keys:
-              total: 0
-            buckets:
-              total: 0
-            templates:
-              total: 0
-            volumes:
-              total: 0
-            rules:
-              total: 0
-            clouds:
-              total: 0
-            networks:
-              total: 0
-            zones:
-              total: 0
-            secrets:
-              total: 0
-            tunnels:
-              total: 0
-            schedules:
-              total: 0
-            members:
-              total: 0
-            machines:
-              total: 0
-            scripts:
-              total: 0
-            clusters:
-              total: 0
-          id: id
-          avatar: avatar
-          last_active: last_active
-          billing: "{}"
-        user:
-          registration_date: registration_date
-          last_login: last_login
-          last_name: last_name
-          id: id
-          first_name: first_name
-          email: email
-          username: username
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        orgs:
-          description: Orgs available to user for auth session
-          items:
-            $ref: '#/components/schemas/Org'
-          title: orgs
-          type: array
-      title: AuthInfo_data
       type: object
     AddCloudRequest_allOf:
       properties:
