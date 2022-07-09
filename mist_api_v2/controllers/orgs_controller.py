@@ -57,7 +57,7 @@ def get_org(org, summary=None, only=None, deref=None):  # noqa: E501
 
     Get details about target org # noqa: E501
 
-    :param org: 
+    :param org:
     :type org: str
     :param summary: Return total number for each org specific resource
     :type summary: bool

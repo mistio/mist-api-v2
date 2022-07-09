@@ -58,7 +58,7 @@ def get_org_resources_summary(auth_context, org_id):
     resources_count = {}
     # get count for org resources
     org_r_types = {'key', 'script', 'template', 'tunnel', 'schedule', 'rule',
-                   'team','secret', 'stack'}
+                   'team', 'secret', 'stack'}
     from mist.api.helpers import get_resource_model
     for resource_type in org_r_types:
         try:
