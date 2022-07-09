@@ -21,6 +21,8 @@ from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.amazon_regions import AmazonRegions
+from mist_api_v2.models.auth_info import AuthInfo
+from mist_api_v2.models.auth_info_data import AuthInfoData
 from mist_api_v2.models.azure_cloud_request import AzureCloudRequest
 from mist_api_v2.models.azure_credentials import AzureCredentials
 from mist_api_v2.models.azure_extra import AzureExtra
@@ -164,6 +166,7 @@ from mist_api_v2.models.openstack_cloud_request import OpenstackCloudRequest
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
 from mist_api_v2.models.openstack_net import OpenstackNet
 from mist_api_v2.models.org import Org
+from mist_api_v2.models.org_resources_summary import OrgResourcesSummary
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
@@ -171,6 +174,7 @@ from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
 from mist_api_v2.models.resource import Resource
+from mist_api_v2.models.resource_count import ResourceCount
 from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule

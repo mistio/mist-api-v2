@@ -7,6 +7,7 @@ git_push.sh
 mist_api_v2/__init__.py
 mist_api_v2/__main__.py
 mist_api_v2/controllers/__init__.py
+mist_api_v2/controllers/auth_controller.py
 mist_api_v2/controllers/clouds_controller.py
 mist_api_v2/controllers/clusters_controller.py
 mist_api_v2/controllers/datapoints_controller.py
@@ -48,6 +49,8 @@ mist_api_v2/models/amazon_cloud_request.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/amazon_net.py
 mist_api_v2/models/amazon_regions.py
+mist_api_v2/models/auth_info.py
+mist_api_v2/models/auth_info_data.py
 mist_api_v2/models/azure_cloud_request.py
 mist_api_v2/models/azure_credentials.py
 mist_api_v2/models/azure_extra.py
@@ -193,6 +196,7 @@ mist_api_v2/models/openstack_cloud_request.py
 mist_api_v2/models/openstack_credentials.py
 mist_api_v2/models/openstack_net.py
 mist_api_v2/models/org.py
+mist_api_v2/models/org_resources_summary.py
 mist_api_v2/models/other_cloud_request.py
 mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
@@ -200,6 +204,7 @@ mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
 mist_api_v2/models/resource.py
+mist_api_v2/models/resource_count.py
 mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
@@ -235,6 +240,7 @@ mist_api_v2/models/window.py
 mist_api_v2/models/zone.py
 mist_api_v2/openapi/openapi.yaml
 mist_api_v2/test/__init__.py
+mist_api_v2/test/test_auth_controller.py
 mist_api_v2/test/test_clouds_controller.py
 mist_api_v2/test/test_clusters_controller.py
 mist_api_v2/test/test_datapoints_controller.py
