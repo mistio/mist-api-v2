@@ -44,6 +44,7 @@ from mist_api_v2.models.create_machine_response_one_of import CreateMachineRespo
 from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResponseOneOf1
 from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
+from mist_api_v2.models.create_org_request import CreateOrgRequest
 from mist_api_v2.models.create_secret_request import CreateSecretRequest
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse

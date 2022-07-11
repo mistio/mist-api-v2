@@ -3439,6 +3439,36 @@ paths:
       - teams_count
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    post:
+      description: Creates a new org and returns the org's id.
+      operationId: create_org
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrgRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrgResponse'
+          description: Organization created succesfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "409":
+          description: Organization name not available
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Create Organization
+      tags:
+      - orgs
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     x-cli-ignore: true
   /api/v2/orgs/{org}:
     get:
@@ -11449,6 +11479,26 @@ components:
       example: logs
       title: DataType
       type: string
+    CreateOrgRequest:
+      example:
+        name: name
+        description: description
+        logo: logo
+      properties:
+        name:
+          title: name
+          type: string
+        description:
+          title: description
+          type: string
+        logo:
+          format: data-url
+          title: logo
+          type: string
+      title: CreateOrgRequest
+      type: object
+    CreateOrgResponse:
+      type: object
     BillingInfo:
       title: BillingInfo
       type: object
