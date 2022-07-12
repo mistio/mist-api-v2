@@ -168,6 +168,7 @@ from mist_api_v2.models.openstack_cloud_request import OpenstackCloudRequest
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
 from mist_api_v2.models.openstack_net import OpenstackNet
 from mist_api_v2.models.org import Org
+from mist_api_v2.models.org_resources_summary import OrgResourcesSummary
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
@@ -175,6 +176,7 @@ from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
 from mist_api_v2.models.resize_action import ResizeAction
 from mist_api_v2.models.resource import Resource
+from mist_api_v2.models.resource_count import ResourceCount
 from mist_api_v2.models.resource_selector import ResourceSelector
 from mist_api_v2.models.response_metadata import ResponseMetadata
 from mist_api_v2.models.rule import Rule
