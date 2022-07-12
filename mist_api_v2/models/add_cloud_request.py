@@ -19,13 +19,15 @@ class AddCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, provider=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, name=None, provider=None, from_secret=False, credentials=None, features=None):  # noqa: E501
         """AddCloudRequest - a model defined in OpenAPI
 
         :param name: The name of this AddCloudRequest.  # noqa: E501
         :type name: str
         :param provider: The provider of this AddCloudRequest.  # noqa: E501
         :type provider: str
+        :param from_secret: The from_secret of this AddCloudRequest.  # noqa: E501
+        :type from_secret: bool
         :param credentials: The credentials of this AddCloudRequest.  # noqa: E501
         :type credentials: object
         :param features: The features of this AddCloudRequest.  # noqa: E501
@@ -34,6 +36,7 @@ class AddCloudRequest(Model):
         self.openapi_types = {
             'name': str,
             'provider': str,
+            'from_secret': bool,
             'credentials': object,
             'features': CloudFeatures
         }
@@ -41,12 +44,14 @@ class AddCloudRequest(Model):
         self.attribute_map = {
             'name': 'name',
             'provider': 'provider',
+            'from_secret': 'from_secret',
             'credentials': 'credentials',
             'features': 'features'
         }
 
         self._name = name
         self._provider = provider
+        self._from_secret = from_secret
         self._credentials = credentials
         self._features = features
 
@@ -112,6 +117,29 @@ class AddCloudRequest(Model):
             )
 
         self._provider = provider
+
+    @property
+    def from_secret(self):
+        """Gets the from_secret of this AddCloudRequest.
+
+        Use existing Vault secret to add a cloud. When this option is set to true all the parameters should be Vault paths  # noqa: E501
+
+        :return: The from_secret of this AddCloudRequest.
+        :rtype: bool
+        """
+        return self._from_secret
+
+    @from_secret.setter
+    def from_secret(self, from_secret):
+        """Sets the from_secret of this AddCloudRequest.
+
+        Use existing Vault secret to add a cloud. When this option is set to true all the parameters should be Vault paths  # noqa: E501
+
+        :param from_secret: The from_secret of this AddCloudRequest.
+        :type from_secret: bool
+        """
+
+        self._from_secret = from_secret
 
     @property
     def credentials(self):

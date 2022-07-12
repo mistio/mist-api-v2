@@ -12111,6 +12111,12 @@ components:
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
+        from_secret:
+          default: false
+          description: Use existing Vault secret to add a cloud. When this option
+            is set to true all the parameters should be Vault paths
+          title: from_secret
+          type: boolean
       required:
       - name
       - provider

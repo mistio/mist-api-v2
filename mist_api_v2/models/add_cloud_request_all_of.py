@@ -17,26 +17,31 @@ class AddCloudRequestAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, provider=None):  # noqa: E501
+    def __init__(self, name=None, provider=None, from_secret=False):  # noqa: E501
         """AddCloudRequestAllOf - a model defined in OpenAPI
 
         :param name: The name of this AddCloudRequestAllOf.  # noqa: E501
         :type name: str
         :param provider: The provider of this AddCloudRequestAllOf.  # noqa: E501
         :type provider: SupportedProviders
+        :param from_secret: The from_secret of this AddCloudRequestAllOf.  # noqa: E501
+        :type from_secret: bool
         """
         self.openapi_types = {
             'name': str,
-            'provider': SupportedProviders
+            'provider': SupportedProviders,
+            'from_secret': bool
         }
 
         self.attribute_map = {
             'name': 'name',
-            'provider': 'provider'
+            'provider': 'provider',
+            'from_secret': 'from_secret'
         }
 
         self._name = name
         self._provider = provider
+        self._from_secret = from_secret
 
     @classmethod
     def from_dict(cls, dikt) -> 'AddCloudRequestAllOf':
@@ -96,3 +101,26 @@ class AddCloudRequestAllOf(Model):
             raise ValueError("Invalid value for `provider`, must not be `None`")  # noqa: E501
 
         self._provider = provider
+
+    @property
+    def from_secret(self):
+        """Gets the from_secret of this AddCloudRequestAllOf.
+
+        Use existing Vault secret to add a cloud. When this option is set to true all the parameters should be Vault paths  # noqa: E501
+
+        :return: The from_secret of this AddCloudRequestAllOf.
+        :rtype: bool
+        """
+        return self._from_secret
+
+    @from_secret.setter
+    def from_secret(self, from_secret):
+        """Sets the from_secret of this AddCloudRequestAllOf.
+
+        Use existing Vault secret to add a cloud. When this option is set to true all the parameters should be Vault paths  # noqa: E501
+
+        :param from_secret: The from_secret of this AddCloudRequestAllOf.
+        :type from_secret: bool
+        """
+
+        self._from_secret = from_secret
