@@ -99,13 +99,14 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     provider = add_cloud_request.provider
     provider = PROVIDER_ALIASES.get(provider, provider)
-    params = add_cloud_request.to_dict()
-    name = params.pop('name')
-    credentials = params.pop('credentials')
-    features = params.pop('features')
-    if features:
-        del features['compute']
-        params.update(features)
+    name = add_cloud_request.name
+    credentials = add_cloud_request.credentials
+    features = add_cloud_request.features
+
+    # Currently compute is mandatory for all providers so we don't
+    # need to explicitly pass it to add_cloud_v_2
+    params = {key: value for key, value in features.items()
+              if key != 'compute'}
     params.update(credentials)
     try:
         result = add_cloud_v_2(
