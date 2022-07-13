@@ -4,6 +4,8 @@ import six
 from mist_api_v2.models.auth_info import AuthInfo  # noqa: E501
 from mist_api_v2 import util
 
+from .base import list_resources, get_resource
+
 
 def create_token():  # noqa: E501
     """Create token
@@ -24,7 +26,15 @@ def describe_auth():  # noqa: E501
 
     :rtype: AuthInfo
     """
-    return 'do some magic!'
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    authinfo = AuthInfo(data={}, meta={})
+    authinfo.data['user'] = auth_context.user.as_dict_v2()
+    orgs_result = list_resources(auth_context, 'orgs', only='id,name,last_active')
+    authinfo.data['orgs'] = orgs_result['data']
+    return authinfo
 
 
 def list_sessions(search=None, sort=None, start=None, limit=None, only=None, deref=None, at=None):  # noqa: E501
