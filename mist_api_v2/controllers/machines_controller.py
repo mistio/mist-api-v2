@@ -577,6 +577,13 @@ def ssh(machine):  # noqa: E501
         [machine], total = list_resources(auth_context, 'machine',
                                           search=search, limit=1)
     except ValueError:
+        try:
+            [machine], _ = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+            if machine.state != 'running':
+                return 'Machine is not running', 400
+        except ValueError:
+            pass
         return 'Machine does not exist', 404
     try:
         auth_context.check_perm("cloud", "read", machine.cloud.id)
