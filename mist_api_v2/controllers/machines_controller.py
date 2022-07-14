@@ -696,12 +696,15 @@ def suspend_machine(machine):  # noqa: E501
     return 'Machine suspend issued successfully'
 
 
-def undefine_machine(machine):  # noqa: E501
+def undefine_machine(machine, delete_domain_image=False):  # noqa: E501
     """Undefine machine
 
     Undefine target machine # noqa: E501
 
     :param machine:
+    :type machine: str
+
+    :param delete_domain_image:
     :type machine: str
 
     :rtype: None
@@ -722,7 +725,7 @@ def undefine_machine(machine):  # noqa: E501
         return 'You are not authorized to perform this action', 403
 
     try:
-        machine.ctl.undefine()
+        machine.ctl.undefine(delete_domain_image=delete_domain_image)
     except ForbiddenError:
         return 'Action not supported on target machine', 422
     except BadRequestError as e:
