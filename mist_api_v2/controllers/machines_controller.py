@@ -107,7 +107,10 @@ def console(machine):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     if not machine.cloud.ctl.has_feature('console'):
         return 'Action not supported', 501
-    proxy_uri = get_console_proxy_uri(machine)
+    msg, retcode = get_console_proxy_uri(machine)
+    if retcode != 200:
+        return msg, retcode
+    proxy_uri = msg
     if proxy_uri is None:
         console_url = machine.cloud.ctl.compute.connection.ex_open_console(
             machine.machine_id
