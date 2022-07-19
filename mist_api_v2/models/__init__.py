@@ -42,6 +42,7 @@ from mist_api_v2.models.create_machine_response_one_of import CreateMachineRespo
 from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResponseOneOf1
 from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
+from mist_api_v2.models.create_record_request import CreateRecordRequest
 from mist_api_v2.models.create_secret_request import CreateSecretRequest
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
@@ -86,6 +87,7 @@ from mist_api_v2.models.get_machine_response import GetMachineResponse
 from mist_api_v2.models.get_network_response import GetNetworkResponse
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse
 from mist_api_v2.models.get_org_response import GetOrgResponse
+from mist_api_v2.models.get_record_response import GetRecordResponse
 from mist_api_v2.models.get_rule_response import GetRuleResponse
 from mist_api_v2.models.get_schedule_response import GetScheduleResponse
 from mist_api_v2.models.get_script_response import GetScriptResponse
@@ -134,6 +136,7 @@ from mist_api_v2.models.list_networks_response import ListNetworksResponse
 from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse
+from mist_api_v2.models.list_records_response import ListRecordsResponse
 from mist_api_v2.models.list_rules_response import ListRulesResponse
 from mist_api_v2.models.list_schedules_response import ListSchedulesResponse
 from mist_api_v2.models.list_scripts_response import ListScriptsResponse
@@ -171,6 +174,7 @@ from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.record import Record
 from mist_api_v2.models.resource import Resource
 from mist_api_v2.models.resource_count import ResourceCount
 from mist_api_v2.models.resource_selector import ResourceSelector
