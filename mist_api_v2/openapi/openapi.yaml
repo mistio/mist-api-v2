@@ -3535,203 +3535,6 @@ paths:
       - policy
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     x-cli-ignore: true
-  /api/v2/records:
-    get:
-      description: Lists all DNS records for a particular zone. READ permission required
-        on zone and record.
-      operationId: list_records
-      parameters:
-      - example: my-cloud
-        explode: true
-        in: query
-        name: cloud
-        required: true
-        schema:
-          type: string
-        style: form
-      - example: my-zone
-        explode: true
-        in: query
-        name: zone
-        required: true
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListRecordsResponse'
-          description: List records response
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - read:zone
-        - read:record
-      - CookieAuth:
-        - read:zone
-        - read:record
-      summary: List records
-      tags:
-      - zones
-      x-cli-table-default:
-      - name
-      - cloud
-      x-cli-table-extended:
-      - id
-      - name
-      - cloud
-      - external_id
-      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
-    post:
-      description: Creates a new record under a specific zone. CREATE_RESOURCES permission
-        required on cloud. CREATE_RECORDS permission required on zone
-      operationId: create_record
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateRecordRequest'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateRecordResponse'
-          description: Zone provisioning started
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-      security:
-      - ApiKeyAuth:
-        - read:zone
-        - read:cloud
-        - create_resources:cloud
-        - create_records:zone
-      - CookieAuth:
-        - read:zone
-        - read:cloud
-        - create_resources:cloud
-        - create_records:zone
-      summary: Create record
-      tags:
-      - zones
-      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
-  /api/v2/records/{record}:
-    delete:
-      description: Deletes a specific DNS record under a zone. REMOVE permission required
-        on zone.
-      operationId: delete_record
-      parameters:
-      - example: my-zone
-        explode: false
-        in: path
-        name: record
-        required: true
-        schema:
-          type: string
-        style: simple
-      - example: my-cloud
-        explode: true
-        in: query
-        name: cloud
-        required: true
-        schema:
-          type: string
-        style: form
-      - example: my-zone
-        explode: true
-        in: query
-        name: zone
-        required: true
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          description: Record successfully deleted
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Record not found
-      security:
-      - ApiKeyAuth:
-        - remove:zone
-      - CookieAuth:
-        - remove:zone
-      summary: Delete record
-      tags:
-      - zones
-      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
-    get:
-      description: Get details about target record
-      operationId: get_record
-      parameters:
-      - example: my-record
-        explode: false
-        in: path
-        name: record
-        required: true
-        schema:
-          type: string
-        style: simple
-      - example: my-cloud
-        explode: true
-        in: query
-        name: cloud
-        required: true
-        schema:
-          type: string
-        style: form
-      - example: my-zone
-        explode: true
-        in: query
-        name: zone
-        required: true
-        schema:
-          type: string
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetRecordResponse'
-          description: Record returned successfully
-        "401":
-          description: Authentication failed
-        "403":
-          description: You are not authorized to perform this action
-        "404":
-          description: Record not found
-      security:
-      - ApiKeyAuth:
-        - read:zone
-        - read:cloud
-      - CookieAuth:
-        - read:zone
-        - read:cloud
-      summary: Get record
-      tags:
-      - zones
-      x-cli-table-default:
-      - name
-      - cloud
-      x-cli-table-extended:
-      - id
-      - name
-      - cloud
-      - external_id
-      - owned_by
-      - created_by
-      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
   /api/v2/rules:
     get:
       description: Return a filtered list of rules
@@ -6298,6 +6101,212 @@ paths:
       summary: Edit zone
       tags:
       - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+  /api/v2/zones/{zone}/records:
+    get:
+      description: Lists all DNS records for a particular zone. READ permission required
+        on zone and record.
+      operationId: list_records
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRecordsResponse'
+          description: List records response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:record
+      - CookieAuth:
+        - read:zone
+        - read:record
+      summary: List records
+      tags:
+      - zones
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+    post:
+      description: Creates a new record under a specific zone. CREATE_RESOURCES permission
+        required on cloud. CREATE_RECORDS permission required on zone
+      operationId: create_record
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRecordRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRecordResponse'
+          description: Zone provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:cloud
+        - create_resources:cloud
+        - create_records:zone
+      - CookieAuth:
+        - read:zone
+        - read:cloud
+        - create_resources:cloud
+        - create_records:zone
+      summary: Create record
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+  /api/v2/zones/{zone}/records/{record}:
+    delete:
+      description: Deletes a specific DNS record under a zone. REMOVE permission required
+        on zone.
+      operationId: delete_record
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-zone
+        explode: false
+        in: path
+        name: record
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Record successfully deleted
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Record not found
+      security:
+      - ApiKeyAuth:
+        - remove:zone
+      - CookieAuth:
+        - remove:zone
+      summary: Delete record
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+    get:
+      description: Get details about target record
+      operationId: get_record
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-record
+        explode: false
+        in: path
+        name: record
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRecordResponse'
+          description: Record returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Record not found
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:cloud
+      - CookieAuth:
+        - read:zone
+        - read:cloud
+      summary: Get record
+      tags:
+      - zones
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
 components:
   callbacks: {}

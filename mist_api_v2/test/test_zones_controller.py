@@ -52,7 +52,8 @@ class TestZonesController:
   "cloud" : "my-cloud",
   "zone" : "my-zone"
 }""", strict=False)
-        uri = MIST_URL + '/api/v2/records'
+        uri = MIST_URL + '/api/v2/zones/{zone}/records'.format(
+            zone=setup_data.get('create_record', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -93,10 +94,9 @@ class TestZonesController:
 
         Delete record
         """
-        query_string = setup_data.get('delete_record', {}).get('query_string') or [('cloud', 'my-cloud'),
-                        ('zone', 'my-zone')]
-        uri = MIST_URL + '/api/v2/records/{record}'.format(
-            record=setup_data.get('delete_record', {}).get('record') or setup_data.get('record') or 'my-zone')
+        query_string = setup_data.get('delete_record', {}).get('query_string') or [('cloud', 'my-cloud')]
+        uri = MIST_URL + '/api/v2/zones/{zone}/records/{record}'.format(
+            zone=setup_data.get('delete_record', {}).get('zone') or setup_data.get('zone') or 'my-zone', record=setup_data.get('delete_record', {}).get('record') or setup_data.get('record') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -150,10 +150,9 @@ class TestZonesController:
 
         Get record
         """
-        query_string = setup_data.get('get_record', {}).get('query_string') or [('cloud', 'my-cloud'),
-                        ('zone', 'my-zone')]
-        uri = MIST_URL + '/api/v2/records/{record}'.format(
-            record=setup_data.get('get_record', {}).get('record') or setup_data.get('record') or 'my-record')
+        query_string = setup_data.get('get_record', {}).get('query_string') or [('cloud', 'my-cloud')]
+        uri = MIST_URL + '/api/v2/zones/{zone}/records/{record}'.format(
+            zone=setup_data.get('get_record', {}).get('zone') or setup_data.get('zone') or 'my-zone', record=setup_data.get('get_record', {}).get('record') or setup_data.get('record') or 'my-record')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -192,9 +191,9 @@ class TestZonesController:
 
         List records
         """
-        query_string = setup_data.get('list_records', {}).get('query_string') or [('cloud', 'my-cloud'),
-                        ('zone', 'my-zone')]
-        uri = MIST_URL + '/api/v2/records'
+        query_string = setup_data.get('list_records', {}).get('query_string') or [('cloud', 'my-cloud')]
+        uri = MIST_URL + '/api/v2/zones/{zone}/records'.format(
+            zone=setup_data.get('list_records', {}).get('zone') or setup_data.get('zone') or 'my-zone')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
