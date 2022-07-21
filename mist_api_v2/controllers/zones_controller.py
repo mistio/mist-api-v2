@@ -16,6 +16,7 @@ from mist_api_v2 import util
 from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
 from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
 from mist_api_v2.models.get_record_response import GetRecordResponse  # noqa: E501
+from mist_api_v2.models.list_records_response import ListRecordsResponse  # noqa: E501
 from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E501
 
 from .base import list_resources, get_resource
@@ -227,3 +228,29 @@ def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
     except NotFoundError:
         return 'Record does not exist', 404
     return GetRecordResponse(data=result['data'], meta=result['meta'])
+
+
+def list_records(zone, cloud, only=None, deref=None):  # noqa: E501
+    """List records
+
+    Lists all DNS records for a particular zone. READ permission required on zone and record. # noqa: E501
+
+    :param zone:
+    :type zone: str
+    :param cloud:
+    :type cloud: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
+
+    :rtype: ListRecordsResponse
+    """
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    result = list_resources(
+        auth_context, 'record', zone=zone, cloud=cloud,
+        only=only, deref=deref)
+    return ListRecordsResponse(data=result['data'], meta=result['meta'])
