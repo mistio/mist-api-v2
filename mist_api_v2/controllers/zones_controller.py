@@ -301,3 +301,44 @@ def create_record(zone, create_record_request=None):  # noqa: E501
                                'resource_id': rec.id}],
                              tags)
     return rec.as_dict()
+
+
+def delete_record(zone, record, cloud):  # noqa: E501
+    """Delete record
+
+    Deletes a specific DNS record under a zone. REMOVE permission required on zone. # noqa: E501
+
+    :param zone:
+    :type zone: str
+    :param record:
+    :type record: str
+    :param cloud:
+    :type cloud: str
+
+    :rtype: None
+    """
+    from mist.api.methods import list_resources
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        [cloud], total = list_resources(
+            auth_context, 'cloud', search=cloud, limit=1)
+    except ValueError:
+        return 'Cloud does not exist', 404
+    try:
+        [zone], _ = list_resources(auth_context, 'zone', search=zone, limit=1)
+    except ValueError:
+        return 'Zone does not exist', 404
+    try:
+        [record], _ = list_resources(
+            auth_context, 'record', search=record, limit=1)
+    except ValueError:
+        return 'Record does not exist', 404
+    try:
+        auth_context.check_perm('record', 'remove', record.id)
+    except PolicyUnauthorizedError:
+        return 'You are not authorized to perform this action', 403
+    record.ctl.delete_record()
+    return 'Deleted record', 200
