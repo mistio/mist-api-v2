@@ -15,6 +15,7 @@ from mist.api.exceptions import ZoneNotFoundError
 from mist_api_v2 import util
 from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
 from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
+from mist_api_v2.models.get_record_response import GetRecordResponse  # noqa: E501
 from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E501
 
 from .base import list_resources, get_resource
@@ -196,3 +197,33 @@ def list_zones(cloud=None, search=None, sort=None, start=None, limit=None, only=
         auth_context, 'zone', cloud=cloud, search=search, only=only,
         sort=sort, start=start, limit=limit, deref=deref, at=at)
     return ListZonesResponse(data=result['data'], meta=result['meta'])
+
+
+def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
+    """Get record
+
+    Get details about target record # noqa: E501
+
+    :param zone:
+    :type zone: str
+    :param record:
+    :type record: str
+    :param cloud:
+    :type cloud: str
+    :param only: Only return these fields
+    :type only: str
+    :param deref: Dereference foreign keys
+    :type deref: str
+
+    :rtype: GetRecordResponse
+    """
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    try:
+        result = get_resource(
+            auth_context, 'record', search=record, only=only, deref=deref)
+    except NotFoundError:
+        return 'Record does not exist', 404
+    return GetRecordResponse(data=result['data'], meta=result['meta'])
