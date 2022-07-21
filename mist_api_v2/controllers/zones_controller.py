@@ -2,6 +2,7 @@ import connexion
 
 from mist.api.helpers import delete_none
 from mist.api.dns.models import Zone
+from mist.api.dns.models import RECORDS
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
 
@@ -13,6 +14,7 @@ from mist.api.exceptions import CloudUnavailableError
 from mist.api.exceptions import ZoneNotFoundError
 
 from mist_api_v2 import util
+from mist_api_v2.models.create_record_request import CreateRecordRequest  # noqa: E501
 from mist_api_v2.models.create_zone_request import CreateZoneRequest  # noqa: E501
 from mist_api_v2.models.get_zone_response import GetZoneResponse  # noqa: E501
 from mist_api_v2.models.get_record_response import GetRecordResponse  # noqa: E501
@@ -254,3 +256,47 @@ def list_records(zone, cloud, only=None, deref=None):  # noqa: E501
         auth_context, 'record', zone=zone, cloud=cloud,
         only=only, deref=deref)
     return ListRecordsResponse(data=result['data'], meta=result['meta'])
+
+
+def create_record(zone, create_record_request=None):  # noqa: E501
+    """Create record
+
+    Creates a new record under a specific zone. CREATE_RESOURCES permission required on cloud. CREATE_RECORDS permission required on zone # noqa: E501
+
+    :param zone:
+    :type zone: str
+    :param create_record_request:
+    :type create_record_request: dict | bytes
+
+    :rtype: object
+    """
+    if connexion.request.is_json:
+        create_record_request = CreateRecordRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    params = delete_none(create_record_request.to_dict())
+    try:
+        [cloud], total = list_resources(
+            auth_context, 'cloud', search=params.pop('cloud'), limit=1)
+    except ValueError:
+        return 'Cloud does not exist', 404
+    try:
+        [zone], total = list_resources(
+            auth_context, 'zone', search=params.pop('zone'), limit=1)
+    except ValueError:
+        return 'Zone does not exist', 404
+    auth_context.check_perm("cloud", "read", cloud.id)
+    auth_context.check_perm("zone", "read", zone.id)
+    auth_context.check_perm("zone", "create_records", zone.id)
+    tags, _ = auth_context.check_perm("record", "add", None)
+    dns_cls = RECORDS[params['type']]
+    rec = dns_cls.add(owner=auth_context.owner, zone=zone, **params)
+    rec.assign_to(auth_context.user)
+    if tags:
+        add_tags_to_resource(auth_context.owner,
+                             [{'resource_type =': 'record',
+                               'resource_id': rec.id}],
+                             tags)
+    return rec.as_dict()
