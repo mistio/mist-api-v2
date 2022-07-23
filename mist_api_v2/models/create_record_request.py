@@ -15,7 +15,7 @@ class CreateRecordRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, zone=None, data=None, type=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, zone=None, value=None, type=None):  # noqa: E501
         """CreateRecordRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateRecordRequest.  # noqa: E501
@@ -24,8 +24,8 @@ class CreateRecordRequest(Model):
         :type cloud: str
         :param zone: The zone of this CreateRecordRequest.  # noqa: E501
         :type zone: str
-        :param data: The data of this CreateRecordRequest.  # noqa: E501
-        :type data: str
+        :param value: The value of this CreateRecordRequest.  # noqa: E501
+        :type value: str
         :param type: The type of this CreateRecordRequest.  # noqa: E501
         :type type: str
         """
@@ -33,7 +33,7 @@ class CreateRecordRequest(Model):
             'name': str,
             'cloud': str,
             'zone': str,
-            'data': str,
+            'value': str,
             'type': str
         }
 
@@ -41,14 +41,14 @@ class CreateRecordRequest(Model):
             'name': 'name',
             'cloud': 'cloud',
             'zone': 'zone',
-            'data': 'data',
+            'value': 'value',
             'type': 'type'
         }
 
         self._name = name
         self._cloud = cloud
         self._zone = zone
-        self._data = data
+        self._value = value
         self._type = type
 
     @classmethod
@@ -103,8 +103,6 @@ class CreateRecordRequest(Model):
         :param cloud: The cloud of this CreateRecordRequest.
         :type cloud: str
         """
-        if cloud is None:
-            raise ValueError("Invalid value for `cloud`, must not be `None`")  # noqa: E501
 
         self._cloud = cloud
 
@@ -126,31 +124,29 @@ class CreateRecordRequest(Model):
         :param zone: The zone of this CreateRecordRequest.
         :type zone: str
         """
-        if zone is None:
-            raise ValueError("Invalid value for `zone`, must not be `None`")  # noqa: E501
 
         self._zone = zone
 
     @property
-    def data(self):
-        """Gets the data of this CreateRecordRequest.
+    def value(self):
+        """Gets the value of this CreateRecordRequest.
 
 
-        :return: The data of this CreateRecordRequest.
+        :return: The value of this CreateRecordRequest.
         :rtype: str
         """
-        return self._data
+        return self._value
 
-    @data.setter
-    def data(self, data):
-        """Sets the data of this CreateRecordRequest.
+    @value.setter
+    def value(self, value):
+        """Sets the value of this CreateRecordRequest.
 
 
-        :param data: The data of this CreateRecordRequest.
-        :type data: str
+        :param value: The value of this CreateRecordRequest.
+        :type value: str
         """
 
-        self._data = data
+        self._value = value
 
     @property
     def type(self):

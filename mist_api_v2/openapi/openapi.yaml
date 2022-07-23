@@ -10134,8 +10134,6 @@ components:
     CreateRecordRequest:
       example:
         name: my-record
-        cloud: my-cloud
-        zone: my-zone
       properties:
         name:
           type: string
@@ -10143,7 +10141,7 @@ components:
           type: string
         zone:
           type: string
-        data:
+        value:
           type: string
         type:
           enum:
@@ -10152,9 +10150,7 @@ components:
           - CNAME
           type: string
       required:
-      - cloud
       - name
-      - zone
       title: CreateRecordRequest
       type: object
     CreateRecordResponse:

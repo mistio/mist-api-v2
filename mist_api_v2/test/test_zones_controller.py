@@ -48,9 +48,7 @@ class TestZonesController:
         """
         create_record_request = setup_data.get('create_record', {}).get(
             'request_body') or json.loads("""{
-  "name" : "my-record",
-  "cloud" : "my-cloud",
-  "zone" : "my-zone"
+  "name" : "my-record"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/zones/{zone}/records'.format(
             zone=setup_data.get('create_record', {}).get('zone') or setup_data.get('zone') or 'my-zone')
