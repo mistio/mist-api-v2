@@ -278,21 +278,32 @@ def create_record(zone, create_record_request=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     params = delete_none(create_record_request.to_dict())
+    params['data'] = params['value']
+    list_resources_kwargs = dict(
+        auth_context=auth_context,
+        resource_type='zone',
+        search=zone,
+        limit=1
+    )
+    cloud_info = params.pop('cloud', None)
+    if cloud_info is not None:
+        try:
+            [cloud], total = list_resources(
+                auth_context, 'cloud', search=cloud_info, limit=1)
+        except ValueError:
+            return 'Cloud does not exist', 404
+        else:
+            list_resources_kwargs['cloud'] = cloud
     try:
-        [cloud], total = list_resources(
-            auth_context, 'cloud', search=params.pop('cloud'), limit=1)
-    except ValueError:
-        return 'Cloud does not exist', 404
-    try:
-        [zone], total = list_resources(
-            auth_context, 'zone', search=params.pop('zone'), limit=1)
+        [zone], total = list_resources(**list_resources_kwargs)
     except ValueError:
         return 'Zone does not exist', 404
-    auth_context.check_perm("cloud", "read", cloud.id)
+    auth_context.check_perm("cloud", "read", zone.cloud.id)
     auth_context.check_perm("zone", "read", zone.id)
     auth_context.check_perm("zone", "create_records", zone.id)
     tags, _ = auth_context.check_perm("record", "add", None)
-    dns_cls = RECORDS[params['type']]
+    record_type = params.get('type') or 'A'
+    dns_cls = RECORDS[record_type]
     rec = dns_cls.add(owner=auth_context.owner, zone=zone, **params)
     rec.assign_to(auth_context.user)
     if tags:
