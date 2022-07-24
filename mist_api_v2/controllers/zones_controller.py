@@ -293,7 +293,7 @@ def create_record(zone, create_record_request=None):  # noqa: E501
         except ValueError:
             return 'Cloud does not exist', 404
         else:
-            list_resources_kwargs['cloud'] = cloud
+            list_resources_kwargs['cloud'] = cloud.id
     try:
         [zone], total = list_resources(**list_resources_kwargs)
     except ValueError:
