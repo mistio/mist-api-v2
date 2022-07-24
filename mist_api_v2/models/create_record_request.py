@@ -15,15 +15,13 @@ class CreateRecordRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, zone=None, value=None, type=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, value=None, type=None):  # noqa: E501
         """CreateRecordRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateRecordRequest.  # noqa: E501
         :type name: str
         :param cloud: The cloud of this CreateRecordRequest.  # noqa: E501
         :type cloud: str
-        :param zone: The zone of this CreateRecordRequest.  # noqa: E501
-        :type zone: str
         :param value: The value of this CreateRecordRequest.  # noqa: E501
         :type value: str
         :param type: The type of this CreateRecordRequest.  # noqa: E501
@@ -32,7 +30,6 @@ class CreateRecordRequest(Model):
         self.openapi_types = {
             'name': str,
             'cloud': str,
-            'zone': str,
             'value': str,
             'type': str
         }
@@ -40,14 +37,12 @@ class CreateRecordRequest(Model):
         self.attribute_map = {
             'name': 'name',
             'cloud': 'cloud',
-            'zone': 'zone',
             'value': 'value',
             'type': 'type'
         }
 
         self._name = name
         self._cloud = cloud
-        self._zone = zone
         self._value = value
         self._type = type
 
@@ -105,27 +100,6 @@ class CreateRecordRequest(Model):
         """
 
         self._cloud = cloud
-
-    @property
-    def zone(self):
-        """Gets the zone of this CreateRecordRequest.
-
-
-        :return: The zone of this CreateRecordRequest.
-        :rtype: str
-        """
-        return self._zone
-
-    @zone.setter
-    def zone(self, zone):
-        """Sets the zone of this CreateRecordRequest.
-
-
-        :param zone: The zone of this CreateRecordRequest.
-        :type zone: str
-        """
-
-        self._zone = zone
 
     @property
     def value(self):
