@@ -340,7 +340,7 @@ def delete_record(zone, record, cloud):  # noqa: E501
         return 'Cloud does not exist', 404
     try:
         [zone], _ = list_resources(
-            auth_context, 'zone', search=zone, cloud=cloud, limit=1)
+            auth_context, 'zone', search=zone, cloud=cloud.id, limit=1)
     except ValueError:
         return 'Zone does not exist', 404
     try:
