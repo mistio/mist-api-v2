@@ -15,7 +15,7 @@ class CreateRecordRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, value=None, type='A'):  # noqa: E501
+    def __init__(self, name=None, cloud=None, value=None, type='A', ttl=300):  # noqa: E501
         """CreateRecordRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateRecordRequest.  # noqa: E501
@@ -26,25 +26,30 @@ class CreateRecordRequest(Model):
         :type value: str
         :param type: The type of this CreateRecordRequest.  # noqa: E501
         :type type: str
+        :param ttl: The ttl of this CreateRecordRequest.  # noqa: E501
+        :type ttl: int
         """
         self.openapi_types = {
             'name': str,
             'cloud': str,
             'value': str,
-            'type': str
+            'type': str,
+            'ttl': int
         }
 
         self.attribute_map = {
             'name': 'name',
             'cloud': 'cloud',
             'value': 'value',
-            'type': 'type'
+            'type': 'type',
+            'ttl': 'ttl'
         }
 
         self._name = name
         self._cloud = cloud
         self._value = value
         self._type = type
+        self._ttl = ttl
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateRecordRequest':
@@ -150,3 +155,24 @@ class CreateRecordRequest(Model):
             )
 
         self._type = type
+
+    @property
+    def ttl(self):
+        """Gets the ttl of this CreateRecordRequest.
+
+
+        :return: The ttl of this CreateRecordRequest.
+        :rtype: int
+        """
+        return self._ttl
+
+    @ttl.setter
+    def ttl(self, ttl):
+        """Sets the ttl of this CreateRecordRequest.
+
+
+        :param ttl: The ttl of this CreateRecordRequest.
+        :type ttl: int
+        """
+
+        self._ttl = ttl

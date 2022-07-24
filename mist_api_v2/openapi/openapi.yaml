@@ -10149,6 +10149,9 @@ components:
           - AAAA
           - CNAME
           type: string
+        ttl:
+          default: 300
+          type: integer
       required:
       - name
       - value
