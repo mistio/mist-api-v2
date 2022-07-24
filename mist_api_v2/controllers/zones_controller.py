@@ -339,7 +339,8 @@ def delete_record(zone, record, cloud):  # noqa: E501
     except ValueError:
         return 'Cloud does not exist', 404
     try:
-        [zone], _ = list_resources(auth_context, 'zone', search=zone, limit=1)
+        [zone], _ = list_resources(
+            auth_context, 'zone', search=zone, cloud=cloud, limit=1)
     except ValueError:
         return 'Zone does not exist', 404
     try:
@@ -352,4 +353,4 @@ def delete_record(zone, record, cloud):  # noqa: E501
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
     record.ctl.delete_record()
-    return 'Deleted record', 200
+    return f'Deleted record `{record.name}`', 200
