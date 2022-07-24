@@ -225,8 +225,25 @@ def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     try:
+        get_resource(
+            auth_context,
+            'zone',
+            search=zone,
+            cloud=cloud,
+            only=only,
+            deref=deref
+        )
+    except NotFoundError:
+        return 'Zone does not exist', 404
+    try:
         result = get_resource(
-            auth_context, 'record', search=record, only=only, deref=deref)
+            auth_context,
+            'record',
+            search=record,
+            cloud=cloud,
+            only=only,
+            deref=deref
+        )
     except NotFoundError:
         return 'Record does not exist', 404
     return GetRecordResponse(data=result['data'], meta=result['meta'])
@@ -252,9 +269,24 @@ def list_records(zone, cloud, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    try:
+        get_resource(
+            auth_context,
+            'zone',
+            search=zone,
+            cloud=cloud,
+            only=only,
+            deref=deref
+        )
+    except NotFoundError:
+        return 'Zone does not exist', 404
     result = list_resources(
-        auth_context, 'record', zone=zone, cloud=cloud,
-        only=only, deref=deref)
+        auth_context,
+        'record',
+        cloud=cloud,
+        only=only,
+        deref=deref
+    )
     return ListRecordsResponse(data=result['data'], meta=result['meta'])
 
 
