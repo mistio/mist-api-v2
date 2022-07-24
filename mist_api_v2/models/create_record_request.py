@@ -15,7 +15,7 @@ class CreateRecordRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, cloud=None, value=None, type=None):  # noqa: E501
+    def __init__(self, name=None, cloud=None, value=None, type='A'):  # noqa: E501
         """CreateRecordRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateRecordRequest.  # noqa: E501
@@ -119,6 +119,8 @@ class CreateRecordRequest(Model):
         :param value: The value of this CreateRecordRequest.
         :type value: str
         """
+        if value is None:
+            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
 
         self._value = value
 
