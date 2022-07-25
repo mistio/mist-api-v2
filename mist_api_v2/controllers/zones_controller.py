@@ -5,6 +5,7 @@ from mist.api.dns.models import Zone
 from mist.api.dns.models import RECORDS
 from mist.api.tag.methods import add_tags_to_resource
 from mist.api.exceptions import NotFoundError, PolicyUnauthorizedError
+from mist.api.exceptions import RecordCreationError
 
 from mist.api.exceptions import BadRequestError
 from mist.api.exceptions import CloudUnauthorizedError
@@ -339,7 +340,10 @@ def create_record(zone, create_record_request=None):  # noqa: E501
     tags, _ = auth_context.check_perm("record", "add", None)
     record_type = params.get('type') or 'A'
     dns_cls = RECORDS[record_type]
-    rec = dns_cls.add(owner=auth_context.owner, zone=zone, **params)
+    try:
+        rec = dns_cls.add(owner=auth_context.owner, zone=zone, **params)
+    except RecordCreationError as e:
+        return str(e), 503
     rec.assign_to(auth_context.user)
     if tags:
         add_tags_to_resource(auth_context.owner,
