@@ -310,6 +310,9 @@ def create_record(zone, create_record_request=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     params = delete_none(create_record_request.to_dict())
+    if zone not in params['name']:
+        params['name'] = '.'.join([params['name'].strip(), zone])
+        params['name'] = f"{params['name']}."
     params['data'] = params.pop('value')
     list_resources_kwargs = dict(
         auth_context=auth_context,
