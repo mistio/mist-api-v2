@@ -160,6 +160,34 @@ class TestOrgsController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_update_org(self, pretty_print, owner_api_token):
+        """Test case for update_org
+
+        
+        """
+        patch_organization_request = setup_data.get('update_org', {}).get(
+            'request_body') or json.loads("""{
+  "vault_secret_id" : "vault_secret_id",
+  "vault_token" : "vault_token",
+  "name" : "name",
+  "vault_address" : "vault_address",
+  "vault_secrets_engine_path" : "vault_secrets_engine_path",
+  "vault_role_id" : "vault_role_id"
+}""", strict=False)
+        uri = MIST_URL + '/api/v2/orgs/{org}'.format(
+            org=setup_data.get('update_org', {}).get('org') or setup_data.get('org') or 'my-org')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=patch_organization_request)
+        request_method = getattr(request, 'PATCH'.lower())
+        response = request_method()
+        if 'update_org' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
 
 if resource_name == 'machines':
     # Impose custom ordering of machines test methods
