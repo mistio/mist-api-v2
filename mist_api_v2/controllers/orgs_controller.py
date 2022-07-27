@@ -1,6 +1,9 @@
 import connexion
-from mist.api.exceptions import NotFoundError
+import mongoengine as me
 
+from mist.api.exceptions import NotFoundError
+from mist.api.users.models import Organization
+from mist.api.helpers import trigger_session_update
 from mist_api_v2 import util
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse  # noqa: E501
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
@@ -23,9 +26,39 @@ def create_org(create_organization_request=None):  # noqa: E501
 
     :rtype: Org
     """
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
     if connexion.request.is_json:
         create_organization_request = CreateOrganizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    if auth_context.user.can_create_org is False:
+        return 'User is not authorized to create an organization', 403
+
+    name = create_organization_request.name
+    super_org = create_organization_request.super_org
+
+    if Organization.objects(name=name).first():
+        return f'Organization with name {name} already exists', 400
+
+    org = Organization()
+    org.add_member_to_team('Owners', auth_context.user)
+    org.name = name
+
+    # mechanism for sub-org creation
+    # the owner of super-org has the ability to create a sub-org
+    if super_org:
+        org.parent = auth_context.org
+
+    try:
+        org.save()
+    except (me.ValidationError, me.OperationError) as exc:
+        return f'Failed to create organization with exception: {exc!r}', 400
+
+    org.reload()
+    trigger_session_update(auth_context.user, ['user'])
+    return org.as_dict_v2()
 
 
 def update_org(org, patch_organization_request=None):  # noqa: E501
