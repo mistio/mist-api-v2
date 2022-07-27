@@ -25,6 +25,12 @@ from mist_api_v2.models.list_zones_response import ListZonesResponse  # noqa: E5
 from .base import list_resources, get_resource
 
 
+def parse_record_name(record_name, zone):
+    if zone in record_name:
+        return record_name
+    return '.'.join([record_name.strip(), zone]) + '.'
+
+
 def create_zone(create_zone_request=None):  # noqa: E501
     """Create zone
 
@@ -225,6 +231,7 @@ def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    record = parse_record_name(record, zone)
     try:
         get_resource(
             auth_context,
@@ -311,9 +318,7 @@ def create_record(zone, create_record_request=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     params = delete_none(create_record_request.to_dict())
-    if zone not in params['name']:
-        params['name'] = '.'.join([params['name'].strip(), zone])
-        params['name'] = f"{params['name']}."
+    params['name'] = parse_record_name(params['name'], zone)
     params['data'] = params.pop('value')
     list_resources_kwargs = dict(
         auth_context=auth_context,
@@ -372,6 +377,7 @@ def delete_record(zone, record, cloud):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
+    record = parse_record_name(record, zone)
     try:
         [cloud], total = list_resources(
             auth_context, 'cloud', search=cloud, limit=1)
