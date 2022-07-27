@@ -7,8 +7,42 @@ from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
 from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse  # noqa: E501
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse  # noqa: E501
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
+from mist_api_v2.models.patch_organization_request import PatchOrganizationRequest  # noqa: E501
+from mist_api_v2.models.create_organization_request import CreateOrganizationRequest  # noqa: E501
 
 from .base import list_resources, get_resource, get_org_resources_summary
+
+
+def create_org(create_organization_request=None):  # noqa: E501
+    """Create org
+
+    Create an organization. # noqa: E501
+
+    :param create_organization_request: 
+    :type create_organization_request: dict | bytes
+
+    :rtype: Org
+    """
+    if connexion.request.is_json:
+        create_organization_request = CreateOrganizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def update_org(org, patch_organization_request=None):  # noqa: E501
+    """update_org
+
+    Update organization # noqa: E501
+
+    :param org: Organization id
+    :type org: str
+    :param patch_organization_request: 
+    :type patch_organization_request: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        patch_organization_request = PatchOrganizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
 def get_member(org, member, only=None):  # noqa: E501
