@@ -10,7 +10,6 @@ mist_api_v2/controllers/__init__.py
 mist_api_v2/controllers/clouds_controller.py
 mist_api_v2/controllers/clusters_controller.py
 mist_api_v2/controllers/datapoints_controller.py
-mist_api_v2/controllers/default_controller.py
 mist_api_v2/controllers/images_controller.py
 mist_api_v2/controllers/jobs_controller.py
 mist_api_v2/controllers/keys_controller.py
@@ -243,7 +242,6 @@ mist_api_v2/test/__init__.py
 mist_api_v2/test/test_clouds_controller.py
 mist_api_v2/test/test_clusters_controller.py
 mist_api_v2/test/test_datapoints_controller.py
-mist_api_v2/test/test_default_controller.py
 mist_api_v2/test/test_images_controller.py
 mist_api_v2/test/test_jobs_controller.py
 mist_api_v2/test/test_keys_controller.py

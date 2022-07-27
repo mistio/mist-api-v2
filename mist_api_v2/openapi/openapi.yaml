@@ -3170,7 +3170,15 @@ paths:
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
-      x-openapi-router-controller: mist_api_v2.controllers.default_controller
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Create org
+      tags:
+      - orgs
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     x-cli-ignore: true
   /api/v2/orgs/{org}:
     get:
