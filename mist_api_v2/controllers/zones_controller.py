@@ -356,7 +356,7 @@ def create_record(zone, create_record_request=None):  # noqa: E501
     return rec.as_dict()
 
 
-def delete_record(zone, record, cloud):  # noqa: E501
+def delete_record(zone, record, cloud=None):  # noqa: E501
     """Delete record
 
     Deletes a specific DNS record under a zone. REMOVE permission required on zone. # noqa: E501
@@ -377,18 +377,13 @@ def delete_record(zone, record, cloud):  # noqa: E501
         return 'Authentication failed', 401
     record = parse_record_name(record, zone)
     try:
-        [cloud], total = list_resources(
-            auth_context, 'cloud', search=cloud, limit=1)
-    except ValueError:
-        return 'Cloud does not exist', 404
-    try:
         [zone], _ = list_resources(
-            auth_context, 'zone', search=zone, cloud=cloud.id, limit=1)
+            auth_context, 'zone', search=zone, cloud=cloud, limit=1)
     except ValueError:
         return 'Zone does not exist', 404
     try:
         [record], _ = list_resources(
-            auth_context, 'record', search=record, cloud=cloud.id, limit=1)
+            auth_context, 'record', search=record, cloud=cloud, limit=1)
     except ValueError:
         return 'Record does not exist', 404
     try:
