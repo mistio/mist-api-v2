@@ -1,5 +1,6 @@
 import connexion
 import mongoengine as me
+import hvac
 
 from mist.api.exceptions import NotFoundError
 from mist.api.users.models import Organization
@@ -21,7 +22,7 @@ def create_org(create_organization_request=None):  # noqa: E501
 
     Create an organization. # noqa: E501
 
-    :param create_organization_request: 
+    :param create_organization_request:
     :type create_organization_request: dict | bytes
 
     :rtype: Org
@@ -68,14 +69,80 @@ def update_org(org, patch_organization_request=None):  # noqa: E501
 
     :param org: Organization id
     :type org: str
-    :param patch_organization_request: 
+    :param patch_organization_request:
     :type patch_organization_request: dict | bytes
 
     :rtype: None
     """
     if connexion.request.is_json:
         patch_organization_request = PatchOrganizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+
+    if not auth_context.is_owner():
+        return 'Only owners can edit the organization', 403
+
+    try:
+        organization = Organization.objects.get(id=org)
+    except Organization.DoesNotExist:
+        return f'Organization {org} not found', 404
+
+    if patch_organization_request.name:
+        organization.name = patch_organization_request.name
+        try:
+            organization.save()
+        except (me.ValidationError, me.OperationError) as exc:
+            return f'Failed to edit organization with exception: {exc!r}', 400
+        else:
+            return 'Organization name updated succesfully', 200
+
+    vault_address = patch_organization_request.vault_address
+    secrets_engine_path = patch_organization_request.vault_secrets_engine_path
+    token = patch_organization_request.vault_token
+    role_id = patch_organization_request.vault_role_id
+    secret_id = patch_organization_request.vault_secret_id
+
+    if vault_address:
+        if secrets_engine_path is None:
+            return 'Vault secrets engine path is required', 400
+
+        client = hvac.Client(url=vault_address)
+        if token:
+            client.token = token
+        elif role_id and secret_id:
+            try:
+                client.auth.approle.login(role_id=role_id, secret_id=secret_id)
+            except (hvac.exceptions.InvalidRequest,
+                    hvac.exceptions.VaultDown) as exc:
+                return 'Failed to authenticate to vault {exc!r}', 400
+        else:
+            return 'Either token or approle credentials are required', 400
+
+        try:
+            is_authenticated = client.is_authenticated()
+        except hvac.exceptions.VaultDown as exc:
+            return f'Failed to connect to Vault instance: {exc!r}', 503
+
+        if is_authenticated is False:
+            return 'Failed to authenticate with credentials provided', 400
+
+        organization.vault_address = vault_address
+        organization.vault_secret_engine_path = secrets_engine_path
+        organization.vault_role_id = role_id
+        organization.vault_secret_id = secret_id
+        organization.vault_token = token
+
+        try:
+            organization.save()
+        except (me.ValidationError, me.OperationError) as exc:
+            return f'Failed to edit organization with exception: {exc!r}', 400
+        else:
+            return 'Organization Vault updated succesfully', 200
+
+    return 'Invalid request', 400
 
 
 def get_member(org, member, only=None):  # noqa: E501
