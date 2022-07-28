@@ -209,7 +209,7 @@ def list_zones(cloud=None, search=None, sort=None, start=None, limit=None, only=
     return ListZonesResponse(data=result['data'], meta=result['meta'])
 
 
-def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
+def get_record(zone, record, cloud=None, only=None, deref=None):  # noqa: E501
     """Get record
 
     Get details about target record # noqa: E501
@@ -233,11 +233,10 @@ def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
         return 'Authentication failed', 401
     record = parse_record_name(record, zone)
     try:
-        get_resource(
+        zone_ = get_resource(
             auth_context,
             'zone',
             search=zone,
-            cloud=cloud,
             only=only,
             deref=deref
         )
@@ -248,7 +247,7 @@ def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
             auth_context,
             'record',
             search=record,
-            cloud=cloud,
+            cloud=zone_['data']['cloud'],
             only=only,
             deref=deref
         )
@@ -257,7 +256,7 @@ def get_record(zone, record, cloud, only=None, deref=None):  # noqa: E501
     return GetRecordResponse(data=result['data'], meta=result['meta'])
 
 
-def list_records(zone, cloud, only=None, deref=None):  # noqa: E501
+def list_records(zone, cloud=None, only=None, deref=None):  # noqa: E501
     """List records
 
     Lists all DNS records for a particular zone. READ permission required on zone and record. # noqa: E501
@@ -278,11 +277,10 @@ def list_records(zone, cloud, only=None, deref=None):  # noqa: E501
     except KeyError:
         return 'Authentication failed', 401
     try:
-        get_resource(
+        zone_ = get_resource(
             auth_context,
             'zone',
             search=zone,
-            cloud=cloud,
             only=only,
             deref=deref
         )
@@ -291,7 +289,7 @@ def list_records(zone, cloud, only=None, deref=None):  # noqa: E501
     result = list_resources(
         auth_context,
         'record',
-        cloud=cloud,
+        cloud=zone_['data']['cloud'],
         only=only,
         deref=deref
     )
