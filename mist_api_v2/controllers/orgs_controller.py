@@ -105,7 +105,7 @@ def update_org(org, patch_organization_request=None):  # noqa: E501
     role_id = patch_organization_request.vault_role_id
     secret_id = patch_organization_request.vault_secret_id
 
-    if vault_address:
+    if vault_address is not None:
         if secrets_engine_path is None:
             return 'Vault secrets engine path is required', 400
 
@@ -135,6 +135,20 @@ def update_org(org, patch_organization_request=None):  # noqa: E501
         organization.vault_secret_id = secret_id
         organization.vault_token = token
 
+        try:
+            organization.save()
+        except (me.ValidationError, me.OperationError) as exc:
+            return f'Failed to edit organization with exception: {exc!r}', 400
+        else:
+            return 'Organization Vault updated succesfully', 200
+
+    # Reenable Mist Portal vault for organization
+    if vault_address == '' and organization.vault_address:
+        organization.vault_address = ''
+        organization.vault_secret_engine_path = ''
+        organization.vault_token = ''
+        organization.vault_role_id = ''
+        organization.vault_secret_id = ''
         try:
             organization.save()
         except (me.ValidationError, me.OperationError) as exc:
