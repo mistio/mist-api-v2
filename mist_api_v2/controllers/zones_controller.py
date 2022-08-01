@@ -247,7 +247,7 @@ def get_record(zone, record, cloud=None, only=None, deref=None):  # noqa: E501
             auth_context,
             'record',
             search=record,
-            cloud=zone_['data']['cloud'],
+            cloud=zone_['data'].get('cloud'),
             only=only,
             deref=deref
         )
@@ -289,7 +289,7 @@ def list_records(zone, cloud=None, only=None, deref=None):  # noqa: E501
     result = list_resources(
         auth_context,
         'record',
-        cloud=zone_['data']['cloud'],
+        cloud=zone_['data'].get('cloud'),
         only=only,
         deref=deref
     )
