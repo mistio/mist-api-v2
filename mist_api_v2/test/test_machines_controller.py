@@ -446,7 +446,7 @@ class TestMachinesController:
         print('Success!!!')
 
 
-if resource_name == 'machines':
+if hasattr(_setup_module, 'TEST_METHOD_ORDERING'):
     # Impose custom ordering of machines test methods
     for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
         method_name = k if k.startswith('test_') else f'test_{k}'
