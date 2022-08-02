@@ -41,6 +41,30 @@ def after_test(request):
 class TestZonesController:
     """ZonesController integration test stubs"""
 
+    def test_create_record(self, pretty_print, owner_api_token):
+        """Test case for create_record
+
+        Create record
+        """
+        create_record_request = setup_data.get('create_record', {}).get(
+            'request_body') or json.loads("""{
+  "name" : "my-record",
+  "value" : "123.23.23.2"
+}""", strict=False)
+        uri = MIST_URL + '/api/v2/zones/{zone}/records'.format(
+            zone=setup_data.get('create_record', {}).get('zone') or setup_data.get('zone') or 'my-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            json=create_record_request)
+        request_method = getattr(request, 'POST'.lower())
+        response = request_method()
+        if 'create_record' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
     def test_create_zone(self, pretty_print, owner_api_token):
         """Test case for create_zone
 
@@ -59,6 +83,26 @@ class TestZonesController:
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         if 'create_zone' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_delete_record(self, pretty_print, owner_api_token):
+        """Test case for delete_record
+
+        Delete record
+        """
+        query_string = setup_data.get('delete_record', {}).get('query_string') or [('cloud', 'my-cloud')]
+        uri = MIST_URL + '/api/v2/zones/{zone}/records/{record}'.format(
+            zone=setup_data.get('delete_record', {}).get('zone') or setup_data.get('zone') or 'my-zone', record=setup_data.get('delete_record', {}).get('record') or setup_data.get('record') or 'my-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'DELETE'.lower())
+        response = request_method()
+        if 'delete_record' in REDIRECT_OPERATIONS:
             assert_response_found(response)
         else:
             assert_response_ok(response)
@@ -100,6 +144,28 @@ class TestZonesController:
             assert_response_ok(response)
         print('Success!!!')
 
+    def test_get_record(self, pretty_print, owner_api_token):
+        """Test case for get_record
+
+        Get record
+        """
+        query_string = setup_data.get('get_record', {}).get('query_string') or [('cloud', 'my-cloud'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = MIST_URL + '/api/v2/zones/{zone}/records/{record}'.format(
+            zone=setup_data.get('get_record', {}).get('zone') or setup_data.get('zone') or 'my-zone', record=setup_data.get('get_record', {}).get('record') or setup_data.get('record') or 'my-record')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        if 'get_record' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
     def test_get_zone(self, pretty_print, owner_api_token):
         """Test case for get_zone
 
@@ -116,6 +182,28 @@ class TestZonesController:
         request_method = getattr(request, 'GET'.lower())
         response = request_method()
         if 'get_zone' in REDIRECT_OPERATIONS:
+            assert_response_found(response)
+        else:
+            assert_response_ok(response)
+        print('Success!!!')
+
+    def test_list_records(self, pretty_print, owner_api_token):
+        """Test case for list_records
+
+        List records
+        """
+        query_string = setup_data.get('list_records', {}).get('query_string') or [('cloud', 'my-cloud'),
+                        ('only', 'id'),
+                        ('deref', 'auto')]
+        uri = MIST_URL + '/api/v2/zones/{zone}/records'.format(
+            zone=setup_data.get('list_records', {}).get('zone') or setup_data.get('zone') or 'my-zone')
+        request = MistRequests(
+            api_token=owner_api_token,
+            uri=uri,
+            params=query_string)
+        request_method = getattr(request, 'GET'.lower())
+        response = request_method()
+        if 'list_records' in REDIRECT_OPERATIONS:
             assert_response_found(response)
         else:
             assert_response_ok(response)
@@ -148,7 +236,7 @@ class TestZonesController:
         print('Success!!!')
 
 
-if resource_name == 'machines':
+if hasattr(_setup_module, 'TEST_METHOD_ORDERING'):
     # Impose custom ordering of machines test methods
     for order, k in enumerate(_setup_module.TEST_METHOD_ORDERING):
         method_name = k if k.startswith('test_') else f'test_{k}'

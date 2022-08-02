@@ -71,7 +71,7 @@ mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
 mist_api_v2/models/create_network_request.py
 mist_api_v2/models/create_network_response.py
-mist_api_v2/models/create_organization_request.py
+mist_api_v2/models/create_record_request.py
 mist_api_v2/models/create_secret_request.py
 mist_api_v2/models/create_volume_request.py
 mist_api_v2/models/create_volume_response.py
@@ -116,6 +116,7 @@ mist_api_v2/models/get_machine_response.py
 mist_api_v2/models/get_network_response.py
 mist_api_v2/models/get_org_member_response.py
 mist_api_v2/models/get_org_response.py
+mist_api_v2/models/get_record_response.py
 mist_api_v2/models/get_rule_response.py
 mist_api_v2/models/get_schedule_response.py
 mist_api_v2/models/get_script_response.py
@@ -162,6 +163,7 @@ mist_api_v2/models/list_networks_response.py
 mist_api_v2/models/list_org_members_response.py
 mist_api_v2/models/list_org_teams_response.py
 mist_api_v2/models/list_orgs_response.py
+mist_api_v2/models/list_records_response.py
 mist_api_v2/models/list_rules_response.py
 mist_api_v2/models/list_schedules_response.py
 mist_api_v2/models/list_scripts_response.py
@@ -196,12 +198,12 @@ mist_api_v2/models/openstack_net.py
 mist_api_v2/models/org.py
 mist_api_v2/models/org_resources_summary.py
 mist_api_v2/models/other_cloud_request.py
-mist_api_v2/models/patch_organization_request.py
 mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
+mist_api_v2/models/record.py
 mist_api_v2/models/resource.py
 mist_api_v2/models/resource_count.py
 mist_api_v2/models/resource_selector.py
