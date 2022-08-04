@@ -44,19 +44,18 @@ class TestOrgsController:
     def test_create_org(self, pretty_print, owner_api_token):
         """Test case for create_org
 
-        Create Organization
+        Create org
         """
-        create_org_request = setup_data.get('create_org', {}).get(
+        create_organization_request = setup_data.get('create_org', {}).get(
             'request_body') or json.loads("""{
   "name" : "name",
-  "description" : "description",
-  "logo" : "logo"
+  "super_org" : false
 }""", strict=False)
         uri = MIST_URL + '/api/v2/orgs'
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
-            json=create_org_request)
+            json=create_organization_request)
         request_method = getattr(request, 'POST'.lower())
         response = request_method()
         if 'create_org' in REDIRECT_OPERATIONS:
