@@ -3440,32 +3440,32 @@ paths:
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     post:
-      description: Creates a new org and returns the org's id.
+      description: Create an organization.
       operationId: create_org
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrgRequest'
+              $ref: '#/components/schemas/CreateOrganizationRequest'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateOrgResponse'
-          description: Organization created succesfully
+                $ref: '#/components/schemas/Org'
+          description: Organization created
+        "400":
+          description: Bad Request
         "401":
           description: Authentication failed
         "403":
           description: You are not authorized to perform this action
-        "409":
-          description: Organization name not available
       security:
       - ApiKeyAuth:
         - ""
       - CookieAuth:
         - ""
-      summary: Create Organization
+      summary: Create org
       tags:
       - orgs
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
@@ -3548,6 +3548,41 @@ paths:
       - clouds_count
       - total_machine_count
       - last_active
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    patch:
+      description: Update organization
+      operationId: update_org
+      parameters:
+      - description: Organization id
+        example: my-org
+        explode: false
+        in: path
+        name: org
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOrganizationRequest'
+      responses:
+        "200":
+          description: Organization updated succesfully
+        "400":
+          description: Bad Request
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      tags:
+      - orgs
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     x-cli-ignore: true
   /api/v2/orgs/{org}/members:
@@ -6421,6 +6456,274 @@ paths:
       summary: Edit zone
       tags:
       - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+  /api/v2/zones/{zone}/records:
+    get:
+      description: Lists all DNS records for a particular zone. READ permission required
+        on zone and record.
+      operationId: list_records
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: "id,name,owned_by"
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: "cloud:provider, creator:email, owned_by:name"
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRecordsResponse'
+          description: List records response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:record
+      - CookieAuth:
+        - read:zone
+        - read:record
+      summary: List records
+      tags:
+      - zones
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+    post:
+      description: Creates a new record under a specific zone. CREATE_RESOURCES permission
+        required on cloud. CREATE_RECORDS permission required on zone
+      operationId: create_record
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRecordRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRecordResponse'
+          description: Zone provisioning started
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:cloud
+        - create_resources:cloud
+        - create_records:zone
+      - CookieAuth:
+        - read:zone
+        - read:cloud
+        - create_resources:cloud
+        - create_records:zone
+      summary: Create record
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+  /api/v2/zones/{zone}/records/{record}:
+    delete:
+      description: Deletes a specific DNS record under a zone. REMOVE permission required
+        on zone.
+      operationId: delete_record
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-zone
+        explode: false
+        in: path
+        name: record
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Record successfully deleted
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Record not found
+      security:
+      - ApiKeyAuth:
+        - remove:zone
+      - CookieAuth:
+        - remove:zone
+      summary: Delete record
+      tags:
+      - zones
+      x-openapi-router-controller: mist_api_v2.controllers.zones_controller
+    get:
+      description: Get details about target record
+      operationId: get_record
+      parameters:
+      - example: my-zone
+        explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-record
+        explode: false
+        in: path
+        name: record
+        required: true
+        schema:
+          type: string
+        style: simple
+      - example: my-cloud
+        explode: true
+        in: query
+        name: cloud
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return id, name & owned_by:
+            value: "id,name,owned_by"
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+          Dereference cloud id to cloud provider:
+            value: cloud:provider
+          Dereference cloud by provider, creator by email, owner by name:
+            value: "cloud:provider, creator:email, owned_by:name"
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRecordResponse'
+          description: Record returned successfully
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+        "404":
+          description: Record not found
+      security:
+      - ApiKeyAuth:
+        - read:zone
+        - read:cloud
+      - CookieAuth:
+        - read:zone
+        - read:cloud
+      summary: Get record
+      tags:
+      - zones
+      x-cli-table-default:
+      - name
+      - cloud
+      x-cli-table-extended:
+      - id
+      - name
+      - cloud
+      - external_id
+      - owned_by
+      - created_by
       x-openapi-router-controller: mist_api_v2.controllers.zones_controller
 components:
   callbacks: {}
@@ -10303,6 +10606,34 @@ components:
       - $ref: '#/components/schemas/CreateMachineResponse_oneOf_1'
       title: CreateZoneResponse
       type: object
+    CreateRecordRequest:
+      example:
+        name: my-record
+        value: 123.23.23.2
+      properties:
+        name:
+          type: string
+        cloud:
+          type: string
+        value:
+          type: string
+        type:
+          default: A
+          enum:
+          - A
+          - AAAA
+          - CNAME
+          type: string
+        ttl:
+          default: 300
+          type: integer
+      required:
+      - name
+      - value
+      title: CreateRecordRequest
+      type: object
+    CreateRecordResponse:
+      type: object
     ListZonesResponse:
       example:
         data:
@@ -10389,6 +10720,93 @@ components:
           title: owned_by
           type: string
       title: Zone
+      type: object
+    ListRecordsResponse:
+      example:
+        data:
+        - cloud: cloud
+          zone: zone
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+        - cloud: cloud
+          zone: zone
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+        meta:
+          total: 6
+          start: 5
+          sort: sort
+          returned: 1
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Record'
+          title: data
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: ListRecordsResponse
+      type: object
+    GetRecordResponse:
+      example:
+        data:
+          cloud: cloud
+          zone: zone
+          name: name
+          external_id: external_id
+          owned_by: owned_by
+          id: id
+          created_by: created_by
+        meta:
+          total: 6
+          start: 5
+          sort: sort
+          returned: 1
+      properties:
+        data:
+          $ref: '#/components/schemas/Record'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: GetRecordResponse
+      type: object
+    Record:
+      example:
+        cloud: cloud
+        zone: zone
+        name: name
+        external_id: external_id
+        owned_by: owned_by
+        id: id
+        created_by: created_by
+      properties:
+        id:
+          title: id
+          type: string
+        external_id:
+          title: external_id
+          type: string
+        name:
+          title: name
+          type: string
+        cloud:
+          title: cloud
+          type: string
+        zone:
+          title: zone
+          type: string
+        created_by:
+          title: created_by
+          type: string
+        owned_by:
+          title: owned_by
+          type: string
+      title: Record
       type: object
     AddKeyRequest:
       anyOf:
@@ -11480,22 +11898,14 @@ components:
       title: DataType
       type: string
     CreateOrgRequest:
-      example:
-        name: name
-        description: description
-        logo: logo
       properties:
         name:
-          title: name
           type: string
         description:
-          title: description
           type: string
         logo:
           format: data-url
-          title: logo
           type: string
-      title: CreateOrgRequest
       type: object
     CreateOrgResponse:
       type: object
@@ -12027,6 +12437,60 @@ components:
           title: policy
           type: object
       title: Team
+      type: object
+    CreateOrganizationRequest:
+      example:
+        name: name
+        super_org: false
+      properties:
+        name:
+          title: name
+          type: string
+        super_org:
+          default: false
+          title: super_org
+          type: boolean
+      required:
+      - name
+      title: CreateOrganizationRequest
+      type: object
+    PatchOrganizationRequest:
+      example:
+        vault_secret_id: vault_secret_id
+        vault_token: vault_token
+        name: name
+        vault_address: vault_address
+        vault_secrets_engine_path: vault_secrets_engine_path
+        vault_role_id: vault_role_id
+      properties:
+        name:
+          description: The organization's name
+          title: name
+          type: string
+        vault_address:
+          description: The Vault's url
+          title: vault_address
+          type: string
+        vault_secrets_engine_path:
+          description: Vault secrets engine path
+          title: vault_secrets_engine_path
+          type: string
+        vault_token:
+          description: The Vault token that will be used to authenticate against the
+            new Vault. Either token or both role_id and secret_id must be specified
+          title: vault_token
+          type: string
+        vault_role_id:
+          description: The Vault RoleID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: vault_role_id
+          type: string
+        vault_secret_id:
+          description: The Vault SecretID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: vault_secret_id
+          type: string
+      title: PatchOrganizationRequest
       type: object
     GetJobResponse:
       example:
@@ -13229,14 +13693,14 @@ x-cli-waiters:
     - 404
     operationId: get-job
     matchers:
-    - select: response.body#data.finished_at
-      test: notEqual
-      expected: 0
-      state: success
     - select: response.body#data.error
       test: notEqual
       expected: false
       state: failure
+    - select: response.body#data.finished_at
+      test: notEqual
+      expected: 0
+      state: success
     updates: "response.body#data.logs[:].action"
     after:
       create-machine:
