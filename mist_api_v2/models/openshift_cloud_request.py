@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.kubernetes_cloud_features import KubernetesCloudFeatures
 from mist_api_v2.models.openshift_credentials import OpenshiftCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.kubernetes_cloud_features import KubernetesCloudFeatures  # noqa: E501
 from mist_api_v2.models.openshift_credentials import OpenshiftCredentials  # noqa: E501
 
 class OpenshiftCloudRequest(Model):
@@ -27,12 +27,12 @@ class OpenshiftCloudRequest(Model):
         :param credentials: The credentials of this OpenshiftCloudRequest.  # noqa: E501
         :type credentials: OpenshiftCredentials
         :param features: The features of this OpenshiftCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: KubernetesCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': OpenshiftCredentials,
-            'features': CloudFeatures
+            'features': KubernetesCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class OpenshiftCloudRequest(Model):
 
 
         :return: The features of this OpenshiftCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: KubernetesCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class OpenshiftCloudRequest(Model):
 
 
         :param features: The features of this OpenshiftCloudRequest.
-        :type features: CloudFeatures
+        :type features: KubernetesCloudFeatures
         """
 
         self._features = features

@@ -28,7 +28,6 @@ class SupportedProviders(Model):
     DIGITALOCEAN = "digitalocean"
     LINODE = "linode"
     RACKSPACE = "rackspace"
-    MAXIHOST = "maxihost"
     VULTR = "vultr"
     OPENSTACK = "openstack"
     ONAPP = "onapp"

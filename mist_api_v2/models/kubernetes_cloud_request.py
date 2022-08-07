@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.kubernetes_cloud_features import KubernetesCloudFeatures
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.kubernetes_cloud_features import KubernetesCloudFeatures  # noqa: E501
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials  # noqa: E501
 
 class KubernetesCloudRequest(Model):
@@ -27,12 +27,12 @@ class KubernetesCloudRequest(Model):
         :param credentials: The credentials of this KubernetesCloudRequest.  # noqa: E501
         :type credentials: KubernetesCredentials
         :param features: The features of this KubernetesCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: KubernetesCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': KubernetesCredentials,
-            'features': CloudFeatures
+            'features': KubernetesCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class KubernetesCloudRequest(Model):
 
 
         :return: The features of this KubernetesCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: KubernetesCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class KubernetesCloudRequest(Model):
 
 
         :param features: The features of this KubernetesCloudRequest.
-        :type features: CloudFeatures
+        :type features: KubernetesCloudFeatures
         """
 
         self._features = features

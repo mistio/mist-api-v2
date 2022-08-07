@@ -1,4 +1,5 @@
 from mongoengine import DoesNotExist
+import connexion
 
 
 def info_from_ApiKeyAuth(api_key, required_scopes):
@@ -83,6 +84,7 @@ def info_from_CookieAuth(api_key, required_scopes):
         invalid or does not allow access to called API
     :rtype: dict | None
     """
+    org = connexion.request.headers.get('X-Org')
     from mist.api.auth.models import SessionToken
     from mist.api import config
     if config.HAS_RBAC:
@@ -94,25 +96,25 @@ def info_from_CookieAuth(api_key, required_scopes):
     auth_context = session = None
     token_from_request = api_key.lower()
     try:
-        api_token = SessionToken.objects.get(
+        session_token = SessionToken.objects.get(
             token=token_from_request
         )
     except DoesNotExist:
-        api_token = None
+        session_token = None
     # try:
-    #     if not api_token and config.HAS_RBAC:
-    #         api_token = SuperToken.objects.get(
+    #     if not session_token and config.HAS_RBAC:
+    #         session_token = SuperToken.objects.get(
     #             token=token_from_request)
     # except DoesNotExist:
     #     pass
-    if api_token and api_token.is_valid():
-        session = api_token
+    if session_token and session_token.is_valid():
+        session = session_token
     else:
         session = SessionToken()
         session.name = 'dummy_token'
     if session:
         user = session.get_user()
         if user:
-            auth_context = AuthContext(user, session)
+            auth_context = AuthContext(user, session, org=org)
             return {'uid': user.id, 'user': user, 'auth_context': auth_context}
     return None

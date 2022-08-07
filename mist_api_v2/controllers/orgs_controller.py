@@ -175,7 +175,6 @@ def create_org(create_org_request=None):  # noqa: E501
     return 'do some magic!'
 
 
-
 def get_member(org, member, only=None):  # noqa: E501
     """Get Org
 

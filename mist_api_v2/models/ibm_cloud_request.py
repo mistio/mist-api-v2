@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.ibm_cloud_features import IbmCloudFeatures
 from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.ibm_cloud_features import IbmCloudFeatures  # noqa: E501
 from mist_api_v2.models.ibm_credentials import IbmCredentials  # noqa: E501
 
 class IbmCloudRequest(Model):
@@ -27,12 +27,12 @@ class IbmCloudRequest(Model):
         :param credentials: The credentials of this IbmCloudRequest.  # noqa: E501
         :type credentials: IbmCredentials
         :param features: The features of this IbmCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: IbmCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': IbmCredentials,
-            'features': CloudFeatures
+            'features': IbmCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class IbmCloudRequest(Model):
 
 
         :return: The features of this IbmCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: IbmCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class IbmCloudRequest(Model):
 
 
         :param features: The features of this IbmCloudRequest.
-        :type features: CloudFeatures
+        :type features: IbmCloudFeatures
         """
 
         self._features = features

@@ -1,10 +1,9 @@
 import connexion
-import six
 
 from mist_api_v2.models.auth_info import AuthInfo  # noqa: E501
 from mist_api_v2 import util
 
-from .base import list_resources, get_resource
+from .base import list_resources  # , get_resource
 
 
 def create_token():  # noqa: E501
@@ -32,7 +31,8 @@ def describe_auth():  # noqa: E501
         return 'Authentication failed', 401
     authinfo = AuthInfo(data={}, meta={})
     authinfo.data['user'] = auth_context.user.as_dict_v2()
-    orgs_result = list_resources(auth_context, 'orgs', only='id,name,last_active')
+    orgs_result = list_resources(
+        auth_context, 'orgs', only='id,name,last_active')
     authinfo.data['orgs'] = orgs_result['data']
     return authinfo
 
@@ -60,7 +60,7 @@ def list_sessions(search=None, sort=None, start=None, limit=None, only=None, der
     :rtype: object
     """
     at = util.deserialize_datetime(at)
-    session = request.environ['session']
+    # session = request.environ['session']
     # # Get active sessions for the current user
     # session_tokens = SessionToken.objects(user_id=auth_context.user.id,
     #                                       revoked=False)
@@ -74,7 +74,7 @@ def list_sessions(search=None, sort=None, start=None, limit=None, only=None, der
 
     # # If user is owner include all active sessions in the org context
     # if auth_context.is_owner():
-    #     org_tokens = SessionToken.objects(org=auth_context.org, revoked=False)
+    #    org_tokens = SessionToken.objects(org=auth_context.org, revoked=False)
     #     for token in org_tokens:
     #         if token.is_valid():
     #             public_view = token.get_public_view()
