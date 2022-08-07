@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.cloud_sigma_cloud_features import CloudSigmaCloudFeatures
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.cloud_sigma_cloud_features import CloudSigmaCloudFeatures  # noqa: E501
 from mist_api_v2.models.cloud_sigma_credentials import CloudSigmaCredentials  # noqa: E501
 
 class CloudSigmaCloudRequest(Model):
@@ -27,12 +27,12 @@ class CloudSigmaCloudRequest(Model):
         :param credentials: The credentials of this CloudSigmaCloudRequest.  # noqa: E501
         :type credentials: CloudSigmaCredentials
         :param features: The features of this CloudSigmaCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: CloudSigmaCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': CloudSigmaCredentials,
-            'features': CloudFeatures
+            'features': CloudSigmaCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class CloudSigmaCloudRequest(Model):
 
 
         :return: The features of this CloudSigmaCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: CloudSigmaCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class CloudSigmaCloudRequest(Model):
 
 
         :param features: The features of this CloudSigmaCloudRequest.
-        :type features: CloudFeatures
+        :type features: CloudSigmaCloudFeatures
         """
 
         self._features = features

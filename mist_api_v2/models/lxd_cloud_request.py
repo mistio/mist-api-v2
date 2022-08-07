@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.lxd_cloud_features import LxdCloudFeatures
 from mist_api_v2.models.lxd_credentials import LxdCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.lxd_cloud_features import LxdCloudFeatures  # noqa: E501
 from mist_api_v2.models.lxd_credentials import LxdCredentials  # noqa: E501
 
 class LxdCloudRequest(Model):
@@ -27,12 +27,12 @@ class LxdCloudRequest(Model):
         :param credentials: The credentials of this LxdCloudRequest.  # noqa: E501
         :type credentials: LxdCredentials
         :param features: The features of this LxdCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: LxdCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': LxdCredentials,
-            'features': CloudFeatures
+            'features': LxdCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class LxdCloudRequest(Model):
 
 
         :return: The features of this LxdCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: LxdCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class LxdCloudRequest(Model):
 
 
         :param features: The features of this LxdCloudRequest.
-        :type features: CloudFeatures
+        :type features: LxdCloudFeatures
         """
 
         self._features = features

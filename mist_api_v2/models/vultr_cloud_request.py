@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.vultr_cloud_features import VultrCloudFeatures
 from mist_api_v2.models.vultr_credentials import VultrCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.vultr_cloud_features import VultrCloudFeatures  # noqa: E501
 from mist_api_v2.models.vultr_credentials import VultrCredentials  # noqa: E501
 
 class VultrCloudRequest(Model):
@@ -27,12 +27,12 @@ class VultrCloudRequest(Model):
         :param credentials: The credentials of this VultrCloudRequest.  # noqa: E501
         :type credentials: VultrCredentials
         :param features: The features of this VultrCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: VultrCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': VultrCredentials,
-            'features': CloudFeatures
+            'features': VultrCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class VultrCloudRequest(Model):
 
 
         :return: The features of this VultrCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: VultrCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class VultrCloudRequest(Model):
 
 
         :param features: The features of this VultrCloudRequest.
-        :type features: CloudFeatures
+        :type features: VultrCloudFeatures
         """
 
         self._features = features

@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.onapp_cloud_features import OnappCloudFeatures
 from mist_api_v2.models.onapp_credentials import OnappCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.onapp_cloud_features import OnappCloudFeatures  # noqa: E501
 from mist_api_v2.models.onapp_credentials import OnappCredentials  # noqa: E501
 
 class OnappCloudRequest(Model):
@@ -27,12 +27,12 @@ class OnappCloudRequest(Model):
         :param credentials: The credentials of this OnappCloudRequest.  # noqa: E501
         :type credentials: OnappCredentials
         :param features: The features of this OnappCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: OnappCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': OnappCredentials,
-            'features': CloudFeatures
+            'features': OnappCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class OnappCloudRequest(Model):
 
 
         :return: The features of this OnappCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: OnappCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class OnappCloudRequest(Model):
 
 
         :param features: The features of this OnappCloudRequest.
-        :type features: CloudFeatures
+        :type features: OnappCloudFeatures
         """
 
         self._features = features

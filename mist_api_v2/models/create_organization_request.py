@@ -15,26 +15,31 @@ class CreateOrganizationRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, super_org=False):  # noqa: E501
+    def __init__(self, name=None, description=None, logo=None):  # noqa: E501
         """CreateOrganizationRequest - a model defined in OpenAPI
 
         :param name: The name of this CreateOrganizationRequest.  # noqa: E501
         :type name: str
-        :param super_org: The super_org of this CreateOrganizationRequest.  # noqa: E501
-        :type super_org: bool
+        :param description: The description of this CreateOrganizationRequest.  # noqa: E501
+        :type description: str
+        :param logo: The logo of this CreateOrganizationRequest.  # noqa: E501
+        :type logo: str
         """
         self.openapi_types = {
             'name': str,
-            'super_org': bool
+            'description': str,
+            'logo': str
         }
 
         self.attribute_map = {
             'name': 'name',
-            'super_org': 'super_org'
+            'description': 'description',
+            'logo': 'logo'
         }
 
         self._name = name
-        self._super_org = super_org
+        self._description = description
+        self._logo = logo
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateOrganizationRequest':
@@ -71,22 +76,43 @@ class CreateOrganizationRequest(Model):
         self._name = name
 
     @property
-    def super_org(self):
-        """Gets the super_org of this CreateOrganizationRequest.
+    def description(self):
+        """Gets the description of this CreateOrganizationRequest.
 
 
-        :return: The super_org of this CreateOrganizationRequest.
-        :rtype: bool
+        :return: The description of this CreateOrganizationRequest.
+        :rtype: str
         """
-        return self._super_org
+        return self._description
 
-    @super_org.setter
-    def super_org(self, super_org):
-        """Sets the super_org of this CreateOrganizationRequest.
+    @description.setter
+    def description(self, description):
+        """Sets the description of this CreateOrganizationRequest.
 
 
-        :param super_org: The super_org of this CreateOrganizationRequest.
-        :type super_org: bool
+        :param description: The description of this CreateOrganizationRequest.
+        :type description: str
         """
 
-        self._super_org = super_org
+        self._description = description
+
+    @property
+    def logo(self):
+        """Gets the logo of this CreateOrganizationRequest.
+
+
+        :return: The logo of this CreateOrganizationRequest.
+        :rtype: str
+        """
+        return self._logo
+
+    @logo.setter
+    def logo(self, logo):
+        """Sets the logo of this CreateOrganizationRequest.
+
+
+        :param logo: The logo of this CreateOrganizationRequest.
+        :type logo: str
+        """
+
+        self._logo = logo

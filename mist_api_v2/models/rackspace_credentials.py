@@ -15,11 +15,9 @@ class RackspaceCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, username=None, apikey=None, region=None):  # noqa: E501
+    def __init__(self, username=None, apikey=None, region=None):  # noqa: E501
         """RackspaceCredentials - a model defined in OpenAPI
 
-        :param provider: The provider of this RackspaceCredentials.  # noqa: E501
-        :type provider: str
         :param username: The username of this RackspaceCredentials.  # noqa: E501
         :type username: str
         :param apikey: The apikey of this RackspaceCredentials.  # noqa: E501
@@ -28,20 +26,17 @@ class RackspaceCredentials(Model):
         :type region: str
         """
         self.openapi_types = {
-            'provider': str,
             'username': str,
             'apikey': str,
             'region': str
         }
 
         self.attribute_map = {
-            'provider': 'provider',
             'username': 'username',
             'apikey': 'apikey',
             'region': 'region'
         }
 
-        self._provider = provider
         self._username = username
         self._apikey = apikey
         self._region = region
@@ -56,33 +51,6 @@ class RackspaceCredentials(Model):
         :rtype: RackspaceCredentials
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def provider(self):
-        """Gets the provider of this RackspaceCredentials.
-
-
-        :return: The provider of this RackspaceCredentials.
-        :rtype: str
-        """
-        return self._provider
-
-    @provider.setter
-    def provider(self, provider):
-        """Sets the provider of this RackspaceCredentials.
-
-
-        :param provider: The provider of this RackspaceCredentials.
-        :type provider: str
-        """
-        allowed_values = ["rackspace"]  # noqa: E501
-        if provider not in allowed_values:
-            raise ValueError(
-                "Invalid value for `provider` ({0}), must be one of {1}"
-                .format(provider, allowed_values)
-            )
-
-        self._provider = provider
 
     @property
     def username(self):

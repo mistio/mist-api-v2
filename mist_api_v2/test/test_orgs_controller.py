@@ -49,7 +49,8 @@ class TestOrgsController:
         create_organization_request = setup_data.get('create_org', {}).get(
             'request_body') or json.loads("""{
   "name" : "name",
-  "super_org" : false
+  "description" : "description",
+  "logo" : "logo"
 }""", strict=False)
         uri = MIST_URL + '/api/v2/orgs'
         request = MistRequests(

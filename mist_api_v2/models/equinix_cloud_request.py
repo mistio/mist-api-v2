@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.equinix_cloud_features import EquinixCloudFeatures
 from mist_api_v2.models.equinix_credentials import EquinixCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.equinix_cloud_features import EquinixCloudFeatures  # noqa: E501
 from mist_api_v2.models.equinix_credentials import EquinixCredentials  # noqa: E501
 
 class EquinixCloudRequest(Model):
@@ -27,12 +27,12 @@ class EquinixCloudRequest(Model):
         :param credentials: The credentials of this EquinixCloudRequest.  # noqa: E501
         :type credentials: EquinixCredentials
         :param features: The features of this EquinixCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: EquinixCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': EquinixCredentials,
-            'features': CloudFeatures
+            'features': EquinixCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class EquinixCloudRequest(Model):
 
 
         :return: The features of this EquinixCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: EquinixCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class EquinixCloudRequest(Model):
 
 
         :param features: The features of this EquinixCloudRequest.
-        :type features: CloudFeatures
+        :type features: EquinixCloudFeatures
         """
 
         self._features = features
