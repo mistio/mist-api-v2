@@ -160,21 +160,6 @@ def update_org(org, patch_organization_request=None):  # noqa: E501
     return 'Invalid request', 400
 
 
-def create_org(create_org_request=None):  # noqa: E501
-    """Create Organization
-
-    Creates a new org and returns the org&#39;s id. # noqa: E501
-
-    :param create_org_request:
-    :type create_org_request: dict | bytes
-
-    :rtype: object
-    """
-    if connexion.request.is_json:
-        create_org_request = CreateOrgRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
-
-
 def get_member(org, member, only=None):  # noqa: E501
     """Get Org
 

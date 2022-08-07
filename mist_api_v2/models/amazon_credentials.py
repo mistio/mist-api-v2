@@ -81,6 +81,7 @@ class AmazonCredentials(Model):
     def apikey(self):
         """Gets the apikey of this AmazonCredentials.
 
+        Your AWS API key  # noqa: E501
 
         :return: The apikey of this AmazonCredentials.
         :rtype: str
@@ -91,6 +92,7 @@ class AmazonCredentials(Model):
     def apikey(self, apikey):
         """Sets the apikey of this AmazonCredentials.
 
+        Your AWS API key  # noqa: E501
 
         :param apikey: The apikey of this AmazonCredentials.
         :type apikey: str
@@ -104,6 +106,7 @@ class AmazonCredentials(Model):
     def apisecret(self):
         """Gets the apisecret of this AmazonCredentials.
 
+        Your AWS API secret  # noqa: E501
 
         :return: The apisecret of this AmazonCredentials.
         :rtype: str
@@ -114,6 +117,7 @@ class AmazonCredentials(Model):
     def apisecret(self, apisecret):
         """Sets the apisecret of this AmazonCredentials.
 
+        Your AWS API secret  # noqa: E501
 
         :param apisecret: The apisecret of this AmazonCredentials.
         :type apisecret: str
