@@ -6,7 +6,6 @@ from mist.api.exceptions import NotFoundError
 from mist.api.users.models import Organization
 from mist.api.helpers import trigger_session_update
 from mist_api_v2 import util
-from mist_api_v2.models.create_org_request import CreateOrgRequest  # noqa: E501
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse  # noqa: E501
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
 from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse  # noqa: E501
