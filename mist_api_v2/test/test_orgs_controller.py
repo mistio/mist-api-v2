@@ -50,7 +50,8 @@ class TestOrgsController:
             'request_body') or json.loads("""{
   "name" : "name",
   "description" : "description",
-  "logo" : "logo"
+  "logo" : "logo",
+  "vault" : ""
 }""", strict=False)
         uri = MIST_URL + '/api/v2/orgs'
         request = MistRequests(

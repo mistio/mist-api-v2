@@ -27,6 +27,7 @@ from mist_api_v2.models.amazon_cloud_request import AmazonCloudRequest
 from mist_api_v2.models.amazon_credentials import AmazonCredentials
 from mist_api_v2.models.amazon_net import AmazonNet
 from mist_api_v2.models.amazon_regions import AmazonRegions
+from mist_api_v2.models.app_role_auth import AppRoleAuth
 from mist_api_v2.models.auth_info import AuthInfo
 from mist_api_v2.models.auth_info_data import AuthInfoData
 from mist_api_v2.models.azure_cloud_features import AzureCloudFeatures
@@ -55,6 +56,7 @@ from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
 from mist_api_v2.models.create_organization_request import CreateOrganizationRequest
 from mist_api_v2.models.create_record_request import CreateRecordRequest
+from mist_api_v2.models.create_secret import CreateSecret
 from mist_api_v2.models.create_secret_request import CreateSecretRequest
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
 from mist_api_v2.models.create_volume_response import CreateVolumeResponse
@@ -89,6 +91,8 @@ from mist_api_v2.models.equinix_metal_net import EquinixMetalNet
 from mist_api_v2.models.equinix_metal_net_ip_addresses import EquinixMetalNetIpAddresses
 from mist_api_v2.models.expiration import Expiration
 from mist_api_v2.models.expiration_notify import ExpirationNotify
+from mist_api_v2.models.external_vault import ExternalVault
+from mist_api_v2.models.external_vault_all_of import ExternalVaultAllOf
 from mist_api_v2.models.field_selector import FieldSelector
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_cluster_response import GetClusterResponse
@@ -130,6 +134,8 @@ from mist_api_v2.models.kvm_net_networks import KVMNetNetworks
 from mist_api_v2.models.key import Key
 from mist_api_v2.models.key_machine_association import KeyMachineAssociation
 from mist_api_v2.models.key_machine_disassociation import KeyMachineDisassociation
+from mist_api_v2.models.key_value_pairs import KeyValuePairs
+from mist_api_v2.models.key_value_pairs_secret import KeyValuePairsSecret
 from mist_api_v2.models.kubernetes_cloud_features import KubernetesCloudFeatures
 from mist_api_v2.models.kubernetes_cloud_request import KubernetesCloudRequest
 from mist_api_v2.models.kubernetes_credentials import KubernetesCredentials
@@ -215,6 +221,7 @@ from mist_api_v2.models.script import Script
 from mist_api_v2.models.script_to_run import ScriptToRun
 from mist_api_v2.models.script_to_run_all_of import ScriptToRunAllOf
 from mist_api_v2.models.secret import Secret
+from mist_api_v2.models.secret_string import SecretString
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
 from mist_api_v2.models.supported_providers import SupportedProviders
@@ -224,6 +231,7 @@ from mist_api_v2.models.tag_resources_request_operations import TagResourcesRequ
 from mist_api_v2.models.taggable_resource_types import TaggableResourceTypes
 from mist_api_v2.models.tagging_selector import TaggingSelector
 from mist_api_v2.models.team import Team
+from mist_api_v2.models.token_auth import TokenAuth
 from mist_api_v2.models.trigger_after import TriggerAfter
 from mist_api_v2.models.user import User
 from mist_api_v2.models.v_sphere_extra import VSphereExtra

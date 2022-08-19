@@ -55,6 +55,7 @@ mist_api_v2/models/amazon_cloud_request.py
 mist_api_v2/models/amazon_credentials.py
 mist_api_v2/models/amazon_net.py
 mist_api_v2/models/amazon_regions.py
+mist_api_v2/models/app_role_auth.py
 mist_api_v2/models/auth_info.py
 mist_api_v2/models/auth_info_data.py
 mist_api_v2/models/azure_cloud_features.py
@@ -85,6 +86,7 @@ mist_api_v2/models/create_network_request.py
 mist_api_v2/models/create_network_response.py
 mist_api_v2/models/create_organization_request.py
 mist_api_v2/models/create_record_request.py
+mist_api_v2/models/create_secret.py
 mist_api_v2/models/create_secret_request.py
 mist_api_v2/models/create_volume_request.py
 mist_api_v2/models/create_volume_response.py
@@ -119,6 +121,8 @@ mist_api_v2/models/equinix_metal_net.py
 mist_api_v2/models/equinix_metal_net_ip_addresses.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
+mist_api_v2/models/external_vault.py
+mist_api_v2/models/external_vault_all_of.py
 mist_api_v2/models/field_selector.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_cluster_response.py
@@ -158,6 +162,8 @@ mist_api_v2/models/job.py
 mist_api_v2/models/key.py
 mist_api_v2/models/key_machine_association.py
 mist_api_v2/models/key_machine_disassociation.py
+mist_api_v2/models/key_value_pairs.py
+mist_api_v2/models/key_value_pairs_secret.py
 mist_api_v2/models/kubernetes_cloud_features.py
 mist_api_v2/models/kubernetes_cloud_request.py
 mist_api_v2/models/kubernetes_credentials.py
@@ -245,6 +251,7 @@ mist_api_v2/models/script.py
 mist_api_v2/models/script_to_run.py
 mist_api_v2/models/script_to_run_all_of.py
 mist_api_v2/models/secret.py
+mist_api_v2/models/secret_string.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
 mist_api_v2/models/supported_providers.py
@@ -254,6 +261,7 @@ mist_api_v2/models/tag_resources_request_operations.py
 mist_api_v2/models/taggable_resource_types.py
 mist_api_v2/models/tagging_selector.py
 mist_api_v2/models/team.py
+mist_api_v2/models/token_auth.py
 mist_api_v2/models/trigger_after.py
 mist_api_v2/models/user.py
 mist_api_v2/models/v_sphere_extra.py
