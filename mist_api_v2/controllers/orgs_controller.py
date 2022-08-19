@@ -38,7 +38,7 @@ def create_org(create_organization_request=None):  # noqa: E501
         return 'User is not authorized to create an organization', 403
 
     name = create_organization_request.name
-    super_org = create_organization_request.super_org
+    super_org = False # create_organization_request.super_org
 
     if Organization.objects(name=name).first():
         return f'Organization with name {name} already exists', 400
@@ -58,6 +58,8 @@ def create_org(create_organization_request=None):  # noqa: E501
         return f'Failed to create organization with exception: {exc!r}', 400
 
     org.reload()
+    auth_context.token.orgs.append(org)
+    auth_context.token.save()
     trigger_session_update(auth_context.user, ['user'])
     return org.as_dict_v2()
 
@@ -220,15 +222,14 @@ def get_org(org, summary=None, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    search = f'id={org}'
     try:
-        result = get_resource(auth_context, 'orgs', search=search, only=only)
+        result = get_resource(auth_context, 'orgs', search=org, only=only)
     except NotFoundError:
         return 'Organization does not exist', 404
     # Get resource counts only if rbac checks pass
     if summary and result['meta']['returned'] == 1:
         result['data']['resources'] = get_org_resources_summary(
-            auth_context, org_id=org)
+            auth_context, org_id=result['data']['id'])
     return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 

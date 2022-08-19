@@ -135,8 +135,9 @@ def get_secret(secret, value=False):  # noqa: E501
         return 'Secret does not exist', 404
 
     meta = {
-        'total_matching': total,
-        'total_returned': 1,
+        'kind': 'secret',
+        'total': total,
+        'returned': 1,
     }
 
     secret_dict.update(secret.as_dict())
@@ -153,7 +154,7 @@ def get_secret(secret, value=False):  # noqa: E501
     return GetSecretResponse(secret_dict, meta)
 
 
-def list_secrets(search=None, sort=None, start=0, limit=100, only=None):  # noqa: E501
+def list_secrets(search=None, sort=None, start=0, limit=100, only=None, deref='auto'):  # noqa: E501
     """List secrets
 
     List secrets owned by the active org. READ permission required on secret. # noqa: E501
@@ -171,16 +172,9 @@ def list_secrets(search=None, sort=None, start=0, limit=100, only=None):  # noqa
     :rtype: ListSecretsResponse
     """
     auth_context = connexion.context['token_info']['auth_context']
-    from mist.api.methods import list_resources
-    secrets, total = list_resources(auth_context, 'secret', search=search,
-                                    only=only, sort=sort, start=start,
-                                    limit=limit)
+    from .base import list_resources
 
-    meta = {
-        'total_matching': total,
-        'total_returned': secrets.count(),
-        'sort': sort,
-        'start': start
-    }
-
-    return ListSecretsResponse([sec.as_dict() for sec in secrets], meta)
+    result = list_resources(auth_context, 'secret', search=search,
+                            only=only, sort=sort, limit=limit,
+                            deref=deref)
+    return ListSecretsResponse(data=result['data'], meta=result['meta'])

@@ -82,7 +82,7 @@ def get_org_resources_summary(auth_context, org_id):
         elif resource_type == 'rule':
             total_resources = resource_model.objects(owner_id=org.id).count()
         elif resource_type == 'secret':
-            total_resources = resource_model.objects.count()
+            total_resources = resource_model.objects(owner=org).count()
         else:
             total_resources = resource_model.objects(
                 owner=org, deleted=None).count()
