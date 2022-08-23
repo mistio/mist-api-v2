@@ -107,7 +107,10 @@ def console(machine):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     if not machine.cloud.ctl.has_feature('console'):
         return 'Action not supported', 501
-    proxy_uri = get_console_proxy_uri(machine)
+    proxy_uri, console_type, retcode, error = \
+        get_console_proxy_uri(auth_context, machine)
+    if retcode != 200:
+        return error, retcode
     if proxy_uri is None:
         console_url = machine.cloud.ctl.compute.connection.ex_open_console(
             machine.machine_id
@@ -577,6 +580,13 @@ def ssh(machine):  # noqa: E501
         [machine], total = list_resources(auth_context, 'machine',
                                           search=search, limit=1)
     except ValueError:
+        try:
+            [machine], _ = list_resources(auth_context, 'machine',
+                                          search=machine, limit=1)
+            if machine.state != 'running':
+                return 'Machine is not running', 400
+        except ValueError:
+            pass
         return 'Machine does not exist', 404
     try:
         auth_context.check_perm("cloud", "read", machine.cloud.id)
@@ -689,12 +699,15 @@ def suspend_machine(machine):  # noqa: E501
     return 'Machine suspend issued successfully'
 
 
-def undefine_machine(machine):  # noqa: E501
+def undefine_machine(machine, delete_domain_image=False):  # noqa: E501
     """Undefine machine
 
     Undefine target machine # noqa: E501
 
     :param machine:
+    :type machine: str
+
+    :param delete_domain_image:
     :type machine: str
 
     :rtype: None
@@ -715,7 +728,7 @@ def undefine_machine(machine):  # noqa: E501
         return 'You are not authorized to perform this action', 403
 
     try:
-        machine.ctl.undefine()
+        machine.ctl.undefine(delete_domain_image=delete_domain_image)
     except ForbiddenError:
         return 'Action not supported on target machine', 422
     except BadRequestError as e:

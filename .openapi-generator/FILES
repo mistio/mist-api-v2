@@ -76,6 +76,7 @@ mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
 mist_api_v2/models/create_network_request.py
 mist_api_v2/models/create_network_response.py
+mist_api_v2/models/create_record_request.py
 mist_api_v2/models/create_secret_request.py
 mist_api_v2/models/create_volume_request.py
 mist_api_v2/models/create_volume_response.py
@@ -119,6 +120,7 @@ mist_api_v2/models/get_machine_response.py
 mist_api_v2/models/get_network_response.py
 mist_api_v2/models/get_org_member_response.py
 mist_api_v2/models/get_org_response.py
+mist_api_v2/models/get_record_response.py
 mist_api_v2/models/get_rule_response.py
 mist_api_v2/models/get_schedule_response.py
 mist_api_v2/models/get_script_response.py
@@ -164,6 +166,7 @@ mist_api_v2/models/list_networks_response.py
 mist_api_v2/models/list_org_members_response.py
 mist_api_v2/models/list_org_teams_response.py
 mist_api_v2/models/list_orgs_response.py
+mist_api_v2/models/list_records_response.py
 mist_api_v2/models/list_rules_response.py
 mist_api_v2/models/list_schedules_response.py
 mist_api_v2/models/list_scripts_response.py

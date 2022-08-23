@@ -1,14 +1,162 @@
 import connexion
-from mist.api.exceptions import NotFoundError
+import mongoengine as me
+import hvac
 
+from mist.api.exceptions import NotFoundError
+from mist.api.users.models import Organization
+from mist.api.helpers import trigger_session_update
 from mist_api_v2 import util
 from mist_api_v2.models.get_org_member_response import GetOrgMemberResponse  # noqa: E501
 from mist_api_v2.models.get_org_response import GetOrgResponse  # noqa: E501
 from mist_api_v2.models.list_org_members_response import ListOrgMembersResponse  # noqa: E501
 from mist_api_v2.models.list_org_teams_response import ListOrgTeamsResponse  # noqa: E501
 from mist_api_v2.models.list_orgs_response import ListOrgsResponse  # noqa: E501
+from mist_api_v2.models.patch_organization_request import PatchOrganizationRequest  # noqa: E501
+from mist_api_v2.models.create_organization_request import CreateOrganizationRequest  # noqa: E501
 
 from .base import list_resources, get_resource, get_org_resources_summary
+
+
+def create_org(create_organization_request=None):  # noqa: E501
+    """Create org
+
+    Create an organization. # noqa: E501
+
+    :param create_organization_request:
+    :type create_organization_request: dict | bytes
+
+    :rtype: Org
+    """
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+    if connexion.request.is_json:
+        create_organization_request = CreateOrganizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
+
+    if auth_context.user.can_create_org is False:
+        return 'User is not authorized to create an organization', 403
+
+    name = create_organization_request.name
+    super_org = create_organization_request.super_org
+
+    if Organization.objects(name=name).first():
+        return f'Organization with name {name} already exists', 400
+
+    org = Organization()
+    org.add_member_to_team('Owners', auth_context.user)
+    org.name = name
+
+    # mechanism for sub-org creation
+    # the owner of super-org has the ability to create a sub-org
+    if super_org:
+        org.parent = auth_context.org
+
+    try:
+        org.save()
+    except (me.ValidationError, me.OperationError) as exc:
+        return f'Failed to create organization with exception: {exc!r}', 400
+
+    org.reload()
+    trigger_session_update(auth_context.user, ['user'])
+    return org.as_dict_v2()
+
+
+def update_org(org, patch_organization_request=None):  # noqa: E501
+    """update_org
+
+    Update organization # noqa: E501
+
+    :param org: Organization id
+    :type org: str
+    :param patch_organization_request:
+    :type patch_organization_request: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        patch_organization_request = PatchOrganizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
+
+    try:
+        auth_context = connexion.context['token_info']['auth_context']
+    except KeyError:
+        return 'Authentication failed', 401
+
+    if not auth_context.is_owner():
+        return 'Only owners can edit the organization', 403
+
+    try:
+        organization = Organization.objects.get(id=org)
+    except Organization.DoesNotExist:
+        return f'Organization {org} not found', 404
+
+    if patch_organization_request.name:
+        organization.name = patch_organization_request.name
+        try:
+            organization.save()
+        except (me.ValidationError, me.OperationError) as exc:
+            return f'Failed to edit organization with exception: {exc!r}', 400
+        else:
+            return 'Organization name updated succesfully', 200
+
+    vault_address = patch_organization_request.vault_address
+    secrets_engine_path = patch_organization_request.vault_secrets_engine_path
+    token = patch_organization_request.vault_token
+    role_id = patch_organization_request.vault_role_id
+    secret_id = patch_organization_request.vault_secret_id
+
+    if vault_address is not None:
+        if secrets_engine_path is None:
+            return 'Vault secrets engine path is required', 400
+
+        client = hvac.Client(url=vault_address)
+        if token:
+            client.token = token
+        elif role_id and secret_id:
+            try:
+                client.auth.approle.login(role_id=role_id, secret_id=secret_id)
+            except (hvac.exceptions.InvalidRequest,
+                    hvac.exceptions.VaultDown) as exc:
+                return 'Failed to authenticate to vault {exc!r}', 400
+        else:
+            return 'Either token or approle credentials are required', 400
+
+        try:
+            is_authenticated = client.is_authenticated()
+        except hvac.exceptions.VaultDown as exc:
+            return f'Failed to connect to Vault instance: {exc!r}', 503
+
+        if is_authenticated is False:
+            return 'Failed to authenticate with credentials provided', 400
+
+        organization.vault_address = vault_address
+        organization.vault_secret_engine_path = secrets_engine_path
+        organization.vault_role_id = role_id
+        organization.vault_secret_id = secret_id
+        organization.vault_token = token
+
+        try:
+            organization.save()
+        except (me.ValidationError, me.OperationError) as exc:
+            return f'Failed to edit organization with exception: {exc!r}', 400
+        else:
+            return 'Organization Vault updated succesfully', 200
+
+    # Reenable Mist Portal vault for organization
+    if vault_address == '' and organization.vault_address:
+        organization.vault_address = ''
+        organization.vault_secret_engine_path = ''
+        organization.vault_token = ''
+        organization.vault_role_id = ''
+        organization.vault_secret_id = ''
+        try:
+            organization.save()
+        except (me.ValidationError, me.OperationError) as exc:
+            return f'Failed to edit organization with exception: {exc!r}', 400
+        else:
+            return 'Organization Vault updated succesfully', 200
+
+    return 'Invalid request', 400
 
 
 def get_member(org, member, only=None):  # noqa: E501
