@@ -47,6 +47,7 @@ from mist_api_v2.models.create_machine_response_one_of import CreateMachineRespo
 from mist_api_v2.models.create_machine_response_one_of1 import CreateMachineResponseOneOf1
 from mist_api_v2.models.create_network_request import CreateNetworkRequest
 from mist_api_v2.models.create_network_response import CreateNetworkResponse
+from mist_api_v2.models.create_organization_request import CreateOrganizationRequest
 from mist_api_v2.models.create_record_request import CreateRecordRequest
 from mist_api_v2.models.create_secret_request import CreateSecretRequest
 from mist_api_v2.models.create_volume_request import CreateVolumeRequest
@@ -173,10 +174,12 @@ from mist_api_v2.models.openstack_net import OpenstackNet
 from mist_api_v2.models.org import Org
 from mist_api_v2.models.org_resources_summary import OrgResourcesSummary
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
+from mist_api_v2.models.patch_organization_request import PatchOrganizationRequest
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.record import Record
 from mist_api_v2.models.resize_action import ResizeAction
 from mist_api_v2.models.resource import Resource
 from mist_api_v2.models.resource_count import ResourceCount
