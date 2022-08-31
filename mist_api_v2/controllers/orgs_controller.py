@@ -38,7 +38,6 @@ def create_org(create_organization_request=None):  # noqa: E501
         return 'User is not authorized to create an organization', 403
 
     name = create_organization_request.name
-    super_org = False # create_organization_request.super_org
 
     if Organization.objects(name=name).first():
         return f'Organization with name {name} already exists', 400
@@ -46,11 +45,6 @@ def create_org(create_organization_request=None):  # noqa: E501
     org = Organization()
     org.add_member_to_team('Owners', auth_context.user)
     org.name = name
-
-    # mechanism for sub-org creation
-    # the owner of super-org has the ability to create a sub-org
-    if super_org:
-        org.parent = auth_context.org
 
     try:
         org.save()
