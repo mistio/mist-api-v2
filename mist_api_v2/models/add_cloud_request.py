@@ -34,7 +34,7 @@ class AddCloudRequest(Model):
         self.openapi_types = {
             'name': str,
             'provider': str,
-            'credentials': object,
+            'credentials': List[object],
             'features': OtherCloudFeatures
         }
 

@@ -76,7 +76,7 @@ class AuthInfoData(Model):
     def orgs(self):
         """Gets the orgs of this AuthInfoData.
 
-        Orgs available to user for auth session  # noqa: E501
+        Orgs available in current authenticated session  # noqa: E501
 
         :return: The orgs of this AuthInfoData.
         :rtype: List[Org]
@@ -87,7 +87,7 @@ class AuthInfoData(Model):
     def orgs(self, orgs):
         """Sets the orgs of this AuthInfoData.
 
-        Orgs available to user for auth session  # noqa: E501
+        Orgs available in current authenticated session  # noqa: E501
 
         :param orgs: The orgs of this AuthInfoData.
         :type orgs: List[Org]
