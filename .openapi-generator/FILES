@@ -172,6 +172,8 @@ mist_api_v2/models/kubevirt_cloud_features.py
 mist_api_v2/models/kubevirt_cloud_request.py
 mist_api_v2/models/kvm_cloud_features.py
 mist_api_v2/models/kvm_cloud_request.py
+mist_api_v2/models/kvm_credentials.py
+mist_api_v2/models/kvm_credentials_hosts.py
 mist_api_v2/models/kvm_net.py
 mist_api_v2/models/kvm_net_networks.py
 mist_api_v2/models/linode_cloud_features.py
@@ -227,6 +229,7 @@ mist_api_v2/models/org.py
 mist_api_v2/models/org_resources_summary.py
 mist_api_v2/models/other_cloud_features.py
 mist_api_v2/models/other_cloud_request.py
+mist_api_v2/models/other_credentials.py
 mist_api_v2/models/patch_organization_request.py
 mist_api_v2/models/post_deploy_script.py
 mist_api_v2/models/query.py

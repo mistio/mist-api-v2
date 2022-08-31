@@ -144,6 +144,8 @@ from mist_api_v2.models.kubevirt_cloud_features import KubevirtCloudFeatures
 from mist_api_v2.models.kubevirt_cloud_request import KubevirtCloudRequest
 from mist_api_v2.models.kvm_cloud_features import KvmCloudFeatures
 from mist_api_v2.models.kvm_cloud_request import KvmCloudRequest
+from mist_api_v2.models.kvm_credentials import KvmCredentials
+from mist_api_v2.models.kvm_credentials_hosts import KvmCredentialsHosts
 from mist_api_v2.models.lxd_extra import LXDExtra
 from mist_api_v2.models.lxd_net import LXDNet
 from mist_api_v2.models.linode_cloud_features import LinodeCloudFeatures
@@ -197,6 +199,7 @@ from mist_api_v2.models.org import Org
 from mist_api_v2.models.org_resources_summary import OrgResourcesSummary
 from mist_api_v2.models.other_cloud_features import OtherCloudFeatures
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
+from mist_api_v2.models.other_credentials import OtherCredentials
 from mist_api_v2.models.patch_organization_request import PatchOrganizationRequest
 from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
