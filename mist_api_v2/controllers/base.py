@@ -78,7 +78,7 @@ def get_org_resources_summary(auth_context, org_id):
                 if schedule.schedule_type.type == 'reminder':
                     total_resources -= 1
         elif resource_type == 'team':
-            total_resources = org.teams_count
+            total_resources = len(org.teams)
         elif resource_type == 'rule':
             total_resources = resource_model.objects(owner_id=org.id).count()
         elif resource_type == 'secret':
