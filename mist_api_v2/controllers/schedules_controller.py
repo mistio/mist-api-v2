@@ -47,7 +47,7 @@ def add_schedule(add_schedule_request=None):  # noqa: E501
     enabled = kwargs.pop('enabled')
     kwargs['task_enabled'] = enabled
     try:
-        schedule = Schedule.add_v2(auth_context, name, **kwargs)
+        schedule = Schedule.add(auth_context, name, **kwargs)
     except BadRequestError as e:
         return str(e), 400
     except ScheduleNameExistsError as e:
@@ -87,7 +87,7 @@ def delete_schedule(schedule):  # noqa: E501
         auth_context.check_perm('schedule', 'remove', schedule_id)
     except PolicyUnauthorizedError:
         return 'You are not authorized to perform this action', 403
-    schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
+    schedule = Schedule.objects.get(org=auth_context.owner, id=schedule_id,
                                     deleted=None)
     schedule.ctl.delete()
     return 'Deleted schedule `%s`' % schedule.name, 200
@@ -127,13 +127,19 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
             kwargs[key] = {}
         else:
             kwargs[key] = params[key]
-    enabled = kwargs.pop('enabled')
-    kwargs['task_enabled'] = enabled
-    schedule = Schedule.objects.get(owner=auth_context.owner, id=schedule_id,
+
+    if 'enabled' in kwargs:
+        enabled = kwargs.pop('enabled')
+        kwargs['task_enabled'] = enabled
+
+    schedule = Schedule.objects.get(org=auth_context.owner, id=schedule_id,
                                     deleted=None)
 
+    if not kwargs.get('name', ''):
+        kwargs['name'] = schedule.name
+
     schedule.ctl.set_auth_context(auth_context)
-    schedule.ctl.update_v2(**kwargs)
+    schedule.ctl.update(**kwargs)
     return 'Updated schedule `%s`' % schedule.name, 200
 
 

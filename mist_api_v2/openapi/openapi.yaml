@@ -3149,6 +3149,36 @@ paths:
       - teams_count
       - last_active
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    post:
+      description: Create an organization.
+      operationId: create_org
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Org'
+          description: Organization created
+        "400":
+          description: Bad Request
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Create org
+      tags:
+      - orgs
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     x-cli-ignore: true
   /api/v2/orgs/{org}:
     get:
@@ -3228,6 +3258,41 @@ paths:
       - clouds_count
       - total_machine_count
       - last_active
+      x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
+    patch:
+      description: Update organization
+      operationId: update_org
+      parameters:
+      - description: Organization id
+        example: my-org
+        explode: false
+        in: path
+        name: org
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOrganizationRequest'
+      responses:
+        "200":
+          description: Organization updated succesfully
+        "400":
+          description: Bad Request
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      tags:
+      - orgs
       x-openapi-router-controller: mist_api_v2.controllers.orgs_controller
     x-cli-ignore: true
   /api/v2/orgs/{org}/members:
@@ -3634,18 +3699,14 @@ paths:
       - rules
       x-cli-table-default:
       - name
-      - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
       - name
-      - resource_type
+      - conditions
       - selectors
-      - queries
       - actions
-      - window
-      - frequency
       - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     post:
@@ -3655,6 +3716,38 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              NewStopMachineIntervalRule:
+                summary: Create a rule that stops a machine when a sum equals to 10
+                  and is evaluated every 2 hours
+                value:
+                  actions:
+                  - action_type: stop
+                  conditions:
+                  - data_type: logs
+                    query:
+                      aggregation: count
+                      operator: ge
+                      target: type:request and action:reboot_machine
+                      threshold: 10
+                    window:
+                      period: hours
+                      start: 2
+                      stop: 1
+                  description: Rule that stops a machine when a machine rebooted more
+                    than ten times within 2 hours
+                  name: NewStopMachineIntervalRule
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  trigger_after:
+                    offset: 8
+                    period: hours
+                  when:
+                    schedule_type: interval
+                    every: 2
+                    period: hours
             schema:
               $ref: '#/components/schemas/AddRuleRequest'
       responses:
@@ -3767,18 +3860,14 @@ paths:
       - rules
       x-cli-table-default:
       - name
-      - queries
       - actions
       - tags
       x-cli-table-extended:
       - id
       - name
-      - resource_type
+      - conditions
       - selectors
-      - queries
       - actions
-      - window
-      - frequency
       - tags
       x-openapi-router-controller: mist_api_v2.controllers.rules_controller
     patch:
@@ -3834,6 +3923,37 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              EditedRebootMachineOneOffRule:
+                summary: Edit a rule that reboots a machine when a sum equals to 10
+                  and is evaluated once
+                value:
+                  actions:
+                  - action_type: reboot
+                  conditions:
+                  - data_type: logs
+                    query:
+                      aggregation: count
+                      operator: ge
+                      target: type:request and action:stop_machine
+                      threshold: 10
+                    window:
+                      period: hours
+                      start: 0
+                      stop: 2
+                  description: Rule that reboots a machine when a machine stopped
+                    more than ten times within 2 hours
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  trigger_after:
+                    offset: 6
+                    period: hours
+                  when:
+                    schedule_type: interval
+                    every: 2
+                    period: hours
             schema:
               $ref: '#/components/schemas/EditRuleRequest'
       responses:
@@ -4007,13 +4127,9 @@ paths:
       - description
       - tags
       - enabled
-      - action
-      - script_id
-      - params
+      - actions
       - selectors
-      - schedule_type
-      - schedule_entry
-      - start_after
+      - when
       - run_immediately
       - owned_by
       - created_by
@@ -4025,22 +4141,28 @@ paths:
         content:
           application/json:
             examples:
-              RebootMachineOneOffSchedule:
+              NewRebootMachineOneOffSchedule:
                 summary: Create a reboot machine schedule that runs once
                 value:
-                  name: TestMachineRebootSchedule
-                  description: This is a reboot machine schedule that runs once
+                  actions:
+                  - action_type: reboot
+                  description: Backup schedule
                   enabled: true
-                  action: reboot
-                  params: None
-                  selectors:
-                    ids:
-                    - d5775984772949de820fa8279c306b30
-                    type: machines
-                  schedule_type: one_off
-                  schedule_entry: 2022-06-05 00:00:00
-                  start_after: 2022-06-08 00:00:00
+                  expires: 2022-06-01T00:00:00Z
+                  name: NewRebootMachineOneOffSchedule
+                  reminder:
+                    message: message
+                    when:
+                      unit: seconds
+                      value: 10
                   run_immediately: false
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  when:
+                    datetime: 2022-06-22T18:19:28Z
+                    schedule_type: one_off
             schema:
               $ref: '#/components/schemas/AddScheduleRequest'
       responses:
@@ -4165,13 +4287,9 @@ paths:
       - description
       - tags
       - enabled
-      - action
-      - script_id
-      - params
+      - actions
       - selectors
-      - schedule_type
-      - schedule_entry
-      - start_after
+      - when
       - run_immediately
       - owned_by
       - created_by
@@ -4195,14 +4313,47 @@ paths:
               RenameSchedule:
                 summary: Rename an existing schedule
                 value:
-                  name: RenamedSchedule
-                  description: This is a renamed schedule
+                  actions:
+                  - action_type: reboot
+                  description: Renamed schedule
+                  enabled: true
+                  expires: 2022-06-28 00:00:00
+                  name: RenamedOneOffSchedule
+                  reminder:
+                    message: message
+                    when:
+                      unit: seconds
+                      value: 10
+                  run_immediately: false
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  when:
+                    datetime: 2022-06-25 18:19:23
+                    schedule_type: one_off
               DeactivateSchedule:
                 summary: Deactivate an existing active schedule
                 value:
-                  name: DeactivatedSchedule
-                  description: This is a deactivated schedule
+                  actions:
+                  - action_type: reboot
+                  description: Renamed schedule
                   enabled: false
+                  expires: 2022-06-28 00:00:00
+                  name: DeactivatedOneOffSchedule
+                  reminder:
+                    message: message
+                    when:
+                      unit: seconds
+                      value: 10
+                  run_immediately: false
+                  selectors:
+                  - type: machines
+                    ids:
+                    - 738f633d987148a8b2c1628e0cd416b4
+                  when:
+                    datetime: 2022-06-25 18:19:23
+                    schedule_type: one_off
             schema:
               $ref: '#/components/schemas/EditScheduleRequest'
       responses:
@@ -6393,6 +6544,220 @@ components:
   requestBodies: {}
   responses: {}
   schemas:
+    Action:
+      allOf:
+      - $ref: '#/components/schemas/Action_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/Notification'
+        - $ref: '#/components/schemas/ResizeAction'
+        - $ref: '#/components/schemas/ScriptToRun'
+        - $ref: '#/components/schemas/WebHookAction'
+      discriminator:
+        mapping:
+          notify: '#/components/schemas/Notification'
+          resize: '#/components/schemas/ResizeAction'
+          run_script: '#/components/schemas/ScriptToRun'
+          webhook: '#/components/schemas/WebHookAction'
+        propertyName: action_type
+      title: Action
+      type: object
+    ResizeAction:
+      properties:
+        params:
+          description: |
+            the params of the resize action to be executed
+          title: params
+          type: string
+      required:
+      - params
+      title: ResizeAction
+      type: object
+    Notification:
+      properties:
+        users:
+          description: "a list of user to be notified, denoted by their UUIDs\n"
+          items:
+            type: string
+          title: users
+          type: array
+        teams:
+          description: "a list of teams, denoted by their UUIDs, whose users will\
+            \ be\nnotified\n"
+          items:
+            type: string
+          title: teams
+          type: array
+        emails:
+          description: |
+            a list of e-mails to send a notification to
+          items:
+            type: string
+          title: emails
+          type: array
+      title: Notification
+      type: object
+    RunCommand:
+      properties:
+        command:
+          description: Command that is about to run
+          title: command
+          type: string
+      required:
+      - command
+      title: RunCommand
+      type: object
+    RunExistingScript:
+      properties:
+        script:
+          description: Name or ID of the script to run
+          title: script
+          type: string
+        params:
+          title: params
+          type: string
+      required:
+      - script
+      title: RunExistingScript
+      type: object
+    ScriptToRun:
+      allOf:
+      - $ref: '#/components/schemas/ScriptToRun_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/RunCommand'
+        - $ref: '#/components/schemas/RunExistingScript'
+      discriminator:
+        mapping:
+          inline: '#/components/schemas/RunCommand'
+          existing: '#/components/schemas/RunExistingScript'
+        propertyName: script_type
+      title: ScriptToRun
+    WebHookAction:
+      properties:
+        method:
+          description: the HTTP method to be executed by the webhook
+          enum:
+          - post
+          - delete
+          - put
+          - patch
+          example: post
+          title: method
+          type: string
+        url:
+          description: the URL of the endpoint that is called by the webhook
+          example: http://localhost
+          title: url
+          type: string
+        query_string_params:
+          description: the query string parameters of the HTTP request
+          example: id=test
+          title: query_string_params
+          type: string
+        data:
+          description: the body of the HTTP request
+          title: data
+          type: string
+        json:
+          description: the JSON body of the HTTP request
+          title: json
+          type: string
+        headers:
+          description: the HTTP headers of the request
+          title: headers
+          type: string
+      required:
+      - method
+      - url
+      title: WebHookAction
+      type: object
+    When:
+      allOf:
+      - $ref: '#/components/schemas/When_allOf'
+      - oneOf:
+        - $ref: '#/components/schemas/OneOffSchedule'
+        - $ref: '#/components/schemas/CronSchedule'
+        - $ref: '#/components/schemas/IntervalSchedule'
+      discriminator:
+        mapping:
+          one_off: '#/components/schemas/OneOffSchedule'
+          crontab: '#/components/schemas/CronSchedule'
+          interval: '#/components/schemas/IntervalSchedule'
+        propertyName: schedule_type
+      title: When
+      type: object
+    OneOffSchedule:
+      description: one_off schedule
+      properties:
+        datetime:
+          description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
+          example: 2022-06-22T18:19:28Z
+          title: datetime
+          type: string
+      required:
+      - datetime
+      title: OneOff
+      type: object
+    CronSchedule:
+      description: crontab schedule
+      properties:
+        minute:
+          example: '*'
+          title: minute
+          type: string
+        hour:
+          example: '*'
+          title: hour
+          type: string
+        day_of_month:
+          example: "0"
+          title: day_of_month
+          type: string
+        month_of_year:
+          example: "0"
+          title: month_of_year
+          type: string
+        day_of_week:
+          example: '*'
+          title: day_of_week
+          type: string
+        max_run_count:
+          example: 5
+          minimum: 1
+          title: max_run_count
+          type: integer
+      required:
+      - day_of_month
+      - day_of_week
+      - hour
+      - minute
+      - month_of_year
+      title: Cron
+      type: object
+    IntervalSchedule:
+      description: interval schedule
+      properties:
+        every:
+          example: 20
+          title: every
+          type: integer
+        period:
+          enum:
+          - minutes
+          - hours
+          - days
+          example: hours
+          title: period
+          type: string
+        max_run_count:
+          example: 10
+          minimum: 1
+          title: max_run_count
+          type: integer
+      required:
+      - every
+      - period
+      title: Interval
+      type: object
     MachineState:
       enum:
       - running
@@ -6459,11 +6824,14 @@ components:
           - volumes
           - clusters
           - networks
+          example: machines
           title: type
           type: string
         ids:
           description: "a list of UUIDs in case type is resource like \"machines\"\
             , \"volumes\", \"clusters\" or \"networks\""
+          example:
+          - 738f633d987148a8b2c1628e0cd416b4
           items:
             type: string
           title: ids
@@ -6476,6 +6844,7 @@ components:
           description: field type
           enum:
           - field
+          example: field
           title: type
           type: string
         field:
@@ -6504,6 +6873,7 @@ components:
           description: tag type
           enum:
           - tags
+          example: tags
           title: type
           type: string
         include:
@@ -6520,6 +6890,7 @@ components:
           description: age type
           enum:
           - age
+          example: age
           title: type
           type: string
         minutes:
@@ -8105,8 +8476,8 @@ components:
           notify_msg: notify_msg
         net: ""
         scripts:
-        - ""
-        - ""
+        - null
+        - null
         key: ""
       properties:
         name:
@@ -8242,11 +8613,7 @@ components:
         scripts:
           description: Run post deploy scripts over SSH
           items:
-            allOf:
-            - type: object
-            - oneOf:
-              - $ref: '#/components/schemas/InlineScript'
-              - $ref: '#/components/schemas/PostDeployScript'
+            $ref: '#/components/schemas/ScriptToRun'
           title: scripts
           type: array
         schedules:
@@ -8261,7 +8628,7 @@ components:
                   - interval
                   type: string
                 script:
-                  $ref: '#/components/schemas/PostDeployScript'
+                  $ref: '#/components/schemas/RunExistingScript'
                 action:
                   enum:
                   - start
@@ -9313,130 +9680,6 @@ components:
     Snapshot:
       title: Snapshot
       type: object
-    OneOffSchedule:
-      description: one_off schedule
-      properties:
-        schedule_type:
-          enum:
-          - one_off
-          title: schedule_type
-          type: string
-        datetime:
-          description: "When one_off schedule should run, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: datetime
-          type: string
-      required:
-      - datetime
-      - schedule_type
-      title: OneOff
-      type: object
-    CronSchedule:
-      description: crontab schedule
-      properties:
-        schedule_type:
-          enum:
-          - crontab
-          title: schedule_type
-          type: string
-        minute:
-          title: minute
-          type: string
-        hour:
-          title: hour
-          type: string
-        day_of_month:
-          title: day_of_month
-          type: string
-        month_of_year:
-          title: month_of_year
-          type: string
-        day_of_week:
-          title: day_of_week
-          type: string
-        start_after:
-          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: start_after
-          type: string
-        expires:
-          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: expires
-          type: string
-        max_run_count:
-          minimum: 1
-          title: max_run_count
-          type: integer
-      required:
-      - day_of_month
-      - day_of_week
-      - hour
-      - minute
-      - month_of_year
-      - schedule_type
-      title: Cron
-      type: object
-    IntervalSchedule:
-      description: interval schedule
-      properties:
-        schedule_type:
-          enum:
-          - interval
-          title: schedule_type
-          type: string
-        every:
-          title: every
-          type: integer
-        period:
-          enum:
-          - minutes
-          - hours
-          - days
-          title: period
-          type: string
-        start_after:
-          description: "The datetime when schedule should start running, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: start_after
-          type: string
-        expires:
-          description: "The datetime when schedule should expire, e.g 2021-09-22T18:19:28Z"
-          format: date-time
-          title: expires
-          type: string
-        max_run_count:
-          minimum: 1
-          title: max_run_count
-          type: integer
-      required:
-      - every
-      - period
-      - schedule_type
-      title: Interval
-      type: object
-    InlineScript:
-      properties:
-        inline:
-          title: inline
-          type: string
-      required:
-      - inline
-      title: InlineScript
-      type: object
-    PostDeployScript:
-      properties:
-        script:
-          description: Name or ID of the script to run
-          title: script
-          type: string
-        params:
-          title: params
-          type: string
-      required:
-      - script
-      title: PostDeployScript
-      type: object
     Expiration:
       example:
         date: 2000-01-23T04:56:07.000+00:00
@@ -10462,18 +10705,22 @@ components:
       type: object
     AddScheduleRequest:
       example:
-        start_after: 2022-06-01 T00:00:00
-        schedule_type: one_off
-        schedule_entry: 2022-05-28 00:00:00
+        expires: 2022-06-01 T00:00:00
+        reminder:
+          message: message
+          when:
+            unit: seconds
+            value: 0
         name: backup-schedule
-        description: This is a schedule
-        action: start
-        script_id: d5775984772949de820fa8279c306b30
+        description: Backup schedule
         run_immediately: false
-        params: Parameters string
         selectors:
         - null
         - null
+        actions:
+        - null
+        - null
+        when: null
         enabled: true
       properties:
         name:
@@ -10483,7 +10730,7 @@ components:
           type: string
         description:
           description: The description of the schedule
-          example: This is a schedule
+          example: Backup schedule
           title: description
           type: string
         enabled:
@@ -10491,81 +10738,53 @@ components:
           example: true
           title: enabled
           type: boolean
-        action:
-          description: The action that a schedule performs on a resource
-          enum:
-          - reboot
-          - destroy
-          - notify
-          - start
-          - stop
-          - delete
-          example: start
-          title: action
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          title: script_id
-          type: string
-        params:
-          description: Schedule parameters
-          example: Parameters string
-          title: params
-          type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
-        schedule_type:
-          description: The type of the schedule
-          enum:
-          - crontab
-          - interval
-          - one_off
-          example: one_off
-          title: schedule_type
-          type: string
-        schedule_entry:
-          description: "In case of One Off schedule type the date string that schedule\
-            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
-            \ and Crontab schedule types a JSON string with need time unit values.\
-            \ For Interval schedule type interval integer value and period string\
-            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
-            \ and month_of_year string values needed."
-          example: 2022-05-28 00:00:00
-          title: schedule_entry
-          type: string
-        start_after:
-          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        expires:
+          description: The date after that schedule expires. The format should be
+            ΥΥΥΥ-ΜΜ-DD HH:MM:SS
           example: 2022-06-01 T00:00:00
-          title: start_after
+          title: expires
           type: string
+        reminder:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder'
         run_immediately:
           description: Decides if the schedule runs immediately of not
           example: false
           title: run_immediately
           type: boolean
       required:
-      - action
+      - actions
       - name
       title: AddScheduleRequest
       type: object
     EditScheduleRequest:
       example:
-        start_after: 2022-06-01 00:00:00
-        schedule_type: one_off
-        schedule_entry: 2022-05-28 00:00:00
+        expires: 2022-06-01 T00:00:00
+        reminder:
+          message: message
+          when:
+            unit: seconds
+            value: 0
         name: schedule-name
-        description: This is a schedule that is about to be edited
-        action: start
-        script_id: d5775984772949de820fa8279c306b30
-        params: Parameters string
+        description: Edited Schedule
         selectors:
         - null
         - null
+        actions:
+        - null
+        - null
+        when: null
         enabled: true
       properties:
         name:
@@ -10575,7 +10794,7 @@ components:
           type: string
         description:
           description: The description of the schedule that is about to be edited
-          example: This is a schedule that is about to be edited
+          example: Edited Schedule
           title: description
           type: string
         enabled:
@@ -10583,101 +10802,73 @@ components:
           example: true
           title: enabled
           type: boolean
-        action:
-          description: Edit the action that a schedule performs on a resource
-          enum:
-          - reboot
-          - destroy
-          - notify
-          - start
-          - stop
-          - delete
-          example: start
-          title: action
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          title: script_id
-          type: string
-        params:
-          description: Edit schedule parameters
-          example: Parameters string
-          title: params
-          type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
-        schedule_type:
-          description: Edit the type of the schedule
-          enum:
-          - crontab
-          - interval
-          - one_off
-          example: one_off
-          title: schedule_type
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        expires:
+          description: The date after that schedule expires. The format should be
+            ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          example: 2022-06-01 T00:00:00
+          title: expires
           type: string
-        schedule_entry:
-          description: "In case of One Off schedule type the date string that schedule\
-            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
-            \ and Crontab schedule types a JSON string with need time unit values.\
-            \ For Interval schedule type interval integer value and period string\
-            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
-            \ and month_of_year string values needed."
-          example: 2022-05-28 00:00:00
-          title: schedule_entry
-          type: string
-        start_after:
-          description: Edit the date after that schedule starts. The format should
-            be ΥΥΥΥ-ΜΜ-DD HH:MM:SS
-          example: 2022-06-01 00:00:00
-          title: start_after
-          type: string
+        reminder:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder'
       title: EditScheduleRequest
       type: object
     ListSchedulesResponse:
       example:
         data:
-        - schedule_type: crontab
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 0
           description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
+          run_immediately: false
           selectors:
           - null
           - null
+          when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
-            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
-            \":\\\"*\\\"}"
           name: reboot-schedule
-          action: stop
           id: id
-        - schedule_type: crontab
+          actions:
+          - null
+          - null
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 0
           description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
+          run_immediately: false
           selectors:
           - null
           - null
+          when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
-            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
-            \":\\\"*\\\"}"
           name: reboot-schedule
-          action: stop
           id: id
+          actions:
+          - null
+          - null
         meta:
           total: 0
           start: 1
@@ -10696,25 +10887,27 @@ components:
     GetScheduleResponse:
       example:
         data:
-          schedule_type: crontab
+          expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 0
           description: This is an test schedule
-          script_id: d5775984772949de820fa8279c306b30
           owned_by: Officer B
-          run_immediately: true
-          params: Test parameters
+          run_immediately: false
           selectors:
           - null
           - null
+          when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          start_after: 2022-05-28 00:00:00
-          schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"\
-            day_of_week\\\":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\
-            \":\\\"*\\\"}"
           name: reboot-schedule
-          action: stop
           id: id
+          actions:
+          - null
+          - null
         meta:
           total: 0
           start: 1
@@ -10729,25 +10922,27 @@ components:
       type: object
     Schedule:
       example:
-        schedule_type: crontab
+        expires: 2022-06-01 T00:00:00
+        reminder:
+          message: message
+          when:
+            unit: seconds
+            value: 0
         description: This is an test schedule
-        script_id: d5775984772949de820fa8279c306b30
         owned_by: Officer B
-        run_immediately: true
-        params: Test parameters
+        run_immediately: false
         selectors:
         - null
         - null
+        when: null
         created_by: Manager A
         enabled: true
         tags: "{}"
-        start_after: 2022-05-28 00:00:00
-        schedule_entry: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"day_of_week\\\
-          \":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\":\\\"\
-          *\\\"}"
         name: reboot-schedule
-        action: stop
         id: id
+        actions:
+        - null
+        - null
       properties:
         id:
           description: The id of the schedule
@@ -10772,52 +10967,29 @@ components:
           example: true
           title: enabled
           type: boolean
-        action:
-          description: The action that a schedule performs on a resource
-          example: stop
-          title: action
-          type: string
-        script_id:
-          description: The id of the script that schedule is about to run
-          example: d5775984772949de820fa8279c306b30
-          title: script_id
-          type: string
-        params:
-          description: Schedule parameters
-          example: Test parameters
-          title: params
-          type: string
         selectors:
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
-        schedule_type:
-          description: The type of the schedule
-          example: crontab
-          title: schedule_type
+        actions:
+          items:
+            $ref: '#/components/schemas/Action'
+          title: actions
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        expires:
+          description: The date after that schedule expires. The format should be
+            ΥΥΥΥ-ΜΜ-DD HH:MM:SS
+          example: 2022-06-01 T00:00:00
+          title: expires
           type: string
-        schedule_entry:
-          description: "In case of One Off schedule type the date string that schedule\
-            \ runs (The format should be ΥΥΥΥ-ΜΜ-DD HH:MM:SS). In case of Interval\
-            \ and Crontab schedule types a JSON string with need time unit values.\
-            \ For Interval schedule type interval integer value and period string\
-            \ value needed. For Crontab schedule type minute, hour, day_of_week, day_of_month\
-            \ and month_of_year string values needed."
-          example: "{\\\"minute\\\":\\\"0\\\", \\\"hour\\\":\\\"0\\\", \\\"day_of_week\\\
-            \":\\\"*\\\", \\\"day_of_month\\\":\\\"*\\\", \\\"month_of_year\\\":\\\
-            \"*\\\"}"
-          title: schedule_entry
-          type: string
-        start_after:
-          description: The date after that schedule starts. The format should be ΥΥΥΥ-ΜΜ-DD
-            HH:MM:SS
-          example: 2022-05-28 00:00:00
-          title: start_after
-          type: string
+        reminder:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder'
         run_immediately:
           description: Decides if the schedule runs immediately of not
-          example: true
+          example: false
           title: run_immediately
           type: boolean
         created_by:
@@ -11005,24 +11177,74 @@ components:
     ListRulesResponse:
       example:
         data:
-        - triggered_after: "{}"
-          name: name
-          data_type: data_type
-          disabled: disabled
+        - name: name
+          trigger_after:
+            period: period
+            offset: 5
+          description: description
           id: id
-          window: "{}"
-          queries: "{}"
-          actions: "{}"
-          frequency: "{}"
-        - triggered_after: "{}"
-          name: name
-          data_type: data_type
-          disabled: disabled
+          selectors:
+          - null
+          - null
+          conditions:
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          actions:
+          - null
+          - null
+          when: null
+        - name: name
+          trigger_after:
+            period: period
+            offset: 5
+          description: description
           id: id
-          window: "{}"
-          queries: "{}"
-          actions: "{}"
-          frequency: "{}"
+          selectors:
+          - null
+          - null
+          conditions:
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          actions:
+          - null
+          - null
+          when: null
         meta:
           total: 0
           start: 1
@@ -11041,15 +11263,40 @@ components:
     GetRuleResponse:
       example:
         data:
-          triggered_after: "{}"
           name: name
-          data_type: data_type
-          disabled: disabled
+          trigger_after:
+            period: period
+            offset: 5
+          description: description
           id: id
-          window: "{}"
-          queries: "{}"
-          actions: "{}"
-          frequency: "{}"
+          selectors:
+          - null
+          - null
+          conditions:
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          - query:
+              threshold: 1.4658129805029452
+              aggregation: aggregation
+              operator: operator
+              target: target
+            data_type: logs
+            window:
+              period: period
+              stop: 6
+              start: 0
+          actions:
+          - null
+          - null
+          when: null
         meta:
           total: 0
           start: 1
@@ -11064,80 +11311,73 @@ components:
       type: object
     AddRuleRequest:
       example:
+        name: new-rule
         trigger_after:
           period: period
           offset: 5
-        data_type: logs
-        window:
-          period: period
-          stop: 1
-          start: 6
-        selectors: null
-        queries:
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
+        description: description
+        selectors:
+        - null
+        - null
+        conditions:
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
         actions:
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
-        frequency:
-          period: period
-          every: 5
+        - null
+        - null
+        when: null
       properties:
-        queries:
+        name:
+          description: The name of the rule
+          example: new-rule
+          title: name
+          type: string
+        description:
+          description: The description of the rule
+          title: description
+          type: string
+        selectors:
           items:
-            $ref: '#/components/schemas/Query'
-          title: queries
+            $ref: '#/components/schemas/Selector'
+          title: selectors
           type: array
-        window:
-          $ref: '#/components/schemas/Window'
-        frequency:
-          $ref: '#/components/schemas/Frequency'
-        trigger_after:
-          $ref: '#/components/schemas/TriggerAfter'
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          title: conditions
+          type: array
         actions:
           items:
-            $ref: '#/components/schemas/RuleAction'
+            $ref: '#/components/schemas/Action'
           title: actions
           type: array
-        selectors:
-          $ref: '#/components/schemas/Selector'
-        data_type:
-          $ref: '#/components/schemas/DataType'
+        when:
+          $ref: '#/components/schemas/When'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
       required:
       - actions
-      - data_type
-      - frequency
-      - queries
+      - conditions
+      - name
       - trigger_after
-      - window
       title: AddRuleRequest
       type: object
     EditRuleRequest:
@@ -11145,80 +11385,97 @@ components:
         trigger_after:
           period: period
           offset: 5
-        window:
-          period: period
-          stop: 1
-          start: 6
-        selectors: null
-        queries:
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
-        - threshold: 0.8008281904610115
-          aggregation: aggregation
-          operator: operator
-          target: target
+        description: description
+        selectors:
+        - null
+        - null
+        conditions:
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
         actions:
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
-        - emails:
-          - emails
-          - emails
-          teams:
-          - teams
-          - teams
-          action: action
-          type: type
-          users:
-          - users
-          - users
-          command: command
-        frequency:
-          period: period
-          every: 5
+        - null
+        - null
+        when: null
       properties:
-        queries:
+        description:
+          description: The description of the rule
+          title: description
+          type: string
+        selectors:
           items:
-            $ref: '#/components/schemas/Query'
-          title: queries
+            $ref: '#/components/schemas/Selector'
+          title: selectors
           type: array
-        window:
-          $ref: '#/components/schemas/Window'
-        frequency:
-          $ref: '#/components/schemas/Frequency'
-        trigger_after:
-          $ref: '#/components/schemas/TriggerAfter'
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          title: conditions
+          type: array
         actions:
           items:
-            $ref: '#/components/schemas/RuleAction'
+            $ref: '#/components/schemas/Action'
           title: actions
           type: array
-        selectors:
-          $ref: '#/components/schemas/Selector'
+        when:
+          $ref: '#/components/schemas/When'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
       title: EditRuleRequest
       type: object
     Rule:
       example:
-        triggered_after: "{}"
         name: name
-        data_type: data_type
-        disabled: disabled
+        trigger_after:
+          period: period
+          offset: 5
+        description: description
         id: id
-        window: "{}"
-        queries: "{}"
-        actions: "{}"
-        frequency: "{}"
+        selectors:
+        - null
+        - null
+        conditions:
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        - query:
+            threshold: 1.4658129805029452
+            aggregation: aggregation
+            operator: operator
+            target: target
+          data_type: logs
+          window:
+            period: period
+            stop: 6
+            start: 0
+        actions:
+        - null
+        - null
+        when: null
       properties:
         id:
           title: id
@@ -11226,32 +11483,33 @@ components:
         name:
           title: name
           type: string
-        queries:
-          title: queries
-          type: object
-        window:
-          title: window
-          type: object
-        frequency:
-          title: frequency
-          type: object
-        triggered_after:
-          title: triggered_after
-          type: object
+        description:
+          title: description
+          type: string
+        selectors:
+          items:
+            $ref: '#/components/schemas/Selector'
+          title: selectors
+          type: array
+        conditions:
+          items:
+            $ref: '#/components/schemas/Condition'
+          title: conditions
+          type: array
         actions:
+          items:
+            $ref: '#/components/schemas/Action'
           title: actions
-          type: object
-        disabled:
-          title: disabled
-          type: string
-        data_type:
-          title: data_type
-          type: string
+          type: array
+        when:
+          $ref: '#/components/schemas/When'
+        trigger_after:
+          $ref: '#/components/schemas/TriggerAfter'
       title: Rule
       type: object
     Query:
       example:
-        threshold: 0.8008281904610115
+        threshold: 1.4658129805029452
         aggregation: aggregation
         operator: operator
         target: target
@@ -11282,16 +11540,11 @@ components:
       - threshold
       title: Query
       type: object
-    Queries:
-      items:
-        $ref: '#/components/schemas/Query'
-      title: queries
-      type: array
     Window:
       example:
         period: period
-        stop: 1
-        start: 6
+        stop: 6
+        start: 0
       properties:
         start:
           description: |
@@ -11314,25 +11567,6 @@ components:
       - start
       title: Window
       type: object
-    Frequency:
-      example:
-        period: period
-        every: 5
-      properties:
-        every:
-          description: |
-            a positive integer denoting how often the rule must be evaluated
-          title: every
-          type: integer
-        period:
-          description: "units of time, e.g. \"seconds\""
-          title: period
-          type: string
-      required:
-      - every
-      - period
-      title: Frequency
-      type: object
     TriggerAfter:
       example:
         period: period
@@ -11351,66 +11585,6 @@ components:
       - period
       title: TriggerAfter
       type: object
-    RuleAction:
-      example:
-        emails:
-        - emails
-        - emails
-        teams:
-        - teams
-        - teams
-        action: action
-        type: type
-        users:
-        - users
-        - users
-        command: command
-      properties:
-        type:
-          description: "the action's type: notification, machine_action, command\n"
-          title: type
-          type: string
-        users:
-          description: "a list of user to be notified, denoted by their UUIDs. Can\
-            \ be\nused by a notification action (optional)\n"
-          items:
-            type: string
-          title: users
-          type: array
-        teams:
-          description: "a list of teams, denoted by their UUIDs, whose users will\
-            \ be\nnotified. Can be used by a notification action (optional)\n"
-          items:
-            type: string
-          title: teams
-          type: array
-        emails:
-          description: |
-            a list of e-mails to send a notification to. Can be used by a
-            notification action (optional)
-          items:
-            type: string
-          title: emails
-          type: array
-        action:
-          description: |
-            the action to be performed. Required by machine_action type
-          title: action
-          type: string
-        command:
-          description: |
-            the command to be executed. Required by the command type
-          title: command
-          type: string
-      required:
-      - type
-      title: RuleAction
-      type: object
-    RuleActions:
-      items:
-        $ref: '#/components/schemas/RuleAction'
-      title: actions
-      type: array
     Selectors:
       items:
         $ref: '#/components/schemas/Selector'
@@ -11422,6 +11596,27 @@ components:
       example: logs
       title: DataType
       type: string
+    Condition:
+      example:
+        query:
+          threshold: 1.4658129805029452
+          aggregation: aggregation
+          operator: operator
+          target: target
+        data_type: logs
+        window:
+          period: period
+          stop: 6
+          start: 0
+      properties:
+        data_type:
+          $ref: '#/components/schemas/DataType'
+        window:
+          $ref: '#/components/schemas/Window'
+        query:
+          $ref: '#/components/schemas/Query'
+      title: Condition
+      type: object
     BillingInfo:
       title: BillingInfo
       type: object
@@ -11936,6 +12131,60 @@ components:
           title: policy
           type: object
       title: Team
+      type: object
+    CreateOrganizationRequest:
+      example:
+        name: name
+        super_org: false
+      properties:
+        name:
+          title: name
+          type: string
+        super_org:
+          default: false
+          title: super_org
+          type: boolean
+      required:
+      - name
+      title: CreateOrganizationRequest
+      type: object
+    PatchOrganizationRequest:
+      example:
+        vault_secret_id: vault_secret_id
+        vault_token: vault_token
+        name: name
+        vault_address: vault_address
+        vault_secrets_engine_path: vault_secrets_engine_path
+        vault_role_id: vault_role_id
+      properties:
+        name:
+          description: The organization's name
+          title: name
+          type: string
+        vault_address:
+          description: The Vault's url
+          title: vault_address
+          type: string
+        vault_secrets_engine_path:
+          description: Vault secrets engine path
+          title: vault_secrets_engine_path
+          type: string
+        vault_token:
+          description: The Vault token that will be used to authenticate against the
+            new Vault. Either token or both role_id and secret_id must be specified
+          title: vault_token
+          type: string
+        vault_role_id:
+          description: The Vault RoleID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: vault_role_id
+          type: string
+        vault_secret_id:
+          description: The Vault SecretID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: vault_secret_id
+          type: string
+      title: PatchOrganizationRequest
       type: object
     GetJobResponse:
       example:
@@ -12486,6 +12735,49 @@ components:
           type: string
       title: inline_response_200_1
       type: object
+    Action_allOf:
+      properties:
+        action_type:
+          description: "the action's type: notification, resource_action, run_script,\
+            \ webhook\n"
+          enum:
+          - start
+          - stop
+          - reboot
+          - destroy
+          - notify
+          - delete
+          - resize
+          - run_script
+          - webhook
+          title: action_type
+          type: string
+      required:
+      - action_type
+      title: Action_allOf
+    ScriptToRun_allOf:
+      properties:
+        script_type:
+          enum:
+          - inline
+          - existing
+          example: inline
+          title: script_type
+          type: string
+      required:
+      - script_type
+      title: ScriptToRun_allOf
+    When_allOf:
+      properties:
+        schedule_type:
+          enum:
+          - crontab
+          - interval
+          - one_off
+          example: one_off
+          title: schedule_type
+          type: string
+      title: When_allOf
     AddCloudRequest_allOf:
       properties:
         name:
@@ -12812,6 +13104,39 @@ components:
       - dry
       - generate
       title: AddKeyRequest_anyOf_2
+    AddScheduleRequest_reminder_when:
+      example:
+        unit: seconds
+        value: 0
+      properties:
+        value:
+          title: value
+          type: integer
+        unit:
+          enum:
+          - seconds
+          - minutes
+          - hours
+          - days
+          title: unit
+          type: string
+      title: AddScheduleRequest_reminder_when
+      type: object
+    AddScheduleRequest_reminder:
+      example:
+        message: message
+        when:
+          unit: seconds
+          value: 0
+      properties:
+        message:
+          description: The reminder message to be sent
+          title: message
+          type: string
+        when:
+          $ref: '#/components/schemas/AddScheduleRequest_reminder_when'
+      title: AddScheduleRequest_reminder
+      type: object
     Datapoints_data:
       example:
         result:

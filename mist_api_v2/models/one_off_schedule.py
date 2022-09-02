@@ -15,25 +15,20 @@ class OneOffSchedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, schedule_type=None, datetime=None):  # noqa: E501
+    def __init__(self, datetime=None):  # noqa: E501
         """OneOffSchedule - a model defined in OpenAPI
 
-        :param schedule_type: The schedule_type of this OneOffSchedule.  # noqa: E501
-        :type schedule_type: str
         :param datetime: The datetime of this OneOffSchedule.  # noqa: E501
-        :type datetime: datetime
+        :type datetime: str
         """
         self.openapi_types = {
-            'schedule_type': str,
-            'datetime': datetime
+            'datetime': str
         }
 
         self.attribute_map = {
-            'schedule_type': 'schedule_type',
             'datetime': 'datetime'
         }
 
-        self._schedule_type = schedule_type
         self._datetime = datetime
 
     @classmethod
@@ -48,40 +43,13 @@ class OneOffSchedule(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def schedule_type(self):
-        """Gets the schedule_type of this OneOffSchedule.
-
-
-        :return: The schedule_type of this OneOffSchedule.
-        :rtype: str
-        """
-        return self._schedule_type
-
-    @schedule_type.setter
-    def schedule_type(self, schedule_type):
-        """Sets the schedule_type of this OneOffSchedule.
-
-
-        :param schedule_type: The schedule_type of this OneOffSchedule.
-        :type schedule_type: str
-        """
-        allowed_values = ["one_off"]  # noqa: E501
-        if schedule_type not in allowed_values:
-            raise ValueError(
-                "Invalid value for `schedule_type` ({0}), must be one of {1}"
-                .format(schedule_type, allowed_values)
-            )
-
-        self._schedule_type = schedule_type
-
-    @property
     def datetime(self):
         """Gets the datetime of this OneOffSchedule.
 
         When one_off schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :return: The datetime of this OneOffSchedule.
-        :rtype: datetime
+        :rtype: str
         """
         return self._datetime
 
@@ -92,7 +60,7 @@ class OneOffSchedule(Model):
         When one_off schedule should run, e.g 2021-09-22T18:19:28Z  # noqa: E501
 
         :param datetime: The datetime of this OneOffSchedule.
-        :type datetime: datetime
+        :type datetime: str
         """
         if datetime is None:
             raise ValueError("Invalid value for `datetime`, must not be `None`")  # noqa: E501

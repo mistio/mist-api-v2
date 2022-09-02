@@ -30,6 +30,8 @@ mist_api_v2/controllers/volumes_controller.py
 mist_api_v2/controllers/zones_controller.py
 mist_api_v2/encoder.py
 mist_api_v2/models/__init__.py
+mist_api_v2/models/action.py
+mist_api_v2/models/action_all_of.py
 mist_api_v2/models/add_cloud_request.py
 mist_api_v2/models/add_cloud_request_all_of.py
 mist_api_v2/models/add_key_request.py
@@ -39,6 +41,8 @@ mist_api_v2/models/add_key_request_any_of2.py
 mist_api_v2/models/add_key_response.py
 mist_api_v2/models/add_rule_request.py
 mist_api_v2/models/add_schedule_request.py
+mist_api_v2/models/add_schedule_request_reminder.py
+mist_api_v2/models/add_schedule_request_reminder_when.py
 mist_api_v2/models/add_script_request.py
 mist_api_v2/models/age_selector.py
 mist_api_v2/models/alibaba_cloud_request.py
@@ -59,6 +63,7 @@ mist_api_v2/models/cloud_sigma_cloud_request.py
 mist_api_v2/models/cloud_sigma_credentials.py
 mist_api_v2/models/cluster.py
 mist_api_v2/models/cluster_providers.py
+mist_api_v2/models/condition.py
 mist_api_v2/models/create_cluster_request.py
 mist_api_v2/models/create_cluster_request_all_of.py
 mist_api_v2/models/create_cluster_request_all_of_nodepools.py
@@ -71,6 +76,7 @@ mist_api_v2/models/create_machine_response_one_of.py
 mist_api_v2/models/create_machine_response_one_of1.py
 mist_api_v2/models/create_network_request.py
 mist_api_v2/models/create_network_response.py
+mist_api_v2/models/create_organization_request.py
 mist_api_v2/models/create_record_request.py
 mist_api_v2/models/create_secret_request.py
 mist_api_v2/models/create_volume_request.py
@@ -104,7 +110,6 @@ mist_api_v2/models/equinix_metal_net_ip_addresses.py
 mist_api_v2/models/expiration.py
 mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/field_selector.py
-mist_api_v2/models/frequency.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_cluster_response.py
 mist_api_v2/models/get_datapoints_response.py
@@ -135,7 +140,6 @@ mist_api_v2/models/ibm_credentials.py
 mist_api_v2/models/image.py
 mist_api_v2/models/inline_response200.py
 mist_api_v2/models/inline_response2001.py
-mist_api_v2/models/inline_script.py
 mist_api_v2/models/instant_vector.py
 mist_api_v2/models/interval_schedule.py
 mist_api_v2/models/job.py
@@ -187,6 +191,7 @@ mist_api_v2/models/maxihost_cloud_request.py
 mist_api_v2/models/maxihost_credentials.py
 mist_api_v2/models/member.py
 mist_api_v2/models/network.py
+mist_api_v2/models/notification.py
 mist_api_v2/models/onapp_cloud_request.py
 mist_api_v2/models/onapp_credentials.py
 mist_api_v2/models/one_off_schedule.py
@@ -198,23 +203,27 @@ mist_api_v2/models/openstack_net.py
 mist_api_v2/models/org.py
 mist_api_v2/models/org_resources_summary.py
 mist_api_v2/models/other_cloud_request.py
-mist_api_v2/models/post_deploy_script.py
+mist_api_v2/models/patch_organization_request.py
 mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
 mist_api_v2/models/record.py
+mist_api_v2/models/resize_action.py
 mist_api_v2/models/resource.py
 mist_api_v2/models/resource_count.py
 mist_api_v2/models/resource_selector.py
 mist_api_v2/models/response_metadata.py
 mist_api_v2/models/rule.py
-mist_api_v2/models/rule_action.py
+mist_api_v2/models/run_command.py
+mist_api_v2/models/run_existing_script.py
 mist_api_v2/models/run_script_request.py
 mist_api_v2/models/run_script_response.py
 mist_api_v2/models/scale_nodepool_request.py
 mist_api_v2/models/schedule.py
 mist_api_v2/models/script.py
+mist_api_v2/models/script_to_run.py
+mist_api_v2/models/script_to_run_all_of.py
 mist_api_v2/models/secret.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
@@ -237,6 +246,9 @@ mist_api_v2/models/vultr_cloud_request.py
 mist_api_v2/models/vultr_credentials.py
 mist_api_v2/models/vultr_extra.py
 mist_api_v2/models/vultr_net.py
+mist_api_v2/models/web_hook_action.py
+mist_api_v2/models/when.py
+mist_api_v2/models/when_all_of.py
 mist_api_v2/models/window.py
 mist_api_v2/models/zone.py
 mist_api_v2/openapi/openapi.yaml
