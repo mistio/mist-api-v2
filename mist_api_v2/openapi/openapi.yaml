@@ -3727,15 +3727,15 @@ paths:
                   - data_type: logs
                     query:
                       aggregation: count
-                      operator: eq
-                      target: "10"
-                      threshold: 9.5
+                      operator: ge
+                      target: type:request and action:reboot_machine
+                      threshold: 10
                     window:
                       period: hours
                       start: 2
                       stop: 1
-                  description: rule that stops a machine when a sum equals to 10 and
-                    is evaluated every 2 hours
+                  description: Rule that stops a machine when a machine rebooted more
+                    than ten times within 2 hours
                   name: NewStopMachineIntervalRule
                   selectors:
                   - type: machines
@@ -3934,15 +3934,15 @@ paths:
                   - data_type: logs
                     query:
                       aggregation: count
-                      operator: eq
-                      target: "10"
-                      threshold: 9.5
+                      operator: ge
+                      target: type:request and action:stop_machine
+                      threshold: 10
                     window:
                       period: hours
                       start: 0
                       stop: 2
-                  description: Rule that reboots a machine when a sum equals to 10
-                    and is evaluated once
+                  description: Rule that reboots a machine when a machine stopped
+                    more than ten times within 2 hours
                   selectors:
                   - type: machines
                     ids:
