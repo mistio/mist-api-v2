@@ -136,7 +136,7 @@ def edit_schedule(schedule, edit_schedule_request=None):  # noqa: E501
                                     deleted=None)
 
     if not kwargs.get('name', ''):
-      kwargs['name'] = schedule.name
+        kwargs['name'] = schedule.name
 
     schedule.ctl.set_auth_context(auth_context)
     schedule.ctl.update(**kwargs)

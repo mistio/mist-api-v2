@@ -135,7 +135,7 @@ def edit_rule(rule, edit_rule_request=None):  # noqa: E501
         return 'You are not authorized to perform this action', 403
     rule.ctl.set_auth_context(auth_context)
     kwargs = delete_none(edit_rule_request.to_dict())
-    if kwargs.get('conditions',[]):
+    if kwargs.get('conditions', []):
         data_type = kwargs.get('conditions')[0].pop('data_type')
         queries = kwargs.get('conditions')[0].pop('query')
         window = kwargs.get('conditions')[0].pop('window')
