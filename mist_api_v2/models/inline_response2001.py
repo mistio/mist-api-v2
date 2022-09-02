@@ -15,21 +15,21 @@ class InlineResponse2001(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, url=None):  # noqa: E501
+    def __init__(self, id=None):  # noqa: E501
         """InlineResponse2001 - a model defined in OpenAPI
 
-        :param url: The url of this InlineResponse2001.  # noqa: E501
-        :type url: str
+        :param id: The id of this InlineResponse2001.  # noqa: E501
+        :type id: str
         """
         self.openapi_types = {
-            'url': str
+            'id': str
         }
 
         self.attribute_map = {
-            'url': 'url'
+            'id': 'id'
         }
 
-        self._url = url
+        self._id = id
 
     @classmethod
     def from_dict(cls, dikt) -> 'InlineResponse2001':
@@ -43,22 +43,22 @@ class InlineResponse2001(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def url(self):
-        """Gets the url of this InlineResponse2001.
+    def id(self):
+        """Gets the id of this InlineResponse2001.
 
 
-        :return: The url of this InlineResponse2001.
+        :return: The id of this InlineResponse2001.
         :rtype: str
         """
-        return self._url
+        return self._id
 
-    @url.setter
-    def url(self, url):
-        """Sets the url of this InlineResponse2001.
+    @id.setter
+    def id(self, id):
+        """Sets the id of this InlineResponse2001.
 
 
-        :param url: The url of this InlineResponse2001.
-        :type url: str
+        :param id: The id of this InlineResponse2001.
+        :type id: str
         """
 
-        self._url = url
+        self._id = id

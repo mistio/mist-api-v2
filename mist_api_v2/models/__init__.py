@@ -126,6 +126,7 @@ from mist_api_v2.models.ibm_credentials import IbmCredentials
 from mist_api_v2.models.image import Image
 from mist_api_v2.models.inline_response200 import InlineResponse200
 from mist_api_v2.models.inline_response2001 import InlineResponse2001
+from mist_api_v2.models.inline_response2002 import InlineResponse2002
 from mist_api_v2.models.instant_vector import InstantVector
 from mist_api_v2.models.interval_schedule import IntervalSchedule
 from mist_api_v2.models.job import Job
@@ -201,7 +202,6 @@ from mist_api_v2.models.other_cloud_features import OtherCloudFeatures
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
 from mist_api_v2.models.other_credentials import OtherCredentials
 from mist_api_v2.models.patch_organization_request import PatchOrganizationRequest
-from mist_api_v2.models.post_deploy_script import PostDeployScript
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_features import RackspaceCloudFeatures
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest

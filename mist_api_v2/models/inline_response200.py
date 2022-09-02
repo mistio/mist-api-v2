@@ -15,21 +15,26 @@ class InlineResponse200(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None):  # noqa: E501
+    def __init__(self, id=None, errors=None):  # noqa: E501
         """InlineResponse200 - a model defined in OpenAPI
 
         :param id: The id of this InlineResponse200.  # noqa: E501
         :type id: str
+        :param errors: The errors of this InlineResponse200.  # noqa: E501
+        :type errors: List[str]
         """
         self.openapi_types = {
-            'id': str
+            'id': str,
+            'errors': List[str]
         }
 
         self.attribute_map = {
-            'id': 'id'
+            'id': 'id',
+            'errors': 'errors'
         }
 
         self._id = id
+        self._errors = errors
 
     @classmethod
     def from_dict(cls, dikt) -> 'InlineResponse200':
@@ -62,3 +67,24 @@ class InlineResponse200(Model):
         """
 
         self._id = id
+
+    @property
+    def errors(self):
+        """Gets the errors of this InlineResponse200.
+
+
+        :return: The errors of this InlineResponse200.
+        :rtype: List[str]
+        """
+        return self._errors
+
+    @errors.setter
+    def errors(self, errors):
+        """Sets the errors of this InlineResponse200.
+
+
+        :param errors: The errors of this InlineResponse200.
+        :type errors: List[str]
+        """
+
+        self._errors = errors
