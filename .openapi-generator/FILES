@@ -124,6 +124,7 @@ mist_api_v2/models/expiration_notify.py
 mist_api_v2/models/external_vault.py
 mist_api_v2/models/external_vault_all_of.py
 mist_api_v2/models/field_selector.py
+mist_api_v2/models/generic_cloud_request.py
 mist_api_v2/models/get_cloud_response.py
 mist_api_v2/models/get_cluster_response.py
 mist_api_v2/models/get_datapoints_response.py

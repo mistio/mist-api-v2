@@ -94,6 +94,7 @@ from mist_api_v2.models.expiration_notify import ExpirationNotify
 from mist_api_v2.models.external_vault import ExternalVault
 from mist_api_v2.models.external_vault_all_of import ExternalVaultAllOf
 from mist_api_v2.models.field_selector import FieldSelector
+from mist_api_v2.models.generic_cloud_request import GenericCloudRequest
 from mist_api_v2.models.get_cloud_response import GetCloudResponse
 from mist_api_v2.models.get_cluster_response import GetClusterResponse
 from mist_api_v2.models.get_datapoints_response import GetDatapointsResponse
