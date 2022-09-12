@@ -19,9 +19,11 @@ class GenericCloudRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, provider=None, credentials=None, features=None):  # noqa: E501
+    def __init__(self, name=None, provider=None, credentials=None, features=None):  # noqa: E501
         """GenericCloudRequest - a model defined in OpenAPI
 
+        :param name: The name of this GenericCloudRequest.  # noqa: E501
+        :type name: str
         :param provider: The provider of this GenericCloudRequest.  # noqa: E501
         :type provider: SupportedProviders
         :param credentials: The credentials of this GenericCloudRequest.  # noqa: E501
@@ -30,17 +32,20 @@ class GenericCloudRequest(Model):
         :type features: CloudFeatures
         """
         self.openapi_types = {
+            'name': str,
             'provider': SupportedProviders,
             'credentials': object,
             'features': CloudFeatures
         }
 
         self.attribute_map = {
+            'name': 'name',
             'provider': 'provider',
             'credentials': 'credentials',
             'features': 'features'
         }
 
+        self._name = name
         self._provider = provider
         self._credentials = credentials
         self._features = features
@@ -55,6 +60,27 @@ class GenericCloudRequest(Model):
         :rtype: GenericCloudRequest
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def name(self):
+        """Gets the name of this GenericCloudRequest.
+
+
+        :return: The name of this GenericCloudRequest.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this GenericCloudRequest.
+
+
+        :param name: The name of this GenericCloudRequest.
+        :type name: str
+        """
+
+        self._name = name
 
     @property
     def provider(self):

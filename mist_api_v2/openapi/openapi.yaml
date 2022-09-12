@@ -7803,6 +7803,9 @@ components:
       type: object
     GenericCloudRequest:
       properties:
+        name:
+          title: Name
+          type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
         credentials:
