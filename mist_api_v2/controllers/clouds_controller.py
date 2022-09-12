@@ -85,7 +85,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
         add_cloud_request = AddCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     from mist.api.clouds.models import Cloud
-    from mist.api.clouds.methods import add_cloud_v_2
+    from mist.api.clouds.methods import add_cloud as m_add_cloud
     from mist.api.helpers import trigger_session_update
     from mist.api.tasks import async_session_update
     from mist.api.tag.methods import add_tags_to_resource
@@ -108,7 +108,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
         params.update(features)
     params.update(credentials)
     try:
-        result = add_cloud_v_2(
+        result = m_add_cloud(
             auth_context.owner,
             name,
             provider,
