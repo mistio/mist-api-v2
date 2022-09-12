@@ -7556,7 +7556,6 @@ components:
         - $ref: '#/components/schemas/KubevirtCloudRequest'
         - $ref: '#/components/schemas/OpenshiftCloudRequest'
         - $ref: '#/components/schemas/OtherCloudRequest'
-        - $ref: '#/components/schemas/GenericCloudRequest'
       example:
         name: my-cloud
         provider: google
@@ -7632,12 +7631,10 @@ components:
           - $ref: '#/components/schemas/KubevirtCloudRequest'
           - $ref: '#/components/schemas/OpenshiftCloudRequest'
           - $ref: '#/components/schemas/OtherCloudRequest'
-          - $ref: '#/components/schemas/GenericCloudRequest'
       example:
         name: my-renamed-cloud
       title: EditCloudRequest
     CloudCredentials:
-      title: CloudCredentials
       type: object
     CloudFeatures:
       example:
@@ -7809,14 +7806,12 @@ components:
         provider:
           $ref: '#/components/schemas/SupportedProviders'
         credentials:
-          title: CloudCredentials
           type: object
         features:
           $ref: '#/components/schemas/CloudFeatures'
       required:
       - credentials
       - provider
-      title: GenericCloudRequest
       type: object
     AzureCredentials:
       properties:
