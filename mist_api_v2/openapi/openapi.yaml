@@ -7807,10 +7807,7 @@ components:
     GenericCloudRequest:
       properties:
         provider:
-          enum:
-          - azure
-          title: provider
-          type: string
+          $ref: '#/components/schemas/SupportedProviders'
         credentials:
           title: CloudCredentials
           type: object
