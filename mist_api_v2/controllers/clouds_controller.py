@@ -9,6 +9,8 @@ from mist.api import config
 
 from mist_api_v2 import util
 from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
+from mist_api_v2.models.generic_cloud_request import GenericCloudRequest  # noqa: E501
+
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest  # noqa: E501
 from mist_api_v2.models.get_cloud_response import GetCloudResponse  # noqa: E501
 from mist_api_v2.models.list_clouds_response import ListCloudsResponse  # noqa: E501
@@ -82,7 +84,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     :rtype: InlineResponse200
     """
     if connexion.request.is_json:
-        add_cloud_request = AddCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
+        add_cloud_request = GenericCloudRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     from mist.api.clouds.models import Cloud
     from mist.api.clouds.methods import add_cloud as m_add_cloud
@@ -104,7 +106,11 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     credentials = params.pop('credentials')
     features = params.pop('features')
     if features:
-        del features['compute']
+        del features['compute']  # TODO: remove
+        # Remove features with None value
+        empty = [f for f in features.keys() if features[f] == None]
+        for feature in empty:
+            del features[feature]
         params.update(features)
     params.update(credentials)
     try:
