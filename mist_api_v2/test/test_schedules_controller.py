@@ -48,19 +48,16 @@ class TestSchedulesController:
         """
         add_schedule_request = setup_data.get('add_schedule', {}).get(
             'request_body') or json.loads("""{
-  "expires" : "2022-06-01 T00:00:00",
-  "reminder" : {
-    "message" : "message",
-    "when" : {
-      "unit" : "seconds",
-      "value" : 0
-    }
-  },
+  "start_after" : "2022-06-01 T00:00:00",
+  "schedule_type" : "one_off",
+  "schedule_entry" : "2022-05-28 00:00:00",
   "name" : "backup-schedule",
-  "description" : "Backup schedule",
+  "description" : "This is a schedule",
+  "action" : "start",
+  "script_id" : "d5775984772949de820fa8279c306b30",
   "run_immediately" : false,
+  "params" : "Parameters string",
   "selectors" : [ null, null ],
-  "actions" : [ null, null ],
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
@@ -101,18 +98,15 @@ class TestSchedulesController:
         """
         edit_schedule_request = setup_data.get('edit_schedule', {}).get(
             'request_body') or json.loads("""{
-  "expires" : "2022-06-01 T00:00:00",
-  "reminder" : {
-    "message" : "message",
-    "when" : {
-      "unit" : "seconds",
-      "value" : 0
-    }
-  },
+  "start_after" : "2022-06-01 00:00:00",
+  "schedule_type" : "one_off",
+  "schedule_entry" : "2022-05-28 00:00:00",
   "name" : "schedule-name",
-  "description" : "Edited Schedule",
+  "description" : "This is a schedule that is about to be edited",
+  "action" : "start",
+  "script_id" : "d5775984772949de820fa8279c306b30",
+  "params" : "Parameters string",
   "selectors" : [ null, null ],
-  "actions" : [ null, null ],
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
