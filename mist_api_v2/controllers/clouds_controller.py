@@ -8,7 +8,7 @@ import mongoengine as me
 from mist.api import config
 
 from mist_api_v2 import util
-from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: E501
+from mist_api_v2.models.add_cloud_request import AddCloudRequest  # noqa: F401
 from mist_api_v2.models.generic_cloud_request import GenericCloudRequest  # noqa: E501
 
 from mist_api_v2.models.edit_cloud_request import EditCloudRequest  # noqa: E501
@@ -108,7 +108,7 @@ def add_cloud(add_cloud_request=None):  # noqa: E501
     if features:
         del features['compute']  # TODO: remove
         # Remove features with None value
-        empty = [f for f in features.keys() if features[f] == None]
+        empty = [f for f in features.keys() if features[f] is None]
         for feature in empty:
             del features[feature]
         params.update(features)

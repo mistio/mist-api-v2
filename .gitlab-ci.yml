@@ -61,15 +61,12 @@ build_mist_image:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-    - docker pull mist/python3
     - docker build --rm -t registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_SHA --build-arg API_VERSION_SHA=$CI_COMMIT_SHA --build-arg API_VERSION_NAME=$CI_COMMIT_REF_NAME .
     - docker tag registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_SHA registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_REF_SLUG
-    - docker tag registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_SHA mist/mist:$CI_COMMIT_SHA
-    - docker tag registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_REF_SLUG mist/mist:$CI_COMMIT_REF_SLUG
+    - docker tag registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_SHA mist/api-v2:$CI_COMMIT_SHA
+    - docker tag registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_REF_SLUG mist/api-v2:$CI_COMMIT_REF_SLUG
     - docker push registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_SHA
     - docker push registry.ops.mist.io/mistio/mist-api-v2:$CI_COMMIT_REF_SLUG
-    - docker push mist/api-v2:$CI_COMMIT_SHA
-    - docker push mist/api-v2:$CI_COMMIT_REF_SLUG
   tags:
     - builder
   dependencies: []
