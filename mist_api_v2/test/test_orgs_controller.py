@@ -1,7 +1,8 @@
 import json
 import time
 import importlib
-
+import random
+import string
 import pytest
 
 from misttests.config import MIST_URL
@@ -46,13 +47,13 @@ class TestOrgsController:
 
         Create org
         """
+        postfix = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
         create_organization_request = setup_data.get('create_org', {}).get(
-            'request_body') or json.loads("""{
-  "name" : "name",
+            'request_body') or json.loads(("""{
+  "name" : "org-%s",
   "description" : "description",
-  "logo" : "logo",
-  "vault" : ""
-}""", strict=False)
+  "logo" : "logo"
+}""" % postfix), strict=False)
         uri = MIST_URL + '/api/v2/orgs'
         request = MistRequests(
             api_token=owner_api_token,
@@ -73,7 +74,7 @@ class TestOrgsController:
         """
         query_string = setup_data.get('get_member', {}).get('query_string') or [('only', 'id')]
         uri = MIST_URL + '/api/v2/orgs/{org}/members/{member}'.format(
-            org=setup_data.get('get_member', {}).get('org') or setup_data.get('org') or 'my-org', member=setup_data.get('get_member', {}).get('member') or setup_data.get('member') or 'my-member')
+            org=setup_data.get('get_member', {}).get('org'), member=setup_data.get('get_member', {}).get('member') or setup_data.get('member') or 'my-member')
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -95,7 +96,7 @@ class TestOrgsController:
                         ('only', 'id'),
                         ('deref', 'auto')]
         uri = MIST_URL + '/api/v2/orgs/{org}'.format(
-            org=setup_data.get('get_org', {}).get('org') or setup_data.get('org') or 'my-org')
+            org=setup_data.get('get_org', {}).get('org'))
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -120,7 +121,7 @@ class TestOrgsController:
                         ('only', 'id'),
                         ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/orgs/{org}/members'.format(
-            org=setup_data.get('list_org_members', {}).get('org') or setup_data.get('org') or 'my-org')
+            org=setup_data.get('list_org_members', {}).get('org'))
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -146,7 +147,7 @@ class TestOrgsController:
                         ('deref', 'auto'),
                         ('at', '2021-07-21T17:32:28Z')]
         uri = MIST_URL + '/api/v2/orgs/{org}/teams'.format(
-            org=setup_data.get('list_org_teams', {}).get('org') or setup_data.get('org') or 'my-org')
+            org=setup_data.get('list_org_teams', {}).get('org'))
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,
@@ -190,17 +191,20 @@ class TestOrgsController:
 
         
         """
+        body = """{
+  "name" : "%s",
+  "vault" : {
+      "address" : "vault_address",
+      "secrets_engine_path" : "vault_secrets_engine_path",
+      "token": "vault_token",
+      "role_id" : "vault_role_id",
+      "secret_id": "vault_secret_id"
+  }
+}""" % setup_data.get('update_org', {}).get('org_name', '')
         patch_organization_request = setup_data.get('update_org', {}).get(
-            'request_body') or json.loads("""{
-  "vault_secret_id" : "vault_secret_id",
-  "vault_token" : "vault_token",
-  "name" : "name",
-  "vault_address" : "vault_address",
-  "vault_secrets_engine_path" : "vault_secrets_engine_path",
-  "vault_role_id" : "vault_role_id"
-}""", strict=False)
+            'request_body') or json.loads(body, strict=False)
         uri = MIST_URL + '/api/v2/orgs/{org}'.format(
-            org=setup_data.get('update_org', {}).get('org') or setup_data.get('org') or 'my-org')
+            org=setup_data.get('get_org', {}).get('org'))
         request = MistRequests(
             api_token=owner_api_token,
             uri=uri,

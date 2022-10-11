@@ -57,10 +57,12 @@ class TestSchedulesController:
     }
   },
   "name" : "backup-schedule",
-  "description" : "Backup schedule",
+  "description" : "This is a schedule",
+  "action" : "start",
+  "script_id" : "d5775984772949de820fa8279c306b30",
   "run_immediately" : false,
+  "params" : "Parameters string",
   "selectors" : [ null, null ],
-  "actions" : [ null, null ],
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
@@ -110,9 +112,11 @@ class TestSchedulesController:
     }
   },
   "name" : "schedule-name",
-  "description" : "Edited Schedule",
+  "description" : "This is a schedule that is about to be edited",
+  "action" : "start",
+  "script_id" : "d5775984772949de820fa8279c306b30",
+  "params" : "Parameters string",
   "selectors" : [ null, null ],
-  "actions" : [ null, null ],
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
