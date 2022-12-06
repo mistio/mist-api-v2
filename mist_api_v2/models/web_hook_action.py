@@ -15,9 +15,11 @@ class WebHookAction(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, method=None, url=None, query_string_params=None, data=None, json=None, headers=None):  # noqa: E501
+    def __init__(self, action_type=None, method=None, url=None, query_string_params=None, data=None, json=None, headers=None):  # noqa: E501
         """WebHookAction - a model defined in OpenAPI
 
+        :param action_type: The action_type of this WebHookAction.  # noqa: E501
+        :type action_type: str
         :param method: The method of this WebHookAction.  # noqa: E501
         :type method: str
         :param url: The url of this WebHookAction.  # noqa: E501
@@ -32,6 +34,7 @@ class WebHookAction(Model):
         :type headers: str
         """
         self.openapi_types = {
+            'action_type': str,
             'method': str,
             'url': str,
             'query_string_params': str,
@@ -41,6 +44,7 @@ class WebHookAction(Model):
         }
 
         self.attribute_map = {
+            'action_type': 'action_type',
             'method': 'method',
             'url': 'url',
             'query_string_params': 'query_string_params',
@@ -49,6 +53,7 @@ class WebHookAction(Model):
             'headers': 'headers'
         }
 
+        self._action_type = action_type
         self._method = method
         self._url = url
         self._query_string_params = query_string_params
@@ -66,6 +71,33 @@ class WebHookAction(Model):
         :rtype: WebHookAction
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def action_type(self):
+        """Gets the action_type of this WebHookAction.
+
+
+        :return: The action_type of this WebHookAction.
+        :rtype: str
+        """
+        return self._action_type
+
+    @action_type.setter
+    def action_type(self, action_type):
+        """Sets the action_type of this WebHookAction.
+
+
+        :param action_type: The action_type of this WebHookAction.
+        :type action_type: str
+        """
+        allowed_values = ["webhook"]  # noqa: E501
+        if action_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `action_type` ({0}), must be one of {1}"
+                .format(action_type, allowed_values)
+            )
+
+        self._action_type = action_type
 
     @property
     def method(self):

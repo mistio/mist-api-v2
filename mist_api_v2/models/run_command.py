@@ -15,20 +15,25 @@ class RunCommand(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, command=None):  # noqa: E501
+    def __init__(self, script_type=None, command=None):  # noqa: E501
         """RunCommand - a model defined in OpenAPI
 
+        :param script_type: The script_type of this RunCommand.  # noqa: E501
+        :type script_type: str
         :param command: The command of this RunCommand.  # noqa: E501
         :type command: str
         """
         self.openapi_types = {
+            'script_type': str,
             'command': str
         }
 
         self.attribute_map = {
+            'script_type': 'script_type',
             'command': 'command'
         }
 
+        self._script_type = script_type
         self._command = command
 
     @classmethod
@@ -41,6 +46,33 @@ class RunCommand(Model):
         :rtype: RunCommand
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def script_type(self):
+        """Gets the script_type of this RunCommand.
+
+
+        :return: The script_type of this RunCommand.
+        :rtype: str
+        """
+        return self._script_type
+
+    @script_type.setter
+    def script_type(self, script_type):
+        """Sets the script_type of this RunCommand.
+
+
+        :param script_type: The script_type of this RunCommand.
+        :type script_type: str
+        """
+        allowed_values = ["inline"]  # noqa: E501
+        if script_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `script_type` ({0}), must be one of {1}"
+                .format(script_type, allowed_values)
+            )
+
+        self._script_type = script_type
 
     @property
     def command(self):

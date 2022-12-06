@@ -113,7 +113,6 @@ class Action(Model):
     def action_type(self):
         """Gets the action_type of this Action.
 
-        the action's type: notification, resource_action, run_script, webhook   # noqa: E501
 
         :return: The action_type of this Action.
         :rtype: str
@@ -124,12 +123,11 @@ class Action(Model):
     def action_type(self, action_type):
         """Sets the action_type of this Action.
 
-        the action's type: notification, resource_action, run_script, webhook   # noqa: E501
 
         :param action_type: The action_type of this Action.
         :type action_type: str
         """
-        allowed_values = ["start", "stop", "reboot", "destroy", "notify", "delete", "resize", "run_script", "webhook"]  # noqa: E501
+        allowed_values = ["webhook"]  # noqa: E501
         if action_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `action_type` ({0}), must be one of {1}"
@@ -248,7 +246,7 @@ class Action(Model):
         :param script_type: The script_type of this Action.
         :type script_type: str
         """
-        allowed_values = ["inline", "existing"]  # noqa: E501
+        allowed_values = ["existing"]  # noqa: E501
         if script_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `script_type` ({0}), must be one of {1}"
