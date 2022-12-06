@@ -15,24 +15,29 @@ class RunExistingScript(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, script=None, params=None):  # noqa: E501
+    def __init__(self, script_type=None, script=None, params=None):  # noqa: E501
         """RunExistingScript - a model defined in OpenAPI
 
+        :param script_type: The script_type of this RunExistingScript.  # noqa: E501
+        :type script_type: str
         :param script: The script of this RunExistingScript.  # noqa: E501
         :type script: str
         :param params: The params of this RunExistingScript.  # noqa: E501
         :type params: str
         """
         self.openapi_types = {
+            'script_type': str,
             'script': str,
             'params': str
         }
 
         self.attribute_map = {
+            'script_type': 'script_type',
             'script': 'script',
             'params': 'params'
         }
 
+        self._script_type = script_type
         self._script = script
         self._params = params
 
@@ -46,6 +51,33 @@ class RunExistingScript(Model):
         :rtype: RunExistingScript
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def script_type(self):
+        """Gets the script_type of this RunExistingScript.
+
+
+        :return: The script_type of this RunExistingScript.
+        :rtype: str
+        """
+        return self._script_type
+
+    @script_type.setter
+    def script_type(self, script_type):
+        """Sets the script_type of this RunExistingScript.
+
+
+        :param script_type: The script_type of this RunExistingScript.
+        :type script_type: str
+        """
+        allowed_values = ["existing"]  # noqa: E501
+        if script_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `script_type` ({0}), must be one of {1}"
+                .format(script_type, allowed_values)
+            )
+
+        self._script_type = script_type
 
     @property
     def script(self):

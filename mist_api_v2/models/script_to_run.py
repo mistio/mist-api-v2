@@ -77,7 +77,7 @@ class ScriptToRun(Model):
         :param script_type: The script_type of this ScriptToRun.
         :type script_type: str
         """
-        allowed_values = ["inline", "existing"]  # noqa: E501
+        allowed_values = ["existing"]  # noqa: E501
         if script_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `script_type` ({0}), must be one of {1}"

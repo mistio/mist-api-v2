@@ -6851,6 +6851,11 @@ components:
       type: object
     ResizeAction:
       properties:
+        action_type:
+          enum:
+          - resize
+          title: action_type
+          type: string
         params:
           description: |
             the params of the resize action to be executed
@@ -6886,6 +6891,11 @@ components:
       type: object
     RunCommand:
       properties:
+        script_type:
+          enum:
+          - inline
+          title: script_type
+          type: string
         command:
           description: Command that is about to run
           title: command
@@ -6896,6 +6906,11 @@ components:
       type: object
     RunExistingScript:
       properties:
+        script_type:
+          enum:
+          - existing
+          title: script_type
+          type: string
         script:
           description: Name or ID of the script to run
           title: script
