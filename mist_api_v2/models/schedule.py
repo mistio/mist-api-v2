@@ -23,7 +23,7 @@ class Schedule(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, tags=None, enabled=None, selectors=None, actions=None, when=None, expires=None, reminder=None, run_immediately=None, created_by=None, owned_by=None):  # noqa: E501
+    def __init__(self, id=None, name=None, description=None, tags=None, enabled=None, selectors=None, actions=None, when=None, expires=None, reminder=None, created_by=None, owned_by=None):  # noqa: E501
         """Schedule - a model defined in OpenAPI
 
         :param id: The id of this Schedule.  # noqa: E501
@@ -46,8 +46,6 @@ class Schedule(Model):
         :type expires: str
         :param reminder: The reminder of this Schedule.  # noqa: E501
         :type reminder: AddScheduleRequestReminder
-        :param run_immediately: The run_immediately of this Schedule.  # noqa: E501
-        :type run_immediately: bool
         :param created_by: The created_by of this Schedule.  # noqa: E501
         :type created_by: str
         :param owned_by: The owned_by of this Schedule.  # noqa: E501
@@ -64,7 +62,6 @@ class Schedule(Model):
             'when': When,
             'expires': str,
             'reminder': AddScheduleRequestReminder,
-            'run_immediately': bool,
             'created_by': str,
             'owned_by': str
         }
@@ -80,7 +77,6 @@ class Schedule(Model):
             'when': 'when',
             'expires': 'expires',
             'reminder': 'reminder',
-            'run_immediately': 'run_immediately',
             'created_by': 'created_by',
             'owned_by': 'owned_by'
         }
@@ -95,7 +91,6 @@ class Schedule(Model):
         self._when = when
         self._expires = expires
         self._reminder = reminder
-        self._run_immediately = run_immediately
         self._created_by = created_by
         self._owned_by = owned_by
 
@@ -331,29 +326,6 @@ class Schedule(Model):
         """
 
         self._reminder = reminder
-
-    @property
-    def run_immediately(self):
-        """Gets the run_immediately of this Schedule.
-
-        Decides if the schedule runs immediately of not  # noqa: E501
-
-        :return: The run_immediately of this Schedule.
-        :rtype: bool
-        """
-        return self._run_immediately
-
-    @run_immediately.setter
-    def run_immediately(self, run_immediately):
-        """Sets the run_immediately of this Schedule.
-
-        Decides if the schedule runs immediately of not  # noqa: E501
-
-        :param run_immediately: The run_immediately of this Schedule.
-        :type run_immediately: bool
-        """
-
-        self._run_immediately = run_immediately
 
     @property
     def created_by(self):

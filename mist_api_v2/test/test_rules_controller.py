@@ -48,46 +48,41 @@ class TestRulesController:
         """
         add_rule_request = setup_data.get('add_rule', {}).get(
             'request_body') or json.loads("""{
+  "name" : "new-rule",
   "trigger_after" : {
     "period" : "period",
     "offset" : 5
   },
-  "data_type" : "logs",
-  "window" : {
-    "period" : "period",
-    "stop" : 1,
-    "start" : 6
-  },
-  "queries" : [ {
-    "threshold" : 0.8008281904610115,
-    "aggregation" : "aggregation",
-    "operator" : "operator",
-    "target" : "target"
+  "description" : "description",
+  "selectors" : [ null, null ],
+  "conditions" : [ {
+    "query" : {
+      "threshold" : 1.4658129805029452,
+      "aggregation" : "aggregation",
+      "operator" : "operator",
+      "target" : "target"
+    },
+    "data_type" : "logs",
+    "window" : {
+      "period" : "period",
+      "stop" : 6,
+      "start" : 0
+    }
   }, {
-    "threshold" : 0.8008281904610115,
-    "aggregation" : "aggregation",
-    "operator" : "operator",
-    "target" : "target"
+    "query" : {
+      "threshold" : 1.4658129805029452,
+      "aggregation" : "aggregation",
+      "operator" : "operator",
+      "target" : "target"
+    },
+    "data_type" : "logs",
+    "window" : {
+      "period" : "period",
+      "stop" : 6,
+      "start" : 0
+    }
   } ],
-  "actions" : [ {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  }, {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  } ],
-  "frequency" : {
-    "period" : "period",
-    "every" : 5
-  }
+  "actions" : [ null, null ]
 }""", strict=False)
         uri = MIST_URL + '/api/v2/rules'
         request = MistRequests(
@@ -131,41 +126,36 @@ class TestRulesController:
     "period" : "period",
     "offset" : 5
   },
-  "window" : {
-    "period" : "period",
-    "stop" : 1,
-    "start" : 6
-  },
-  "queries" : [ {
-    "threshold" : 0.8008281904610115,
-    "aggregation" : "aggregation",
-    "operator" : "operator",
-    "target" : "target"
+  "description" : "description",
+  "selectors" : [ null, null ],
+  "conditions" : [ {
+    "query" : {
+      "threshold" : 1.4658129805029452,
+      "aggregation" : "aggregation",
+      "operator" : "operator",
+      "target" : "target"
+    },
+    "data_type" : "logs",
+    "window" : {
+      "period" : "period",
+      "stop" : 6,
+      "start" : 0
+    }
   }, {
-    "threshold" : 0.8008281904610115,
-    "aggregation" : "aggregation",
-    "operator" : "operator",
-    "target" : "target"
+    "query" : {
+      "threshold" : 1.4658129805029452,
+      "aggregation" : "aggregation",
+      "operator" : "operator",
+      "target" : "target"
+    },
+    "data_type" : "logs",
+    "window" : {
+      "period" : "period",
+      "stop" : 6,
+      "start" : 0
+    }
   } ],
-  "actions" : [ {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  }, {
-    "emails" : [ "emails", "emails" ],
-    "teams" : [ "teams", "teams" ],
-    "action" : "action",
-    "type" : "type",
-    "users" : [ "users", "users" ],
-    "command" : "command"
-  } ],
-  "frequency" : {
-    "period" : "period",
-    "every" : 5
-  }
+  "actions" : [ null, null ]
 }""", strict=False)
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')

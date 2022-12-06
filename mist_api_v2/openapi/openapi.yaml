@@ -4421,7 +4421,6 @@ paths:
       - actions
       - selectors
       - when
-      - run_immediately
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
@@ -4615,7 +4614,6 @@ paths:
                     when:
                       unit: seconds
                       value: 10
-                  run_immediately: false
                   selectors:
                   - type: machines
                     ids:
@@ -4637,7 +4635,6 @@ paths:
                     when:
                       unit: seconds
                       value: 10
-                  run_immediately: false
                   selectors:
                   - type: machines
                     ids:
@@ -9091,7 +9088,7 @@ components:
       example:
         template: "{}"
         image: Debian
-        quantity: 1.4658129805029452
+        quantity: 5.962133916683182
         disks:
           disk_size: 0
           disk_path: disk_path
@@ -9107,8 +9104,40 @@ components:
         optimize: optimize
         provider: null
         schedules:
-        - ""
-        - ""
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 6
+          name: backup-schedule
+          description: Backup schedule
+          run_immediately: false
+          selectors:
+          - null
+          - null
+          actions:
+          - null
+          - null
+          when: null
+          enabled: true
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 6
+          name: backup-schedule
+          description: Backup schedule
+          run_immediately: false
+          selectors:
+          - null
+          - null
+          actions:
+          - null
+          - null
+          when: null
+          enabled: true
         extra: ""
         name: DB mirror
         location: ""
@@ -9264,38 +9293,7 @@ components:
         schedules:
           description: Configure scheduled actions for the provisioned machine
           items:
-            allOf:
-            - properties:
-                schedule_type:
-                  enum:
-                  - one_off
-                  - crontab
-                  - interval
-                  type: string
-                script:
-                  $ref: '#/components/schemas/RunExistingScript'
-                action:
-                  enum:
-                  - start
-                  - stop
-                  - reboot
-                  - destroy
-                  type: string
-                description:
-                  type: string
-              required:
-              - schedule_type
-              type: object
-            - discriminator:
-                mapping:
-                  one_off: '#/components/schemas/OneOffSchedule'
-                  crontab: '#/components/schemas/CronSchedule'
-                  interval: '#/components/schemas/IntervalSchedule'
-                propertyName: schedule_type
-              oneOf:
-              - $ref: '#/components/schemas/OneOffSchedule'
-              - $ref: '#/components/schemas/CronSchedule'
-              - $ref: '#/components/schemas/IntervalSchedule'
+            $ref: '#/components/schemas/AddScheduleRequest'
           title: schedules
           type: array
         tags:
@@ -11355,7 +11353,7 @@ components:
           message: message
           when:
             unit: seconds
-            value: 0
+            value: 6
         name: backup-schedule
         description: Backup schedule
         run_immediately: false
@@ -11420,7 +11418,7 @@ components:
           message: message
           when:
             unit: seconds
-            value: 0
+            value: 6
         name: schedule-name
         description: Edited Schedule
         selectors:
@@ -11477,43 +11475,41 @@ components:
             message: message
             when:
               unit: seconds
-              value: 0
+              value: 6
+          name: reboot-schedule
           description: This is an test schedule
           owned_by: Officer B
-          run_immediately: false
+          id: id
           selectors:
+          - null
+          - null
+          actions:
           - null
           - null
           when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          name: reboot-schedule
-          id: id
-          actions:
-          - null
-          - null
         - expires: 2022-06-01 T00:00:00
           reminder:
             message: message
             when:
               unit: seconds
-              value: 0
+              value: 6
+          name: reboot-schedule
           description: This is an test schedule
           owned_by: Officer B
-          run_immediately: false
+          id: id
           selectors:
+          - null
+          - null
+          actions:
           - null
           - null
           when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          name: reboot-schedule
-          id: id
-          actions:
-          - null
-          - null
         meta:
           total: 6
           start: 5
@@ -11537,22 +11533,21 @@ components:
             message: message
             when:
               unit: seconds
-              value: 0
+              value: 6
+          name: reboot-schedule
           description: This is an test schedule
           owned_by: Officer B
-          run_immediately: false
+          id: id
           selectors:
+          - null
+          - null
+          actions:
           - null
           - null
           when: null
           created_by: Manager A
           enabled: true
           tags: "{}"
-          name: reboot-schedule
-          id: id
-          actions:
-          - null
-          - null
         meta:
           total: 6
           start: 5
@@ -11572,22 +11567,21 @@ components:
           message: message
           when:
             unit: seconds
-            value: 0
+            value: 6
+        name: reboot-schedule
         description: This is an test schedule
         owned_by: Officer B
-        run_immediately: false
+        id: id
         selectors:
+        - null
+        - null
+        actions:
         - null
         - null
         when: null
         created_by: Manager A
         enabled: true
         tags: "{}"
-        name: reboot-schedule
-        id: id
-        actions:
-        - null
-        - null
       properties:
         id:
           description: The id of the schedule
@@ -11632,11 +11626,6 @@ components:
           type: string
         reminder:
           $ref: '#/components/schemas/AddScheduleRequest_reminder'
-        run_immediately:
-          description: Decides if the schedule runs immediately of not
-          example: false
-          title: run_immediately
-          type: boolean
         created_by:
           description: The name of user that created the schedule
           example: Manager A
@@ -13996,7 +13985,7 @@ components:
     AddScheduleRequest_reminder_when:
       example:
         unit: seconds
-        value: 0
+        value: 6
       properties:
         value:
           title: value
@@ -14016,7 +14005,7 @@ components:
         message: message
         when:
           unit: seconds
-          value: 0
+          value: 6
       properties:
         message:
           description: The reminder message to be sent
