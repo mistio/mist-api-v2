@@ -6867,6 +6867,11 @@ components:
       type: object
     Notification:
       properties:
+        action_type:
+          enum:
+          - notify
+          title: action_type
+          type: string
         users:
           description: "a list of user to be notified, denoted by their UUIDs\n"
           items:
@@ -6936,6 +6941,11 @@ components:
       title: ScriptToRun
     WebHookAction:
       properties:
+        action_type:
+          enum:
+          - webhook
+          title: action_type
+          type: string
         method:
           description: the HTTP method to be executed by the webhook
           enum:
@@ -13518,6 +13528,11 @@ components:
       title: Action_allOf
     ScriptToRun_allOf:
       properties:
+        action_type:
+          enum:
+          - run_script
+          title: action_type
+          type: string
         script_type:
           enum:
           - inline

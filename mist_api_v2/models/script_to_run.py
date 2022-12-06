@@ -17,9 +17,11 @@ class ScriptToRun(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, script_type=None, command=None, script=None, params=None):  # noqa: E501
+    def __init__(self, action_type=None, script_type=None, command=None, script=None, params=None):  # noqa: E501
         """ScriptToRun - a model defined in OpenAPI
 
+        :param action_type: The action_type of this ScriptToRun.  # noqa: E501
+        :type action_type: str
         :param script_type: The script_type of this ScriptToRun.  # noqa: E501
         :type script_type: str
         :param command: The command of this ScriptToRun.  # noqa: E501
@@ -30,6 +32,7 @@ class ScriptToRun(Model):
         :type params: str
         """
         self.openapi_types = {
+            'action_type': str,
             'script_type': str,
             'command': str,
             'script': str,
@@ -37,12 +40,14 @@ class ScriptToRun(Model):
         }
 
         self.attribute_map = {
+            'action_type': 'action_type',
             'script_type': 'script_type',
             'command': 'command',
             'script': 'script',
             'params': 'params'
         }
 
+        self._action_type = action_type
         self._script_type = script_type
         self._command = command
         self._script = script
@@ -58,6 +63,33 @@ class ScriptToRun(Model):
         :rtype: ScriptToRun
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def action_type(self):
+        """Gets the action_type of this ScriptToRun.
+
+
+        :return: The action_type of this ScriptToRun.
+        :rtype: str
+        """
+        return self._action_type
+
+    @action_type.setter
+    def action_type(self, action_type):
+        """Sets the action_type of this ScriptToRun.
+
+
+        :param action_type: The action_type of this ScriptToRun.
+        :type action_type: str
+        """
+        allowed_values = ["run_script"]  # noqa: E501
+        if action_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `action_type` ({0}), must be one of {1}"
+                .format(action_type, allowed_values)
+            )
+
+        self._action_type = action_type
 
     @property
     def script_type(self):
