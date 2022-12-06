@@ -11433,7 +11433,6 @@ components:
           type: boolean
       required:
       - actions
-      - name
       title: AddScheduleRequest
       type: object
     EditScheduleRequest:
