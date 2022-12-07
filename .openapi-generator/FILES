@@ -97,6 +97,8 @@ mist_api_v2/models/data_type.py
 mist_api_v2/models/datapoints.py
 mist_api_v2/models/datapoints_data.py
 mist_api_v2/models/datapoints_values_item.py
+mist_api_v2/models/delete_action.py
+mist_api_v2/models/destroy_action.py
 mist_api_v2/models/destroy_cluster_response.py
 mist_api_v2/models/digitalocean_cloud_features.py
 mist_api_v2/models/digitalocean_cloud_request.py
@@ -240,6 +242,7 @@ mist_api_v2/models/rackspace_cloud_features.py
 mist_api_v2/models/rackspace_cloud_request.py
 mist_api_v2/models/rackspace_credentials.py
 mist_api_v2/models/range_vector.py
+mist_api_v2/models/reboot_action.py
 mist_api_v2/models/record.py
 mist_api_v2/models/resize_action.py
 mist_api_v2/models/resource.py
@@ -260,6 +263,8 @@ mist_api_v2/models/secret.py
 mist_api_v2/models/secret_string.py
 mist_api_v2/models/selector.py
 mist_api_v2/models/size.py
+mist_api_v2/models/start_action.py
+mist_api_v2/models/stop_action.py
 mist_api_v2/models/supported_providers.py
 mist_api_v2/models/tag.py
 mist_api_v2/models/tag_resources_request.py
@@ -269,6 +274,7 @@ mist_api_v2/models/tagging_selector.py
 mist_api_v2/models/team.py
 mist_api_v2/models/token_auth.py
 mist_api_v2/models/trigger_after.py
+mist_api_v2/models/undefine_action.py
 mist_api_v2/models/user.py
 mist_api_v2/models/v_sphere_extra.py
 mist_api_v2/models/v_sphere_net.py

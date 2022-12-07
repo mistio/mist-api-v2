@@ -6838,16 +6838,82 @@ components:
       - oneOf:
         - $ref: '#/components/schemas/Notification'
         - $ref: '#/components/schemas/ResizeAction'
+        - $ref: '#/components/schemas/RebootAction'
+        - $ref: '#/components/schemas/DestroyAction'
+        - $ref: '#/components/schemas/DeleteAction'
+        - $ref: '#/components/schemas/UndefineAction'
+        - $ref: '#/components/schemas/StartAction'
+        - $ref: '#/components/schemas/StopAction'
         - $ref: '#/components/schemas/ScriptToRun'
         - $ref: '#/components/schemas/WebHookAction'
       discriminator:
         mapping:
           notify: '#/components/schemas/Notification'
+          start: '#/components/schemas/StartAction'
+          stop: '#/components/schemas/StopAction'
+          destroy: '#/components/schemas/DestroyAction'
+          delete: '#/components/schemas/DeleteAction'
+          reboot: '#/components/schemas/RebootAction'
+          undefine: '#/components/schemas/UndefineAction'
           resize: '#/components/schemas/ResizeAction'
           run_script: '#/components/schemas/ScriptToRun'
           webhook: '#/components/schemas/WebHookAction'
         propertyName: action_type
       title: Action
+      type: object
+    StartAction:
+      properties:
+        action_type:
+          enum:
+          - start
+          title: action_type
+          type: string
+      title: StartAction
+      type: object
+    StopAction:
+      properties:
+        action_type:
+          enum:
+          - stop
+          title: action_type
+          type: string
+      title: StopAction
+      type: object
+    DestroyAction:
+      properties:
+        action_type:
+          enum:
+          - destroy
+          title: action_type
+          type: string
+      title: DestroyAction
+      type: object
+    DeleteAction:
+      properties:
+        action_type:
+          enum:
+          - delete
+          title: action_type
+          type: string
+      title: DeleteAction
+      type: object
+    UndefineAction:
+      properties:
+        action_type:
+          enum:
+          - undefine
+          title: action_type
+          type: string
+      title: UndefineAction
+      type: object
+    RebootAction:
+      properties:
+        action_type:
+          enum:
+          - reboot
+          title: action_type
+          type: string
+      title: RebootAction
       type: object
     ResizeAction:
       properties:
@@ -13517,6 +13583,7 @@ components:
           - destroy
           - notify
           - delete
+          - undefine
           - resize
           - run_script
           - webhook
