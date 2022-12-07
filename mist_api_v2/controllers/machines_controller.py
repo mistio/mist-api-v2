@@ -121,7 +121,7 @@ def console(machine):  # noqa: E501
     return '', 302, headers
 
 
-def create_machine(create_machine_request=None):  # noqa: E501
+def create_machine(create_machine_request=None, run_async=True):  # noqa: E501
     """Create machine
 
     Creates one or more machines on the specified cloud.
@@ -206,7 +206,11 @@ def create_machine(create_machine_request=None):  # noqa: E501
         try:
             cloud.ctl.compute.generate_plan(auth_context, plan, **kwargs)
         except Exception as exc:
-            if not one_cloud:
+            if one_cloud:
+                logging.warn(
+                    'Failed to generate plan for cloud %s with exception %s',
+                    cloud.name, repr(exc))
+            else:
                 logging.debug(
                     'Failed to generate plan for cloud %s with exception %s',
                     cloud.name, repr(exc))
@@ -227,7 +231,6 @@ def create_machine(create_machine_request=None):  # noqa: E501
         return 'No valid plan could be generated', 400
 
     optimize = create_machine_request.optimize or 'cost'
-
     plan = select_plan(valid_plans, optimize, auth_context)
     if not plan:
         return f'Could not optimize for value: {optimize}', 400
@@ -252,9 +255,14 @@ def create_machine(create_machine_request=None):  # noqa: E501
         job_id = uuid.uuid4().hex
         job = 'create_machine'
         # TODO add countdown=2
-        multicreate_async_v2.send(
-            auth_context.serialize(), plan, job_id=job_id, job=job
-        )
+        if run_async:
+            multicreate_async_v2.send(
+                auth_context.serialize(), plan, job_id=job_id, job=job
+            )
+        else:
+            multicreate_async_v2(
+                auth_context.serialize(), plan, job_id=job_id, job=job
+            )
         return CreateMachineResponse(plan=user_plan, job_id=job_id)
 
 
