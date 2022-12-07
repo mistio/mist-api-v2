@@ -67,6 +67,8 @@ from mist_api_v2.models.data_type import DataType
 from mist_api_v2.models.datapoints import Datapoints
 from mist_api_v2.models.datapoints_data import DatapointsData
 from mist_api_v2.models.datapoints_values_item import DatapointsValuesItem
+from mist_api_v2.models.delete_action import DeleteAction
+from mist_api_v2.models.destroy_action import DestroyAction
 from mist_api_v2.models.destroy_cluster_response import DestroyClusterResponse
 from mist_api_v2.models.digitalocean_cloud_features import DigitaloceanCloudFeatures
 from mist_api_v2.models.digitalocean_cloud_request import DigitaloceanCloudRequest
@@ -210,6 +212,7 @@ from mist_api_v2.models.rackspace_cloud_features import RackspaceCloudFeatures
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2.models.range_vector import RangeVector
+from mist_api_v2.models.reboot_action import RebootAction
 from mist_api_v2.models.record import Record
 from mist_api_v2.models.resize_action import ResizeAction
 from mist_api_v2.models.resource import Resource
@@ -230,6 +233,8 @@ from mist_api_v2.models.secret import Secret
 from mist_api_v2.models.secret_string import SecretString
 from mist_api_v2.models.selector import Selector
 from mist_api_v2.models.size import Size
+from mist_api_v2.models.start_action import StartAction
+from mist_api_v2.models.stop_action import StopAction
 from mist_api_v2.models.supported_providers import SupportedProviders
 from mist_api_v2.models.tag import Tag
 from mist_api_v2.models.tag_resources_request import TagResourcesRequest
@@ -239,6 +244,7 @@ from mist_api_v2.models.tagging_selector import TaggingSelector
 from mist_api_v2.models.team import Team
 from mist_api_v2.models.token_auth import TokenAuth
 from mist_api_v2.models.trigger_after import TriggerAfter
+from mist_api_v2.models.undefine_action import UndefineAction
 from mist_api_v2.models.user import User
 from mist_api_v2.models.v_sphere_extra import VSphereExtra
 from mist_api_v2.models.v_sphere_net import VSphereNet
