@@ -237,6 +237,7 @@ mist_api_v2/models/other_cloud_features.py
 mist_api_v2/models/other_cloud_request.py
 mist_api_v2/models/other_credentials.py
 mist_api_v2/models/patch_organization_request.py
+mist_api_v2/models/patch_organization_request_vault.py
 mist_api_v2/models/query.py
 mist_api_v2/models/rackspace_cloud_features.py
 mist_api_v2/models/rackspace_cloud_request.py

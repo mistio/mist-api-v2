@@ -207,6 +207,7 @@ from mist_api_v2.models.other_cloud_features import OtherCloudFeatures
 from mist_api_v2.models.other_cloud_request import OtherCloudRequest
 from mist_api_v2.models.other_credentials import OtherCredentials
 from mist_api_v2.models.patch_organization_request import PatchOrganizationRequest
+from mist_api_v2.models.patch_organization_request_vault import PatchOrganizationRequestVault
 from mist_api_v2.models.query import Query
 from mist_api_v2.models.rackspace_cloud_features import RackspaceCloudFeatures
 from mist_api_v2.models.rackspace_cloud_request import RackspaceCloudRequest

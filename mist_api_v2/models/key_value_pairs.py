@@ -64,7 +64,5 @@ class KeyValuePairs(Model):
         :param secret: The secret of this KeyValuePairs.
         :type secret: List[KeyValuePairsSecret]
         """
-        if secret is not None and len(secret) < 2:
-            raise ValueError("Invalid value for `secret`, number of items must be greater than or equal to `2`")  # noqa: E501
 
         self._secret = secret

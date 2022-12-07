@@ -7652,17 +7652,6 @@ components:
           privateKey: privateKey
           email: email
       title: Add cloud
-    EditCloudRequest_anyOf:
-      additionalProperties: false
-      properties:
-        name:
-          description: Updated name
-          title: name
-          type: string
-      required:
-      - name
-      title: EditCloudRequest_anyOf
-      type: object
     EditCloudRequest:
       anyOf:
       - $ref: '#/components/schemas/EditCloudRequest_anyOf'
@@ -8593,8 +8582,7 @@ components:
           title: tlsCaCert
           type: string
         showAll:
-          description: "Show all containers, including stopped"
-          title: showAll
+          title: "Show all containers, including stopped"
           type: boolean
       required:
       - host
@@ -12952,40 +12940,20 @@ components:
       type: object
     PatchOrganizationRequest:
       example:
-        vault_secret_id: vault_secret_id
-        vault_token: vault_token
         name: name
-        vault_address: vault_address
-        vault_secrets_engine_path: vault_secrets_engine_path
-        vault_role_id: vault_role_id
+        vault:
+          secret_id: secret_id
+          address: address
+          role_id: role_id
+          secrets_engine_path: secrets_engine_path
+          token: token
       properties:
         name:
           description: The organization's name
           title: name
           type: string
-        vault_address:
-          description: The Vault's url
-          title: vault_address
-          type: string
-        vault_secrets_engine_path:
-          description: Vault secrets engine path
-          title: vault_secrets_engine_path
-          type: string
-        vault_token:
-          description: The Vault token that will be used to authenticate against the
-            new Vault. Either token or both role_id and secret_id must be specified
-          title: vault_token
-          type: string
-        vault_role_id:
-          description: The Vault RoleID to use for approle authentication. Either
-            token or both role_id and secret_id must be specified
-          title: vault_role_id
-          type: string
-        vault_secret_id:
-          description: The Vault SecretID to use for approle authentication. Either
-            token or both role_id and secret_id must be specified
-          title: vault_secret_id
-          type: string
+        vault:
+          $ref: '#/components/schemas/PatchOrganizationRequest_vault'
       title: PatchOrganizationRequest
       type: object
     GetJobResponse:
@@ -13239,7 +13207,6 @@ components:
           description: Secret data
           items:
             $ref: '#/components/schemas/KeyValuePairs_secret'
-          minItems: 2
           title: secret
           type: array
       title: KeyValuePairs
@@ -13337,6 +13304,7 @@ components:
         oneOf:
         - $ref: '#/components/schemas/KeyValuePairs'
         - $ref: '#/components/schemas/SecretString'
+        - type: object
       required:
       - name
       - secret
@@ -13742,6 +13710,16 @@ components:
       - provider
       title: AddCloudRequest_allOf
       type: object
+    EditCloudRequest_anyOf:
+      properties:
+        name:
+          description: Updated name
+          title: name
+          type: string
+      required:
+      - name
+      title: EditCloudRequest_anyOf
+      type: object
     KvmCredentials_hosts:
       properties:
         host:
@@ -14128,6 +14106,39 @@ components:
           title: Authentication method
           type: string
       title: ExternalVault_allOf
+      type: object
+    PatchOrganizationRequest_vault:
+      example:
+        secret_id: secret_id
+        address: address
+        role_id: role_id
+        secrets_engine_path: secrets_engine_path
+        token: token
+      properties:
+        address:
+          description: The Vault's url
+          title: address
+          type: string
+        secrets_engine_path:
+          description: Vault secrets engine path
+          title: secrets_engine_path
+          type: string
+        token:
+          description: The Vault token that will be used to authenticate against the
+            new Vault. Either token or both role_id and secret_id must be specified
+          title: token
+          type: string
+        role_id:
+          description: The Vault RoleID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: role_id
+          type: string
+        secret_id:
+          description: The Vault SecretID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: secret_id
+          type: string
+      title: PatchOrganizationRequest_vault
       type: object
     Datapoints_data:
       example:

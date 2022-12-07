@@ -192,12 +192,14 @@ class TestOrgsController:
         """
         patch_organization_request = setup_data.get('update_org', {}).get(
             'request_body') or json.loads("""{
-  "vault_secret_id" : "vault_secret_id",
-  "vault_token" : "vault_token",
   "name" : "name",
-  "vault_address" : "vault_address",
-  "vault_secrets_engine_path" : "vault_secrets_engine_path",
-  "vault_role_id" : "vault_role_id"
+  "vault" : {
+    "secret_id" : "secret_id",
+    "address" : "address",
+    "role_id" : "role_id",
+    "secrets_engine_path" : "secrets_engine_path",
+    "token" : "token"
+  }
 }""", strict=False)
         uri = MIST_URL + '/api/v2/orgs/{org}'.format(
             org=setup_data.get('update_org', {}).get('org') or setup_data.get('org') or 'my-org')
