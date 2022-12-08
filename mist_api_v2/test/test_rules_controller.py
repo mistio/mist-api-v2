@@ -82,7 +82,12 @@ class TestRulesController:
       "start" : 0
     }
   } ],
-  "actions" : [ null, null ]
+  "actions" : [ null, null ],
+  "when" : {
+    "schedule_type" : "interval",
+    "unit" : "minutes",
+    "value" : 15
+  }
 }""", strict=False)
         uri = MIST_URL + '/api/v2/rules'
         request = MistRequests(
@@ -155,7 +160,12 @@ class TestRulesController:
       "start" : 0
     }
   } ],
-  "actions" : [ null, null ]
+  "actions" : [ null, null ],
+  "when" : {
+    "schedule_type" : "interval",
+    "unit" : "minutes",
+    "value" : 15
+  }
 }""", strict=False)
         uri = MIST_URL + '/api/v2/rules/{rule}'.format(
             rule=setup_data.get('edit_rule', {}).get('rule') or setup_data.get('rule') or 'my-rule')

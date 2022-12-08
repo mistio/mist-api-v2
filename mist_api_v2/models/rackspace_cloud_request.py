@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.rackspace_cloud_features import RackspaceCloudFeatures
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.rackspace_cloud_features import RackspaceCloudFeatures  # noqa: E501
 from mist_api_v2.models.rackspace_credentials import RackspaceCredentials  # noqa: E501
 
 class RackspaceCloudRequest(Model):
@@ -27,12 +27,12 @@ class RackspaceCloudRequest(Model):
         :param credentials: The credentials of this RackspaceCloudRequest.  # noqa: E501
         :type credentials: RackspaceCredentials
         :param features: The features of this RackspaceCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: RackspaceCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': RackspaceCredentials,
-            'features': CloudFeatures
+            'features': RackspaceCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class RackspaceCloudRequest(Model):
 
 
         :return: The features of this RackspaceCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: RackspaceCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class RackspaceCloudRequest(Model):
 
 
         :param features: The features of this RackspaceCloudRequest.
-        :type features: CloudFeatures
+        :type features: RackspaceCloudFeatures
         """
 
         self._features = features

@@ -17,31 +17,31 @@ class AmazonCredentials(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, apikey=None, apisecret=None, region=None):  # noqa: E501
+    def __init__(self, region=None, apikey=None, apisecret=None):  # noqa: E501
         """AmazonCredentials - a model defined in OpenAPI
 
+        :param region: The region of this AmazonCredentials.  # noqa: E501
+        :type region: AmazonRegions
         :param apikey: The apikey of this AmazonCredentials.  # noqa: E501
         :type apikey: str
         :param apisecret: The apisecret of this AmazonCredentials.  # noqa: E501
         :type apisecret: str
-        :param region: The region of this AmazonCredentials.  # noqa: E501
-        :type region: AmazonRegions
         """
         self.openapi_types = {
+            'region': AmazonRegions,
             'apikey': str,
-            'apisecret': str,
-            'region': AmazonRegions
+            'apisecret': str
         }
 
         self.attribute_map = {
+            'region': 'region',
             'apikey': 'apikey',
-            'apisecret': 'apisecret',
-            'region': 'region'
+            'apisecret': 'apisecret'
         }
 
+        self._region = region
         self._apikey = apikey
         self._apisecret = apisecret
-        self._region = region
 
     @classmethod
     def from_dict(cls, dikt) -> 'AmazonCredentials':
@@ -53,6 +53,29 @@ class AmazonCredentials(Model):
         :rtype: AmazonCredentials
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def region(self):
+        """Gets the region of this AmazonCredentials.
+
+
+        :return: The region of this AmazonCredentials.
+        :rtype: AmazonRegions
+        """
+        return self._region
+
+    @region.setter
+    def region(self, region):
+        """Sets the region of this AmazonCredentials.
+
+
+        :param region: The region of this AmazonCredentials.
+        :type region: AmazonRegions
+        """
+        if region is None:
+            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
+
+        self._region = region
 
     @property
     def apikey(self):
@@ -103,26 +126,3 @@ class AmazonCredentials(Model):
             raise ValueError("Invalid value for `apisecret`, must not be `None`")  # noqa: E501
 
         self._apisecret = apisecret
-
-    @property
-    def region(self):
-        """Gets the region of this AmazonCredentials.
-
-
-        :return: The region of this AmazonCredentials.
-        :rtype: AmazonRegions
-        """
-        return self._region
-
-    @region.setter
-    def region(self, region):
-        """Sets the region of this AmazonCredentials.
-
-
-        :param region: The region of this AmazonCredentials.
-        :type region: AmazonRegions
-        """
-        if region is None:
-            raise ValueError("Invalid value for `region`, must not be `None`")  # noqa: E501
-
-        self._region = region

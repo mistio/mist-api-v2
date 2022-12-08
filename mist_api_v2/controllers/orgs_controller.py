@@ -38,7 +38,6 @@ def create_org(create_organization_request=None):  # noqa: E501
         return 'User is not authorized to create an organization', 403
 
     name = create_organization_request.name
-    super_org = create_organization_request.super_org
 
     if Organization.objects(name=name).first():
         return f'Organization with name {name} already exists', 400
@@ -47,17 +46,14 @@ def create_org(create_organization_request=None):  # noqa: E501
     org.add_member_to_team('Owners', auth_context.user)
     org.name = name
 
-    # mechanism for sub-org creation
-    # the owner of super-org has the ability to create a sub-org
-    if super_org:
-        org.parent = auth_context.org
-
     try:
         org.save()
     except (me.ValidationError, me.OperationError) as exc:
         return f'Failed to create organization with exception: {exc!r}', 400
 
     org.reload()
+    auth_context.token.orgs.append(org)
+    auth_context.token.save()
     trigger_session_update(auth_context.user, ['user'])
     return org.as_dict_v2()
 
@@ -99,11 +95,11 @@ def update_org(org, patch_organization_request=None):  # noqa: E501
         else:
             return 'Organization name updated succesfully', 200
 
-    vault_address = patch_organization_request.vault_address
-    secrets_engine_path = patch_organization_request.vault_secrets_engine_path
-    token = patch_organization_request.vault_token
-    role_id = patch_organization_request.vault_role_id
-    secret_id = patch_organization_request.vault_secret_id
+    vault_address = patch_organization_request.vault.address
+    secrets_engine_path = patch_organization_request.vault.secrets_engine_path
+    token = patch_organization_request.vault.token
+    role_id = patch_organization_request.vault.role_id
+    secret_id = patch_organization_request.vault.secret_id
 
     if vault_address is not None:
         if secrets_engine_path is None:
@@ -220,15 +216,14 @@ def get_org(org, summary=None, only=None, deref=None):  # noqa: E501
         auth_context = connexion.context['token_info']['auth_context']
     except KeyError:
         return 'Authentication failed', 401
-    search = f'id={org}'
     try:
-        result = get_resource(auth_context, 'orgs', search=search, only=only)
+        result = get_resource(auth_context, 'orgs', search=org, only=only)
     except NotFoundError:
         return 'Organization does not exist', 404
     # Get resource counts only if rbac checks pass
     if summary and result['meta']['returned'] == 1:
         result['data']['resources'] = get_org_resources_summary(
-            auth_context, org_id=org)
+            auth_context, org_id=result['data']['id'])
     return GetOrgResponse(data=result['data'], meta=result['meta'])
 
 

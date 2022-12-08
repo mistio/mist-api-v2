@@ -246,7 +246,6 @@ class DockerCredentials(Model):
     def show_all(self):
         """Gets the show_all of this DockerCredentials.
 
-        Show all containers, including stopped  # noqa: E501
 
         :return: The show_all of this DockerCredentials.
         :rtype: bool
@@ -257,7 +256,6 @@ class DockerCredentials(Model):
     def show_all(self, show_all):
         """Sets the show_all of this DockerCredentials.
 
-        Show all containers, including stopped  # noqa: E501
 
         :param show_all: The show_all of this DockerCredentials.
         :type show_all: bool

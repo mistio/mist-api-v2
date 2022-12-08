@@ -47,10 +47,7 @@ class TestSecretsController:
         Create secret
         """
         create_secret_request = setup_data.get('create_secret', {}).get(
-            'request_body') or json.loads("""{
-  "name" : "name",
-  "secret" : "{}"
-}""", strict=False)
+            'request_body') or json.loads("""null""", strict=False)
         uri = MIST_URL + '/api/v2/secrets'
         request = MistRequests(
             api_token=owner_api_token,

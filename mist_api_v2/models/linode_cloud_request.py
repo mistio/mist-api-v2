@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.linode_cloud_features import LinodeCloudFeatures
 from mist_api_v2.models.linode_credentials import LinodeCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.linode_cloud_features import LinodeCloudFeatures  # noqa: E501
 from mist_api_v2.models.linode_credentials import LinodeCredentials  # noqa: E501
 
 class LinodeCloudRequest(Model):
@@ -27,12 +27,12 @@ class LinodeCloudRequest(Model):
         :param credentials: The credentials of this LinodeCloudRequest.  # noqa: E501
         :type credentials: LinodeCredentials
         :param features: The features of this LinodeCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: LinodeCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': LinodeCredentials,
-            'features': CloudFeatures
+            'features': LinodeCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class LinodeCloudRequest(Model):
 
 
         :return: The features of this LinodeCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: LinodeCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class LinodeCloudRequest(Model):
 
 
         :param features: The features of this LinodeCloudRequest.
-        :type features: CloudFeatures
+        :type features: LinodeCloudFeatures
         """
 
         self._features = features

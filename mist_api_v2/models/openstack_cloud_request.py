@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.openstack_cloud_features import OpenstackCloudFeatures
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.openstack_cloud_features import OpenstackCloudFeatures  # noqa: E501
 from mist_api_v2.models.openstack_credentials import OpenstackCredentials  # noqa: E501
 
 class OpenstackCloudRequest(Model):
@@ -27,12 +27,12 @@ class OpenstackCloudRequest(Model):
         :param credentials: The credentials of this OpenstackCloudRequest.  # noqa: E501
         :type credentials: OpenstackCredentials
         :param features: The features of this OpenstackCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: OpenstackCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': OpenstackCredentials,
-            'features': CloudFeatures
+            'features': OpenstackCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class OpenstackCloudRequest(Model):
 
 
         :return: The features of this OpenstackCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: OpenstackCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class OpenstackCloudRequest(Model):
 
 
         :param features: The features of this OpenstackCloudRequest.
-        :type features: CloudFeatures
+        :type features: OpenstackCloudFeatures
         """
 
         self._features = features

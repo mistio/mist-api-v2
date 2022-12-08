@@ -15,7 +15,7 @@ class CloudFeatures(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, compute=True, dns=False, container=False):  # noqa: E501
+    def __init__(self, compute=True, dns=False, container=False, objectstorage=None):  # noqa: E501
         """CloudFeatures - a model defined in OpenAPI
 
         :param compute: The compute of this CloudFeatures.  # noqa: E501
@@ -24,22 +24,27 @@ class CloudFeatures(Model):
         :type dns: bool
         :param container: The container of this CloudFeatures.  # noqa: E501
         :type container: bool
+        :param objectstorage: The objectstorage of this CloudFeatures.  # noqa: E501
+        :type objectstorage: bool
         """
         self.openapi_types = {
             'compute': bool,
             'dns': bool,
-            'container': bool
+            'container': bool,
+            'objectstorage': bool
         }
 
         self.attribute_map = {
             'compute': 'compute',
             'dns': 'dns',
-            'container': 'container'
+            'container': 'container',
+            'objectstorage': 'objectstorage'
         }
 
         self._compute = compute
         self._dns = dns
         self._container = container
+        self._objectstorage = objectstorage
 
     @classmethod
     def from_dict(cls, dikt) -> 'CloudFeatures':
@@ -56,7 +61,6 @@ class CloudFeatures(Model):
     def compute(self):
         """Gets the compute of this CloudFeatures.
 
-        Enable compute services  # noqa: E501
 
         :return: The compute of this CloudFeatures.
         :rtype: bool
@@ -67,7 +71,6 @@ class CloudFeatures(Model):
     def compute(self, compute):
         """Sets the compute of this CloudFeatures.
 
-        Enable compute services  # noqa: E501
 
         :param compute: The compute of this CloudFeatures.
         :type compute: bool
@@ -79,7 +82,6 @@ class CloudFeatures(Model):
     def dns(self):
         """Gets the dns of this CloudFeatures.
 
-        Enable DNS services  # noqa: E501
 
         :return: The dns of this CloudFeatures.
         :rtype: bool
@@ -90,7 +92,6 @@ class CloudFeatures(Model):
     def dns(self, dns):
         """Sets the dns of this CloudFeatures.
 
-        Enable DNS services  # noqa: E501
 
         :param dns: The dns of this CloudFeatures.
         :type dns: bool
@@ -102,7 +103,6 @@ class CloudFeatures(Model):
     def container(self):
         """Gets the container of this CloudFeatures.
 
-        Enable container services  # noqa: E501
 
         :return: The container of this CloudFeatures.
         :rtype: bool
@@ -113,10 +113,30 @@ class CloudFeatures(Model):
     def container(self, container):
         """Sets the container of this CloudFeatures.
 
-        Enable container services  # noqa: E501
 
         :param container: The container of this CloudFeatures.
         :type container: bool
         """
 
         self._container = container
+
+    @property
+    def objectstorage(self):
+        """Gets the objectstorage of this CloudFeatures.
+
+
+        :return: The objectstorage of this CloudFeatures.
+        :rtype: bool
+        """
+        return self._objectstorage
+
+    @objectstorage.setter
+    def objectstorage(self, objectstorage):
+        """Sets the objectstorage of this CloudFeatures.
+
+
+        :param objectstorage: The objectstorage of this CloudFeatures.
+        :type objectstorage: bool
+        """
+
+        self._objectstorage = objectstorage

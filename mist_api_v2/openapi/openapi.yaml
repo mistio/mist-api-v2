@@ -10,6 +10,297 @@ servers:
 - description: Mist Hosted Service
   url: https://mist.io/
 paths:
+  /api/v2/auth:
+    get:
+      description: Return info about current authenticated session.
+      operationId: describe_auth
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthInfo'
+          description: Auth session info
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Authentication info
+      tags:
+      - auth
+      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
+  /api/v2/auth/sessions:
+    get:
+      description: Return a list of active sessions
+      operationId: list_sessions
+      parameters:
+      - description: Only return results matching search filter
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by last_active, descending:
+            value: -last_active
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Limit number of results, 1000 max"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last_login & registration_date:
+            value: "email,last_login,registration_date"
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
+        examples:
+          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
+            value: 2021-07-21T17:32:28Z
+        explode: true
+        in: query
+        name: at
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSessionsResponse'
+          description: List sessions response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List sessions
+      tags:
+      - auth
+      x-cli-table-default:
+      - last_active
+      x-cli-table-extended:
+      - last_active
+      - id
+      - creation_date
+      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
+    post:
+      description: Sign in
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthInfo'
+          description: Authentication info
+        "401":
+          description: Authentication failed
+      summary: Sign in to the portal
+      tags:
+      - auth
+      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
+  /api/v2/auth/tokens:
+    get:
+      description: List API tokens
+      operationId: list_tokens
+      parameters:
+      - description: Only return results matching search filter
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Order results by
+        examples:
+          Sort by name, descending:
+            value: -name
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Start results from index or id
+        examples:
+          Start from the 50th result:
+            value: "50"
+          Start from item with id xyz:
+            value: xyz
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Limit number of results, 1000 max"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Only return these fields
+        examples:
+          Only return id:
+            value: id
+          Return email, last_login & registration_date:
+            value: "email,last_login,registration_date"
+        explode: true
+        in: query
+        name: only
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Dereference foreign keys
+        examples:
+          '(default) Automatically replace all foreign key ids with referenced resource name ':
+            value: auto
+          Do not dereference anything, just return ids:
+            value: none
+        explode: true
+        in: query
+        name: deref
+        required: false
+        schema:
+          default: auto
+          type: string
+        style: form
+      - description: "Limit results by specific datetime. Return resources created\
+          \ before or at, or deleted after or at, given datetime."
+        examples:
+          Return resources created before or deleted after `2021-07-21T17:32:28Z`:
+            value: 2021-07-21T17:32:28Z
+        explode: true
+        in: query
+        name: at
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTokensResponse'
+          description: List tokens response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: List API tokens
+      tags:
+      - auth
+      x-cli-table-default:
+      - email
+      x-cli-table-extended:
+      - email
+      - id
+      - last_login
+      - registration_date
+      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
+    post:
+      description: Create new API token
+      operationId: create_token
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTokenResponse'
+          description: List sessions response
+        "401":
+          description: Authentication failed
+        "403":
+          description: You are not authorized to perform this action
+      security:
+      - ApiKeyAuth:
+        - ""
+      - CookieAuth:
+        - ""
+      summary: Create token
+      tags:
+      - auth
+      x-openapi-router-controller: mist_api_v2.controllers.auth_controller
   /api/v2/clouds:
     get:
       description: List clouds owned by the active org. READ permission required on
@@ -4130,7 +4421,6 @@ paths:
       - actions
       - selectors
       - when
-      - run_immediately
       - owned_by
       - created_by
       x-openapi-router-controller: mist_api_v2.controllers.schedules_controller
@@ -4170,7 +4460,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/inline_response_200_1'
           description: Schedule added succesfully
         "401":
           description: Authentication failed
@@ -4324,7 +4614,6 @@ paths:
                     when:
                       unit: seconds
                       value: 10
-                  run_immediately: false
                   selectors:
                   - type: machines
                     ids:
@@ -4346,7 +4635,6 @@ paths:
                     when:
                       unit: seconds
                       value: 10
-                  run_immediately: false
                   selectors:
                   - type: machines
                     ids:
@@ -4508,7 +4796,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: '#/components/schemas/inline_response_200_1'
           description: Script added succesfully
         "401":
           description: Authentication failed
@@ -4767,7 +5055,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_1'
+                $ref: '#/components/schemas/inline_response_200_2'
           description: Script url generated successfully
         "401":
           description: Authentication failed
@@ -6550,19 +6838,90 @@ components:
       - oneOf:
         - $ref: '#/components/schemas/Notification'
         - $ref: '#/components/schemas/ResizeAction'
+        - $ref: '#/components/schemas/RebootAction'
+        - $ref: '#/components/schemas/DestroyAction'
+        - $ref: '#/components/schemas/DeleteAction'
+        - $ref: '#/components/schemas/UndefineAction'
+        - $ref: '#/components/schemas/StartAction'
+        - $ref: '#/components/schemas/StopAction'
         - $ref: '#/components/schemas/ScriptToRun'
         - $ref: '#/components/schemas/WebHookAction'
       discriminator:
         mapping:
           notify: '#/components/schemas/Notification'
+          start: '#/components/schemas/StartAction'
+          stop: '#/components/schemas/StopAction'
+          destroy: '#/components/schemas/DestroyAction'
+          delete: '#/components/schemas/DeleteAction'
+          reboot: '#/components/schemas/RebootAction'
+          undefine: '#/components/schemas/UndefineAction'
           resize: '#/components/schemas/ResizeAction'
           run_script: '#/components/schemas/ScriptToRun'
           webhook: '#/components/schemas/WebHookAction'
         propertyName: action_type
       title: Action
       type: object
+    StartAction:
+      properties:
+        action_type:
+          enum:
+          - start
+          title: action_type
+          type: string
+      title: StartAction
+      type: object
+    StopAction:
+      properties:
+        action_type:
+          enum:
+          - stop
+          title: action_type
+          type: string
+      title: StopAction
+      type: object
+    DestroyAction:
+      properties:
+        action_type:
+          enum:
+          - destroy
+          title: action_type
+          type: string
+      title: DestroyAction
+      type: object
+    DeleteAction:
+      properties:
+        action_type:
+          enum:
+          - delete
+          title: action_type
+          type: string
+      title: DeleteAction
+      type: object
+    UndefineAction:
+      properties:
+        action_type:
+          enum:
+          - undefine
+          title: action_type
+          type: string
+      title: UndefineAction
+      type: object
+    RebootAction:
+      properties:
+        action_type:
+          enum:
+          - reboot
+          title: action_type
+          type: string
+      title: RebootAction
+      type: object
     ResizeAction:
       properties:
+        action_type:
+          enum:
+          - resize
+          title: action_type
+          type: string
         params:
           description: |
             the params of the resize action to be executed
@@ -6574,6 +6933,11 @@ components:
       type: object
     Notification:
       properties:
+        action_type:
+          enum:
+          - notify
+          title: action_type
+          type: string
         users:
           description: "a list of user to be notified, denoted by their UUIDs\n"
           items:
@@ -6598,6 +6962,11 @@ components:
       type: object
     RunCommand:
       properties:
+        script_type:
+          enum:
+          - inline
+          title: script_type
+          type: string
         command:
           description: Command that is about to run
           title: command
@@ -6608,6 +6977,11 @@ components:
       type: object
     RunExistingScript:
       properties:
+        script_type:
+          enum:
+          - existing
+          title: script_type
+          type: string
         script:
           description: Name or ID of the script to run
           title: script
@@ -6633,6 +7007,11 @@ components:
       title: ScriptToRun
     WebHookAction:
       properties:
+        action_type:
+          enum:
+          - webhook
+          title: action_type
+          type: string
         method:
           description: the HTTP method to be executed by the webhook
           enum:
@@ -6683,6 +7062,10 @@ components:
           crontab: '#/components/schemas/CronSchedule'
           interval: '#/components/schemas/IntervalSchedule'
         propertyName: schedule_type
+      example:
+        schedule_type: interval
+        unit: minutes
+        value: 15
       title: When
       type: object
     OneOffSchedule:
@@ -6791,7 +7174,6 @@ components:
       - digitalocean
       - linode
       - rackspace
-      - maxihost
       - vultr
       - openstack
       - onapp
@@ -6924,10 +7306,10 @@ components:
       type: string
     ResponseMetadata:
       example:
-        total: 0
-        start: 1
+        total: 6
+        start: 5
         sort: sort
-        returned: 6
+        returned: 1
       properties:
         total:
           description: Total items matching the query
@@ -6947,12 +7329,175 @@ components:
           type: integer
       title: ResponseMetadata
       type: object
+    AuthInfo:
+      example:
+        data:
+          orgs:
+          - created: true
+            name: name
+            description: description
+            resources:
+              images:
+                total: 0
+              teams:
+                total: 0
+              stacks:
+                total: 0
+              keys:
+                total: 0
+              buckets:
+                total: 0
+              templates:
+                total: 0
+              volumes:
+                total: 0
+              rules:
+                total: 0
+              clouds:
+                total: 0
+              networks:
+                total: 0
+              zones:
+                total: 0
+              secrets:
+                total: 0
+              tunnels:
+                total: 0
+              schedules:
+                total: 0
+              members:
+                total: 0
+              machines:
+                total: 0
+              scripts:
+                total: 0
+              clusters:
+                total: 0
+            id: id
+            avatar: avatar
+            last_active: last_active
+            billing: "{}"
+          - created: true
+            name: name
+            description: description
+            resources:
+              images:
+                total: 0
+              teams:
+                total: 0
+              stacks:
+                total: 0
+              keys:
+                total: 0
+              buckets:
+                total: 0
+              templates:
+                total: 0
+              volumes:
+                total: 0
+              rules:
+                total: 0
+              clouds:
+                total: 0
+              networks:
+                total: 0
+              zones:
+                total: 0
+              secrets:
+                total: 0
+              tunnels:
+                total: 0
+              schedules:
+                total: 0
+              members:
+                total: 0
+              machines:
+                total: 0
+              scripts:
+                total: 0
+              clusters:
+                total: 0
+            id: id
+            avatar: avatar
+            last_active: last_active
+            billing: "{}"
+          user:
+            registration_date: registration_date
+            last_login: last_login
+            last_name: last_name
+            id: id
+            first_name: first_name
+            email: email
+            username: username
+        meta:
+          total: 6
+          start: 5
+          sort: sort
+          returned: 1
+      properties:
+        data:
+          $ref: '#/components/schemas/AuthInfo_data'
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: AuthInfo
+      type: object
+    ListSessionsResponse:
+      example:
+        data:
+        - null
+        - null
+        meta:
+          total: 6
+          start: 5
+          sort: sort
+          returned: 1
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Session'
+          title: data
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: ListSessionsResponse
+      type: object
+    ListTokensResponse:
+      example:
+        data:
+        - null
+        - null
+        meta:
+          total: 6
+          start: 5
+          sort: sort
+          returned: 1
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Token'
+          title: data
+          type: array
+        meta:
+          $ref: '#/components/schemas/ResponseMetadata'
+      title: ListTokensResponse
+      type: object
+    CreateTokenResponse:
+      type: object
+    LoginCredentials:
+      type: object
+    Session:
+      title: Session
+      type: object
+    Token:
+      title: Token
+      type: object
     ListCloudsResponse:
       example:
         data:
         - features:
             compute: true
             container: false
+            objectstorage: true
             dns: false
           provider: null
           name: name
@@ -6964,6 +7509,7 @@ components:
         - features:
             compute: true
             container: false
+            objectstorage: true
             dns: false
           provider: null
           name: name
@@ -6973,10 +7519,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -6993,6 +7539,7 @@ components:
           features:
             compute: true
             container: false
+            objectstorage: true
             dns: false
           provider: null
           name: name
@@ -7002,10 +7549,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Cloud'
@@ -7018,6 +7565,7 @@ components:
         features:
           compute: true
           container: false
+          objectstorage: true
           dns: false
         provider: null
         name: name
@@ -7061,11 +7609,11 @@ components:
             google: '#/components/schemas/GoogleCloudRequest'
             cloudsigma: '#/components/schemas/CloudSigmaCloudRequest'
             alibaba: '#/components/schemas/AlibabaCloudRequest'
+            digitalocean: '#/components/schemas/DigitaloceanCloudRequest'
             equinix: '#/components/schemas/EquinixCloudRequest'
             ibm: '#/components/schemas/IbmCloudRequest'
             linode: '#/components/schemas/LinodeCloudRequest'
             rackspace: '#/components/schemas/RackspaceCloudRequest'
-            maxihost: '#/components/schemas/MaxihostCloudRequest'
             vultr: '#/components/schemas/VultrCloudRequest'
             openstack: '#/components/schemas/OpenstackCloudRequest'
             onapp: '#/components/schemas/OnappCloudRequest'
@@ -7089,7 +7637,6 @@ components:
         - $ref: '#/components/schemas/DigitaloceanCloudRequest'
         - $ref: '#/components/schemas/LinodeCloudRequest'
         - $ref: '#/components/schemas/RackspaceCloudRequest'
-        - $ref: '#/components/schemas/MaxihostCloudRequest'
         - $ref: '#/components/schemas/VultrCloudRequest'
         - $ref: '#/components/schemas/OpenstackCloudRequest'
         - $ref: '#/components/schemas/OnappCloudRequest'
@@ -7108,18 +7655,7 @@ components:
           projectId: projectId
           privateKey: privateKey
           email: email
-      title: AddCloudRequest
-    EditCloudRequest_anyOf:
-      additionalProperties: false
-      properties:
-        name:
-          description: Updated name
-          title: name
-          type: string
-      required:
-      - name
-      title: EditCloudRequest_anyOf
-      type: object
+      title: Add cloud
     EditCloudRequest:
       anyOf:
       - $ref: '#/components/schemas/EditCloudRequest_anyOf'
@@ -7137,11 +7673,11 @@ components:
               google: '#/components/schemas/GoogleCloudRequest'
               cloudsigma: '#/components/schemas/CloudSigmaCloudRequest'
               alibaba: '#/components/schemas/AlibabaCloudRequest'
+              digitalocean: '#/components/schemas/DigitaloceanCloudRequest'
               equinix: '#/components/schemas/EquinixCloudRequest'
               ibm: '#/components/schemas/IbmCloudRequest'
               linode: '#/components/schemas/LinodeCloudRequest'
               rackspace: '#/components/schemas/RackspaceCloudRequest'
-              maxihost: '#/components/schemas/MaxihostCloudRequest'
               vultr: '#/components/schemas/VultrCloudRequest'
               openstack: '#/components/schemas/OpenstackCloudRequest'
               onapp: '#/components/schemas/OnappCloudRequest'
@@ -7165,7 +7701,6 @@ components:
           - $ref: '#/components/schemas/DigitaloceanCloudRequest'
           - $ref: '#/components/schemas/LinodeCloudRequest'
           - $ref: '#/components/schemas/RackspaceCloudRequest'
-          - $ref: '#/components/schemas/MaxihostCloudRequest'
           - $ref: '#/components/schemas/VultrCloudRequest'
           - $ref: '#/components/schemas/OpenstackCloudRequest'
           - $ref: '#/components/schemas/OnappCloudRequest'
@@ -7180,29 +7715,65 @@ components:
       example:
         name: my-renamed-cloud
       title: EditCloudRequest
+    CloudCredentials:
+      type: object
     CloudFeatures:
-      description: The cloud features that should be enabled
       example:
         compute: true
         container: false
+        objectstorage: true
         dns: false
       properties:
         compute:
           default: true
-          description: Enable compute services
-          title: compute
+          title: Compute
           type: boolean
         dns:
           default: false
-          description: Enable DNS services
-          title: dns
+          title: DNS
           type: boolean
         container:
           default: false
-          description: Enable container services
-          title: container
+          title: Container
+          type: boolean
+        objectstorage:
+          title: Object storage
           type: boolean
       title: CloudFeatures
+      type: object
+    ComputeFeature:
+      default: true
+      title: Compute
+      type: boolean
+    DnsFeature:
+      default: false
+      title: DNS
+      type: boolean
+    ContainerFeature:
+      default: false
+      title: Container
+      type: boolean
+    ObjectStorageFeature:
+      title: Object storage
+      type: boolean
+    AmazonCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+        dns:
+          default: false
+          title: DNS
+          type: boolean
+        container:
+          default: false
+          title: Container
+          type: boolean
+        objectstorage:
+          title: Object storage
+          type: boolean
+      title: Features
       type: object
     AmazonCloudRequest:
       properties:
@@ -7214,7 +7785,7 @@ components:
         credentials:
           $ref: '#/components/schemas/AmazonCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/AmazonCloudFeatures'
       required:
       - credentials
       - provider
@@ -7222,16 +7793,16 @@ components:
       type: object
     AmazonCredentials:
       properties:
+        region:
+          $ref: '#/components/schemas/AmazonRegions'
         apikey:
           description: Your AWS API key
-          title: apikey
+          title: API key
           type: string
         apisecret:
           description: Your AWS API secret
-          title: apisecret
+          title: API secret
           type: string
-        region:
-          $ref: '#/components/schemas/AmazonRegions'
       required:
       - apikey
       - apisecret
@@ -7262,7 +7833,7 @@ components:
       - cn-northwest-1
       - us-gov-west-1
       - us-gov-east-1
-      title: AmazonRegions
+      title: Region
       type: string
       x-enumNames:
       - Tokyo
@@ -7287,6 +7858,14 @@ components:
       - Ningxia
       - GovCloud (US)
       - GovCloud (US-East)
+    AzureCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     AzureCloudRequest:
       properties:
         provider:
@@ -7297,29 +7876,44 @@ components:
         credentials:
           $ref: '#/components/schemas/AzureCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/AzureCloudFeatures'
       required:
       - credentials
       - provider
       title: AzureCloudRequest
       type: object
+    GenericCloudRequest:
+      properties:
+        name:
+          title: Name
+          type: string
+        provider:
+          $ref: '#/components/schemas/SupportedProviders'
+        credentials:
+          type: object
+        features:
+          $ref: '#/components/schemas/CloudFeatures'
+      required:
+      - credentials
+      - provider
+      type: object
     AzureCredentials:
       properties:
         tenantId:
           description: Your Azure tenant ID
-          title: tenantId
+          title: Tenant ID
           type: string
         subscriptionId:
           description: Your Azure subscription ID
-          title: subscriptionId
+          title: Subcription ID
           type: string
         key:
           description: Your Azure key
-          title: key
+          title: Key
           type: string
         secret:
           description: Your Azure secret
-          title: secret
+          title: Secret
           type: string
       required:
       - key
@@ -7327,6 +7921,25 @@ components:
       - subscriptionId
       - tenantId
       title: AzureCredentials
+      type: object
+    GoogleCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+        dns:
+          default: false
+          title: DNS
+          type: boolean
+        container:
+          default: false
+          title: Container
+          type: boolean
+        objectstorage:
+          title: Object storage
+          type: boolean
+      title: Features
       type: object
     GoogleCloudRequest:
       properties:
@@ -7338,7 +7951,7 @@ components:
         credentials:
           $ref: '#/components/schemas/GoogleCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/GoogleCloudFeatures'
       required:
       - credentials
       - provider
@@ -7348,15 +7961,15 @@ components:
       properties:
         projectId:
           description: The Id of your GCP project
-          title: projectId
+          title: Project ID
           type: string
         privateKey:
           description: Your GCP private key
-          title: privateKey
+          title: Private key
           type: string
         email:
           description: Your GCP client email
-          title: email
+          title: Email
           type: string
       required:
       - email
@@ -7374,25 +7987,33 @@ components:
         credentials:
           $ref: '#/components/schemas/AlibabaCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/AlibabaCloudFeatures'
       required:
       - credentials
       - provider
       title: AlibabaCloudRequest
       type: object
+    AlibabaCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     AlibabaCredentials:
       properties:
         apikey:
           description: Your Alibaba Cloud API key
-          title: apikey
+          title: API key
           type: string
         apisecret:
           description: Your Alibaba Cloud API secret
-          title: apisecret
+          title: API secret
           type: string
         region:
           description: Your Alibaba Cloud region
-          title: region
+          title: Region
           type: string
       required:
       - apikey
@@ -7410,21 +8031,29 @@ components:
         credentials:
           $ref: '#/components/schemas/CloudSigmaCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/CloudSigmaCloudFeatures'
       required:
       - credentials
       - provider
       title: CloudSigmaCloudRequest
       type: object
+    CloudSigmaCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     CloudSigmaCredentials:
       properties:
         username:
           description: Your CloudSigma username
-          title: username
+          title: Username
           type: string
         password:
           description: Your CloudSigma password
-          title: password
+          title: Password
           type: string
         region:
           description: Your CloudSigma region
@@ -7446,18 +8075,26 @@ components:
         credentials:
           $ref: '#/components/schemas/EquinixCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/EquinixCloudFeatures'
       required:
       - credentials
       - provider
       title: EquinixCloudRequest
+      type: object
+    EquinixCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
       type: object
     EquinixCredentials:
       additionalProperties: false
       properties:
         apikey:
           description: Your Equinix Metal API key
-          title: apikey
+          title: API key
           type: string
       required:
       - apikey
@@ -7473,30 +8110,41 @@ components:
         credentials:
           $ref: '#/components/schemas/IbmCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/IbmCloudFeatures'
       required:
       - credentials
       - provider
       title: IbmCloudRequest
       type: object
+    IbmCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     IbmCredentials:
       properties:
-        provider:
-          enum:
-          - ibm
-          title: provider
-          type: string
         username:
           description: Your IBM Cloud username
-          title: username
+          title: Username
           type: string
         apikey:
           description: Your IBM Cloud API key
-          title: apikey
+          title: API key
           type: string
       required:
       - apikey
       title: IbmCredentials
+      type: object
+    DigitaloceanCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
       type: object
     DigitaloceanCloudRequest:
       properties:
@@ -7508,7 +8156,7 @@ components:
         credentials:
           $ref: '#/components/schemas/DigitaloceanCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/DigitaloceanCloudFeatures'
       required:
       - credentials
       - provider
@@ -7518,7 +8166,7 @@ components:
       properties:
         token:
           description: Your DigitalOcean API token
-          title: token
+          title: Token
           type: string
       required:
       - token
@@ -7534,17 +8182,25 @@ components:
         credentials:
           $ref: '#/components/schemas/LinodeCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/LinodeCloudFeatures'
       required:
       - credentials
       - provider
       title: LinodeCloudRequest
       type: object
+    LinodeCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     LinodeCredentials:
       properties:
         apikey:
           description: You Linode API key
-          title: apikey
+          title: API key
           type: string
       required:
       - apikey
@@ -7560,62 +8216,39 @@ components:
         credentials:
           $ref: '#/components/schemas/RackspaceCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/RackspaceCloudFeatures'
       required:
       - credentials
       - provider
       title: RackspaceCloudRequest
       type: object
+    RackspaceCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     RackspaceCredentials:
       properties:
-        provider:
-          enum:
-          - rackspace
-          title: provider
-          type: string
         username:
           description: Your Rackspace Cloud username
-          title: username
+          title: Username
           type: string
         apikey:
           description: Your Rackspace Cloud API key
-          title: apikey
+          title: API key
           type: string
         region:
           description: Your Rackspace Cloud region
-          title: region
+          title: Region
           type: string
       required:
       - apikey
       - region
       - username
       title: RackspaceCredentials
-      type: object
-    MaxihostCloudRequest:
-      properties:
-        provider:
-          enum:
-          - maxihost
-          title: provider
-          type: string
-        credentials:
-          $ref: '#/components/schemas/MaxihostCredentials'
-        features:
-          $ref: '#/components/schemas/CloudFeatures'
-      required:
-      - credentials
-      - provider
-      title: MaxihostCloudRequest
-      type: object
-    MaxihostCredentials:
-      properties:
-        token:
-          description: Your Maxihost API token
-          title: token
-          type: string
-      required:
-      - token
-      title: MaxihostCredentials
       type: object
     VultrCloudRequest:
       properties:
@@ -7627,17 +8260,25 @@ components:
         credentials:
           $ref: '#/components/schemas/VultrCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/VultrCloudFeatures'
       required:
       - credentials
       - provider
       title: VultrCloudRequest
       type: object
+    VultrCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     VultrCredentials:
       properties:
         apikey:
           description: Your Vultr API key
-          title: apikey
+          title: API key
           type: string
       required:
       - apikey
@@ -7653,11 +8294,22 @@ components:
         credentials:
           $ref: '#/components/schemas/OpenstackCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/OpenstackCloudFeatures'
       required:
       - credentials
       - provider
       title: OpenstackCloudRequest
+      type: object
+    OpenstackCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+        objectstorage:
+          title: Object storage
+          type: boolean
+      title: Features
       type: object
     OpenstackCredentials:
       properties:
@@ -7698,11 +8350,19 @@ components:
         credentials:
           $ref: '#/components/schemas/OnappCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/OnappCloudFeatures'
       required:
       - credentials
       - provider
       title: OnappCloudRequest
+      type: object
+    OnappCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
       type: object
     OnappCredentials:
       properties:
@@ -7737,11 +8397,19 @@ components:
         credentials:
           $ref: '#/components/schemas/VsphereCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/VsphereCloudFeatures'
       required:
       - credentials
       - provider
       title: VsphereCloudRequest
+      type: object
+    VsphereCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
       type: object
     VsphereCredentials:
       properties:
@@ -7775,16 +8443,29 @@ components:
           title: provider
           type: string
         credentials:
-          title: KvmCredentials
-          type: object
+          $ref: '#/components/schemas/KvmCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/KvmCloudFeatures'
       required:
       - credentials
       - provider
       title: KvmCloudRequest
       type: object
+    KvmCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     KvmCredentials:
+      properties:
+        hosts:
+          items:
+            $ref: '#/components/schemas/KvmCredentials_hosts'
+          title: hosts
+          type: array
       title: KvmCredentials
       type: object
     LxdCloudRequest:
@@ -7797,11 +8478,19 @@ components:
         credentials:
           $ref: '#/components/schemas/LxdCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/LxdCloudFeatures'
       required:
       - credentials
       - provider
       title: LxdCloudRequest
+      type: object
+    LxdCloudFeatures:
+      properties:
+        container:
+          default: false
+          title: Container
+          type: boolean
+      title: Features
       type: object
     LxdCredentials:
       properties:
@@ -7852,11 +8541,19 @@ components:
         credentials:
           $ref: '#/components/schemas/DockerCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/DockerCloudFeatures'
       required:
       - credentials
       - provider
       title: DockerCloudRequest
+      type: object
+    DockerCloudFeatures:
+      properties:
+        container:
+          default: false
+          title: Container
+          type: boolean
+      title: Features
       type: object
     DockerCredentials:
       properties:
@@ -7889,8 +8586,7 @@ components:
           title: tlsCaCert
           type: string
         showAll:
-          description: "Show all containers, including stopped"
-          title: showAll
+          title: "Show all containers, including stopped"
           type: boolean
       required:
       - host
@@ -7907,11 +8603,19 @@ components:
         credentials:
           $ref: '#/components/schemas/KubernetesCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/KubevirtCloudFeatures'
       required:
       - credentials
       - provider
       title: KubevirtCloudRequest
+      type: object
+    KubevirtCloudFeatures:
+      properties:
+        container:
+          default: false
+          title: Container
+          type: boolean
+      title: Features
       type: object
     KubernetesCloudRequest:
       properties:
@@ -7923,11 +8627,19 @@ components:
         credentials:
           $ref: '#/components/schemas/KubernetesCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/KubernetesCloudFeatures'
       required:
       - credentials
       - provider
       title: KubernetesCloudRequest
+      type: object
+    KubernetesCloudFeatures:
+      properties:
+        container:
+          default: false
+          title: Container
+          type: boolean
+      title: Features
       type: object
     OpenshiftCloudRequest:
       properties:
@@ -7939,7 +8651,7 @@ components:
         credentials:
           $ref: '#/components/schemas/OpenshiftCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/KubernetesCloudFeatures'
       required:
       - credentials
       - provider
@@ -8021,16 +8733,29 @@ components:
           title: provider
           type: string
         credentials:
-          title: OtherCredentials
-          type: object
+          $ref: '#/components/schemas/OtherCredentials'
         features:
-          $ref: '#/components/schemas/CloudFeatures'
+          $ref: '#/components/schemas/OtherCloudFeatures'
       required:
       - credentials
       - provider
       title: OtherCloudRequest
       type: object
+    OtherCloudFeatures:
+      properties:
+        compute:
+          default: true
+          title: Compute
+          type: boolean
+      title: Features
+      type: object
     OtherCredentials:
+      properties:
+        hosts:
+          items:
+            $ref: '#/components/schemas/KvmCredentials_hosts'
+          title: hosts
+          type: array
       title: OtherCredentials
       type: object
     ListClustersResponse:
@@ -8077,10 +8802,10 @@ components:
           state: state
           config: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -8115,10 +8840,10 @@ components:
           state: state
           config: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Cluster'
@@ -8358,10 +9083,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -8386,10 +9111,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Image'
@@ -8446,7 +9171,7 @@ components:
       example:
         template: "{}"
         image: Debian
-        quantity: 1.4658129805029452
+        quantity: 5.962133916683182
         disks:
           disk_size: 0
           disk_path: disk_path
@@ -8462,8 +9187,46 @@ components:
         optimize: optimize
         provider: null
         schedules:
-        - ""
-        - ""
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 6
+          name: backup-schedule
+          description: Backup schedule
+          run_immediately: false
+          selectors:
+          - type: tags
+            include:
+            - dev
+          actions:
+          - action_type: start
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
+          enabled: true
+        - expires: 2022-06-01 T00:00:00
+          reminder:
+            message: message
+            when:
+              unit: seconds
+              value: 6
+          name: backup-schedule
+          description: Backup schedule
+          run_immediately: false
+          selectors:
+          - type: tags
+            include:
+            - dev
+          actions:
+          - action_type: start
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
+          enabled: true
         extra: ""
         name: DB mirror
         location: ""
@@ -8619,38 +9382,7 @@ components:
         schedules:
           description: Configure scheduled actions for the provisioned machine
           items:
-            allOf:
-            - properties:
-                schedule_type:
-                  enum:
-                  - one_off
-                  - crontab
-                  - interval
-                  type: string
-                script:
-                  $ref: '#/components/schemas/RunExistingScript'
-                action:
-                  enum:
-                  - start
-                  - stop
-                  - reboot
-                  - destroy
-                  type: string
-                description:
-                  type: string
-              required:
-              - schedule_type
-              type: object
-            - discriminator:
-                mapping:
-                  one_off: '#/components/schemas/OneOffSchedule'
-                  crontab: '#/components/schemas/CronSchedule'
-                  interval: '#/components/schemas/IntervalSchedule'
-                propertyName: schedule_type
-              oneOf:
-              - $ref: '#/components/schemas/OneOffSchedule'
-              - $ref: '#/components/schemas/CronSchedule'
-              - $ref: '#/components/schemas/IntervalSchedule'
+            $ref: '#/components/schemas/AddScheduleRequest'
           title: schedules
           type: array
         tags:
@@ -9414,10 +10146,10 @@ components:
             user: user
             key: key
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -9482,10 +10214,10 @@ components:
             user: user
             key: key
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Machine'
@@ -9663,10 +10395,10 @@ components:
         - null
         - null
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -9823,10 +10555,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -9848,10 +10580,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Network'
@@ -9906,10 +10638,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -9929,10 +10661,10 @@ components:
           external_id: external_id
           id: id
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Size'
@@ -9993,10 +10725,10 @@ components:
           created_by: created_by
           location_type: location_type
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -10023,10 +10755,10 @@ components:
           created_by: created_by
           location_type: location_type
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Location'
@@ -10223,10 +10955,10 @@ components:
           id: id
           actions: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -10258,10 +10990,10 @@ components:
           id: id
           actions: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Volume'
@@ -10420,10 +11152,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -10445,10 +11177,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Zone'
@@ -10507,10 +11239,10 @@ components:
           id: id
           created_by: created_by
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -10532,10 +11264,10 @@ components:
           id: id
           created_by: created_by
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Record'
@@ -10626,10 +11358,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -10652,10 +11384,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Key'
@@ -10710,17 +11442,20 @@ components:
           message: message
           when:
             unit: seconds
-            value: 0
+            value: 6
         name: backup-schedule
         description: Backup schedule
         run_immediately: false
         selectors:
-        - null
-        - null
+        - type: tags
+          include:
+          - dev
         actions:
-        - null
-        - null
-        when: null
+        - action_type: start
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
         enabled: true
       properties:
         name:
@@ -10739,11 +11474,17 @@ components:
           title: enabled
           type: boolean
         selectors:
+          example:
+          - type: tags
+            include:
+            - dev
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
         actions:
+          example:
+          - action_type: start
           items:
             $ref: '#/components/schemas/Action'
           title: actions
@@ -10765,26 +11506,28 @@ components:
           type: boolean
       required:
       - actions
-      - name
       title: AddScheduleRequest
       type: object
     EditScheduleRequest:
       example:
-        expires: 2022-06-01 T00:00:00
+        expires: 2024-06-01 T00:00:00
         reminder:
           message: message
           when:
             unit: seconds
-            value: 0
+            value: 6
         name: schedule-name
         description: Edited Schedule
         selectors:
-        - null
-        - null
+        - type: tags
+          include:
+          - dev
         actions:
-        - null
-        - null
-        when: null
+        - action_type: start
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
         enabled: true
       properties:
         name:
@@ -10803,11 +11546,17 @@ components:
           title: enabled
           type: boolean
         selectors:
+          example:
+          - type: tags
+            include:
+            - dev
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
         actions:
+          example:
+          - action_type: start
           items:
             $ref: '#/components/schemas/Action'
           title: actions
@@ -10817,7 +11566,7 @@ components:
         expires:
           description: The date after that schedule expires. The format should be
             ΥΥΥΥ-ΜΜ-DD HH:MM:SS
-          example: 2022-06-01 T00:00:00
+          example: 2024-06-01 T00:00:00
           title: expires
           type: string
         reminder:
@@ -10832,48 +11581,52 @@ components:
             message: message
             when:
               unit: seconds
-              value: 0
+              value: 6
+          name: reboot-schedule
           description: This is an test schedule
           owned_by: Officer B
-          run_immediately: false
+          id: id
           selectors:
           - null
           - null
-          when: null
-          created_by: Manager A
-          enabled: true
-          tags: "{}"
-          name: reboot-schedule
-          id: id
           actions:
           - null
           - null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
+          created_by: Manager A
+          enabled: true
+          tags: "{}"
         - expires: 2022-06-01 T00:00:00
           reminder:
             message: message
             when:
               unit: seconds
-              value: 0
+              value: 6
+          name: reboot-schedule
           description: This is an test schedule
           owned_by: Officer B
-          run_immediately: false
+          id: id
           selectors:
           - null
           - null
-          when: null
-          created_by: Manager A
-          enabled: true
-          tags: "{}"
-          name: reboot-schedule
-          id: id
           actions:
           - null
           - null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
+          created_by: Manager A
+          enabled: true
+          tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -10892,27 +11645,29 @@ components:
             message: message
             when:
               unit: seconds
-              value: 0
+              value: 6
+          name: reboot-schedule
           description: This is an test schedule
           owned_by: Officer B
-          run_immediately: false
+          id: id
           selectors:
           - null
           - null
-          when: null
-          created_by: Manager A
-          enabled: true
-          tags: "{}"
-          name: reboot-schedule
-          id: id
           actions:
           - null
           - null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
+          created_by: Manager A
+          enabled: true
+          tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Schedule'
@@ -10927,22 +11682,24 @@ components:
           message: message
           when:
             unit: seconds
-            value: 0
+            value: 6
+        name: reboot-schedule
         description: This is an test schedule
         owned_by: Officer B
-        run_immediately: false
+        id: id
         selectors:
         - null
         - null
-        when: null
-        created_by: Manager A
-        enabled: true
-        tags: "{}"
-        name: reboot-schedule
-        id: id
         actions:
         - null
         - null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
+        created_by: Manager A
+        enabled: true
+        tags: "{}"
       properties:
         id:
           description: The id of the schedule
@@ -10987,11 +11744,6 @@ components:
           type: string
         reminder:
           $ref: '#/components/schemas/AddScheduleRequest_reminder'
-        run_immediately:
-          description: Decides if the schedule runs immediately of not
-          example: false
-          title: run_immediately
-          type: boolean
         created_by:
           description: The name of user that created the schedule
           example: Manager A
@@ -11110,10 +11862,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -11134,10 +11886,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Script'
@@ -11210,7 +11962,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
         - name: name
           trigger_after:
             period: period
@@ -11244,12 +11999,15 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -11296,12 +12054,15 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Rule'
@@ -11343,7 +12104,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
       properties:
         name:
           description: The name of the rule
@@ -11413,7 +12177,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
       properties:
         description:
           description: The description of the rule
@@ -11475,7 +12242,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
       properties:
         id:
           title: id
@@ -11634,6 +12404,7 @@ components:
         data:
         - created: true
           name: name
+          description: description
           resources:
             images:
               total: 0
@@ -11672,10 +12443,12 @@ components:
             clusters:
               total: 0
           id: id
+          avatar: avatar
           last_active: last_active
           billing: "{}"
         - created: true
           name: name
+          description: description
           resources:
             images:
               total: 0
@@ -11714,13 +12487,14 @@ components:
             clusters:
               total: 0
           id: id
+          avatar: avatar
           last_active: last_active
           billing: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -11736,6 +12510,7 @@ components:
         data:
           created: true
           name: name
+          description: description
           resources:
             images:
               total: 0
@@ -11774,13 +12549,14 @@ components:
             clusters:
               total: 0
           id: id
+          avatar: avatar
           last_active: last_active
           billing: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Org'
@@ -11792,6 +12568,7 @@ components:
       example:
         created: true
         name: name
+        description: description
         resources:
           images:
             total: 0
@@ -11830,6 +12607,7 @@ components:
           clusters:
             total: 0
         id: id
+        avatar: avatar
         last_active: last_active
         billing: "{}"
       properties:
@@ -11838,6 +12616,12 @@ components:
           type: string
         name:
           title: name
+          type: string
+        description:
+          title: description
+          type: string
+        avatar:
+          title: avatar
           type: string
         created:
           title: created
@@ -11949,10 +12733,10 @@ components:
           email: email
           username: username
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -11975,10 +12759,10 @@ components:
           email: email
           username: username
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Member'
@@ -12071,10 +12855,10 @@ components:
           id: id
           policy: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -12132,58 +12916,102 @@ components:
           type: object
       title: Team
       type: object
+    AppRoleAuth:
+      properties:
+        role_id:
+          description: The Vault RoleID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: Role ID
+          type: string
+        secret_id:
+          description: The Vault SecretID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: Secret ID
+          type: string
+      title: AppRoleAuth
+      type: object
+    TokenAuth:
+      properties:
+        token:
+          description: The Vault token that will be used to authenticate against the
+            new Vault. Either token or both role_id and secret_id must be specified
+          title: Token
+          type: string
+      title: TokenAuth
+      type: object
+    ExternalVault:
+      allOf:
+      - $ref: '#/components/schemas/ExternalVault_allOf'
+      - discriminator:
+          mapping:
+            AppRole: '#/components/schemas/AppRoleAuth'
+            Token: '#/components/schemas/TokenAuth'
+          propertyName: auth_method
+        oneOf:
+        - $ref: '#/components/schemas/AppRoleAuth'
+        - $ref: '#/components/schemas/TokenAuth'
+      title: ExternalVault
+    DefaultVault:
+      type: object
     CreateOrganizationRequest:
       example:
         name: name
-        super_org: false
+        description: description
+        logo: logo
+        vault: ""
       properties:
         name:
-          title: name
+          title: Name
           type: string
-        super_org:
-          default: false
-          title: super_org
-          type: boolean
+        description:
+          title: Description
+          type: string
+        logo:
+          format: data-url
+          title: Logo
+          type: string
+        vault:
+          allOf:
+          - properties:
+              external:
+                default: false
+                description: Use an external instance of Hashicorp Vault for storing
+                  cloud credentials and SSH private keys.
+                enum:
+                - true
+                - false
+                title: External Vault
+                type: boolean
+            type: object
+          - discriminator:
+              mapping:
+                "true": '#/components/schemas/ExternalVault'
+                "false": '#/components/schemas/DefaultVault'
+              propertyName: external
+            oneOf:
+            - $ref: '#/components/schemas/ExternalVault'
+            - $ref: '#/components/schemas/DefaultVault'
+          title: vault
       required:
       - name
-      title: CreateOrganizationRequest
+      title: Create organization
       type: object
     PatchOrganizationRequest:
       example:
-        vault_secret_id: vault_secret_id
-        vault_token: vault_token
         name: name
-        vault_address: vault_address
-        vault_secrets_engine_path: vault_secrets_engine_path
-        vault_role_id: vault_role_id
+        vault:
+          secret_id: secret_id
+          address: address
+          role_id: role_id
+          secrets_engine_path: secrets_engine_path
+          token: token
       properties:
         name:
           description: The organization's name
           title: name
           type: string
-        vault_address:
-          description: The Vault's url
-          title: vault_address
-          type: string
-        vault_secrets_engine_path:
-          description: Vault secrets engine path
-          title: vault_secrets_engine_path
-          type: string
-        vault_token:
-          description: The Vault token that will be used to authenticate against the
-            new Vault. Either token or both role_id and secret_id must be specified
-          title: vault_token
-          type: string
-        vault_role_id:
-          description: The Vault RoleID to use for approle authentication. Either
-            token or both role_id and secret_id must be specified
-          title: vault_role_id
-          type: string
-        vault_secret_id:
-          description: The Vault SecretID to use for approle authentication. Either
-            token or both role_id and secret_id must be specified
-          title: vault_secret_id
-          type: string
+        vault:
+          $ref: '#/components/schemas/PatchOrganizationRequest_vault'
       title: PatchOrganizationRequest
       type: object
     GetJobResponse:
@@ -12204,10 +13032,10 @@ components:
             job_id: job_id
           user: user
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Job'
@@ -12307,10 +13135,10 @@ components:
           email: email
           username: username
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -12364,10 +13192,10 @@ components:
             resultType: resultType
           status: status
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Datapoints'
@@ -12431,6 +13259,25 @@ components:
           $ref: '#/components/schemas/Datapoints_data'
       title: Datapoints
       type: object
+    KeyValuePairs:
+      properties:
+        secret:
+          description: Secret data
+          items:
+            $ref: '#/components/schemas/KeyValuePairs_secret'
+          title: secret
+          type: array
+      title: KeyValuePairs
+      type: object
+    SecretString:
+      properties:
+        secret:
+          title: Secret data
+          type: string
+      required:
+      - secret
+      title: SecretString
+      type: object
     ListSecretsResponse:
       example:
         data:
@@ -12445,10 +13292,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -12468,10 +13315,10 @@ components:
           created_by: created_by
           tags: "{}"
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           $ref: '#/components/schemas/Secret'
@@ -12505,23 +13352,21 @@ components:
       title: Secret
       type: object
     CreateSecretRequest:
-      example:
-        name: name
-        secret: "{}"
-      properties:
-        name:
-          description: The name of the secret. This is equivalent to the path the
-            secret will be stored in Vault
-          title: name
-          type: string
-        secret:
-          title: secret
-          type: object
+      allOf:
+      - $ref: '#/components/schemas/Create_secret'
+      - discriminator:
+          mapping:
+            "true": '#/components/schemas/SecretString'
+            "false": '#/components/schemas/KeyValuePairs'
+          propertyName: json
+        oneOf:
+        - $ref: '#/components/schemas/KeyValuePairs'
+        - $ref: '#/components/schemas/SecretString'
+        - type: object
       required:
       - name
       - secret
       title: CreateSecretRequest
-      type: object
     EditSecretRequest:
       example:
         secret: "{}"
@@ -12645,10 +13490,10 @@ components:
           - clusters
           - clusters
         meta:
-          total: 0
-          start: 1
+          total: 6
+          start: 5
           sort: sort
-          returned: 6
+          returned: 1
       properties:
         data:
           items:
@@ -12720,20 +13565,37 @@ components:
     inline_response_200:
       example:
         id: id
+        errors:
+        - errors
+        - errors
       properties:
         id:
           title: id
           type: string
+        errors:
+          items:
+            type: string
+          title: errors
+          type: array
       title: inline_response_200
       type: object
     inline_response_200_1:
+      example:
+        id: id
+      properties:
+        id:
+          title: id
+          type: string
+      title: inline_response_200_1
+      type: object
+    inline_response_200_2:
       example:
         url: url
       properties:
         url:
           title: url
           type: string
-      title: inline_response_200_1
+      title: inline_response_200_2
       type: object
     Action_allOf:
       properties:
@@ -12747,6 +13609,7 @@ components:
           - destroy
           - notify
           - delete
+          - undefine
           - resize
           - run_script
           - webhook
@@ -12757,6 +13620,11 @@ components:
       title: Action_allOf
     ScriptToRun_allOf:
       properties:
+        action_type:
+          enum:
+          - run_script
+          title: action_type
+          type: string
         script_type:
           enum:
           - inline
@@ -12778,11 +13646,120 @@ components:
           title: schedule_type
           type: string
       title: When_allOf
+    AuthInfo_data:
+      example:
+        orgs:
+        - created: true
+          name: name
+          description: description
+          resources:
+            images:
+              total: 0
+            teams:
+              total: 0
+            stacks:
+              total: 0
+            keys:
+              total: 0
+            buckets:
+              total: 0
+            templates:
+              total: 0
+            volumes:
+              total: 0
+            rules:
+              total: 0
+            clouds:
+              total: 0
+            networks:
+              total: 0
+            zones:
+              total: 0
+            secrets:
+              total: 0
+            tunnels:
+              total: 0
+            schedules:
+              total: 0
+            members:
+              total: 0
+            machines:
+              total: 0
+            scripts:
+              total: 0
+            clusters:
+              total: 0
+          id: id
+          avatar: avatar
+          last_active: last_active
+          billing: "{}"
+        - created: true
+          name: name
+          description: description
+          resources:
+            images:
+              total: 0
+            teams:
+              total: 0
+            stacks:
+              total: 0
+            keys:
+              total: 0
+            buckets:
+              total: 0
+            templates:
+              total: 0
+            volumes:
+              total: 0
+            rules:
+              total: 0
+            clouds:
+              total: 0
+            networks:
+              total: 0
+            zones:
+              total: 0
+            secrets:
+              total: 0
+            tunnels:
+              total: 0
+            schedules:
+              total: 0
+            members:
+              total: 0
+            machines:
+              total: 0
+            scripts:
+              total: 0
+            clusters:
+              total: 0
+          id: id
+          avatar: avatar
+          last_active: last_active
+          billing: "{}"
+        user:
+          registration_date: registration_date
+          last_login: last_login
+          last_name: last_name
+          id: id
+          first_name: first_name
+          email: email
+          username: username
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        orgs:
+          description: Orgs available in current authenticated session
+          items:
+            $ref: '#/components/schemas/Org'
+          title: orgs
+          type: array
+      title: AuthInfo_data
+      type: object
     AddCloudRequest_allOf:
       properties:
         name:
-          description: The name of the cloud to add
-          title: name
+          title: Name
           type: string
         provider:
           $ref: '#/components/schemas/SupportedProviders'
@@ -12790,6 +13767,39 @@ components:
       - name
       - provider
       title: AddCloudRequest_allOf
+      type: object
+    EditCloudRequest_anyOf:
+      properties:
+        name:
+          description: Updated name
+          title: name
+          type: string
+      required:
+      - name
+      title: EditCloudRequest_anyOf
+      type: object
+    KvmCredentials_hosts:
+      properties:
+        host:
+          title: host
+          type: string
+        alias:
+          title: alias
+          type: string
+        key:
+          title: key
+          type: string
+        user:
+          title: user
+          type: string
+        port:
+          default: "22"
+          title: port
+          type: string
+      required:
+      - host
+      - key
+      title: KvmCredentials_hosts
       type: object
     CreateClusterRequest_allOf_nodepools:
       properties:
@@ -13107,7 +14117,7 @@ components:
     AddScheduleRequest_reminder_when:
       example:
         unit: seconds
-        value: 0
+        value: 6
       properties:
         value:
           title: value
@@ -13127,7 +14137,7 @@ components:
         message: message
         when:
           unit: seconds
-          value: 0
+          value: 6
       properties:
         message:
           description: The reminder message to be sent
@@ -13136,6 +14146,57 @@ components:
         when:
           $ref: '#/components/schemas/AddScheduleRequest_reminder_when'
       title: AddScheduleRequest_reminder
+      type: object
+    ExternalVault_allOf:
+      properties:
+        address:
+          description: The URL of your Hashicorp Vault instance
+          title: Vault address
+          type: string
+        secrets_engine_path:
+          description: Vault secrets engine path
+          title: Secrets engine
+          type: string
+        auth_method:
+          enum:
+          - AppRole
+          - Token
+          title: Authentication method
+          type: string
+      title: ExternalVault_allOf
+      type: object
+    PatchOrganizationRequest_vault:
+      example:
+        secret_id: secret_id
+        address: address
+        role_id: role_id
+        secrets_engine_path: secrets_engine_path
+        token: token
+      properties:
+        address:
+          description: The Vault's url
+          title: address
+          type: string
+        secrets_engine_path:
+          description: Vault secrets engine path
+          title: secrets_engine_path
+          type: string
+        token:
+          description: The Vault token that will be used to authenticate against the
+            new Vault. Either token or both role_id and secret_id must be specified
+          title: token
+          type: string
+        role_id:
+          description: The Vault RoleID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: role_id
+          type: string
+        secret_id:
+          description: The Vault SecretID to use for approle authentication. Either
+            token or both role_id and secret_id must be specified
+          title: secret_id
+          type: string
+      title: PatchOrganizationRequest_vault
       type: object
     Datapoints_data:
       example:
@@ -13153,6 +14214,33 @@ components:
           title: result
           type: array
       title: Datapoints_data
+      type: object
+    KeyValuePairs_secret:
+      properties:
+        key:
+          title: key
+          type: string
+        value:
+          title: value
+          type: string
+      required:
+      - key
+      title: KeyValuePairs_secret
+      type: object
+    Create_secret:
+      properties:
+        name:
+          description: The full path of the secret
+          title: name
+          type: string
+        json:
+          default: false
+          enum:
+          - false
+          - true
+          title: JSON
+          type: boolean
+      title: Create secret
       type: object
     ListTagsResponse_data:
       example:

@@ -1,4 +1,4 @@
-FROM mist/mist:master
+FROM mist/api:master
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

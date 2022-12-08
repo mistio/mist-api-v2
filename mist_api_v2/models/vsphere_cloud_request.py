@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from mist_api_v2.models.base_model_ import Model
-from mist_api_v2.models.cloud_features import CloudFeatures
+from mist_api_v2.models.vsphere_cloud_features import VsphereCloudFeatures
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials
 from mist_api_v2 import util
 
-from mist_api_v2.models.cloud_features import CloudFeatures  # noqa: E501
+from mist_api_v2.models.vsphere_cloud_features import VsphereCloudFeatures  # noqa: E501
 from mist_api_v2.models.vsphere_credentials import VsphereCredentials  # noqa: E501
 
 class VsphereCloudRequest(Model):
@@ -27,12 +27,12 @@ class VsphereCloudRequest(Model):
         :param credentials: The credentials of this VsphereCloudRequest.  # noqa: E501
         :type credentials: VsphereCredentials
         :param features: The features of this VsphereCloudRequest.  # noqa: E501
-        :type features: CloudFeatures
+        :type features: VsphereCloudFeatures
         """
         self.openapi_types = {
             'provider': str,
             'credentials': VsphereCredentials,
-            'features': CloudFeatures
+            'features': VsphereCloudFeatures
         }
 
         self.attribute_map = {
@@ -112,7 +112,7 @@ class VsphereCloudRequest(Model):
 
 
         :return: The features of this VsphereCloudRequest.
-        :rtype: CloudFeatures
+        :rtype: VsphereCloudFeatures
         """
         return self._features
 
@@ -122,7 +122,7 @@ class VsphereCloudRequest(Model):
 
 
         :param features: The features of this VsphereCloudRequest.
-        :type features: CloudFeatures
+        :type features: VsphereCloudFeatures
         """
 
         self._features = features

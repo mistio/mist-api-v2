@@ -15,9 +15,11 @@ class Notification(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, users=None, teams=None, emails=None):  # noqa: E501
+    def __init__(self, action_type=None, users=None, teams=None, emails=None):  # noqa: E501
         """Notification - a model defined in OpenAPI
 
+        :param action_type: The action_type of this Notification.  # noqa: E501
+        :type action_type: str
         :param users: The users of this Notification.  # noqa: E501
         :type users: List[str]
         :param teams: The teams of this Notification.  # noqa: E501
@@ -26,17 +28,20 @@ class Notification(Model):
         :type emails: List[str]
         """
         self.openapi_types = {
+            'action_type': str,
             'users': List[str],
             'teams': List[str],
             'emails': List[str]
         }
 
         self.attribute_map = {
+            'action_type': 'action_type',
             'users': 'users',
             'teams': 'teams',
             'emails': 'emails'
         }
 
+        self._action_type = action_type
         self._users = users
         self._teams = teams
         self._emails = emails
@@ -51,6 +56,33 @@ class Notification(Model):
         :rtype: Notification
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def action_type(self):
+        """Gets the action_type of this Notification.
+
+
+        :return: The action_type of this Notification.
+        :rtype: str
+        """
+        return self._action_type
+
+    @action_type.setter
+    def action_type(self, action_type):
+        """Sets the action_type of this Notification.
+
+
+        :param action_type: The action_type of this Notification.
+        :type action_type: str
+        """
+        allowed_values = ["notify"]  # noqa: E501
+        if action_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `action_type` ({0}), must be one of {1}"
+                .format(action_type, allowed_values)
+            )
+
+        self._action_type = action_type
 
     @property
     def users(self):

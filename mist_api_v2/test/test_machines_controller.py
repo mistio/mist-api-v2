@@ -117,7 +117,7 @@ class TestMachinesController:
             'request_body') or json.loads("""{
   "template" : "{}",
   "image" : "Debian",
-  "quantity" : 1.4658129805029452,
+  "quantity" : 5.962133916683182,
   "disks" : {
     "disk_size" : 0,
     "disk_path" : "disk_path"
@@ -132,7 +132,57 @@ class TestMachinesController:
   "cloud" : "cloud",
   "size" : "m1.small",
   "optimize" : "optimize",
-  "schedules" : [ "", "" ],
+  "schedules" : [ {
+    "expires" : "2022-06-01 T00:00:00",
+    "reminder" : {
+      "message" : "message",
+      "when" : {
+        "unit" : "seconds",
+        "value" : 6
+      }
+    },
+    "name" : "backup-schedule",
+    "description" : "Backup schedule",
+    "run_immediately" : false,
+    "selectors" : [ {
+      "type" : "tags",
+      "include" : [ "dev" ]
+    } ],
+    "actions" : [ {
+      "action_type" : "start"
+    } ],
+    "when" : {
+      "schedule_type" : "interval",
+      "unit" : "minutes",
+      "value" : 15
+    },
+    "enabled" : true
+  }, {
+    "expires" : "2022-06-01 T00:00:00",
+    "reminder" : {
+      "message" : "message",
+      "when" : {
+        "unit" : "seconds",
+        "value" : 6
+      }
+    },
+    "name" : "backup-schedule",
+    "description" : "Backup schedule",
+    "run_immediately" : false,
+    "selectors" : [ {
+      "type" : "tags",
+      "include" : [ "dev" ]
+    } ],
+    "actions" : [ {
+      "action_type" : "start"
+    } ],
+    "when" : {
+      "schedule_type" : "interval",
+      "unit" : "minutes",
+      "value" : 15
+    },
+    "enabled" : true
+  } ],
   "extra" : "",
   "name" : "DB mirror",
   "location" : "",

@@ -53,7 +53,6 @@ class AddCloudRequestAllOf(Model):
     def name(self):
         """Gets the name of this AddCloudRequestAllOf.
 
-        The name of the cloud to add  # noqa: E501
 
         :return: The name of this AddCloudRequestAllOf.
         :rtype: str
@@ -64,7 +63,6 @@ class AddCloudRequestAllOf(Model):
     def name(self, name):
         """Sets the name of this AddCloudRequestAllOf.
 
-        The name of the cloud to add  # noqa: E501
 
         :param name: The name of this AddCloudRequestAllOf.
         :type name: str
