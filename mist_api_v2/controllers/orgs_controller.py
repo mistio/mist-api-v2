@@ -95,11 +95,11 @@ def update_org(org, patch_organization_request=None):  # noqa: E501
         else:
             return 'Organization name updated succesfully', 200
 
-    vault_address = patch_organization_request.vault_address
-    secrets_engine_path = patch_organization_request.vault_secrets_engine_path
-    token = patch_organization_request.vault_token
-    role_id = patch_organization_request.vault_role_id
-    secret_id = patch_organization_request.vault_secret_id
+    vault_address = patch_organization_request.vault.address
+    secrets_engine_path = patch_organization_request.vault.secrets_engine_path
+    token = patch_organization_request.vault.token
+    role_id = patch_organization_request.vault.role_id
+    secret_id = patch_organization_request.vault.secret_id
 
     if vault_address is not None:
         if secrets_engine_path is None:

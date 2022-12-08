@@ -88,7 +88,6 @@ def info_from_CookieAuth(api_key, required_scopes):
     from mist.api.auth.models import SessionToken
     from mist.api import config
     if config.HAS_RBAC:
-        # from mist.rbac.tokens import SuperToken
         from mist.rbac.methods import AuthContext
     else:
         from mist.api.dummy.rbac import AuthContext
@@ -101,12 +100,6 @@ def info_from_CookieAuth(api_key, required_scopes):
         )
     except DoesNotExist:
         session_token = None
-    # try:
-    #     if not session_token and config.HAS_RBAC:
-    #         session_token = SuperToken.objects.get(
-    #             token=token_from_request)
-    # except DoesNotExist:
-    #     pass
     if session_token and session_token.is_valid():
         session = session_token
     else:
