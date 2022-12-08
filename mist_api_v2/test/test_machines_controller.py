@@ -144,8 +144,18 @@ class TestMachinesController:
     "name" : "backup-schedule",
     "description" : "Backup schedule",
     "run_immediately" : false,
-    "selectors" : [ null, null ],
-    "actions" : [ null, null ],
+    "selectors" : [ {
+      "type" : "tags",
+      "include" : [ "dev" ]
+    } ],
+    "actions" : [ {
+      "action_type" : "start"
+    } ],
+    "when" : {
+      "schedule_type" : "interval",
+      "unit" : "minutes",
+      "value" : 15
+    },
     "enabled" : true
   }, {
     "expires" : "2022-06-01 T00:00:00",
@@ -159,8 +169,18 @@ class TestMachinesController:
     "name" : "backup-schedule",
     "description" : "Backup schedule",
     "run_immediately" : false,
-    "selectors" : [ null, null ],
-    "actions" : [ null, null ],
+    "selectors" : [ {
+      "type" : "tags",
+      "include" : [ "dev" ]
+    } ],
+    "actions" : [ {
+      "action_type" : "start"
+    } ],
+    "when" : {
+      "schedule_type" : "interval",
+      "unit" : "minutes",
+      "value" : 15
+    },
     "enabled" : true
   } ],
   "extra" : "",

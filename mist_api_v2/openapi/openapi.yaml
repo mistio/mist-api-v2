@@ -7062,6 +7062,10 @@ components:
           crontab: '#/components/schemas/CronSchedule'
           interval: '#/components/schemas/IntervalSchedule'
         propertyName: schedule_type
+      example:
+        schedule_type: interval
+        unit: minutes
+        value: 15
       title: When
       type: object
     OneOffSchedule:
@@ -9193,12 +9197,15 @@ components:
           description: Backup schedule
           run_immediately: false
           selectors:
-          - null
-          - null
+          - type: tags
+            include:
+            - dev
           actions:
-          - null
-          - null
-          when: null
+          - action_type: start
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
           enabled: true
         - expires: 2022-06-01 T00:00:00
           reminder:
@@ -9210,12 +9217,15 @@ components:
           description: Backup schedule
           run_immediately: false
           selectors:
-          - null
-          - null
+          - type: tags
+            include:
+            - dev
           actions:
-          - null
-          - null
-          when: null
+          - action_type: start
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
           enabled: true
         extra: ""
         name: DB mirror
@@ -11437,12 +11447,15 @@ components:
         description: Backup schedule
         run_immediately: false
         selectors:
-        - null
-        - null
+        - type: tags
+          include:
+          - dev
         actions:
-        - null
-        - null
-        when: null
+        - action_type: start
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
         enabled: true
       properties:
         name:
@@ -11461,11 +11474,17 @@ components:
           title: enabled
           type: boolean
         selectors:
+          example:
+          - type: tags
+            include:
+            - dev
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
         actions:
+          example:
+          - action_type: start
           items:
             $ref: '#/components/schemas/Action'
           title: actions
@@ -11491,7 +11510,7 @@ components:
       type: object
     EditScheduleRequest:
       example:
-        expires: 2022-06-01 T00:00:00
+        expires: 2024-06-01 T00:00:00
         reminder:
           message: message
           when:
@@ -11500,12 +11519,15 @@ components:
         name: schedule-name
         description: Edited Schedule
         selectors:
-        - null
-        - null
+        - type: tags
+          include:
+          - dev
         actions:
-        - null
-        - null
-        when: null
+        - action_type: start
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
         enabled: true
       properties:
         name:
@@ -11524,11 +11546,17 @@ components:
           title: enabled
           type: boolean
         selectors:
+          example:
+          - type: tags
+            include:
+            - dev
           items:
             $ref: '#/components/schemas/Selector'
           title: selectors
           type: array
         actions:
+          example:
+          - action_type: start
           items:
             $ref: '#/components/schemas/Action'
           title: actions
@@ -11538,7 +11566,7 @@ components:
         expires:
           description: The date after that schedule expires. The format should be
             ΥΥΥΥ-ΜΜ-DD HH:MM:SS
-          example: 2022-06-01 T00:00:00
+          example: 2024-06-01 T00:00:00
           title: expires
           type: string
         reminder:
@@ -11564,7 +11592,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
           created_by: Manager A
           enabled: true
           tags: "{}"
@@ -11584,7 +11615,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
           created_by: Manager A
           enabled: true
           tags: "{}"
@@ -11622,7 +11656,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
           created_by: Manager A
           enabled: true
           tags: "{}"
@@ -11656,7 +11693,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
         created_by: Manager A
         enabled: true
         tags: "{}"
@@ -11922,7 +11962,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
         - name: name
           trigger_after:
             period: period
@@ -11956,7 +11999,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
         meta:
           total: 6
           start: 5
@@ -12008,7 +12054,10 @@ components:
           actions:
           - null
           - null
-          when: null
+          when:
+            schedule_type: interval
+            unit: minutes
+            value: 15
         meta:
           total: 6
           start: 5
@@ -12055,7 +12104,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
       properties:
         name:
           description: The name of the rule
@@ -12125,7 +12177,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
       properties:
         description:
           description: The description of the rule
@@ -12187,7 +12242,10 @@ components:
         actions:
         - null
         - null
-        when: null
+        when:
+          schedule_type: interval
+          unit: minutes
+          value: 15
       properties:
         id:
           title: id

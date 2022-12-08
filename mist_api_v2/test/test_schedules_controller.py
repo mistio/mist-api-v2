@@ -59,8 +59,18 @@ class TestSchedulesController:
   "name" : "backup-schedule",
   "description" : "Backup schedule",
   "run_immediately" : false,
-  "selectors" : [ null, null ],
-  "actions" : [ null, null ],
+  "selectors" : [ {
+    "type" : "tags",
+    "include" : [ "dev" ]
+  } ],
+  "actions" : [ {
+    "action_type" : "start"
+  } ],
+  "when" : {
+    "schedule_type" : "interval",
+    "unit" : "minutes",
+    "value" : 15
+  },
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules'
@@ -101,7 +111,7 @@ class TestSchedulesController:
         """
         edit_schedule_request = setup_data.get('edit_schedule', {}).get(
             'request_body') or json.loads("""{
-  "expires" : "2022-06-01 T00:00:00",
+  "expires" : "2024-06-01 T00:00:00",
   "reminder" : {
     "message" : "message",
     "when" : {
@@ -111,8 +121,18 @@ class TestSchedulesController:
   },
   "name" : "schedule-name",
   "description" : "Edited Schedule",
-  "selectors" : [ null, null ],
-  "actions" : [ null, null ],
+  "selectors" : [ {
+    "type" : "tags",
+    "include" : [ "dev" ]
+  } ],
+  "actions" : [ {
+    "action_type" : "start"
+  } ],
+  "when" : {
+    "schedule_type" : "interval",
+    "unit" : "minutes",
+    "value" : 15
+  },
   "enabled" : true
 }""", strict=False)
         uri = MIST_URL + '/api/v2/schedules/{schedule}'.format(
